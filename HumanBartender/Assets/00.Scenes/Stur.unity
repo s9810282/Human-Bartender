@@ -257,8 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb12085849d0fc45bfd60c6ebd4609e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onStirEvent: {fileID: 11400000, guid: 9990e7145b4abb2428bdb347b124edee, type: 2}
-  onPenaltyEvent: {fileID: 11400000, guid: 3afdac85b8af24549a2532eee1770c55, type: 2}
+  onStirEvent: {fileID: 11400000, guid: b29310d8fb0fbae4fbf2cf50dbc013cf, type: 2}
+  onPenaltyEvent: {fileID: 11400000, guid: da8cab5d279a68041858fbb935095994, type: 2}
   circleRadius: 1.2
   innerDeadzone: 0.3
   dotCount: 6
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stirStrength: 0.05
   minDragSpeed: 0.5
+  defaultAmount: 0.05
 --- !u!61 &1185226803
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -442,19 +443,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 9990e7145b4abb2428bdb347b124edee, type: 2}
+  channel: {fileID: 11400000, guid: b29310d8fb0fbae4fbf2cf50dbc013cf, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1185226802}
         m_TargetAssemblyTypeName: LiquidSimulation.StirringInteraction, Assembly-CSharp
         m_MethodName: ApplyStir
-        m_Mode: 4
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.05
+          m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

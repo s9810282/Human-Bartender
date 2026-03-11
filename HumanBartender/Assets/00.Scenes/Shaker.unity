@@ -119,6 +119,93 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &42961360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42961362}
+  - component: {fileID: 42961361}
+  m_Layer: 0
+  m_Name: 1_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!212 &42961361
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42961360}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: -855298285791758126, guid: 9a427efbf2944d949ac5e9ff75d18919, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 12.8, y: 7.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &42961362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42961360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522693527
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,59 +323,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 619632808}
-  - component: {fileID: 619632807}
-  - component: {fileID: 619632806}
+  - component: {fileID: 619632810}
+  - component: {fileID: 619632809}
   m_Layer: 0
-  m_Name: SturCicleDetector
+  m_Name: ShakerDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &619632806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 619632805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beb12085849d0fc45bfd60c6ebd4609e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onStirEvent: {fileID: 11400000, guid: 9990e7145b4abb2428bdb347b124edee, type: 2}
-  onPenaltyEvent: {fileID: 11400000, guid: 3afdac85b8af24549a2532eee1770c55, type: 2}
-  circleRadius: 1.2
-  innerDeadzone: 0.3
-  dotCount: 6
-  roundTimeout: 3
-  penaltyCooldown: 0.5
---- !u!114 &619632807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 619632805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3208a8182a3eba42aa6ffc94b8e01bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detector: {fileID: 619632806}
-  ringBgColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.6}
-  ringFillColor: {r: 0.3, g: 0.85, b: 1, a: 1}
-  ringBgWidth: 0.06
-  ringFillWidth: 0.09
-  pointsPerSegment: 8
-  dotIdle: {r: 0.45, g: 0.45, b: 0.45, a: 1}
-  dotVisited: {r: 0.3, g: 0.85, b: 1, a: 1}
-  dotScale: 0.2
-  showStick: 1
-  stickColor: {r: 0.5, g: 0.4, b: 0.3, a: 1}
-  stickWidth: 0.05
-  sortingOrder: 20
 --- !u!4 &619632808
 Transform:
   m_ObjectHideFlags: 0
@@ -304,6 +347,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619632809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619632805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57802588a057fdb48b3ac9d5053f0b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detector: {fileID: 619632810}
+  pathBgColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.6}
+  pathFillColor: {r: 1, g: 0.6, b: 0.2, a: 1}
+  pathBgWidth: 0.06
+  pathFillWidth: 0.09
+  pointsPerSegment: 8
+  dotIdle: {r: 0.45, g: 0.45, b: 0.45, a: 1}
+  dotActive: {r: 1, g: 0.6, b: 0.2, a: 1}
+  dotScale: 0.25
+  sortingOrder: 20
+--- !u!114 &619632810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619632805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c592c3468022ce74b88cf872a1086641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onShakeEvent: {fileID: 11400000, guid: 53bee0beeb2ef2642a22930d823ad6d3, type: 2}
+  onPenaltyEvent: {fileID: 11400000, guid: b12ced2ee080a2745b76defe13be7d03, type: 2}
+  dotTop: {x: 0.6, y: 0.8}
+  dotMid: {x: -0.3, y: 0}
+  dotBot: {x: 0.6, y: -0.8}
+  dotRadius: 0.4
+  activationRadius: 2
 --- !u!1 &1185226801
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,29 +399,15 @@ GameObject:
   - component: {fileID: 1185226805}
   - component: {fileID: 1185226804}
   - component: {fileID: 1185226803}
-  - component: {fileID: 1185226802}
+  - component: {fileID: 1185226807}
   - component: {fileID: 1185226806}
   m_Layer: 0
-  m_Name: Glass
+  m_Name: Shaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1185226802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1185226801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 296078eb819ddd14792e98fbaf4cabb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stirStrength: 0.05
-  minDragSpeed: 0.5
 --- !u!61 &1185226803
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -397,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   liquidRenderer: {fileID: 0}
-  containerType: 0
+  containerType: 1
   maxCapacity: 500
   maskSource: 0
   maskTexture: {fileID: 0}
@@ -442,22 +512,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 9990e7145b4abb2428bdb347b124edee, type: 2}
+  channel: {fileID: 11400000, guid: 53bee0beeb2ef2642a22930d823ad6d3, type: 2}
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1185226802}
-        m_TargetAssemblyTypeName: LiquidSimulation.StirringInteraction, Assembly-CSharp
-        m_MethodName: ApplyStir
+      - m_Target: {fileID: 1185226807}
+        m_TargetAssemblyTypeName: LiquidSimulation.ShakerInteraction, Assembly-CSharp
+        m_MethodName: ApplyShake
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.05
+          m_FloatArgument: 0.1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1185226807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185226801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12e3d8954a436684abd944e9128422a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeThreshold: 1.5
+  maxIntensity: 5
+  grabKey: 324
+  directShakeKey: 115
+  dragSmooth: 15
+  returnSpeed: 5
+  rotAmount: 15
+  rotSpeed: 12
 --- !u!1 &1281371602
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,3 +979,4 @@ SceneRoots:
   - {fileID: 1596577010}
   - {fileID: 619632808}
   - {fileID: 1350689033}
+  - {fileID: 42961362}

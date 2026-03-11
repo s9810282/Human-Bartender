@@ -1,0 +1,54 @@
+{
+  "craft_events": [
+    {
+      "id": "day1_customer1_order1",
+
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": true,
+        "steps": [
+          { "type": "highlight", "target": "recipe_tab_name", "text": "이름 탭에서 '진피즈'를 찾아보세요." }
+        ]
+      },
+
+      "evaluation": {
+        "rules": [
+          {
+            "grade": "S",
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz"],
+            "description": "정확히 진피즈를 주문대로 만듦"
+          },
+          {
+            "grade": "A",
+            "match_type": "cocktail_id",
+            "match_values": ["tom_collins", "mojito"],
+            "description": "상큼한 계열의 비슷한 칵테일"
+          },
+          {
+            "grade": "B",
+            "match_type": "keyword",
+            "match_values": ["상큼한"],
+            "description": "상큼한 키워드가 달린 모든 칵테일"
+          }
+        ],
+        "default_grade": "C",
+        "craft_penalty": true
+      },
+
+      "reactions": {
+        "S": "d1c1_react_S_001",
+        "A": "d1c1_react_A_001",
+        "B": "d1c1_react_BC_001",
+        "C": "d1c1_react_BC_001"
+      },
+
+      "effects": {
+        "S": { "affinity": 3, "karma": -1 },
+        "A": { "affinity": 1, "karma": 0 },
+        "B": { "affinity": 0, "karma": 0 },
+        "C": { "affinity": -2, "karma": 1 }
+      }
+    }
+  ]
+}
