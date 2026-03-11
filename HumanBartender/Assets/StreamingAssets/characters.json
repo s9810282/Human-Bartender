@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "id": "luna",
+      "display_name": "루나",
+      "name_color": "#4A90D9",
+      "expressions": ["default", "joy", "sadness", "anger", "disgust", "surprise", "fear"],
+      "is_player": true
+    },
+    {
+      "id": "chris",
+      "display_name": "크리스",
+      "name_color": "#A0866B",
+      "expressions": ["default", "joy", "sadness", "anger", "worry", "serious", "smile"],
+      "is_player": false
+    },
+    {
+      "id": "old_regular",
+      "display_name": "중년 손님",
+      "name_color": "#8B7D6B",
+      "expressions": ["default", "joy"],
+      "is_player": false
+    }
+  ]
+}

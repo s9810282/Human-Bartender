@@ -276,7 +276,6 @@ namespace LiquidSimulation
             // ★ 2단계: 전방향 랜덤 스왑 (격렬한 흔들기)
             // Stir의 수직 스쿱과 달리 상하좌우 전방향으로 셀 교환
             int swapCount = Mathf.Max(10, Mathf.RoundToInt(clamped * w * h * 0.08f));
-            
 
             for (int i = 0; i < swapCount; i++)
             {
@@ -368,6 +367,17 @@ namespace LiquidSimulation
                         c.mixRatio = 1f;
                     }
                 }
+        }
+
+        /// <summary>
+        /// 현재 용기의 액체가 완전히 섞였을 때의 색상을 반환.
+        /// UI에서 목표색 표시, 완성도 판정 등에 사용.
+        /// </summary>
+        public Color32 GetFullyMixedColor()
+        {
+            if (container == null) container = GetComponent<LiquidContainer>();
+            if (container.Grid == null) return new Color32(0, 0, 0, 0);
+            return container.Grid.GetFullyMixedColor();
         }
     }
 }

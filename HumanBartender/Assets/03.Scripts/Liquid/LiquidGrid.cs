@@ -1174,5 +1174,34 @@ namespace LiquidSimulation
                 if (!Cells[x, y].IsEmpty) return y;
             return -1;
         }
+
+        /// <summary>
+        /// 모든 액체 셀이 완전히 섞였을 때의 최종 색상을 반환.
+        /// 각 셀의 색을 가중 평균하여 칵테일 완성색을 예측.
+        /// </summary>
+        public Color32 GetFullyMixedColor()
+        {
+            long totalR = 0, totalG = 0, totalB = 0, totalA = 0;
+            int count = 0;
+
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                {
+                    if (Cells[x, y].IsEmpty) continue;
+                    totalR += Cells[x, y].color.r;
+                    totalG += Cells[x, y].color.g;
+                    totalB += Cells[x, y].color.b;
+                    totalA += Cells[x, y].color.a;
+                    count++;
+                }
+
+            if (count == 0) return new Color32(0, 0, 0, 0);
+
+            return new Color32(
+                (byte)(totalR / count),
+                (byte)(totalG / count),
+                (byte)(totalB / count),
+                (byte)(totalA / count));
+        }
     }
 }

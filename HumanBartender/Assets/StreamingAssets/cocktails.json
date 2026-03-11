@@ -12,7 +12,7 @@
       "method": "shake",
       "target_count": 20,
       "keywords": ["상큼한", "클래식", "자극적인"],
-      "base": "진",
+      "baseIngredient": "진",
       "flavor_text": "이 지옥 같은 아침에 정신을 차리려면, 이토록 상쾌한 독약이 필요하지."
     },
     {
@@ -26,7 +26,7 @@
       "method": "stir",
       "target_count": 25,
       "keywords": ["강한", "클래식", "고급스러운"],
-      "base": "진",
+      "baseIngredient": "진",
       "flavor_text": "흔들지 마. 저어."
     },
     {
@@ -40,7 +40,7 @@
       "method": "shake",
       "target_count": 20,
       "keywords": ["쓴", "강한", "자극적인"],
-      "base": "보드카",
+      "baseIngredient": "보드카",
       "flavor_text": "커피를 넣으면 블랙 러시안, 크림을 넣으면 화이트 러시안. 옐로우 러시안은 뭐가 들어가지?"
     }
   ]
