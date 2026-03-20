@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LiquidSimulation
@@ -22,6 +23,7 @@ namespace LiquidSimulation
     {
         [Header("References")]
         [SerializeField] private LiquidRenderer liquidRenderer;
+        [SerializeField] public bool isSimulate = true;
 
         [Header("Container")]
         [SerializeField] private ContainerType containerType = ContainerType.Glass;
@@ -57,6 +59,7 @@ namespace LiquidSimulation
 
         [Header("Initial Liquids (시작 시 자동 추가)")]
         [SerializeField] private InitialLiquid[] initialLiquids;
+        [SerializeField] private CraftStationData craftLiquidData;
 
         private float simTimer = 0f;
 
@@ -90,6 +93,7 @@ namespace LiquidSimulation
         {
             if (maskReady) return;
             if (Grid == null) return; // 렌더러 아직 초기화 안 됨 → 다음 프레임에 재시도
+            
 
             SetupMask();
             maskReady = true;
@@ -124,7 +128,15 @@ namespace LiquidSimulation
             liquidRenderer.RefreshMaskCache();
 
             // ★ 초기 액체 추가
-            if (initialLiquids != null)
+            if (craftLiquidData != null)
+            {
+                foreach (var il in craftLiquidData.liquids)
+                {
+                    if (il.liquidData != null && il.amount > 0)
+                        Grid.AddLiquid(w / 2, il.amount, il.liquidData);
+                }
+            }
+            else if (initialLiquids != null)
             {
                 foreach (var il in initialLiquids)
                 {
@@ -132,6 +144,7 @@ namespace LiquidSimulation
                         Grid.AddLiquid(w / 2, il.amount, il.liquidData);
                 }
             }
+
 
             Debug.Log($"[{name}] Setup complete: {containerType}, {w}x{h}, " +
                       $"mask={maskSource}, liquids={Grid.GetTotalLiquidCount()}");
@@ -290,14 +303,24 @@ namespace LiquidSimulation
 
     public enum MaskSource
     { Preset, Texture }
+}
 
-    /// <summary>
-    /// 인스펙터에서 시작 시 채울 액체를 설정
-    /// </summary>
-    [System.Serializable]
-    public class InitialLiquid
+/// <summary>
+/// 인스펙터에서 시작 시 채울 액체를 설정
+/// </summary>
+[System.Serializable]
+public class InitialLiquid
+{
+    public LiquidData liquidData;
+    public int amount = 60;
+
+    public InitialLiquid()
     {
-        public LiquidData liquidData;
-        public int amount = 60;
+
+    }
+    public InitialLiquid(LiquidData liquidData, int amount)
+    {
+        this.liquidData = liquidData;
+        this.amount = amount;
     }
 }

@@ -45,6 +45,11 @@ namespace LiquidSimulation
         Lime,
         Tonic,
         Cola,
+        Gin,
+        Sugar_syrup,
+        LemonJuice,
+        Vermouth,
+        Coffee_liqueur,
         Mixed // 완전히 섞인 상태
     }   
 }

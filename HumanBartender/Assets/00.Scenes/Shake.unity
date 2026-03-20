@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &416527531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 416527532}
+  - component: {fileID: 416527533}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &416527532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416527531}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.24587396, y: 0.07004711, z: 174.48405}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &416527533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416527531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55eaa381c3774f34aa67ec4ea043f175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
 --- !u!1 &522693527
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +442,9 @@ MonoBehaviour:
     amount: 200
   - liquidData: {fileID: 11400000, guid: 641008b4d57fe6f4fbb4209638730a2d, type: 2}
     amount: 100
+  - liquidData: {fileID: 11400000, guid: 504c23926280e7f48b62bf98fb00c226, type: 2}
+    amount: 100
+  craftLiquidData: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
 --- !u!4 &1185226805
 Transform:
   m_ObjectHideFlags: 0
@@ -750,7 +798,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.6
+  orthographic size: 2.7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -892,3 +940,4 @@ SceneRoots:
   - {fileID: 1596577010}
   - {fileID: 619632808}
   - {fileID: 1350689033}
+  - {fileID: 416527532}

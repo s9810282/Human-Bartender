@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c217a452b322634fb5a4b95b3085fe6, type: 3}
-  m_Name: NewLiquidData
+  m_Script: {fileID: 11500000, guid: d739858d8cf886c4590a5a1421572d76, type: 3}
+  m_Name: CraftLiquidData
   m_EditorClassIdentifier: 
-  liquidType: 3
-  color:
-    serializedVersion: 2
-    rgba: 4278198783
-  density: 1
-  viscosity: 0.3
-  displayName: Unknown
+  liquids: []

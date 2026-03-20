@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
+
 [Serializable]
 public struct SceneData
 {
@@ -38,7 +40,7 @@ public struct TriggerData
     public TriggerDetailData data;
 }
 
-// 트리거 타입에 따라 필요한 데이터가 다르므로, 가능한 모든 필드를 선언해 둡니다.
+
 [Serializable]
 public struct TriggerDetailData
 {
@@ -48,8 +50,6 @@ public struct TriggerDetailData
     public string animation;
     public string craft_event_id;
 }
-
-
 
 [Serializable]
 public class DayDatabBase

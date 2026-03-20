@@ -89,22 +89,26 @@ namespace LiquidSimulation
 
         private void Update()
         {
-            if (!isConnected || source == null || target == null) return;
-
-            // ★ 소스가 충분히 기울어져 있을 때만 따라짐
-            if (!source.IsTiltedEnoughToPour()) return;
-
-            // 기울기 크기에 비례하여 따르는 속도 증가
-            float absTilt = Mathf.Abs(source.GetTiltAngle());
-            float speedMul = Mathf.Lerp(0.3f, 3f, Mathf.Clamp01((absTilt - 35f) / 30f));
-            float interval = 1f / (25f * speedMul);
-
-            pourTimer += Time.deltaTime;
-            while (pourTimer >= interval)
+            if (isConnected && source != null && target != null)
             {
-                pourTimer -= interval;
-                TransferTick();
+                // ★ 소스가 충분히 기울어져 있을 때만 따라짐
+                if (source.IsTiltedEnoughToPour())
+                {
+                    float absTilt = Mathf.Abs(source.GetTiltAngle());
+                    float speedMul = Mathf.Lerp(0.3f, 3f, Mathf.Clamp01((absTilt - 35f) / 30f));
+                    float interval = 1f / (25f * speedMul);
+
+                    pourTimer += Time.deltaTime;
+                    while (pourTimer >= interval)
+                    {
+                        pourTimer -= interval;
+                        TransferTick();
+                    }
+                }
             }
+
+            // ★ 직접 따르기 업데이트
+            UpdateDirectPour();
         }
 
         /// <summary>
@@ -141,6 +145,116 @@ namespace LiquidSimulation
         private void OnDestroy()
         {
             if (Instance == this) Instance = null;
+        }
+
+        // ============================================================
+        // ★ 직접 따르기 (소스 용기 없이)
+        // ============================================================
+
+        // 직접 따르기 상태
+        private bool isDirectPouring = false;
+        private LiquidContainer directTarget;
+        private LiquidData directLiquidData;
+        private int directRemaining;     // 남은 셀 수
+        private int directCellsPerTick = 2;
+        private float directPourTimer = 0f;
+        private float directPourSpeed = 25f;
+
+        /// <summary>
+        /// ★ 소스 용기 없이 LiquidData로 직접 잔에 따르기.
+        /// 화면에 Glass만 있을 때 액체를 채우는 연출용.
+        /// 
+        /// 사용법:
+        ///   PouringSystem.Instance.StartDirectPour(rumData, glass, 80);
+        /// 
+        /// SO 이벤트에서 호출하려면 래퍼 스크립트에서:
+        ///   public void PourRum() => PouringSystem.Instance.StartDirectPour(rumData, glass, 80);
+        /// </summary>
+        /// <param name="data">따를 액체 종류</param>
+        /// <param name="to">받는 용기</param>
+        /// <param name="amount">총 셀 수</param>
+        /// <param name="speed">초당 셀 수 (기본 25)</param>
+        /// <param name="perTick">틱당 셀 수 (기본 2)</param>
+        public void StartDirectPour(LiquidData data, LiquidContainer to,
+            int amount, float speed = 25f, int perTick = 2)
+        {
+            // 기존 연결이 있으면 중단
+            if (isConnected) StopPouring();
+            if (isDirectPouring) StopDirectPour();
+
+            directTarget = to;
+            directLiquidData = data;
+            directRemaining = amount;
+            directPourSpeed = speed;
+            directCellsPerTick = perTick;
+            directPourTimer = 0f;
+            isDirectPouring = true;
+
+            Debug.Log($"[Pour] Direct: {data.displayName} × {amount} → {to.name}");
+        }
+
+        /// <summary>
+        /// 직접 따르기 중단.
+        /// </summary>
+        public void StopDirectPour()
+        {
+            isDirectPouring = false;
+            directTarget = null;
+            directLiquidData = null;
+            directRemaining = 0;
+            Debug.Log("[Pour] Direct stopped");
+        }
+
+        /// <summary>
+        /// 직접 따르기 중인지
+        /// </summary>
+        public bool IsDirectPouring => isDirectPouring;
+
+        /// <summary>
+        /// 남은 따르기 양
+        /// </summary>
+        public int DirectRemaining => directRemaining;
+
+        private void UpdateDirectPour()
+        {
+            if (!isDirectPouring || directTarget == null || directLiquidData == null) return;
+            if (directRemaining <= 0)
+            {
+                StopDirectPour();
+                return;
+            }
+
+            var grid = directTarget.Grid;
+            if (grid == null) return;
+
+            directPourTimer += Time.deltaTime;
+            float interval = 1f / directPourSpeed;
+
+            while (directPourTimer >= interval && directRemaining > 0)
+            {
+                directPourTimer -= interval;
+
+                for (int i = 0; i < directCellsPerTick && directRemaining > 0; i++)
+                {
+                    // ★ 셀 생성: LiquidData에서 속성 복사
+                    LiquidCell cell = new LiquidCell
+                    {
+                        liquidType = directLiquidData.liquidType,
+                        color = directLiquidData.color,
+                        density = directLiquidData.density,
+                        mixRatio = 0f,
+                        velocityX = Random.Range(-0.3f, 0.3f),
+                        velocityY = -1.5f  // 위에서 떨어지는 느낌
+                    };
+
+                    // 잔 상단 중앙 부근에 추가
+                    int addX = grid.Width / 2 + Random.Range(-2, 3);
+                    addX = Mathf.Clamp(addX, 1, grid.Width - 2);
+
+                    if (grid.AddCellAtPosition(addX, cell))
+                        directRemaining--;
+                }
+            }
         }
     }
 }

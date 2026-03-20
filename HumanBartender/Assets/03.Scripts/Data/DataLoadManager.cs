@@ -16,5 +16,6 @@ public class DataLoadManager : MonoBehaviour
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
         craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
 
+        cocktailData.Cached();
     }
 }

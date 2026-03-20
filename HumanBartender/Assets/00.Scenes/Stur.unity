@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onStirEvent: {fileID: 11400000, guid: b29310d8fb0fbae4fbf2cf50dbc013cf, type: 2}
-  onPenaltyEvent: {fileID: 11400000, guid: da8cab5d279a68041858fbb935095994, type: 2}
+  onPenaltyEvent: {fileID: 11400000, guid: 6a7b5e45ef2476440b3407bf7b21dd0f, type: 2}
   circleRadius: 1.2
   innerDeadzone: 0.3
   dotCount: 6
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 1185226804}
   - component: {fileID: 1185226803}
   - component: {fileID: 1185226802}
-  - component: {fileID: 1185226806}
+  - component: {fileID: 1185226808}
   m_Layer: 0
   m_Name: Glass
   m_TagString: Untagged
@@ -338,7 +338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stirStrength: 0.05
   minDragSpeed: 0.5
-  defaultAmount: 0.05
 --- !u!61 &1185226803
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -414,7 +413,9 @@ MonoBehaviour:
   - liquidData: {fileID: 11400000, guid: 441b7fa9ab764384ebe3ea7abfe86acc, type: 2}
     amount: 200
   - liquidData: {fileID: 11400000, guid: 641008b4d57fe6f4fbb4209638730a2d, type: 2}
-    amount: 100
+    amount: 200
+  - liquidData: {fileID: 11400000, guid: 504c23926280e7f48b62bf98fb00c226, type: 2}
+    amount: 200
 --- !u!4 &1185226805
 Transform:
   m_ObjectHideFlags: 0
@@ -431,7 +432,7 @@ Transform:
   - {fileID: 522693528}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1185226806
+--- !u!114 &1185226808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,12 +451,12 @@ MonoBehaviour:
       - m_Target: {fileID: 1185226802}
         m_TargetAssemblyTypeName: LiquidSimulation.StirringInteraction, Assembly-CSharp
         m_MethodName: ApplyStir
-        m_Mode: 1
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 0.5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -748,7 +749,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.6
+  orthographic size: 2.7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

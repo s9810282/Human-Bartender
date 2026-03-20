@@ -176,6 +176,9 @@ namespace LiquidSimulation
             float mixPerPass = Mathf.Lerp(0.02f, 0.05f, clamped);
             for (int i = 0; i < passes; i++)
                 grid.MixAdjacentCells(mixPerPass);
+
+
+
         }
 
         /// <summary>

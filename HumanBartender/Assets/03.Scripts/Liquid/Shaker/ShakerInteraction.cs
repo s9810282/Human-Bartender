@@ -322,6 +322,11 @@ namespace LiquidSimulation
             // Stir에는 없는 단계. 전체 셀을 하나의 혼합색으로 끌어당김
             float convergence = Mathf.Lerp(0.02f, 0.08f, clamped);
             ConvergeColors(grid, w, h, convergence);
+
+
+            
+            //SO 이벤트
+
         }
 
         /// <summary>
