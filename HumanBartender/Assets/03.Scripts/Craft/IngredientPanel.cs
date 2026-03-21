@@ -76,7 +76,7 @@ public class IngredientPanel : MonoBehaviour
                     item.SetNameText(data.ingredient);
                     item.ResetCount();
                     item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
-                    //item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
+                    item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
                     
                     createdIngredientPanelList.Add(data, item);
                 }

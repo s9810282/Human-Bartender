@@ -49,6 +49,7 @@ public class CocktailCraftManager : MonoBehaviour
             }
         }
     }
+
     public void TutorialStep(TutorialStepData data)
     {
         switch (data.type)

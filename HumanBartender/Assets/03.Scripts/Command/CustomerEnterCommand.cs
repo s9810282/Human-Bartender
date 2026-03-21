@@ -25,6 +25,5 @@ public class CustomerEnterCommand : IDialogueCommand
         yield return new WaitForSeconds(1f);
 
         Debug.Log("입장 연출 완료.");
-        GameStateManager.Instance.CurrentGameState = GameState.Play;
     }
 }
