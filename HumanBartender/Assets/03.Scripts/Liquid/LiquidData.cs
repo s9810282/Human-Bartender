@@ -2,17 +2,18 @@ using LiquidSimulation;
 using UnityEngine;
 
 /// <summary>
-/// °¢ ¾×Ã¼ Á¾·ùÀÇ ¼Ó¼ºÀ» Á¤ÀÇÇÏ´Â ScriptableObject
-/// Unity ¿¡µğÅÍ¿¡¼­ Create > Liquid Simulation > Liquid Data ·Î »ı¼º
+/// ê° ì•¡ì²´ ì¢…ë¥˜ì˜ ì†ì„±ì„ ì •ì˜í•˜ëŠ” ScriptableObject
+/// Unity ì—ë””í„°ì—ì„œ Create > Liquid Simulation > Liquid Data ë¡œ ìƒì„±
 /// </summary>
 [CreateAssetMenu(fileName = "NewLiquidData", menuName = "Liquid Simulation/Liquid Data")]
 public class LiquidData : ScriptableObject
 {
+    public string id;
     public LiquidType liquidType;
     public Color32 color = new Color32(255, 255, 255, 255);
     [Range(0.1f, 2.0f)]
-    public float density = 1.0f;         // ¹Ğµµ: ±×·¹³ªµò(1.8) > Ä®·ç¾Æ(1.4) > ÁÖ½º(1.1) > º¸µåÄ«(0.8)
+    public float density = 1.0f;         // ë°€ë„: ê·¸ë ˆë‚˜ë”˜(1.8) > ì¹¼ë£¨ì•„(1.4) > ì£¼ìŠ¤(1.1) > ë³´ë“œì¹´(0.8)
     [Range(0f, 1f)]
-    public float viscosity = 0.3f;       // Á¡¼º: ³ôÀ»¼ö·Ï ÃµÃµÈ÷ ¿òÁ÷ÀÓ
+    public float viscosity = 0.3f;       // ì ì„±: ë†’ì„ìˆ˜ë¡ ì²œì²œíˆ ì›€ì§ì„
     public string displayName = "Unknown";
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIIngredientPanel : MonoBehaviour
+public class UIIngredientBox : MonoBehaviour
 {
     [SerializeField] Text nameText;
     [SerializeField] Text countText;

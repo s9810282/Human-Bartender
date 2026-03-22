@@ -14,16 +14,20 @@ public class CustomerEnterCommand : IDialogueCommand
         characterId = data.character_id;
         sfx = data.sfx;
         animation = data.animation;
+
+        IsSystemSwitch = false;
     }
+
+    public bool IsSystemSwitch { get; set; }
 
     public IEnumerator Execute()
     {
-        Debug.Log($"[È¿°úÀ½ Àç»ı: {sfx}]");
-        Debug.Log($"{characterId} Ä³¸¯ÅÍ°¡ {animation} »óÅÂ·Î ÀÔÀåÇÕ´Ï´Ù.");
+        Debug.Log($"[íš¨ê³¼ìŒ ì¬ìƒ: {sfx}]");
+        Debug.Log($"{characterId} ìºë¦­í„°ê°€ {animation} ìƒíƒœë¡œ ì…ì¥í•©ë‹ˆë‹¤.");
 
         
         yield return new WaitForSeconds(1f);
 
-        Debug.Log("ÀÔÀå ¿¬Ãâ ¿Ï·á.");
+        Debug.Log("ì…ì¥ ì—°ì¶œ ì™„ë£Œ.");
     }
 }

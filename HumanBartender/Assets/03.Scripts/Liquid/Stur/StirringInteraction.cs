@@ -5,6 +5,9 @@ namespace LiquidSimulation
     [RequireComponent(typeof(LiquidContainer))]
     public class StirringInteraction : MonoBehaviour
     {
+        [Header("Event")]
+        [SerializeField] VoidEvent applyUIEvent;
+
         [SerializeField] private float stirStrength = 1.5f;
         [SerializeField] private float minDragSpeed = 0.5f;
 
@@ -178,7 +181,7 @@ namespace LiquidSimulation
                 grid.MixAdjacentCells(mixPerPass);
 
 
-
+            applyUIEvent?.Raise(new Void());
         }
 
         /// <summary>

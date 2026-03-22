@@ -12,7 +12,7 @@ public class PouringTest : MonoBehaviour
        
     }
 
-    // ¹öÆ°ÀÌ³ª ÀÌº¥Æ®¿¡¼­ È£Ãâ
+    // ë²„íŠ¼ì´ë‚˜ ì´ë²¤íŠ¸ì—ì„œ í˜¸ì¶œ
     public void Pour(Void n)
     {
         int rand = Random.Range(0, liquidData.Length);
@@ -21,5 +21,9 @@ public class PouringTest : MonoBehaviour
     public void Pour()
     {
         PouringSystem.Instance.StartDirectPour(liquidData[0], glass, amount);
+    }
+    public void Clear()
+    {
+        glass.ClearLiquid();
     }
 }

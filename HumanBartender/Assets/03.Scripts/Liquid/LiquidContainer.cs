@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using VContainer;
 
 namespace LiquidSimulation
 {
@@ -24,6 +25,7 @@ namespace LiquidSimulation
         [Header("References")]
         [SerializeField] private LiquidRenderer liquidRenderer;
         [SerializeField] public bool isSimulate = true;
+        [Inject] private IngredientLibrary ingredientLibrary;
 
         [Header("Container")]
         [SerializeField] private ContainerType containerType = ContainerType.Glass;
@@ -86,6 +88,16 @@ namespace LiquidSimulation
             }
         }
 
+        public void ClearLiquid()
+        {
+            // 모든 셀을 Empty로 + 얼음도 제거
+            for (int x = 0; x < Grid.Width; x++)
+                for (int y = 0; y < Grid.Height; y++)
+                    Grid.Cells[x, y] = LiquidCell.Empty;
+
+            Grid.ClearIce();
+        }
+
         /// <summary>
         /// ★ Update에서 Grid가 준비되면 마스크 설정 (초기화 순서 안전)
         /// </summary>
@@ -130,10 +142,14 @@ namespace LiquidSimulation
             // ★ 초기 액체 추가
             if (craftLiquidData != null)
             {
-                foreach (var il in craftLiquidData.liquids)
+                foreach (var il in craftLiquidData.ingredientDatas)
                 {
-                    if (il.liquidData != null && il.amount > 0)
-                        Grid.AddLiquid(w / 2, il.amount, il.liquidData);
+                    LiquidData td = ingredientLibrary.GetTestLiquid();
+
+                    if (il.data.category != "garnish" && il.data.category != "etc")
+                    {
+                        Grid.AddLiquid(w / 2, il.value, td);
+                    }
                 }
             }
             else if (initialLiquids != null)

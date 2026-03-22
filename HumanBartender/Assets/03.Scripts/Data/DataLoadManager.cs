@@ -3,6 +3,7 @@ using UnityEngine;
 public class DataLoadManager : MonoBehaviour
 {
     [SerializeField] CocktailDataSO cocktailData;
+    [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CharacterDataSO characterData;
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
@@ -13,6 +14,7 @@ public class DataLoadManager : MonoBehaviour
     {
         cocktailData.cocktailData = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets("cocktails.json");
         characterData.characterData = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
+        ingredientDataSO.ingredientData = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
         craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
 

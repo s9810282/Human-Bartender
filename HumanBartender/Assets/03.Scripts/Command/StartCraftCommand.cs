@@ -15,7 +15,11 @@ public class StartCraftCommand : IDialogueCommand
     {
         craft_event_id = data.craft_event_id;
         Logger.Log(data.craft_event_id);
+
+        IsSystemSwitch = true;
     }
+
+    public bool IsSystemSwitch { get; set; }
 
     public IEnumerator Execute()
     {

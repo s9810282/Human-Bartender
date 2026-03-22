@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IDialogueCommand
 {
+    public bool IsSystemSwitch { get; set; }
     IEnumerator Execute();
 }
 
@@ -21,7 +22,7 @@ public static class DialogueCommandFactory
                 return new StartCraftCommand(triggerData.data);
 
             default:
-                Debug.LogWarning($"[Factory] Á¤ÀÇµÇÁö ¾ÊÀº Æ®¸®°Å Å¸ÀÔ: {triggerData.type}");
+                Debug.LogWarning($"[Factory] ì •ì˜ë˜ì§€ ì•Šì€ íŠ¸ë¦¬ê±° íƒ€ì…: {triggerData.type}");
                 return null;
         }
     }

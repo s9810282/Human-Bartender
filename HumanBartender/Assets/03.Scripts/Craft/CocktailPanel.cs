@@ -101,7 +101,7 @@ public class CocktailPanel : MonoBehaviour
 
 
     /// <summary>
-    /// Å°´Â°Ç °Á ¹öÆ°¿¡¼­ Ã³¸® ±ÍÂúÀ½.
+    /// í‚¤ëŠ”ê±´ ê± ë²„íŠ¼ì—ì„œ ì²˜ë¦¬ ê·€ì°®ìŒ.
     /// </summary>
     public void DisableTextPanelAll()
     {
@@ -130,7 +130,7 @@ public class CocktailPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{targetInitail} ÀÌ´Ï¼ÈÀ» °¡Áø Ä¬Å×ÀÏÀÌ ¾ø½À´Ï´Ù!");
+            Debug.Log($"{targetInitail} ì´ë‹ˆì…œì„ ê°€ì§„ ì¹µí…Œì¼ì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     public void OnTasteTabClicked(string targetTaste)
@@ -142,7 +142,7 @@ public class CocktailPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{targetTaste} ¸ÀÀ» °¡Áø Ä¬Å×ÀÏÀÌ ¾ø½À´Ï´Ù!");
+            Debug.Log($"{targetTaste} ë§›ì„ ê°€ì§„ ì¹µí…Œì¼ì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     public void OnBaseTabClicked(string targetBase)
@@ -154,7 +154,7 @@ public class CocktailPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{targetBase} º£ÀÌ½º¸¦ °¡Áø Ä¬Å×ÀÏÀÌ ¾ø½À´Ï´Ù!");
+            Debug.Log($"{targetBase} ë² ì´ìŠ¤ë¥¼ ê°€ì§„ ì¹µí…Œì¼ì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     public void OnStyleTabClicked(string targetStyle)
@@ -166,7 +166,7 @@ public class CocktailPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{targetStyle} ½ºÅ¸ÀÏÀ» °¡Áø Ä¬Å×ÀÏÀÌ ¾ø½À´Ï´Ù!");
+            Debug.Log($"{targetStyle} ìŠ¤íƒ€ì¼ì„ ê°€ì§„ ì¹µí…Œì¼ì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     public void OnMethodTabClicked(string targetMethod)
@@ -178,7 +178,7 @@ public class CocktailPanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{targetMethod} ¸Ş¼Òµå¸¦ °¡Áø Ä¬Å×ÀÏÀÌ ¾ø½À´Ï´Ù!");
+            Debug.Log($"{targetMethod} ë©”ì†Œë“œë¥¼ ê°€ì§„ ì¹µí…Œì¼ì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
     private void UpdateUIWithCocktailTextPanels(CocktailData[] listToShow)
@@ -197,7 +197,7 @@ public class CocktailPanel : MonoBehaviour
     #region Cocktail Detail Panel
     public void OnCocktailPanelTabClicked(CocktailData data)
     {
-        //Cocktail PanelÀ» Å¬¸¯ ½Ã Detail Panel¿¡ Á¤º¸¼³Á¤
+        //Cocktail Panelì„ í´ë¦­ ì‹œ Detail Panelì— ì •ë³´ì„¤ì •
         
         cocktailDetailPanel.ResetPanel();
 
@@ -205,13 +205,13 @@ public class CocktailPanel : MonoBehaviour
         cocktailDetailPanel.SetImage(null);
         cocktailDetailPanel.SetCocktailName(data.name);
 
-        cocktailDetailPanel.AddContentsTitle("·¹½ÃÇÇ");
+        cocktailDetailPanel.AddContentsTitle("ë ˆì‹œí”¼");
         for(int i = 0; i < data.recipe.Length; i++)
         {
             cocktailDetailPanel.AddContentsSummary(data.recipe[i].ingredient + " : " + data.recipe[i].count);
         }
         
-        cocktailDetailPanel.AddContentsTitle("Æ¯¼º");
+        cocktailDetailPanel.AddContentsTitle("íŠ¹ì„±");
 
         string s = "";
         for (int i = 0; i < data.keywords.Length; i++)
@@ -219,7 +219,7 @@ public class CocktailPanel : MonoBehaviour
         cocktailDetailPanel.AddContentsSummary(s);        
 
 
-        cocktailDetailPanel.AddContentsTitle("¼³¸í");
+        cocktailDetailPanel.AddContentsTitle("ì„¤ëª…");
         cocktailDetailPanel.AddContentsSummary(data.flavor_text);
     }
 

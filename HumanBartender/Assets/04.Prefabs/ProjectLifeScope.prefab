@@ -58,30 +58,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7091543009631301304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e015d2ccea390094fb08b23eb0995c3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 17a54f7225b06344db35dabb6202e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  liquidDatas:
-  - {fileID: 11400000, guid: 441b7fa9ab764384ebe3ea7abfe86acc, type: 2}
-  - {fileID: 11400000, guid: 641008b4d57fe6f4fbb4209638730a2d, type: 2}
-  - {fileID: 11400000, guid: 504c23926280e7f48b62bf98fb00c226, type: 2}
-  - {fileID: 11400000, guid: 419caed798c937643b83945ac229a9d8, type: 2}
-  - {fileID: 11400000, guid: 2858ebce208e788418eb1c7573df44d1, type: 2}
-  - {fileID: 11400000, guid: b81443c2913d85242b454af8583ac6ad, type: 2}
-  - {fileID: 11400000, guid: ff78f2b8eb51d864ba25aaeb22c380f6, type: 2}
-  - {fileID: 11400000, guid: f1a6519940450a3489b2181e8f218a4b, type: 2}
-  liquidEntry:
-  - name: coffee_liqueur
-    key: 16
-  - name: sugar_syrup
-    key: 13
-  - name: lemon_juice
-    key: 14
-  - name: vermouth
-    key: 15
-  - name: gin
-    key: 12
-  - name: vodka
-    key: 2
-  - name: blue_curacao
-    key: 4
+  liquidEntries: []
+  ganishEntries: []
+  eTCEntries: []
+  testData: {fileID: 11400000, guid: f1a6519940450a3489b2181e8f218a4b, type: 2}

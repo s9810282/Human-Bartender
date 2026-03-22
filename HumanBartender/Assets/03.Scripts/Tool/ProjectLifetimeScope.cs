@@ -5,6 +5,6 @@ public class ProjectLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.RegisterComponentInHierarchy<LiquidLibrary>();
+        builder.RegisterComponentInHierarchy<IngredientLibrary>();
     }
 }

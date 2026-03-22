@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class DialogueCharacterManager : MonoBehaviour
 {
-    [SerializeField] Text nameText;
-    [SerializeField] TextMeshProUGUI nameTMPText;      // ¿Ã∏ß ≈ÿΩ∫∆Æ
-
     [SerializeField] private SpriteRenderer portraitImage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,20 +21,15 @@ public class DialogueCharacterManager : MonoBehaviour
 
     public void SetCharacter(string characterName, string expression)
     {
+        Logger.Log("SC");
         portraitImage.gameObject.SetActive(true);
 
-        //TODO : µ•¿Ã≈Õ ∫Œ§—§©∑Øø¿±‚
+        //TODO : Îç∞Ïù¥ÌÑ∞ Î∂Ä„Ö°„ÑπÎü¨Ïò§Í∏∞
 
     }
     public void OffCharacter()
     {
         portraitImage.gameObject.SetActive(false);
     }
-    
-
-    public void SetNameColor(Color32 color)
-    {
-        nameText.color = color;
-        nameTMPText.color = color;
-    }
+   
 }

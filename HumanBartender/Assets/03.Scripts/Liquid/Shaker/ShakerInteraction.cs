@@ -12,6 +12,9 @@ namespace LiquidSimulation
     [RequireComponent(typeof(LiquidContainer))]
     public class ShakerInteraction : MonoBehaviour
     {
+        [Header("Event")]
+        [SerializeField] VoidEvent applyUIEvent;
+
         [Header("Shake")]
         [SerializeField] private float shakeThreshold = 1.5f;
         [SerializeField] private float maxIntensity = 5f;
@@ -324,9 +327,9 @@ namespace LiquidSimulation
             ConvergeColors(grid, w, h, convergence);
 
 
-            
-            //SO 이벤트
 
+            //SO 이벤트
+            applyUIEvent?.Raise(new Void());
         }
 
         /// <summary>

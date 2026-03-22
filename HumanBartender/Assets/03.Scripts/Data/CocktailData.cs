@@ -5,7 +5,8 @@ using UnityEngine;
 [Serializable]
 public struct RecipeIngredient
 {
-    public string ingredient;
+    public string 
+        ingredient;
     public int count;
 }
 

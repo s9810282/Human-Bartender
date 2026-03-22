@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -24,6 +23,7 @@ public enum DialogueState
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] DayDataSO dayScripteData;
+    
     [Inject] IObjectResolver resolver;
 
     [SerializeField] DialogueSceneDirector sceneDirector;
@@ -43,6 +43,8 @@ public class DialogueManager : MonoBehaviour
     {
         if(!GameStateManager.Instance.IsStart)
             InitSystem();
+
+        GameStateManager.Instance.IsStart = true;
     }
 
     // Update is called once per frame
@@ -52,8 +54,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    ///  ÃÖÃÊ °ÔÀÓ ÇÃ·¹ÀÌ ¾À ÁøÀÔ ½Ã È£ÃâÇÏ¿© °ÔÀÓÀ» ½ÃÀÛ ÇÔ. 
-    ///  Ä³¸¯ÅÍ µ¥ÀÌÅÍ¸¦ dic·Î º¯È¯ÇÏ¿© º¸°ü ÈÄ 0¹ø ÀÎµ¦½º = °¡Àå Ã³À½ ¾ÀÀ¸·Î ÀÛ¾÷.
+    ///  ìµœì´ˆ ê²Œì„ í”Œë ˆì´ ì”¬ ì§„ì… ì‹œ í˜¸ì¶œí•˜ì—¬ ê²Œì„ì„ ì‹œì‘ í•¨. 
+    ///  ìºë¦­í„° ë°ì´í„°ë¥¼ dicë¡œ ë³€í™˜í•˜ì—¬ ë³´ê´€ í›„ 0ë²ˆ ì¸ë±ìŠ¤ = ê°€ì¥ ì²˜ìŒ ì”¬ìœ¼ë¡œ ì‘ì—….
     /// </summary>
     public void InitSystem()
     {
@@ -64,9 +66,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Æ¯Á¤ ¾À(¼Õ´Ô ¹æ¹® µî)ÀÌ ½ÃÀÛµÉ ¶§ È£ÃâÇÔ.
-    /// ±âº»ÀûÀ¸·Î Scene ´ÜÀ§·Î È­¸éÀÌ ÁøÇàµÇ¸ç ¿¬Ãâµé ¶ÇÇÑ sceneData ¾È¿¡ ÀÖÀ» µíÇÔ.
-    /// ÇØ´çÇÏ´Â SceneDataÀÇ Dialogue¸¦ µû·Î º¸°üÇÏ¿© Á¢±Ù ¿ëÀÌ
+    /// íŠ¹ì • ì”¬(ì†ë‹˜ ë°©ë¬¸ ë“±)ì´ ì‹œì‘ë  ë•Œ í˜¸ì¶œí•¨.
+    /// ê¸°ë³¸ì ìœ¼ë¡œ Scene ë‹¨ìœ„ë¡œ í™”ë©´ì´ ì§„í–‰ë˜ë©° ì—°ì¶œë“¤ ë˜í•œ sceneData ì•ˆì— ìˆì„ ë“¯í•¨.
+    /// í•´ë‹¹í•˜ëŠ” SceneDataì˜ Dialogueë¥¼ ë”°ë¡œ ë³´ê´€í•˜ì—¬ ì ‘ê·¼ ìš©ì´
     /// </summary>
     public void LoadScene(SceneData sceneData)
     {
@@ -78,7 +80,7 @@ public class DialogueManager : MonoBehaviour
             currentDialogueDB[dialogue.id] = dialogue;
         }
 
-        Debug.Log($"[¾À ·Îµå ¿Ï·á] ¼Õ´Ô: {currentSceneData.customer_display_name}");
+        Debug.Log($"[ì”¬ ë¡œë“œ ì™„ë£Œ] ì†ë‹˜: {currentSceneData.customer_display_name}");
 
         if (currentSceneData.dialogues.Length > 0)
         {
@@ -94,8 +96,8 @@ public class DialogueManager : MonoBehaviour
 
 
     /// <summary>
-    /// Dialogue ½ÇÇà
-    /// - µ¥ÀÌÅÍ¿¡ ¾øÀ» ½Ã return
+    /// Dialogue ì‹¤í–‰
+    /// - ë°ì´í„°ì— ì—†ì„ ì‹œ return
     /// 
     /// </summary>
     /// <param name="dialogueId"></param>
@@ -105,7 +107,7 @@ public class DialogueManager : MonoBehaviour
 
         currentDialogue = currentDialogueDB[dialogueId];
 
-        // typeÀÌ systemÀÏ ¶§ Ã³¸®
+        // typeì´ systemì¼ ë•Œ ì²˜ë¦¬
         if (currentDialogue.type == "system")
         {
             sceneDirector.ShowSystemAction();
@@ -129,14 +131,15 @@ public class DialogueManager : MonoBehaviour
     public void CallBackTriggerComplete()
     {
         currentState = DialogueState.WaitingForInput;
+        currentDialogue = currentDialogueDB[currentDialogue.next];
     }
 
 
     private void ExecuteTriggerCoroutine(TriggerData trigger)
     {
-        currentState = DialogueState.WaitingForTrigger; // ÀÔ·Â Àá±İ
+        currentState = DialogueState.WaitingForTrigger; // ì…ë ¥ ì ê¸ˆ
         
-        Debug.Log($"[Æ®¸®°Å ½ÃÀÛ] Å¸ÀÔ: {trigger.type}");
+        Debug.Log($"[íŠ¸ë¦¬ê±° ì‹œì‘] íƒ€ì…: {trigger.type}");
 
         sceneDirector.PlayTrigger(trigger, () => CallBackTriggerComplete());
     }
@@ -163,7 +166,7 @@ public class DialogueManager : MonoBehaviour
     private void EndScene()
     {
         currentState = DialogueState.Idle;
-        Debug.Log("´ëÈ­ ¾ÀÀÌ ¸ğµÎ Á¾·áµÇ¾ú½À´Ï´Ù.");
+        Debug.Log("ëŒ€í™” ì”¬ì´ ëª¨ë‘ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
 

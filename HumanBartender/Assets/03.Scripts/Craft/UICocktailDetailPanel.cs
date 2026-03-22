@@ -21,7 +21,7 @@ public class UICocktailDetailPanel : MonoBehaviour
     [Header("Select Event")]
     [SerializeField] CocktailDataEvent selectEvent;
 
-    [Header("UI ÇÒ´ç (ÀÎ½ºÆåÅÍ¿ë)")]
+    [Header("UI í• ë‹¹ (ì¸ìŠ¤í™í„°ìš©)")]
     [SerializeField] private List<UIContentsSpacer> inspectorSpacerList;
     [SerializeField] private List<UIContentsText> inspectorContextList;
 
@@ -65,9 +65,9 @@ public class UICocktailDetailPanel : MonoBehaviour
     }
     
     /// <summary>
-    /// Spacer 3°³ On
-    /// TitleText ÀÛ¼º
-    /// Spacer 2°³ On
+    /// Spacer 3ê°œ On
+    /// TitleText ì‘ì„±
+    /// Spacer 2ê°œ On
     /// </summary>
     /// <param name="text"></param>
     public void AddContentsTitle(string text)
@@ -88,7 +88,7 @@ public class UICocktailDetailPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("»ç¿ë °¡´ÉÇÑ Context UI°¡ Å¥¿¡ ºÎÁ·ÇÕ´Ï´Ù!");
+            Debug.LogWarning("ì‚¬ìš© ê°€ëŠ¥í•œ Context UIê°€ íì— ë¶€ì¡±í•©ë‹ˆë‹¤!");
         }
 
         AddSpacer(20);
@@ -113,7 +113,7 @@ public class UICocktailDetailPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("»ç¿ë °¡´ÉÇÑ Context UI°¡ Å¥¿¡ ºÎÁ·ÇÕ´Ï´Ù!");
+            Debug.LogWarning("ì‚¬ìš© ê°€ëŠ¥í•œ Context UIê°€ íì— ë¶€ì¡±í•©ë‹ˆë‹¤!");
         }
         
         AddSpacer(10);
@@ -133,7 +133,7 @@ public class UICocktailDetailPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("»ç¿ë °¡´ÉÇÑ Spacer UI°¡ Å¥¿¡ ºÎÁ·ÇÕ´Ï´Ù!");
+            Debug.LogWarning("ì‚¬ìš© ê°€ëŠ¥í•œ Spacer UIê°€ íì— ë¶€ì¡±í•©ë‹ˆë‹¤!");
             return;
         }
     }

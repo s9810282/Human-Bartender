@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,7 +75,12 @@ public class DialogueSceneDirector : MonoBehaviour
 
     public void PlayTrigger(TriggerData trigger, Action callBack)
     {
-        triggerManager.ExecuteTriggerCoroutine(trigger, callBack);
+        characterManager.OffCharacter();
+        StartCoroutine(ExcuteTrigger(trigger, callBack));
+    }
+    private IEnumerator ExcuteTrigger(TriggerData trigger, Action callBack)
+    {
+        yield return StartCoroutine(triggerManager.ExecuteTriggerCoroutine(trigger, callBack));
     }
 
     public void HideDialogue()

@@ -8,62 +8,28 @@ public class PoolManager : MonoBehaviour
     {
         public string name;
         public GameObject prefab;
+        public Transform uiParent;
         public int initialSize = 10;
     }
 
-    [Header("Effect")]
-    [SerializeField] private List<PoolPrefab> effectPrefabs;
-
     [Header("UI")]
     [SerializeField] private List<PoolPrefab> uiPrefabs;
-    [SerializeField] private GameObject uiParent;
-    [SerializeField] private GameObject uiBossParent;
 
-    private Dictionary<string, ObjectPool> effectPools;
+
     private Dictionary<string, ObjectPool> uiPools;
 
     private void Awake()
     {
-        effectPools = new Dictionary<string, ObjectPool>();
-        foreach (var ef in effectPrefabs)
-        {
-            if (!effectPools.ContainsKey(ef.name))
-            {
-                var poolParent = new GameObject($"{ef.name} Pool").transform;
-                poolParent.SetParent(this.transform);
-                effectPools[ef.name] = new ObjectPool(ef.prefab, ef.initialSize, poolParent);
-            }
-        }
-
 
         uiPools = new Dictionary<string, ObjectPool>();
 
-        foreach (var ef in uiPrefabs)
+        foreach (var ui in uiPrefabs)
         {
-            if (!uiPools.ContainsKey(ef.name))
+            if (!uiPools.ContainsKey(ui.name))
             {
-                if(ef.name.Contains("Boss"))
-                    uiPools[ef.name] = new ObjectPool(ef.prefab, ef.initialSize, uiBossParent.transform);
-                else
-                    uiPools[ef.name] = new ObjectPool(ef.prefab, ef.initialSize, uiParent.transform);
+                uiPools.Add(ui.name, new ObjectPool(ui.prefab, ui.initialSize, ui.uiParent));
             }
         }
-    }
-
-    /// <summary>
-    /// ÁöÁ¤µÈ ÀÌ¸§ÀÇ ÀÌÆåÆ®¸¦ Æ¯Á¤ À§Ä¡¿Í È¸ÀüÀ¸·Î Àç»ıÇÕ´Ï´Ù.
-    /// </summary>
-    public void PlayEffect(string name, Vector3 position, Quaternion rotation)
-    {
-        if (!effectPools.ContainsKey(name))
-        {
-            Debug.LogWarning($"'{name}' ÀÌÆåÆ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
-            return;
-        }
-
-        GameObject effect = effectPools[name].Get();
-        effect.transform.position = position;
-        effect.transform.rotation = rotation;
     }
 
 
@@ -71,11 +37,16 @@ public class PoolManager : MonoBehaviour
     {
         if (!uiPools.ContainsKey(name))
         {
-            Debug.LogWarning($"'{name}' UI¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"'{name}' UIë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return null;
         }
 
         GameObject ui = uiPools[name].Get();
         return ui;
+    }
+
+    public void ReturnUI(string name, GameObject obj)
+    {
+        uiPools[name].Return(obj);
     }
 }

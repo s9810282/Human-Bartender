@@ -8,21 +8,21 @@ using VContainer;
 public class IngredientPanel : MonoBehaviour
 {
     [Header("SO DATA")]
-    [SerializeField] CocktailDataSO cocktailDataSO;
-    [SerializeField] VoidEvent effectEvent;
+    [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CraftStationData craftLiquidData;
-    [Inject] LiquidLibrary liquidLibrary;
+    [SerializeField] VoidEvent effectEvent;
+    [SerializeField] VoidEvent disEffectEvent;
 
     [Header("UICocktail Ingredient Panel")]
     [SerializeField] Transform ingredientPanelParent;
-    [SerializeField] UIIngredientPanel ingredientPanel;
-    [SerializeField] Dictionary<RecipeIngredient, UIIngredientPanel> createdIngredientPanelList = new();
+    [SerializeField] UIIngredientBox ingredientPanel;
+    [SerializeField] Dictionary<string, UIIngredientBox> createdIngredientPanelList = new();
 
     [Header("INFO")]
     [SerializeField] Text cocktailNameText;
 
 
-    [Header("UI �Ҵ� (�ν����Ϳ�)")]
+    [Header("UI 할당 (인스펙터용)")]
     [SerializeField] private List<UIContentsText> inspectorContextList;
     [SerializeField] int currentContentsCount = 0;
     [SerializeField] int summaryTextSize;
@@ -31,15 +31,16 @@ public class IngredientPanel : MonoBehaviour
     Queue<UIContentsText> usedUIContexts = new Queue<UIContentsText>();
 
 
-    Dictionary<RecipeIngredient, int> currentSelectIngredients = new Dictionary<RecipeIngredient, int>();
+    //ingredient data. id, cur Count
+    Dictionary<string, int> currentSelectIngredients = new Dictionary<string, int>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         contentsContextList = new Queue<UIContentsText>(inspectorContextList);
-        currentSelectIngredients = new Dictionary<RecipeIngredient, int>();
-        createdIngredientPanelList = new Dictionary<RecipeIngredient, UIIngredientPanel>();
+        currentSelectIngredients = new Dictionary<string, int>();
+        createdIngredientPanelList = new Dictionary<string, UIIngredientBox>();
 
         usedUIContexts.Clear(); 
         inspectorContextList.Clear();
@@ -60,45 +61,41 @@ public class IngredientPanel : MonoBehaviour
 
     public void CreateIngredientPanelAll()
     {
-        for (int i = 0; i < cocktailDataSO.allCocktails.Length; i++)
+        for (int i = 0; i < ingredientDataSO.ingredientData.ingredients.Length; i++)
         {
-            CocktailData co = cocktailDataSO.allCocktails[i];
+            IngredientData data = ingredientDataSO.ingredientData.ingredients[i];
+            
 
-            for (int j = 0; j < co.recipe.Length; j++)
+            if (!createdIngredientPanelList.ContainsKey(data.id))
             {
-                RecipeIngredient data = co.recipe[j];
+                var item = Instantiate(ingredientPanel, ingredientPanelParent);
+                //sprite : 값으로 데이터 로드 후 넣기
+                item.SetImage(null);
+                item.SetNameText(data.name);
+                item.ResetCount();
+                item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
+                item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
 
-                if (!createdIngredientPanelList.ContainsKey(data))
-                {
-                    var item = Instantiate(ingredientPanel, ingredientPanelParent);
-                    item.SetImage(null);
-                    item.SetNameText(data.ingredient);
-                    item.ResetCount();
-                    item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
-                    item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
-                    
-                    createdIngredientPanelList.Add(data, item);
-                }
+                createdIngredientPanelList.Add(data.id, item);
             }
         }
     }
 
 
-    public void OnClickedIngredient(RecipeIngredient data)
+    public void OnClickedIngredient(IngredientData data)
     {
-        if (!currentSelectIngredients.ContainsKey(data))
-            currentSelectIngredients.Add(data, 1);
+        if (!currentSelectIngredients.ContainsKey(data.id))
+            currentSelectIngredients.Add(data.id, 1);
         else
-            currentSelectIngredients[data]++;
+            currentSelectIngredients[data.id]++;
 
-        LiquidType d = liquidLibrary.GetLiquidType(data.ingredient);
-        LiquidData ld = liquidLibrary.GetLiquidData(d);
-
-        createdIngredientPanelList[data].IncreaseCount();
-        craftLiquidData.AddLiquid(ld, 10);
+        disEffectEvent?.Raise(new Void());
+        createdIngredientPanelList[data.id].IncreaseCount();
+        craftLiquidData.AddIngrediant(data, 10);
     }
 
-    public void ClearCurrentIngredient()
+
+    public void ClearCurrentSelectIngredient()
     {
         foreach (var item in currentSelectIngredients)
         {
@@ -106,6 +103,7 @@ public class IngredientPanel : MonoBehaviour
         }
 
         currentSelectIngredients.Clear();
+        craftLiquidData.ResetIngrediant();
     }
 
 
@@ -123,6 +121,11 @@ public class IngredientPanel : MonoBehaviour
 
         usedUIContexts.Clear();
     }
+
+    /// <summary>
+    /// Recipe 탭에서 선택 버튼을 눌렀을 떄 호출되는 함수.
+    /// </summary>
+    /// <param name="data"></param>
     public void SelectRecipe(CocktailData data)
     {
         ResetPanel();
@@ -150,7 +153,7 @@ public class IngredientPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("��� ������ Context UI�� ť�� �����մϴ�!");
+            Debug.LogWarning("사용 가능한 Context UI가 큐에 부족합니다!");
         }
     }
 

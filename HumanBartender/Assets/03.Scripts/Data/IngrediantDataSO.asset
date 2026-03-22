@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c217a452b322634fb5a4b95b3085fe6, type: 3}
-  m_Name: BlueCuracao
+  m_Script: {fileID: 11500000, guid: 895104331724c424f8a5ce24fde2d16c, type: 3}
+  m_Name: IngrediantDataSO
   m_EditorClassIdentifier: 
-  liquidType: 4
-  color:
-    serializedVersion: 2
-    rgba: 4294910464
-  density: 0.1
-  viscosity: 0.3
-  displayName: Unknown
+  ingredientData:
+    ingredients: []

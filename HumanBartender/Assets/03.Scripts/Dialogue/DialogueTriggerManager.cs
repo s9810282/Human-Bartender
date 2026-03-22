@@ -17,21 +17,30 @@ public class DialogueTriggerManager : MonoBehaviour
     }
 
 
-    public void ExecuteTriggerCoroutine(TriggerData trigger, Action callBack)
+    public IEnumerator ExecuteTriggerCoroutine(TriggerData trigger, Action callBack)
     {
-        Debug.Log($"[Æ®¸®°Å ½ÃÀÛ] Å¸ÀÔ: {trigger.type}");
+        Debug.Log($"[íŠ¸ë¦¬ê±° ì‹œì‘] íƒ€ì…: {trigger.type}");
         triggerCallBack = callBack;
 
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
+
         if (command != null)
         {
-            if (resolver == null)
+            if (command.IsSystemSwitch)
             {
-                Debug.LogError("DI ¿¡·¯] DialogueManager°¡ resolver¸¦ ¹ŞÁö ¸øÇß½À´Ï´Ù!");
-            }
+                if (resolver == null)
+                {
+                    Debug.LogError("DI ì—ëŸ¬] DialogueManagerê°€ resolverë¥¼ ë°›ì§€ ëª»í–ˆìŠµë‹ˆë‹¤!");
+                }
 
-            resolver.Inject(command);
-            StartCoroutine(command.Execute());
+                resolver.Inject(command);
+                StartCoroutine(command.Execute());
+            }
+            else
+            {
+                yield return StartCoroutine(command.Execute());
+                CompleteTrigger();
+            }
         }
     }
 

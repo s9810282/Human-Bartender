@@ -19,8 +19,8 @@ public class CocktailDataSO : ScriptableObject
 
 
     private static readonly char[] ChoSung = {
-        '¤¡', '¤¢', '¤¤', '¤§', '¤¨', '¤©', '¤±', '¤²', '¤³',
-        '¤µ', '¤¶', '¤·', '¤¸', '¤¹', '¤º', '¤»', '¤¼', '¤½', '¤¾'
+        'ã„±', 'ã„²', 'ã„´', 'ã„·', 'ã„¸', 'ã„¹', 'ã…', 'ã…‚', 'ã…ƒ',
+        'ã……', 'ã…†', 'ã…‡', 'ã…ˆ', 'ã…‰', 'ã…Š', 'ã…‹', 'ã…Œ', 'ã…', 'ã…'
     };
 
 
@@ -91,27 +91,27 @@ public class CocktailDataSO : ScriptableObject
 
     private string GetInitialConsonant(string text)
     {
-        if (string.IsNullOrEmpty(text)) return "±âÅ¸";
+        if (string.IsNullOrEmpty(text)) return "ê¸°íƒ€";
 
         char firstChar = text[0];
 
-        // ÇÑ±Û '°¡'(0xAC00) ~ 'ÆR'(0xD7A3) »çÀÌÀÇ ±ÛÀÚÀÎÁö È®ÀÎ
+        // í•œê¸€ 'ê°€'(0xAC00) ~ 'í£'(0xD7A3) ì‚¬ì´ì˜ ê¸€ìì¸ì§€ í™•ì¸
         if (firstChar >= 0xAC00 && firstChar <= 0xD7A3)
         {
-            // À¯´ÏÄÚµå ¼öÇĞ °ø½ÄÀ» ÀÌ¿ëÇØ ÃÊ¼º ÀÎµ¦½º ÃßÃâ
+            // ìœ ë‹ˆì½”ë“œ ìˆ˜í•™ ê³µì‹ì„ ì´ìš©í•´ ì´ˆì„± ì¸ë±ìŠ¤ ì¶”ì¶œ
             int uniVal = firstChar - 0xAC00;
             int choIdx = uniVal / (21 * 28);
-            return ChoSung[choIdx].ToString(); // "¤¡", "¤¤" µîÀ» ¹İÈ¯
+            return ChoSung[choIdx].ToString(); // "ã„±", "ã„´" ë“±ì„ ë°˜í™˜
         }
 
-        // ÇÑ±ÛÀÌ ¾Æ´Ï¶ó¸é (¿µ¾î, ¼ıÀÚ µî) Ã¹ ±ÛÀÚ¸¦ ´ë¹®ÀÚ·Î ¹İÈ¯ÇÏ°Å³ª "±âÅ¸"·Î ¹­½À´Ï´Ù.
-        // ¾ËÆÄºªÀÎ °æ¿ì (¿¹: "B-52" -> "B" Ä«Å×°í¸®)
+        // í•œê¸€ì´ ì•„ë‹ˆë¼ë©´ (ì˜ì–´, ìˆ«ì ë“±) ì²« ê¸€ìë¥¼ ëŒ€ë¬¸ìë¡œ ë°˜í™˜í•˜ê±°ë‚˜ "ê¸°íƒ€"ë¡œ ë¬¶ìŠµë‹ˆë‹¤.
+        // ì•ŒíŒŒë²³ì¸ ê²½ìš° (ì˜ˆ: "B-52" -> "B" ì¹´í…Œê³ ë¦¬)
         if (char.IsLetter(firstChar))
         {
             return firstChar.ToString().ToUpper();
         }
 
-        return "±âÅ¸"; // ¼ıÀÚ³ª Æ¯¼ö¹®ÀÚ·Î ½ÃÀÛÇÏ´Â °æ¿ì
+        return "ê¸°íƒ€"; // ìˆ«ìë‚˜ íŠ¹ìˆ˜ë¬¸ìë¡œ ì‹œì‘í•˜ëŠ” ê²½ìš°
     }
 }
 

@@ -1,19 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using VContainer.Unity;
+using VContainer;
 
 public class CocktailCraftManager : MonoBehaviour
 {
     [SerializeField] CraftDataSO dataSO;
     [SerializeField] CraftEventData curCraftEventData;
-    [SerializeField] GameObject ingredientPanel;
-
-    [SerializeField] GameObject shakingObj;
+    [SerializeField] IngredientPanel ingredientPanel;
 
     [SerializeField] StringEvent dialogueEvent;
+    [Inject] LifetimeScope currentInGameScope;
 
-    
     public void Start()
     {
-        
+
     }
 
     public CraftEventData GetCraftDataByID(string id)
@@ -29,16 +30,19 @@ public class CocktailCraftManager : MonoBehaviour
 
 
     /// <summary>
-    /// Command ¿¡¼­ È£Ãâ µÇ´Â ÇÔ¼ö
+    /// Command ì—ì„œ í˜¸ì¶œ ë˜ëŠ” í•¨ìˆ˜
     /// </summary>
     /// <param name="craftEventData"></param>
     public void StartCraft(CraftEventData craftEventData)
     {
         if (craftEventData.auto_open_recipe_ui)
+        {
+            ingredientPanel.ResetPanel();
             ingredientPanel.gameObject.SetActive(true);
-
+        }
         curCraftEventData = craftEventData;
         TutorialData tutoData = craftEventData.tutorial;
+
         if (tutoData.enabled)
         {
             TutorialStepData[] steps = tutoData.steps;
@@ -56,39 +60,66 @@ public class CocktailCraftManager : MonoBehaviour
         {
             case "highlight":
 
-                Logger.Log("highLight¸¦ ¾îµğ¿¡ ³ÖÀ¸¶ó´Â °Å¾ß" + data.target);
-                Logger.Log("text´Â ¶Ç ¾îµğ ¶ç¿ì¶ó´Â°ÅÀÓ" + data.text);
+                Logger.Log("highLightë¥¼ ì–´ë””ì— ë„£ìœ¼ë¼ëŠ” ê±°ì•¼" + data.target);
+                Logger.Log("textëŠ” ë˜ ì–´ë”” ë„ìš°ë¼ëŠ”ê±°ì„" + data.text);
 
                 break;
         }
     }
 
 
+    public void ProcessCraftResult()
+    {
+        EndCraft();
+    }
+
+    /// <summary>
+    /// ì—°ì¶œ ìˆë‹¤ëŠ”ë° ê·¸ê±´ ê·¸ë•Œ ë„£ì–´ì•¼ë˜ëŠ”ê±°ê³ 
+    /// </summary>
     public void StartBuild()
     {
-        SceneTransitionManager.Instance.LoadScene("Build");
+        SceneTransitionManager.Instance.LoadScene("Build", LoadSceneMode.Additive);
+
     }
     public void StartShake()
     {
-        //SceneTransitionManager.Instance.LoadScene("Shake");
-        shakingObj.gameObject.SetActive(true);
+        GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
+        
+        using (LifetimeScope.EnqueueParent(currentInGameScope))
+        {
+            SceneTransitionManager.Instance.LoadScene("Shake", LoadSceneMode.Additive);
+        }
+
+        ingredientPanel.ResetPanel();
+        ingredientPanel.gameObject.SetActive(false);
     }
     public void StartStur()
     {
-        SceneTransitionManager.Instance.LoadScene("Stur");
+        GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
+
+        using (LifetimeScope.EnqueueParent(currentInGameScope))
+        {
+            SceneTransitionManager.Instance.LoadScene("Stur", LoadSceneMode.Additive);
+        }
+
+        ingredientPanel.ResetPanel();
+        ingredientPanel.gameObject.SetActive(false);
     }
 
-    public void EndShake()
+
+    /// <summary>
+    /// CraftëŠ” ì¢…ë£Œ í›„ ë‹¤ì‹œ Mainìœ¼ë¡œ ëŒì•„ì™”ì„ ë•Œ í˜¸ì¶œí•  í•„ë“œì´ê¸´í•œë°...
+    /// </summary>
+    public void EndCraft()
     {
-        Logger.Log("Shake ³¡³² ÆÇÁ¤");
-        Logger.Log("°á°ú ÆÇÁ¤ ÃßÈÄ ÁøÇà : µğÆúÆ® B.");
-        Logger.Log($"´ÙÀÌ¾ó·Î±× ÀçÁøÀÔ {curCraftEventData.reactions.B}");
-        Logger.Log("ÄÆ¾À Àç»ı");
+        Logger.Log("Shake ëë‚¨ íŒì •");
+        Logger.Log("ê²°ê³¼ íŒì • ì¶”í›„ ì§„í–‰ : ë””í´íŠ¸ B.");
+        Logger.Log($"ë‹¤ì´ì–¼ë¡œê·¸ ì¬ì§„ì… {curCraftEventData.reactions.B}");
+        Logger.Log("ì»·ì”¬ ì¬ìƒ");
 
         GameStateManager.Instance.CurrentGameState = GameState.Play;
         dialogueEvent?.Raise(curCraftEventData.reactions.B);
 
-        shakingObj.gameObject.SetActive(false);
         ingredientPanel.gameObject.SetActive(false);
         curCraftEventData = default;
     }

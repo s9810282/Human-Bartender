@@ -7,7 +7,7 @@ public enum GameState
     Play,
     Effect,
     Loading,
-    Trigger,
+    MiniGame,
 }
 
 
