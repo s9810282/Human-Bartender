@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 using VContainer;
@@ -21,10 +22,12 @@ public class StartCraftCommand : IDialogueCommand
 
     public bool IsSystemSwitch { get; set; }
 
-    public IEnumerator Execute()
+    public async UniTask<string> ExecuteAsync()
     {
         craftData = craftMgr.GetCraftDataByID(craft_event_id);
-        craftMgr.StartCraft(craftData);
-        yield break;
+        string nextId = await craftMgr.StartCraftAsync(craftData);
+        await UniTask.Yield();
+
+        return nextId;
     }
 }

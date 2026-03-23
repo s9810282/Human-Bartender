@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer.Unity;
 using VContainer;
+using Cysharp.Threading.Tasks;
 
 public class CocktailCraftManager : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class CocktailCraftManager : MonoBehaviour
     /// Command 에서 호출 되는 함수
     /// </summary>
     /// <param name="craftEventData"></param>
-    public void StartCraft(CraftEventData craftEventData)
+    public async UniTask<string> StartCraftAsync(CraftEventData craftEventData)
     {
         if (craftEventData.auto_open_recipe_ui)
         {
@@ -52,6 +53,13 @@ public class CocktailCraftManager : MonoBehaviour
                 TutorialStep(steps[i]);
             }
         }
+
+        await UniTask.Yield();
+
+
+        //Prefab으로 미니게임 생성 후 결과값 받아서 실행하기.
+
+        return "";
     }
 
     public void TutorialStep(TutorialStepData data)

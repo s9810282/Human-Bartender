@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -17,12 +18,12 @@ public class DialogueTriggerManager : MonoBehaviour
     }
 
 
-    public IEnumerator ExecuteTriggerCoroutine(TriggerData trigger, Action callBack)
+    public async UniTask<string> ExecuteTriggerAsync(TriggerData trigger)
     {
         Debug.Log($"[트리거 시작] 타입: {trigger.type}");
-        triggerCallBack = callBack;
 
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
+        string nextId = "";
 
         if (command != null)
         {
@@ -34,22 +35,14 @@ public class DialogueTriggerManager : MonoBehaviour
                 }
 
                 resolver.Inject(command);
-                StartCoroutine(command.Execute());
+                nextId = await command.ExecuteAsync();
             }
             else
             {
-                yield return StartCoroutine(command.Execute());
-                CompleteTrigger();
+                nextId = await command.ExecuteAsync();
             }
         }
-    }
 
-    public void CompleteTrigger()
-    {
-        if (triggerCallBack != null)
-        {
-            triggerCallBack.Invoke();
-            triggerCallBack = null;
-        }
+        return nextId;
     }
 }

@@ -1,8 +1,10 @@
+using Cysharp.Threading.Tasks;
 using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -12,16 +14,14 @@ using UnityEngine.UI;
 public class TypingData
 {
     public string str;
-    public Action callBackEvent;
 
     public TypingData()
     {
     }
 
-    public TypingData(string str, Action callBackEvent)
+    public TypingData(string str)
     {
         this.str = str;
-        this.callBackEvent = callBackEvent;
     }
 }
 
@@ -29,16 +29,18 @@ public class TypingData
 public class UIDialogueTextView : MonoBehaviour
 {
     [Header("UI Components")]
-    public GameObject dialoguePanel;      // ��ȭâ ��ü �г�
-    public TextMeshProUGUI nameTMPText;      // �̸� �ؽ�Ʈ
-    public TextMeshProUGUI dialogueTMPText;  // ��� �ؽ�Ʈ
+    public GameObject dialoguePanel;      // 대화창 전체 패널
+    public TextMeshProUGUI nameTMPText;      // 이름 텍스트
+    public TextMeshProUGUI dialogueTMPText;  // 대사 텍스트
 
     public Text nameText;
     public Text dialogueText;
 
-    private WaitForSeconds defaultTypingDelay = new WaitForSeconds(0.05f);
-    private Coroutine typingCoroutine;
+    
     private TypingData curTypingData;
+    private CancellationTokenSource typingCts;
+
+    private float defaultTypingDelay = 0.05f;
 
     void Start()
     {
@@ -47,7 +49,7 @@ public class UIDialogueTextView : MonoBehaviour
 
 
 
-    public void StartType(TypingData data)
+    public async UniTask StartType(TypingData data)
     {
         if (data == null)
         {
@@ -59,7 +61,7 @@ public class UIDialogueTextView : MonoBehaviour
         dialogueTMPText.fontStyle = FontStyles.Normal;
 
         curTypingData = data;
-        typingCoroutine = StartCoroutine(TypeSentence(curTypingData.str));
+        await TypeSentence(curTypingData.str);
     }
     public void SetNameColor(Color32 color)
     {
@@ -71,25 +73,35 @@ public class UIDialogueTextView : MonoBehaviour
         nameText.text = str;
         nameTMPText.text = str;
     }
+
     public void OnScreenClick()
     {
-        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-
-        dialogueTMPText.maxVisibleCharacters = dialogueTMPText.textInfo.characterCount;
-        dialogueText.text = currentCleanText;
-        CompleteTyping();
+        StopTyping();
     }
+
     public void CompleteTyping()
     {
-        curTypingData.callBackEvent.Invoke();
-
         curTypingData = null;
-        typingCoroutine = null;
     }
 
-    private IEnumerator TypeSentenceTMP(string rawSentence)
+    public void StopTyping()
     {
-        if (!(rawSentence.Length > 0)) yield break;
+        if (typingCts != null)
+        {
+            typingCts.Cancel();
+            typingCts.Dispose();
+            typingCts = null;
+        }
+    }
+
+    public async UniTask TypeSentenceTMP(string rawSentence)
+    {
+        if (!(rawSentence.Length > 0)) return;
+
+        StopTyping();
+
+        typingCts = new CancellationTokenSource();
+        CancellationToken token = typingCts.Token;
 
         string cleanSentence = rawSentence;
         Dictionary<int, float> delayDict = new Dictionary<int, float>();
@@ -112,19 +124,27 @@ public class UIDialogueTextView : MonoBehaviour
         dialogueTMPText.ForceMeshUpdate();
         int totalVisibleChars = dialogueTMPText.textInfo.characterCount;
 
-        for (int i = 0; i <= totalVisibleChars; i++)
+        try
         {
-            dialogueTMPText.maxVisibleCharacters = i;
-
-            if (delayDict.ContainsKey(i))
+            for (int i = 0; i <= totalVisibleChars; i++)
             {
-                yield return new WaitForSeconds(delayDict[i]);
-            }
+                dialogueTMPText.maxVisibleCharacters = i;
 
-            if (i < totalVisibleChars)
-            {
-                yield return defaultTypingDelay; // ĳ�̵� WaitForSeconds ���
+                if (delayDict.ContainsKey(i))
+                {
+                    await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
+                }
+
+                if (i < totalVisibleChars)
+                {
+                    await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("타이핑이 스킵되었습니다!");
+            dialogueTMPText.maxVisibleCharacters = dialogueTMPText.textInfo.characterCount;
         }
 
         CompleteTyping();
@@ -133,8 +153,16 @@ public class UIDialogueTextView : MonoBehaviour
 
     #region Legacy Text
     private string currentCleanText = "";
-    private IEnumerator TypeSentence(string rawSentence)
+    public async UniTask TypeSentence(string rawSentence)
     {
+        if (rawSentence == null) return;
+        if (!(rawSentence.Length > 0)) return;
+
+        StopTyping();
+
+        typingCts = new CancellationTokenSource();
+        CancellationToken token = typingCts.Token;
+
         string cleanSentence = rawSentence;
         Dictionary<int, float> delayDict = new Dictionary<int, float>();
         Regex tagRegex = new Regex(@"<(\d+)>");
@@ -156,24 +184,31 @@ public class UIDialogueTextView : MonoBehaviour
         dialogueText.text = "";
         int totalChars = cleanSentence.Length;
 
-        for (int i = 0; i <= totalChars; i++)
+        try
         {
-            dialogueText.text = cleanSentence.Substring(0, i);
-
-            if (delayDict.ContainsKey(i))
+            for (int i = 0; i <= totalChars; i++)
             {
-                yield return new WaitForSeconds(delayDict[i]);
-            }
+                dialogueText.text = cleanSentence.Substring(0, i);
 
-            if (i < totalChars)
-            {
-                yield return defaultTypingDelay;
+                if (delayDict.ContainsKey(i))
+                {
+                    await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
+                }
+
+                if (i < totalChars)
+                {
+                    await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("타이핑이 스킵되었습니다!");
+            dialogueText.text = cleanSentence;    
         }
 
         CompleteTyping();
     }
-    #endregion
 
-    
+    #endregion
 }

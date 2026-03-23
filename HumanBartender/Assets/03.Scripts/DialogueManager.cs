@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ public enum DialogueState
     Typing,
     WaitingForInput,
     WaitingForChoice,
-    PlayingTrigger,
+    CompleteTrigger,
 }
 
 
@@ -85,13 +86,13 @@ public class DialogueManager : MonoBehaviour
         if (currentSceneData.dialogues.Length > 0)
         {
             GameStateManager.Instance.CurrentGameState = GameState.Play;
-            StartCoroutine(PlayDialogue(currentSceneData.dialogues[0].id));
+            DialogueEvent(currentSceneData.dialogues[0].id);
         }
     }
 
     public void DialogueEvent(string id)
     {
-        StartCoroutine(PlayDialogue(id));
+        PlayDialogue(id).Forget();
     }
 
 
@@ -101,9 +102,9 @@ public class DialogueManager : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="dialogueId"></param>
-    private IEnumerator PlayDialogue(string dialogueId)
+    public async UniTaskVoid PlayDialogue(string dialogueId)
     {
-        if (!currentDialogueDB.ContainsKey(dialogueId)) yield break;
+        if (!currentDialogueDB.ContainsKey(dialogueId)) return;
 
         currentDialogue = currentDialogueDB[dialogueId];
 
@@ -113,35 +114,38 @@ public class DialogueManager : MonoBehaviour
             sceneDirector.ShowSystemAction();
 
             if (!string.IsNullOrEmpty(currentDialogue.trigger.type)) 
-                ExecuteTriggerCoroutine(currentDialogue.trigger);
+                ExecuteTriggerAsync(currentDialogue.trigger).Forget();
 
-            yield break;
+            return;
         }
 
         currentState = DialogueState.Typing;
-        sceneDirector.ShowDialogue(currentDialogue , () => CallBackTypingComplete());
+
+        await sceneDirector.ShowDialogueAsync(currentDialogue);
+        await UniTask.Yield();
+
+        return;
     }
 
 
-    public void CallBackTypingComplete()
-    {
-        currentState = DialogueState.WaitingForInput;
-    }
-
-    public void CallBackTriggerComplete()
-    {
-        currentState = DialogueState.WaitingForInput;
-        currentDialogue = currentDialogueDB[currentDialogue.next];
-    }
-
-
-    private void ExecuteTriggerCoroutine(TriggerData trigger)
+    public async UniTask ExecuteTriggerAsync(TriggerData trigger)
     {
         currentState = DialogueState.WaitingForTrigger; // 입력 잠금
         
         Debug.Log($"[트리거 시작] 타입: {trigger.type}");
 
-        sceneDirector.PlayTrigger(trigger, () => CallBackTriggerComplete());
+        string id = await sceneDirector.ExcuteTriggerAsync(trigger);
+
+        if(id == "")
+        {
+            DialogueEvent(currentDialogue.next);
+        }
+        else
+        {
+            //미니게임 결과 등에 따른 next 처리.
+        }
+
+        return;
     }
 
 
@@ -157,7 +161,7 @@ public class DialogueManager : MonoBehaviour
     public void ChoiceSelect(ChoiceData data)
     {
         currentState = DialogueState.Idle;
-        StartCoroutine(PlayDialogue(data.next));
+        DialogueEvent(data.next);
     }
 
     #endregion
@@ -177,6 +181,7 @@ public class DialogueManager : MonoBehaviour
         if (currentState == DialogueState.Typing)
         {
             sceneDirector.SkipTyping();
+            currentState = DialogueState.WaitingForInput;
         }
         else if (currentState == DialogueState.WaitingForInput)
         {
@@ -186,11 +191,11 @@ public class DialogueManager : MonoBehaviour
             }
             else if (!string.IsNullOrEmpty(currentDialogue.trigger.type))
             {
-                ExecuteTriggerCoroutine(currentDialogue.trigger);
+                ExecuteTriggerAsync(currentDialogue.trigger).Forget();
             }
             else if (!string.IsNullOrEmpty(currentDialogue.next))
             {
-                StartCoroutine(PlayDialogue(currentDialogue.next));
+                DialogueEvent(currentDialogue.next);
             }
             else
             {

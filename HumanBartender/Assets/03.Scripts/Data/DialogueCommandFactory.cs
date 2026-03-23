@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+
 
 public interface IDialogueCommand
 {
     public bool IsSystemSwitch { get; set; }
-    IEnumerator Execute();
+    UniTask<string> ExecuteAsync();
 }
 
 public static class DialogueCommandFactory

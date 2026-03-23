@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ public class DialogueSceneDirector : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
     }
-    public void ShowDialogue(DialogueData dialogueData, Action onTypingComplete)
+    public async UniTask ShowDialogueAsync(DialogueData dialogueData)
     {
         dialoguePanel.SetActive(true);
 
@@ -61,8 +62,9 @@ public class DialogueSceneDirector : MonoBehaviour
                 characterManager.OffCharacter();
         }
 
-        typer.StartType(new TypingData(dialogueData.text, onTypingComplete));
+        await typer.StartType(new TypingData(dialogueData.text));
     }
+
     public void ShowChoices(ChoiceData[] choices, Action<ChoiceData> onChoiceSelected)
     {
         choiceManager.ShowChoice(new ChoiceSelectData(choices, onChoiceSelected));
@@ -72,15 +74,12 @@ public class DialogueSceneDirector : MonoBehaviour
         typer.OnScreenClick();
     }
 
-
-    public void PlayTrigger(TriggerData trigger, Action callBack)
+    public async UniTask<string> ExcuteTriggerAsync(TriggerData trigger)
     {
         characterManager.OffCharacter();
-        StartCoroutine(ExcuteTrigger(trigger, callBack));
-    }
-    private IEnumerator ExcuteTrigger(TriggerData trigger, Action callBack)
-    {
-        yield return StartCoroutine(triggerManager.ExecuteTriggerCoroutine(trigger, callBack));
+        string id = await triggerManager.ExecuteTriggerAsync(trigger);
+
+        return id;
     }
 
     public void HideDialogue()
