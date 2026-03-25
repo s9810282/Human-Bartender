@@ -1,18 +1,19 @@
+using Cysharp.Threading.Tasks;
 using LiquidSimulation;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-public class ShakingManager : MonoBehaviour
+public class ShakingManager : MonoBehaviour, IMiniGameController
 {
     [SerializeField] Text countText;
-
-    [Inject] private CocktailCraftManager mainCraftManager;
     [SerializeField] CraftStationData craftStation;
     [SerializeField] ShakerInteraction shaker;
     [SerializeField] StirringInteraction stir;
 
     [SerializeField] string sceneName = "Shake";
+
+    private UniTaskCompletionSource tcs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,6 +27,12 @@ public class ShakingManager : MonoBehaviour
         
     }
 
+    public void InitGame(UniTaskCompletionSource tcs)
+    {
+        this.tcs = tcs;
+        craftStation.craftingResult.acionCount = 0; // 카운트 초기화
+        if (countText != null) countText.text = "0";
+    }
 
 
     public void AddActionCount()
@@ -43,10 +50,11 @@ public class ShakingManager : MonoBehaviour
         else
             craftStation.craftingResult.mixedColor = stir.GetFullyMixedColor();
 
+        if (tcs != null)
+        {
+            tcs.TrySetResult();
+        }
 
-        mainCraftManager.EndCraft();
-
-        SceneTransitionManager.Instance.UnLoadScene(sceneName);
-        
+        Destroy(gameObject);
     }
 }
