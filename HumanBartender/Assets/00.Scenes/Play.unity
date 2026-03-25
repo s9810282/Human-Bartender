@@ -11430,6 +11430,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataSO: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
+  ingredientPanel: {fileID: 1492390161}
+  shakePrefab: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+  stirPrefab: {fileID: 0}
+  buildPrefab: {fileID: 0}
   curCraftEventData:
     id: 
     auto_open_recipe_ui: 0
@@ -11458,8 +11462,6 @@ MonoBehaviour:
       C:
         affinity: 0
         karma: 0
-  ingredientPanel: {fileID: 1492390161}
-  dialogueEvent: {fileID: 11400000, guid: 5f3c879dee00b5c4d989b0ec4091cb0b, type: 2}
 --- !u!4 &1601650328
 Transform:
   m_ObjectHideFlags: 0

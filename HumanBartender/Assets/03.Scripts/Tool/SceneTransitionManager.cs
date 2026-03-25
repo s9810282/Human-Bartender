@@ -1,7 +1,8 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
-using System;
+using static UnityEngine.UI.CanvasScaler;
 
 public class SceneTransitionManager : MonoBehaviour
 {
@@ -64,6 +65,7 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
 
+
     private IEnumerator FadeAndLoadScene(string sceneName , LoadSceneMode sceneMode)
     {
         isFading = true;
@@ -99,9 +101,9 @@ public class SceneTransitionManager : MonoBehaviour
             yield return null;
         }
 
-        onFadeComplete?.Invoke();
-
         fadeCanvasGroup.blocksRaycasts = false;
         isFading = false;
+
+        onFadeComplete?.Invoke();
     }
 }

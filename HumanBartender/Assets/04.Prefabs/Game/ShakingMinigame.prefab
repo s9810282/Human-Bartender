@@ -96,6 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4730881778652635822}
+  - component: {fileID: 2856734471065644167}
   m_Layer: 0
   m_Name: ShakingMinigame
   m_TagString: Untagged
@@ -124,6 +125,23 @@ Transform:
   - {fileID: 3540755719687740504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2856734471065644167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172382848508299158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55eaa381c3774f34aa67ec4ea043f175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countText: {fileID: 6441296946844630934}
+  craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
+  shaker: {fileID: 6340048157419043088}
+  stir: {fileID: 0}
+  sceneName: Shake
 --- !u!1 &1769004291382263327
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,7 +768,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4189038403256977557}
+      - m_Target: {fileID: 2856734471065644167}
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: EndShake
         m_Mode: 1
@@ -821,7 +839,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8351819628676872275}
-  - component: {fileID: 4189038403256977557}
   - component: {fileID: 8633121426610476408}
   m_Layer: 0
   m_Name: ShakingManager
@@ -845,23 +862,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4730881778652635822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4189038403256977557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7228750413572540731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55eaa381c3774f34aa67ec4ea043f175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  countText: {fileID: 6441296946844630934}
-  craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
-  shaker: {fileID: 6340048157419043088}
-  stir: {fileID: 0}
-  sceneName: Shake
 --- !u!114 &8633121426610476408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,7 +878,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4189038403256977557}
+      - m_Target: {fileID: 2856734471065644167}
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: AddActionCount
         m_Mode: 1

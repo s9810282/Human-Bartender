@@ -142,6 +142,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+            DialogueEvent(id);
             //미니게임 결과 등에 따른 next 처리.
         }
 

@@ -105,6 +105,7 @@ public class CocktailCraftManager : MonoBehaviour
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
+
         SpawnMiniGameAsync(shakePrefab).Forget();
     }
     public void StartStur()
@@ -115,25 +116,31 @@ public class CocktailCraftManager : MonoBehaviour
         ingredientPanel.gameObject.SetActive(false);
     }
 
+
     private async UniTaskVoid SpawnMiniGameAsync(GameObject prefab)
     {
-        // 1. 버튼에 맞는 미니게임 프리팹 생성
-        GameObject miniGameObj = Instantiate(prefab);
-        IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
-
-        // 2. 미니게임 전용 대기열(TCS) 생성 및 전달
         UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
-        controller.InitGame(miniGameTcs);
+        miniGameTcs = new UniTaskCompletionSource();
 
-        // 3. 해당 미니게임 프리팹이 끝날 때까지 여기서 대기
+        SceneTransitionManager.Instance.FadeOut(1f, () => 
+        {   
+            // TODO : 풀링.
+            GameObject miniGameObj = Instantiate(prefab);
+
+            IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
+            controller.InitGame(miniGameTcs);
+
+            SceneTransitionManager.Instance.FadeIn(3f);
+        });
+       
+
         await miniGameTcs.Task;
 
-        // 4. 미니게임이 끝났으므로 최종 결과 처리 함수로 이동!
         EndCraft();
     }
 
     /// <summary>
-    /// Craft는 종료 후 다시 Main으로 돌아왔을 때 호출할 필드이긴한데...
+    /// Craft는 종료 후 다시 Main으
     /// </summary>
     public void EndCraft()
     {
@@ -142,13 +149,24 @@ public class CocktailCraftManager : MonoBehaviour
         Logger.Log($"다이얼로그 재진입 {curCraftEventData.reactions.B}");
         Logger.Log("컷씬 재생");
 
-        string nextDialogueId = curCraftEventData.reactions.B;
+        string nextDialogueId;
+
+        SceneTransitionManager.Instance.FadeOut(1f, () =>
+        {
+
+        });
+
+        nextDialogueId = curCraftEventData.reactions.B;
         GameStateManager.Instance.CurrentGameState = GameState.Play;
+
+        //TODO 여기서 판정하기.
+
 
         ingredientPanel.gameObject.SetActive(false);
 
         if (mainCraftingTcs != null)
         {
+            Logger.Log("Craft tcs not null");
             mainCraftingTcs.TrySetResult(nextDialogueId);
             mainCraftingTcs = null;
         }

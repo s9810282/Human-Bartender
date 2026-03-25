@@ -52,6 +52,7 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
 
         if (tcs != null)
         {
+            Logger.Log("shakeManager tcs not null");
             tcs.TrySetResult();
         }
 
