@@ -15,6 +15,7 @@ public interface IMiniGameController
 public class CocktailCraftManager : MonoBehaviour
 {
     [SerializeField] CraftDataSO dataSO;
+    [SerializeField] CraftStationData craftStation;
     [SerializeField] IngredientPanel ingredientPanel;
 
     [Header("MiniGame Prefabs")]
@@ -121,11 +122,12 @@ public class CocktailCraftManager : MonoBehaviour
     {
         UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
         miniGameTcs = new UniTaskCompletionSource();
+        GameObject miniGameObj = null;
 
         SceneTransitionManager.Instance.FadeOut(1f, () => 
         {   
             // TODO : 풀링.
-            GameObject miniGameObj = Instantiate(prefab);
+            miniGameObj = Instantiate(prefab);
 
             IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
             controller.InitGame(miniGameTcs);
@@ -133,9 +135,9 @@ public class CocktailCraftManager : MonoBehaviour
             SceneTransitionManager.Instance.FadeIn(3f);
         });
        
-
         await miniGameTcs.Task;
 
+        Destroy(miniGameObj);
         EndCraft();
     }
 
@@ -149,18 +151,17 @@ public class CocktailCraftManager : MonoBehaviour
         Logger.Log($"다이얼로그 재진입 {curCraftEventData.reactions.B}");
         Logger.Log("컷씬 재생");
 
-        string nextDialogueId;
+        string nextDialogueId = "";
 
         SceneTransitionManager.Instance.FadeOut(1f, () =>
         {
-
+            nextDialogueId = curCraftEventData.reactions.B;
+            GameStateManager.Instance.CurrentGameState = GameState.Play;
         });
 
-        nextDialogueId = curCraftEventData.reactions.B;
-        GameStateManager.Instance.CurrentGameState = GameState.Play;
-
         //TODO 여기서 판정하기.
-
+        //결과에 따라 연출이 다르다면 여기서 처리하게 하는게 맞나?
+        
 
         ingredientPanel.gameObject.SetActive(false);
 

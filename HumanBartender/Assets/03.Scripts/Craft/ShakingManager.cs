@@ -55,7 +55,5 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
             Logger.Log("shakeManager tcs not null");
             tcs.TrySetResult();
         }
-
-        Destroy(gameObject);
     }
 }
