@@ -162,6 +162,12 @@ public class CocktailCraftManager : MonoBehaviour
         //TODO 여기서 판정하기.
         //결과에 따라 연출이 다르다면 여기서 처리하게 하는게 맞나?
         
+        for(int i = 0; i < craftStation.targetCocktailData.recipe.Length; i++)
+        {
+            
+        }
+
+
 
         ingredientPanel.gameObject.SetActive(false);
 
