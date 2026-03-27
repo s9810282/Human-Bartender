@@ -61,22 +61,22 @@ public class IngredientPanel : MonoBehaviour
 
     public void CreateIngredientPanelAll()
     {
-        for (int i = 0; i < ingredientDataSO.ingredientData.ingredients.Length; i++)
+        for (int i = 0; i < ingredientDataSO.ingredientData.Ingredients.Length; i++)
         {
-            IngredientData data = ingredientDataSO.ingredientData.ingredients[i];
+            IngredientData data = ingredientDataSO.ingredientData.Ingredients[i];
             
 
-            if (!createdIngredientPanelList.ContainsKey(data.id))
+            if (!createdIngredientPanelList.ContainsKey(data.Id))
             {
                 var item = Instantiate(ingredientPanel, ingredientPanelParent);
                 //sprite : 값으로 데이터 로드 후 넣기
                 item.SetImage(null);
-                item.SetNameText(data.name);
+                item.SetNameText(data.Name);
                 item.ResetCount();
                 item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
                 item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
 
-                createdIngredientPanelList.Add(data.id, item);
+                createdIngredientPanelList.Add(data.Id, item);
             }
         }
     }
@@ -84,13 +84,13 @@ public class IngredientPanel : MonoBehaviour
 
     public void OnClickedIngredient(IngredientData data)
     {
-        if (!currentSelectIngredients.ContainsKey(data.id))
-            currentSelectIngredients.Add(data.id, 1);
+        if (!currentSelectIngredients.ContainsKey(data.Id))
+            currentSelectIngredients.Add(data.Id, 1);
         else
-            currentSelectIngredients[data.id]++;
+            currentSelectIngredients[data.Id]++;
 
         disEffectEvent?.Raise(new Void());
-        createdIngredientPanelList[data.id].IncreaseCount();
+        createdIngredientPanelList[data.Id].IncreaseCount();
         craftLiquidData.AddIngrediant(data, 10);
     }
 
@@ -130,11 +130,11 @@ public class IngredientPanel : MonoBehaviour
     {
         ResetPanel();
 
-        cocktailNameText.text = data.name;
+        cocktailNameText.text = data.Name;
 
-        for (int i = 0; i < data.recipe.Length; i++)
+        for (int i = 0; i < data.Recipe.Length; i++)
         {
-            AddContentsSummary(data.recipe[i].ingredient + " : " + data.recipe[i].count);
+            AddContentsSummary(data.Recipe[i].Ingredient + " : " + data.Recipe[i].Count);
         }
     }
     public void AddContentsSummary(string text)

@@ -60,9 +60,9 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void InitSystem()
     {
-        if (dayScripteData.dayData.scenes.Length > 0)
+        if (dayScripteData.dayData.Scenes.Length > 0)
         {
-            LoadScene(dayScripteData.dayData.scenes[0]);
+            LoadScene(dayScripteData.dayData.Scenes[0]);
         }
     }
 
@@ -76,17 +76,17 @@ public class DialogueManager : MonoBehaviour
         currentSceneData = sceneData;
         currentDialogueDB.Clear();
 
-        foreach (var dialogue in sceneData.dialogues)
+        foreach (var dialogue in sceneData.Dialogues)
         {
-            currentDialogueDB[dialogue.id] = dialogue;
+            currentDialogueDB[dialogue.Id] = dialogue;
         }
 
-        Debug.Log($"[씬 로드 완료] 손님: {currentSceneData.customer_display_name}");
+        Debug.Log($"[씬 로드 완료] 손님: {currentSceneData.Customer}");
 
-        if (currentSceneData.dialogues.Length > 0)
+        if (currentSceneData.Dialogues.Length > 0)
         {
             GameStateManager.Instance.CurrentGameState = GameState.Play;
-            DialogueEvent(currentSceneData.dialogues[0].id);
+            DialogueEvent(currentSceneData.Dialogues[0].Id);
         }
     }
 
@@ -109,12 +109,12 @@ public class DialogueManager : MonoBehaviour
         currentDialogue = currentDialogueDB[dialogueId];
 
         // type이 system일 때 처리
-        if (currentDialogue.type == "system")
+        if (currentDialogue.Type == "system")
         {
             sceneDirector.ShowSystemAction();
 
-            if (!string.IsNullOrEmpty(currentDialogue.trigger.type)) 
-                ExecuteTriggerAsync(currentDialogue.trigger).Forget();
+            if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
+                ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
 
             await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
@@ -123,23 +123,24 @@ public class DialogueManager : MonoBehaviour
         currentState = DialogueState.Typing;
 
         await sceneDirector.ShowDialogueAsync(currentDialogue);
-        await UniTask.Yield();
+
+        currentState = DialogueState.WaitingForInput;
 
         return;
     }
 
 
-    public async UniTask ExecuteTriggerAsync(TriggerData trigger)
+    public async UniTask ExecuteTriggerAsync(TriggerData? trigger)
     {
         currentState = DialogueState.WaitingForTrigger; // 입력 잠금
         
-        Debug.Log($"[트리거 시작] 타입: {trigger.type}");
+        Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
 
         string id = await sceneDirector.ExcuteTriggerAsync(trigger);
-
-        if(id == "")
+        
+        if (id == "")
         {
-            DialogueEvent(currentDialogue.next);
+            DialogueEvent(currentDialogue.Next);
         }
         else
         {
@@ -158,12 +159,12 @@ public class DialogueManager : MonoBehaviour
     private void ShowChoices()
     {
         currentState = DialogueState.WaitingForChoice;
-        sceneDirector.ShowChoices(currentDialogue.choices, (ChoiceData n) => ChoiceSelect(n));
+        sceneDirector.ShowChoices(currentDialogue.Choices, (ChoiceData n) => ChoiceSelect(n));
     }
     public void ChoiceSelect(ChoiceData data)
     {
         currentState = DialogueState.Idle;
-        DialogueEvent(data.next);
+        DialogueEvent(data.Next);
     }
 
     #endregion
@@ -187,17 +188,18 @@ public class DialogueManager : MonoBehaviour
         }
         else if (currentState == DialogueState.WaitingForInput)
         {
-            if (currentDialogue.choices != null && currentDialogue.choices.Length > 0)
+            if (currentDialogue.Choices != null && currentDialogue.Choices.Length > 0)
             {
                 ShowChoices();
             }
-            else if (!string.IsNullOrEmpty(currentDialogue.trigger.type))
+            else if (currentDialogue.Trigger != null)
             {
-                ExecuteTriggerAsync(currentDialogue.trigger).Forget();
+                if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
+                    ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
             }
-            else if (!string.IsNullOrEmpty(currentDialogue.next))
+            else if (!string.IsNullOrEmpty(currentDialogue.Next))
             {
-                DialogueEvent(currentDialogue.next);
+                DialogueEvent(currentDialogue.Next);
             }
             else
             {

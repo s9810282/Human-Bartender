@@ -91,7 +91,7 @@ public class CocktailPanel : MonoBehaviour
 
             var panel =  Instantiate(cocktailPanel, cocktailPanelParent);
             panel.SetImage(null);
-            panel.SetText(data.name);
+            panel.SetText(data.Name);
             panel.gameObject.SetActive(false);
             panel.GetButton().onClick.AddListener(() => OnCocktailPanelTabClicked(data));
 
@@ -203,24 +203,24 @@ public class CocktailPanel : MonoBehaviour
 
         cocktailDetailPanel.SetCocktailData(data);
         cocktailDetailPanel.SetImage(null);
-        cocktailDetailPanel.SetCocktailName(data.name);
+        cocktailDetailPanel.SetCocktailName(data.Name);
 
         cocktailDetailPanel.AddContentsTitle("레시피");
-        for(int i = 0; i < data.recipe.Length; i++)
+        for(int i = 0; i < data.Recipe.Length; i++)
         {
-            cocktailDetailPanel.AddContentsSummary(data.recipe[i].ingredient + " : " + data.recipe[i].count);
+            cocktailDetailPanel.AddContentsSummary(data.Recipe[i].Ingredient + " : " + data.Recipe[i].Count);
         }
         
         cocktailDetailPanel.AddContentsTitle("특성");
 
         string s = "";
-        for (int i = 0; i < data.keywords.Length; i++)
-            s += data.keywords[i] + " ";
+        for (int i = 0; i < data.Keywords.Length; i++)
+            s += data.Keywords[i] + " ";
         cocktailDetailPanel.AddContentsSummary(s);        
 
 
         cocktailDetailPanel.AddContentsTitle("설명");
-        cocktailDetailPanel.AddContentsSummary(data.flavor_text);
+        cocktailDetailPanel.AddContentsSummary(data.FlavorText);
     }
 
     #endregion

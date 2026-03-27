@@ -14,8 +14,8 @@ public class StartCraftCommand : IDialogueCommand
 
     public StartCraftCommand(TriggerDetailData data)
     {
-        craft_event_id = data.craft_event_id;
-        Logger.Log(data.craft_event_id);
+        craft_event_id = data.CraftEventId;
+        Logger.Log(data.CraftEventId);
 
         IsSystemSwitch = true;
     }

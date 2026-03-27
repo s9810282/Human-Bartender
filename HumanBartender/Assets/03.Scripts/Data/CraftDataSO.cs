@@ -1,79 +1,76 @@
 using System;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public struct CraftEventData
 {
-    public string id;
-    public bool auto_open_recipe_ui;
-
-    public CraftCutSceneData craftCutSceneData;
-    public TutorialData tutorial;
-    public EvaluationData evaluation;
-    public ReactionsData reactions;
+    [JsonProperty("id")] public string Id { get; set; }
+    [JsonProperty("auto_open_recipe_ui")] public bool AutoOpenRecipeUi { get; set; }
+    [JsonProperty("craft_enter_cutscenes")] public CraftCutSceneData CraftEnterCutscenes { get; set; }
+    [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
+    [JsonProperty("evaluation")] public EvaluationData Evaluation { get; set; }
+    [JsonProperty("reactions")] public ReactionsData Reactions { get; set; }
 }
 
 [Serializable]
 public struct CraftCutSceneData
 {
-    public string shake;
-    public string stur;
-    public string build;
-    public string serve_cutscene;
+    [JsonProperty("shake")] public string Shake { get; set; }
+    [JsonProperty("stir")] public string Stir { get; set; }
+    [JsonProperty("build")] public string Build { get; set; }
+    [JsonProperty("serve_cutscene")] public string ServeCutscene { get; set; }
 }
-
-
 
 [Serializable]
 public struct TutorialData
 {
-    public bool enabled;
-    public TutorialStepData[] steps;
+    [JsonProperty("enabled")] public bool Enabled { get; set; }
+    [JsonProperty("steps")] public TutorialStepData[] Steps { get; set; }
 }
 
 [Serializable]
 public struct TutorialStepData
 {
-    public string type;
-    public string target;
-    public string text;
+    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("target")] public string Target { get; set; }
+    [JsonProperty("text")] public string Text { get; set; }
 }
 
 [Serializable]
 public struct EvaluationData
 {
-    public RuleData[] rules;
-    public string default_grade;
-    public bool craft_penalty;
+    [JsonProperty("rules")] public RuleData[] Rules { get; set; }
+    [JsonProperty("default_grade")] public string DefaultGrade { get; set; }
+    [JsonProperty("craft_penalty")] public bool CraftPenalty { get; set; }
 }
 
 [Serializable]
 public struct RuleData
 {
-    public string grade;
-    public string match_type;
-    public string[] match_values;
-    public string description;
+    [JsonProperty("grade")] public string Grade { get; set; }
+    [JsonProperty("match_type")] public string MatchType { get; set; }
+    [JsonProperty("match_values")] public string[] MatchValues { get; set; }
+    [JsonProperty("description")] public string Description { get; set; }
 }
 
 [Serializable]
 public struct ReactionsData
 {
-    public ReactionDetailData S;
-    public ReactionDetailData A;
-    public ReactionDetailData B;
-    public ReactionDetailData C;
+    [JsonProperty("S")] public ReactionDetailData S { get; set; }
+    [JsonProperty("A")] public ReactionDetailData A { get; set; }
+    [JsonProperty("B")] public ReactionDetailData B { get; set; }
+    [JsonProperty("C")] public ReactionDetailData C { get; set; }
 }
 
 [Serializable]
 public struct ReactionDetailData
 {
-    public string dialogue_id;
-    public string cutscene_id;
-    public int affinity;
-    public int karma;
+    [JsonProperty("dialogue_id")] public string DialogueId { get; set; }
+    [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
+    [JsonProperty("affinity")] public int Affinity { get; set; }
+    [JsonProperty("karma")] public int Karma { get; set; }
 }
-
 
 [CreateAssetMenu(fileName = "CraftDataBase", menuName = "Data/CraftDataBase")]
 public class CraftDataSO : ScriptableObject
@@ -84,8 +81,5 @@ public class CraftDataSO : ScriptableObject
 [Serializable]
 public class CraftDataBase
 {
-    public CraftEventData[] craft_events;
+    [JsonProperty("craft_events")] public CraftEventData[] CraftEvents { get; set; }
 }
-
-
-

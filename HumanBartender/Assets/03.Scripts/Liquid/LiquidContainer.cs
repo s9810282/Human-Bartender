@@ -146,7 +146,7 @@ namespace LiquidSimulation
                 {
                     LiquidData td = ingredientLibrary.GetTestLiquid();
 
-                    if (il.data.category != "garnish" && il.data.category != "etc")
+                    if (il.data.Category != "garnish" && il.data.Category != "etc")
                     {
                         Grid.AddLiquid(w / 2, il.value, td);
                     }

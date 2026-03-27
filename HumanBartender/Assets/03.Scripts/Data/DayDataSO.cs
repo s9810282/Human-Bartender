@@ -1,61 +1,60 @@
 using System;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 [Serializable]
 public struct SceneData
 {
-    public string scene_id;
-    public string customer;
-    public string customer_display_name;
-    public string customer_name_color;
-    public DialogueData[] dialogues;
+    [JsonProperty("scene_id")] public string SceneId { get; set; }
+    [JsonProperty("customer")] public string Customer { get; set; }
+    [JsonProperty("dialogues")] public DialogueData[] Dialogues { get; set; }
 }
 
 [Serializable]
 public struct DialogueData
 {
-    public string id;
-    public string speaker;
-    public string type;
-    public string text;
-    public string expression;
-    public string next;
-    public ChoiceData[] choices;
-    public TriggerData trigger;
+    [JsonProperty("id")] public string Id { get; set; }
+    [JsonProperty("speaker")] public string Speaker { get; set; }
+    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("text")] public string Text { get; set; }
+    [JsonProperty("expression")] public string Expression { get; set; }
+    [JsonProperty("next")] public string Next { get; set; }
+    [JsonProperty("choices")] public ChoiceData[] Choices { get; set; }
+    [JsonProperty("trigger")] public TriggerData? Trigger { get; set; }
 }
 
 [Serializable]
 public struct ChoiceData
 {
-    public string text;
-    public string next;
-    public string choice_effect;
+    [JsonProperty("text")] public string Text { get; set; }
+    [JsonProperty("next")] public string Next { get; set; }
+    [JsonProperty("choice_effect")] public string ChoiceEffect { get; set; }
 }
 
 [Serializable]
 public struct TriggerData
 {
-    public string type;
-    public TriggerDetailData data;
+    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("data")] public TriggerDetailData Data { get; set; }
 }
-
 
 [Serializable]
 public struct TriggerDetailData
 {
-    public string character_id;
-    public string sfx;
-    public string bgm;
-    public string animation;
-    public string craft_event_id;
+    [JsonProperty("character_id")] public string CharacterId { get; set; }
+    [JsonProperty("sfx")] public string Sfx { get; set; }
+    [JsonProperty("bgm")] public string Bgm { get; set; }
+    [JsonProperty("animation")] public string Animation { get; set; }
+    [JsonProperty("craft_event_id")] public string CraftEventId { get; set; }
+    [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
+    [JsonProperty("resume_after")] public bool? ResumeAfter { get; set; }
 }
 
 [Serializable]
 public class DayDatabBase
 {
-    public int day;
-    public SceneData[] scenes;
+    [JsonProperty("day")] public int Day { get; set; }
+    [JsonProperty("scenes")] public SceneData[] Scenes { get; set; }
 }
 
 [CreateAssetMenu(fileName = "DayDatabBase", menuName = "Data/DayDatabBase")]
@@ -63,4 +62,3 @@ public class DayDataSO : ScriptableObject
 {
     public DayDatabBase dayData;
 }
-

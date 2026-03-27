@@ -13,9 +13,9 @@ public class CustomerEnterCommand : IDialogueCommand
     
     public CustomerEnterCommand(TriggerDetailData data)
     {
-        characterId = data.character_id;
-        sfx = data.sfx;
-        animation = data.animation;
+        characterId = data.CharacterId;
+        sfx = data.Sfx;
+        animation = data.Animation;
 
         IsSystemSwitch = false;
     }

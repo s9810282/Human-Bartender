@@ -42,7 +42,7 @@ public class UIDialogueChoice : MonoBehaviour
 
     public void ShowChoice(ChoiceSelectData data)
     {
-        Debug.Log("¼±ÅÃÁö UI Ç¥½Ã Áß...");
+        Debug.Log("ì„ íƒì§€ UI í‘œì‹œ ì¤‘...");
 
         choicesPanel.SetActive(true);
 
@@ -54,7 +54,7 @@ public class UIDialogueChoice : MonoBehaviour
         for (int i = 0; i < curChoiceData.Length; i++)
         {
             int num = i;
-            choicePanels[i].SetPanelText(curChoiceData[i].text);
+            choicePanels[i].SetPanelText(curChoiceData[i].Text);
             choicePanels[i].GetButton().onClick.AddListener
                 (() => data.callBackEvent.Invoke(curChoiceData[num]));
             choicePanels[i].GetButton().onClick.AddListener(() => ChoiceSelect(num));

@@ -18,9 +18,9 @@ public class DialogueTriggerManager : MonoBehaviour
     }
 
 
-    public async UniTask<string> ExecuteTriggerAsync(TriggerData trigger)
+    public async UniTask<string> ExecuteTriggerAsync(TriggerData? trigger)
     {
-        Debug.Log($"[트리거 시작] 타입: {trigger.type}");
+        Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
 
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
         string nextId = "";

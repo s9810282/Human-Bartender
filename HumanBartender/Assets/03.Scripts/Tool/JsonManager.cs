@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
 
@@ -6,12 +7,10 @@ public static class JsonManager<T>
     public static bool SaveGame(T data, string saveFileName)
     {
         string filePath = Path.Combine(Application.persistentDataPath, saveFileName);
-        string json = JsonUtility.ToJson(data, true);
-
-        // 3. ÆÄÀÏ ¾²±â
+        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         File.WriteAllText(filePath, json);
 
-        Debug.Log($"ÀúÀå ¿Ï·á! °æ·Î: {filePath}");
+        Debug.Log($"ì €ì¥ ì™„ë£Œ! ê²½ë¡œ: {filePath}");
 
         return true;
     }
@@ -22,31 +21,31 @@ public static class JsonManager<T>
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            T data = JsonUtility.FromJson<T>(json);
+            T data = JsonConvert.DeserializeObject<T>(json);
 
-            Debug.Log("µ¥ÀÌÅÍ ·Îµå ¼º°ø!");
+            Debug.Log("ë°ì´í„° ë¡œë“œ ì„±ê³µ!");
             return data;
         }
         else
         {
-            Debug.LogWarning("ÀúÀåµÈ ÆÄÀÏÀÌ ¾ø½À´Ï´Ù. ±âº» µ¥ÀÌÅÍ¸¦ »ı¼ºÇÕ´Ï´Ù.");
+            Debug.LogWarning("ì €ì¥ëœ íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤. ê¸°ë³¸ ë°ì´í„°ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.");
             return default(T);
         }
     }
     public static T LoadGameData_StreamingAssets(string fileName = "")
     {
-        // 1. °æ·Î ¼³Á¤ (StreamingAssets È¤Àº PersistentDataPath)
+        // 1. ê²½ë¡œ ì„¤ì • (StreamingAssets í˜¹ì€ PersistentDataPath)
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
         if (File.Exists(filePath))
         {
             string jsonText = File.ReadAllText(filePath);
-            T data = JsonUtility.FromJson<T>(jsonText);
+            T data = JsonConvert.DeserializeObject<T>(jsonText);
             return data;
         }
         else
         {
-            Debug.LogError("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: " + filePath);
+            Debug.LogError("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: " + filePath);
             return default(T);
         }
     }

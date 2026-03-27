@@ -33,9 +33,9 @@ public class CocktailCraftManager : MonoBehaviour
 
     public CraftEventData GetCraftDataByID(string id)
     {
-        foreach(var item in dataSO.craftData.craft_events)
+        foreach(var item in dataSO.craftData.CraftEvents)
         {
-            if(item.id == id)
+            if(item.Id == id)
                 return item;
         }
         
@@ -49,25 +49,23 @@ public class CocktailCraftManager : MonoBehaviour
     /// <param name="craftEventData"></param>
     public async UniTask<string> StartCraftAsync(CraftEventData craftEventData)
     {
-        if (craftEventData.auto_open_recipe_ui)
+        if (craftEventData.AutoOpenRecipeUi)
         {
             ingredientPanel.ResetPanel();
             ingredientPanel.gameObject.SetActive(true);
         }
         curCraftEventData = craftEventData;
-        TutorialData tutoData = craftEventData.tutorial;
+        TutorialData tutoData = craftEventData.Tutorial.Value;
 
-        if (tutoData.enabled)
+        if (tutoData.Enabled)
         {
-            TutorialStepData[] steps = tutoData.steps;
+            TutorialStepData[] steps = tutoData.Steps;
             
             for(int i = 0; i < steps.Length; i++)
             {
                 TutorialStep(steps[i]);
             }
         }
-
-        await UniTask.Yield();
 
         mainCraftingTcs = new UniTaskCompletionSource<string>();
 
@@ -76,12 +74,12 @@ public class CocktailCraftManager : MonoBehaviour
 
     public void TutorialStep(TutorialStepData data)
     {
-        switch (data.type)
+        switch (data.Type)
         {
             case "highlight":
 
-                Logger.Log("highLight를 어디에 넣으라는 거야" + data.target);
-                Logger.Log("text는 또 어디 띄우라는거임" + data.text);
+                Logger.Log("highLight를 어디에 넣으라는 거야" + data.Target);
+                Logger.Log("text는 또 어디 띄우라는거임" + data.Text);
 
                 break;
         }
@@ -148,21 +146,21 @@ public class CocktailCraftManager : MonoBehaviour
     {
         Logger.Log("Shake 끝남 판정");
         Logger.Log("결과 판정 추후 진행 : 디폴트 B.");
-        Logger.Log($"다이얼로그 재진입 {curCraftEventData.reactions.B}");
+        Logger.Log($"다이얼로그 재진입 {curCraftEventData.Reactions.B}");
         Logger.Log("컷씬 재생");
 
         string nextDialogueId = "";
 
         SceneTransitionManager.Instance.FadeOut(1f, () =>
         {
-            nextDialogueId = curCraftEventData.reactions.B.dialogue_id;
+            nextDialogueId = curCraftEventData.Reactions.B.DialogueId;
             GameStateManager.Instance.CurrentGameState = GameState.Play;
         });
 
         //TODO 여기서 판정하기.
         //결과에 따라 연출이 다르다면 여기서 처리하게 하는게 맞나?
         
-        for(int i = 0; i < craftStation.targetCocktailData.recipe.Length; i++)
+        for(int i = 0; i < craftStation.targetCocktailData.Recipe.Length; i++)
         {
             
         }

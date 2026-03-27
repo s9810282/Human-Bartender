@@ -24,9 +24,9 @@ public class DialogueSceneDirector : MonoBehaviour
     void Start()
     {
         characterDB.Clear();
-        foreach (var character in characterData.characterData.characters)
+        foreach (var character in characterData.characterData.Characters)
         {
-            characterDB[character.id] = character;
+            characterDB[character.Id] = character;
         }
     }
 
@@ -49,20 +49,20 @@ public class DialogueSceneDirector : MonoBehaviour
     {
         dialoguePanel.SetActive(true);
 
-        if (characterDB.TryGetValue(dialogueData.speaker, out CharacterData speakerData))
+        if (characterDB.TryGetValue(dialogueData.Speaker, out CharacterData speakerData))
         {
-            if (ColorUtility.TryParseHtmlString(speakerData.name_color, out Color color))
+            if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out Color color))
                 typer.SetNameColor(color);
             
-            typer.SetNameText(speakerData.display_name);
+            typer.SetNameText(speakerData.DisplayName);
 
-            if (!string.IsNullOrEmpty(dialogueData.expression))
-                characterManager.SetCharacter(dialogueData.speaker, dialogueData.expression);
+            if (!string.IsNullOrEmpty(dialogueData.Expression))
+                characterManager.SetCharacter(dialogueData.Speaker, dialogueData.Expression);
             else
                 characterManager.OffCharacter();
         }
 
-        await typer.StartType(new TypingData(dialogueData.text));
+        await typer.StartType(new TypingData(dialogueData.Text));
     }
 
     public void ShowChoices(ChoiceData[] choices, Action<ChoiceData> onChoiceSelected)
@@ -74,7 +74,7 @@ public class DialogueSceneDirector : MonoBehaviour
         typer.OnScreenClick();
     }
 
-    public async UniTask<string> ExcuteTriggerAsync(TriggerData trigger)
+    public async UniTask<string> ExcuteTriggerAsync(TriggerData? trigger)
     {
         characterManager.OffCharacter();
         string id = await triggerManager.ExecuteTriggerAsync(trigger);
