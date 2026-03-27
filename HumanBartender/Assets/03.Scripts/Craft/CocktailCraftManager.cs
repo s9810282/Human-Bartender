@@ -155,7 +155,7 @@ public class CocktailCraftManager : MonoBehaviour
 
         SceneTransitionManager.Instance.FadeOut(1f, () =>
         {
-            nextDialogueId = curCraftEventData.reactions.B;
+            nextDialogueId = curCraftEventData.reactions.B.dialogue_id;
             GameStateManager.Instance.CurrentGameState = GameState.Play;
         });
 

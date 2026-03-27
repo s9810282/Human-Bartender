@@ -7,7 +7,8 @@ public class DataLoadManager : MonoBehaviour
     [SerializeField] CharacterDataSO characterData;
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
-        
+    [SerializeField] CutSceneDataSO cutSceneData;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,6 +18,14 @@ public class DataLoadManager : MonoBehaviour
         ingredientDataSO.ingredientData = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
         craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
+        cutSceneData.cutSceneData = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
+
+        foreach (var item in cutSceneData.cutSceneData.position_presets)
+        {
+            Logger.Log(item.Key);
+            Logger.Log(item.Value);
+        }
+
 
         cocktailData.Cached();
     }

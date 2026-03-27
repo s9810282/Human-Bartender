@@ -15,10 +15,10 @@
       "craft_enter_cutscenes": {
         "shake": "day1_craft_enter_shake",
         "stir": "day1_craft_enter_stir",
-        "build": "day1_build_complete"
+        "build": "day1_build_complete",
+        "serve_cutscene": "day1_serve_default"
       },
 
-      "serve_cutscene": "day1_serve_default",
 
       "evaluation": {
         "rules": [

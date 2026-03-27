@@ -6,11 +6,23 @@ public struct CraftEventData
 {
     public string id;
     public bool auto_open_recipe_ui;
+
+    public CraftCutSceneData craftCutSceneData;
     public TutorialData tutorial;
     public EvaluationData evaluation;
     public ReactionsData reactions;
-    public EffectsData effects;
 }
+
+[Serializable]
+public struct CraftCutSceneData
+{
+    public string shake;
+    public string stur;
+    public string build;
+    public string serve_cutscene;
+}
+
+
 
 [Serializable]
 public struct TutorialData
@@ -47,27 +59,21 @@ public struct RuleData
 [Serializable]
 public struct ReactionsData
 {
-    public string S;
-    public string A;
-    public string B;
-    public string C;
+    public ReactionDetailData S;
+    public ReactionDetailData A;
+    public ReactionDetailData B;
+    public ReactionDetailData C;
 }
 
 [Serializable]
-public struct EffectsData
+public struct ReactionDetailData
 {
-    public EffectDetailData S;
-    public EffectDetailData A;
-    public EffectDetailData B;
-    public EffectDetailData C;
-}
-
-[Serializable]
-public struct EffectDetailData
-{
+    public string dialogue_id;
+    public string cutscene_id;
     public int affinity;
     public int karma;
 }
+
 
 [CreateAssetMenu(fileName = "CraftDataBase", menuName = "Data/CraftDataBase")]
 public class CraftDataSO : ScriptableObject
