@@ -152,8 +152,6 @@ public class DialogueManager : MonoBehaviour
     }
 
 
- 
-
     #region Choice
     
     private void ShowChoices()
