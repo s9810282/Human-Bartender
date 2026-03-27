@@ -4,12 +4,21 @@
       "id": "day1_customer1_order1",
 
       "auto_open_recipe_ui": true,
+
       "tutorial": {
         "enabled": true,
         "steps": [
           { "type": "highlight", "target": "recipe_tab_name", "text": "이름 탭에서 '진피즈'를 찾아보세요." }
         ]
       },
+
+      "craft_enter_cutscenes": {
+        "shake": "day1_craft_enter_shake",
+        "stir": "day1_craft_enter_stir",
+        "build": "day1_build_complete"
+      },
+
+      "serve_cutscene": "day1_serve_default",
 
       "evaluation": {
         "rules": [
@@ -37,17 +46,30 @@
       },
 
       "reactions": {
-        "S": "d1c1_react_S_001",
-        "A": "d1c1_react_A_001",
-        "B": "d1c1_react_BC_001",
-        "C": "d1c1_react_BC_001"
-      },
-
-      "effects": {
-        "S": { "affinity": 3, "karma": -1 },
-        "A": { "affinity": 1, "karma": 0 },
-        "B": { "affinity": 0, "karma": 0 },
-        "C": { "affinity": -2, "karma": 1 }
+        "S": {
+          "dialogue_id": "d1c1_react_S_001",
+          "cutscene_id": "day1_serve_perfect",
+          "affinity": 3,
+          "karma": -1
+        },
+        "A": {
+          "dialogue_id": "d1c1_react_A_001",
+          "cutscene_id": null,
+          "affinity": 1,
+          "karma": 0
+        },
+        "B": {
+          "dialogue_id": "d1c1_react_BC_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "C": {
+          "dialogue_id": "d1c1_react_BC_001",
+          "cutscene_id": null,
+          "affinity": -2,
+          "karma": 1
+        }
       }
     }
   ]
