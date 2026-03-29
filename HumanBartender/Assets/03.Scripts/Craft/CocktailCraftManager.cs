@@ -116,51 +116,50 @@ public class CocktailCraftManager : MonoBehaviour
     }
 
 
+    //아래 두 함수는 컷씬 구조 정립 후 다시 정리하기
     private async UniTaskVoid SpawnMiniGameAsync(GameObject prefab)
     {
         UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
         miniGameTcs = new UniTaskCompletionSource();
         GameObject miniGameObj = null;
 
-        SceneTransitionManager.Instance.FadeOut(1f, () => 
-        {   
-            // TODO : 풀링.
-            miniGameObj = Instantiate(prefab);
+        await SceneTransitionManager.Instance.FadeOutAsync(1f);
 
-            IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
-            controller.InitGame(miniGameTcs);
+        // TODO : 풀링.
+        miniGameObj = Instantiate(prefab);
 
-            SceneTransitionManager.Instance.FadeIn(3f);
-        });
-       
+        IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
+        controller.InitGame(miniGameTcs);
+
+        SceneTransitionManager.Instance.FadeIn(3f);
+
         await miniGameTcs.Task;
 
         Destroy(miniGameObj);
         EndCraft();
     }
 
+
     /// <summary>
     /// Craft는 종료 후 다시 Main으
     /// </summary>
     public void EndCraft()
     {
+        Logger.Log("컷씬 재생");
         Logger.Log("Shake 끝남 판정");
         Logger.Log("결과 판정 추후 진행 : 디폴트 B.");
         Logger.Log($"다이얼로그 재진입 {curCraftEventData.Reactions.B}");
-        Logger.Log("컷씬 재생");
+        
 
         string nextDialogueId = "";
 
-        SceneTransitionManager.Instance.FadeOut(1f, () =>
-        {
-            nextDialogueId = curCraftEventData.Reactions.B.DialogueId;
-            GameStateManager.Instance.CurrentGameState = GameState.Play;
-        });
+        nextDialogueId = curCraftEventData.Reactions.B.DialogueId;
+        GameStateManager.Instance.CurrentGameState = GameState.Play;
 
         //TODO 여기서 판정하기.
         //결과에 따라 연출이 다르다면 여기서 처리하게 하는게 맞나?
-        
-        for(int i = 0; i < craftStation.targetCocktailData.Recipe.Length; i++)
+
+        for (int i = 0; i < craftStation.targetCocktailData.Recipe.Length; i++)
         {
             
         }

@@ -1,8 +1,7 @@
-using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.UI.CanvasScaler;
 
 public class SceneTransitionManager : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class SceneTransitionManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            FadeIn();
+            FadeInAsync().Forget();
         }
         else
         {
@@ -29,81 +28,72 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
+    // ── 씬 로드/언로드 ─────────────────────────────────────────────
+
     public void LoadScene(string sceneName, LoadSceneMode sceneMode = LoadSceneMode.Single)
     {
         if (isFading) return;
-        StartCoroutine(FadeAndLoadScene(sceneName, sceneMode));
+        LoadSceneAsync(sceneName, sceneMode).Forget();
     }
-    public void UnLoadScene(string sceneName, LoadSceneMode sceneMode = LoadSceneMode.Single)
+
+    public void UnLoadScene(string sceneName)
     {
         if (isFading) return;
-        StartCoroutine(FadeAndUnLoadScene(sceneName));
+        UnLoadSceneAsync(sceneName).Forget();
     }
 
-    public void FadeOut(Action onFadeComplete = null)
+    // ── 페이드 퍼블릭 API ──────────────────────────────────────────
+
+    public void FadeIn(float duration = -1f)
     {
         if (isFading) return;
-        StartCoroutine(Fade(1f, fadeDuration, onFadeComplete));
+        FadeInAsync(duration).Forget();
     }
 
-    public void FadeIn(Action onFadeComplete = null)
+    public void FadeOut(float duration = -1f)
     {
         if (isFading) return;
-        StartCoroutine(Fade(0f, fadeDuration, onFadeComplete));
+        FadeOutAsync(duration).Forget();
     }
 
-    public void FadeOut(float duration, Action onFadeComplete = null)
-    {
-        if (isFading) return;
-        StartCoroutine(Fade(1f, duration, onFadeComplete));
-    }
+    // await 가 필요한 경우 직접 호출
+    public UniTask FadeInAsync(float duration = -1f)  => FadeAsync(0f, duration < 0 ? fadeDuration : duration);
+    public UniTask FadeOutAsync(float duration = -1f) => FadeAsync(1f, duration < 0 ? fadeDuration : duration);
 
-    public void FadeIn(float duration, Action onFadeComplete = null)
-    {
-        if (isFading) return;
-        StartCoroutine(Fade(0f, duration, onFadeComplete));
-    }
+    // ── 내부 구현 ──────────────────────────────────────────────────
 
-
-
-    private IEnumerator FadeAndLoadScene(string sceneName , LoadSceneMode sceneMode)
+    private async UniTask LoadSceneAsync(string sceneName, LoadSceneMode sceneMode)
     {
         isFading = true;
-        yield return StartCoroutine(Fade(1f));
 
-        yield return SceneManager.LoadSceneAsync(sceneName, sceneMode);
+        await FadeAsync(1f, fadeDuration);
+        await SceneManager.LoadSceneAsync(sceneName, sceneMode);
+        await FadeAsync(0f, fadeDuration);
 
-        yield return StartCoroutine(Fade(0f, 3f));
-        isFading = false;
-    }
-    private IEnumerator FadeAndUnLoadScene(string sceneName)
-    {
-        isFading = true;
-        yield return StartCoroutine(Fade(1f));
-
-        yield return SceneManager.UnloadSceneAsync(sceneName);
-
-        yield return StartCoroutine(Fade(0f, 3f));
         isFading = false;
     }
 
+    private async UniTask UnLoadSceneAsync(string sceneName)
+    {
+        isFading = true;
 
-    // 기존 Fade 코루틴을 콜백을 받도록 수정
-    private IEnumerator Fade(float targetAlpha, float duration = 1f, Action onFadeComplete = null)
+        await FadeAsync(1f, fadeDuration);
+        await SceneManager.UnloadSceneAsync(sceneName);
+        await FadeAsync(0f, fadeDuration);
+
+        isFading = false;
+    }
+
+    private async UniTask FadeAsync(float targetAlpha, float duration)
     {
         isFading = true;
         fadeCanvasGroup.blocksRaycasts = true;
 
-        float speed = Mathf.Abs(fadeCanvasGroup.alpha - targetAlpha) / duration;
-        while (!Mathf.Approximately(fadeCanvasGroup.alpha, targetAlpha))
-        {
-            fadeCanvasGroup.alpha = Mathf.MoveTowards(fadeCanvasGroup.alpha, targetAlpha, speed * Time.deltaTime);
-            yield return null;
-        }
+        await fadeCanvasGroup.DOFade(targetAlpha, duration)
+                             .SetEase(Ease.Linear)
+                             .ToUniTask();
 
         fadeCanvasGroup.blocksRaycasts = false;
         isFading = false;
-
-        onFadeComplete?.Invoke();
     }
 }

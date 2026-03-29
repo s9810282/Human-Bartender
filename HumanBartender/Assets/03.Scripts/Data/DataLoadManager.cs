@@ -21,6 +21,7 @@ public class DataLoadManager : MonoBehaviour
 
         // 2. 칵테일 데이터 캐싱
         cocktailData.Cached();
+        cutSceneData.Cached();
 
         // 3. 개별 데이터 세부 검증
         Debug.Log("<color=yellow>=== 데이터 세부 검증 시작 ===</color>");

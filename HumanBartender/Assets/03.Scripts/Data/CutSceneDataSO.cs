@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Newtonsoft.Json;
 
 [Serializable]
@@ -81,6 +82,18 @@ public struct CutsceneStep
 public class CutSceneDataSO : ScriptableObject
 {
     public CutSceneDataBase cutSceneData;
+    public Dictionary<string, Cutscene> cachedById;
+
+    public void Cached()
+    {
+        cachedById = GroupById();
+    }
+
+    public Dictionary<string, Cutscene> GroupById()
+    {
+        return cutSceneData.Cutscenes.ToDictionary(g => g.Id, g => g);
+    }
+
 }
 
 [Serializable]
