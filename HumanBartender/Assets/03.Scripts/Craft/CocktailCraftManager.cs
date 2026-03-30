@@ -123,8 +123,8 @@ public class CocktailCraftManager : MonoBehaviour
         miniGameTcs = new UniTaskCompletionSource();
         GameObject miniGameObj = null;
 
-        //TODO : 여기도 진입할 때 컷씬 재생해야하는데
-        // 시발 어케될지는 아직도 모름.
+        //TODO : 여기도 진입할 때 컷씬 재생
+        
 
         await SceneTransitionManager.Instance.FadeOutAsync(1f);
 

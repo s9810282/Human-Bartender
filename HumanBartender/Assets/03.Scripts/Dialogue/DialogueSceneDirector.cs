@@ -57,7 +57,7 @@ public class DialogueSceneDirector : MonoBehaviour
             typer.SetNameText(speakerData.DisplayName);
 
             if (!string.IsNullOrEmpty(dialogueData.Expression))
-                characterManager.SetCharacter(dialogueData.Speaker, dialogueData.Expression);
+                await characterManager.SetCharacterAsync(dialogueData.Speaker, dialogueData.Expression);
             else
                 characterManager.OffCharacter();
         }
