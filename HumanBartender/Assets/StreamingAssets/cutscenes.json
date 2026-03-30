@@ -72,7 +72,7 @@
     "zoom_out":     { "description": "큰 상태에서 축소 등장",        "duration_default": 0.4 }
   },
 
-  "effect_presets": {
+  "back_effect_presets": {
     "fade_in":       { "description": "검은 화면 → 밝아짐" },
     "fade_out":      { "description": "화면 → 어두워짐" },
     "flash_white":   { "description": "순간 하얀 플래시" },
@@ -81,6 +81,7 @@
     "vignette":      { "description": "가장자리 어두워짐" },
     "chromatic":     { "description": "색수차 (RGB 분리) — 글리치/기억 왜곡" }
   },
+
 
   "cutscenes": [
 

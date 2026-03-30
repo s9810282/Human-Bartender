@@ -5,11 +5,10 @@ using VContainer;
 using Cysharp.Threading.Tasks;
 
 
-// 💡 모든 미니게임 매니저는 이 인터페이스를 상속받아야 합니다.
 public interface IMiniGameController
 {
-    // "매니저가 널 띄우면, 이 TCS를 받고 초기화해라!" 라는 공통 명령
     void InitGame(UniTaskCompletionSource tcs);
+    void EndMiniGame();
 }
 
 public class CocktailCraftManager : MonoBehaviour
@@ -96,7 +95,7 @@ public class CocktailCraftManager : MonoBehaviour
     /// </summary>
     public void StartBuild()
     {
-        SceneTransitionManager.Instance.LoadScene("Build", LoadSceneMode.Additive);
+        //빌드 시에는 컷씬연출로 대체. 이후 재료에 따라 수정될 거 같음.
 
     }
     public void StartShake()
@@ -110,9 +109,10 @@ public class CocktailCraftManager : MonoBehaviour
     public void StartStur()
     {
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
-
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
+
+        SpawnMiniGameAsync(stirPrefab).Forget();
     }
 
 
@@ -122,6 +122,9 @@ public class CocktailCraftManager : MonoBehaviour
         UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
         miniGameTcs = new UniTaskCompletionSource();
         GameObject miniGameObj = null;
+
+        //TODO : 여기도 진입할 때 컷씬 재생해야하는데
+        // 시발 어케될지는 아직도 모름.
 
         await SceneTransitionManager.Instance.FadeOutAsync(1f);
 
@@ -163,6 +166,8 @@ public class CocktailCraftManager : MonoBehaviour
         {
             
         }
+
+
 
 
 

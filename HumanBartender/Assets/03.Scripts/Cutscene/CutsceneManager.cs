@@ -395,6 +395,8 @@ public class CutsceneManager : MonoBehaviour
             kvp.Value.gameObject.SetActive(false);
             imagePool.Enqueue(kvp.Value);
         }
+
+        effectOverlay.gameObject.SetActive(false);
         activeImages.Clear();
     }
 }

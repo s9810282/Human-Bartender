@@ -368,10 +368,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 467942233125506543, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: craftLiquidData
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_Name
       value: ShakingMinigame
       objectReference: {fileID: 0}
+    - target: {fileID: 3006162297107647833, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 529cacff035d9b64ba77509fd8b526b6, type: 3}
     - target: {fileID: 3068325673925683015, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_Camera
       value: 
@@ -414,6 +422,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4730881778652635822, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

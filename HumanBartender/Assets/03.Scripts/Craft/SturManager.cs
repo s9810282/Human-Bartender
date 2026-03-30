@@ -3,14 +3,13 @@ using LiquidSimulation;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using static UnityEngine.Rendering.ProbeAdjustmentVolume;
 
-public class ShakingManager : MonoBehaviour, IMiniGameController
+public class SturManager : MonoBehaviour, IMiniGameController
 {
     [SerializeField] Text countText;
     [SerializeField] CraftStationData craftStation;
-    [SerializeField] ShakerInteraction shaker;
-
-    [SerializeField] string sceneName = "Shake";
+    [SerializeField] StirringInteraction stir;
 
     private UniTaskCompletionSource tcs;
 
@@ -34,19 +33,14 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     }
 
 
-    public void AddActionCount()
-    {
-        craftStation.craftingResult.acionCount++;
-        countText.text = craftStation.craftingResult.acionCount.ToString();
-    }
 
     public void EndMiniGame()
     {
         craftStation.craftingResult.isResult = true;
 
-        if (shaker != null)
-            craftStation.craftingResult.mixedColor = shaker.GetFullyMixedColor();
-     
+        if (stir != null)
+            craftStation.craftingResult.mixedColor = stir.GetFullyMixedColor();
+
         if (tcs != null)
         {
             Logger.Log("shakeManager tcs not null");
