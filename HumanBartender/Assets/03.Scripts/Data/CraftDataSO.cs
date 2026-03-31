@@ -1,6 +1,7 @@
-using System;
-using UnityEngine;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public struct CraftEventData
@@ -10,7 +11,7 @@ public struct CraftEventData
     [JsonProperty("craft_enter_cutscenes")] public CraftCutSceneData CraftEnterCutscenes { get; set; }
     [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
     [JsonProperty("evaluation")] public EvaluationData Evaluation { get; set; }
-    [JsonProperty("reactions")] public ReactionsData Reactions { get; set; }
+    [JsonProperty("reactions")] public Dictionary<string, ReactionDetailData> Reactions { get; set; }
 }
 
 [Serializable]
@@ -40,28 +41,21 @@ public struct TutorialStepData
 [Serializable]
 public struct EvaluationData
 {
-    [JsonProperty("rules")] public RuleData[] Rules { get; set; }
-    [JsonProperty("default_grade")] public string DefaultGrade { get; set; }
-    [JsonProperty("craft_penalty")] public bool CraftPenalty { get; set; }
+    [JsonProperty("craft_tolerance")] public int CraftTolerance { get; set; }
+    [JsonProperty("rules")] public VerdictRule[] Rules { get; set; }
 }
 
 [Serializable]
-public struct RuleData
+public struct VerdictRule
 {
-    [JsonProperty("grade")] public string Grade { get; set; }
+    [JsonProperty("result")] public string Result { get; set; }
     [JsonProperty("match_type")] public string MatchType { get; set; }
     [JsonProperty("match_values")] public string[] MatchValues { get; set; }
+    [JsonProperty("require_craft_success")] public bool RequireCraftSuccess { get; set; }
     [JsonProperty("description")] public string Description { get; set; }
 }
 
-[Serializable]
-public struct ReactionsData
-{
-    [JsonProperty("S")] public ReactionDetailData S { get; set; }
-    [JsonProperty("A")] public ReactionDetailData A { get; set; }
-    [JsonProperty("B")] public ReactionDetailData B { get; set; }
-    [JsonProperty("C")] public ReactionDetailData C { get; set; }
-}
+
 
 [Serializable]
 public struct ReactionDetailData

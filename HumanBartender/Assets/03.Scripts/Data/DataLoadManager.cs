@@ -107,8 +107,6 @@ public class DataLoadManager : MonoBehaviour
         Debug.Log($"<color=#F0E68C>[크래프트]</color> 총 {events.Length}개 이벤트 로드 완료.");
         var first = events[0];
         Debug.Log($"  ㄴ 이벤트 ID: {first.Id} | UI 자동오픈: {first.AutoOpenRecipeUi} | 평가 룰 개수: {first.Evaluation.Rules.Length}개");
-
-        Debug.Log($"  ㄴ S랭크 반응 대사 ID: {first.Reactions.S.DialogueId} | 호감도 변화: {first.Reactions.S.Affinity}");
     }
 
     private void VerifyCutSceneData()

@@ -151,12 +151,11 @@ public class CocktailCraftManager : MonoBehaviour
         Logger.Log("컷씬 재생");
         Logger.Log("Shake 끝남 판정");
         Logger.Log("결과 판정 추후 진행 : 디폴트 B.");
-        Logger.Log($"다이얼로그 재진입 {curCraftEventData.Reactions.B}");
         
 
         string nextDialogueId = "";
 
-        nextDialogueId = curCraftEventData.Reactions.B.DialogueId;
+        nextDialogueId = "";
         GameStateManager.Instance.CurrentGameState = GameState.Play;
 
         //TODO 여기서 판정하기.
