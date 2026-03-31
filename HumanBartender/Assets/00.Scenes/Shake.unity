@@ -372,6 +372,10 @@ PrefabInstance:
       propertyPath: craftLiquidData
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 952526449720131463, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: m_Name
+      value: BG
+      objectReference: {fileID: 0}
     - target: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_Name
       value: ShakingMinigame
@@ -434,7 +438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5113365344481923045, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
       propertyPath: m_LocalPosition.y

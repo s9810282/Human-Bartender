@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5113365344481923045}
   - component: {fileID: 3006162297107647833}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 952526449720131463}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.7782617, y: 2.6998544, z: 0}
-  m_LocalScale: {x: 30.390413, y: 17.143606, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4730881778652635822}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: fd202e5edc8e942439651e47047a1235, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 529cacff035d9b64ba77509fd8b526b6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -117,10 +117,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5113365344481923045}
   - {fileID: 2531949239386946739}
   - {fileID: 4673894279070827791}
   - {fileID: 8095363702406400421}
-  - {fileID: 5113365344481923045}
   - {fileID: 8351819628676872275}
   - {fileID: 3540755719687740504}
   m_Father: {fileID: 0}
@@ -140,7 +140,6 @@ MonoBehaviour:
   countText: {fileID: 6441296946844630934}
   craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
   shaker: {fileID: 6340048157419043088}
-  stir: {fileID: 0}
   sceneName: Shake
 --- !u!1 &1769004291382263327
 GameObject:
