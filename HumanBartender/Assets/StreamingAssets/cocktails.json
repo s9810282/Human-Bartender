@@ -14,7 +14,9 @@
       "target_count": 20,
       "keywords": ["상큼한", "클래식", "자극적인"],
       "baseIngredient": "진",
-      "flavor_text": "이 지옥 같은 아침에 정신을 차리려면, 이토록 상쾌한 독약이 필요하지."
+      "flavor_text": "이 지옥 같은 아침에 정신을 차리려면, 이토록 상쾌한 독약이 필요하지.",
+      "serve_animation": "anim_serve_gin_fizz",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "dry_martini",
@@ -29,7 +31,9 @@
       "target_count": 25,
       "keywords": ["강한", "클래식", "고급스러운"],
       "baseIngredient": "진",
-      "flavor_text": "흔들지 마. 저어."
+      "flavor_text": "흔들지 마. 저어.",
+      "serve_animation": "anim_serve_dry_martini",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "sex_on_the_beach",
@@ -45,7 +49,9 @@
       "target_count": 0,
       "keywords": ["달콤한", "화끈한", "행복한"],
       "baseIngredient": "보드카",
-      "flavor_text": "이름값 하는 술이야. 한 잔이면 여기가 해변인 줄 알게 되거든."
+      "flavor_text": "이름값 하는 술이야. 한 잔이면 여기가 해변인 줄 알게 되거든.",
+      "serve_animation": "anim_serve_sex_on_the_beach",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "cosmopolitan",
@@ -61,7 +67,9 @@
       "target_count": 18,
       "keywords": ["상큼한", "고급스러운", "화끈한"],
       "baseIngredient": "보드카",
-      "flavor_text": "도시의 밤은 이 한 잔으로 시작되고, 대개 이 한 잔으로는 끝나지 않는다."
+      "flavor_text": "도시의 밤은 이 한 잔으로 시작되고, 대개 이 한 잔으로는 끝나지 않는다.",
+      "serve_animation": "anim_serve_cosmopolitan",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "godfather",
@@ -75,7 +83,9 @@
       "target_count": 20,
       "keywords": ["강한", "부드러운", "클래식"],
       "baseIngredient": "위스키",
-      "flavor_text": "거절할 수 없는 제안처럼, 거절할 수 없는 맛이지."
+      "flavor_text": "거절할 수 없는 제안처럼, 거절할 수 없는 맛이지.",
+      "serve_animation": "anim_serve_godfather",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "godmother",
@@ -89,7 +99,9 @@
       "target_count": 20,
       "keywords": ["부드러운", "달콤한", "강한"],
       "baseIngredient": "보드카",
-      "flavor_text": "갓파더의 그림자 속에 서 있지만, 한 모금이면 누가 진짜 보스인지 알게 돼."
+      "flavor_text": "갓파더의 그림자 속에 서 있지만, 한 모금이면 누가 진짜 보스인지 알게 돼.",
+      "serve_animation": "anim_serve_godmother",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "margarita",
@@ -104,7 +116,9 @@
       "target_count": 18,
       "keywords": ["상큼한", "자극적인", "클래식"],
       "baseIngredient": "데킬라",
-      "flavor_text": "소금 테두리는 선택이야. 하지만 한번 맛보면 없으면 허전하지."
+      "flavor_text": "소금 테두리는 선택이야. 하지만 한번 맛보면 없으면 허전하지.",
+      "serve_animation": "anim_serve_margarita",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "tequila_sunrise",
@@ -119,7 +133,9 @@
       "target_count": 0,
       "keywords": ["달콤한", "화끈한", "행복한"],
       "baseIngredient": "데킬라",
-      "flavor_text": "이 도시에선 해가 뜨지 않지만, 잔 안에서는 매일 떠오르거든."
+      "flavor_text": "이 도시에선 해가 뜨지 않지만, 잔 안에서는 매일 떠오르거든.",
+      "serve_animation": "anim_serve_tequila_sunrise",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "mojito",
@@ -136,7 +152,9 @@
       "target_count": 0,
       "keywords": ["상큼한", "행복한", "부드러운"],
       "baseIngredient": "럼",
-      "flavor_text": "민트 향이 코를 찌르면, 잠깐이나마 이 동네 공기를 잊을 수 있어."
+      "flavor_text": "민트 향이 코를 찌르면, 잠깐이나마 이 동네 공기를 잊을 수 있어.",
+      "serve_animation": "anim_serve_mojito",
+      "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "black_russian",
@@ -150,7 +168,16 @@
       "target_count": 20,
       "keywords": ["쓴", "강한", "자극적인"],
       "baseIngredient": "보드카",
-      "flavor_text": "커피를 넣으면 블랙 러시안, 크림을 넣으면 화이트 러시안. 옐로우 러시안은 뭐가 들어가지?"
+      "flavor_text": "커피를 넣으면 블랙 러시안, 크림을 넣으면 화이트 러시안. 옐로우 러시안은 뭐가 들어가지?",
+      "serve_animation": "anim_serve_black_russian",
+      "serve_sfx": "SFX_glass_slide"
     }
-  ]
+  ],
+
+  "unknown_cocktail": {
+    "id": "unknown",
+    "name": "알 수 없는 칵테일",
+    "serve_animation": "anim_serve_failed",
+    "serve_sfx": "SFX_glass_slide_weak"
+  }
 }

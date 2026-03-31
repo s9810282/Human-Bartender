@@ -9,8 +9,8 @@
     "right_panel":    { "anchor": "right",  "width": 0.5,  "height": 1.0,  "offset_x": 0.0,  "offset_y": 0.0  },
     "left_focus":     { "anchor": "left",   "width": 0.6,  "height": 0.8,  "offset_x": -0.1, "offset_y": 0.0  },
     "right_focus":    { "anchor": "right",  "width": 0.6,  "height": 0.8,  "offset_x": 0.1,  "offset_y": 0.0  },
-    "top_left":       { "anchor": "top_left",    "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": -0.05 },
-    "top_right":      { "anchor": "top_right",   "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": -0.05 },
+    "top_left":       { "anchor": "top_left",     "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": -0.05 },
+    "top_right":      { "anchor": "top_right",    "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": -0.05 },
     "bottom_left":    { "anchor": "bottom_left",  "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": 0.05  },
     "bottom_right":   { "anchor": "bottom_right", "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": 0.05  }
   },
@@ -40,9 +40,9 @@
     "main_left_sub_right": {
       "description": "왼쪽 큰 컷 + 오른쪽 작은 컷 2개",
       "slots": [
-        { "anchor": "left",   "width": 0.6, "height": 1.0, "offset_x": 0.0,  "offset_y": 0.0  },
-        { "anchor": "right",  "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": 0.25 },
-        { "anchor": "right",  "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": -0.25 }
+        { "anchor": "left",  "width": 0.6, "height": 1.0, "offset_x": 0.0,  "offset_y": 0.0  },
+        { "anchor": "right", "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": 0.25 },
+        { "anchor": "right", "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": -0.25}
       ]
     },
     "stack_vertical": {
@@ -52,42 +52,146 @@
         { "anchor": "center", "width": 1.0, "height": 0.5, "offset_x": 0.0, "offset_y": -0.25 }
       ]
     },
-    "focus_with_bg": {
-      "description": "배경 블러 + 가운데 포커스",
+    "dim_focus": {
+      "description": "어두운 배경 + 가운데 포커스 (딤 오버레이 사용)",
       "slots": [
-        { "position": "full", "effect": "blur" },
+        { "position": "full",   "dim": 0.7 },
         { "position": "center" }
       ]
     }
   },
 
   "enter_presets": {
-    "cut":          { "description": "즉시 표시 (전환 없음)",       "duration_default": 0.0 },
-    "fade_in":      { "description": "투명 → 불투명",              "duration_default": 0.4 },
-    "slide_left":   { "description": "오른쪽에서 왼쪽으로 슬라이드", "duration_default": 0.3 },
-    "slide_right":  { "description": "왼쪽에서 오른쪽으로 슬라이드", "duration_default": 0.3 },
-    "slide_up":     { "description": "아래에서 위로 슬라이드",       "duration_default": 0.3 },
-    "slide_down":   { "description": "위에서 아래로 슬라이드",       "duration_default": 0.3 },
-    "zoom_in":      { "description": "작은 상태에서 확대 등장",      "duration_default": 0.4 },
-    "zoom_out":     { "description": "큰 상태에서 축소 등장",        "duration_default": 0.4 }
+    "cut":          { "description": "즉시 표시 (전환 없음)",        "duration_default": 0.0 },
+    "fade_in":      { "description": "투명 → 불투명",               "duration_default": 0.4 },
+    "slide_left":   { "description": "오른쪽에서 왼쪽으로 슬라이드",  "duration_default": 0.3 },
+    "slide_right":  { "description": "왼쪽에서 오른쪽으로 슬라이드",  "duration_default": 0.3 },
+    "slide_up":     { "description": "아래에서 위로 슬라이드",        "duration_default": 0.3 },
+    "slide_down":   { "description": "위에서 아래로 슬라이드",        "duration_default": 0.3 },
+    "zoom_in":      { "description": "작은 상태에서 확대 등장",       "duration_default": 0.4 },
+    "zoom_out":     { "description": "큰 상태에서 축소 등장",         "duration_default": 0.4 }
   },
 
-  "back_effect_presets": {
+  "exit_presets": {
+    "cut":          { "description": "즉시 사라짐",                  "duration_default": 0.0 },
+    "fade_out":     { "description": "불투명 → 투명",               "duration_default": 0.3 },
+    "slide_left":   { "description": "왼쪽으로 밀려서 사라짐",       "duration_default": 0.3 },
+    "slide_right":  { "description": "오른쪽으로 밀려서 사라짐",      "duration_default": 0.3 },
+    "slide_up":     { "description": "위로 밀려서 사라짐",           "duration_default": 0.3 },
+    "slide_down":   { "description": "아래로 밀려서 사라짐",         "duration_default": 0.3 },
+    "zoom_out":     { "description": "축소되면서 사라짐",            "duration_default": 0.4 }
+  },
+
+  "effect_presets": {
     "fade_in":       { "description": "검은 화면 → 밝아짐" },
     "fade_out":      { "description": "화면 → 어두워짐" },
     "flash_white":   { "description": "순간 하얀 플래시" },
     "screen_shake":  { "description": "화면 흔들림 (intensity = 픽셀)" },
-    "zoom_pulse":    { "description": "살짝 확대 후 복귀" },
+    "zoom_pulse":    { "description": "살짝 확대 후 복귀 (intensity = 스케일, 예: 1.05)" },
     "vignette":      { "description": "가장자리 어두워짐" },
-    "chromatic":     { "description": "색수차 (RGB 분리) — 글리치/기억 왜곡" }
+    "dim":           { "description": "반투명 검은 오버레이 (intensity = 0~1 불투명도)" }
   },
-
 
   "cutscenes": [
 
     {
+      "id": "day1_finish_gin_fizz",
+      "description": "진피즈 마무리 — 잔에 담고 얼음 넣고 레몬 가니쉬",
+      "type": "comic",
+      "blocking": true,
+      "background": "black",
+      "steps": [
+        {
+          "time": 0.0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
+        },
+        {
+          "time": 0.3,
+          "action": "show_layout",
+          "layout": "split_3_horizontal",
+          "images": ["cut_pour_glass", "cut_add_ice", "cut_garnish_lemon"],
+          "enters": ["slide_left", "slide_up", "slide_right"],
+          "enter_durations": [0.3, 0.3, 0.3]
+        },
+        {
+          "time": 0.5,
+          "action": "play_sfx",
+          "sfx": "SFX_pour"
+        },
+        {
+          "time": 1.0,
+          "action": "play_sfx",
+          "sfx": "SFX_ice_drop"
+        },
+        {
+          "time": 1.5,
+          "action": "play_sfx",
+          "sfx": "SFX_garnish_place"
+        },
+        {
+          "time": 2.5,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.5
+        }
+      ]
+    },
+
+    {
+      "id": "day1_finish_default",
+      "description": "기본 마무리 컷씬 — 따르기, 가니쉬",
+      "type": "comic",
+      "blocking": true,
+      "background": "black",
+      "steps": [
+        {
+          "time": 0.0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
+        },
+        {
+          "time": 0.3,
+          "action": "show_image",
+          "image": "cut_pour_glass",
+          "position": "center",
+          "enter": "fade_in",
+          "enter_duration": 0.4
+        },
+        {
+          "time": 0.5,
+          "action": "play_sfx",
+          "sfx": "SFX_pour"
+        },
+        {
+          "time": 1.5,
+          "action": "hide_image",
+          "image": "cut_pour_glass",
+          "exit": "fade_out",
+          "exit_duration": 0.3
+        },
+        {
+          "time": 1.8,
+          "action": "show_image",
+          "image": "cut_garnish",
+          "position": "center",
+          "enter": "slide_up",
+          "enter_duration": 0.3
+        },
+        {
+          "time": 2.8,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.5
+        }
+      ]
+    },
+
+    {
       "id": "day1_craft_enter_shake",
-      "description": "재료 투입 완료 → 쉐이킹 미니게임 진입 전환",
+      "description": "쉐이킹 미니게임 진입 전환",
       "type": "transition",
       "blocking": true,
       "background": "black",
@@ -113,16 +217,16 @@
         },
         {
           "time": 1.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.3
         }
       ]
     },
 
     {
       "id": "day1_craft_enter_stir",
-      "description": "재료 투입 완료 → 스터 미니게임 진입 전환",
+      "description": "스터 미니게임 진입 전환",
       "type": "transition",
       "blocking": true,
       "background": "black",
@@ -143,16 +247,16 @@
         },
         {
           "time": 1.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.3
         }
       ]
     },
 
     {
-      "id": "day1_serve_default",
-      "description": "일반 완성 → 잔에 담고 가니쉬 올리고 손님에게 미는 연출",
+      "id": "day1_react_perfect",
+      "description": "S급 판정 시 특별 리액션 컷씬 — 손님 만족 표정",
       "type": "comic",
       "blocking": true,
       "background": "black",
@@ -166,93 +270,13 @@
         {
           "time": 0.3,
           "action": "show_image",
-          "image": "cut_pour_glass",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.2,
-          "action": "hide_image",
-          "image": "cut_pour_glass",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 1.4,
-          "action": "show_image",
-          "image": "cut_garnish",
-          "position": "center",
-          "enter": "slide_up",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 1.5,
-          "action": "play_sfx",
-          "sfx": "SFX_garnish_place"
-        },
-        {
-          "time": 2.2,
-          "action": "hide_image",
-          "image": "cut_garnish",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 2.4,
-          "action": "show_image",
-          "image": "cut_serve_slide",
-          "position": "center",
-          "enter": "slide_left",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 2.5,
-          "action": "play_sfx",
-          "sfx": "SFX_glass_slide"
-        },
-        {
-          "time": 3.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.5
-        }
-      ]
-    },
-
-    {
-      "id": "day1_serve_perfect",
-      "description": "S급 판정 시 특별 서빙 연출 — 만화 컷씬 2분할",
-      "type": "comic",
-      "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_image",
-          "image": "cut_perfect_pour",
+          "image": "cut_perfect_glass_closeup",
           "position": "center",
           "enter": "zoom_in",
           "enter_duration": 0.5
         },
         {
           "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour_perfect"
-        },
-        {
-          "time": 0.8,
           "action": "effect",
           "effect_type": "zoom_pulse",
           "intensity": 1.05,
@@ -261,7 +285,7 @@
         {
           "time": 1.5,
           "action": "hide_image",
-          "image": "cut_perfect_pour",
+          "image": "cut_perfect_glass_closeup",
           "exit": "fade_out",
           "exit_duration": 0.2
         },
@@ -269,20 +293,15 @@
           "time": 1.7,
           "action": "show_layout",
           "layout": "split_2",
-          "images": ["cut_perfect_glass_closeup", "cut_perfect_customer_reaction"],
-          "enter": "slide_left",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 2.0,
-          "action": "play_sfx",
-          "sfx": "SFX_glass_slide"
+          "images": ["cut_perfect_pour", "cut_perfect_customer_reaction"],
+          "enters": ["slide_left", "slide_right"],
+          "enter_durations": [0.4, 0.4]
         },
         {
           "time": 3.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.5
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.5
         }
       ]
     },
@@ -309,13 +328,6 @@
           "enter_duration": 0
         },
         {
-          "time": 0.1,
-          "action": "effect",
-          "effect_type": "chromatic",
-          "intensity": 5,
-          "duration": 1.5
-        },
-        {
           "time": 0.3,
           "action": "effect",
           "effect_type": "screen_shake",
@@ -330,53 +342,9 @@
         },
         {
           "time": 1.7,
-          "action": "hide_image",
-          "image": "cut_flashback_bar_old",
+          "action": "hide_all",
           "exit": "cut",
           "exit_duration": 0
-        }
-      ]
-    },
-
-    {
-      "id": "day1_build_complete",
-      "description": "빌드 제조법 — 재료 투입 후 바로 완성 전환 (미니게임 없음)",
-      "type": "transition",
-      "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.4,
-          "action": "show_image",
-          "image": "cut_build_pour",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.2,
-          "action": "show_image",
-          "image": "cut_build_complete",
-          "position": "center",
-          "enter": "slide_up",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 2.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.4
         }
       ]
     }

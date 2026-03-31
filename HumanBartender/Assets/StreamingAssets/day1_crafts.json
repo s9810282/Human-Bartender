@@ -12,13 +12,20 @@
         ]
       },
 
-      "craft_enter_cutscenes": {
-        "shake": "day1_craft_enter_shake",
-        "stir": "day1_craft_enter_stir",
-        "build": "day1_build_complete",
-        "serve_cutscene": "day1_serve_default"
+      "cutscenes": {
+        "craft_enter": {
+          "shake": "day1_craft_enter_shake",
+          "stir": "day1_craft_enter_stir",
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "by_cocktail": {
+            "gin_fizz": "day1_finish_gin_fizz"
+          },
+          "failed": null
+        }
       },
-
 
       "evaluation": {
         "rules": [
@@ -48,7 +55,7 @@
       "reactions": {
         "S": {
           "dialogue_id": "d1c1_react_S_001",
-          "cutscene_id": "day1_serve_perfect",
+          "cutscene_id": "day1_react_perfect",
           "affinity": 3,
           "karma": -1
         },
