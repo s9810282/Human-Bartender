@@ -28,54 +28,62 @@
       },
 
       "evaluation": {
+        "craft_tolerance": 5,
         "rules": [
           {
-            "grade": "S",
+            "result": "perfect",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz"],
-            "description": "정확히 진피즈를 주문대로 만듦"
+            "require_craft_success": true,
+            "description": "정확히 진피즈 + 제조 횟수 정확"
           },
           {
-            "grade": "A",
+            "result": "hidden",
             "match_type": "cocktail_id",
-            "match_values": ["tom_collins", "mojito"],
-            "description": "상큼한 계열의 비슷한 칵테일"
+            "match_values": [],
+            "require_craft_success": false,
+            "description": "히든 칵테일 (이 이벤트에서는 없음)"
           },
           {
-            "grade": "B",
+            "result": "normal",
             "match_type": "keyword",
             "match_values": ["상큼한"],
-            "description": "상큼한 키워드가 달린 모든 칵테일"
+            "require_craft_success": true,
+            "description": "상큼한 키워드 포함 + 제조 횟수 정확"
           }
-        ],
-        "default_grade": "C",
-        "craft_penalty": true
+        ]
       },
 
       "reactions": {
-        "S": {
+        "perfect": {
           "dialogue_id": "d1c1_react_S_001",
           "cutscene_id": "day1_react_perfect",
           "affinity": 3,
           "karma": -1
         },
-        "A": {
+        "hidden": {
+          "dialogue_id": null,
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "normal": {
           "dialogue_id": "d1c1_react_A_001",
           "cutscene_id": null,
           "affinity": 1,
           "karma": 0
         },
-        "B": {
+        "miss": {
           "dialogue_id": "d1c1_react_BC_001",
           "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0
+          "affinity": -1,
+          "karma": 1
         },
-        "C": {
+        "bad": {
           "dialogue_id": "d1c1_react_BC_001",
           "cutscene_id": null,
           "affinity": -2,
-          "karma": 1
+          "karma": 2
         }
       }
     }
