@@ -8,8 +8,8 @@ public struct CraftEventData
 {
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("auto_open_recipe_ui")] public bool AutoOpenRecipeUi { get; set; }
-    [JsonProperty("craft_enter_cutscenes")] public CraftCutSceneData CraftEnterCutscenes { get; set; }
     [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
+    [JsonProperty("cutscenes")] public CraftCutSceneData CraftEnterCutscenes { get; set; }
     [JsonProperty("evaluation")] public EvaluationData Evaluation { get; set; }
     [JsonProperty("reactions")] public Dictionary<string, ReactionDetailData> Reactions { get; set; }
 }
@@ -17,11 +17,29 @@ public struct CraftEventData
 [Serializable]
 public struct CraftCutSceneData
 {
+    [JsonProperty("craft_enter")] public CraftEnterData craftEnterData { get; set; }
+    [JsonProperty("finish")] public CraftFinishData craftFinishData { get; set; }
+}
+
+[Serializable]
+public struct CraftEnterData 
+{
     [JsonProperty("shake")] public string Shake { get; set; }
     [JsonProperty("stir")] public string Stir { get; set; }
     [JsonProperty("build")] public string Build { get; set; }
-    [JsonProperty("serve_cutscene")] public string ServeCutscene { get; set; }
 }
+
+[Serializable]
+public struct CraftFinishData 
+{
+    [JsonProperty("default")] public string Default { get; set; }
+    [JsonProperty("by_cocktail")] Dictionary<string, string> ByCocktail { get; set; }
+    [JsonProperty("failed")] string Failed { get; set; }
+}
+
+
+
+
 
 [Serializable]
 public struct TutorialData

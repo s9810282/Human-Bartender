@@ -4,6 +4,7 @@ using UnityEngine;
 public class CraftingResult
 {
     public bool isResult = false;
+    public string selectMethod = "";
     public int acionCount = 0;
     public Color32 mixedColor = Color.white;
 }
@@ -42,5 +43,12 @@ public class CraftStationData : ScriptableObject
     public void ResetIngrediant()
     {
         ingredientDatas.Clear();
+    }
+
+    public void ResetCraftStation()
+    {
+        ResetIngrediant();
+        targetCocktailData = default;
+        craftingResult = new();
     }
 }

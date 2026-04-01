@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using VContainer.Unity;
 using VContainer;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 
 
 public interface IMiniGameController
@@ -154,23 +155,19 @@ public class CocktailCraftManager : MonoBehaviour
         
 
         string nextDialogueId = "";
-
-        nextDialogueId = "";
         GameStateManager.Instance.CurrentGameState = GameState.Play;
-
-        //TODO 여기서 판정하기.
-        //결과에 따라 연출이 다르다면 여기서 처리하게 하는게 맞나?
-
-        for (int i = 0; i < craftStation.targetCocktailData.Recipe.Length; i++)
-        {
-            
-        }
-
-
-
-
-
         ingredientPanel.gameObject.SetActive(false);
+
+        string result = Evaluate();
+        ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
+
+        if(resultReaction.CutsceneId != null)
+        {
+            //TODO : 컷씬 데이터가 있으면 컷씬 재생
+        }
+        
+        nextDialogueId = resultReaction.CutsceneId;
+
 
         if (mainCraftingTcs != null)
         {
@@ -180,5 +177,41 @@ public class CocktailCraftManager : MonoBehaviour
         }
 
         curCraftEventData = default;
+    }
+
+
+    public string Evaluate()
+    {
+        if (craftStation.targetCocktailData.Id == "unknown") return "bad";
+
+        CocktailData cocktail = craftStation.targetCocktailData;
+
+        bool craftSuccess = 
+        (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build")
+       || (Mathf.Abs(craftStation.craftingResult.acionCount - cocktail.TargetCount)
+       <= curCraftEventData.Evaluation.CraftTolerance);
+
+        foreach (var rule in curCraftEventData.Evaluation.Rules)
+        {
+            if (rule.MatchValues == null || rule.MatchValues.Length == 0) continue;
+
+            bool matched = rule.MatchType switch
+            {
+                "cocktail_id" => rule.MatchValues.Contains(cocktail.Id),
+                "keyword" => rule.MatchValues.Any(kw => cocktail.Keywords.Contains(kw)),
+                "base" => rule.MatchValues.Contains(cocktail.BaseIngredient),
+                _ => false
+            };
+
+            if (!matched) continue;
+
+            // require_craft_success가 true면 제조도 성공해야 통과
+            if (rule.RequireCraftSuccess && !craftSuccess) continue;
+
+            return rule.Result; // "perfect", "hidden", "normal"
+        }
+
+        // 아무 규칙에도 안 걸리면
+        return "miss";
     }
 }

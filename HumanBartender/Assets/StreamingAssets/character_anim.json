@@ -167,13 +167,13 @@
 
         "annoyingB": {
           "eyes":  { "clip": "default_eyes_annoyingB",  "loop": "always" },
-          "mouth": { "clip": "default_mouth_annoyingB",  "loop": "on_dialogue" },
+          "mouth": { "clip": "default_mouth_annoyingB",  "loop": "always" },
           "body":  { "clip": "default_body_annoyingB",  "loop": "always" }
         },
 
         "annoyingR": {
           "eyes":  { "clip": "default_eyes_annoyingR",  "loop": "always" },
-          "mouth": { "clip": "default_mouth_annoyingR",  "loop": "on_dialogue" },
+          "mouth": { "clip": "default_mouth_annoyingR",  "loop": "always" },
           "body":  { "clip": "default_body_annoyingR",  "loop": "always" }
         }
       }
