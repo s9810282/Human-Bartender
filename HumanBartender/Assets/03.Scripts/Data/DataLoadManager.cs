@@ -5,6 +5,7 @@ public class DataLoadManager : MonoBehaviour
     [SerializeField] CocktailDataSO cocktailData;
     [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CharacterDataSO characterData;
+    [SerializeField] CharacterAnimSO characterAnimConfig;  // 추가
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
     [SerializeField] CutSceneDataSO cutSceneData;
@@ -12,12 +13,13 @@ public class DataLoadManager : MonoBehaviour
     void Start()
     {
         // 1. JSON 파일 로드
-        cocktailData.cocktailData = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets("cocktails.json");
-        characterData.characterData = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
-        ingredientDataSO.ingredientData = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
-        dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
-        craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
-        cutSceneData.cutSceneData = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
+        cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets("cocktails.json");
+        characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
+        characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets("character_anim.json");
+        ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
+        dayData.dayData                     = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
+        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
+        cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
 
         // 2. 칵테일 데이터 캐싱
         cocktailData.Cached();
@@ -26,6 +28,7 @@ public class DataLoadManager : MonoBehaviour
         // 3. 개별 데이터 세부 검증
         Debug.Log("<color=yellow>=== 데이터 세부 검증 시작 ===</color>");
         VerifyCharacterData();
+        VerifyCharacterAnimConfig();
         VerifyCocktailData();
         VerifyIngredientData();
         VerifyDayData();
@@ -46,6 +49,23 @@ public class DataLoadManager : MonoBehaviour
         Debug.Log($"<color=#4A90D9>[캐릭터]</color> 총 {chars.Length}명 로드 완료.");
         var first = chars[0];
         Debug.Log($"  ㄴ ID: {first.Id} | 이름: {first.DisplayName} | 표정 개수: {first.Expressions?.Length ?? 0}개 | 플레이어 여부: {first.IsPlayer}");
+    }
+
+    private void VerifyCharacterAnimConfig()
+    {
+        var characters = characterAnimConfig?.animConfig?.Characters;
+        if (characters == null || characters.Count == 0)
+        {
+            Debug.LogError("[캐릭터 애니] 데이터가 비어있거나 로드 실패!");
+            return;
+        }
+
+        Debug.Log($"<color=#C8A2C8>[캐릭터 애니]</color> 총 {characters.Count}명 로드 완료.");
+        foreach (var kv in characters)
+        {
+            int exprCount = kv.Value.Expressions?.Count ?? 0;
+            Debug.Log($"  ㄴ ID: {kv.Key} | base_body: {kv.Value.BaseBody} | expression 수: {exprCount}개");
+        }
     }
 
     private void VerifyCocktailData()
@@ -90,9 +110,7 @@ public class DataLoadManager : MonoBehaviour
         Debug.Log($"  ㄴ 씬 ID: {firstScene.SceneId} | 등장 손님: {firstScene.Customer} | 대화문 개수: {firstScene.Dialogues?.Length ?? 0}개");
 
         if (firstScene.Dialogues != null && firstScene.Dialogues.Length > 0)
-        {
             Debug.Log($"  ㄴ 첫 번째 대사 ID: {firstScene.Dialogues[0].Id} | 텍스트: {firstScene.Dialogues[0].Text}");
-        }
     }
 
     private void VerifyCraftData()
@@ -118,11 +136,11 @@ public class DataLoadManager : MonoBehaviour
             return;
         }
 
-        int posCount = cut.PositionPresets?.Count ?? 0;
-        int layoutCount = cut.LayoutPresets?.Count ?? 0;
-        int enterCount = cut.EnterPresets?.Count ?? 0;
-        int effectCount = cut.EffectPresets?.Count ?? 0;
-        int sceneCount = cut.Cutscenes?.Length ?? 0;
+        int posCount    = cut.PositionPresets?.Count ?? 0;
+        int layoutCount = cut.LayoutPresets?.Count  ?? 0;
+        int enterCount  = cut.EnterPresets?.Count   ?? 0;
+        int effectCount = cut.EffectPresets?.Count  ?? 0;
+        int sceneCount  = cut.Cutscenes?.Length     ?? 0;
 
         Debug.Log($"<color=#ADD8E6>[컷신]</color> 데이터 로드 완료.");
         Debug.Log($"  ㄴ 프리셋: 위치({posCount}), 레이아웃({layoutCount}), 등장({enterCount}), 이펙트({effectCount})");

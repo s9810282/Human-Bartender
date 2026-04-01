@@ -123,6 +123,61 @@
           "body":  { "clip": "old_regular_body_joy",        "loop": "always" }
         }
       }
+    },
+
+    "default": {
+      "base_body": "default_body",
+      "expressions": {
+
+        "default": {
+          "eyes":  { "clip": "default_eyes_default",  "loop": "always" },
+          "mouth": { "clip": "default_mouth_default",  "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_idle",       "loop": "always" }
+        },
+
+        "joy": {
+          "eyes":  { "clip": "default_eyes_joy",      "loop": "always" },
+          "mouth": { "clip": "default_mouth_joy",      "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_joy",        "loop": "always" }
+        },
+
+        "sadness": {
+          "eyes":  { "clip": "default_eyes_sadness",  "loop": "always" },
+          "mouth": { "clip": "default_mouth_sadness",  "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_sadness",    "loop": "always" }
+        },
+
+        "anger": {
+          "eyes":  { "clip": "default_eyes_anger",    "loop": "always" },
+          "mouth": { "clip": "default_mouth_anger",    "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_anger",      "loop": "once" }
+        },
+
+        "surprise": {
+          "eyes":  { "clip": "default_eyes_surprise", "loop": "always" },
+          "mouth": { "clip": "default_mouth_surprise", "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_surprise",   "loop": "once" }
+        },
+
+        "fear": {
+          "eyes":  { "clip": "default_eyes_fear",     "loop": "always" },
+          "mouth": { "clip": "default_mouth_fear",     "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_fear",       "loop": "always" }
+        },
+
+        "annoyingB": {
+          "eyes":  { "clip": "default_eyes_annoyingB",  "loop": "always" },
+          "mouth": { "clip": "default_mouth_annoyingB",  "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_annoyingB",  "loop": "always" }
+        },
+
+        "annoyingR": {
+          "eyes":  { "clip": "default_eyes_annoyingR",  "loop": "always" },
+          "mouth": { "clip": "default_mouth_annoyingR",  "loop": "on_dialogue" },
+          "body":  { "clip": "default_body_annoyingR",  "loop": "always" }
+        }
+      }
     }
+
   }
 }

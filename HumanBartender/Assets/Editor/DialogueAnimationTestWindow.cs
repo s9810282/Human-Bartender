@@ -15,7 +15,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     private string _expression = "Happy";
 
     // ─── 파트 개별 테스트 ───────────────────────────────
-    private static readonly string[] PART_NAMES = { "Body", "Eyes", "Mouth" };
+    private static readonly string[] PART_NAMES = { "body", "eyes", "mouth" };
     private bool[] _partEnabled = { true, true, true };
 
     // ─── 타겟 ────────────────────────────────────────────

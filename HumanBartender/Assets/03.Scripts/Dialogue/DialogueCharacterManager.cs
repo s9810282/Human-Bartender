@@ -5,15 +5,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class DialogueCharacterManager : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer portraitImage;
+    [Header("Config")]
+    [SerializeField] private CharacterAnimSO animConfig;
 
-    [Tooltip("Body / Eyes / Mouth 순으로 등록")]
-    [SerializeField] private CharacterPart[] parts;
+    [Header("Parts")]
+    [SerializeField] private CharacterPart[] parts; // eyes / mouth / body 순
 
-    [Tooltip("리소스가 전혀 없을 때 사용할 fallback 스프라이트 주소")]
+    [Header("Fallback")]
     [SerializeField] private string fallbackSpriteAddress = "Characters/Fallback";
 
-    private AsyncOperationHandle? _handleFallback;
+    private AsyncOperationHandle<Sprite>? _handleFallback;
 
     private void Awake()
     {
@@ -21,64 +22,93 @@ public class DialogueCharacterManager : MonoBehaviour
             part.Initialize();
     }
 
-    /// <summary>
-    /// 모든 파트 애니메이션을 병렬 로드.
-    /// 파트별로 리소스가 없으면 해당 파트만 비활성 처리.
-    /// </summary>
-    public async UniTask SetCharacterAsync(string speaker, string expression)
+    
+
+    public async UniTask SetCharacterAsync(string characterId, string expression)
     {
-        portraitImage.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         ReleaseFallback();
 
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
-            tasks[i] = parts[i].LoadAsync(speaker, expression);
+        {
+            PartAnimData data       = animConfig.GetPartData(characterId, expression, parts[i].PartName);
+            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].PartName);
+            tasks[i] = LoadPartWithFallbackAsync(parts[i], data, defaultData);
+        }
 
         await UniTask.WhenAll(tasks);
+    }
 
-        // 모든 파트가 비활성이면 fallback 스프라이트 표시
-        if (!AnyPartActive())
-        {
-            Logger.LogWarning($"[CharacterManager] '{speaker}_{expression}' 파트 리소스 없음 → fallback");
-            await LoadFallbackAsync();
-        }
+    /// <summary>대사 출력 시작 — OnDialogue 파트 활성화</summary>
+    public void OnDialogueStart()
+    {
+        foreach (var part in parts)
+            part.OnDialogueStart();
+    }
+
+    /// <summary>대사 출력 완료 — OnDialogue 파트 정지</summary>
+    public void OnDialogueEnd()
+    {
+        foreach (var part in parts)
+            part.OnDialogueEnd();
     }
 
     public void OffCharacter()
     {
-        portraitImage.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ReleaseAll()
     {
         foreach (var part in parts)
             part.Release();
-
         ReleaseFallback();
     }
 
-    private bool AnyPartActive()
-    {
-        foreach (var part in parts)
-            if (part.Animator.enabled) return true;
+    // ── 파트 로드 ────────────────────────────────────────────────────────
 
-        return false;
+    private async UniTask LoadPartWithFallbackAsync(
+        CharacterPart part,
+        PartAnimData  data,
+        PartAnimData  defaultData)
+    {
+        if (data == null)
+            Logger.Log("DATA null");
+
+        if (data != null && await part.LoadAsync(data))
+            return;
+
+        if (defaultData != null && defaultData != data)
+        {
+            Logger.LogWarning($"[CharacterManager:{part.PartName}] 로드 실패 → default 폴백");
+            if (await part.LoadAsync(defaultData))
+                return;
+        }
+
+        Logger.LogWarning($"[CharacterManager:{part.PartName}] default도 없음 → fallback sprite");
+        await LoadFallbackAsync();
     }
 
     private async UniTask LoadFallbackAsync()
     {
-        var handle = Addressables.LoadAssetAsync<Sprite>(fallbackSpriteAddress);
-        await handle.ToUniTask();
+        if (_handleFallback.HasValue) return;
 
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        var handle = Addressables.LoadAssetAsync<Sprite>(fallbackSpriteAddress);
+        try
         {
-            _handleFallback = handle;
-            portraitImage.sprite = handle.Result;
+            await handle.ToUniTask();
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+                _handleFallback = handle;
+            else
+            {
+                if (handle.IsValid()) Addressables.Release(handle);
+                Logger.LogError($"[CharacterManager] fallback 로드 실패: {fallbackSpriteAddress}");
+            }
         }
-        else
+        catch
         {
-            Addressables.Release(handle);
-            Logger.LogError($"[CharacterManager] fallback 로드 실패: {fallbackSpriteAddress}");
+            if (handle.IsValid()) Addressables.Release(handle);
         }
     }
 
