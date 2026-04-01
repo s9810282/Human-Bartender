@@ -1,0 +1,128 @@
+{
+  "animation_config": {
+    "parts": ["eyes", "mouth", "body"],
+    "loop_modes": {
+      "always":      "항시 재생. 게임 내내 반복 루프",
+      "on_dialogue":  "대사 텍스트 출력 중에만 재생. 출력 끝나면 정지",
+      "once":         "1회 재생 후 마지막 프레임에서 정지",
+      "none":         "재생하지 않음 (해당 파츠 비활성)"
+    }
+  },
+
+  "characters": {
+
+    "luna": {
+      "base_body": "luna_body",
+      "expressions": {
+
+        "default": {
+          "eyes":  { "clip": "luna_eyes_default",  "loop": "always" },
+          "mouth": { "clip": "luna_mouth_default",  "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_idle",       "loop": "always" }
+        },
+
+        "joy": {
+          "eyes":  { "clip": "luna_eyes_joy",      "loop": "always" },
+          "mouth": { "clip": "luna_mouth_joy",      "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_joy",        "loop": "always" }
+        },
+
+        "sadness": {
+          "eyes":  { "clip": "luna_eyes_sadness",  "loop": "always" },
+          "mouth": { "clip": "luna_mouth_sadness",  "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_sadness",    "loop": "always" }
+        },
+
+        "anger": {
+          "eyes":  { "clip": "luna_eyes_anger",    "loop": "always" },
+          "mouth": { "clip": "luna_mouth_anger",    "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_anger",      "loop": "once" }
+        },
+
+        "disgust": {
+          "eyes":  { "clip": "luna_eyes_disgust",  "loop": "always" },
+          "mouth": { "clip": "luna_mouth_disgust",  "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_disgust",    "loop": "always" }
+        },
+
+        "surprise": {
+          "eyes":  { "clip": "luna_eyes_surprise", "loop": "always" },
+          "mouth": { "clip": "luna_mouth_surprise", "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_surprise",   "loop": "once" }
+        },
+
+        "fear": {
+          "eyes":  { "clip": "luna_eyes_fear",     "loop": "always" },
+          "mouth": { "clip": "luna_mouth_fear",     "loop": "on_dialogue" },
+          "body":  { "clip": "luna_body_fear",       "loop": "always" }
+        }
+      }
+    },
+
+    "chris": {
+      "base_body": "chris_body",
+      "expressions": {
+
+        "default": {
+          "eyes":  { "clip": "chris_eyes_default",  "loop": "always" },
+          "mouth": { "clip": "chris_mouth_default",  "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_idle",       "loop": "always" }
+        },
+
+        "joy": {
+          "eyes":  { "clip": "chris_eyes_joy",      "loop": "always" },
+          "mouth": { "clip": "chris_mouth_joy",      "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_joy",        "loop": "always" }
+        },
+
+        "sadness": {
+          "eyes":  { "clip": "chris_eyes_sadness",  "loop": "always" },
+          "mouth": { "clip": "chris_mouth_sadness",  "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_sadness",    "loop": "always" }
+        },
+
+        "anger": {
+          "eyes":  { "clip": "chris_eyes_anger",    "loop": "always" },
+          "mouth": { "clip": "chris_mouth_anger",    "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_anger",      "loop": "once" }
+        },
+
+        "worry": {
+          "eyes":  { "clip": "chris_eyes_worry",    "loop": "always" },
+          "mouth": { "clip": "chris_mouth_worry",    "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_worry",      "loop": "always" }
+        },
+
+        "serious": {
+          "eyes":  { "clip": "chris_eyes_serious",  "loop": "always" },
+          "mouth": { "clip": "chris_mouth_serious",  "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_serious",    "loop": "always" }
+        },
+
+        "smile": {
+          "eyes":  { "clip": "chris_eyes_smile",    "loop": "always" },
+          "mouth": { "clip": "chris_mouth_smile",    "loop": "on_dialogue" },
+          "body":  { "clip": "chris_body_smile",      "loop": "always" }
+        }
+      }
+    },
+
+    "old_regular": {
+      "base_body": "old_regular_body",
+      "expressions": {
+
+        "default": {
+          "eyes":  { "clip": "old_regular_eyes_default",  "loop": "always" },
+          "mouth": { "clip": "old_regular_mouth_default",  "loop": "on_dialogue" },
+          "body":  { "clip": "old_regular_body_idle",       "loop": "always" }
+        },
+
+        "joy": {
+          "eyes":  { "clip": "old_regular_eyes_joy",      "loop": "always" },
+          "mouth": { "clip": "old_regular_mouth_joy",      "loop": "on_dialogue" },
+          "body":  { "clip": "old_regular_body_joy",        "loop": "always" }
+        }
+      }
+    }
+  }
+}
