@@ -44,6 +44,7 @@ public class CutsceneManager : MonoBehaviour
         {
             ["show_image"]  = ExecuteShowImage,
             ["hide_image"]  = ExecuteHideImage,
+            ["hide_all"]    = ExecuteHideAll,        // 신규
             ["show_layout"] = ExecuteShowLayout,
             ["effect"]      = ExecuteEffect,
             ["play_sfx"]    = ExecutePlaySfx,
@@ -105,7 +106,6 @@ public class CutsceneManager : MonoBehaviour
 
         SetImagePositionPreset(img, data.cutSceneData.PositionPresets[step.Position ?? "center"]);
 
-        img.gameObject.SetActive(true);
         activeImages[step.Image] = img;
 
         float duration = step.EnterDuration ?? GetEnterDefaultDuration(step.Enter);
@@ -116,10 +116,38 @@ public class CutsceneManager : MonoBehaviour
     {
         if (!activeImages.TryGetValue(step.Image, out Image img)) return;
 
-        float duration = step.ExitDuration ?? 0.3f;
-        await img.DOFade(0f, duration).ToUniTask();
+        string exitType = step.Exit ?? "fade_out";
+        float duration = step.ExitDuration ?? GetExitDefaultDuration(exitType);
+        await ApplyExitAnimation(img, exitType, duration);
 
         ReturnToPool(step.Image, img);
+    }
+
+    /// <summary>
+    /// 신규: 현재 활성화된 모든 컷씬 이미지를 병렬로 퇴장시킨 뒤 풀에 반환
+    /// </summary>
+    async UniTask ExecuteHideAll(CutsceneStep step)
+    {
+        if (activeImages.Count == 0) return;
+
+        string exitType = step.Exit ?? "fade_out";
+        float duration = step.ExitDuration ?? GetExitDefaultDuration(exitType);
+
+        List<UniTask> exitTasks = new();
+        List<KeyValuePair<string, Image>> snapshot = new(activeImages);
+
+        foreach (var kvp in snapshot)
+        {
+            exitTasks.Add(ApplyExitAnimation(kvp.Value, exitType, duration));
+        }
+
+        await UniTask.WhenAll(exitTasks);
+
+        // 퇴장 완료 후 풀에 반환
+        foreach (var kvp in snapshot)
+        {
+            ReturnToPool(kvp.Key, kvp.Value);
+        }
     }
 
     async UniTask ExecuteShowLayout(CutsceneStep step)
@@ -142,15 +170,41 @@ public class CutsceneManager : MonoBehaviour
 
         SetImagesLayOut(assigned, layout);
 
-        float duration = step.EnterDuration ?? GetEnterDefaultDuration(step.Enter);
+        // ── enters 배열 지원 (신규) ──────────────────────────────────
+        // enters 배열이 있으면 이미지별 개별 enter 적용,
+        // 없으면 기존 enter 단일값을 모든 이미지에 적용 (하위호환)
+        bool hasIndividualEnters = step.Enters != null && step.Enters.Length > 0;
 
-        // 모든 슬롯 이미지에 동일한 enter 애니메이션 병렬 실행
-        List<UniTask> enterTasks = new();
-        foreach (var img in assigned)
+        if (hasIndividualEnters && step.Enters.Length != assigned.Count)
         {
-            img.gameObject.SetActive(true);
-            enterTasks.Add(ApplyEnterAnimation(img, step.Enter ?? "cut", duration));
+            Debug.LogWarning($"[CutsceneManager] enters 배열 길이({step.Enters.Length})와 " +
+                             $"images 수({assigned.Count})가 불일치. 부족분은 'cut' 적용.");
         }
+
+        List<UniTask> enterTasks = new();
+        for (int i = 0; i < assigned.Count; i++)
+        {
+            assigned[i].gameObject.SetActive(true);
+
+            string enterType;
+            float duration;
+
+            if (hasIndividualEnters)
+            {
+                enterType = i < step.Enters.Length ? step.Enters[i] : "cut";
+                duration = (step.EnterDurations != null && i < step.EnterDurations.Length)
+                    ? step.EnterDurations[i]
+                    : GetEnterDefaultDuration(enterType);
+            }
+            else
+            {
+                enterType = step.Enter ?? "cut";
+                duration = step.EnterDuration ?? GetEnterDefaultDuration(enterType);
+            }
+
+            enterTasks.Add(ApplyEnterAnimation(assigned[i], enterType, duration));
+        }
+
         await UniTask.WhenAll(enterTasks);
     }
 
@@ -203,6 +257,14 @@ public class CutsceneManager : MonoBehaviour
                 await effectOverlay.DOFade(0.7f, duration).ToUniTask();
                 break;
 
+            // 신규: 반투명 검은 오버레이 (dim)
+            case "dim":
+                float dimAlpha = step.Intensity ?? 0.5f;
+                effectOverlay.color = new Color(0, 0, 0, 0);
+                effectOverlay.gameObject.SetActive(true);
+                await effectOverlay.DOFade(dimAlpha, duration).ToUniTask();
+                break;
+
             case "chromatic":
                 // URP PostProcessing이 없는 경우 근사치: 오버레이로 대체
                 // TODO: URP Volume 연동으로 교체 가능
@@ -237,6 +299,7 @@ public class CutsceneManager : MonoBehaviour
 
 
     // ── Enter 애니메이션 ──────────────────────────────────────────────
+    //아 이미지 위치 옮겨지고 액티브되어야함.
 
     async UniTask ApplyEnterAnimation(Image img, string enterType, float duration)
     {
@@ -246,10 +309,12 @@ public class CutsceneManager : MonoBehaviour
         {
             case "cut":
                 img.color = Color.white;
+                img.gameObject.SetActive(true);
                 break;
 
             case "fade_in":
                 img.color = new Color(1, 1, 1, 0);
+                img.gameObject.SetActive(true);
                 await img.DOFade(1f, duration).ToUniTask();
                 break;
 
@@ -257,6 +322,8 @@ public class CutsceneManager : MonoBehaviour
             {
                 Vector2 origin = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
                 rect.anchoredPosition = origin;
+                img.gameObject.SetActive(true);
+
                 await rect.DOAnchorPos(origin - new Vector2(canvasRect.rect.width, 0), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
                 break;
@@ -265,6 +332,7 @@ public class CutsceneManager : MonoBehaviour
             {
                 Vector2 origin = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
                 rect.anchoredPosition = origin;
+                img.gameObject.SetActive(true);
                 await rect.DOAnchorPos(origin + new Vector2(canvasRect.rect.width, 0), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
                 break;
@@ -273,7 +341,8 @@ public class CutsceneManager : MonoBehaviour
             {
                 Vector2 origin = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
                 rect.anchoredPosition = origin;
-                await rect.DOAnchorPos(origin + new Vector2(0, canvasRect.rect.height), duration)
+                    img.gameObject.SetActive(true);
+                    await rect.DOAnchorPos(origin + new Vector2(0, canvasRect.rect.height), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
                 break;
             }
@@ -281,13 +350,15 @@ public class CutsceneManager : MonoBehaviour
             {
                 Vector2 origin = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
                 rect.anchoredPosition = origin;
-                await rect.DOAnchorPos(origin - new Vector2(0, canvasRect.rect.height), duration)
+                    img.gameObject.SetActive(true);
+                    await rect.DOAnchorPos(origin - new Vector2(0, canvasRect.rect.height), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
                 break;
             }
             case "zoom_in":
                 rect.localScale = Vector3.one * 0.5f;
                 img.color = new Color(1, 1, 1, 0);
+                img.gameObject.SetActive(true);
                 await UniTask.WhenAll(
                     rect.DOScale(1f, duration).SetEase(Ease.OutBack).ToUniTask(),
                     img.DOFade(1f, duration).ToUniTask()
@@ -297,6 +368,7 @@ public class CutsceneManager : MonoBehaviour
             case "zoom_out":
                 rect.localScale = Vector3.one * 1.5f;
                 img.color = new Color(1, 1, 1, 0);
+                img.gameObject.SetActive(true);
                 await UniTask.WhenAll(
                     rect.DOScale(1f, duration).SetEase(Ease.OutCubic).ToUniTask(),
                     img.DOFade(1f, duration).ToUniTask()
@@ -305,7 +377,66 @@ public class CutsceneManager : MonoBehaviour
 
             default:
                 img.color = Color.white;
+                img.gameObject.SetActive(true);
                 Debug.LogWarning($"[CutsceneManager] 알 수 없는 enter type: {enterType}");
+                break;
+        }
+    }
+
+    // ── Exit 애니메이션 ─────────────────────────────────────────
+
+    async UniTask ApplyExitAnimation(Image img, string exitType, float duration)
+    {
+        RectTransform rect = img.GetComponent<RectTransform>();
+
+        switch (exitType)
+        {
+            case "cut":
+                img.color = new Color(1, 1, 1, 0);
+                break;
+
+            case "fade_out":
+                await img.DOFade(0f, duration).ToUniTask();
+                break;
+
+            case "slide_left":
+            {
+                Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
+                await rect.DOAnchorPos(target, duration)
+                           .SetEase(Ease.InCubic).ToUniTask();
+                break;
+            }
+            case "slide_right":
+            {
+                Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
+                await rect.DOAnchorPos(target, duration)
+                           .SetEase(Ease.InCubic).ToUniTask();
+                break;
+            }
+            case "slide_up":
+            {
+                Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
+                await rect.DOAnchorPos(target, duration)
+                           .SetEase(Ease.InCubic).ToUniTask();
+                break;
+            }
+            case "slide_down":
+            {
+                Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
+                await rect.DOAnchorPos(target, duration)
+                           .SetEase(Ease.InCubic).ToUniTask();
+                break;
+            }
+            case "zoom_out":
+                await UniTask.WhenAll(
+                    rect.DOScale(0f, duration).SetEase(Ease.InBack).ToUniTask(),
+                    img.DOFade(0f, duration).ToUniTask()
+                );
+                break;
+
+            default:
+                await img.DOFade(0f, duration).ToUniTask();
+                Debug.LogWarning($"[CutsceneManager] 알 수 없는 exit type: {exitType}, fade_out으로 대체");
                 break;
         }
     }
@@ -321,6 +452,18 @@ public class CutsceneManager : MonoBehaviour
         "zoom_in"    => 0.4f,
         "zoom_out"   => 0.4f,
         _            => 0.3f,
+    };
+
+    float GetExitDefaultDuration(string exitType) => exitType switch
+    {
+        "cut"         => 0.0f,
+        "fade_out"    => 0.3f,
+        "slide_left"  => 0.3f,
+        "slide_right" => 0.3f,
+        "slide_up"    => 0.3f,
+        "slide_down"  => 0.3f,
+        "zoom_out"    => 0.4f,
+        _             => 0.3f,
     };
 
     // ── 포지션/레이아웃 ───────────────────────────────────────────────
@@ -364,6 +507,13 @@ public class CutsceneManager : MonoBehaviour
             }
 
             SetImagePositionPreset(imgs[i], preset);
+
+            // dim 슬롯 처리: 이미지 대신 검은 반투명 오버레이로 사용
+            if (slot.Dim.HasValue)
+            {
+                imgs[i].sprite = null;
+                imgs[i].color = new Color(0, 0, 0, slot.Dim.Value);
+            }
         }
     }
 

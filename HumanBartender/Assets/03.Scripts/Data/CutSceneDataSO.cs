@@ -32,11 +32,18 @@ public struct LayoutSlot
     [JsonProperty("height")] public float? Height { get; set; }
     [JsonProperty("offset_x")] public float? OffsetX { get; set; }
     [JsonProperty("offset_y")] public float? OffsetY { get; set; }
-    [JsonProperty("effect")] public string Effect { get; set; }
+    [JsonProperty("dim")] public float? Dim { get; set; }           // 신규: blur/effect 삭제 → dim으로 대체
 }
 
 [Serializable]
 public struct EnterPreset
+{
+    [JsonProperty("description")] public string Description { get; set; }
+    [JsonProperty("duration_default")] public float DurationDefault { get; set; }
+}
+
+[Serializable]
+public struct ExitPreset                                             // 신규
 {
     [JsonProperty("description")] public string Description { get; set; }
     [JsonProperty("duration_default")] public float DurationDefault { get; set; }
@@ -70,6 +77,8 @@ public struct CutsceneStep
     [JsonProperty("position")] public string Position { get; set; }
     [JsonProperty("enter")] public string Enter { get; set; }
     [JsonProperty("enter_duration")] public float? EnterDuration { get; set; }
+    [JsonProperty("enters")] public string[] Enters { get; set; }                // 신규: show_layout 이미지별 개별 enter
+    [JsonProperty("enter_durations")] public float[] EnterDurations { get; set; } // 신규: show_layout 이미지별 개별 duration
     [JsonProperty("exit")] public string Exit { get; set; }
     [JsonProperty("exit_duration")] public float? ExitDuration { get; set; }
     [JsonProperty("sfx")] public string Sfx { get; set; }
@@ -93,7 +102,6 @@ public class CutSceneDataSO : ScriptableObject
     {
         return cutSceneData.Cutscenes.ToDictionary(g => g.Id, g => g);
     }
-
 }
 
 [Serializable]
@@ -102,6 +110,7 @@ public class CutSceneDataBase
     [JsonProperty("position_presets")] public Dictionary<string, PositionPreset> PositionPresets { get; set; }
     [JsonProperty("layout_presets")] public Dictionary<string, LayoutPreset> LayoutPresets { get; set; }
     [JsonProperty("enter_presets")] public Dictionary<string, EnterPreset> EnterPresets { get; set; }
+    [JsonProperty("exit_presets")] public Dictionary<string, ExitPreset> ExitPresets { get; set; }     // 신규
     [JsonProperty("effect_presets")] public Dictionary<string, EffectPreset> EffectPresets { get; set; }
     [JsonProperty("cutscenes")] public Cutscene[] Cutscenes { get; set; }
 }

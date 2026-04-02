@@ -279,6 +279,7 @@ public class CutsceneTestTool : EditorWindow
     {
         "show_image"  => new Color(0.5f, 1f, 0.5f),
         "hide_image"  => new Color(1f, 0.6f, 0.4f),
+        "hide_all"    => new Color(1f, 0.5f, 0.3f),     // 신규
         "show_layout" => new Color(0.4f, 0.8f, 1f),
         "effect"      => new Color(1f, 1f, 0.4f),
         "play_sfx"    => new Color(1f, 0.8f, 0.4f),
@@ -289,13 +290,32 @@ public class CutsceneTestTool : EditorWindow
     string StepSummary(CutsceneStep step) => step.Action switch
     {
         "show_image"  => $"{step.Image}  pos:{step.Position}  enter:{step.Enter}  dur:{step.EnterDuration:F1}s",
-        "hide_image"  => $"{step.Image}  exit:{step.Exit}  dur:{step.ExitDuration:F1}s",
-        "show_layout" => $"layout:{step.Layout}  images:[{string.Join(", ", step.Images ?? default)}]",
+        "hide_image"  => $"{step.Image}  exit:{step.Exit ?? "fade_out"}  dur:{step.ExitDuration:F1}s",
+        "hide_all"    => $"exit:{step.Exit ?? "fade_out"}  dur:{step.ExitDuration:F1}s",
+        "show_layout" => FormatShowLayoutSummary(step),
         "effect"      => $"{step.EffectType}  intensity:{step.Intensity}  dur:{step.Duration:F1}s",
         "play_sfx"    => $"{step.Sfx}",
         "wait"        => $"dur:{step.Duration:F1}s",
         _             => "",
     };
+
+    /// <summary>
+    /// show_layout의 enters 배열 여부에 따라 요약 포맷 분기
+    /// </summary>
+    string FormatShowLayoutSummary(CutsceneStep step)
+    {
+        string imagesStr = step.Images != null ? string.Join(", ", step.Images) : "";
+
+        if (step.Enters != null && step.Enters.Length > 0)
+        {
+            string entersStr = string.Join(", ", step.Enters);
+            return $"layout:{step.Layout}  images:[{imagesStr}]  enters:[{entersStr}]";
+        }
+        else
+        {
+            return $"layout:{step.Layout}  images:[{imagesStr}]  enter:{step.Enter ?? "cut"}";
+        }
+    }
 
     // ── 재생 버튼 ─────────────────────────────────────────────────────
     void DrawPlayButtons(Cutscene cutscene)
