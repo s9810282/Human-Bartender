@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -68,9 +67,9 @@ public class CharacterPart
         if (loopHandle.HasValue)
         {
             // LoadAsync 성공 직후 임시로 추가
-            var clip = loopHandle.Value.Result;
-            foreach (var binding in AnimationUtility.GetObjectReferenceCurveBindings(clip))
-                Debug.Log($"Path: '{binding.path}' / Property: {binding.propertyName}");
+            //var clip = loopHandle.Value.Result;
+            //foreach (var binding in AnimationUtility.GetObjectReferenceCurveBindings(clip))
+            //    Debug.Log($"Path: '{binding.path}' / Property: {binding.propertyName}");
 
             // ── 2. Intro 로드 시도 (없으면 Loop로 대체) ──────────────────
             var introHandle = await TryLoadAsync<AnimationClip>(introAddress);

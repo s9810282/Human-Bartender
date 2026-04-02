@@ -9,7 +9,7 @@ public class CutsceneTestTool : EditorWindow
 {
     // ── 데이터 ────────────────────────────────────────────────────────
     private CutSceneDataSO  cutSceneData;
-    private CutsceneManager cutsceneManager;
+    private CutSceneManager cutsceneManager;
 
     // ── 필터/선택 ─────────────────────────────────────────────────────
     private string          searchFilter    = "";
@@ -106,14 +106,14 @@ public class CutsceneTestTool : EditorWindow
             GUILayout.Space(12);
 
             GUILayout.Label("CutsceneManager", EditorStyles.toolbarButton, GUILayout.Width(120));
-            cutsceneManager = (CutsceneManager)EditorGUILayout.ObjectField(
-                cutsceneManager, typeof(CutsceneManager), true, GUILayout.Width(200));
+            cutsceneManager = (CutSceneManager)EditorGUILayout.ObjectField(
+                cutsceneManager, typeof(CutSceneManager), true, GUILayout.Width(200));
 
             GUILayout.FlexibleSpace();
 
             // 씬에서 자동 탐색
             if (GUILayout.Button("씬에서 찾기", EditorStyles.toolbarButton, GUILayout.Width(80)))
-                cutsceneManager = FindObjectOfType<CutsceneManager>();
+                cutsceneManager = FindObjectOfType<CutSceneManager>();
         }
     }
 

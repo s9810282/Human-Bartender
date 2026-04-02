@@ -18,6 +18,8 @@ public class CocktailCraftManager : MonoBehaviour
     [SerializeField] CraftStationData craftStation;
     [SerializeField] IngredientPanel ingredientPanel;
 
+    [Inject] CutSceneManager cutSceneManager;
+
     [Header("MiniGame Prefabs")]
     [SerializeField] private GameObject shakePrefab;
     [SerializeField] private GameObject stirPrefab;

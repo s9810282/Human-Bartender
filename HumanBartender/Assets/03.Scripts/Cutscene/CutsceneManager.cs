@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CutsceneManager : MonoBehaviour
+public class CutSceneManager : MonoBehaviour
 {
     [SerializeField] CutSceneDataSO data;
 
