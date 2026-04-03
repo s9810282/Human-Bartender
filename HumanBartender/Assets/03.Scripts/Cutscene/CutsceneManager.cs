@@ -125,6 +125,7 @@ public class CutSceneManager : MonoBehaviour
 
     /// <summary>
     /// 신규: 현재 활성화된 모든 컷씬 이미지를 병렬로 퇴장시킨 뒤 풀에 반환
+    /// Effect Overlay도 포함
     /// </summary>
     async UniTask ExecuteHideAll(CutsceneStep step)
     {
@@ -140,6 +141,8 @@ public class CutSceneManager : MonoBehaviour
         {
             exitTasks.Add(ApplyExitAnimation(kvp.Value, exitType, duration));
         }
+
+        //exitTasks.Add(ApplyExitAnimation(effectOverlay, exitType, duration));
 
         await UniTask.WhenAll(exitTasks);
 

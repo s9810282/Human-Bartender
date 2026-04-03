@@ -107,7 +107,7 @@ public class CocktailCraftManager : MonoBehaviour
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
 
-        SpawnMiniGameAsync(shakePrefab).Forget();
+        SpawnMiniGameAsync("shake", shakePrefab).Forget();
     }
     public void StartStur()
     {
@@ -115,30 +115,29 @@ public class CocktailCraftManager : MonoBehaviour
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
 
-        SpawnMiniGameAsync(stirPrefab).Forget();
+        SpawnMiniGameAsync("stir", stirPrefab).Forget();
     }
 
 
     //아래 두 함수는 컷씬 구조 정립 후 다시 정리하기
-    private async UniTaskVoid SpawnMiniGameAsync(GameObject prefab)
+    private async UniTaskVoid SpawnMiniGameAsync(string style, GameObject prefab)
     {
         UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
         miniGameTcs = new UniTaskCompletionSource();
         GameObject miniGameObj = null;
 
         //TODO : 여기도 진입할 때 컷씬 재생
+        //아 시발 json 진짜 ㅈ같네
+
+        await cutSceneManager.PlayCutSceneAsync(curCraftEventData.CraftCutscenes.craftEnterData[style]);
         
-
-        await SceneTransitionManager.Instance.FadeOutAsync(1f);
-
         // TODO : 풀링.
         miniGameObj = Instantiate(prefab);
 
         IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
         controller.InitGame(miniGameTcs);
 
-        SceneTransitionManager.Instance.FadeIn(3f);
-
+       
         await miniGameTcs.Task;
 
         Destroy(miniGameObj);
@@ -166,6 +165,7 @@ public class CocktailCraftManager : MonoBehaviour
         if(resultReaction.CutsceneId != null)
         {
             //TODO : 컷씬 데이터가 있으면 컷씬 재생
+            cutSceneManager.PlayCutSceneAsync(resultReaction.CutsceneId).Forget();
         }
         
         nextDialogueId = resultReaction.CutsceneId;

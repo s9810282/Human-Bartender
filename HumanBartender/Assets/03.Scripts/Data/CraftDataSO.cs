@@ -9,7 +9,7 @@ public struct CraftEventData
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("auto_open_recipe_ui")] public bool AutoOpenRecipeUi { get; set; }
     [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
-    [JsonProperty("cutscenes")] public CraftCutSceneData CraftEnterCutscenes { get; set; }
+    [JsonProperty("cutscenes")] public CraftCutSceneData CraftCutscenes { get; set; }
     [JsonProperty("evaluation")] public EvaluationData Evaluation { get; set; }
     [JsonProperty("reactions")] public Dictionary<string, ReactionDetailData> Reactions { get; set; }
 }
@@ -17,17 +17,11 @@ public struct CraftEventData
 [Serializable]
 public struct CraftCutSceneData
 {
-    [JsonProperty("craft_enter")] public CraftEnterData craftEnterData { get; set; }
+    //체크하기.
+    [JsonProperty("craft_enter")] public Dictionary<string, string> craftEnterData { get; set; }
     [JsonProperty("finish")] public CraftFinishData craftFinishData { get; set; }
 }
 
-[Serializable]
-public struct CraftEnterData 
-{
-    [JsonProperty("shake")] public string Shake { get; set; }
-    [JsonProperty("stir")] public string Stir { get; set; }
-    [JsonProperty("build")] public string Build { get; set; }
-}
 
 [Serializable]
 public struct CraftFinishData 

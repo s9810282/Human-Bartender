@@ -220,6 +220,12 @@
           "action": "hide_all",
           "exit": "fade_out",
           "exit_duration": 0.3
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
         }
       ]
     },
@@ -248,7 +254,7 @@
         {
           "time": 1.5,
           "action": "hide_all",
-          "exit": "fade_out",
+          "exit": "fade_in",
           "exit_duration": 0.3
         }
       ]

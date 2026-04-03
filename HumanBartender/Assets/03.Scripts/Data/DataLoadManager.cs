@@ -122,6 +122,10 @@ public class DataLoadManager : MonoBehaviour
             return;
         }
 
+        Logger.Log(craftData.craftData.CraftEvents[0].CraftCutscenes.craftEnterData["shake"]);
+        Logger.Log(craftData.craftData.CraftEvents[0].CraftCutscenes.craftEnterData["stir"]);
+        Logger.Log(craftData.craftData.CraftEvents[0].CraftCutscenes.craftEnterData["build"]);
+
         Debug.Log($"<color=#F0E68C>[크래프트]</color> 총 {events.Length}개 이벤트 로드 완료.");
         var first = events[0];
         Debug.Log($"  ㄴ 이벤트 ID: {first.Id} | UI 자동오픈: {first.AutoOpenRecipeUi} | 평가 룰 개수: {first.Evaluation.Rules.Length}개");
