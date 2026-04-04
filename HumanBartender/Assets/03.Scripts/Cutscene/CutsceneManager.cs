@@ -54,7 +54,7 @@ public class CutSceneManager : MonoBehaviour
 
     // ── 외부 진입점 ───────────────────────────────────────────────────
 
-    public async UniTask PlayCutSceneAsync(string id)
+    public async UniTask PlayCutSceneAsync(string id, UniTaskCompletionSource tcs = null)
     {
         if (!data.cachedById.TryGetValue(id, out Cutscene cutScene))
         {
@@ -63,6 +63,11 @@ public class CutSceneManager : MonoBehaviour
         }
 
         await RunSequenceAsync(cutScene);
+
+        if(tcs != null)
+        {
+            tcs.TrySetResult();
+        }
     }
 
     // ── 시퀀스 실행 ───────────────────────────────────────────────────

@@ -87,9 +87,14 @@ public class DialogueCharacterManager : MonoBehaviour
         }
 
         Logger.LogWarning($"[CharacterManager:{part.PartName}] default도 없음 → fallback sprite");
-        await LoadFallbackAsync();
+        //await LoadFallbackAsync();
     }
 
+
+    /// <summary>
+    /// TODO : 이걸 굳이 여기서 따로 할 필요가 있는 지 검토 필요,
+    /// </summary>
+    /// <returns></returns>
     private async UniTask LoadFallbackAsync()
     {
         if (_handleFallback.HasValue) return;

@@ -1,11 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
+
 
 public class DataLoadManager : MonoBehaviour
 {
+    [SerializeField] bool isTest;
+    [SerializeField] string testDayName;
+    
+
     [SerializeField] CocktailDataSO cocktailData;
     [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CharacterDataSO characterData;
-    [SerializeField] CharacterAnimSO characterAnimConfig;  // 추가
+    [SerializeField] CharacterAnimSO characterAnimConfig;
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
     [SerializeField] CutSceneDataSO cutSceneData;
@@ -13,11 +19,13 @@ public class DataLoadManager : MonoBehaviour
     void Start()
     {
         // 1. JSON 파일 로드
+        dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(
+            isTest ? testDayName : "day1.json");
+
         cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets("cocktails.json");
         characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
         characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets("character_anim.json");
         ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
-        dayData.dayData                     = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets("day1.json");
         craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
         cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
 

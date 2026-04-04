@@ -122,23 +122,25 @@ public class CocktailCraftManager : MonoBehaviour
     //아래 두 함수는 컷씬 구조 정립 후 다시 정리하기
     private async UniTaskVoid SpawnMiniGameAsync(string style, GameObject prefab)
     {
-        UniTaskCompletionSource miniGameTcs = new UniTaskCompletionSource();
-        miniGameTcs = new UniTaskCompletionSource();
+        UniTaskCompletionSource miniGameEndTcs = new UniTaskCompletionSource();
+        UniTaskCompletionSource miniGameInitTcs = new UniTaskCompletionSource();
+
         GameObject miniGameObj = null;
 
         //TODO : 여기도 진입할 때 컷씬 재생
-        //아 시발 json 진짜 ㅈ같네
-
-        await cutSceneManager.PlayCutSceneAsync(curCraftEventData.CraftCutscenes.craftEnterData[style]);
+        cutSceneManager.PlayCutSceneAsync
+            (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
         
         // TODO : 풀링.
         miniGameObj = Instantiate(prefab);
-
         IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
-        controller.InitGame(miniGameTcs);
 
-       
-        await miniGameTcs.Task;
+        //TODO 컷씬 중 생성해야하기 때문에 tcs 1회 사용은 필수. Init 시점 체크 필요.
+        await miniGameInitTcs.Task;
+
+        controller.InitGame(miniGameEndTcs);
+
+        await miniGameEndTcs.Task;
 
         Destroy(miniGameObj);
         EndCraft();

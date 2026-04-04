@@ -2989,7 +2989,6 @@ MonoBehaviour:
   - {fileID: 511417364}
   - {fileID: 1080221556}
   - {fileID: 1601650326}
-  - {fileID: 453292125}
 --- !u!4 &453292127
 Transform:
   m_ObjectHideFlags: 0
@@ -12064,18 +12063,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3881e7e75f6b948b8ace28a001b452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portraitImage: {fileID: 833364626}
+  animConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
   parts:
-  - PartName: Body
+  - PartName: body
     Animator: {fileID: 1130882385}
     BaseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-  - PartName: Eyes
+    SpriteRenderer: {fileID: 1130882383}
+  - PartName: eyes
     Animator: {fileID: 1630578768}
     BaseController: {fileID: 9100000, guid: 49f2b3accc69c6c40b24cb8aed8f0da9, type: 2}
-  - PartName: Mouth
+    SpriteRenderer: {fileID: 1630578766}
+  - PartName: mouth
     Animator: {fileID: 674263063}
     BaseController: {fileID: 9100000, guid: a1dbbc124fcffc44dafab57d0f0fcd84, type: 2}
-  fallbackSpriteAddress: Characters/Dummy/
+    SpriteRenderer: {fileID: 674263061}
+  fallbackSpriteAddress: 
 --- !u!1001 &1707800081
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,8 +1,11 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 [Serializable]
 public class CharacterPart
@@ -66,11 +69,6 @@ public class CharacterPart
 
         if (loopHandle.HasValue)
         {
-            // LoadAsync 성공 직후 임시로 추가
-            //var clip = loopHandle.Value.Result;
-            //foreach (var binding in AnimationUtility.GetObjectReferenceCurveBindings(clip))
-            //    Debug.Log($"Path: '{binding.path}' / Property: {binding.propertyName}");
-
             // ── 2. Intro 로드 시도 (없으면 Loop로 대체) ──────────────────
             var introHandle = await TryLoadAsync<AnimationClip>(introAddress);
 
@@ -105,6 +103,7 @@ public class CharacterPart
         return false;
     }
 
+ 
     // ── 외부 제어 ────────────────────────────────────────────────────────
 
     public void OnDialogueStart()
@@ -183,9 +182,17 @@ public class CharacterPart
     /// <summary>
     /// 로드 성공 시 handle 반환, 실패/예외 시 null 반환.
     /// 실패한 handle은 내부에서 즉시 릴리즈.
+    /// TODO : ExistsInAddressables 함수는 순수 파일 존재 여부만 검사하기에 따로 또 처리해야함.
     /// </summary>
-    private static async UniTask<AsyncOperationHandle<T>?> TryLoadAsync<T>(string address)
+    private async UniTask<AsyncOperationHandle<T>?> TryLoadAsync<T>(string address)
     {
+        bool exists = await ExistsInAddressables(address);
+        if (!exists)
+        {
+            Debug.LogWarning($"Addressable key not found: {address}");
+            return null;
+        }
+
         var handle = Addressables.LoadAssetAsync<T>(address);
         try
         {
@@ -206,6 +213,18 @@ public class CharacterPart
             return null;
         }
     }
+
+    public async UniTask<bool> ExistsInAddressables(string key)
+    {
+        var handle = Addressables.LoadResourceLocationsAsync(key);
+        IList<IResourceLocation> locations = await handle.ToUniTask();
+
+        bool exists = locations != null && locations.Count > 0;
+
+        Addressables.Release(handle);
+        return exists;
+    }
+
 
     // ── 릴리즈 ───────────────────────────────────────────────────────────
 

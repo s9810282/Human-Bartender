@@ -25,7 +25,9 @@ public class ETCEntry
 }
 
 
-
+/// <summary>
+/// 추후 스크립트 방식에 대해 검토,
+/// </summary>
 public class IngredientLibrary : MonoBehaviour
 {
     [SerializeField] List<LiquidEntry> liquidEntries = new();
