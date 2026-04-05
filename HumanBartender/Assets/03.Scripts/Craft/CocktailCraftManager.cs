@@ -154,14 +154,14 @@ public class CocktailCraftManager : MonoBehaviour
         await miniGameEndTcs.Task;
 
         Destroy(miniGameObj);
-        EndCraft();
+        EndCraft().Forget();
     }
 
 
     /// <summary>
     /// Craft는 종료 후 다시 Main으
     /// </summary>
-    public void EndCraft()
+    public async UniTaskVoid EndCraft()
     {
         Logger.Log("컷씬 재생");
         Logger.Log("Shake 끝남 판정");
@@ -172,14 +172,30 @@ public class CocktailCraftManager : MonoBehaviour
         GameStateManager.Instance.CurrentGameState = GameState.Play;
         ingredientPanel.gameObject.SetActive(false);
 
-
+        //아 시발
         //판정 때리기
         string result = Evaluate();
+        string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;
+        if(result == "unknown")
+        {
+            if(curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
+                targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Failed;
+        }
+        else
+        {
+            if (curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id] != null)
+                targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id];
+        }
+
+        await cutSceneManager.PlayCutSceneAsync(targetCutsceneId);
+
+
+        //이 컷씬이 끝났으면 ServeAnimation 실행하기 시발 스파인임.
+
         ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
 
         if(resultReaction.CutsceneId != null)
         {
-            //TODO : 컷씬 데이터가 있으면 컷씬 재생
             cutSceneManager.PlayCutSceneAsync(resultReaction.CutsceneId).Forget();
         }
         

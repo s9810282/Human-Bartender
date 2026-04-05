@@ -192,7 +192,7 @@ public class CutSceneManager : MonoBehaviour
         List<UniTask> enterTasks = new();
         for (int i = 0; i < assigned.Count; i++)
         {
-            assigned[i].gameObject.SetActive(true);
+            assigned[i].gameObject.SetActive(true);   
 
             string enterType;
             float duration;
