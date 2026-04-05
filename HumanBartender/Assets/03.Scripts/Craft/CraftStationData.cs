@@ -21,23 +21,26 @@ public class CraftIngrediantData
     }
 }
 
-
 [CreateAssetMenu(fileName = "CraftLiquidData", menuName = "Scriptable Objects/CraftLiquidData")]
 public class CraftStationData : ScriptableObject
 {
+    public string targetCocktailId;
     public CocktailData targetCocktailData;
-    public List<CraftIngrediantData> ingredientDatas = new();
+    public Dictionary<string, CraftIngrediantData> ingredientDatas = new();
     
     public CraftingResult craftingResult = new();
 
-    public void AddIngrediant(CraftIngrediantData initial)
-    {
-        ingredientDatas.Add(initial);
-    }
     public void AddIngrediant(IngredientData data, int amount)
     {
-        CraftIngrediantData initial = new CraftIngrediantData(data, amount);
-        ingredientDatas.Add(initial);
+        if (ingredientDatas.ContainsKey(data.Id))
+        {
+            CraftIngrediantData initial = new CraftIngrediantData(data, amount);
+            ingredientDatas.Add(data.Id, initial);
+        }
+        else
+        {
+            ingredientDatas[data.Id].value += amount;
+        }
     }
 
     public void ResetIngrediant()

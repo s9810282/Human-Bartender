@@ -11648,7 +11648,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78793b2e3848e848b456b045e511506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataSO: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
+  craftDataSO: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
+  cocktailDataSO: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
   craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
   ingredientPanel: {fileID: 1492390161}
   shakePrefab: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}

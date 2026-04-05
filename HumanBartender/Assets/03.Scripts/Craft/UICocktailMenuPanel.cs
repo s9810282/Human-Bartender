@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UICocktailPanel : MonoBehaviour
+public class UICocktailMenuPanel : MonoBehaviour
 {
     [SerializeField] Image cocktailImage;
     [SerializeField] Text cocktailNameText;

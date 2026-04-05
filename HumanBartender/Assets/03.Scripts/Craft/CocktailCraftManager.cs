@@ -4,6 +4,10 @@ using VContainer.Unity;
 using VContainer;
 using Cysharp.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.Rendering;
+using UnityEditor.UIElements;
+using System;
 
 
 public interface IMiniGameController
@@ -14,7 +18,8 @@ public interface IMiniGameController
 
 public class CocktailCraftManager : MonoBehaviour
 {
-    [SerializeField] CraftDataSO dataSO;
+    [SerializeField] CraftDataSO craftDataSO;
+    [SerializeField] CocktailDataSO cocktailDataSO;
     [SerializeField] CraftStationData craftStation;
     [SerializeField] IngredientPanel ingredientPanel;
 
@@ -35,7 +40,7 @@ public class CocktailCraftManager : MonoBehaviour
 
     public CraftEventData GetCraftDataByID(string id)
     {
-        foreach(var item in dataSO.craftData.CraftEvents)
+        foreach(var item in craftDataSO.craftData.CraftEvents)
         {
             if(item.Id == id)
                 return item;
@@ -107,6 +112,9 @@ public class CocktailCraftManager : MonoBehaviour
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
 
+        craftStation.targetCocktailData = GetMatchingCocktails();
+        craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
+
         SpawnMiniGameAsync("shake", shakePrefab).Forget();
     }
     public void StartStur()
@@ -114,6 +122,9 @@ public class CocktailCraftManager : MonoBehaviour
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
+
+        craftStation.targetCocktailData = GetMatchingCocktails();
+        craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
         SpawnMiniGameAsync("stir", stirPrefab).Forget();
     }
@@ -161,6 +172,8 @@ public class CocktailCraftManager : MonoBehaviour
         GameStateManager.Instance.CurrentGameState = GameState.Play;
         ingredientPanel.gameObject.SetActive(false);
 
+
+        //판정 때리기
         string result = Evaluate();
         ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
 
@@ -183,6 +196,33 @@ public class CocktailCraftManager : MonoBehaviour
         curCraftEventData = default;
     }
 
+    public CocktailData GetMatchingCocktails()
+    {
+        int inputIngredientCount = craftStation.ingredientDatas.Count;
+
+        CocktailData? matchedCocktail = cocktailDataSO.allCocktails.Values.FirstOrDefault(cocktail =>
+        {
+            //재료 갯수가 다르다면 다음거
+            if (cocktail.Recipe.Length != inputIngredientCount)
+                return false;
+
+            foreach (var recipeItem in cocktail.Recipe)
+            {
+                //재료 존재 여부 및 갯수 체크
+                if (!craftStation.ingredientDatas.TryGetValue(recipeItem.Ingredient, out var stationData))
+                    return false;
+
+                if (stationData.value != recipeItem.Count)
+                    return false;
+            }
+
+            return true;
+        });
+
+        return matchedCocktail ?? cocktailDataSO.allCocktails["unknown"];    
+    }
+
+
 
     public string Evaluate()
     {
@@ -190,10 +230,12 @@ public class CocktailCraftManager : MonoBehaviour
 
         CocktailData cocktail = craftStation.targetCocktailData;
 
+        //제작법이 build 이거나 액션 횟수가 목표횟수 범위 내라면 제작 성공.
         bool craftSuccess = 
         (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build")
        || (Mathf.Abs(craftStation.craftingResult.acionCount - cocktail.TargetCount)
        <= curCraftEventData.Evaluation.CraftTolerance);
+
 
         foreach (var rule in curCraftEventData.Evaluation.Rules)
         {

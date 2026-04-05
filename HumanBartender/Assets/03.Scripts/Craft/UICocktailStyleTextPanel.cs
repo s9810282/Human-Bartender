@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UICocktailTextPanel : MonoBehaviour
+public class UICocktailStyleTextPanel : MonoBehaviour
 {
     [SerializeField] UIContentsText uIContentsText;
     [SerializeField] Button panelButton;

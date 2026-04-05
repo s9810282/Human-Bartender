@@ -14,12 +14,13 @@ public class CocktailPanel : MonoBehaviour
     [SerializeField] Transform cocktailTextPanelBaseParent;
     [SerializeField] Transform cocktailTextPanelMethodParent;
     [SerializeField] Transform cocktailTextPanelStyleParent;
-    [SerializeField] UICocktailTextPanel cocktailTextPanel;
+
+    [SerializeField] UICocktailStyleTextPanel cocktailTextPanel;
 
     [Header("UICocktail Panel")]
-    [SerializeField] Dictionary<CocktailData, UICocktailPanel> cocktailPanelList = new();
+    [SerializeField] Dictionary<CocktailData, UICocktailMenuPanel> cocktailPanelList = new();
     [SerializeField] Transform cocktailPanelParent;
-    [SerializeField] UICocktailPanel cocktailPanel;
+    [SerializeField] UICocktailMenuPanel cocktailPanel;
 
     [Header("UICocktail Detail Panel")]
     [SerializeField] UICocktailDetailPanel cocktailDetailPanel;
