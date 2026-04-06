@@ -8,14 +8,21 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 
 public class SpriteAnimationManager : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Animator spriteAnimator;
 
+    [SerializeField] RuntimeAnimatorController BaseController;
 
+    private AnimatorOverrideController _overrideController;
+
+    private const string ANIM_SLOT = "SpriteAnim";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        _overrideController = new AnimatorOverrideController(BaseController);
+        spriteAnimator.runtimeAnimatorController = _overrideController;
+        spriteAnimator.enabled = false;
     }
 
     // Update is called once per frame
@@ -24,15 +31,60 @@ public class SpriteAnimationManager : MonoBehaviour
         
     }
 
-
-    public async UniTask<bool> LoadAsync(string id)
+    public async UniTask PlayAnimation(string id)
     {
+        await LoadAsync(id);
+    }    
 
+    private async UniTask<bool> LoadAsync(string id)
+    {
+        if (id == "")
+        {
+            SetInactive();
+            return false;
+        }
 
-        await UniTask.Yield();
-        return false;
+        var handle = await TryLoadAsync<AnimationClip>(id);
+
+        if(handle.HasValue)
+        {
+            await ApplyAnimation(handle.Value.Result);
+            return true;
+        }   
+        else
+        {
+            Logger.Log($"해당 애니메이션 {id} 파일 미존재, 리소스 체크 요망");
+            return false;
+        }
     }
 
+    private async UniTask ApplyAnimation(AnimationClip clip)
+    {
+        spriteRenderer.sprite = null;
+        spriteAnimator.gameObject.SetActive(true);
+
+        _overrideController[ANIM_SLOT] = clip;
+
+
+        spriteAnimator.enabled = true;
+
+        spriteAnimator.speed = 1f;
+        spriteAnimator.Play(ANIM_SLOT, 0, 0f);
+
+        await UniTask.WaitForSeconds(clip.length);
+
+        if (spriteAnimator != null)
+            spriteAnimator.speed = 0f;
+
+        return;
+    }
+
+    public void SetInactive()
+    {
+        spriteAnimator.enabled = false;
+        spriteRenderer.sprite = null;
+        spriteAnimator.gameObject.SetActive(false);
+    }
 
 
     /// <summary>
@@ -68,7 +120,6 @@ public class SpriteAnimationManager : MonoBehaviour
             return null;
         }
     }
-
     public async UniTask<bool> ExistsInAddressables(string key)
     {
         var handle = Addressables.LoadResourceLocationsAsync(key);
@@ -79,4 +130,15 @@ public class SpriteAnimationManager : MonoBehaviour
         Addressables.Release(handle);
         return exists;
     }
+
+    public void Release()
+    {
+        if (_overrideController != null)
+        {
+            UnityEngine.Object.Destroy(_overrideController);
+            _overrideController = null;
+        }
+    }
+
+
 }

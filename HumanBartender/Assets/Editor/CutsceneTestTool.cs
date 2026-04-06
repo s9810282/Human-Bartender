@@ -327,7 +327,7 @@ public class CutsceneTestTool : EditorWindow
 
             GUI.enabled = canPlay;
             if (GUILayout.Button("▶  재생", EditorStyles.toolbarButton, GUILayout.Height(28)))
-                cutsceneManager.PlayCutSceneAsync(selectedId).Forget();
+                cutsceneManager.PlayComicCutSceneAsync(selectedId).Forget();
 
             if (GUILayout.Button("■  초기화", EditorStyles.toolbarButton, GUILayout.Width(80)))
                 cutsceneManager.ResetImages();

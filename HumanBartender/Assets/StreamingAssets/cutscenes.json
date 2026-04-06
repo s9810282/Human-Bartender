@@ -104,7 +104,7 @@
         {
           "time": 0.0,
           "action": "effect",
-          "effect_type": "fade_in",
+          "effect_type": "fade_out",
           "duration": 0.3
         },
         {
@@ -149,7 +149,7 @@
         {
           "time": 0.0,
           "action": "effect",
-          "effect_type": "fade_in",
+          "effect_type": "fade_out",
           "duration": 0.3
         },
         {
@@ -256,6 +256,12 @@
           "action": "hide_all",
           "exit": "fade_in",
           "exit_duration": 0.3
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
         }
       ]
     },
@@ -270,7 +276,7 @@
         {
           "time": 0.0,
           "action": "effect",
-          "effect_type": "fade_in",
+          "effect_type": "fade_out",
           "duration": 0.3
         },
         {
@@ -308,6 +314,12 @@
           "action": "hide_all",
           "exit": "fade_out",
           "exit_duration": 0.5
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
         }
       ]
     },
@@ -351,6 +363,12 @@
           "action": "hide_all",
           "exit": "cut",
           "exit_duration": 0
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
         }
       ]
     }

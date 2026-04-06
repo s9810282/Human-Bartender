@@ -47,7 +47,7 @@
           {
             "result": "normal",
             "match_type": "keyword",
-            "match_values": ["상큼한"],
+            "match_values": ["gin_fizz"],
             "require_craft_success": true,
             "description": "상큼한 키워드 포함 + 제조 횟수 정확"
           }
@@ -81,7 +81,7 @@
         },
         "bad": {
           "dialogue_id": "d1c1_react_BC_001",
-          "cutscene_id": null,
+          "cutscene_id": "day1_react_perfect",
           "affinity": -2,
           "karma": 2
         }

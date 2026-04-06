@@ -32,7 +32,7 @@ public class CraftStationData : ScriptableObject
 
     public void AddIngrediant(IngredientData data, int amount)
     {
-        if (ingredientDatas.ContainsKey(data.Id))
+        if (!ingredientDatas.ContainsKey(data.Id))
         {
             CraftIngrediantData initial = new CraftIngrediantData(data, amount);
             ingredientDatas.Add(data.Id, initial);

@@ -9,6 +9,9 @@ public class CutSceneManager : MonoBehaviour
 {
     [SerializeField] CutSceneDataSO data;
 
+    [SerializeField] SpriteAnimationManager spriteAnimationManager;
+
+    [SerializeField] Canvas cutSceneCanvas;
     [SerializeField] RectTransform canvasRect;
     [SerializeField] Image effectOverlay;           // 화면 전체 페이드/플래시용 단일 오버레이
     [SerializeField] List<Image> images = new();
@@ -52,10 +55,26 @@ public class CutSceneManager : MonoBehaviour
         };
     }
 
+    public void ClearCutScene()
+    {
+        ResetImages();
+        spriteAnimationManager.SetInactive();
+    }
+
     // ── 외부 진입점 ───────────────────────────────────────────────────
 
-    public async UniTask PlayCutSceneAsync(string id, UniTaskCompletionSource tcs = null)
+
+    public async UniTask PlayAnimationCutScene(string id)
     {
+        cutSceneCanvas.worldCamera = Camera.main;
+
+        await spriteAnimationManager.PlayAnimation(id);
+    }
+
+    public async UniTask PlayComicCutSceneAsync(string id, UniTaskCompletionSource tcs = null)
+    {
+        cutSceneCanvas.worldCamera = Camera.main;
+
         if (!data.cachedById.TryGetValue(id, out Cutscene cutScene))
         {
             Debug.LogWarning($"[CutsceneManager] 컷씬 ID를 찾을 수 없음: {id}");
@@ -485,8 +504,8 @@ public class CutSceneManager : MonoBehaviour
         rect.anchorMax = anchor;
         rect.pivot     = anchor;
 
-        float w = canvasRect.rect.width;
-        float h = canvasRect.rect.height;
+        float w = canvasRect.rect.width - padding_X;
+        float h = canvasRect.rect.height - padding_Y;
 
         rect.sizeDelta        = new Vector2(w * preset.Width, h * preset.Height);
         rect.anchoredPosition = new Vector2(w * preset.OffsetX, h * preset.OffsetY);

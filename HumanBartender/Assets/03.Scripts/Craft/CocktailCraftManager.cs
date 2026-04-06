@@ -8,12 +8,16 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEditor.UIElements;
 using System;
+using Unity.VisualScripting;
 
 
 public interface IMiniGameController
 {
-    void InitGame(UniTaskCompletionSource tcs);
-    void EndMiniGame();
+    public void InitGame(UniTaskCompletionSource tcs);
+    public void CompleteMade();
+    public void OnNextButton();
+    public void Serve();
+    public void Retry();
 }
 
 public class CocktailCraftManager : MonoBehaviour
@@ -32,6 +36,9 @@ public class CocktailCraftManager : MonoBehaviour
 
     [SerializeField] CraftEventData curCraftEventData;
     private UniTaskCompletionSource<string> mainCraftingTcs;
+
+    GameObject miniGameObj = null;
+    IMiniGameController controller = null;
 
     public void Start()
     {
@@ -92,12 +99,6 @@ public class CocktailCraftManager : MonoBehaviour
         }
     }
 
-
-    public void ProcessCraftResult()
-    {
-        EndCraft().Forget();
-    }
-
     /// <summary>
     /// 연출 있다는데 그건 그때 넣어야되는거고
     /// </summary>
@@ -115,7 +116,10 @@ public class CocktailCraftManager : MonoBehaviour
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
-        SpawnMiniGameAsync("shake", shakePrefab).Forget();
+        Logger.Log(craftStation.targetCocktailData);
+        Logger.Log(craftStation.targetCocktailData.Id);
+
+        StartMiniGameAsync("shake", shakePrefab).Forget();
     }
     public void StartStur()
     {
@@ -126,25 +130,25 @@ public class CocktailCraftManager : MonoBehaviour
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
-        SpawnMiniGameAsync("stir", stirPrefab).Forget();
+        StartMiniGameAsync("stir", stirPrefab).Forget();
     }
 
 
     //아래 두 함수는 컷씬 구조 정립 후 다시 정리하기
-    private async UniTaskVoid SpawnMiniGameAsync(string style, GameObject prefab)
+    private async UniTaskVoid StartMiniGameAsync(string style, GameObject prefab)
     {
         UniTaskCompletionSource miniGameEndTcs = new UniTaskCompletionSource();
         UniTaskCompletionSource miniGameInitTcs = new UniTaskCompletionSource();
 
-        GameObject miniGameObj = null;
+        miniGameObj = null;
 
         //TODO : 여기도 진입할 때 컷씬 재생
-        cutSceneManager.PlayCutSceneAsync
+        cutSceneManager.PlayComicCutSceneAsync
             (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
         
         // TODO : 풀링.
         miniGameObj = Instantiate(prefab);
-        IMiniGameController controller = miniGameObj.GetComponent<IMiniGameController>();
+        controller = miniGameObj.GetComponent<IMiniGameController>();
 
         //TODO 컷씬 중 생성해야하기 때문에 tcs 1회 사용은 필수. Init 시점 체크 필요.
         await miniGameInitTcs.Task;
@@ -152,73 +156,105 @@ public class CocktailCraftManager : MonoBehaviour
         controller.InitGame(miniGameEndTcs);
 
         await miniGameEndTcs.Task;
-
-        Destroy(miniGameObj);
-        EndCraft().Forget();
+        await EndCraft();
     }
 
 
     /// <summary>
     /// Craft는 종료 후 다시 Main으
     /// </summary>
-    public async UniTaskVoid EndCraft()
-    {
-        Logger.Log("컷씬 재생");
-        Logger.Log("Shake 끝남 판정");
-        Logger.Log("결과 판정 추후 진행 : 디폴트 B.");
-        
-
-        string nextDialogueId = "";
+    public async UniTask EndCraft()
+    {        
         GameStateManager.Instance.CurrentGameState = GameState.Play;
         ingredientPanel.gameObject.SetActive(false);
+        
 
-        //아 시발
-        //판정 때리기
-        string result = Evaluate();
         string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;
-        if(result == "unknown")
+
+        if(craftStation.targetCocktailData.Id == "unknown")
         {
             if(curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
                 targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Failed;
         }
         else
         {
-            if (curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id] != null)
+            if (curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail.ContainsKey(craftStation.targetCocktailData.Id))
                 targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id];
         }
 
-        await cutSceneManager.PlayCutSceneAsync(targetCutsceneId);
-
-
+        Logger.Log(targetCutsceneId);
+        await cutSceneManager.PlayComicCutSceneAsync(targetCutsceneId);
 
         //이 컷씬이 끝났으면 ServeAnimation 실행하기
-        //targetCocktail Id 이용
+        //targetCocktail 이용
 
-        ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
 
-        if(resultReaction.CutsceneId != null)
-        {
-            cutSceneManager.PlayCutSceneAsync(resultReaction.CutsceneId).Forget();
-        }
+        targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
+        Logger.Log(targetCutsceneId);
+        await cutSceneManager.PlayAnimationCutScene(targetCutsceneId);
+
+        //컷씬 끝났으면 버튼 활성화.
+        controller.OnNextButton();
+    }
+
+
+    //아래 2개 버튼에 들어가야하는 함수. 아 tcs로 EndCraft에서 이어서 처리하는게 좋을령가
+    public void CraftServe()
+    {
+        string result = Evaluate();
+        Logger.Log(result);
         
-        nextDialogueId = resultReaction.CutsceneId;
+        ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
+        string nextDialogueId = resultReaction.DialogueId;
 
+        if (resultReaction.CutsceneId != null)
+        {
+            //리액션 컷씬
+            cutSceneManager.PlayComicCutSceneAsync(resultReaction.CutsceneId).Forget();
+        }
+
+        //추후 카르마 판정
 
         if (mainCraftingTcs != null)
         {
-            Logger.Log("Craft tcs not null");
+            Logger.Log($"Craft tcs not null {nextDialogueId}");
             mainCraftingTcs.TrySetResult(nextDialogueId);
             mainCraftingTcs = null;
         }
 
-        curCraftEventData = default;
+        ResetCraft();
     }
+    public void CraftRetry()
+    {
+
+    }
+
+    public void ResetCraft()
+    {
+        cutSceneManager.ClearCutScene();
+
+        curCraftEventData = default;
+
+        if (miniGameObj != null)
+            Destroy(miniGameObj);
+
+        miniGameObj = null;
+        controller = null;
+        mainCraftingTcs = null;
+    }
+
 
     public CocktailData GetMatchingCocktails()
     {
         int inputIngredientCount = craftStation.ingredientDatas.Count;
 
-        CocktailData? matchedCocktail = cocktailDataSO.allCocktails.Values.FirstOrDefault(cocktail =>
+        foreach (var item in craftStation.ingredientDatas)
+        {
+            Logger.Log(item.Key + "  " + item.Value.value);
+        }
+        
+        CocktailData matchedCocktail = cocktailDataSO.allCocktails.Values.FirstOrDefault(cocktail =>
         {
             //재료 갯수가 다르다면 다음거
             if (cocktail.Recipe.Length != inputIngredientCount)
@@ -227,21 +263,24 @@ public class CocktailCraftManager : MonoBehaviour
             foreach (var recipeItem in cocktail.Recipe)
             {
                 //재료 존재 여부 및 갯수 체크
+                Logger.Log(recipeItem.Ingredient);
                 if (!craftStation.ingredientDatas.TryGetValue(recipeItem.Ingredient, out var stationData))
                     return false;
 
-                if (stationData.value != recipeItem.Count)
+                //재료 담는 단위는 10 단위. 추후 통일하기.
+                if (stationData.value != (recipeItem.Count * 10))
                     return false;
             }
 
             return true;
         });
 
-        return matchedCocktail ?? cocktailDataSO.allCocktails["unknown"];    
+        
+        if (matchedCocktail.Id != null)
+            return matchedCocktail;
+        else
+            return cocktailDataSO.cocktailData.unknown_Cocktails;
     }
-
-
-
     public string Evaluate()
     {
         if (craftStation.targetCocktailData.Id == "unknown") return "bad";
@@ -254,7 +293,6 @@ public class CocktailCraftManager : MonoBehaviour
        || (Mathf.Abs(craftStation.craftingResult.acionCount - cocktail.TargetCount)
        <= curCraftEventData.Evaluation.CraftTolerance);
 
-
         foreach (var rule in curCraftEventData.Evaluation.Rules)
         {
             if (rule.MatchValues == null || rule.MatchValues.Length == 0) continue;
@@ -262,7 +300,7 @@ public class CocktailCraftManager : MonoBehaviour
             bool matched = rule.MatchType switch
             {
                 "cocktail_id" => rule.MatchValues.Contains(cocktail.Id),
-                "keyword" => rule.MatchValues.Any(kw => cocktail.Keywords.Contains(kw)),
+                "keyword" => cocktail.Keywords?.Length > 0 && rule.MatchValues.Any(kw => cocktail.Keywords.Contains(kw)),
                 "base" => rule.MatchValues.Contains(cocktail.BaseIngredient),
                 _ => false
             };

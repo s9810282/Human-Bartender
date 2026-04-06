@@ -6,9 +6,16 @@ using VContainer;
 
 public class ShakingManager : MonoBehaviour, IMiniGameController
 {
+    [SerializeField] Canvas gameCanvas;
+    [SerializeField] Canvas buttonCanvas;
+
     [SerializeField] Text countText;
     [SerializeField] CraftStationData craftStation;
     [SerializeField] ShakerInteraction shaker;
+
+    [Header("Craft Event")]
+    [SerializeField] VoidEvent craftServe;
+    [SerializeField] VoidEvent craftRetry;
 
     [SerializeField] string sceneName = "Shake";
 
@@ -17,7 +24,8 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        gameCanvas.worldCamera = Camera.main;
+        buttonCanvas.worldCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -40,7 +48,7 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
         countText.text = craftStation.craftingResult.acionCount.ToString();
     }
 
-    public void EndMiniGame()
+    public void CompleteMade()
     {
         craftStation.craftingResult.isResult = true;
 
@@ -52,5 +60,18 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
             Logger.Log("shakeManager tcs not null");
             tcs.TrySetResult();
         }
+    }
+    public void OnNextButton()
+    {
+        buttonCanvas.gameObject.SetActive(true);
+    }
+    public void Serve()
+    {
+        craftServe?.Raise(new Void());
+    }
+
+    public void Retry()
+    {
+        craftRetry?.Raise(new Void());
     }
 }

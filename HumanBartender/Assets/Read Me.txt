@@ -6,7 +6,11 @@
 
 characterPart에서 로드하는거에 대한 리펙토링 필요.
 단일 책임원칙에서 위반됨.
-리소소 로드를 전담하는 정적 클래스 혹은 Inject 될 클래스가 필요할듯
+리소스 로드를 전담하는 정적 클래스 혹은 Inject 될 클래스가 필요할듯
+
+아 시발 CharacterPart랑 SpriteAnimationManager랑 같은 기능을 써야하는데 시발
+구조를 병신같이 짜놔서 이렇게 하게 되네 ㅅㅂ
+
 
 
 Unitask의 await 기능과 tcs를 통한 시기 제한 기능을 통일해서 헷갈리지 않게 해야함.
@@ -18,4 +22,26 @@ IEnumerable은 명령=쿼리문만 쌓아두고 실행을 나중에 하기에 �
 덧씌웠다 하더라도 그전에 쌓였던 것들이 폭발함. 쿼리 누적 신경써야함.
 
 
+외부 처리할 때 유니티 렌더피쳐 찾아보기
+
+
 5. 텍스트 뷰어. 사이즈 동적 조절 기능.
+
+
+
+
+
+
+Order in Layer
+
+DialogueCanvas 5
+CraftCanvas 6
+
+shakingBG 9
+shaking liquid 10
+GameCanvas 11
+
+CutSceneCanvas 100 Overlay 인데??????????????????????????????????????
+Spriteanim 101
+
+GameButtonCanvas 102

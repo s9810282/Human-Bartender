@@ -50,6 +50,14 @@ public class CocktailDataSO : ScriptableObject
     {
         allCocktails = cocktailData?.Cocktails.ToDictionary(c => c.Id);
 
+        foreach(var c in allCocktails)
+        {
+            Logger.Log(c.Key);
+            Logger.Log(c.Value);
+        }
+        Logger.Log(cocktailData.unknown_Cocktails.Id);
+
+
         if (allCocktails == null || allCocktails.Count == 0) return;
 
         cachedSortedByName = SortByName();
@@ -201,4 +209,5 @@ public class CocktailDataSO : ScriptableObject
 public class CocktailDataBase
 {
     [JsonProperty("cocktails")] public CocktailData[] Cocktails { get; set; }
+    [JsonProperty("unknown_cocktail")] public CocktailData unknown_Cocktails { get; set; }
 }
