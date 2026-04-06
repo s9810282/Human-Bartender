@@ -95,7 +95,7 @@ public class CocktailCraftManager : MonoBehaviour
 
     public void ProcessCraftResult()
     {
-        EndCraft();
+        EndCraft().Forget();
     }
 
     /// <summary>
@@ -190,7 +190,9 @@ public class CocktailCraftManager : MonoBehaviour
         await cutSceneManager.PlayCutSceneAsync(targetCutsceneId);
 
 
-        //이 컷씬이 끝났으면 ServeAnimation 실행하기 시발 스파인임.
+
+        //이 컷씬이 끝났으면 ServeAnimation 실행하기
+        //targetCocktail Id 이용
 
         ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
 
