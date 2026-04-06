@@ -1,12 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VContainer.Unity;
 using VContainer;
 using Cysharp.Threading.Tasks;
 using System.Linq;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
-using UnityEditor.UIElements;
 using System;
 using Unity.VisualScripting;
 
@@ -199,7 +195,7 @@ public class CocktailCraftManager : MonoBehaviour
     }
 
 
-    //아래 2개 버튼에 들어가야하는 함수. 아 tcs로 EndCraft에서 이어서 처리하는게 좋을령가
+    //아래 2개 버튼에 들어가야하는 함수.
     public void CraftServe()
     {
         string result = Evaluate();

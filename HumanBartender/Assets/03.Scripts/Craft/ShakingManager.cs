@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LiquidSimulation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -9,9 +10,15 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     [SerializeField] Canvas gameCanvas;
     [SerializeField] Canvas buttonCanvas;
 
-    [SerializeField] Text countText;
+    [SerializeField] TextMeshProUGUI countText;
     [SerializeField] CraftStationData craftStation;
     [SerializeField] ShakerInteraction shaker;
+
+    //일단 하드코딩하기.
+    [Header("Craft Anim")]
+    [SerializeField] Animator characterAnim;
+    [SerializeField] int curAnimIndex = 0;
+    [SerializeField] int animMaxnIndex = 4;
 
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
@@ -34,20 +41,26 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
         
     }
 
+    public void PlayShakeAnim(int num)
+    {
+        Logger.Log("Shake Anim");
+
+        curAnimIndex = (curAnimIndex) % 4 + 1;
+        characterAnim.Play("Shaking" + curAnimIndex);
+    }
+
+    public void UpdateActionCount()
+    {
+        craftStation.craftingResult.acionCount++;
+        countText.text = "횟수 : " + craftStation.craftingResult.acionCount.ToString() + "회";
+    }
+
     public void InitGame(UniTaskCompletionSource tcs)
     {
         this.tcs = tcs;
         craftStation.craftingResult.acionCount = 0; // 카운트 초기화
         if (countText != null) countText.text = "0";
     }
-
-
-    public void AddActionCount()
-    {
-        craftStation.craftingResult.acionCount++;
-        countText.text = craftStation.craftingResult.acionCount.ToString();
-    }
-
     public void CompleteMade()
     {
         craftStation.craftingResult.isResult = true;

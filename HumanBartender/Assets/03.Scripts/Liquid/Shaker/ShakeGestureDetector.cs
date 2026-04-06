@@ -2,28 +2,12 @@ using UnityEngine;
 
 namespace LiquidSimulation
 {
-    /// <summary>
-    /// ★ 쉐이킹 제스처 감지기
-    /// 
-    /// 3개 점을 지그재그로 왕복하여 쉐이킹 감지.
-    /// 
-    /// 배치:
-    ///       ●[0] (위)
-    ///      /
-    ///     /
-    ///    ●[1] (중앙, 시작점)
-    ///     \
-    ///      \
-    ///       ●[2] (아래)
-    /// 
-    /// 순서: 1→0→1→2→1→0→1→2→…
-    /// 0 또는 2에 도달 후 1로 복귀 = 1회 쉐이킹.
-    /// </summary>
     public class ShakeGestureDetector : MonoBehaviour
     {
         [Header("SO Events")]
         [SerializeField] private VoidEvent onShakeEvent;
         [SerializeField] private VoidEvent onPenaltyEvent;
+        [SerializeField] private IntEvent shakeAnimEvent;
 
         [Header("Dot Layout")]
         [SerializeField] private Vector2 dotTop = new Vector2(0.6f, 0.8f);
@@ -81,16 +65,14 @@ namespace LiquidSimulation
             CheckDotHit(mouseWorld);
         }
 
-        // ============================================================
-        // ★ 핵심: 점 도달 감지 (상태 머신)
-        // ============================================================
+
 
         private void CheckDotHit(Vector2 mousePos)
         {
             for (int i = 0; i < 3; i++)
             {
                 float dist = Vector2.Distance(mousePos, GetDotWorldPosition(i));
-                if (dist > dotRadius) continue;
+                if (dist > dotRadius) continue; // 거리체크
                 if (i == lastReached) continue; // 같은 점 체류
 
                 switch (phase)
@@ -117,6 +99,7 @@ namespace LiquidSimulation
                         {
                             // 아직 끝점 안 갔는데 중앙 → 무시 (통과)
                         }
+                        shakeAnimEvent?.Raise(phase);
                         break;
 
                     case 2: // 중앙으로 복귀 중
@@ -131,8 +114,11 @@ namespace LiquidSimulation
                             targetDot = (lastEndDot == 0) ? 2 : 0;
                             phase = 1;
                         }
+                        shakeAnimEvent?.Raise(phase);
                         break;
                 }
+
+                
                 return; // 한 프레임에 한 점만 처리
             }
         }

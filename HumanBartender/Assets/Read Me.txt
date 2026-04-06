@@ -22,7 +22,14 @@ IEnumerable은 명령=쿼리문만 쌓아두고 실행을 나중에 하기에 �
 덧씌웠다 하더라도 그전에 쌓였던 것들이 폭발함. 쿼리 누적 신경써야함.
 
 
+Unitask Await 기능 사용 할 때 구분 명확히 하기
+이미 타고들어가는 함수 내에서 await 써서 종료를 늦췄는데 호출한 곳에서도 await 할 필요가없음.
+
+
 외부 처리할 때 유니티 렌더피쳐 찾아보기
+
+아 시발~ 미니게임도 바꿔야지~ 기획 바뀌는것도 개같은데 AI도 개같네
+
 
 
 5. 텍스트 뷰어. 사이즈 동적 조절 기능.
@@ -38,10 +45,11 @@ DialogueCanvas 5
 CraftCanvas 6
 
 shakingBG 9
+shakingCH  10
 shaking liquid 10
 GameCanvas 11
 
-CutSceneCanvas 100 Overlay 인데??????????????????????????????????????
+CutSceneCanvas 100
 Spriteanim 101
 
 GameButtonCanvas 102
