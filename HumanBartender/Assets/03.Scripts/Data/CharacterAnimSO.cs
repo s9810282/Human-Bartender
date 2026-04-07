@@ -38,30 +38,35 @@ public class CharacterAnimSO : ScriptableObject
         => GetPartData(characterId, "default", partName);
 }
 
-
+// ── 데이터 루트 ───────────────────────────────────────────────────────────
 [Serializable]
 public class CharacterAnimBase
 {
-    [JsonProperty("characters")] public Dictionary<string, CharacterAnimData> Characters { get; set; }
+    [JsonProperty("characters")]
+    public Dictionary<string, CharacterAnimData> Characters { get; set; }
 }
 
-
+// ── 캐릭터 단위 ───────────────────────────────────────────────────────────
 [Serializable]
 public class CharacterAnimData
 {
-    [JsonProperty("base_body")] public string BaseBody { get; set; }
+    [JsonProperty("base_body")]
+    public string BaseBody { get; set; }
 
-    [JsonProperty("expressions")] public Dictionary<string, ExpressionAnimData> Expressions { get; set; }
+    [JsonProperty("expressions")]
+    public Dictionary<string, ExpressionAnimData> Expressions { get; set; }
 }
 
-
+// ── Expression 단위 ───────────────────────────────────────────────────────
 [Serializable]
 public class ExpressionAnimData
 {
+    // JSON의 "eyes" / "mouth" / "body" 키를 그대로 사용
     [JsonProperty("eyes")] public PartAnimData Eyes { get; set; }
     [JsonProperty("mouth")] public PartAnimData Mouth { get; set; }
     [JsonProperty("body")] public PartAnimData Body { get; set; }
 
+    /// <summary>파트 이름 문자열로 PartAnimData 조회 (CharacterPart.PartName과 매칭)</summary>
     public bool TryGetPart(string partName, out PartAnimData data)
     {
         data = partName switch
@@ -83,11 +88,14 @@ public class ExpressionAnimData
     };
 }
 
+// ── 파트 단위 ─────────────────────────────────────────────────────────────
 [Serializable]
 public class PartAnimData
 {
-    [JsonProperty("clip")] public string Clip { get; set; }
+    [JsonProperty("clip")]
+    public string Clip { get; set; }
 
     /// <summary>"always" / "on_dialogue" / "once" / "none"</summary>
-    [JsonProperty("loop")] public string Loop { get; set; }
+    [JsonProperty("loop")]
+    public string Loop { get; set; }
 }

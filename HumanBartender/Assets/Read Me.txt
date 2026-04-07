@@ -1,19 +1,16 @@
-*characterPart에서 로드하는거에 대한 리펙토링 필요.
+1. 칵테일 제조 컷씬 마무리하고, 구조 정리하기
+2. 컷씬 매니저 제작하기, json 분석 후 사용
+3. 프로토타입 컷씬 적용하기
+4. 각종 연출 제작하기.
+
+
+characterPart에서 로드하는거에 대한 리펙토링 필요.
 단일 책임원칙에서 위반됨.
 리소스 로드를 전담하는 정적 클래스 혹은 Inject 될 클래스가 필요할듯
 
 아 시발 CharacterPart랑 SpriteAnimationManager랑 같은 기능을 써야하는데 시발
-구조를 병신같이 짜놔서 이렇게 하게 되네 ㅅㅂ*
+구조를 병신같이 짜놔서 이렇게 하게 되네 ㅅㅂ
 
-=> AsyncOperationHandle로 로드한 후 사용한 에셋은 AsyncOperationHandle이 Release될 때 null로 바뀌므로
-Handle을 에셋을 사용하는 주체에서 관리할 필요가 있다.,
-비동기 로딩이다 보니 함수 재진입을 통한 기존 로딩 날림 및 새 로딩 시작 시 메모리 누수 및 위험 존재.
-
-CancellationToken 제어하기
-
-Dialogue 구조 자체에서 SetCharacterAsync를 기다리기는 하지만 이에 대한 예외처리 필요.
-SetCharacterAsync가 실행 중 SetCharacterAsync한번더 실행되면 일부 파츠는 변환이 되고 일부는 안될 수 이씅ㅁ
-실 사용에선 새 SetCharacterAsync가 덮어씌우기에 문제가 되지않겠지만 인지하기,
 
 
 Unitask의 await 기능과 tcs를 통한 시기 제한 기능을 통일해서 헷갈리지 않게 해야함.
@@ -31,6 +28,7 @@ Unitask Await 기능 사용 할 때 구분 명확히 하기
 
 외부 처리할 때 유니티 렌더피쳐 찾아보기
 
+아 시발~ 미니게임도 바꿔야지~ 기획 바뀌는것도 개같은데 AI도 개같네
 
 
 

@@ -1,8 +1,7 @@
 using Cysharp.Threading.Tasks;
-using System;
-using System.Threading;
 using UnityEngine;
-
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class DialogueCharacterManager : MonoBehaviour
 {
@@ -10,10 +9,12 @@ public class DialogueCharacterManager : MonoBehaviour
     [SerializeField] private CharacterAnimSO animConfig;
 
     [Header("Parts")]
-    [SerializeField] private CharacterPart[] parts;
+    [SerializeField] private CharacterPart[] parts; // eyes / mouth / body 순
 
-    private CancellationTokenSource _cts;
+    [Header("Fallback")]
+    [SerializeField] private string fallbackSpriteAddress = "Characters/Fallback";
 
+    private AsyncOperationHandle<Sprite>? _handleFallback;
 
     private void Awake()
     {
@@ -24,42 +25,29 @@ public class DialogueCharacterManager : MonoBehaviour
     
 
     public async UniTask SetCharacterAsync(string characterId, string expression)
-    {        
-        //cancel 토큰 초기화
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = new CancellationTokenSource();
-
-        var token = CancellationTokenSource
-            .CreateLinkedTokenSource(_cts.Token, this.GetCancellationTokenOnDestroy())
-            .Token;
+    {
+        gameObject.SetActive(true);
+        ReleaseFallback();
 
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
-            PartAnimData data       = animConfig.GetPartData(characterId, expression, parts[i].partName);
-            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
-            tasks[i] = LoadPartAsync(parts[i], data, defaultData, token);
+            PartAnimData data       = animConfig.GetPartData(characterId, expression, parts[i].PartName);
+            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].PartName);
+            tasks[i] = LoadPartWithFallbackAsync(parts[i], data, defaultData);
         }
 
-        try
-        {
-            await UniTask.WhenAll(tasks);
-        }
-        catch (OperationCanceledException e)
-        {
-            Logger.Log(e.Message);
-
-        }
+        await UniTask.WhenAll(tasks);
     }
 
-    
+    /// <summary>대사 출력 시작 — OnDialogue 파트 활성화</summary>
     public void OnDialogueStart()
     {
         foreach (var part in parts)
             part.OnDialogueStart();
     }
 
+    /// <summary>대사 출력 완료 — OnDialogue 파트 정지</summary>
     public void OnDialogueEnd()
     {
         foreach (var part in parts)
@@ -68,106 +56,75 @@ public class DialogueCharacterManager : MonoBehaviour
 
     public void OffCharacter()
     {
-        foreach (var part in parts)
-            part.SetInactive();
+        gameObject.SetActive(false);
     }
 
     public void ReleaseAll()
     {
         foreach (var part in parts)
             part.Release();
+        ReleaseFallback();
     }
 
+    // ── 파트 로드 ────────────────────────────────────────────────────────
+
+    private async UniTask LoadPartWithFallbackAsync(
+        CharacterPart part,
+        PartAnimData  data,
+        PartAnimData  defaultData)
+    {
+        if (data == null)
+            Logger.Log("DATA null");
+
+        if (data != null && await part.LoadAsync(data))
+            return;
+
+        if (defaultData != null && defaultData != data)
+        {
+            Logger.LogWarning($"[CharacterManager:{part.PartName}] 로드 실패 → default 폴백");
+            if (await part.LoadAsync(defaultData))
+                return;
+        }
+
+        Logger.LogWarning($"[CharacterManager:{part.PartName}] default도 없음 → fallback sprite");
+        //await LoadFallbackAsync();
+    }
 
 
     /// <summary>
-    /// 애니메이션 로드시도 :  loop 클립 로드 -> intro 클립 로드 시도 -> Part.Applyanimaton
-    /// 스프라이트 로드시도 : 해당 파츠 Sprite 로드 시도 -> Part.ApplySprite
-    /// 디폴트 스프라이트 로드 시도 : 존재 여부 확인 후 -> Part.ApplySprite
-    /// 
-    /// 모두 실패한다면 SetInactive()
+    /// TODO : 이걸 굳이 여기서 따로 할 필요가 있는 지 검토 필요,
     /// </summary>
-    /// <param name="part"></param>
-    /// <param name="data"></param>
-    /// <param name="defaultData"></param>
     /// <returns></returns>
-    private async UniTask LoadPartAsync(
-        CharacterPart part,
-        PartAnimData data,
-        PartAnimData defaultData,
-        CancellationToken token)
+    private async UniTask LoadFallbackAsync()
     {
-        if (data == null) return;
-        if (data.Loop == "none")
+        if (_handleFallback.HasValue) return;
+
+        var handle = Addressables.LoadAssetAsync<Sprite>(fallbackSpriteAddress);
+        try
         {
-            part.SetInactive();
-            return;
+            await handle.ToUniTask();
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+                _handleFallback = handle;
+            else
+            {
+                if (handle.IsValid()) Addressables.Release(handle);
+                Logger.LogError($"[CharacterManager] fallback 로드 실패: {fallbackSpriteAddress}");
+            }
         }
-
-        if (await LoadAnimAsync(part, data, token)) //Anim
-            return;
-
-        if (await LoadSpriteAsync(part, data.Clip, token)) //Sprite
-            return;
-
-        if (defaultData == null) return;
-
-        Logger.LogWarning($"[CharacterManager:{part.partName}] 로드 실패 → default 폴백");
-
-        if (await LoadSpriteAsync(part, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
-            return;
-
-        Logger.LogWarning($"[CharacterManager:{part.partName}] default도 없음 → fallback sprite");
-        part.SetInactive();
+        catch
+        {
+            if (handle.IsValid()) Addressables.Release(handle);
+        }
     }
 
-    public async UniTask<bool> LoadAnimAsync(
-        CharacterPart part, 
-        PartAnimData data,
-        CancellationToken token)
+    private void ReleaseFallback()
     {
-        part.SetLoopMode(data.Loop);
-
-        string clipAddress = data.Clip;
-        string introAddress = $"{clipAddress}_Intro";
-        string loopAddress = $"{clipAddress}_Loop";
-
-        var loopHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(loopAddress, token);
-
-
-        if (loopHandle.HasValue)
+        if (_handleFallback.HasValue && _handleFallback.Value.IsValid())
         {
-            var introHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(introAddress, token);
-            part.ApplyAnimation(introHandle, loopHandle);
-
-            return true;
+            Addressables.Release(_handleFallback.Value);
+            _handleFallback = null;
         }
-
-        return false;
     }
 
-    public async UniTask<bool> LoadSpriteAsync(
-        CharacterPart part, 
-        string address,
-        CancellationToken token)
-    {
-        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
-
-        if (spriteHandle.HasValue)
-        {
-            part.ApplySprite(spriteHandle);
-            return true;
-        }
-
-        Logger.LogWarning($"[CharacterPart:{part.partName}] '{address}' 리소스 없음");
-        return false;
-    }
-
-    private void OnDestroy()
-    { 
-        ReleaseAll();
-
-        _cts?.Cancel();
-        _cts?.Dispose();
-    }
+    private void OnDestroy() => ReleaseAll();
 }

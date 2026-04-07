@@ -1250,7 +1250,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: "\uC548\uB155\uD558\uC138\uC694"
 --- !u!222 &210090732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12155,18 +12155,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
   parts:
-  - partName: body
+  - PartName: body
     Animator: {fileID: 1130882385}
-    SpriteRenderer: {fileID: 1130882383}
     BaseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-  - partName: eyes
+    SpriteRenderer: {fileID: 1130882383}
+  - PartName: eyes
     Animator: {fileID: 1630578768}
-    SpriteRenderer: {fileID: 1630578766}
     BaseController: {fileID: 9100000, guid: 49f2b3accc69c6c40b24cb8aed8f0da9, type: 2}
-  - partName: mouth
+    SpriteRenderer: {fileID: 1630578766}
+  - PartName: mouth
     Animator: {fileID: 674263063}
-    SpriteRenderer: {fileID: 674263061}
     BaseController: {fileID: 9100000, guid: a1dbbc124fcffc44dafab57d0f0fcd84, type: 2}
+    SpriteRenderer: {fileID: 674263061}
+  fallbackSpriteAddress: 
 --- !u!1001 &1707800081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14117,7 +14118,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: "\uB8E8\uB098"
 --- !u!222 &2014775494
 CanvasRenderer:
   m_ObjectHideFlags: 0
