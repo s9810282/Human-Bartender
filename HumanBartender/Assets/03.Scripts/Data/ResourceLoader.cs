@@ -41,9 +41,9 @@ public static class ResourceLoader
         catch (OperationCanceledException)
         {
             if (handle.IsValid()) Addressables.Release(handle);
-            throw;  // 취소는 상위로 전파
+            throw;
         }
-        catch (Exception e) //파일 존재 여부를 제외한 에러 발생.
+        catch (Exception e)
         {
             Logger.Log(e.Message);
             if (handle.IsValid()) Addressables.Release(handle);

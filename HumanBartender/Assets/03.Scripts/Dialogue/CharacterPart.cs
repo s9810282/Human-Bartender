@@ -1,32 +1,48 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UIElements;
+
+
+public interface IPlaybackPolicy
+{
+    void OnPlay(AnimationPart animPart);
+    void OnDialogueStart(AnimationPart animPart);
+    void OnDialogueEnd(AnimationPart animPart);
+}
+
+public class AlwaysPlayback : IPlaybackPolicy
+{
+    public void OnDialogueEnd(AnimationPart animPart)
+    {
+        
+    }
+
+    public void OnDialogueStart(AnimationPart animPart)
+    {
+        
+    }
+
+    public void OnPlay(AnimationPart animPart)
+    {
+        
+    }
+}
 
 
 [Serializable]
-public class CharacterPart
+public abstract class AnimationPart
 {
-    [Tooltip("JSON key와 일치하는 Name")]
     [SerializeField] public string partName;
-    [SerializeField] Animator Animator;
-    [SerializeField] SpriteRenderer SpriteRenderer;
+    [SerializeField] protected Animator Animator;
+    [SerializeField] protected SpriteRenderer SpriteRenderer;
 
-    [Tooltip("Base Controller")]
-    public RuntimeAnimatorController BaseController;
+    [SerializeField] protected RuntimeAnimatorController BaseController;
 
-    private const string SLOT_INTRO = "Intro";
-    private const string SLOT_LOOP  = "Loop";
-
-    private AnimatorOverrideController _overrideController;
-    private string _currentLoopMode;
-
-
-    private AsyncOperationHandle<Sprite>? _spriteHandle;
-    private AsyncOperationHandle<AnimationClip>? _introHandle;
-    private AsyncOperationHandle<AnimationClip>? _loopHandle;
-
-
+    protected AnimatorOverrideController _overrideController;
+    
     public void Initialize()
     {
         _overrideController = new AnimatorOverrideController(BaseController);
@@ -34,50 +50,63 @@ public class CharacterPart
         Animator.enabled = false;
     }
 
+    public void SetSpeed(float s) => Animator.speed = s;
+    public void SetInactive() { Animator.enabled = false; SpriteRenderer.sprite = null; }
+    public void SetActive() { Animator.enabled = true; SpriteRenderer.sprite = null; }
+
+    public virtual void SetClip(string slot, AsyncOperationHandle<AnimationClip>? handle)
+    {
+        _overrideController[slot] = handle.Value.Result;
+    }
+    public virtual void SetClip(string slot, AnimationClip handle) => _overrideController[slot] = handle;
+
+    public abstract void PlayAnimation(string animName, CancellationToken token);
+    public abstract void ApplySprite(Sprite? sprite);
+
+    public virtual void Release()
+    {
+        if (_overrideController != null)
+        {
+            UnityEngine.Object.Destroy(_overrideController);
+            _overrideController = null;
+        }
+    }
+}
+
+
+
+    [Serializable]
+public class CharacterPart : AnimationPart
+{
+     private string _currentLoopMode;
+
     public void SetLoopMode(string loopMode)
     {
+        SpriteRenderer.sprite = null;
         _currentLoopMode = loopMode;
     }
 
-    public void ApplyAnimation(
-        AsyncOperationHandle<AnimationClip>? introHandle,
-    AsyncOperationHandle<AnimationClip>? loopHandle)
+    public override void PlayAnimation(string animName, CancellationToken token)
     {
-        ReleaseCurrentHandles();
-
-        _introHandle = introHandle;
-        _loopHandle = loopHandle;
-
-        SpriteRenderer.sprite = null;
-
-        var introClip = _introHandle.HasValue ? _introHandle.Value.Result : _loopHandle.Value.Result;
-
-        _overrideController[SLOT_INTRO] = introClip;
-        _overrideController[SLOT_LOOP] = _loopHandle.Value.Result;
-
-
-
-        Logger.Log("Intro 확인 후 실행");
-        Logger.Log($"{_introHandle.Value.Result.name}  {_loopHandle.Value.Result.name}  {_currentLoopMode}");
+        //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정
 
         Animator.enabled = true;
-
         switch (_currentLoopMode)
         {
             case "always":
                 Animator.speed = 1f;
-                Animator.Play(SLOT_INTRO, 0, 0f);
+                Animator.Play(animName, 0, 0f);
                 break;
 
             case "on_dialogue":
-                Animator.Play(SLOT_INTRO, 0, 0f);
+                Animator.Play(animName, 0, 0f);
                 Animator.speed = 0f;
                 break;
 
             case "once":
                 Animator.speed = 1f;
-                Animator.Play(SLOT_INTRO, 0, 0f);
-                WaitAndFreezeAsync().Forget();
+                Animator.Play(animName, 0, 0f);
+                WaitAndFreezeAsync(token).Forget();
                 break;
         }
     }
@@ -90,34 +119,27 @@ public class CharacterPart
     /// <param name="loopClip"></param>
     /// <returns></returns>
 
-    private async UniTaskVoid WaitAndFreezeAsync()
+    private async UniTaskVoid WaitAndFreezeAsync(CancellationToken token)
     {
-        await UniTask.WaitForSeconds(_overrideController[SLOT_INTRO].length);
-        await UniTask.WaitForSeconds(_overrideController[SLOT_LOOP].length);
+        for(int i = 0; i <  _overrideController.animationClips.Length; i++)
+        {
+            await UniTask.WaitForSeconds(_overrideController.animationClips[i].length);
+        }
 
         if (Animator != null)
             Animator.speed = 0f;
     }
 
 
-    public void ApplySprite(AsyncOperationHandle<Sprite>? handle)
-    {
-        ReleaseCurrentHandles();
-        _spriteHandle = handle;
-
-        Animator.enabled = false;
-        SpriteRenderer.sprite = handle.Value.Result;
-    }
-
-    public void SetInactive()
+    public override void ApplySprite(Sprite sprite)
     {
         Animator.enabled = false;
-        SpriteRenderer.sprite = null;
+        SpriteRenderer.sprite = sprite;
     }
 
 
     // Dialogue
-
+    //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueStart()
     {
         if (_currentLoopMode != "on_dialogue") return;
@@ -125,24 +147,16 @@ public class CharacterPart
         Animator.speed = 1f;
     }
 
+    //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
         if (_currentLoopMode != "on_dialogue") return;
         Animator.speed = 0f;
     }
 
-    private void ReleaseCurrentHandles()
+
+    public override void Release()//파괴 시
     {
-        ResourceLoader.ReleaseHandle(ref _spriteHandle);
-        ResourceLoader.ReleaseHandle(ref _introHandle);
-        ResourceLoader.ReleaseHandle(ref _loopHandle);
-    }
-
-
-    public void Release()//파괴 시
-    {
-        ReleaseCurrentHandles();
-
         if (_overrideController != null)
         {
             UnityEngine.Object.Destroy(_overrideController);

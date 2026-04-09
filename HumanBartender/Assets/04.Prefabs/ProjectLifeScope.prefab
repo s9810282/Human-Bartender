@@ -669,7 +669,6 @@ GameObject:
   - component: {fileID: 6267841711113335578}
   - component: {fileID: 5272795090787751557}
   - component: {fileID: 8093817222815499488}
-  - component: {fileID: 2785006911001963717}
   m_Layer: 0
   m_Name: ProjectLifeScope
   m_TagString: Untagged
@@ -739,7 +738,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
-  spriteAnimationManager: {fileID: 2785006911001963717}
+  spriteAnimationManager:
+    partName: SpriteCutScene
+    Animator: {fileID: 5852505851014542260}
+    SpriteRenderer: {fileID: 7751749045872520318}
+    BaseController: {fileID: 9100000, guid: 7a99b78cd3499ac4abfeeb755f990b96, type: 2}
   cutSceneCanvas: {fileID: 3433658920043195082}
   canvasRect: {fileID: 2366362166523076582}
   effectOverlay: {fileID: 551943493231934737}
@@ -752,21 +755,6 @@ MonoBehaviour:
   - {fileID: 5807815451679188689}
   padding_X: 96
   padding_Y: 54
---- !u!114 &2785006911001963717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7091543009631301304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c9dc1ecb8584d49826e954c247b836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 7751749045872520318}
-  spriteAnimator: {fileID: 5852505851014542260}
-  BaseController: {fileID: 9100000, guid: 7a99b78cd3499ac4abfeeb755f990b96, type: 2}
 --- !u!1 &8064018872980230194
 GameObject:
   m_ObjectHideFlags: 0

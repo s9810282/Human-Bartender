@@ -10,6 +10,7 @@ Handle을 에셋을 사용하는 주체에서 관리할 필요가 있다.,
 비동기 로딩이다 보니 함수 재진입을 통한 기존 로딩 날림 및 새 로딩 시작 시 메모리 누수 및 위험 존재.
 
 CancellationToken 제어하기
+함수에 매개변수로 던지기만하면 취소 이벤트 발생 시 알아서 함수 종료됨/
 
 Dialogue 구조 자체에서 SetCharacterAsync를 기다리기는 하지만 이에 대한 예외처리 필요.
 SetCharacterAsync가 실행 중 SetCharacterAsync한번더 실행되면 일부 파츠는 변환이 되고 일부는 안될 수 이씅ㅁ

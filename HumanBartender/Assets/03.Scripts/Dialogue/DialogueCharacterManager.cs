@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 public class DialogueCharacterManager : MonoBehaviour
@@ -12,8 +14,13 @@ public class DialogueCharacterManager : MonoBehaviour
     [Header("Parts")]
     [SerializeField] private CharacterPart[] parts;
 
+    [SerializeField] private const string SLOT_INTRO = "Intro";
+    [SerializeField] private const string SLOT_LOOP = "Loop";
+
     private CancellationTokenSource _cts;
 
+    Stack<AsyncOperationHandle<Sprite>?> spriteHandles = new();
+    Stack<AsyncOperationHandle<AnimationClip>?> animHandles = new();
 
     private void Awake()
     {
@@ -33,6 +40,8 @@ public class DialogueCharacterManager : MonoBehaviour
         var token = CancellationTokenSource
             .CreateLinkedTokenSource(_cts.Token, this.GetCancellationTokenOnDestroy())
             .Token;
+
+        ReleaseCurrentHandles();
 
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
@@ -78,7 +87,20 @@ public class DialogueCharacterManager : MonoBehaviour
             part.Release();
     }
 
+    public void ReleaseCurrentHandles()
+    {
+        while(spriteHandles.Count > 0)
+        {
+            var item = spriteHandles.Pop();
+            ResourceLoader.ReleaseHandle<Sprite>(ref item);
+        }
 
+        while (animHandles.Count > 0)
+        {
+            var item = animHandles.Pop();
+            ResourceLoader.ReleaseHandle<AnimationClip>(ref item);
+        }
+    }
 
     /// <summary>
     /// 애니메이션 로드시도 :  loop 클립 로드 -> intro 클립 로드 시도 -> Part.Applyanimaton
@@ -112,12 +134,12 @@ public class DialogueCharacterManager : MonoBehaviour
 
         if (defaultData == null) return;
 
-        Logger.LogWarning($"[CharacterManager:{part.partName}] 로드 실패 → default 폴백");
+        Logger.LogWarning($"[CharacterManager:{data.Clip}] 로드 실패 → default 폴백");
 
         if (await LoadSpriteAsync(part, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
             return;
 
-        Logger.LogWarning($"[CharacterManager:{part.partName}] default도 없음 → fallback sprite");
+        Logger.LogWarning($"[CharacterManager:{data.Clip}] default도 없음 → fallback sprite");
         part.SetInactive();
     }
 
@@ -134,11 +156,22 @@ public class DialogueCharacterManager : MonoBehaviour
 
         var loopHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(loopAddress, token);
 
+        animHandles.Push(loopHandle);
 
         if (loopHandle.HasValue)
         {
+            part.SetClip(SLOT_LOOP, loopHandle);
+
             var introHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(introAddress, token);
-            part.ApplyAnimation(introHandle, loopHandle);
+            animHandles.Push(introHandle);
+
+            if (introHandle.HasValue)
+                part.SetClip(SLOT_INTRO, introHandle);
+            else
+                part.SetClip(SLOT_INTRO, loopHandle);
+
+
+            part.PlayAnimation(SLOT_INTRO, token);
 
             return true;
         }
@@ -152,19 +185,22 @@ public class DialogueCharacterManager : MonoBehaviour
         CancellationToken token)
     {
         var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
+        spriteHandles.Push(spriteHandle);
 
         if (spriteHandle.HasValue)
         {
-            part.ApplySprite(spriteHandle);
+            part.ApplySprite(spriteHandle.Value.Result);
             return true;
         }
 
         Logger.LogWarning($"[CharacterPart:{part.partName}] '{address}' 리소스 없음");
         return false;
     }
+    
 
     private void OnDestroy()
-    { 
+    {
+        ReleaseCurrentHandles();
         ReleaseAll();
 
         _cts?.Cancel();

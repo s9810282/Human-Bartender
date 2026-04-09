@@ -1,7 +1,9 @@
-using System;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,8 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] CutSceneDataSO data;
 
     [SerializeField] SpriteAnimationManager spriteAnimationManager;
+    private const string ANIM_SLOT = "SpriteAnim";
+
 
     [SerializeField] Canvas cutSceneCanvas;
     [SerializeField] RectTransform canvasRect;
@@ -18,6 +22,10 @@ public class CutSceneManager : MonoBehaviour
 
     [SerializeField] float padding_X = 0;
     [SerializeField] float padding_Y = 0;
+
+
+    private CancellationTokenSource _cts;
+
 
     // ── Anchor 프리셋 ─────────────────────────────────────────────────
     readonly Dictionary<string, Vector2> anchorPreset = new()
@@ -53,22 +61,51 @@ public class CutSceneManager : MonoBehaviour
             ["play_sfx"]    = ExecutePlaySfx,
             ["wait"]        = ExecuteWait,
         };
+
+        spriteAnimationManager.Initialize();
     }
 
     public void ClearCutScene()
     {
         ResetImages();
+        spriteAnimationManager.ActiveSelf(false);
         spriteAnimationManager.SetInactive();
     }
 
-    // ── 외부 진입점 ───────────────────────────────────────────────────
 
+
+
+
+    /*
+ * AnimationClip Load 후
+ * SpriteAnimManager.SetClip
+ * SpriteAnimManager.PlayAnimation
+ * 
+ * */
 
     public async UniTask PlayAnimationCutScene(string id)
     {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+
+        var token = CancellationTokenSource
+            .CreateLinkedTokenSource(_cts.Token, this.GetCancellationTokenOnDestroy())
+            .Token;
+
         cutSceneCanvas.worldCamera = Camera.main;
 
-        await spriteAnimationManager.PlayAnimation(id);
+
+        var handle = await ResourceLoader.TryLoadAsync<AnimationClip>(id, token);
+
+        if (handle.HasValue)
+        {
+            spriteAnimationManager.ActiveSelf(true);
+            spriteAnimationManager.SetClip(ANIM_SLOT, handle);
+            spriteAnimationManager.PlayAnimation(ANIM_SLOT, token);
+        }
+
+        await UniTask.WaitForSeconds(handle.Value.Result.length);
     }
 
     public async UniTask PlayComicCutSceneAsync(string id, UniTaskCompletionSource tcs = null)
