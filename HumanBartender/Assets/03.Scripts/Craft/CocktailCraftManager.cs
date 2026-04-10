@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
 
 public interface IMiniGameController
@@ -43,12 +44,12 @@ public class CocktailCraftManager : MonoBehaviour
 
     public CraftEventData GetCraftDataByID(string id)
     {
-        foreach(var item in craftDataSO.craftData.CraftEvents)
+        foreach (var item in craftDataSO.craftData.CraftEvents)
         {
-            if(item.Id == id)
+            if (item.Id == id)
                 return item;
         }
-        
+
         return default;
     }
 
@@ -70,8 +71,8 @@ public class CocktailCraftManager : MonoBehaviour
         if (tutoData.Enabled)
         {
             TutorialStepData[] steps = tutoData.Steps;
-            
-            for(int i = 0; i < steps.Length; i++)
+
+            for (int i = 0; i < steps.Length; i++)
             {
                 TutorialStep(steps[i]);
             }
@@ -141,7 +142,7 @@ public class CocktailCraftManager : MonoBehaviour
         //TODO : 여기도 진입할 때 컷씬 재생
         cutSceneManager.PlayComicCutSceneAsync
             (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
-        
+
         // TODO : 풀링.
         miniGameObj = Instantiate(prefab);
         controller = miniGameObj.GetComponent<IMiniGameController>();
@@ -160,16 +161,16 @@ public class CocktailCraftManager : MonoBehaviour
     /// Craft는 종료 후 다시 Main으
     /// </summary>
     public async UniTask EndCraft()
-    {        
+    {
         GameStateManager.Instance.CurrentGameState = GameState.Play;
         ingredientPanel.gameObject.SetActive(false);
-        
+
 
         string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;
 
-        if(craftStation.targetCocktailData.Id == "unknown")
+        if (craftStation.targetCocktailData.Id == "unknown")
         {
-            if(curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
+            if (curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
                 targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Failed;
         }
         else
@@ -196,19 +197,21 @@ public class CocktailCraftManager : MonoBehaviour
 
 
     //아래 2개 버튼에 들어가야하는 함수.
-    public void CraftServe()
+    public async void CraftServe()
     {
         string result = Evaluate();
         Logger.Log(result);
-        
+
         ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
         string nextDialogueId = resultReaction.DialogueId;
 
         if (resultReaction.CutsceneId != null)
         {
             //리액션 컷씬
-            cutSceneManager.PlayComicCutSceneAsync(resultReaction.CutsceneId).Forget();
+            ResetCraftObj();
+            await CraftServeAsync(resultReaction.CutsceneId);
         }
+
 
         //추후 카르마 판정
 
@@ -221,19 +224,32 @@ public class CocktailCraftManager : MonoBehaviour
 
         ResetCraft();
     }
+
+    public async UniTask CraftServeAsync(string id)
+    {
+        cutSceneManager.PlayComicCutSceneAsync(id).Forget();
+        float time = cutSceneManager.GetComicCutSceneTime(id);
+        Logger.Log(time);
+        await UniTask.WaitForSeconds(time);
+    }
+
     public void CraftRetry()
     {
 
     }
 
-    public void ResetCraft()
+    public void ResetCraftObj()
     {
         cutSceneManager.ClearCutScene();
 
-        curCraftEventData = default;
-
         if (miniGameObj != null)
             Destroy(miniGameObj);
+    }
+
+    public void ResetCraft()
+    {
+        ResetCraftObj();
+        curCraftEventData = default;
 
         miniGameObj = null;
         controller = null;

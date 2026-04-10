@@ -18,18 +18,18 @@ public class SpriteAnimationManager : AnimationPart
 
     public override void ApplySprite(Sprite sprite)
     {
-        Animator.enabled = false;
-        SpriteRenderer.sprite = sprite;
+        animator.enabled = false;
+        spriteRenderer.sprite = sprite;
     }
 
     public override void PlayAnimation(string animName, CancellationToken token)
     {
-        Animator.enabled = true;
-        Animator.speed = 1f;
-        Animator.Play(animName, 0, 0f);
+        animator.enabled = true;
+        animator.speed = 1f;
+        animator.Play(animName, 0, 0f);
     }
     public void ActiveSelf(bool active)
     {
-        Animator.gameObject.SetActive(active);
+        animator.gameObject.SetActive(active);
     }
 }

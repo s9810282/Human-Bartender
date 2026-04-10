@@ -2,9 +2,11 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class CutSceneManager : MonoBehaviour
@@ -124,6 +126,37 @@ public class CutSceneManager : MonoBehaviour
         {
             tcs.TrySetResult();
         }
+    }
+
+    public float GetComicCutSceneTime(string id)
+    {
+        if (!data.cachedById.TryGetValue(id, out Cutscene cutScene))
+        {
+            Debug.LogWarning($"[CutsceneManager] 컷씬 ID를 찾을 수 없음: {id}");
+            return 0;
+        }
+
+        float playTime = 0;
+            
+        foreach (CutsceneStep step in cutScene.Steps)
+        {
+            playTime += step.Time;
+        }
+
+        /*
+        if (cutScene.Steps[cutScene.Steps.Length - 1].Duration != null)
+            playTime += cutScene.Steps[cutScene.Steps.Length - 1].Duration.Value;
+        else if (cutScene.Steps[cutScene.Steps.Length - 1].EnterDuration != null)
+            playTime += cutScene.Steps[cutScene.Steps.Length - 1].EnterDuration.Value;
+        if (cutScene.Steps[cutScene.Steps.Length - 1].EnterDurations != null)
+        {
+            playTime += cutScene.Steps[cutScene.Steps.Length - 1].EnterDurations.Max();
+        }
+        if (cutScene.Steps[cutScene.Steps.Length - 1].ExitDuration != null)
+            playTime += cutScene.Steps[cutScene.Steps.Length - 1].ExitDuration.Value;
+        */
+
+        return playTime;
     }
 
     // ── 시퀀스 실행 ───────────────────────────────────────────────────

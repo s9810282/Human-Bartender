@@ -36,23 +36,23 @@ public class AlwaysPlayback : IPlaybackPolicy
 public abstract class AnimationPart
 {
     [SerializeField] public string partName;
-    [SerializeField] protected Animator Animator;
-    [SerializeField] protected SpriteRenderer SpriteRenderer;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
 
-    [SerializeField] protected RuntimeAnimatorController BaseController;
+    [SerializeField] protected RuntimeAnimatorController baseController;
 
     protected AnimatorOverrideController _overrideController;
     
     public void Initialize()
     {
-        _overrideController = new AnimatorOverrideController(BaseController);
-        Animator.runtimeAnimatorController = _overrideController;
-        Animator.enabled = false;
+        _overrideController = new AnimatorOverrideController(baseController);
+        animator.runtimeAnimatorController = _overrideController;
+        animator.enabled = false;
     }
 
-    public void SetSpeed(float s) => Animator.speed = s;
-    public void SetInactive() { Animator.enabled = false; SpriteRenderer.sprite = null; }
-    public void SetActive() { Animator.enabled = true; SpriteRenderer.sprite = null; }
+    public void SetSpeed(float s) => animator.speed = s;
+    public void SetInactive() { animator.enabled = false; spriteRenderer.sprite = null; }
+    public void SetActive() { animator.enabled = true; spriteRenderer.sprite = null; }
 
     public virtual void SetClip(string slot, AsyncOperationHandle<AnimationClip>? handle)
     {
@@ -82,7 +82,7 @@ public class CharacterPart : AnimationPart
 
     public void SetLoopMode(string loopMode)
     {
-        SpriteRenderer.sprite = null;
+        spriteRenderer.sprite = null;
         _currentLoopMode = loopMode;
     }
 
@@ -90,22 +90,22 @@ public class CharacterPart : AnimationPart
     {
         //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정
 
-        Animator.enabled = true;
+        animator.enabled = true;
         switch (_currentLoopMode)
         {
             case "always":
-                Animator.speed = 1f;
-                Animator.Play(animName, 0, 0f);
+                animator.speed = 1f;
+                animator.Play(animName, 0, 0f);
                 break;
 
             case "on_dialogue":
-                Animator.Play(animName, 0, 0f);
-                Animator.speed = 0f;
+                animator.Play(animName, 0, 0f);
+                animator.speed = 0f;
                 break;
 
             case "once":
-                Animator.speed = 1f;
-                Animator.Play(animName, 0, 0f);
+                animator.speed = 1f;
+                animator.Play(animName, 0, 0f);
                 WaitAndFreezeAsync(token).Forget();
                 break;
         }
@@ -126,15 +126,15 @@ public class CharacterPart : AnimationPart
             await UniTask.WaitForSeconds(_overrideController.animationClips[i].length);
         }
 
-        if (Animator != null)
-            Animator.speed = 0f;
+        if (animator != null)
+            animator.speed = 0f;
     }
 
 
     public override void ApplySprite(Sprite sprite)
     {
-        Animator.enabled = false;
-        SpriteRenderer.sprite = sprite;
+        animator.enabled = false;
+        spriteRenderer.sprite = sprite;
     }
 
 
@@ -143,15 +143,15 @@ public class CharacterPart : AnimationPart
     public void OnDialogueStart()
     {
         if (_currentLoopMode != "on_dialogue") return;
-        Animator.enabled = true;
-        Animator.speed = 1f;
+        animator.enabled = true;
+        animator.speed = 1f;
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
         if (_currentLoopMode != "on_dialogue") return;
-        Animator.speed = 0f;
+        animator.speed = 0f;
     }
 
 

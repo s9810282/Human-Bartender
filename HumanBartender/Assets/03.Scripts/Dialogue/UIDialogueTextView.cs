@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -59,6 +60,14 @@ public class UIDialogueTextView : MonoBehaviour
 
         curTypingData = data;
         await TypeSentence(curTypingData.str);
+    }
+    public void ClearText()
+    {
+        nameText.text = "";
+        nameTMPText.text = "";
+
+        dialogueTMPText.text = "";
+        dialogueText.text = "";
     }
     public void SetNameColor(Color32 color)
     {
