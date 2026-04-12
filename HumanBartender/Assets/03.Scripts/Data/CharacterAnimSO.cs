@@ -36,6 +36,13 @@ public class CharacterAnimSO : ScriptableObject
 
     public PartAnimData GetDefaultPartData(string characterId, string partName)
         => GetPartData(characterId, "default", partName);
+
+    public string GetBaseBody(string id)
+    {
+
+
+        return "";
+    }
 }
 
 

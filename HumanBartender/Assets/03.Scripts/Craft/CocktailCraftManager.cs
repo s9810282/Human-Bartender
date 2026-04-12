@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
+using System.Diagnostics;
 
 
 public interface IMiniGameController
@@ -209,7 +210,11 @@ public class CocktailCraftManager : MonoBehaviour
         {
             //리액션 컷씬
             ResetCraftObj();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             await CraftServeAsync(resultReaction.CutsceneId);
+            sw.Stop();
+            Logger.Log(sw.ElapsedMilliseconds);
         }
 
 

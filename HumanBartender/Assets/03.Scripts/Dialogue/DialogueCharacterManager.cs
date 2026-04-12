@@ -13,6 +13,7 @@ public class DialogueCharacterManager : MonoBehaviour
 
     [Header("Parts")]
     [SerializeField] private CharacterPart[] parts;
+    [SerializeField] private SpriteRenderer portaitSpriteRenderer;
 
     [SerializeField] private const string SLOT_INTRO = "Intro";
     [SerializeField] private const string SLOT_LOOP = "Loop";
@@ -28,10 +29,10 @@ public class DialogueCharacterManager : MonoBehaviour
             part.Initialize();
     }
 
-    
+
 
     public async UniTask SetCharacterAsync(string characterId, string expression)
-    {        
+    {
         //cancel 토큰 초기화
         _cts?.Cancel();
         _cts?.Dispose();
@@ -46,7 +47,7 @@ public class DialogueCharacterManager : MonoBehaviour
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
-            PartAnimData data       = animConfig.GetPartData(characterId, expression, parts[i].partName);
+            PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
             PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
             tasks[i] = LoadPartAsync(parts[i], data, defaultData, token);
         }
@@ -62,7 +63,7 @@ public class DialogueCharacterManager : MonoBehaviour
         }
     }
 
-    
+
     public void OnDialogueStart()
     {
         foreach (var part in parts)
@@ -89,7 +90,7 @@ public class DialogueCharacterManager : MonoBehaviour
 
     public void ReleaseCurrentHandles()
     {
-        while(spriteHandles.Count > 0)
+        while (spriteHandles.Count > 0)
         {
             var item = spriteHandles.Pop();
             ResourceLoader.ReleaseHandle<Sprite>(ref item);
@@ -123,28 +124,37 @@ public class DialogueCharacterManager : MonoBehaviour
         if (data.Loop == "none")
         {
             part.SetInactive();
+            portaitSpriteRenderer.sprite = null;
             return;
         }
 
-        if (await LoadAnimAsync(part, data, token)) //Anim
+        if (await LoadAnimAsync(part, data, token)) //Part Anim
             return;
 
-        if (await LoadSpriteAsync(part, data.Clip, token)) //Sprite
+        if (await LoadSpriteAsync(part, data.Clip, token)) //Part Sprite
             return;
 
         if (defaultData == null) return;
 
-        Logger.LogWarning($"[CharacterManager:{data.Clip}] 로드 실패 → default 폴백");
+        Logger.LogWarning($"[CharacterManager:{data.Clip}] 로드 실패 → default Portail Sprite");
 
-        if (await LoadSpriteAsync(part, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
+        if (part.partName != "body")  //body의 경우만 Portail Image 로드 시도.
+        {
+            part.SetInactive();
+            return;
+        }
+
+        if (await LoadPortaitSpriteAsync(part, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
             return;
 
         Logger.LogWarning($"[CharacterManager:{data.Clip}] default도 없음 → fallback sprite");
+
         part.SetInactive();
+        portaitSpriteRenderer.sprite = null;
     }
 
     public async UniTask<bool> LoadAnimAsync(
-        CharacterPart part, 
+        CharacterPart part,
         PartAnimData data,
         CancellationToken token)
     {
@@ -180,7 +190,7 @@ public class DialogueCharacterManager : MonoBehaviour
     }
 
     public async UniTask<bool> LoadSpriteAsync(
-        CharacterPart part, 
+        CharacterPart part,
         string address,
         CancellationToken token)
     {
@@ -196,7 +206,26 @@ public class DialogueCharacterManager : MonoBehaviour
         Logger.LogWarning($"[CharacterPart:{part.partName}] '{address}' 리소스 없음");
         return false;
     }
-    
+
+
+    public async UniTask<bool> LoadPortaitSpriteAsync(
+        CharacterPart part,
+        string address,
+        CancellationToken token)
+    {
+        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
+        spriteHandles.Push(spriteHandle);
+        if (spriteHandle.HasValue)
+        {
+            portaitSpriteRenderer.sprite = spriteHandle.Value.Result;
+            return true;
+        }
+
+        Logger.LogWarning($"[CharacterPart:Portait] '{address}' 리소스 없음");
+        return false;
+    }
+
+
 
     private void OnDestroy()
     {
