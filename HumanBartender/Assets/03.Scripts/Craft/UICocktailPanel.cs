@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CocktailPanel : MonoBehaviour
+public class UICocktailPanel : MonoBehaviour
 {
     [Header("SO DATA")]
     [SerializeField] CocktailDataSO cocktailDataSO;
