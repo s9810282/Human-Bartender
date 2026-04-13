@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ee8a283d3cc993e43b47ebdd84e9ee9f
+guid: 76e455e322ca1b04caab929471d8e7e8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2228055100498441543
-    second: SquareBottom_0
+      213: 7664857877463622811
+    second: 1de51a473321f848_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -49,7 +49,7 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SquareBottom_0
+      name: 1de51a473321f848_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 1255
+        height: 706
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 745f4352f44abee10800000000000000
-      internalID: 2228055100498441543
+      spriteID: b94e21021ab0f5a60800000000000000
+      internalID: 7664857877463622811
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SquareBottom_0: 2228055100498441543
+      1de51a473321f848_0: 7664857877463622811
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
