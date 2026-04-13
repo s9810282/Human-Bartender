@@ -19,41 +19,6 @@
       "serve_sfx": "SFX_glass_slide"
     },
     {
-      "id": "dry_martini",
-      "name": "드라이 마티니",
-      "name_en": "Dry Martini",
-      "recipe": [
-        { "ingredient": "gin", "count": 6 },
-        { "ingredient": "vermouth", "count": 1 },
-        { "ingredient": "bitters", "count": 1 }
-      ],
-      "method": "stir",
-      "target_count": 25,
-      "keywords": ["강한", "클래식", "고급스러운"],
-      "baseIngredient": "진",
-      "flavor_text": "흔들지 마. 저어.",
-      "serve_animation": "anim_serve_dry_martini",
-      "serve_sfx": "SFX_glass_slide"
-    },
-    {
-      "id": "sex_on_the_beach",
-      "name": "섹스 온 더 비치",
-      "name_en": "Sex on the Beach",
-      "recipe": [
-        { "ingredient": "peach_schnapps", "count": 1 },
-        { "ingredient": "vodka", "count": 2 },
-        { "ingredient": "cranberry_juice", "count": 2 },
-        { "ingredient": "orange_juice", "count": 2 }
-      ],
-      "method": "build",
-      "target_count": 0,
-      "keywords": ["달콤한", "화끈한", "행복한"],
-      "baseIngredient": "보드카",
-      "flavor_text": "이름값 하는 술이야. 한 잔이면 여기가 해변인 줄 알게 되거든.",
-      "serve_animation": "anim_serve_sex_on_the_beach",
-      "serve_sfx": "SFX_glass_slide"
-    },
-    {
       "id": "cosmopolitan",
       "name": "코스모폴리탄",
       "name_en": "Cosmopolitan",
@@ -75,7 +40,7 @@
       "id": "godfather",
       "name": "갓파더",
       "name_en": "Godfather",
-      "recipe": [
+      "recipe": [ 
         { "ingredient": "whiskey", "count": 4 },
         { "ingredient": "disaronno", "count": 1 }
       ],
@@ -85,56 +50,6 @@
       "baseIngredient": "위스키",
       "flavor_text": "거절할 수 없는 제안처럼, 거절할 수 없는 맛이지.",
       "serve_animation": "anim_serve_godfather",
-      "serve_sfx": "SFX_glass_slide"
-    },
-    {
-      "id": "godmother",
-      "name": "갓마더",
-      "name_en": "Godmother",
-      "recipe": [
-        { "ingredient": "vodka", "count": 4 },
-        { "ingredient": "disaronno", "count": 1 }
-      ],
-      "method": "stir",
-      "target_count": 20,
-      "keywords": ["부드러운", "달콤한", "강한"],
-      "baseIngredient": "보드카",
-      "flavor_text": "갓파더의 그림자 속에 서 있지만, 한 모금이면 누가 진짜 보스인지 알게 돼.",
-      "serve_animation": "anim_serve_godmother",
-      "serve_sfx": "SFX_glass_slide"
-    },
-    {
-      "id": "margarita",
-      "name": "마가리타",
-      "name_en": "Margarita",
-      "recipe": [
-        { "ingredient": "tequila", "count": 2 },
-        { "ingredient": "triple_sec", "count": 1 },
-        { "ingredient": "lime_juice", "count": 1 }
-      ],
-      "method": "shake",
-      "target_count": 18,
-      "keywords": ["상큼한", "자극적인", "클래식"],
-      "baseIngredient": "데킬라",
-      "flavor_text": "소금 테두리는 선택이야. 하지만 한번 맛보면 없으면 허전하지.",
-      "serve_animation": "anim_serve_margarita",
-      "serve_sfx": "SFX_glass_slide"
-    },
-    {
-      "id": "tequila_sunrise",
-      "name": "데킬라 선라이즈",
-      "name_en": "Tequila Sunrise",
-      "recipe": [
-        { "ingredient": "tequila", "count": 3 },
-        { "ingredient": "orange_juice", "count": 5 },
-        { "ingredient": "grenadine_syrup", "count": 1 }
-      ],
-      "method": "build",
-      "target_count": 0,
-      "keywords": ["달콤한", "화끈한", "행복한"],
-      "baseIngredient": "데킬라",
-      "flavor_text": "이 도시에선 해가 뜨지 않지만, 잔 안에서는 매일 떠오르거든.",
-      "serve_animation": "anim_serve_tequila_sunrise",
       "serve_sfx": "SFX_glass_slide"
     },
     {
@@ -157,19 +72,19 @@
       "serve_sfx": "SFX_glass_slide"
     },
     {
-      "id": "black_russian",
-      "name": "블랙 러시안",
-      "name_en": "Black Russian",
+      "id": "kahlua_milk",
+      "name": "깔루아 밀크",
+      "name_en": "Kahlua Milk",
       "recipe": [
-        { "ingredient": "vodka", "count": 3 },
-        { "ingredient": "coffee_liqueur", "count": 1 }
+        { "ingredient": "kahlua", "count": 1 },
+        { "ingredient": "milk", "count": 3 }
       ],
-      "method": "stir",
-      "target_count": 20,
-      "keywords": ["쓴", "강한", "자극적인"],
-      "baseIngredient": "보드카",
-      "flavor_text": "커피를 넣으면 블랙 러시안, 크림을 넣으면 화이트 러시안. 옐로우 러시안은 뭐가 들어가지?",
-      "serve_animation": "anim_serve_black_russian",
+      "method": "build",
+      "target_count": 0,
+      "keywords": ["달콤한", "부드러운"],
+      "baseIngredient": "깔루아",
+      "flavor_text": "아주 오래 전 한국에서는 찜질방에서 커피우유를 마시는 문화가 있었습니다.",
+      "serve_animation": "anim_serve_kahlua_milk",
       "serve_sfx": "SFX_glass_slide"
     }
   ],

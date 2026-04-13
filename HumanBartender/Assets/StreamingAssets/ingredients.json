@@ -9,14 +9,6 @@
       "max_count": 9
     },
     {
-      "id": "vodka",
-      "name": "보드카",
-      "name_en": "Vodka",
-      "category": "base",
-      "sprite": "img_ingredient_vodka",
-      "max_count": 9
-    },
-    {
       "id": "whiskey",
       "name": "위스키",
       "name_en": "Whiskey",
@@ -30,14 +22,6 @@
       "name_en": "Rum",
       "category": "base",
       "sprite": "img_ingredient_rum",
-      "max_count": 9
-    },
-    {
-      "id": "tequila",
-      "name": "데킬라",
-      "name_en": "Tequila",
-      "category": "base",
-      "sprite": "img_ingredient_tequila",
       "max_count": 9
     },
     {
@@ -73,27 +57,11 @@
       "max_count": 9
     },
     {
-      "id": "peach_schnapps",
-      "name": "피치 슈냅스",
-      "name_en": "Peach Schnapps",
-      "category": "liqueur",
-      "sprite": "img_ingredient_peach_schnapps",
-      "max_count": 9
-    },
-    {
-      "id": "bitters",
-      "name": "비터스",
-      "name_en": "Bitters",
-      "category": "liqueur",
-      "sprite": "img_ingredient_bitters",
-      "max_count": 9
-    },
-    {
-      "id": "orange_juice",
-      "name": "오렌지 주스",
-      "name_en": "Orange Juice",
+      "id": "cranberry_juice",
+      "name": "크렌베리 주스",
+      "name_en": "Cranberry Juice",
       "category": "juice",
-      "sprite": "img_ingredient_orange_juice",
+      "sprite": "img_ingredient_cranberry_juice",
       "max_count": 9
     },
     {
@@ -113,14 +81,6 @@
       "max_count": 9
     },
     {
-      "id": "cranberry_juice",
-      "name": "크렌베리 주스",
-      "name_en": "Cranberry Juice",
-      "category": "juice",
-      "sprite": "img_ingredient_cranberry_juice",
-      "max_count": 9
-    },
-    {
       "id": "soda_water",
       "name": "탄산수",
       "name_en": "Soda Water",
@@ -137,17 +97,9 @@
       "max_count": 9
     },
     {
-      "id": "grenadine_syrup",
-      "name": "그레나딘 시럽",
-      "name_en": "Grenadine Syrup",
-      "category": "syrup",
-      "sprite": "img_ingredient_grenadine_syrup",
-      "max_count": 9
-    },
-    {
       "id": "mint",
-      "name": "민트",
-      "name_en": "Mint",
+      "name": "애플 민트",
+      "name_en": "Apple Mint",
       "category": "garnish",
       "sprite": "img_ingredient_mint",
       "max_count": 9
@@ -161,19 +113,27 @@
       "max_count": 9
     },
     {
+      "id": "kahlua",
+      "name": "깔루아",
+      "name_en": "Kahlua",
+      "category": "liqueur",
+      "sprite": "img_ingredient_kahlua",
+      "max_count": 9
+    },
+    {
+      "id": "milk",
+      "name": "우유",
+      "name_en": "Milk",
+      "category": "juice",
+      "sprite": "img_ingredient_milk",
+      "max_count": 9
+    },
+    {
       "id": "ice",
       "name": "얼음",
       "name_en": "Ice",
       "category": "etc",
       "sprite": "img_ingredient_ice",
-      "max_count": 1
-    },
-    {
-      "id": "salt",
-      "name": "소금",
-      "name_en": "Salt",
-      "category": "etc",
-      "sprite": "img_ingredient_salt",
       "max_count": 1
     }
   ]

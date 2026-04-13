@@ -4,22 +4,61 @@
       "id": "luna",
       "display_name": "루나",
       "name_color": "#4A90D9",
-      "expressions": ["default", "joy", "sadness", "anger", "disgust", "surprise", "fear"],
-      "is_player": true
+      "expressions": [
+        "default",
+        "joy",
+        "sadness",
+        "anger",
+        "disgust",
+        "surprise",
+        "fear"
+      ],
+      "is_player": true,
+      "enter_sfx": null,
+      "exit_sfx": null
     },
     {
       "id": "chris",
       "display_name": "크리스",
       "name_color": "#A0866B",
-      "expressions": ["default", "joy", "sadness", "anger", "worry", "serious", "smile"],
-      "is_player": false
+      "expressions": [
+        "default",
+        "joy",
+        "sadness",
+        "anger",
+        "worry",
+        "serious",
+        "smile"
+      ],
+      "is_player": false,
+      "enter_sfx": "SFX_chris_enter",
+      "exit_sfx": "SFX_chris_exit"
     },
     {
-      "id": "old_regular",
-      "display_name": "중년 손님",
-      "name_color": "#8B7D6B",
-      "expressions": ["default", "joy"],
-      "is_player": false
+      "id": "port",
+      "display_name": "포트",
+      "name_color": "#C47A3A",
+      "expressions": [
+        "default",
+        "anger",
+        "joy",
+        "event_surprise",
+        "serious"
+      ],
+      "is_player": false,
+      "enter_sfx": "SFX_port_enter",
+      "exit_sfx": "SFX_port_exit"
+    },
+    {
+      "id": "bubi",
+      "display_name": "부비",
+      "name_color": "#A0A0A0",
+      "expressions": [
+        "default"
+      ],
+      "is_player": false,
+      "enter_sfx": "SFX_cat_meow",
+      "exit_sfx": null
     }
   ]
 }

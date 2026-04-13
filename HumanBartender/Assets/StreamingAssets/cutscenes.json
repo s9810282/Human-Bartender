@@ -325,6 +325,190 @@
     },
 
     {
+      "id": "day1_port_shoulder_robot",
+      "description": "포트 어깨 위 소형 로봇을 보고 화들짝 놀라는 장면 — 3컷 만화",
+      "type": "comic",
+      "blocking": true,
+      "background": "black",
+      "steps": [
+        {
+          "time": 0.0,
+          "action": "effect",
+          "effect_type": "fade_out",
+          "duration": 0.3
+        },
+        {
+          "time": 0.3,
+          "action": "show_layout",
+          "layout": "split_3_horizontal",
+          "images": ["cut_port_robot_on_shoulder", "cut_port_surprised", "cut_robot_surprised"],
+          "enters": ["slide_left", "zoom_in", "slide_right"],
+          "enter_durations": [0.3, 0.4, 0.3]
+        },
+        {
+          "time": 0.5,
+          "action": "effect",
+          "effect_type": "screen_shake",
+          "intensity": 3,
+          "duration": 0.3
+        },
+        {
+          "time": 0.6,
+          "action": "play_sfx",
+          "sfx": "SFX_surprise"
+        },
+        {
+          "time": 2.5,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.4
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
+        }
+      ]
+    },
+
+    {
+      "id": "day1_get_bubi_outside",
+      "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 사이드뷰 애니메이션",
+      "type": "transition",
+      "blocking": true,
+      "background": "black",
+      "steps": [
+        {
+          "time": 0.0,
+          "action": "effect",
+          "effect_type": "fade_out",
+          "duration": 0.4
+        },
+        {
+          "time": 0.4,
+          "action": "show_image",
+          "image": "cut_luna_walk_outside",
+          "position": "full",
+          "enter": "fade_in",
+          "enter_duration": 0.3
+        },
+        {
+          "time": 0.8,
+          "action": "play_sfx",
+          "sfx": "SFX_footsteps"
+        },
+        {
+          "time": 1.5,
+          "action": "show_image",
+          "image": "cut_luna_pickup_bubi",
+          "position": "full",
+          "enter": "cut",
+          "enter_duration": 0
+        },
+        {
+          "time": 1.8,
+          "action": "play_sfx",
+          "sfx": "SFX_cat_meow"
+        },
+        {
+          "time": 2.5,
+          "action": "show_image",
+          "image": "cut_luna_bubi_on_head",
+          "position": "full",
+          "enter": "cut",
+          "enter_duration": 0
+        },
+        {
+          "time": 3.5,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.4
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
+        }
+      ]
+    },
+
+    {
+      "id": "day1_bubi_drink_reaction",
+      "description": "부비가 미슐랭 심사관처럼 깔루아밀크를 평가하고 루나 얼굴을 할퀴는 컷씬",
+      "type": "comic",
+      "blocking": true,
+      "background": "black",
+      "steps": [
+        {
+          "time": 0.0,
+          "action": "effect",
+          "effect_type": "fade_out",
+          "duration": 0.3
+        },
+        {
+          "time": 0.3,
+          "action": "show_layout",
+          "layout": "split_2",
+          "images": ["cut_bubi_judge_pose", "cut_luna_nervous"],
+          "enters": ["slide_left", "slide_right"],
+          "enter_durations": [0.4, 0.4]
+        },
+        {
+          "time": 1.0,
+          "action": "play_sfx",
+          "sfx": "SFX_cat_lick"
+        },
+        {
+          "time": 2.5,
+          "action": "effect",
+          "effect_type": "zoom_pulse",
+          "intensity": 1.05,
+          "duration": 0.2
+        },
+        {
+          "time": 2.8,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.2
+        },
+        {
+          "time": 3.0,
+          "action": "show_layout",
+          "layout": "split_2",
+          "images": ["cut_bubi_scratch", "cut_luna_scratched"],
+          "enters": ["zoom_in", "slide_right"],
+          "enter_durations": [0.3, 0.3]
+        },
+        {
+          "time": 3.1,
+          "action": "effect",
+          "effect_type": "screen_shake",
+          "intensity": 4,
+          "duration": 0.4
+        },
+        {
+          "time": 3.1,
+          "action": "play_sfx",
+          "sfx": "SFX_cat_scratch"
+        },
+        {
+          "time": 4.5,
+          "action": "hide_all",
+          "exit": "fade_out",
+          "exit_duration": 0.4
+        },
+        {
+          "time": 0,
+          "action": "effect",
+          "effect_type": "fade_in",
+          "duration": 0.3
+        }
+      ]
+    },
+
+    {
       "id": "day1_chris_memory_flash",
       "description": "대화 중 크리스 과거 암시 — 글리치 플래시백",
       "type": "comic",

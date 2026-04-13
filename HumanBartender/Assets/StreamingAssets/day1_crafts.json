@@ -1,17 +1,18 @@
 {
   "craft_events": [
     {
-      "id": "day1_customer1_order1",
-
+      "id": "day1_port_order1",
       "auto_open_recipe_ui": true,
-
       "tutorial": {
         "enabled": true,
         "steps": [
-          { "type": "highlight", "target": "recipe_tab_name", "text": "이름 탭에서 '진피즈'를 찾아보세요." }
+          {
+            "type": "highlight",
+            "target": "ingredient_panel",
+            "text": "재료를 선택해서 칵테일을 만들어보세요."
+          }
         ]
       },
-
       "cutscenes": {
         "craft_enter": {
           "shake": "day1_craft_enter_shake",
@@ -26,40 +27,26 @@
           "failed": null
         }
       },
-
       "evaluation": {
         "craft_tolerance": 5,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": true,
-            "description": "정확히 진피즈 + 제조 횟수 정확"
-          },
-          {
-            "result": "hidden",
-            "match_type": "cocktail_id",
-            "match_values": [],
-            "require_craft_success": false,
-            "description": "히든 칵테일 (이 이벤트에서는 없음)"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["gin_fizz"],
-            "require_craft_success": true,
-            "description": "상큼한 키워드 포함 + 제조 횟수 정확"
+            "description": "클래식의 정석 진피즈를 정확히 만듦"
           }
         ]
       },
-
       "reactions": {
         "perfect": {
-          "dialogue_id": "d1c1_react_S_001",
-          "cutscene_id": "day1_react_perfect",
+          "dialogue_id": "d1p_react_perfect_001",
+          "cutscene_id": null,
           "affinity": 3,
-          "karma": -1
+          "karma": 0
         },
         "hidden": {
           "dialogue_id": null,
@@ -68,22 +55,88 @@
           "karma": 0
         },
         "normal": {
-          "dialogue_id": "d1c1_react_A_001",
+          "dialogue_id": null,
           "cutscene_id": null,
-          "affinity": 1,
+          "affinity": 0,
           "karma": 0
         },
         "miss": {
-          "dialogue_id": "d1c1_react_BC_001",
+          "dialogue_id": "d1p_react_bad_001",
           "cutscene_id": null,
-          "affinity": -1,
-          "karma": 1
-        },
-        "bad": {
-          "dialogue_id": "d1c1_react_BC_001",
-          "cutscene_id": "day1_react_perfect",
           "affinity": -2,
           "karma": 2
+        },
+        "bad": {
+          "dialogue_id": "d1p_react_bad_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        }
+      }
+    },
+    {
+      "id": "day1_bubi_order1",
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": false,
+        "steps": []
+      },
+      "cutscenes": {
+        "craft_enter": {
+          "shake": "day1_craft_enter_shake",
+          "stir": "day1_craft_enter_stir",
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "by_cocktail": {},
+          "failed": null
+        }
+      },
+      "evaluation": {
+        "craft_tolerance": 5,
+        "rules": [
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": [
+              "kahlua_milk"
+            ],
+            "require_craft_success": true,
+            "description": "깔루아 밀크 — 고양이가 좋아하는 달달한 우유 칵테일"
+          }
+        ]
+      },
+      "reactions": {
+        "perfect": {
+          "dialogue_id": "d1p_react_bubi_perfect_001",
+          "cutscene_id": "day1_bubi_drink_reaction",
+          "affinity": 3,
+          "karma": 0
+        },
+        "hidden": {
+          "dialogue_id": null,
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "normal": {
+          "dialogue_id": null,
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "miss": {
+          "dialogue_id": "d1p_react_bubi_bad_001",
+          "cutscene_id": null,
+          "affinity": -2,
+          "karma": 0
+        },
+        "bad": {
+          "dialogue_id": "d1p_react_bubi_bad_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
         }
       }
     }
