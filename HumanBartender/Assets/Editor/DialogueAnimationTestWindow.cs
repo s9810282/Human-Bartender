@@ -15,8 +15,8 @@ public class DialogueAnimationTestWindow : EditorWindow
     private string _expression = "Happy";
 
     // ─── 파트 개별 테스트 ───────────────────────────────
-    private static readonly string[] PART_NAMES = { "body", "eyes", "mouth" };
-    private bool[] _partEnabled = { true, true, true };
+    private static readonly string[] PART_NAMES = { "body", "eyes", "eyebrows", "upper_face", "lower_face" };
+    private bool[] _partEnabled = { true, true, true, true, true };
 
     // ─── 타겟 ────────────────────────────────────────────
     private DialogueCharacterManager _targetManager;
@@ -255,6 +255,9 @@ public class DialogueAnimationTestWindow : EditorWindow
         var so = new SerializedObject(_targetManager);
         var partsProp = so.FindProperty("parts");
         if (partsProp == null) return;
+
+        Logger.Log(partsProp.arraySize);
+        Logger.Log(PART_NAMES.Length);
 
         for (int i = 0; i < Mathf.Min(partsProp.arraySize, PART_NAMES.Length); i++)
         {

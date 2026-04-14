@@ -47,8 +47,11 @@ public class DialogueCharacterManager : MonoBehaviour
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
+            Logger.Log(parts[i].partName);
             PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
             PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
+            Logger.Log(data == null);
+            Logger.Log(parts[i].partName);
             tasks[i] = LoadPartAsync(parts[i], data, defaultData, token);
         }
 

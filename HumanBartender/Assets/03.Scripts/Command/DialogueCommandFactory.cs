@@ -18,11 +18,20 @@ public static class DialogueCommandFactory
 
         switch (triggerData.Value.Type)
         {
-            case "customer_enter":
-                return new CustomerEnterCommand(triggerData.Value.Data);
+            case "effect":
+                return new EffectCommand(triggerData.Value.Data);
 
             case "start_craft":
                 return new StartCraftCommand(triggerData.Value.Data);
+
+            case "customer_enter":
+                return new CustomerEnterCommand(triggerData.Value.Data);
+
+            case "customer_exit":
+                return new CustomerExitCommand(triggerData.Value.Data);
+
+            case "play_sideview_anim":
+                return new PlaySideviewAnimCommand(triggerData.Value.Data);
 
             default:
                 Debug.LogWarning($"[Factory] 정의되지 않은 트리거 타입: {triggerData.Value.Type}");

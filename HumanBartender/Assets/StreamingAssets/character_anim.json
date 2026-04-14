@@ -177,8 +177,8 @@
           "eyes":        { "clip": "port_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "port_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "port_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "port_lower_face_default",  "loop": "on_dialogue" },
-          "body":        { "clip": "port_body_idle",           "loop": "always" },
+          "lower_face":  { "clip": "port_lower_face_default",  "loop": "always" },
+          "body":        { "clip": "port_body_default",         "loop": "always" },
           "extra":       { "clip": "port_extra_robot",         "loop": "always" }
         }
       }

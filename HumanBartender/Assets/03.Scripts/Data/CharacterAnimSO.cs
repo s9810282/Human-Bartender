@@ -66,16 +66,22 @@ public class CharacterAnimData
 public class ExpressionAnimData
 {
     [JsonProperty("eyes")] public PartAnimData Eyes { get; set; }
-    [JsonProperty("mouth")] public PartAnimData Mouth { get; set; }
+    [JsonProperty("eyebrows")] public PartAnimData Eyebrows { get; set; }
+    [JsonProperty("upper_face")] public PartAnimData Upper_face { get; set; }
+    [JsonProperty("lower_face")] public PartAnimData Lower_face { get; set; }
     [JsonProperty("body")] public PartAnimData Body { get; set; }
+    [JsonProperty("extra")] public PartAnimData Extra { get; set; }
 
     public bool TryGetPart(string partName, out PartAnimData data)
     {
         data = partName switch
         {
             "eyes" => Eyes,
-            "mouth" => Mouth,
+            "eyebrows" => Eyebrows,
+            "upper_face" => Upper_face,
+            "lower_face" => Lower_face,
             "body" => Body,
+            "extra" => Extra,
             _ => null
         };
         return data != null;
@@ -85,8 +91,11 @@ public class ExpressionAnimData
     public Dictionary<string, PartAnimData> Parts => new()
     {
         { "eyes",  Eyes  },
-        { "mouth", Mouth },
-        { "body",  Body  }
+        { "eyebrows",  Eyebrows  },
+        { "upper_face",  Upper_face  },
+        { "lower_face",  Lower_face  },
+        { "body", Body },
+        { "extra",  Extra  }
     };
 }
 

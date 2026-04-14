@@ -1,25 +1,19 @@
 fileFormatVersion: 2
-guid: 5425509543f142e4792f071e6fdc9638
+guid: 708687bf6dcdd8a44b50fed2a64f6848
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4345566708952979538
-    second: annoying1_0
+      213: 8485892202061421932
+    second: eyes (1)_0
   - first:
-      213: 8443986379937383487
-    second: annoying1_1
+      213: -693995678179886921
+    second: eyes (1)_1
   - first:
-      213: 7386621658947106352
-    second: annoying1_2
+      213: -6313244743165041606
+    second: eyes (1)_2
   - first:
-      213: -3156728302565139777
-    second: annoying1_3
-  - first:
-      213: -9020694543438986035
-    second: annoying1_4
-  - first:
-      213: -4716872703202748433
-    second: annoying1_5
+      213: -4919507410582262028
+    second: eyes (1)_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -90,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: annoying1_0
+      name: eyes (1)_0
       rect:
         serializedVersion: 2
-        x: 14
+        x: 0
         y: 0
-        width: 165
-        height: 220
+        width: 373
+        height: 352
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ea7281d1a1271b3c0800000000000000
-      internalID: -4345566708952979538
+      spriteID: c6dd0226ff1f3c570800000000000000
+      internalID: 8485892202061421932
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: annoying1_1
+      name: eyes (1)_1
       rect:
         serializedVersion: 2
-        x: 197
+        x: 373
         y: 0
-        width: 169
-        height: 221
+        width: 373
+        height: 352
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f348768dfd01f2570800000000000000
-      internalID: 8443986379937383487
+      spriteID: 7b87e6e8b9e6e56f0800000000000000
+      internalID: -693995678179886921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: annoying1_2
+      name: eyes (1)_2
       rect:
         serializedVersion: 2
-        x: 381
+        x: 746
         y: 0
-        width: 168
-        height: 222
+        width: 373
+        height: 352
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 036bfb7434d828660800000000000000
-      internalID: 7386621658947106352
+      spriteID: a34ab87ea59d268a0800000000000000
+      internalID: -6313244743165041606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: annoying1_3
+      name: eyes (1)_3
       rect:
         serializedVersion: 2
-        x: 574
+        x: 1119
         y: 0
-        width: 158
-        height: 220
+        width: 373
+        height: 352
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,52 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fbade29755c0134d0800000000000000
-      internalID: -3156728302565139777
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: annoying1_4
-      rect:
-        serializedVersion: 2
-        x: 754
-        y: 0
-        width: 165
-        height: 219
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dc4c30f3b1e00d280800000000000000
-      internalID: -9020694543438986035
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: annoying1_5
-      rect:
-        serializedVersion: 2
-        x: 939
-        y: 0
-        width: 165
-        height: 220
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fe71dda744d4a8eb0800000000000000
-      internalID: -4716872703202748433
+      spriteID: 4fea75223166abbb0800000000000000
+      internalID: -4919507410582262028
       vertices: []
       indices: 
       edges: []
@@ -263,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b3c7a50158a0b8d41be294e162ae06b7
     internalID: 0
     vertices: []
     indices: 
@@ -273,12 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      annoying1_0: -4345566708952979538
-      annoying1_1: 8443986379937383487
-      annoying1_2: 7386621658947106352
-      annoying1_3: -3156728302565139777
-      annoying1_4: -9020694543438986035
-      annoying1_5: -4716872703202748433
+      eyes (1)_0: 8485892202061421932
+      eyes (1)_1: -693995678179886921
+      eyes (1)_2: -6313244743165041606
+      eyes (1)_3: -4919507410582262028
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
