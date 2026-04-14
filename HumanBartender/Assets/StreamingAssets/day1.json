@@ -184,9 +184,28 @@
           "type": "monologue",
           "text": "(영감님이 아주 에너지가 넘치시네.)",
           "expression": null,
-          "next": "d1p_014",
+          "next": "d1p_00312",
           "choices": null,
           "trigger": null
+        },
+        {
+          "id": "d1p_00312",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1p_014",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "port",
+              "slot": "left",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
         },
         {
           "id": "d1p_014",
