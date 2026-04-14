@@ -82,6 +82,17 @@ public struct ReactionDetailData
 public class CraftDataSO : ScriptableObject
 {
     public CraftDataBase craftData;
+
+    public CraftEventData GetCraftDataByID(string id)
+    {
+        foreach (var item in craftData.CraftEvents)
+        {
+            if (item.Id == id)
+                return item;
+        }
+
+        return default;
+    }
 }
 
 [Serializable]

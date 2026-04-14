@@ -27,20 +27,13 @@ public class DialogueTriggerManager : MonoBehaviour
 
         if (command != null)
         {
-            if (command.IsSystemSwitch)
+            if (resolver == null)
             {
-                if (resolver == null)
-                {
-                    Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
-                }
+                Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
+            }
 
-                resolver.Inject(command);
-                nextId = await command.ExecuteAsync();
-            }
-            else
-            {
-                nextId = await command.ExecuteAsync();
-            }
+            resolver.Inject(command);
+            nextId = await command.ExecuteAsync();
         }
 
         return nextId;

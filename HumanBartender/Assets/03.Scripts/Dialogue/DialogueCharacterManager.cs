@@ -6,53 +6,84 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 
-public class DialogueCharacterManager : MonoBehaviour
+public enum SlotType
+{
+    Left,
+    Right,
+}
+
+
+[System.Serializable]
+public class SlotCharacterPart
+{
+    public SlotType type;
+    public string slotCharacterName;
+    public CharacterPart[] parts;
+    public SpriteRenderer portaitSpriteRenderer;
+
+    [System.NonSerialized] public Stack<AsyncOperationHandle<Sprite>?> spriteHandles = new();
+    [System.NonSerialized] public Stack<AsyncOperationHandle<AnimationClip>?> animHandles = new();
+    [System.NonSerialized] public CancellationTokenSource cts;
+}
+
+
+public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialogueFader
 {
     [Header("Config")]
     [SerializeField] private CharacterAnimSO animConfig;
 
     [Header("Parts")]
-    [SerializeField] private CharacterPart[] parts;
-    [SerializeField] private SpriteRenderer portaitSpriteRenderer;
+    [SerializeField] private SlotCharacterPart[] slotParts;
 
-    [SerializeField] private const string SLOT_INTRO = "Intro";
-    [SerializeField] private const string SLOT_LOOP = "Loop";
+    private Dictionary<SlotType, SlotCharacterPart> _slotMap;
 
-    private CancellationTokenSource _cts;
 
-    Stack<AsyncOperationHandle<Sprite>?> spriteHandles = new();
-    Stack<AsyncOperationHandle<AnimationClip>?> animHandles = new();
+    private const string SLOT_INTRO = "Intro";
+    private const string SLOT_LOOP = "Loop";
+
+
 
     private void Awake()
     {
-        foreach (var part in parts)
-            part.Initialize();
+        _slotMap = new Dictionary<SlotType, SlotCharacterPart>(slotParts.Length);
+
+        foreach (var slot in slotParts)
+        {
+            _slotMap[slot.type] = slot;
+            foreach (var part in slot.parts)
+                part.Initialize();
+        }
     }
 
 
 
-    public async UniTask SetCharacterAsync(string characterId, string expression)
+    public async UniTask SetCharacterAsync(SlotType slot, string characterId, string expression)
     {
-        //cancel 토큰 초기화
-        _cts?.Cancel();
-        _cts?.Dispose();
-        _cts = new CancellationTokenSource();
+        if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
+        {
+            Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
+            return;
+        }
+
+        slotData.cts?.Cancel();
+        slotData.cts?.Dispose();
+        slotData.cts = new CancellationTokenSource();
 
         var token = CancellationTokenSource
-            .CreateLinkedTokenSource(_cts.Token, this.GetCancellationTokenOnDestroy())
-            .Token;
+           .CreateLinkedTokenSource(slotData.cts.Token, this.GetCancellationTokenOnDestroy())
+           .Token;
 
-        ReleaseCurrentHandles();
 
+        ReleaseSlotHandles(slotData);
+        slotData.slotCharacterName = characterId;
+
+        var parts = slotData.parts;
         var tasks = new UniTask[parts.Length];
         for (int i = 0; i < parts.Length; i++)
         {
-            Logger.Log(parts[i].partName);
             PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
             PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
-            Logger.Log(data == null);
-            Logger.Log(parts[i].partName);
-            tasks[i] = LoadPartAsync(parts[i], data, defaultData, token);
+            tasks[i] = LoadPartAsync(slotData, parts[i], data, defaultData, token);
         }
 
         try
@@ -62,50 +93,166 @@ public class DialogueCharacterManager : MonoBehaviour
         catch (OperationCanceledException e)
         {
             Logger.Log(e.Message);
+        }
+    }
 
+    //이 친구는
+    public async UniTask SetCharacterAsync(string characterId, string expression)
+    {
+        
+        //수정 에정
+
+        //좌측 캐릭터가 character Id와 동일하다면, 아니라면 우측부터.
+        SlotType slot = characterId == slotParts[0].slotCharacterName ? SlotType.Left : SlotType.Right;
+
+        if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
+        {
+            Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
+            return;
+        }
+
+        slotData.cts?.Cancel();
+        slotData.cts?.Dispose();
+        slotData.cts = new CancellationTokenSource();
+
+        var token = CancellationTokenSource
+           .CreateLinkedTokenSource(slotData.cts.Token, this.GetCancellationTokenOnDestroy())
+           .Token;
+
+
+        ReleaseSlotHandles(slotData);
+        slotData.slotCharacterName = characterId;
+
+        var parts = slotData.parts;
+        var tasks = new UniTask[parts.Length];
+        for (int i = 0; i < parts.Length; i++)
+        {
+            PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
+            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
+            tasks[i] = LoadPartAsync(slotData, parts[i], data, defaultData, token);
+        }
+
+        try
+        {
+            await UniTask.WhenAll(tasks);
+        }
+        catch (OperationCanceledException e)
+        {
+            Logger.Log(e.Message);
+        }
+    }
+
+    public void OnDialogueStart(SlotType slot)
+    {
+        if (!_slotMap.TryGetValue(slot, out var slotData)) return;
+        foreach (var part in slotData.parts)
+            part.OnDialogueStart();
+    }
+    public void OnDialogueStart()
+    {
+        foreach (var slot in slotParts)
+            foreach (var part in slot.parts)
+                part.OnDialogueStart();
+    }
+
+
+    public void OnDialogueEnd(SlotType slot)
+    {
+        if (!_slotMap.TryGetValue(slot, out var slotData)) return;
+        foreach (var part in slotData.parts)
+            part.OnDialogueEnd();
+    }
+    public void OnDialogueEnd()
+    {
+        foreach (var slot in slotParts)
+            foreach (var part in slot.parts)
+                part.OnDialogueEnd();
+    }
+
+
+    public void OffCharacter(SlotType slot)
+    {
+        if (!_slotMap.TryGetValue(slot, out var slotData)) return;
+        foreach (var part in slotData.parts)
+            part.SetInactive();
+
+        if (slotData.portaitSpriteRenderer != null)
+            slotData.portaitSpriteRenderer.sprite = null;
+    }
+    public void OffCharacter()
+    {
+        foreach (var slot in slotParts)
+        {
+            foreach (var part in slot.parts)
+                part.SetInactive();
+
+            if (slot.portaitSpriteRenderer != null)
+                slot.portaitSpriteRenderer.sprite = null;
         }
     }
 
 
-    public void OnDialogueStart()
+    public async UniTask FadeInAsync(SlotType slot, CancellationToken token)
     {
-        foreach (var part in parts)
-            part.OnDialogueStart();
-    }
+        if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
+        {
+            Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
+            return;
+        }
 
-    public void OnDialogueEnd()
-    {
-        foreach (var part in parts)
-            part.OnDialogueEnd();
-    }
+        var tasks = new UniTask[slotData.parts.Length];
+        
+        for (int i = 0; i < slotData.parts.Length; i++)
+            tasks[i] = slotData.parts[i].FadeIn(token);
 
-    public void OffCharacter()
+        await UniTask.WhenAll(tasks);
+    }
+    public async UniTask FadeOutAsync(SlotType slot, CancellationToken token)
     {
-        foreach (var part in parts)
-            part.SetInactive();
+        if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
+        {
+            Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
+            return;
+        }
+
+
+        var tasks = new UniTask[slotData.parts.Length];
+
+        for (int i = 0; i < slotData.parts.Length; i++)
+            tasks[i] = slotData.parts[i].FadeOut(token);
+
+        await UniTask.WhenAll(tasks);
     }
 
     public void ReleaseAll()
     {
-        foreach (var part in parts)
-            part.Release();
+        foreach (var slot in slotParts)
+        {
+            ReleaseSlotHandles(slot);
+            foreach (var part in slot.parts)
+                part.Release();
+        }
     }
 
-    public void ReleaseCurrentHandles()
+
+    private void ReleaseSlotHandles(SlotCharacterPart slot)
     {
-        while (spriteHandles.Count > 0)
+        while (slot.spriteHandles.Count > 0)
         {
-            var item = spriteHandles.Pop();
+            var item = slot.spriteHandles.Pop();
             ResourceLoader.ReleaseHandle<Sprite>(ref item);
         }
 
-        while (animHandles.Count > 0)
+        while (slot.animHandles.Count > 0)
         {
-            var item = animHandles.Pop();
+            var item = slot.animHandles.Pop();
             ResourceLoader.ReleaseHandle<AnimationClip>(ref item);
         }
     }
 
+
+
+    
     /// <summary>
     /// 애니메이션 로드시도 :  loop 클립 로드 -> intro 클립 로드 시도 -> Part.Applyanimaton
     /// 스프라이트 로드시도 : 해당 파츠 Sprite 로드 시도 -> Part.ApplySprite
@@ -118,23 +265,31 @@ public class DialogueCharacterManager : MonoBehaviour
     /// <param name="defaultData"></param>
     /// <returns></returns>
     private async UniTask LoadPartAsync(
+        SlotCharacterPart slot,
         CharacterPart part,
         PartAnimData data,
         PartAnimData defaultData,
         CancellationToken token)
     {
-        if (data == null) return;
+        if (data == null)
+        {
+            Logger.LogWarning($"[CharacterManager] PartAnimData null");
+            return;
+        }
         if (data.Loop == "none")
         {
             part.SetInactive();
-            portaitSpriteRenderer.sprite = null;
+            
+            if (slot.portaitSpriteRenderer != null)
+                slot.portaitSpriteRenderer.sprite = null;
+
             return;
         }
 
-        if (await LoadAnimAsync(part, data, token)) //Part Anim
+        if (await LoadAnimAsync(slot, part, data, token)) //Part Anim
             return;
 
-        if (await LoadSpriteAsync(part, data.Clip, token)) //Part Sprite
+        if (await LoadSpriteAsync(slot, part, data.Clip, token)) //Part Sprite
             return;
 
         if (defaultData == null) return;
@@ -147,16 +302,19 @@ public class DialogueCharacterManager : MonoBehaviour
             return;
         }
 
-        if (await LoadPortaitSpriteAsync(part, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
+        if (await LoadPortaitSpriteAsync(slot, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
             return;
 
         Logger.LogWarning($"[CharacterManager:{data.Clip}] default도 없음 → fallback sprite");
 
         part.SetInactive();
-        portaitSpriteRenderer.sprite = null;
+
+        if (slot.portaitSpriteRenderer != null)
+            slot.portaitSpriteRenderer.sprite = null;
     }
 
     public async UniTask<bool> LoadAnimAsync(
+        SlotCharacterPart slot,
         CharacterPart part,
         PartAnimData data,
         CancellationToken token)
@@ -168,15 +326,14 @@ public class DialogueCharacterManager : MonoBehaviour
         string loopAddress = $"{clipAddress}_Loop";
 
         var loopHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(loopAddress, token);
-
-        animHandles.Push(loopHandle);
+        slot.animHandles.Push(loopHandle);
 
         if (loopHandle.HasValue)
         {
             part.SetClip(SLOT_LOOP, loopHandle);
 
             var introHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(introAddress, token);
-            animHandles.Push(introHandle);
+            slot.animHandles.Push(introHandle);
 
             if (introHandle.HasValue)
                 part.SetClip(SLOT_INTRO, introHandle);
@@ -193,12 +350,13 @@ public class DialogueCharacterManager : MonoBehaviour
     }
 
     public async UniTask<bool> LoadSpriteAsync(
+       SlotCharacterPart slot,
         CharacterPart part,
         string address,
         CancellationToken token)
     {
         var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
-        spriteHandles.Push(spriteHandle);
+        slot.spriteHandles.Push(spriteHandle);
 
         if (spriteHandle.HasValue)
         {
@@ -212,15 +370,16 @@ public class DialogueCharacterManager : MonoBehaviour
 
 
     public async UniTask<bool> LoadPortaitSpriteAsync(
-        CharacterPart part,
+         SlotCharacterPart slot,
         string address,
         CancellationToken token)
     {
         var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
-        spriteHandles.Push(spriteHandle);
+        slot.spriteHandles.Push(spriteHandle);
+        
         if (spriteHandle.HasValue)
         {
-            portaitSpriteRenderer.sprite = spriteHandle.Value.Result;
+            slot.portaitSpriteRenderer.sprite = spriteHandle.Value.Result;
             return true;
         }
 
@@ -228,14 +387,15 @@ public class DialogueCharacterManager : MonoBehaviour
         return false;
     }
 
-
-
     private void OnDestroy()
     {
-        ReleaseCurrentHandles();
         ReleaseAll();
 
-        _cts?.Cancel();
-        _cts?.Dispose();
+        foreach (var slot in slotParts)
+        {
+            slot.cts?.Cancel();
+            slot.cts?.Dispose();
+            slot.cts = null;
+        }
     }
 }

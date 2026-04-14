@@ -2,14 +2,13 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class CutSceneManager : MonoBehaviour
+
+
+public class CutSceneManager : MonoBehaviour, IEffectPlayer
 {
     [SerializeField] CutSceneDataSO data;
 
@@ -74,7 +73,15 @@ public class CutSceneManager : MonoBehaviour
         spriteAnimationManager.SetInactive();
     }
 
+    public async UniTask PlayEffectAsync(string type, float duration, float Intensity = 0f)
+    {
+        CutsceneStep cutscene = new CutsceneStep();
+        cutscene.EffectType = type; 
+        cutscene.Duration = duration;
+        cutscene.Intensity = Intensity;
 
+        await ExecuteEffect(cutscene);
+    }
 
 
 
@@ -85,7 +92,7 @@ public class CutSceneManager : MonoBehaviour
  * 
  * */
 
-    public async UniTask PlayAnimationCutScene(string id)
+    public async UniTask PlaySpriteAnimationCutScene(string id)
     {
         _cts?.Cancel();
         _cts?.Dispose();
@@ -312,14 +319,14 @@ public class CutSceneManager : MonoBehaviour
         switch (step.EffectType)
         {
             case "fade_in":
-                effectOverlay.color = Color.black;
+                effectOverlay.color = new Color(1, 1, 1, 1);
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(0f, duration).ToUniTask();
                 effectOverlay.gameObject.SetActive(false);
                 break;
 
             case "fade_out":
-                effectOverlay.color = new Color(0, 0, 0, 0);
+                effectOverlay.color = new Color(1, 1, 1, 0);
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(1f, duration).ToUniTask();
                 break;

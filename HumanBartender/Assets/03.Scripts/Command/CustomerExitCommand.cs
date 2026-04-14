@@ -23,8 +23,14 @@ public class CustomerExitCommand : IDialogueCommand
 
     bool IDialogueCommand.IsSystemSwitch { get; set; }
 
-    public UniTask<string> ExecuteAsync()
+    public async UniTask<string> ExecuteAsync()
     {
-        throw new System.NotImplementedException();
+        Debug.Log($"[효과음 재생: {sfx_mode}]");
+
+        await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
+
+        Debug.Log("퇴장 연출 완료.");
+
+        return "";
     }
 }

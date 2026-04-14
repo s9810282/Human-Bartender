@@ -11,12 +11,13 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class DialogueAnimationTestWindow : EditorWindow
 {
     // ─── 입력 ───────────────────────────────────────────
-    private string _speaker    = "Miku";
-    private string _expression = "Happy";
+    private SlotType _slot      = SlotType.Left;
+    private string _speaker     = "luna";
+    private string _expression  = "joy";
 
     // ─── 파트 개별 테스트 ───────────────────────────────
-    private static readonly string[] PART_NAMES = { "body", "eyes", "eyebrows", "upper_face", "lower_face" };
-    private bool[] _partEnabled = { true, true, true, true, true };
+    private static readonly string[] PART_NAMES = { "body", "eyes", "eyebrows", "upper_face", "lower_face", "extra" };
+    private bool[] _partEnabled = { true, true, true, true, true, true };
 
     // ─── 타겟 ────────────────────────────────────────────
     private DialogueCharacterManager _targetManager;
@@ -29,9 +30,9 @@ public class DialogueAnimationTestWindow : EditorWindow
     private Vector2 _logScroll;
 
     // ─── 빠른 테스트 프리셋 ──────────────────────────────
-    private string _presetSpeaker    = "Miku";
+    private string _presetSpeaker = "luna";
     private string _newPresetExpression = "";
-    private readonly List<string> _presetExpressions = new() { "Normal", "Happy", "Sad", "Angry", "Surprised" };
+    private readonly List<string> _presetExpressions = new() { "default", "joy", "sadness", "anger", "surprise", "fear" };
 
     // ─── 스타일 캐시 ─────────────────────────────────────
     private GUIStyle _headerStyle;
@@ -44,7 +45,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     public static void Open()
     {
         var window = GetWindow<DialogueAnimationTestWindow>("Animation Test");
-        window.minSize = new Vector2(380, 580);
+        window.minSize = new Vector2(400, 640);
     }
 
     private void OnGUI()
@@ -87,11 +88,12 @@ public class DialogueAnimationTestWindow : EditorWindow
         GUI.enabled = true;
     }
 
-    // ── Speaker / Expression 입력 ─────────────────────────
+    // ── Slot / Speaker / Expression 입력 ─────────────────
     private void DrawInputSection()
     {
         EditorGUILayout.LabelField("Input", EditorStyles.boldLabel);
 
+        _slot       = (SlotType)EditorGUILayout.EnumPopup("Slot", _slot);
         _speaker    = EditorGUILayout.TextField("Speaker",    _speaker);
         _expression = EditorGUILayout.TextField("Expression", _expression);
 
@@ -101,12 +103,12 @@ public class DialogueAnimationTestWindow : EditorWindow
 
         GUI.enabled = _targetManager != null && Application.isPlaying;
         if (GUILayout.Button("▶  Play", GUILayout.Height(30)))
-            PlayAsync(_speaker, _expression).Forget();
+            PlayAsync(_slot, _speaker, _expression).Forget();
 
         if (GUILayout.Button("⏹  Off", GUILayout.Height(30)))
         {
-            _targetManager.OffCharacter();
-            AddLog(LogLevel.Info, "OffCharacter 호출");
+            _targetManager.OffCharacter(_slot);
+            AddLog(LogLevel.Info, $"OffCharacter({_slot}) 호출");
         }
 
         if (GUILayout.Button("🗑  Release", GUILayout.Height(30)))
@@ -148,7 +150,7 @@ public class DialogueAnimationTestWindow : EditorWindow
 
         foreach (var part in PART_NAMES)
         {
-            string baseAddr  = $"{_speaker}_{part}_{_expression}";
+            string baseAddr = $"{_speaker}_{part}_{_expression}";
             EditorGUILayout.LabelField($"{part}", EditorStyles.miniBoldLabel);
             EditorGUI.indentLevel++;
             EditorGUILayout.SelectableLabel($"{baseAddr}_Intro", EditorStyles.miniLabel, GUILayout.Height(16));
@@ -176,7 +178,6 @@ public class DialogueAnimationTestWindow : EditorWindow
 
         EditorGUILayout.Space(2);
 
-        // 버튼 그리드
         int columns = 3;
         for (int i = 0; i < _presetExpressions.Count; i += columns)
         {
@@ -189,7 +190,7 @@ public class DialogueAnimationTestWindow : EditorWindow
                 {
                     _speaker    = _presetSpeaker;
                     _expression = exp;
-                    PlayAsync(_speaker, _expression).Forget();
+                    PlayAsync(_slot, _speaker, _expression).Forget();
                 }
                 GUI.enabled = true;
             }
@@ -199,12 +200,14 @@ public class DialogueAnimationTestWindow : EditorWindow
     // ── 로그 섹션 ─────────────────────────────────────────
     private void DrawLogSection()
     {
-        using var horizontal = new EditorGUILayout.HorizontalScope();
-        EditorGUILayout.LabelField("Log", EditorStyles.boldLabel);
-        if (GUILayout.Button("Clear", GUILayout.Width(50)))
-            _logs.Clear();
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField("Log", EditorStyles.boldLabel);
+            if (GUILayout.Button("Clear", GUILayout.Width(50)))
+                _logs.Clear();
+        }
 
-        float logHeight = Mathf.Max(80, position.height - 480);
+        float logHeight = Mathf.Max(80, position.height - 520);
         using var scrollView = new EditorGUILayout.ScrollViewScope(_logScroll, GUILayout.Height(logHeight));
         _logScroll = scrollView.scrollPosition;
 
@@ -222,7 +225,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     }
 
     // ── 재생 로직 ─────────────────────────────────────────
-    private async UniTaskVoid PlayAsync(string speaker, string expression)
+    private async UniTaskVoid PlayAsync(SlotType slot, string speaker, string expression)
     {
         if (_targetManager == null)
         {
@@ -230,44 +233,51 @@ public class DialogueAnimationTestWindow : EditorWindow
             return;
         }
 
-        AddLog(LogLevel.Info, $"[{speaker} / {expression}] 로드 시작...");
+        AddLog(LogLevel.Info, $"[{slot} / {speaker} / {expression}] 로드 시작...");
 
-        // 파트 토글 반영: 비활성 파트 Animator를 임시로 끔
-        ApplyPartToggles(false);
+        ApplyPartToggles(slot);
 
-        // 주소별 사전 검증 (에디터에서 존재 여부 표시)
         await ValidateAddressesAsync(speaker, expression);
 
-        await _targetManager.SetCharacterAsync(speaker, expression);
+        await _targetManager.SetCharacterAsync(slot, speaker, expression);
 
-        AddLog(LogLevel.Success, $"[{speaker} / {expression}] SetCharacterAsync 완료");
+        AddLog(LogLevel.Success, $"[{slot} / {speaker} / {expression}] SetCharacterAsync 완료");
 
-        ApplyPartToggles(true);
         Repaint();
     }
 
-    private void ApplyPartToggles(bool restore)
+    // partName 으로 매칭 — 인스펙터 배열 순서와 무관하게 안전하게 동작
+    private void ApplyPartToggles(SlotType slot)
     {
-        // DialogueCharacterManager의 parts 필드에 직접 접근
-        // (SerializeField이므로 SerializedObject 사용)
         if (_targetManager == null) return;
 
         var so = new SerializedObject(_targetManager);
-        var partsProp = so.FindProperty("parts");
-        if (partsProp == null) return;
+        var slotPartsProp = so.FindProperty("slotParts");
+        if (slotPartsProp == null) return;
 
-        Logger.Log(partsProp.arraySize);
-        Logger.Log(PART_NAMES.Length);
-
-        for (int i = 0; i < Mathf.Min(partsProp.arraySize, PART_NAMES.Length); i++)
+        for (int s = 0; s < slotPartsProp.arraySize; s++)
         {
-            var partProp    = partsProp.GetArrayElementAtIndex(i);
-            var animProp    = partProp.FindPropertyRelative("Animator");
-            var animatorObj = animProp?.objectReferenceValue as Animator;
-            if (animatorObj == null) continue;
+            var slotProp = slotPartsProp.GetArrayElementAtIndex(s);
+            var typeProp = slotProp.FindPropertyRelative("type");
+            if (typeProp == null || typeProp.enumValueIndex != (int)slot) continue;
 
-            if (!restore)
-                animatorObj.enabled = _partEnabled[i];
+            var partsProp = slotProp.FindPropertyRelative("parts");
+            if (partsProp == null) return;
+
+            for (int i = 0; i < partsProp.arraySize; i++)
+            {
+                var partProp = partsProp.GetArrayElementAtIndex(i);
+                var nameProp = partProp.FindPropertyRelative("partName");
+                if (nameProp == null) continue;
+
+                int idx = System.Array.IndexOf(PART_NAMES, nameProp.stringValue);
+                if (idx < 0) continue;
+
+                var animProp = partProp.FindPropertyRelative("Animator");
+                if (animProp?.objectReferenceValue is Animator animatorObj)
+                    animatorObj.enabled = _partEnabled[idx];
+            }
+            return;
         }
     }
 

@@ -33,16 +33,24 @@ Unitask Await 기능 사용 할 때 구분 명확히 하기
 외부 처리할 때 유니티 렌더피쳐 찾아보기
 
 
+characterManager 컴포지션으로 나누고, 그냥 characterManager를 inject 하는게 맞을거같음, 
+아니면 characterManager의 코드들은 part의 함수를 호출하는 것이니
+
 
 
 1. Commad 추가하기 play_cutscene
 2. CutSceneManager 리펙토링
 3. Camera Action 리펙토링
 4. 외부 구현
+
+
 5. Trigger Next는 기본적으로 다이얼록 ㅡ데이터에서 쓰는지 확인
 6. 일단은 다이얼로그 매니저 클릭 내에서 next를 값으로 넘감
-7. 다이얼록 ㅡ구조 점검
+
+
 8. 스터랑 빌드 넣기.
+
+Trigger 구조, "" 를 리턴할 경우 알아서 Next로 넘김 이미 해놨었네 나 좀 쩌는듯
 
 
 *** 추후 파츠 로드이 다를 수 있어서 애니메이션 실행 시점 동기화 헤야함***
@@ -55,8 +63,13 @@ Unitask Await 기능 사용 할 때 구분 명확히 하기
 
 Order in Layer
 
-DialogueCanvas 5
-CraftCanvas 6
+
+TableBG 6
+Character 1~7
+
+
+DialogueCanvas 8
+CraftCanvas 9
 
 shakingBG 9
 shakingCH  10

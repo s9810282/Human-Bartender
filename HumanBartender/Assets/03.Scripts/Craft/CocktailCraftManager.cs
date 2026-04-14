@@ -1,12 +1,13 @@
-using UnityEngine;
-using VContainer.Unity;
-using VContainer;
 using Cysharp.Threading.Tasks;
-using System.Linq;
 using System;
-using Unity.VisualScripting;
-using UnityEngine.EventSystems;
 using System.Diagnostics;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.XR;
+using VContainer;
+using VContainer.Unity;
 
 
 public interface IMiniGameController
@@ -18,7 +19,8 @@ public interface IMiniGameController
     public void Retry();
 }
 
-public class CocktailCraftManager : MonoBehaviour
+
+public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 {
     [SerializeField] CraftDataSO craftDataSO;
     [SerializeField] CocktailDataSO cocktailDataSO;
@@ -43,24 +45,15 @@ public class CocktailCraftManager : MonoBehaviour
 
     }
 
-    public CraftEventData GetCraftDataByID(string id)
-    {
-        foreach (var item in craftDataSO.craftData.CraftEvents)
-        {
-            if (item.Id == id)
-                return item;
-        }
-
-        return default;
-    }
-
-
     /// <summary>
     /// Command 에서 호출 되는 함수
     /// </summary>
     /// <param name="craftEventData"></param>
-    public async UniTask<string> StartCraftAsync(CraftEventData craftEventData)
+    public async UniTask<string> StartCraftAsync(string id)
     {
+        Logger.Log(craftDataSO == null);
+        CraftEventData craftEventData = craftDataSO.GetCraftDataByID(id);
+
         if (craftEventData.AutoOpenRecipeUi)
         {
             ingredientPanel.ResetPanel();
@@ -146,7 +139,9 @@ public class CocktailCraftManager : MonoBehaviour
 
         // TODO : 풀링.
         miniGameObj = Instantiate(prefab);
+        miniGameObj.transform.position = Camera.main.transform.position;
         controller = miniGameObj.GetComponent<IMiniGameController>();
+        
 
         //TODO 컷씬 중 생성해야하기 때문에 tcs 1회 사용은 필수. Init 시점 체크 필요.
         await miniGameInitTcs.Task;
@@ -159,7 +154,7 @@ public class CocktailCraftManager : MonoBehaviour
 
 
     /// <summary>
-    /// Craft는 종료 후 다시 Main으
+    /// Craft는 종료 후 다시 Main으로
     /// </summary>
     public async UniTask EndCraft()
     {
@@ -190,7 +185,7 @@ public class CocktailCraftManager : MonoBehaviour
 
         targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
         Logger.Log(targetCutsceneId);
-        await cutSceneManager.PlayAnimationCutScene(targetCutsceneId);
+        await cutSceneManager.PlaySpriteAnimationCutScene(targetCutsceneId);
 
         //컷씬 끝났으면 버튼 활성화.
         controller.OnNextButton();
@@ -222,7 +217,7 @@ public class CocktailCraftManager : MonoBehaviour
 
         if (mainCraftingTcs != null)
         {
-            Logger.Log($"Craft tcs not null {nextDialogueId}");
+            Logger.Log($"Craft tcs not null : {nextDialogueId}");
             mainCraftingTcs.TrySetResult(nextDialogueId);
             mainCraftingTcs = null;
         }

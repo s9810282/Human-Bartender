@@ -56,10 +56,14 @@ public class DialogueSceneDirector : MonoBehaviour
             
             typer.SetNameText(speakerData.DisplayName);
 
+
+            //expression 값은 단순히 표정 변화
+            //손님 등장 및 퇴장은 트리거를 통해서만
+            //OffCharacter는 퇴장 시
             if (!string.IsNullOrEmpty(dialogueData.Expression))
-                await characterManager.SetCharacterAsync(dialogueData.Speaker, dialogueData.Expression);
-            else
-                characterManager.OffCharacter();
+            {
+                //await characterManager.SetCharacterAsync(dialogueData.Speaker, dialogueData.Expression);
+            }
         }
 
         await typer.StartType(new TypingData(dialogueData.Text));
@@ -79,7 +83,7 @@ public class DialogueSceneDirector : MonoBehaviour
         typer.ClearText();
         characterManager.OffCharacter();
         string id = await triggerManager.ExecuteTriggerAsync(trigger);
-
+        
         return id;
     }
 

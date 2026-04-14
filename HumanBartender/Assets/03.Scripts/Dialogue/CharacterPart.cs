@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -76,7 +77,7 @@ public abstract class AnimationPart
 
 
     [Serializable]
-public class CharacterPart : AnimationPart
+public class CharacterPart : AnimationPart, IFade
 {
      private string _currentLoopMode;
 
@@ -89,6 +90,8 @@ public class CharacterPart : AnimationPart
     public override void PlayAnimation(string animName, CancellationToken token)
     {
         //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정
+
+        spriteRenderer.color = new Color(1, 1, 1, 0);
 
         animator.enabled = true;
         switch (_currentLoopMode)
@@ -137,6 +140,17 @@ public class CharacterPart : AnimationPart
         spriteRenderer.sprite = sprite;
     }
 
+    public async UniTask FadeIn(CancellationToken token)
+    {
+        spriteRenderer.color = new Color(0, 0, 0, 1);
+        await spriteRenderer.DOColor(Color.white, 1f).ToUniTask();
+    }
+    public async UniTask FadeOut(CancellationToken token)
+    {
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        await spriteRenderer.DOColor(new Color(0, 0, 0, 1), 1f).ToUniTask();
+    }
+
 
     // Dialogue
     //IPlaybackPolicy.OnDialogueStart
@@ -154,6 +168,11 @@ public class CharacterPart : AnimationPart
         animator.speed = 0f;
     }
 
+    public void OnAnimation()
+    {
+        animator.enabled = true;
+        animator.speed = 1f;
+    }
 
     public override void Release()//파괴 시
     {

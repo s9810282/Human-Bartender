@@ -41,13 +41,36 @@ public struct TriggerData
 [Serializable]
 public struct TriggerDetailData
 {
+    
     [JsonProperty("character_id")] public string CharacterId { get; set; }
+    [JsonProperty("slot")] public string Slot { get; set; }
+
+    
     [JsonProperty("sfx")] public string Sfx { get; set; }
+    [JsonProperty("sfx_mode")] public string SfxMode { get; set; }
     [JsonProperty("bgm")] public string Bgm { get; set; }
+
+    
     [JsonProperty("animation")] public string Animation { get; set; }
+    [JsonProperty("anim_id")] public string AnimId { get; set; }
+
+    
     [JsonProperty("craft_event_id")] public string CraftEventId { get; set; }
     [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
     [JsonProperty("resume_after")] public bool? ResumeAfter { get; set; }
+
+    
+    [JsonProperty("effect_type")] public string EffectType { get; set; }
+    [JsonProperty("duration")] public float? Duration { get; set; }
+
+    
+    [JsonProperty("enter_effect")] public string EnterEffect { get; set; }
+    [JsonProperty("enter_duration")] public float? EnterDuration { get; set; }
+
+    
+    [JsonProperty("exit_effect")] public string ExitEffect { get; set; }
+    [JsonProperty("exit_duration")] public float? ExitDuration { get; set; }
+
 }
 
 [Serializable]

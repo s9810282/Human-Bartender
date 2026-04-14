@@ -1,12 +1,6 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using VContainer;
 
 
 public enum DialogueState
@@ -24,9 +18,7 @@ public enum DialogueState
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] DayDataSO dayScripteData;
-    
-    [Inject] IObjectResolver resolver;
-
+  
     [SerializeField] DialogueSceneDirector sceneDirector;
 
     #region Data Field
@@ -114,7 +106,7 @@ public class DialogueManager : MonoBehaviour
             sceneDirector.ShowSystemAction();
 
             if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
-                ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
+                ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
 
             await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
@@ -130,13 +122,14 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    public async UniTask ExecuteTriggerAsync(TriggerData? trigger)
+    public async UniTask ExecuteTriggerAsync(TriggerData? trigger, string ids)
     {
         currentState = DialogueState.WaitingForTrigger; // 입력 잠금
         
         Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
 
         string id = await sceneDirector.ExcuteTriggerAsync(trigger);
+        //이게 문제로구나~
         
         if (id == "")
         {
@@ -193,7 +186,7 @@ public class DialogueManager : MonoBehaviour
             else if (currentDialogue.Trigger != null)
             {
                 if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
-                    ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
+                    ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
             else if (!string.IsNullOrEmpty(currentDialogue.Next))
             {

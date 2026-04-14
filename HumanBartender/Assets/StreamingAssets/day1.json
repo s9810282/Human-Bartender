@@ -17,7 +17,7 @@
             "type": "effect",
             "data": {
               "effect_type": "fade_in",
-              "duration": 1
+              "duration": 5
             }
           }
         },
@@ -1151,7 +1151,7 @@
               "character_id": "bubi",
               "slot": "right",
               "enter_effect": "silhouette_reveal",
-              "enter_duration": 1,
+              "enter_duration": 1.0,
               "sfx_mode": "default_only"
             }
           }
