@@ -52,7 +52,7 @@ public abstract class AnimationPart
     }
 
     public void SetSpeed(float s) => animator.speed = s;
-    public void SetInactive() { animator.enabled = false; spriteRenderer.sprite = null; }
+    public void SetInactive() { Logger.Log("SetInactive");  animator.enabled = false; spriteRenderer.sprite = null; }
     public void SetActive() { animator.enabled = true; spriteRenderer.sprite = null; }
 
     public virtual void SetClip(string slot, AsyncOperationHandle<AnimationClip>? handle)
@@ -90,8 +90,6 @@ public class CharacterPart : AnimationPart, IFade
     public override void PlayAnimation(string animName, CancellationToken token)
     {
         //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정
-
-        spriteRenderer.color = new Color(1, 1, 1, 0);
 
         animator.enabled = true;
         switch (_currentLoopMode)
@@ -148,7 +146,7 @@ public class CharacterPart : AnimationPart, IFade
     public async UniTask FadeOut(CancellationToken token)
     {
         spriteRenderer.color = new Color(1, 1, 1, 1);
-        await spriteRenderer.DOColor(new Color(0, 0, 0, 1), 1f).ToUniTask();
+        await spriteRenderer.DOColor(new Color(0, 0, 0, 0), 1f).ToUniTask();
     }
 
 

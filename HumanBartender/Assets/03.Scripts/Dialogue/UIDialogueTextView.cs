@@ -149,7 +149,6 @@ public class UIDialogueTextView : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.Log("타이핑이 스킵되었습니다!");
             dialogueTMPText.maxVisibleCharacters = dialogueTMPText.textInfo.characterCount;
         }
 
@@ -209,7 +208,6 @@ public class UIDialogueTextView : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("타이핑이 스킵되었습니다!");
             dialogueText.text = cleanSentence;    
         }
 

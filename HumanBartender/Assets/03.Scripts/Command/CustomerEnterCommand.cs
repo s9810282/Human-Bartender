@@ -16,9 +16,11 @@ public class CustomerEnterCommand : IDialogueCommand
     private string enterEffect;
     private float enterDuration = 0.3f;
     private string sfx_mode;
-    
 
-    
+    CancellationTokenSource cts = new();
+
+
+
     public CustomerEnterCommand(TriggerDetailData data)
     {
         characterId = data.CharacterId;
@@ -35,24 +37,36 @@ public class CustomerEnterCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync()
     {
-        Debug.Log($"[효과음 재생: {sfx_mode}]");
+        SlotType slotType = slot == "left" ? SlotType.Left : 
+            slot == "right" ? SlotType.Right : SlotType.Middle;
 
-        SlotType slotType = slot == "left" ? SlotType.Left : SlotType.Right;
         await characterSetter.SetCharacterAsync(slotType, characterId, "default");
+        int c = characterSetter.GetCharacterCount();
 
-        
-        CancellationTokenSource cts = new CancellationTokenSource();
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new CancellationTokenSource();
+
         var token = CancellationTokenSource
          .CreateLinkedTokenSource(cts.Token)
          .Token;
 
+        cameraMove.CameraMove(slotType);
 
-        cameraMove.CameraMove(slot);
-        cameraZoom.ZoomIn();
+
+        if (c == 1)
+        {
+            cameraZoom.ZoomIn();
+            cameraMove.CameraMove(slotType);
+        }
+        else
+        {
+            cameraZoom.ZoomOut();
+            cameraMove.CameraMove(SlotType.Middle);
+        }
 
         characterFader.FadeInAsync(slotType, token).Forget();
 
-        Debug.Log("입장 연출 완료.");
         return "";
     }
 }

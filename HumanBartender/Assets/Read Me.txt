@@ -12,6 +12,7 @@ Handle을 에셋을 사용하는 주체에서 관리할 필요가 있다.,
 CancellationToken 제어하기
 함수에 매개변수로 던지기만하면 취소 이벤트 발생 시 알아서 함수 종료됨/
 
+
 Dialogue 구조 자체에서 SetCharacterAsync를 기다리기는 하지만 이에 대한 예외처리 필요.
 SetCharacterAsync가 실행 중 SetCharacterAsync한번더 실행되면 일부 파츠는 변환이 되고 일부는 안될 수 이씅ㅁ
 실 사용에선 새 SetCharacterAsync가 덮어씌우기에 문제가 되지않겠지만 인지하기,
@@ -33,9 +34,12 @@ Unitask Await 기능 사용 할 때 구분 명확히 하기
 외부 처리할 때 유니티 렌더피쳐 찾아보기
 
 
-characterManager 컴포지션으로 나누고, 그냥 characterManager를 inject 하는게 맞을거같음, 
-아니면 characterManager의 코드들은 part의 함수를 호출하는 것이니
 
+
+characterManager 컴포지션으로 나누기
+
+아아 리펙토링 할 생각에 신난다~
+=> 추후 비동기 함수들에 CancellationToken 전달하기
 
 
 1. Commad 추가하기 play_cutscene

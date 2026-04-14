@@ -1,7 +1,17 @@
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+
+
+[System.Serializable]
+public class CameraPostion
+{
+    public SlotType slotType = SlotType.Middle;
+    public Transform pos;
+}
+
 
 public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
 {
@@ -14,9 +24,9 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
     [SerializeField] Vector2Int targetResolution = new Vector2Int(960, 540);
 
     [Header("Move Position")]
-    [SerializeField] Transform leftPosition;
-    [SerializeField] Transform RightPosition;
+    [SerializeField] CameraPostion[] movePositions;
 
+    private Dictionary<SlotType, CameraPostion> _slotMap;
 
     [Header("Transition")]
     [SerializeField] float transitionDuration = 1f;
@@ -26,6 +36,14 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
 
     void Start()
     {
+
+        _slotMap = new Dictionary<SlotType, CameraPostion>(movePositions.Length);
+
+        foreach (var slot in movePositions)
+        {
+            _slotMap[slot.slotType] = slot;            
+        }
+
         ApplyResolutionImmediate(baseResolution);
     }
 
@@ -42,12 +60,13 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         TransitionResolution(target).Forget();
     }
 
-    public void CameraMove(string target)
+    public void CameraMove(SlotType slot)
     {
-        Vector3 targetPos = target == "left" ? 
-            leftPosition.transform.position : RightPosition.transform.position;
+        Vector3 targetPos = _slotMap[slot].pos.transform.position;
+
         TransitionPosition(targetPos).Forget();
     }
+    
 
     private void ApplyResolutionImmediate(Vector2Int res)
     {

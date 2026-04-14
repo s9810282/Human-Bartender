@@ -7,7 +7,7 @@ public interface ICharacterSetter
 {
     public UniTask SetCharacterAsync(SlotType slot, string characterId, string expression);
     public UniTask SetCharacterAsync(string characterId, string expression);
-
+    public int GetCharacterCount();
 }
 
 public interface IDialogueFader
@@ -33,7 +33,7 @@ public interface ICameraZoom
 
 public interface ICameraMove
 {
-    public void CameraMove(string target);
+    public void CameraMove(SlotType slot);
 }
 
 

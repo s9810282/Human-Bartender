@@ -10,6 +10,7 @@ public enum SlotType
 {
     Left,
     Right,
+    Middle,
 }
 
 
@@ -17,7 +18,7 @@ public enum SlotType
 public class SlotCharacterPart
 {
     public SlotType type;
-    public string slotCharacterName;
+    public string slotCharacterName = "";
     public CharacterPart[] parts;
     public SpriteRenderer portaitSpriteRenderer;
 
@@ -42,7 +43,6 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     private const string SLOT_LOOP = "Loop";
 
 
-
     private void Awake()
     {
         _slotMap = new Dictionary<SlotType, SlotCharacterPart>(slotParts.Length);
@@ -55,7 +55,17 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    public int GetCharacterCount()
+    {
+        int n = 0;
+        foreach (var part in slotParts)
+        {
+            if (part.slotCharacterName != "")
+                n++;
+        }
 
+        return n;
+    }
 
     public async UniTask SetCharacterAsync(SlotType slot, string characterId, string expression)
     {
@@ -96,15 +106,32 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
-    //이 친구는
+    
+    /// <summary>
+    /// Slot이 따로 지정되지 않았기에 검사를 통해 위치 획득
+    /// 둘 다 비어있다면 우측부터
+    /// 둘다 빈게 아니라면 검사 후 characterId가 동일한 쪽으로, 아니라면 무시'
+    /// 
+    /// </summary>
+    /// <param name="characterId"></param>
+    /// <param name="expression"></param>
+    /// <returns></returns>
     public async UniTask SetCharacterAsync(string characterId, string expression)
     {
+        SlotType slot = new();
+
+        for (int i = 0; i < slotParts.Length; i++)
+        {
+            if (slotParts[i].slotCharacterName == "")
+                continue;
+            
+            if(characterId == slotParts[i].slotCharacterName)
+            {
+                slot = slotParts[i].type;
+            }
+        }
         
-        //수정 에정
-
-        //좌측 캐릭터가 character Id와 동일하다면, 아니라면 우측부터.
-        SlotType slot = characterId == slotParts[0].slotCharacterName ? SlotType.Left : SlotType.Right;
-
+        
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
         {
             Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
@@ -215,7 +242,6 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return;
         }
 
-
         var tasks = new UniTask[slotData.parts.Length];
 
         for (int i = 0; i < slotData.parts.Length; i++)
@@ -251,7 +277,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-
+    //************************************************************************************//
     
     /// <summary>
     /// 애니메이션 로드시도 :  loop 클립 로드 -> intro 클립 로드 시도 -> Part.Applyanimaton

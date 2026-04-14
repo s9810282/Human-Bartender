@@ -2,9 +2,15 @@ using Cysharp.Threading.Tasks;
 using Spine;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using VContainer;
 
 public class CustomerExitCommand : IDialogueCommand
 {
+    [Inject] ICameraMove cameraMove;
+    [Inject] ICameraZoom cameraZoom;
+    [Inject] ICharacterSetter characterSetter;
+    [Inject] IDialogueFader characterFader;
+
     private string characterId;
     private string slot;
     private string exitEffect;
@@ -25,11 +31,11 @@ public class CustomerExitCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync()
     {
-        Debug.Log($"[효과음 재생: {sfx_mode}]");
+        SlotType slotType = slot == "left" ? SlotType.Left : SlotType.Right;
 
-        await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
 
-        Debug.Log("퇴장 연출 완료.");
+
+
 
         return "";
     }
