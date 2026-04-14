@@ -50,6 +50,21 @@
       "exit_sfx": "SFX_port_exit"
     },
     {
+      "id": "port2",
+      "display_name": "포트",
+      "name_color": "#C47A3A",
+      "expressions": [
+        "default",
+        "anger",
+        "joy",
+        "event_surprise",
+        "serious"
+      ],
+      "is_player": false,
+      "enter_sfx": "SFX_port_enter",
+      "exit_sfx": "SFX_port_exit"
+    },
+    {
       "id": "bubi",
       "display_name": "부비",
       "name_color": "#A0A0A0",

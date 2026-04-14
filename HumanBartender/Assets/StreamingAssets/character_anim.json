@@ -183,6 +183,51 @@
         }
       }
     },
+     "port2": {
+      "base_body": "port_body",
+      "expressions": {
+        "anger": {
+          "eyes":        { "clip": "port2_eyes_anger",        "loop": "always" },
+          "eyebrows":    { "clip": "port2_eyebrows_anger",    "loop": "always" },
+          "upper_face":  { "clip": "port2_upper_face_anger",  "loop": "always" },
+          "lower_face":  { "clip": "port2_lower_face_anger",  "loop": "on_dialogue" },
+          "body":        { "clip": "port2_body_anger",        "loop": "once" },
+          "extra":       { "clip": "port2_extra_robot",       "loop": "always" }
+        },
+        "joy": {
+          "eyes":        { "clip": "port2_eyes_joy",        "loop": "always" },
+          "eyebrows":    { "clip": "port2_eyebrows_joy",    "loop": "always" },
+          "upper_face":  { "clip": "port2_upper_face_joy",  "loop": "always" },
+          "lower_face":  { "clip": "port2_lower_face_joy",  "loop": "on_dialogue" },
+          "body":        { "clip": "port2_body_joy",        "loop": "always" },
+          "extra":       { "clip": "port2_extra_robot",     "loop": "always" }
+        },
+        "event_surprise": {
+          "eyes":        { "clip": "port2_eyes_event_surprise",        "loop": "once" },
+          "eyebrows":    { "clip": "port2_eyebrows_event_surprise",    "loop": "once" },
+          "upper_face":  { "clip": "port2_upper_face_event_surprise",  "loop": "once" },
+          "lower_face":  { "clip": "port2_lower_face_event_surprise",  "loop": "once" },
+          "body":        { "clip": "port2_body_event_surprise",        "loop": "once" },
+          "extra":       { "clip": "port2_extra_robot",                "loop": "once" }
+        },
+        "serious": {
+          "eyes":        { "clip": "port2_eyes_serious",        "loop": "always" },
+          "eyebrows":    { "clip": "port2_eyebrows_serious",    "loop": "always" },
+          "upper_face":  { "clip": "port2_upper_face_serious",  "loop": "always" },
+          "lower_face":  { "clip": "port2_lower_face_serious",  "loop": "on_dialogue" },
+          "body":        { "clip": "port2_body_serious",        "loop": "always" },
+          "extra":       { "clip": "port2_extra_robot",         "loop": "always" }
+        },
+        "default": {
+          "eyes":        { "clip": "port2_eyes_default",        "loop": "always" },
+          "eyebrows":    { "clip": "port2_eyebrows_default",    "loop": "always" },
+          "upper_face":  { "clip": "port2_upper_face_default",  "loop": "always" },
+          "lower_face":  { "clip": "port2_lower_face_default",  "loop": "always" },
+          "body":        { "clip": "port2_body_default",         "loop": "always" },
+          "extra":       { "clip": "port2_extra_robot",         "loop": "always" }
+        }
+      }
+    },
     "bubi": {
       "base_body": "bubi_body",
       "expressions": {

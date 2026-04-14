@@ -107,7 +107,7 @@ public class DialogueAnimationTestWindow : EditorWindow
 
         if (GUILayout.Button("⏹  Off", GUILayout.Height(30)))
         {
-            _targetManager.OffCharacter(_slot);
+            _targetManager.ResetCharacter(_slot);
             AddLog(LogLevel.Info, $"OffCharacter({_slot}) 호출");
         }
 

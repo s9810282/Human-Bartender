@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Spine;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using VContainer;
@@ -17,6 +19,8 @@ public class CustomerExitCommand : IDialogueCommand
     private float exitDuration = 0.3f;
     private string sfx_mode;
 
+    CancellationTokenSource cts = new();
+
     public CustomerExitCommand(TriggerDetailData data)
     {
         characterId = data.CharacterId;
@@ -31,10 +35,33 @@ public class CustomerExitCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync()
     {
-        SlotType slotType = slot == "left" ? SlotType.Left : SlotType.Right;
+        SlotType slotType = slot == "left" ? SlotType.Left :
+             slot == "right" ? SlotType.Right : SlotType.Middle;
+
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new CancellationTokenSource();
+
+        var token = CancellationTokenSource
+         .CreateLinkedTokenSource(cts.Token)
+         .Token;
+
+        await characterFader.FadeOutAsync(slotType, token);
+        characterSetter.ResetCharacter(slotType);
+
+        int c = characterSetter.GetCharacterCount();
 
 
-
+        if (c == 1)
+        {
+            cameraZoom.ZoomIn();
+            cameraMove.CameraMove(slotType == SlotType.Left ? SlotType.Right : SlotType.Left);
+        }
+        else
+        {
+            cameraZoom.ZoomOut();
+            cameraMove.CameraMove(SlotType.Middle);
+        }
 
 
         return "";

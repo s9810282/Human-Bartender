@@ -106,7 +106,6 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
-    
     /// <summary>
     /// Slot이 따로 지정되지 않았기에 검사를 통해 위치 획득
     /// 둘 다 비어있다면 우측부터
@@ -169,6 +168,9 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+
+    
+
     public void OnDialogueStart(SlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
@@ -197,19 +199,24 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-    public void OffCharacter(SlotType slot)
+    public void ResetCharacter(SlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
+
+        slotData.slotCharacterName = "";
+
         foreach (var part in slotData.parts)
             part.SetInactive();
 
         if (slotData.portaitSpriteRenderer != null)
             slotData.portaitSpriteRenderer.sprite = null;
     }
-    public void OffCharacter()
+    public void ResetCharacter()
     {
         foreach (var slot in slotParts)
         {
+            slot.slotCharacterName = "";
+
             foreach (var part in slot.parts)
                 part.SetInactive();
 
@@ -250,6 +257,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         await UniTask.WhenAll(tasks);
     }
 
+
     public void ReleaseAll()
     {
         foreach (var slot in slotParts)
@@ -277,8 +285,9 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
+
     //************************************************************************************//
-    
+    // 스크립트 기능 분리 검토. 단순 컴포지션
     /// <summary>
     /// 애니메이션 로드시도 :  loop 클립 로드 -> intro 클립 로드 시도 -> Part.Applyanimaton
     /// 스프라이트 로드시도 : 해당 파츠 Sprite 로드 시도 -> Part.ApplySprite

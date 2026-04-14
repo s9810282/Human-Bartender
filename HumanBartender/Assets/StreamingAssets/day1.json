@@ -17,7 +17,7 @@
             "type": "effect",
             "data": {
               "effect_type": "fade_in",
-              "duration": 5
+              "duration": 2
             }
           }
         },
@@ -106,9 +106,28 @@
           "type": "monologue",
           "text": "(…망한 것 같은데.)",
           "expression": null,
-          "next": "d1p_010",
+          "next": "d1p_0007",
           "choices": null,
           "trigger": null
+        },
+        {
+          "id": "d1p_0007",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1p_010",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "port2",
+              "slot": "left",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
         },
         {
           "id": "d1p_010",
@@ -126,9 +145,28 @@
           "type": "normal",
           "text": "…흠.\n크리스 그 자식, 결국 시작한 모양이군.",
           "expression": "default",
-          "next": "d1p_012",
+          "next": "d1p_00311",
           "choices": null,
           "trigger": null
+        },
+        {
+          "id": "d1p_00311",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1p_012",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
         },
         {
           "id": "d1p_012",

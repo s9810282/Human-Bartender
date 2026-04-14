@@ -8,6 +8,8 @@ public interface ICharacterSetter
     public UniTask SetCharacterAsync(SlotType slot, string characterId, string expression);
     public UniTask SetCharacterAsync(string characterId, string expression);
     public int GetCharacterCount();
+    public void ResetCharacter(SlotType slot);
+    public void ResetCharacter();
 }
 
 public interface IDialogueFader
