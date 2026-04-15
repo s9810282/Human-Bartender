@@ -76,13 +76,13 @@
       "name": "깔루아 밀크",
       "name_en": "Kahlua Milk",
       "recipe": [
-        { "ingredient": "kahlua", "count": 1 },
+        { "ingredient": "coffee_liqueur", "count": 1 },
         { "ingredient": "milk", "count": 3 }
       ],
       "method": "build",
       "target_count": 0,
       "keywords": ["달콤한", "부드러운"],
-      "baseIngredient": "깔루아",
+      "baseIngredient": "커피 리큐어",
       "flavor_text": "아주 오래 전 한국에서는 찜질방에서 커피우유를 마시는 문화가 있었습니다.",
       "serve_animation": "anim_serve_kahlua_milk",
       "serve_sfx": "SFX_glass_slide"

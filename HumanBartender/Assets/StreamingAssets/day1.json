@@ -106,28 +106,9 @@
           "type": "monologue",
           "text": "(…망한 것 같은데.)",
           "expression": null,
-          "next": "d1p_0007",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "d1p_0007",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
           "next": "d1p_010",
           "choices": null,
-          "trigger": {
-            "type": "customer_enter",
-            "data": {
-              "character_id": "port2",
-              "slot": "left",
-              "enter_effect": "silhouette_reveal",
-              "enter_duration": 1.0,
-              "sfx_mode": "default_only"
-            }
-          }
+          "trigger": null
         },
         {
           "id": "d1p_010",
@@ -145,28 +126,9 @@
           "type": "normal",
           "text": "…흠.\n크리스 그 자식, 결국 시작한 모양이군.",
           "expression": "default",
-          "next": "d1p_00311",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "d1p_00311",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
           "next": "d1p_012",
           "choices": null,
-          "trigger": {
-            "type": "customer_exit",
-            "data": {
-              "character_id": "port",
-              "slot": "right",
-              "exit_effect": "fade_out",
-              "exit_duration": 0.5,
-              "sfx_mode": "default_only"
-            }
-          }
+          "trigger": null
         },
         {
           "id": "d1p_012",
@@ -184,28 +146,9 @@
           "type": "monologue",
           "text": "(영감님이 아주 에너지가 넘치시네.)",
           "expression": null,
-          "next": "d1p_00312",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "d1p_00312",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
           "next": "d1p_014",
           "choices": null,
-          "trigger": {
-            "type": "customer_exit",
-            "data": {
-              "character_id": "port",
-              "slot": "left",
-              "exit_effect": "fade_out",
-              "exit_duration": 0.5,
-              "sfx_mode": "default_only"
-            }
-          }
+          "trigger": null
         },
         {
           "id": "d1p_014",
@@ -393,7 +336,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "뭐? 바텐더면 손님이 개떡같이 주문해도 찰떡같이 만들어서 가져와야지, 이걸 질문을 해?",
-          "expression": "anger",
+          "expression": "anger_v2",
           "next": "d1p_100",
           "choices": null,
           "trigger": null
@@ -458,7 +401,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "…그래도 기본은 있는 줄 알았더니.",
-          "expression": "anger",
+          "expression": "anger_v1",
           "next": "d1p_react_bad_002",
           "choices": null,
           "trigger": null
@@ -468,7 +411,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "이딴 걸 칵테일이라고 내오다니, 실망이군.",
-          "expression": "anger",
+          "expression": "anger_v1",
           "next": "d1p_react_bad_003",
           "choices": null,
           "trigger": null
@@ -874,7 +817,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "뭐?",
-          "expression": "anger",
+          "expression": "anger_v1",
           "next": "d1p_224",
           "choices": null,
           "trigger": null
@@ -884,7 +827,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "마수걸이까지 해준 노인네 부탁하나 들어주지 못한다니.",
-          "expression": "anger",
+          "expression": "anger_v1",
           "next": "d1p_225",
           "choices": null,
           "trigger": null
@@ -904,7 +847,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "첫 손님이라는 뜻이다 이 애송아.",
-          "expression": "anger",
+          "expression": "anger_v1",
           "next": "d1p_227",
           "choices": null,
           "trigger": null
@@ -964,7 +907,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "크리스 나오라 그래!!\n이런 썩을놈의 새끼가… 후임 교육은 개나 줘버리고 또 안에 틀어박혀서 이글루나 쳐 만들고 있나 보군.",
-          "expression": "anger",
+          "expression": "anger_v2",
           "next": "d1p_233",
           "choices": null,
           "trigger": null
@@ -973,7 +916,7 @@
           "id": "d1p_233",
           "speaker": "luna",
           "type": "normal",
-          "text": "아니, 보스는 밖에 일이 있어서 자리를 비웠다고요!",
+          "text": "보스는 밖에 일이 있어서 자리를 비웠다고요!",
           "expression": null,
           "next": "d1p_234",
           "choices": null,
@@ -1058,10 +1001,9 @@
           "next": "d1p_300",
           "choices": null,
           "trigger": {
-            "type": "play_sideview_anim",
+            "type": "start_cutscene",
             "data": {
-              "anim_id": "day1_get_bubi_outside",
-              "resume_after": true
+              "cutscene_id": "day1_get_bubi_outside"
             }
           }
         },
