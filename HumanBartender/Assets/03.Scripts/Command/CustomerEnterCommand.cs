@@ -67,6 +67,8 @@ public class CustomerEnterCommand : IDialogueCommand
 
         characterFader.FadeInAsync(slotType, token).Forget();
 
+        await UniTask.WaitForSeconds(enterDuration);
+
         return "";
     }
 }

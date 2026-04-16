@@ -63,6 +63,7 @@ public class CustomerExitCommand : IDialogueCommand
             cameraMove.CameraMove(SlotType.Middle);
         }
 
+        await UniTask.WaitForSeconds(exitDuration);
 
         return "";
     }

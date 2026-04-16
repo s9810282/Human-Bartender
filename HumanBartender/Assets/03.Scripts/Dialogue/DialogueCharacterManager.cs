@@ -41,6 +41,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
     private const string SLOT_INTRO = "Intro";
     private const string SLOT_LOOP = "Loop";
+    private const string SLOT_DIALOGUE = "Dialogue";
 
 
     private void Awake()
@@ -321,11 +322,19 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return;
         }
 
+
         if (await LoadAnimAsync(slot, part, data, token)) //Part Anim
             return;
 
-        if (await LoadSpriteAsync(slot, part, data.Clip, token)) //Part Sprite
+        if (await LoadAnimAsync(slot, part, defaultData, token)) //Part Default Anim
             return;
+
+        if (await LoadSpriteAsync(slot, part, data, token)) //Part Sprite
+            return;
+
+        if (await LoadSpriteAsync(slot, part, defaultData, token)) //Part Default Sprite
+            return;
+
 
         if (defaultData == null) return;
 
@@ -337,7 +346,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return;
         }
 
-        if (await LoadPortaitSpriteAsync(slot, defaultData.Clip, token)) //Default => 사실상 더미임. 이거 빼도 되는거아닌가
+        if (await LoadPortaitSpriteAsync(slot, defaultData, token))
             return;
 
         Logger.LogWarning($"[CharacterManager:{data.Clip}] default도 없음 → fallback sprite");
@@ -354,19 +363,27 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         PartAnimData data,
         CancellationToken token)
     {
+        if (data.Clip == null) //clipData가 null이면 false, 추후 default anim 삽입.
+            return false;
+
         part.SetLoopMode(data.Loop);
 
         string clipAddress = data.Clip;
         string introAddress = $"{clipAddress}_Intro";
         string loopAddress = $"{clipAddress}_Loop";
+        string dialogueAddress = $"{clipAddress}_Dialogue";
 
         var loopHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(loopAddress, token);
         slot.animHandles.Push(loopHandle);
 
         if (loopHandle.HasValue)
         {
+            //LoopSetting
             part.SetClip(SLOT_LOOP, loopHandle);
 
+
+
+            //Intro Setting
             var introHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(introAddress, token);
             slot.animHandles.Push(introHandle);
 
@@ -376,6 +393,21 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
                 part.SetClip(SLOT_INTRO, loopHandle);
 
 
+
+            //Dialogue Setting
+            var dialogueHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(dialogueAddress, token);
+            slot.animHandles.Push(dialogueHandle);
+
+
+            if (dialogueHandle.HasValue)
+                part.SetClip(SLOT_DIALOGUE, dialogueHandle);
+            else
+                part.SetClip(SLOT_DIALOGUE, loopHandle);
+
+
+
+
+            //추후 파츠별 실행 시점 동기화 예정.
             part.PlayAnimation(SLOT_INTRO, token);
 
             return true;
@@ -387,10 +419,16 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     public async UniTask<bool> LoadSpriteAsync(
        SlotCharacterPart slot,
         CharacterPart part,
-        string address,
+        PartAnimData data,
         CancellationToken token)
     {
-        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
+
+        if(data.Clip == null)
+            return false;
+
+        string clipaddress = data.Clip;
+
+        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(clipaddress, token);
         slot.spriteHandles.Push(spriteHandle);
 
         if (spriteHandle.HasValue)
@@ -399,17 +437,22 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return true;
         }
 
-        Logger.LogWarning($"[CharacterPart:{part.partName}] '{address}' 리소스 없음");
+        Logger.LogWarning($"[CharacterPart:{part.partName}] '{clipaddress}' 리소스 없음");
         return false;
     }
 
 
     public async UniTask<bool> LoadPortaitSpriteAsync(
          SlotCharacterPart slot,
-        string address,
+        PartAnimData data,
         CancellationToken token)
     {
-        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(address, token);
+        if (data.Clip == null)
+            return false;
+
+        string clipaddress = data.Clip;
+
+        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(clipaddress, token);
         slot.spriteHandles.Push(spriteHandle);
         
         if (spriteHandle.HasValue)
@@ -418,7 +461,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return true;
         }
 
-        Logger.LogWarning($"[CharacterPart:Portait] '{address}' 리소스 없음");
+        Logger.LogWarning($"[CharacterPart:Portait] '{clipaddress}' 리소스 없음");
         return false;
     }
 
