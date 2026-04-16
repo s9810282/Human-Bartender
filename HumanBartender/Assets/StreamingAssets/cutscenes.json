@@ -17,7 +17,7 @@
 
   "layout_presets": {
     "single": {
-      "description": "풀스크린 이미지 1장",
+      "description": "풀스크린 1장",
       "slots": [
         { "position": "center", "width_override": 1.0, "height_override": 1.0 }
       ]
@@ -53,319 +53,116 @@
       ]
     },
     "dim_focus": {
-      "description": "어두운 배경 + 가운데 포커스 (딤 오버레이 사용)",
+      "description": "어두운 배경 + 가운데 포커스",
       "slots": [
-        { "position": "full",   "dim": 0.7 },
+        { "position": "full", "dim": 0.7 },
         { "position": "center" }
       ]
     }
   },
 
-  "enter_presets": {
-    "cut":          { "description": "즉시 표시 (전환 없음)",        "duration_default": 0.0 },
-    "fade_in":      { "description": "투명 → 불투명",               "duration_default": 0.4 },
-    "slide_left":   { "description": "오른쪽에서 왼쪽으로 슬라이드",  "duration_default": 0.3 },
-    "slide_right":  { "description": "왼쪽에서 오른쪽으로 슬라이드",  "duration_default": 0.3 },
-    "slide_up":     { "description": "아래에서 위로 슬라이드",        "duration_default": 0.3 },
-    "slide_down":   { "description": "위에서 아래로 슬라이드",        "duration_default": 0.3 },
-    "zoom_in":      { "description": "작은 상태에서 확대 등장",       "duration_default": 0.4 },
-    "zoom_out":     { "description": "큰 상태에서 축소 등장",         "duration_default": 0.4 }
-  },
-
-  "exit_presets": {
-    "cut":          { "description": "즉시 사라짐",                  "duration_default": 0.0 },
-    "fade_out":     { "description": "불투명 → 투명",               "duration_default": 0.3 },
-    "slide_left":   { "description": "왼쪽으로 밀려서 사라짐",       "duration_default": 0.3 },
-    "slide_right":  { "description": "오른쪽으로 밀려서 사라짐",      "duration_default": 0.3 },
-    "slide_up":     { "description": "위로 밀려서 사라짐",           "duration_default": 0.3 },
-    "slide_down":   { "description": "아래로 밀려서 사라짐",         "duration_default": 0.3 },
-    "zoom_out":     { "description": "축소되면서 사라짐",            "duration_default": 0.4 }
-  },
-
-  "effect_presets": {
-    "fade_in":       { "description": "검은 화면 → 밝아짐" },
-    "fade_out":      { "description": "화면 → 어두워짐" },
-    "flash_white":   { "description": "순간 하얀 플래시" },
-    "screen_shake":  { "description": "화면 흔들림 (intensity = 픽셀)" },
-    "zoom_pulse":    { "description": "살짝 확대 후 복귀 (intensity = 스케일, 예: 1.05)" },
-    "vignette":      { "description": "가장자리 어두워짐" },
-    "dim":           { "description": "반투명 검은 오버레이 (intensity = 0~1 불투명도)" }
+  "comic_presets": {
+    "enter_presets": {
+      "fade_in":     { "type": "fade",    "duration": 0.3 },
+      "slide_left":  { "type": "slide",   "from": "left",   "duration": 0.4 },
+      "slide_right": { "type": "slide",   "from": "right",  "duration": 0.4 },
+      "slide_up":    { "type": "slide",   "from": "bottom", "duration": 0.4 },
+      "pop_in":      { "type": "scale",   "from": 0.5,      "duration": 0.25 },
+      "instant":     { "type": "instant" }
+    },
+    "exit_presets": {
+      "fade_out":    { "type": "fade",    "duration": 0.3 },
+      "slide_left":  { "type": "slide",   "to": "left",     "duration": 0.4 },
+      "slide_right": { "type": "slide",   "to": "right",    "duration": 0.4 },
+      "pop_out":     { "type": "scale",   "to": 0.0,        "duration": 0.2 },
+      "instant":     { "type": "instant" }
+    },
+    "effect_presets": {
+      "flash_white":  { "type": "flash",   "color": "white", "duration": 0.15 },
+      "flash_black":  { "type": "flash",   "color": "black", "duration": 0.2  },
+      "shake_light":  { "type": "shake",   "intensity": 3,   "duration": 0.4  },
+      "shake_heavy":  { "type": "shake",   "intensity": 8,   "duration": 0.6  },
+      "zoom_in":      { "type": "zoom",    "scale": 1.1,     "duration": 0.3  },
+      "vignette":     { "type": "vignette","intensity": 0.6,  "duration": 0.5  }
+    }
   },
 
   "cutscenes": [
 
     {
       "id": "day1_finish_gin_fizz",
-      "description": "진피즈 마무리 — 잔에 담고 얼음 넣고 레몬 가니쉬",
-      "type": "comic",
+      "description": "진피즈 완성 컷씬",
+      "type": "sprite",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_layout",
-          "layout": "split_3_horizontal",
-          "images": ["cut_pour_glass", "cut_add_ice", "cut_garnish_lemon"],
-          "enters": ["slide_left", "slide_up", "slide_right"],
-          "enter_durations": [0.3, 0.6, 0.9]
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.0,
-          "action": "play_sfx",
-          "sfx": "SFX_ice_drop"
-        },
-        {
-          "time": 1.5,
-          "action": "play_sfx",
-          "sfx": "SFX_garnish_place"
-        },
-        {
-          "time": 2.5,
-          "action": "hide_all",
-          "exit": "fade_out",
-          "exit_duration": 0.5
-        }
-      ]
+      "asset": "cutscene_finish_gin_fizz",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
     },
 
     {
       "id": "day1_finish_default",
-      "description": "기본 마무리 컷씬 — 따르기, 가니쉬",
-      "type": "comic",
+      "description": "기본 칵테일 완성 컷씬",
+      "type": "sprite",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_image",
-          "image": "cut_pour_glass",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.5,
-          "action": "hide_image",
-          "image": "cut_pour_glass",
-          "exit": "fade_out",
-          "exit_duration": 0.3
-        },
-        {
-          "time": 1.8,
-          "action": "show_image",
-          "image": "cut_garnish",
-          "position": "center",
-          "enter": "slide_up",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 2.8,
-          "action": "hide_all",
-          "exit": "fade_out",
-          "exit_duration": 0.5
-        }
-      ]
+      "asset": "cutscene_finish_default",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
     },
 
     {
       "id": "day1_react_perfect",
-      "description": "S급 판정 시 특별 리액션 컷씬 — 손님 만족 표정",
-      "type": "comic",
+      "description": "S급 판정 리액션 컷씬",
+      "type": "sprite",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_image",
-          "image": "cut_perfect_glass_closeup",
-          "position": "center",
-          "enter": "zoom_in",
-          "enter_duration": 0.5
-        },
-        {
-          "time": 0.5,
-          "action": "effect",
-          "effect_type": "zoom_pulse",
-          "intensity": 1.05,
-          "duration": 0.3
-        },
-        {
-          "time": 1.5,
-          "action": "hide_image",
-          "image": "cut_perfect_glass_closeup",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 1.7,
-          "action": "show_layout",
-          "layout": "split_2",
-          "images": ["cut_perfect_pour", "cut_perfect_customer_reaction"],
-          "enters": ["slide_left", "slide_right"],
-          "enter_durations": [0.4, 0.4]
-        },
-        {
-          "time": 3.0,
-          "action": "hide_all",
-          "exit": "fade_out",
-          "exit_duration": 0.5
-        },
-        {
-          "time": 0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        }
-      ]
+      "asset": "cutscene_react_perfect",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
     },
 
     {
       "id": "day1_get_bubi_outside",
-      "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 스프라이트 애니메이션",
+      "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 스프라이트 컷씬",
       "type": "sprite",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.4
-        },
-        {
-          "time": 0.4,
-          "action": "show_sprite",
-          "asset": "sprite_luna_get_bubi",
-          "position": "full",
-          "scale": 1.0,
-          "loop": false
-        },
-        {
-          "time": 0.8,
-          "action": "play_sfx",
-          "sfx": "SFX_footsteps"
-        },
-        {
-          "time": 1.8,
-          "action": "play_sfx",
-          "sfx": "SFX_cat_meow"
-        },
-        {
-          "time": 3.5,
-          "action": "hide_sprite",
-          "asset": "sprite_luna_get_bubi",
-          "exit": "fade_out",
-          "exit_duration": 0.4
-        },
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        }
-      ]
+      "asset": "cutscene_get_bubi_outside",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
     },
 
     {
       "id": "day1_bubi_drink_reaction",
-      "description": "부비가 미슐랭 심사관처럼 깔루아밀크를 평가하고 루나 얼굴을 할퀴는 컷씬",
-      "type": "comic",
+      "description": "부비가 깔루아밀크를 평가하고 루나 얼굴을 할퀴는 컷씬",
+      "type": "sprite",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_layout",
-          "layout": "split_2",
-          "images": ["cut_bubi_judge_pose", "cut_luna_nervous"],
-          "enters": ["slide_left", "slide_right"],
-          "enter_durations": [0.4, 0.4]
-        },
-        {
-          "time": 1.0,
-          "action": "play_sfx",
-          "sfx": "SFX_cat_lick"
-        },
-        {
-          "time": 2.5,
-          "action": "effect",
-          "effect_type": "zoom_pulse",
-          "intensity": 1.05,
-          "duration": 0.2
-        },
-        {
-          "time": 2.8,
-          "action": "hide_all",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 3.0,
-          "action": "show_layout",
-          "layout": "split_2",
-          "images": ["cut_bubi_scratch", "cut_luna_scratched"],
-          "enters": ["zoom_in", "slide_right"],
-          "enter_durations": [0.3, 0.3]
-        },
-        {
-          "time": 3.1,
-          "action": "effect",
-          "effect_type": "screen_shake",
-          "intensity": 4,
-          "duration": 0.4
-        },
-        {
-          "time": 3.1,
-          "action": "play_sfx",
-          "sfx": "SFX_cat_scratch"
-        },
-        {
-          "time": 4.5,
-          "action": "hide_all",
-          "exit": "fade_out",
-          "exit_duration": 0.4
-        },
-        {
-          "time": 0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        }
-      ]
+      "asset": "cutscene_bubi_drink_reaction",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
     }
+
   ]
 }

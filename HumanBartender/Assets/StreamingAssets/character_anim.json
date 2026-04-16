@@ -1,4 +1,4 @@
-ㄷ{
+{
   "animation_config": {
     "parts": [
       "eyes",
@@ -11,6 +11,7 @@
     "loop_modes": {
       "always": "항시 재생. 게임 내내 반복 루프",
       "on_dialogue": "대사 텍스트 출력 중에만 재생. 출력 끝나면 정지",
+      "always_on_dialogue": "대화 외: Loop 클립으로 idle 재생. 대화 중: Intro 클립으로 전환. 대화 끝나면 Loop로 복귀",
       "once": "1회 재생 후 마지막 프레임에서 정지",
       "none": "재생하지 않음 (해당 파츠 비활성)"
     }
@@ -23,7 +24,7 @@
           "eyes":        { "clip": "luna_eyes_joy",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_joy",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_joy",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_joy",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_joy",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_joy",        "loop": "always" },
           "extra":       null
         },
@@ -31,7 +32,7 @@
           "eyes":        { "clip": "luna_eyes_sadness",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_sadness",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_sadness",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_sadness",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_sadness",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_sadness",        "loop": "always" },
           "extra":       null
         },
@@ -39,7 +40,7 @@
           "eyes":        { "clip": "luna_eyes_anger",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_anger",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_anger",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_anger",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_anger",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_anger",        "loop": "once" },
           "extra":       null
         },
@@ -47,7 +48,7 @@
           "eyes":        { "clip": "luna_eyes_disgust",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_disgust",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_disgust",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_disgust",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_disgust",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_disgust",        "loop": "always" },
           "extra":       null
         },
@@ -55,7 +56,7 @@
           "eyes":        { "clip": "luna_eyes_surprise",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_surprise",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_surprise",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_surprise",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_surprise",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_surprise",        "loop": "once" },
           "extra":       null
         },
@@ -63,7 +64,7 @@
           "eyes":        { "clip": "luna_eyes_fear",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_fear",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_fear",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_fear",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_fear",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_fear",        "loop": "always" },
           "extra":       null
         },
@@ -71,7 +72,7 @@
           "eyes":        { "clip": "luna_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "luna_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "luna_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "luna_lower_face_default",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "luna_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "luna_body_default",           "loop": "always" },
           "extra":       null
         }
@@ -84,7 +85,7 @@
           "eyes":        { "clip": "chris_eyes_joy",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_joy",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_joy",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_joy",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_joy",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_joy",        "loop": "always" },
           "extra":       null
         },
@@ -92,7 +93,7 @@
           "eyes":        { "clip": "chris_eyes_sadness",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_sadness",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_sadness",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_sadness",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_sadness",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_sadness",        "loop": "always" },
           "extra":       null
         },
@@ -100,7 +101,7 @@
           "eyes":        { "clip": "chris_eyes_anger",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_anger",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_anger",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_anger",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_anger",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_anger",        "loop": "once" },
           "extra":       null
         },
@@ -108,7 +109,7 @@
           "eyes":        { "clip": "chris_eyes_worry",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_worry",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_worry",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_worry",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_worry",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_worry",        "loop": "always" },
           "extra":       null
         },
@@ -116,7 +117,7 @@
           "eyes":        { "clip": "chris_eyes_serious",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_serious",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_serious",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_serious",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_serious",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_serious",        "loop": "always" },
           "extra":       null
         },
@@ -124,7 +125,7 @@
           "eyes":        { "clip": "chris_eyes_smile",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_smile",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_smile",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_smile",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_smile",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_smile",        "loop": "always" },
           "extra":       null
         },
@@ -132,7 +133,7 @@
           "eyes":        { "clip": "chris_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "chris_lower_face_default",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "chris_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "chris_body_default",           "loop": "always" },
           "extra":       null
         }
@@ -145,7 +146,7 @@
           "eyes":        null,
           "eyebrows":    { "clip": "port_eyebrows_anger_v1",   "loop": "always" },
           "upper_face":  null,
-          "lower_face":  { "clip": "port_lower_face_anger_v1", "loop": "on_dialogue" },
+          "lower_face":  { "clip": "port_lower_face_anger_v1", "loop": "always_on_dialogue" },
           "body":        null,
           "extra":       null
         },
@@ -153,7 +154,7 @@
           "eyes":        { "clip": "port_eyes_anger_v2",        "loop": "always" },
           "eyebrows":    { "clip": "port_eyebrows_anger_v2",    "loop": "always" },
           "upper_face":  { "clip": "port_upper_face_anger_v2",  "loop": "always" },
-          "lower_face":  { "clip": "port_lower_face_anger_v2",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "port_lower_face_anger_v2",  "loop": "always_on_dialogue" },
           "body":        { "clip": "port_body_anger_v2",        "loop": "once" },
           "extra":       null
         },
@@ -161,7 +162,7 @@
           "eyes":        null,
           "eyebrows":    { "clip": "port_eyebrows_joy",        "loop": "always" },
           "upper_face":  null,
-          "lower_face":  { "clip": "port_lower_face_joy",      "loop": "on_dialogue" },
+          "lower_face":  { "clip": "port_lower_face_joy",      "loop": "always_on_dialogue" },
           "body":        null,
           "extra":       null
         },
@@ -177,7 +178,7 @@
           "eyes":        { "clip": "port_eyes_serious",        "loop": "always" },
           "eyebrows":    { "clip": "port_eyebrows_serious",    "loop": "always" },
           "upper_face":  null,
-          "lower_face":  { "clip": "port_lower_face_serious",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "port_lower_face_serious",  "loop": "always_on_dialogue" },
           "body":        null,
           "extra":       null
         },
@@ -185,7 +186,7 @@
           "eyes":        { "clip": "port_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "port_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "port_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "port_lower_face_default",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "port_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "port_body_default",        "loop": "always" },
           "extra":       { "clip": "port_extra_robot",         "loop": "always" }
         }
@@ -198,7 +199,7 @@
           "eyes":        { "clip": "bubi_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "bubi_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "bubi_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "bubi_lower_face_default",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "bubi_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "bubi_body_default",           "loop": "always" },
           "extra":       null
         }
@@ -211,7 +212,7 @@
           "eyes":        { "clip": "default_eyes_joy",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_joy",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_joy",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_joy",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_joy",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_joy",        "loop": "always" },
           "extra":       null
         },
@@ -219,7 +220,7 @@
           "eyes":        { "clip": "default_eyes_sadness",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_sadness",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_sadness",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_sadness",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_sadness",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_sadness",        "loop": "always" },
           "extra":       null
         },
@@ -227,7 +228,7 @@
           "eyes":        { "clip": "default_eyes_anger",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_anger",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_anger",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_anger",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_anger",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_anger",        "loop": "once" },
           "extra":       null
         },
@@ -235,7 +236,7 @@
           "eyes":        { "clip": "default_eyes_surprise",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_surprise",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_surprise",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_surprise",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_surprise",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_surprise",        "loop": "once" },
           "extra":       null
         },
@@ -243,7 +244,7 @@
           "eyes":        { "clip": "default_eyes_fear",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_fear",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_fear",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_fear",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_fear",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_fear",        "loop": "always" },
           "extra":       null
         },
@@ -267,7 +268,7 @@
           "eyes":        { "clip": "default_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "default_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "default_upper_face_default",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_default",  "loop": "on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "default_body_default",           "loop": "always" },
           "extra":       null
         }
