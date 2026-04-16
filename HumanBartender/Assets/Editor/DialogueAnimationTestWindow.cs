@@ -11,9 +11,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class DialogueAnimationTestWindow : EditorWindow
 {
     // ─── 입력 ───────────────────────────────────────────
-    private SlotType _slot      = SlotType.Left;
-    private string _speaker     = "luna";
-    private string _expression  = "joy";
+    private SlotType _slot = SlotType.Left;
+    private string _speaker = "luna";
+    private string _expression = "joy";
 
     // ─── 파트 개별 테스트 ───────────────────────────────
     private static readonly string[] PART_NAMES = { "body", "eyes", "eyebrows", "upper_face", "lower_face", "extra" };
@@ -45,7 +45,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     public static void Open()
     {
         var window = GetWindow<DialogueAnimationTestWindow>("Animation Test");
-        window.minSize = new Vector2(400, 640);
+        window.minSize = new Vector2(420, 650);
     }
 
     private void OnGUI()
@@ -88,39 +88,55 @@ public class DialogueAnimationTestWindow : EditorWindow
         GUI.enabled = true;
     }
 
-    // ── Slot / Speaker / Expression 입력 ─────────────────
+    // ── Slot / Speaker / Expression 입력 및 제어 버튼 ────
     private void DrawInputSection()
     {
-        EditorGUILayout.LabelField("Input", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Input & Control", EditorStyles.boldLabel);
 
-        _slot       = (SlotType)EditorGUILayout.EnumPopup("Slot", _slot);
-        _speaker    = EditorGUILayout.TextField("Speaker",    _speaker);
+        _slot = (SlotType)EditorGUILayout.EnumPopup("Slot", _slot);
+        _speaker = EditorGUILayout.TextField("Speaker", _speaker);
         _expression = EditorGUILayout.TextField("Expression", _expression);
 
         EditorGUILayout.Space(4);
 
-        using var horizontal = new EditorGUILayout.HorizontalScope();
-
-        GUI.enabled = _targetManager != null && Application.isPlaying;
-        if (GUILayout.Button("▶  Play", GUILayout.Height(30)))
-            PlayAsync(_slot, _speaker, _expression).Forget();
-
-        if (GUILayout.Button("⏹  Off", GUILayout.Height(30)))
+        // 재생/정지/릴리즈 버튼
+        using (new EditorGUILayout.HorizontalScope())
         {
-            _targetManager.ResetCharacter(_slot);
-            AddLog(LogLevel.Info, $"OffCharacter({_slot}) 호출");
+            GUI.enabled = _targetManager != null && Application.isPlaying;
+            if (GUILayout.Button("▶  Play", GUILayout.Height(30)))
+                PlayAsync(_slot, _speaker, _expression).Forget();
+
+            if (GUILayout.Button("⏹  Off", GUILayout.Height(30)))
+            {
+                _targetManager.ResetCharacter(_slot);
+                AddLog(LogLevel.Info, $"OffCharacter({_slot}) 호출");
+            }
+
+            if (GUILayout.Button("🗑  Release", GUILayout.Height(30)))
+            {
+                _targetManager.ReleaseAll();
+                AddLog(LogLevel.Info, "ReleaseAll 호출");
+            }
+            GUI.enabled = true;
         }
 
-        if (GUILayout.Button("🗑  Release", GUILayout.Height(30)))
+        EditorGUILayout.Space(4);
+
+        // On/Off Dialogue 파라미터 제어 버튼
+        using (new EditorGUILayout.HorizontalScope())
         {
-            _targetManager.ReleaseAll();
-            AddLog(LogLevel.Info, "ReleaseAll 호출");
+            GUI.enabled = _targetManager != null && Application.isPlaying;
+            if (GUILayout.Button("💬 On Dialogue", GUILayout.Height(26)))
+                SetDialogueBool(_slot, true);
+
+            if (GUILayout.Button("🔇 Off Dialogue", GUILayout.Height(26)))
+                SetDialogueBool(_slot, false);
+            GUI.enabled = true;
         }
-        GUI.enabled = true;
 
         if (!Application.isPlaying)
         {
-            EditorGUILayout.HelpBox("Play Mode에서만 실행 가능합니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("Play Mode에서만 제어 가능합니다.", MessageType.Info);
         }
     }
 
@@ -153,10 +169,18 @@ public class DialogueAnimationTestWindow : EditorWindow
             string baseAddr = $"{_speaker}_{part}_{_expression}";
             EditorGUILayout.LabelField($"{part}", EditorStyles.miniBoldLabel);
             EditorGUI.indentLevel++;
-            EditorGUILayout.SelectableLabel($"{baseAddr}_Intro", EditorStyles.miniLabel, GUILayout.Height(16));
-            EditorGUILayout.SelectableLabel($"{baseAddr}_Loop",  EditorStyles.miniLabel, GUILayout.Height(16));
+
+            DrawAddressLabel($"{baseAddr}_Intro");
+            DrawAddressLabel($"{baseAddr}_Loop");
+            DrawAddressLabel($"{baseAddr}_Dialogue");
+
             EditorGUI.indentLevel--;
         }
+    }
+
+    private void DrawAddressLabel(string address)
+    {
+        EditorGUILayout.SelectableLabel(address, EditorStyles.miniLabel, GUILayout.Height(16));
     }
 
     // ── 빠른 프리셋 ───────────────────────────────────────
@@ -188,7 +212,7 @@ public class DialogueAnimationTestWindow : EditorWindow
                 GUI.enabled = _targetManager != null && Application.isPlaying;
                 if (GUILayout.Button(exp, GUILayout.Height(22)))
                 {
-                    _speaker    = _presetSpeaker;
+                    _speaker = _presetSpeaker;
                     _expression = exp;
                     PlayAsync(_slot, _speaker, _expression).Forget();
                 }
@@ -217,14 +241,17 @@ public class DialogueAnimationTestWindow : EditorWindow
             {
                 LogLevel.Success => _logSuccessStyle,
                 LogLevel.Warning => _logWarningStyle,
-                LogLevel.Error   => _logErrorStyle,
-                _                => EditorStyles.miniLabel
+                LogLevel.Error => _logErrorStyle,
+                _ => EditorStyles.miniLabel
             };
             EditorGUILayout.LabelField(entry.Message, style);
         }
     }
 
-    // ── 재생 로직 ─────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════
+    // 재생 로직
+    // ═══════════════════════════════════════════════════════
+
     private async UniTaskVoid PlayAsync(SlotType slot, string speaker, string expression)
     {
         if (_targetManager == null)
@@ -236,17 +263,60 @@ public class DialogueAnimationTestWindow : EditorWindow
         AddLog(LogLevel.Info, $"[{slot} / {speaker} / {expression}] 로드 시작...");
 
         ApplyPartToggles(slot);
-
         await ValidateAddressesAsync(speaker, expression);
 
+        // 정상 흐름: SetCharacterAsync (Intro → Loop 자동 전환)
         await _targetManager.SetCharacterAsync(slot, speaker, expression);
 
-        AddLog(LogLevel.Success, $"[{slot} / {speaker} / {expression}] SetCharacterAsync 완료");
-
+        AddLog(LogLevel.Success, $"[{slot} / {speaker} / {expression}] 완료");
         Repaint();
     }
 
-    // partName 으로 매칭 — 인스펙터 배열 순서와 무관하게 안전하게 동작
+    private void SetDialogueBool(SlotType slot, bool value)
+    {
+        if (_targetManager == null) return;
+
+        var so = new SerializedObject(_targetManager);
+        var slotPartsProp = so.FindProperty("slotParts");
+        if (slotPartsProp == null) return;
+
+        bool animatorFound = false;
+
+        for (int s = 0; s < slotPartsProp.arraySize; s++)
+        {
+            var slotProp = slotPartsProp.GetArrayElementAtIndex(s);
+            var typeProp = slotProp.FindPropertyRelative("type");
+            if (typeProp == null || typeProp.enumValueIndex != (int)slot) continue;
+
+            var partsProp = slotProp.FindPropertyRelative("parts");
+            if (partsProp == null) return;
+
+            for (int i = 0; i < partsProp.arraySize; i++)
+            {
+                var partProp = partsProp.GetArrayElementAtIndex(i);
+
+                // 버그 수정: "Animator" (대문자) -> "animator" (소문자, CharacterPart.cs와 동일)
+                var animProp = partProp.FindPropertyRelative("animator");
+
+                if (animProp?.objectReferenceValue is Animator animator)
+                {
+                    animator.SetBool("OnDialogue", value);
+                    animatorFound = true;
+                }
+            }
+            break;
+        }
+
+        if (animatorFound)
+            AddLog(LogLevel.Info, $"[{slot}] OnDialogue = {value}");
+        else
+            AddLog(LogLevel.Warning, $"[{slot}] 설정할 Animator를 찾을 수 없습니다.");
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 유틸
+    // ═══════════════════════════════════════════════════════
+
     private void ApplyPartToggles(SlotType slot)
     {
         if (_targetManager == null) return;
@@ -273,7 +343,8 @@ public class DialogueAnimationTestWindow : EditorWindow
                 int idx = System.Array.IndexOf(PART_NAMES, nameProp.stringValue);
                 if (idx < 0) continue;
 
-                var animProp = partProp.FindPropertyRelative("Animator");
+                // 버그 수정: "Animator" (대문자) -> "animator" (소문자)
+                var animProp = partProp.FindPropertyRelative("animator");
                 if (animProp?.objectReferenceValue is Animator animatorObj)
                     animatorObj.enabled = _partEnabled[idx];
             }
@@ -285,25 +356,26 @@ public class DialogueAnimationTestWindow : EditorWindow
     {
         foreach (var part in PART_NAMES)
         {
-            string loopAddr  = $"{speaker}_{part}_{expression}_Loop";
-            string introAddr = $"{speaker}_{part}_{expression}_Intro";
+            string baseAddr = $"{speaker}_{part}_{expression}";
 
-            bool loopExists  = await CheckAddressExistsAsync(loopAddr);
-            bool introExists = await CheckAddressExistsAsync(introAddr);
+            bool introExists = await CheckAddressExistsAsync($"{baseAddr}_Intro");
+            bool loopExists = await CheckAddressExistsAsync($"{baseAddr}_Loop");
+            bool dialogueExists = await CheckAddressExistsAsync($"{baseAddr}_Dialogue");
 
-            if (loopExists)
-            {
-                string detail = introExists ? "(Intro+Loop)" : "(Loop only)";
-                AddLog(LogLevel.Success, $"  {part}: 애니메이션 {detail}");
-            }
+            var found = new List<string>();
+            if (introExists) found.Add("Intro");
+            if (loopExists) found.Add("Loop");
+            if (dialogueExists) found.Add("Dialogue");
+
+            if (found.Count > 0)
+                AddLog(LogLevel.Success, $"  {part}: {string.Join(" + ", found)}");
             else
             {
-                string spriteAddr = $"{speaker}_{part}_{expression}";
-                bool spriteExists = await CheckAddressExistsAsync(spriteAddr);
+                bool spriteExists = await CheckAddressExistsAsync(baseAddr);
                 if (spriteExists)
-                    AddLog(LogLevel.Info, $"  {part}: Sprite");
+                    AddLog(LogLevel.Info, $"  {part}: Sprite only");
                 else
-                    AddLog(LogLevel.Warning, $"  {part}: 없음 (비활성 처리)");
+                    AddLog(LogLevel.Warning, $"  {part}: 없음");
             }
         }
     }
@@ -325,8 +397,8 @@ public class DialogueAnimationTestWindow : EditorWindow
         {
             LogLevel.Success => "✓ ",
             LogLevel.Warning => "⚠ ",
-            LogLevel.Error   => "✕ ",
-            _                => "  "
+            LogLevel.Error => "✕ ",
+            _ => "  "
         };
         _logs.Add(new LogEntry(level, $"{System.DateTime.Now:HH:mm:ss}  {prefix}{message}"));
         Repaint();
@@ -345,11 +417,11 @@ public class DialogueAnimationTestWindow : EditorWindow
         };
 
         _logSuccessStyle = new GUIStyle(EditorStyles.miniLabel)
-            { normal = { textColor = new Color(0.4f, 0.9f, 0.5f) } };
+        { normal = { textColor = new Color(0.4f, 0.9f, 0.5f) } };
         _logWarningStyle = new GUIStyle(EditorStyles.miniLabel)
-            { normal = { textColor = new Color(1f, 0.85f, 0.3f) } };
+        { normal = { textColor = new Color(1f, 0.85f, 0.3f) } };
         _logErrorStyle = new GUIStyle(EditorStyles.miniLabel)
-            { normal = { textColor = new Color(1f, 0.4f, 0.4f) } };
+        { normal = { textColor = new Color(1f, 0.4f, 0.4f) } };
     }
 
     // ── 내부 타입 ─────────────────────────────────────────

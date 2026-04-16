@@ -62,7 +62,9 @@ public class DialogueSceneDirector : MonoBehaviour
             }
         }
 
+        characterManager.OnDialogueStart();
         await typer.StartType(new TypingData(dialogueData.Text));
+        characterManager.OnDialogueEnd();
     }
 
     public void ShowChoices(ChoiceData[] choices, Action<ChoiceData> onChoiceSelected)
@@ -72,6 +74,7 @@ public class DialogueSceneDirector : MonoBehaviour
     public void SkipTyping()
     {
         typer.OnScreenClick();
+        characterManager.OnDialogueEnd();
     }
 
     public async UniTask<string> ExcuteTriggerAsync(TriggerData? trigger)

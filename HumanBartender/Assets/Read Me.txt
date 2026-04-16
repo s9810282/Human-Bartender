@@ -1,16 +1,10 @@
-*characterPart에서 로드하는거에 대한 리펙토링 필요.
-단일 책임원칙에서 위반됨.
-리소스 로드를 전담하는 정적 클래스 혹은 Inject 될 클래스가 필요할듯
-
-아 시발 CharacterPart랑 SpriteAnimationManager랑 같은 기능을 써야하는데 시발
-구조를 병신같이 짜놔서 이렇게 하게 되네 ㅅㅂ*
 
 => AsyncOperationHandle로 로드한 후 사용한 에셋은 AsyncOperationHandle이 Release될 때 null로 바뀌므로
 Handle을 에셋을 사용하는 주체에서 관리할 필요가 있다.,
 비동기 로딩이다 보니 함수 재진입을 통한 기존 로딩 날림 및 새 로딩 시작 시 메모리 누수 및 위험 존재.
 
 CancellationToken 제어하기
-함수에 매개변수로 던지기만하면 취소 이벤트 발생 시 알아서 함수 종료됨/
+함수에 매개변수로 던지기만하면 취소 이벤트 발생 시 알아서 함수 종료됨.
 
 
 Dialogue 구조 자체에서 SetCharacterAsync를 기다리기는 하지만 이에 대한 예외처리 필요.
@@ -40,6 +34,9 @@ characterManager 컴포지션으로 나누기
 
 아아 리펙토링 할 생각에 신난다~
 => 추후 비동기 함수들에 CancellationToken 전달하기
+=> string 으로 case 검사하는 것들 enum으로 활용하기
+=> CutScene.json 바뀌면 수정하기
+=> 추후 data null값들에 대한 처리하기 데이터 많음.
 
 
 1. Commad 추가하기 play_cutscene

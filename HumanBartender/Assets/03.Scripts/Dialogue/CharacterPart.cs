@@ -89,11 +89,14 @@ public class CharacterPart : AnimationPart, IFade
 
     public override void PlayAnimation(string animName, CancellationToken token)
     {
-        //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정
+        //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정, 해야하긴함.
+
+        //alway_on_dialogue, 일반 clip 실행 중 dialogue 시 전환 예정
 
         animator.enabled = true;
         switch (_currentLoopMode)
         {
+            case "alway_on_dialogue":
             case "always":
                 animator.speed = 1f;
                 animator.Play(animName, 0, 0f);
@@ -115,6 +118,7 @@ public class CharacterPart : AnimationPart, IFade
     /// <summary>
     /// clip의 loop설정을 바꾸는건 원본 자체를 건들기 때문에 No
     /// 빌드환경에서는 AnimationClip에 대한 쓰기 권한이 막히는 케이스가 존재함.
+    /// 1회 실행 타임 체크 후 speed = 0
     /// </summary>
     /// <param name="introClip"></param>
     /// <param name="loopClip"></param>
@@ -154,16 +158,22 @@ public class CharacterPart : AnimationPart, IFade
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueStart()
     {
-        if (_currentLoopMode != "on_dialogue") return;
-        animator.enabled = true;
-        animator.speed = 1f;
+        if (_currentLoopMode != "on_dialogue" || _currentLoopMode != "alway_on_dialogue") return;
+        
+        //animator.enabled = true;
+        //animator.speed = 1f;
+
+        animator.SetBool("OnDialogue", true);
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
-        if (_currentLoopMode != "on_dialogue") return;
-        animator.speed = 0f;
+        if (_currentLoopMode != "on_dialogue" || _currentLoopMode != "alway_on_dialogue") return;
+
+        //animator.speed = 0f;
+
+        animator.SetBool("OnDialogue", true);
     }
 
     public void OnAnimation()
