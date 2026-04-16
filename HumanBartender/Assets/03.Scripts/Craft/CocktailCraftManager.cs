@@ -140,11 +140,15 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             cutSceneManager.PlayComicCutSceneAsync
             (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
         }
-        
+        else
+            miniGameInitTcs.TrySetResult();
+
 
         // TODO : 풀링?
         miniGameObj = Instantiate(prefab);
-        miniGameObj.transform.position = Camera.main.transform.position;
+        Vector3 vec = Camera.main.transform.position;
+        vec.z = 0;
+        miniGameObj.transform.position = vec;
         controller = miniGameObj.GetComponent<IMiniGameController>();
         
 

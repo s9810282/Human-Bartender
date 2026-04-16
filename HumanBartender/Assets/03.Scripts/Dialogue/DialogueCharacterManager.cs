@@ -20,6 +20,7 @@ public class SlotCharacterPart
 {
     public SlotType type;
     public string slotCharacterName = "";
+    public string expression = "";
     public CharacterPart[] parts;
     public SpriteRenderer portaitSpriteRenderer;
 
@@ -73,6 +74,9 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         return n;
     }
 
+
+    //오버로딩 한거 구분 제대로해서 다시 하기
+
     public async UniTask SetCharacterAsync(SlotType slot, string characterId, string expression)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
@@ -80,6 +84,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
             return;
         }
+
+        if (slotData.expression == expression) return;
 
         slotData.cts?.Cancel();
         slotData.cts?.Dispose();
@@ -92,6 +98,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         ReleaseSlotHandles(slotData);
         slotData.slotCharacterName = characterId;
+        slotData.expression = expression;
 
         var parts = slotData.parts;
         var tasks = new UniTask[parts.Length];
@@ -143,13 +150,15 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
                 slot = slotParts[i].type;
             }
         }
-        
+
         
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
         {
             Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
             return;
         }
+
+        if (slotData.expression == expression) return;
 
         slotData.cts?.Cancel();
         slotData.cts?.Dispose();
@@ -162,6 +171,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         ReleaseSlotHandles(slotData);
         slotData.slotCharacterName = characterId;
+        slotData.expression = expression;
 
         var parts = slotData.parts;
         var tasks = new UniTask[parts.Length];
@@ -197,6 +207,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
     public void OnDialogueStart()
     {
+        Logger.Log("Di St");
+
         foreach (var slot in slotParts)
             foreach (var part in slot.parts)
                 part.OnDialogueStart();

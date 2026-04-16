@@ -79,7 +79,7 @@ public abstract class AnimationPart
     [Serializable]
 public class CharacterPart : AnimationPart, IFade
 {
-     private string _currentLoopMode;
+     [SerializeField] string _currentLoopMode;
 
     public void SetLoopMode(string loopMode)
     {
@@ -96,7 +96,7 @@ public class CharacterPart : AnimationPart, IFade
         animator.enabled = true;
         switch (_currentLoopMode)
         {
-            case "alway_on_dialogue":
+            case "always_on_dialogue":
             case "always":
                 animator.speed = 1f;
                 animator.Play(animName, 0, 0f);
@@ -158,22 +158,24 @@ public class CharacterPart : AnimationPart, IFade
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueStart()
     {
-        if (_currentLoopMode != "on_dialogue" || _currentLoopMode != "alway_on_dialogue") return;
-        
+        Logger.Log(_currentLoopMode);
+        if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
+
         //animator.enabled = true;
         //animator.speed = 1f;
 
+        Logger.Log("Speak");
         animator.SetBool("OnDialogue", true);
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
-        if (_currentLoopMode != "on_dialogue" || _currentLoopMode != "alway_on_dialogue") return;
+        if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
 
         //animator.speed = 0f;
 
-        animator.SetBool("OnDialogue", true);
+        animator.SetBool("OnDialogue", false);
     }
 
     public void OnAnimation()

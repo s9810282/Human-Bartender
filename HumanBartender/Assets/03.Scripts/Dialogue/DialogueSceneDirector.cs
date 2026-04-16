@@ -53,7 +53,8 @@ public class DialogueSceneDirector : MonoBehaviour
         {
             if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out Color color))
                 typer.SetNameColor(color);
-            
+
+            typer.ClearText();
             typer.SetNameText(speakerData.DisplayName);
             
             if (!string.IsNullOrEmpty(dialogueData.Expression))

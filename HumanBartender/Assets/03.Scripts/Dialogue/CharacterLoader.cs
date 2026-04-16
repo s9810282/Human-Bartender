@@ -110,7 +110,6 @@ public class CharacterLoader
             part.SetClip(SLOT_LOOP, loopHandle);
 
 
-
             //Intro Setting
             var introHandle = await ResourceLoader.TryLoadAsync<AnimationClip>(introAddress, token);
             slot.animHandles.Push(introHandle);
