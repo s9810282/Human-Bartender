@@ -10,8 +10,7 @@
     ],
     "loop_modes": {
       "always": "항시 재생. 게임 내내 반복 루프",
-      "on_dialogue": "대사 텍스트 출력 중에만 재생. 출력 끝나면 정지",
-      "always_on_dialogue": "대화 외: Loop 클립으로 idle 재생. 대화 중: Intro 클립으로 전환. 대화 끝나면 Loop로 복귀",
+      "always_on_dialogue": "대화 외: Loop 클립으로 idle 재생. 대화 중: Dialogue 클립으로 전환. 대화 끝나면 Loop로 복귀",
       "once": "1회 재생 후 마지막 프레임에서 정지",
       "none": "재생하지 않음 (해당 파츠 비활성)"
     }
@@ -142,21 +141,13 @@
     "port": {
       "base_body": "port_body",
       "expressions": {
-        "anger_v1": {
-          "eyes":        null,
-          "eyebrows":    { "clip": "port_eyebrows_anger_v1",   "loop": "always" },
-          "upper_face":  null,
-          "lower_face":  { "clip": "port_lower_face_anger_v1", "loop": "always_on_dialogue" },
-          "body":        null,
-          "extra":       null
-        },
-        "anger_v2": {
-          "eyes":        { "clip": "port_eyes_anger_v2",        "loop": "always" },
-          "eyebrows":    { "clip": "port_eyebrows_anger_v2",    "loop": "always" },
-          "upper_face":  { "clip": "port_upper_face_anger_v2",  "loop": "always" },
-          "lower_face":  { "clip": "port_lower_face_anger_v2",  "loop": "always_on_dialogue" },
-          "body":        { "clip": "port_body_anger_v2",        "loop": "once" },
-          "extra":       null
+        "anger": {
+          "eyes":        { "clip": "port_eyes_anger",        "loop": "always" },
+          "eyebrows":    { "clip": "port_eyebrows_anger",    "loop": "always" },
+          "upper_face":  { "clip": "port_upper_face_anger",  "loop": "always" },
+          "lower_face":  { "clip": "port_lower_face_anger",  "loop": "always_on_dialogue" },
+          "body":        { "clip": "port_body_anger",        "loop": "always" },
+          "extra":       { "clip": "port_extra_anger",       "loop": "always" }
         },
         "joy": {
           "eyes":        null,
@@ -172,7 +163,7 @@
           "upper_face":  { "clip": "port_upper_face_event_surprise",  "loop": "once" },
           "lower_face":  { "clip": "port_lower_face_event_surprise",  "loop": "once" },
           "body":        { "clip": "port_body_event_surprise",        "loop": "once" },
-          "extra":       { "clip": "port_extra_robot",                "loop": "once" }
+          "extra":       { "clip": "port_extra_event_surprise",         "loop": "once" }
         },
         "serious": {
           "eyes":        { "clip": "port_eyes_serious",        "loop": "always" },
@@ -188,7 +179,7 @@
           "upper_face":  { "clip": "port_upper_face_default",  "loop": "always" },
           "lower_face":  { "clip": "port_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "port_body_default",        "loop": "always" },
-          "extra":       { "clip": "port_extra_robot",         "loop": "always" }
+          "extra":       { "clip": "port_extra_default",         "loop": "always" }
         }
       }
     },

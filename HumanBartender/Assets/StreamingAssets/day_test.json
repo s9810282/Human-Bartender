@@ -148,18 +148,8 @@
           "id": "dt_031",
           "speaker": "port",
           "type": "normal",
-          "text": "[테스트] 표정 전환 — anger_v1 (부분 변화)",
-          "expression": "anger_v1",
-          "next": "dt_032",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_032",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — anger_v2 (전체 변화)",
-          "expression": "anger_v2",
+          "text": "[테스트] 표정 전환 — anger",
+          "expression": "anger",
           "next": "dt_033",
           "choices": null,
           "trigger": null
@@ -502,7 +492,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "[테스트] 크래프트 miss/bad 반응.",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "dt_090",
           "choices": null,
           "trigger": null

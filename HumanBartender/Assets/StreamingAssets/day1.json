@@ -336,7 +336,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "뭐? 바텐더면 손님이 개떡같이 주문해도 찰떡같이 만들어서 가져와야지, 이걸 질문을 해?",
-          "expression": "anger_v2",
+          "expression": "anger",
           "next": "d1p_100",
           "choices": null,
           "trigger": null
@@ -401,7 +401,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "…그래도 기본은 있는 줄 알았더니.",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "d1p_react_bad_002",
           "choices": null,
           "trigger": null
@@ -411,7 +411,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "이딴 걸 칵테일이라고 내오다니, 실망이군.",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "d1p_react_bad_003",
           "choices": null,
           "trigger": null
@@ -817,7 +817,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "뭐?",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "d1p_224",
           "choices": null,
           "trigger": null
@@ -827,7 +827,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "마수걸이까지 해준 노인네 부탁하나 들어주지 못한다니.",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "d1p_225",
           "choices": null,
           "trigger": null
@@ -847,7 +847,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "첫 손님이라는 뜻이다 이 애송아.",
-          "expression": "anger_v1",
+          "expression": "anger",
           "next": "d1p_227",
           "choices": null,
           "trigger": null
@@ -907,7 +907,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "크리스 나오라 그래!!\n이런 썩을놈의 새끼가… 후임 교육은 개나 줘버리고 또 안에 틀어박혀서 이글루나 쳐 만들고 있나 보군.",
-          "expression": "anger_v2",
+          "expression": "anger",
           "next": "d1p_233",
           "choices": null,
           "trigger": null
