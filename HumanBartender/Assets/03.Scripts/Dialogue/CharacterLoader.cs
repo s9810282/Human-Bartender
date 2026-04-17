@@ -22,6 +22,7 @@ public class CharacterLoader
     /// 스프라이트 로드시도 : 해당 파츠 Sprite 로드 시도 -> Part.ApplySprite
     /// 디폴트 스프라이트 로드 시도 : 존재 여부 확인 후 -> Part.ApplySprite
     /// 
+    /// 검사로직 수정 필요. Data 자체가 Null일 경우 default로 돌리게 만들기
     /// 모두 실패한다면 SetInactive()
     /// </summary>
     /// <param name="part"></param>
@@ -37,10 +38,10 @@ public class CharacterLoader
     {
         if (data == null)
         {
-            Logger.LogWarning($"[CharacterManager] PartAnimData null");
-            return;
+            Logger.LogWarning($"[CharacterManager] PartAnimData null, Default Data");
+            
         }
-        if (data.Loop == "none")
+        else if (data.Loop == "none")
         {
             part.SetInactive();
 
@@ -66,8 +67,6 @@ public class CharacterLoader
 
         if (defaultData == null) return;
 
-        Logger.LogWarning($"[CharacterManager:{data.Clip}] 로드 실패 → default Portail Sprite");
-
         if (part.partName != "body")  //body의 경우만 Portail Image 로드 시도.
         {
             part.SetInactive();
@@ -76,8 +75,6 @@ public class CharacterLoader
 
         if (await LoadPortaitSpriteAsync(slot, defaultData, token))
             return;
-
-        Logger.LogWarning($"[CharacterManager:{data.Clip}] default도 없음 → fallback sprite");
 
         part.SetInactive();
 
@@ -91,9 +88,12 @@ public class CharacterLoader
         PartAnimData data,
         CancellationToken token)
     {
-        if (data.Clip == null) //clipData가 null이면 false, 추후 default anim 삽입.
+        if (data == null) //clipData가 null이면 false, 추후 default anim 삽입.
+        {
+            Logger.LogWarning($"{part.partName} Null");
             return false;
-
+        }
+        
         part.SetLoopMode(data.Loop);
 
         string clipAddress = data.Clip;
@@ -146,7 +146,7 @@ public class CharacterLoader
         CancellationToken token)
     {
 
-        if (data.Clip == null)
+        if (data == null)
             return false;
 
         string clipaddress = data.Clip;
