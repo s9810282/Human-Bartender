@@ -63,9 +63,9 @@ public class DialogueSceneDirector : MonoBehaviour
             }
         }
 
-        characterManager.OnDialogueStart();
+        characterManager.OnDialogueStart(dialogueData.Speaker);
         await typer.StartType(new TypingData(dialogueData.Text));
-        characterManager.OnDialogueEnd();
+        characterManager.OnDialogueEnd(dialogueData.Speaker);
     }
 
     public void ShowChoices(ChoiceData[] choices, Action<ChoiceData> onChoiceSelected)

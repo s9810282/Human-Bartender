@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Spine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -168,7 +169,6 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
            .CreateLinkedTokenSource(slotData.cts.Token, this.GetCancellationTokenOnDestroy())
            .Token;
 
-
         ReleaseSlotHandles(slotData);
         slotData.slotCharacterName = characterId;
         slotData.expression = expression;
@@ -184,6 +184,14 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         try
         {
+            await UniTask.WhenAll(tasks);
+
+            tasks = new UniTask[parts.Length];
+            for (int i = 0; i < parts.Length; i++)
+            {
+                tasks[i] = characterLoader.PartAnimationSyncStart(parts[i], token);
+            }
+
             await UniTask.WhenAll(tasks);
         }
         catch (OperationCanceledException e)
@@ -203,17 +211,15 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
     public void OnDialogueStart(string speaker)
     {
-
-    }
-    public void OnDialogueStart()
-    {
-        Logger.Log("Di St");
-
         foreach (var slot in slotParts)
-            foreach (var part in slot.parts)
-                part.OnDialogueStart();
+        {
+            if(slot.slotCharacterName == speaker)
+            {
+                foreach (var part in slot.parts)
+                    part.OnDialogueStart();
+            }
+        }
     }
-
 
     public void OnDialogueEnd(SlotType slot)
     {
@@ -223,21 +229,31 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
     public void OnDialogueEnd(string speaker)
     {
-
+        foreach (var slot in slotParts)
+        {
+            if (slot.slotCharacterName == speaker)
+            {
+                foreach (var part in slot.parts)
+                    part.OnDialogueEnd();
+            }
+        }
     }
     public void OnDialogueEnd()
     {
         foreach (var slot in slotParts)
+        {
             foreach (var part in slot.parts)
                 part.OnDialogueEnd();
-    }
 
+        }
+    }
 
     public void ResetCharacter(SlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
 
         slotData.slotCharacterName = "";
+        slotData.expression = "";
 
         foreach (var part in slotData.parts)
             part.SetInactive();
@@ -250,6 +266,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         foreach (var slot in slotParts)
         {
             slot.slotCharacterName = "";
+            slot.expression = "";
 
             foreach (var part in slot.parts)
                 part.SetInactive();

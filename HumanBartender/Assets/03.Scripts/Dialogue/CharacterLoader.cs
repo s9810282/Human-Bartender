@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Net;
 using System.Threading;
 using UnityEngine;
 
@@ -24,6 +25,9 @@ public class CharacterLoader
     /// 
     /// 검사로직 수정 필요. Data 자체가 Null일 경우 default로 돌리게 만들기
     /// 모두 실패한다면 SetInactive()
+    /// 
+    /// 파츠 현재 애님이랑 비교해서 같다면 스킵하기
+    /// 
     /// </summary>
     /// <param name="part"></param>
     /// <param name="data"></param>
@@ -51,6 +55,8 @@ public class CharacterLoader
             return;
         }
 
+        if (part.partCurAnim == data.Clip) // 이미 실행 중
+            return;
 
         if (await LoadAnimAsync(slot, part, data, token)) //Part Anim
             return;
@@ -107,6 +113,8 @@ public class CharacterLoader
         if (loopHandle.HasValue)
         {
             //LoopSetting
+
+            part.partCurAnim = clipAddress;
             part.SetClip(SLOT_LOOP, loopHandle);
 
 

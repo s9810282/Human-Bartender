@@ -17,6 +17,11 @@ public class SpriteAnimationManager : AnimationPart
 
     public override void PlayAnimation(string animName, CancellationToken token)
     {
+        Vector3 vec = Camera.main.transform.position;
+        vec.z = 0;
+
+        animator.transform.localPosition = vec;
+
         animator.enabled = true;
         animator.speed = 1f;
         animator.Play(animName, 0, 0f);

@@ -37,6 +37,7 @@ public class AlwaysPlayback : IPlaybackPolicy
 public abstract class AnimationPart
 {
     [SerializeField] public string partName;
+    [SerializeField] public string partCurAnim;
     [SerializeField] protected Animator animator;
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
@@ -64,6 +65,12 @@ public abstract class AnimationPart
     public abstract void PlayAnimation(string animName, CancellationToken token);
     public abstract void ApplySprite(Sprite? sprite);
 
+    public virtual void Reset()
+    {
+        _overrideController = new AnimatorOverrideController(baseController);
+        animator.runtimeAnimatorController = _overrideController;
+        animator.enabled = false;
+    }
     public virtual void Release()
     {
         if (_overrideController != null)
@@ -156,22 +163,20 @@ public class CharacterPart : AnimationPart, IFade
 
     // Dialogue
     //IPlaybackPolicy.OnDialogueStart
+    
     public void OnDialogueStart()
     {
-        Logger.Log(_currentLoopMode);
-        if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
+        //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
 
         //animator.enabled = true;
         //animator.speed = 1f;
-
-        Logger.Log("Speak");
         animator.SetBool("OnDialogue", true);
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
-        if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
+        //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
 
         //animator.speed = 0f;
 

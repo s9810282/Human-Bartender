@@ -1,7 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Spine;
 using System.Threading;
-using UnityEngine;
 using VContainer;
 
 public class CustomerEnterCommand : IDialogueCommand

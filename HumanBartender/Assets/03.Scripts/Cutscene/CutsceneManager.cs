@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 
 
@@ -13,6 +14,8 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
     [SerializeField] CutSceneDataSO data;
 
     [SerializeField] SpriteAnimationManager spriteAnimationManager;
+    [SerializeField] SpineAnimationManager spineAnimationManager;
+
     private const string ANIM_SLOT = "SpriteAnim";
 
 
@@ -29,39 +32,26 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
 
 
     // ── Anchor 프리셋 ─────────────────────────────────────────────────
-    readonly Dictionary<string, Vector2> anchorPreset = new()
+    readonly Dictionary<AnchorType, Vector2> anchorPreset = new()
     {
-        { "center",       new Vector2(0.5f, 0.5f) },
-        { "left",         new Vector2(0.0f, 0.5f) },
-        { "right",        new Vector2(1.0f, 0.5f) },
-        { "top_left",     new Vector2(0.0f, 1.0f) },
-        { "top_right",    new Vector2(1.0f, 1.0f) },
-        { "bottom_left",  new Vector2(0.0f, 0.0f) },
-        { "bottom_right", new Vector2(1.0f, 0.0f) },
+        { AnchorType.Center,       new Vector2(0.5f, 0.5f) },
+        { AnchorType.Left,         new Vector2(0.0f, 0.5f) },
+        { AnchorType.Right,        new Vector2(1.0f, 0.5f) },
+        { AnchorType.TopLeft,     new Vector2(0.0f, 1.0f) },
+        { AnchorType.TopRight,    new Vector2(1.0f, 1.0f) },
+        { AnchorType.BottomLeft,  new Vector2(0.0f, 0.0f) },
+        { AnchorType.BottomRight, new Vector2(1.0f, 0.0f) },
     };
 
-    // ── Image 풀 ──────────────────────────────────────────────────────
     Queue<Image> imagePool = new();
     Dictionary<string, Image> activeImages = new();   // imageId → Image
 
-    // ── Action 핸들러 딕셔너리 ────────────────────────────────────────
-    Dictionary<string, Func<CutsceneStep, UniTask>> actionHandlers;
 
     void Awake()
     {
         imagePool = new Queue<Image>(images);
         ResetImages();
 
-        actionHandlers = new Dictionary<string, Func<CutsceneStep, UniTask>>
-        {
-            ["show_image"]  = ExecuteShowImage,
-            ["hide_image"]  = ExecuteHideImage,
-            ["hide_all"]    = ExecuteHideAll,        // 신규
-            ["show_layout"] = ExecuteShowLayout,
-            ["effect"]      = ExecuteEffect,
-            ["play_sfx"]    = ExecutePlaySfx,
-            ["wait"]        = ExecuteWait,
-        };
 
         spriteAnimationManager.Initialize();
     }
@@ -71,29 +61,23 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         ResetImages();
         spriteAnimationManager.ActiveSelf(false);
         spriteAnimationManager.SetInactive();
-    }
 
-    public async UniTask PlayEffectAsync(string type, float duration, float Intensity = 0f)
-    {
-        CutsceneStep cutscene = new CutsceneStep();
-        cutscene.EffectType = type; 
-        cutscene.Duration = duration;
-        cutscene.Intensity = Intensity;
 
-        await ExecuteEffect(cutscene);
     }
 
 
-
-    /*
- * AnimationClip Load 후
- * SpriteAnimManager.SetClip
- * SpriteAnimManager.PlayAnimation
- * 
- * */
-
-    public async UniTask PlaySpriteAnimationCutScene(string id)
+    public async UniTask PlayCutScene(
+        string id,
+        UniTaskCompletionSource tcs = null)
     {
+        Logger.Log($"Play CutScene : {id}");
+
+        if (!data.spriteCutsceneCachedById.TryGetValue(id, out SpriteCutscene cutScene))
+        {
+            Debug.LogWarning($"[CutsceneManager] 컷씬 ID를 찾을 수 없음: {id}");
+            return;
+        }
+
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
@@ -105,88 +89,186 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         cutSceneCanvas.worldCamera = Camera.main;
 
 
-        var handle = await ResourceLoader.TryLoadAsync<AnimationClip>(id, token);
+        //Enter, Exit 구조 변경.
+
+        switch (cutScene.Type)
+        {
+            case CutsceneType.Sprite:
+                await PlaySpriteAnimationCutScene(cutScene, token, tcs);
+                break;
+
+            case CutsceneType.Spine:
+                break;
+
+            case CutsceneType.Comic:
+                await PlayComicCutSceneAsync(id, token, tcs);
+                break;
+            
+
+            default: break;
+        }
+    }
+
+
+    /// <summary>
+    /// 추후 다른 값들에 대한 처리, position, loop, blocking 등
+    /// 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    private async UniTask PlaySpriteAnimationCutScene(
+        SpriteCutscene data, 
+        CancellationToken token,
+        UniTaskCompletionSource tcs = null)
+    {
+        var handle = await ResourceLoader.TryLoadAsync<AnimationClip>(data.Id, token);
+
+        await ExecuteEffect("fade_in", data.EnterDuration.Value);
 
         if (handle.HasValue)
         {
             spriteAnimationManager.ActiveSelf(true);
             spriteAnimationManager.SetClip(ANIM_SLOT, handle);
             spriteAnimationManager.PlayAnimation(ANIM_SLOT, token);
+            await UniTask.WaitForSeconds(handle.Value.Result.length);
         }
+        else
+        {
+            await UniTask.WaitForSeconds(1f);
+        }
+            
+        if (tcs != null)
+            tcs.TrySetResult();
 
-        await UniTask.WaitForSeconds(handle.Value.Result.length);
+        await ExecuteEffect("fade_out", data.EnterDuration.Value);
+        ResourceLoader.ReleaseHandle<AnimationClip>(ref handle);
     }
 
-    public async UniTask PlayComicCutSceneAsync(string id, UniTaskCompletionSource tcs = null)
+
+
+    private async UniTask PlayComicCutSceneAsync(
+        string id, 
+        CancellationToken token, 
+        UniTaskCompletionSource tcs = null)
     {
         cutSceneCanvas.worldCamera = Camera.main;
 
-        if (!data.cachedById.TryGetValue(id, out Cutscene cutScene))
+        if (!data.spriteCutsceneCachedById.TryGetValue(id, out SpriteCutscene cutScene))
         {
             Debug.LogWarning($"[CutsceneManager] 컷씬 ID를 찾을 수 없음: {id}");
             return;
         }
 
-        await RunSequenceAsync(cutScene);
+        //await RunSequenceAsync(cutScene);
 
-        if(tcs != null)
-        {
+        if (tcs != null)
             tcs.TrySetResult();
-        }
+        
     }
 
-    public float GetComicCutSceneTime(string id)
+
+    async UniTask ExecuteEffect(string type, float duration, float intensity = 0)
     {
-        if (!data.cachedById.TryGetValue(id, out Cutscene cutScene))
+        switch (type)
         {
-            Debug.LogWarning($"[CutsceneManager] 컷씬 ID를 찾을 수 없음: {id}");
-            return 0;
-        }
+            case "fade_out":
+                effectOverlay.color = new Color(1, 1, 1, 1);
+                effectOverlay.gameObject.SetActive(true);
+                await effectOverlay.DOFade(0f, duration).ToUniTask();
+                effectOverlay.gameObject.SetActive(false);
+                break;
 
-        float playTime = 0;
-            
-        foreach (CutsceneStep step in cutScene.Steps)
-        {
-            playTime += step.Time;
-        }
+            case "fade_in":
+                effectOverlay.color = new Color(1, 1, 1, 0);
+                effectOverlay.gameObject.SetActive(true);
+                await effectOverlay.DOFade(1f, duration).ToUniTask();
+                break;
 
-        /*
-        if (cutScene.Steps[cutScene.Steps.Length - 1].Duration != null)
-            playTime += cutScene.Steps[cutScene.Steps.Length - 1].Duration.Value;
-        else if (cutScene.Steps[cutScene.Steps.Length - 1].EnterDuration != null)
-            playTime += cutScene.Steps[cutScene.Steps.Length - 1].EnterDuration.Value;
-        if (cutScene.Steps[cutScene.Steps.Length - 1].EnterDurations != null)
-        {
-            playTime += cutScene.Steps[cutScene.Steps.Length - 1].EnterDurations.Max();
-        }
-        if (cutScene.Steps[cutScene.Steps.Length - 1].ExitDuration != null)
-            playTime += cutScene.Steps[cutScene.Steps.Length - 1].ExitDuration.Value;
-        */
+            case "flash_white":
+                effectOverlay.color = Color.white;
+                effectOverlay.gameObject.SetActive(true);
+                await effectOverlay.DOFade(0f, duration).ToUniTask();
+                effectOverlay.gameObject.SetActive(false);
+                break;
 
-        return playTime;
+            case "screen_shake":
+                await canvasRect.DOShakeAnchorPos(duration, intensity, 20, 90, false, true)
+                                .ToUniTask();
+                break;
+
+            case "zoom_pulse":
+
+                await canvasRect.DOScale(intensity, duration * 0.5f)
+                                .SetEase(Ease.OutQuad)
+                                .ToUniTask();
+                await canvasRect.DOScale(1f, duration * 0.5f)
+                                .SetEase(Ease.InQuad)
+                                .ToUniTask();
+                break;
+
+            case "vignette":
+                // 비네트 스프라이트가 effectOverlay에 할당된 상태를 가정
+                effectOverlay.gameObject.SetActive(true);
+                effectOverlay.color = new Color(0, 0, 0, 0);
+                await effectOverlay.DOFade(0.7f, duration).ToUniTask();
+                break;
+
+            // 신규: 반투명 검은 오버레이 (dim)
+            case "dim":
+                effectOverlay.color = new Color(0, 0, 0, 0);
+                effectOverlay.gameObject.SetActive(true);
+                await effectOverlay.DOFade(intensity, duration).ToUniTask();
+                break;
+
+            case "chromatic":
+                // URP PostProcessing이 없는 경우 근사치: 오버레이로 대체
+                // TODO: URP Volume 연동으로 교체 가능
+                Debug.Log("[CutsceneManager] chromatic — 현재 오버레이 근사치 사용 중");
+                await UniTask.Delay(TimeSpan.FromSeconds(duration));
+                break;
+
+            default:
+                Debug.LogWarning($"[CutsceneManager] 알 수 없는 effect_type: {type}");
+                break;
+        }
     }
+
+
+
+    public async UniTask PlayEffectAsync(string type, float duration, float intensity = 0f)
+    {
+        await ExecuteEffect(type, duration, intensity);
+    }
+
+
+
+    /* ************************************************************ */
+
+    #region Comic
+    /*
+    
 
     // ── 시퀀스 실행 ───────────────────────────────────────────────────
 
-    async UniTask RunSequenceAsync(Cutscene cutScene)
+    async UniTask RunSequenceAsync(SpriteCutscene cutScene)
     {
         float startTime = Time.time;
 
-        foreach (CutsceneStep step in cutScene.Steps)
-        {
-            // 지정된 time까지 대기
-            float targetTime = startTime + step.Time;
-            await UniTask.WaitUntil(() => Time.time >= targetTime);
+        //foreach (CutsceneStep step in cutScene.Steps)
+        //{
+        //    // 지정된 time까지 대기
+        //    float targetTime = startTime + step.Time;
+        //    await UniTask.WaitUntil(() => Time.time >= targetTime);
 
-            // 핸들러 실행 — 대기 없이 발사(non-blocking)하여 다음 step 타이밍과 겹칠 수 있음
-            if (actionHandlers.TryGetValue(step.Action, out var handler))
-                FireAndForget(handler(step)).Forget();
-            else
-                Debug.LogWarning($"[CutsceneManager] 알 수 없는 action: {step.Action}");
-        }
+        //    // 핸들러 실행 — 대기 없이 발사(non-blocking)하여 다음 step 타이밍과 겹칠 수 있음
+        //    if (actionHandlers.TryGetValue(step.Action, out var handler))
+        //        FireAndForget(handler(step)).Forget();
+        //    else
+        //        Debug.LogWarning($"[CutsceneManager] 알 수 없는 action: {step.Action}");
+        //}
     }
 
-    // UniTask.Forget()에 로그를 붙이기 위한 래퍼
     async UniTaskVoid FireAndForget(UniTask task)
     {
         try   { await task; }
@@ -312,94 +394,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         await UniTask.WhenAll(enterTasks);
     }
 
-    async UniTask ExecuteEffect(CutsceneStep step)
-    {
-        float duration = step.Duration ?? 0.3f;
-
-        switch (step.EffectType)
-        {
-            case "fade_in":
-                effectOverlay.color = new Color(1, 1, 1, 1);
-                effectOverlay.gameObject.SetActive(true);
-                await effectOverlay.DOFade(0f, duration).ToUniTask();
-                effectOverlay.gameObject.SetActive(false);
-                break;
-
-            case "fade_out":
-                effectOverlay.color = new Color(1, 1, 1, 0);
-                effectOverlay.gameObject.SetActive(true);
-                await effectOverlay.DOFade(1f, duration).ToUniTask();
-                break;
-
-            case "flash_white":
-                effectOverlay.color = Color.white;
-                effectOverlay.gameObject.SetActive(true);
-                await effectOverlay.DOFade(0f, duration).ToUniTask();
-                effectOverlay.gameObject.SetActive(false);
-                break;
-
-            case "screen_shake":
-                float intensity = step.Intensity ?? 3f;
-                await canvasRect.DOShakeAnchorPos(duration, intensity, 20, 90, false, true)
-                                .ToUniTask();
-                break;
-
-            case "zoom_pulse":
-                float scale = step.Intensity ?? 1.05f;
-                await canvasRect.DOScale(scale, duration * 0.5f)
-                                .SetEase(Ease.OutQuad)
-                                .ToUniTask();
-                await canvasRect.DOScale(1f, duration * 0.5f)
-                                .SetEase(Ease.InQuad)
-                                .ToUniTask();
-                break;
-
-            case "vignette":
-                // 비네트 스프라이트가 effectOverlay에 할당된 상태를 가정
-                effectOverlay.gameObject.SetActive(true);
-                effectOverlay.color = new Color(0, 0, 0, 0);
-                await effectOverlay.DOFade(0.7f, duration).ToUniTask();
-                break;
-
-            // 신규: 반투명 검은 오버레이 (dim)
-            case "dim":
-                float dimAlpha = step.Intensity ?? 0.5f;
-                effectOverlay.color = new Color(0, 0, 0, 0);
-                effectOverlay.gameObject.SetActive(true);
-                await effectOverlay.DOFade(dimAlpha, duration).ToUniTask();
-                break;
-
-            case "chromatic":
-                // URP PostProcessing이 없는 경우 근사치: 오버레이로 대체
-                // TODO: URP Volume 연동으로 교체 가능
-                Debug.Log("[CutsceneManager] chromatic — 현재 오버레이 근사치 사용 중");
-                await UniTask.Delay(TimeSpan.FromSeconds(duration));
-                break;
-
-            default:
-                Debug.LogWarning($"[CutsceneManager] 알 수 없는 effect_type: {step.EffectType}");
-                break;
-        }
-    }
-
-    UniTask ExecutePlaySfx(CutsceneStep step)
-    {
-        // AudioManager가 있다면 교체
-        AudioClip clip = Resources.Load<AudioClip>($"SFX/{step.Sfx}");
-        if (clip != null)
-            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
-        else
-            Debug.LogWarning($"[CutsceneManager] SFX를 찾을 수 없음: {step.Sfx}");
-
-        return UniTask.CompletedTask;
-    }
-
-    async UniTask ExecuteWait(CutsceneStep step)
-    {
-        float duration = step.Duration ?? 0f;
-        await UniTask.Delay(TimeSpan.FromSeconds(duration));
-    }
-
 
 
     // ── Enter 애니메이션 ──────────────────────────────────────────────
@@ -488,7 +482,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
     }
 
     // ── Exit 애니메이션 ─────────────────────────────────────────
-
     async UniTask ApplyExitAnimation(Image img, string exitType, float duration)
     {
         RectTransform rect = img.GetComponent<RectTransform>();
@@ -545,6 +538,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         }
     }
 
+
     float GetEnterDefaultDuration(string enterType) => enterType switch
     {
         "cut"        => 0.0f,
@@ -557,7 +551,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         "zoom_out"   => 0.4f,
         _            => 0.3f,
     };
-
     float GetExitDefaultDuration(string exitType) => exitType switch
     {
         "cut"         => 0.0f,
@@ -587,7 +580,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         rect.sizeDelta        = new Vector2(w * preset.Width, h * preset.Height);
         rect.anchoredPosition = new Vector2(w * preset.OffsetX, h * preset.OffsetY);
     }
-
     public void SetImagesLayOut(List<Image> imgs, LayoutPreset layoutPreset)
     {
         for (int i = 0; i < imgs.Count; i++)
@@ -603,7 +595,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
             }
             else
             {
-                preset.Anchor  = slot.Anchor;
+                preset.Anchor  = slot.Anchor.Value;
                 preset.Width   = slot.Width.Value;
                 preset.Height  = slot.Height.Value;
                 preset.OffsetX = slot.OffsetX.Value;
@@ -620,6 +612,12 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
             }
         }
     }
+
+    
+    */
+    #endregion 
+
+
 
     // ── Image 풀 관리 ─────────────────────────────────────────────────
 

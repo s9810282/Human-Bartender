@@ -145,18 +145,15 @@ public class DataLoadManager : MonoBehaviour
 
         int posCount    = cut.PositionPresets?.Count ?? 0;
         int layoutCount = cut.LayoutPresets?.Count  ?? 0;
-        int enterCount  = cut.EnterPresets?.Count   ?? 0;
-        int effectCount = cut.EffectPresets?.Count  ?? 0;
-        int sceneCount  = cut.Cutscenes?.Length     ?? 0;
+        int sceneCount  = cut.SpriteCutscenes?.Length     ?? 0;
 
         Debug.Log($"<color=#ADD8E6>[컷신]</color> 데이터 로드 완료.");
-        Debug.Log($"  ㄴ 프리셋: 위치({posCount}), 레이아웃({layoutCount}), 등장({enterCount}), 이펙트({effectCount})");
         Debug.Log($"  ㄴ 컷신 본문 총 {sceneCount}개");
 
         if (sceneCount > 0)
         {
-            var firstScene = cut.Cutscenes[0];
-            Debug.Log($"  ㄴ 첫 컷신 ID: {firstScene.Id} | 타입: {firstScene.Type} | 스텝 수: {firstScene.Steps?.Length ?? 0}개");
+            var firstScene = cut.SpriteCutscenes[0];
+            Debug.Log($"  ㄴ 첫 컷신 ID: {firstScene.Id} | 타입: {firstScene.Type}개");
         }
     }
 }

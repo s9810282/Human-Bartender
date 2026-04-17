@@ -137,7 +137,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         if (curCraftEventData.CraftCutscenes.craftEnterData[style] != null)
         {
-            cutSceneManager.PlayComicCutSceneAsync
+            cutSceneManager.PlayCutScene
             (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
         }
         else
@@ -151,8 +151,6 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         miniGameObj.transform.position = vec;
         controller = miniGameObj.GetComponent<IMiniGameController>();
         
-
-        //TODO 컷씬 중 생성해야하기 때문에 tcs 1회 사용은 필수. Init 시점 체크 필요.
         await miniGameInitTcs.Task;
 
         controller.InitGame(miniGameEndTcs);
@@ -181,20 +179,20 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         else
         {
             if (curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail.ContainsKey(craftStation.targetCocktailData.Id))
-                targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id];
+                if(curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id] != null)
+                    targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id];
         }
 
-        Logger.Log(targetCutsceneId);
-        await cutSceneManager.PlayComicCutSceneAsync(targetCutsceneId);
+        //Finished CutScene
+        await cutSceneManager.PlayCutScene(targetCutsceneId);
 
-        //이 컷씬이 끝났으면 ServeAnimation 실행하기
-        //targetCocktail 이용
 
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
-        targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
-        Logger.Log(targetCutsceneId);
-        await cutSceneManager.PlaySpriteAnimationCutScene(targetCutsceneId);
+        //ServeAnimation CutScene
+        if (craftStation.targetCocktailData.Serve_animation != null)
+        {
+            targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
+            await cutSceneManager.PlayCutScene(targetCutsceneId);
+        }
 
         //컷씬 끝났으면 버튼 활성화.
         controller.OnNextButton();
@@ -210,15 +208,15 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         ReactionDetailData resultReaction = curCraftEventData.Reactions[result];
         string nextDialogueId = resultReaction.DialogueId;
 
+        //Reaction CutScene
         if (resultReaction.CutsceneId != null)
         {
-            //리액션 컷씬
+            UniTaskCompletionSource react = new UniTaskCompletionSource();
+           
+            cutSceneManager.PlayCutScene(resultReaction.CutsceneId, react);
             ResetCraftObj();
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            await CraftServeAsync(resultReaction.CutsceneId);
-            sw.Stop();
-            Logger.Log(sw.ElapsedMilliseconds);
+
+            await react.Task;
         }
 
 
@@ -234,18 +232,11 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         ResetCraft();
     }
 
-    public async UniTask CraftServeAsync(string id)
-    {
-        cutSceneManager.PlayComicCutSceneAsync(id).Forget();
-        float time = cutSceneManager.GetComicCutSceneTime(id);
-        Logger.Log(time);
-        await UniTask.WaitForSeconds(time);
-    }
-
     public void CraftRetry()
     {
 
     }
+
 
     public void ResetCraftObj()
     {

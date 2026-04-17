@@ -120,6 +120,34 @@
     },
 
     {
+      "id": "anim_serve_failed",
+      "description": "알수없는 칵테일 제공 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "anim_serve_failed",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
+    },
+    {
+      "id": "anim_serve_gin_fizz",
+      "description": "진 피즈 제공 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "anim_serve_gin_fizz",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0.3,
+      "exit": "fade_out",
+      "exit_duration": 0.3
+    },
+    {
       "id": "day1_react_perfect",
       "description": "S급 판정 리액션 컷씬",
       "type": "sprite",

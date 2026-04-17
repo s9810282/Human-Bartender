@@ -740,9 +740,11 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
   spriteAnimationManager:
     partName: SpriteCutScene
+    partCurAnim: 
     animator: {fileID: 5852505851014542260}
     spriteRenderer: {fileID: 7751749045872520318}
     baseController: {fileID: 9100000, guid: 7a99b78cd3499ac4abfeeb755f990b96, type: 2}
+  spineAnimationManager: {fileID: 0}
   cutSceneCanvas: {fileID: 3433658920043195082}
   canvasRect: {fileID: 2366362166523076582}
   effectOverlay: {fileID: 551943493231934737}
