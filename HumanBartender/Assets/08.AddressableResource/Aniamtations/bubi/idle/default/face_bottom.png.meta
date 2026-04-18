@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_bottom_0
+      name: face_bottom_000
       rect:
         serializedVersion: 2
-        x: 23
-        y: 150
-        width: 41
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 17313b6b5a0a8a2b0800000000000000
-      internalID: -5573027905275751567
+      spriteID: ecb204bf9cf057748823db9ca6baafce
+      internalID: 407910293
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_1
+      name: face_bottom_001
       rect:
         serializedVersion: 2
-        x: 178
-        y: 150
-        width: 41
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 155
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: aa0aeebdb6a11bd10800000000000000
-      internalID: 2139520348531368106
+      spriteID: e17e80ae88bfe3149bbf80a424323a45
+      internalID: -490870783
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_2
+      name: face_bottom_002
       rect:
         serializedVersion: 2
-        x: 333
-        y: 150
-        width: 41
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 310
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b2eb4dd8dd6673670800000000000000
-      internalID: 8518390321947917867
+      spriteID: c62e22ec706a55047a9faa2fbdfce34d
+      internalID: 1404127971
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_3
+      name: face_bottom_003
       rect:
         serializedVersion: 2
-        x: 488
-        y: 150
-        width: 41
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 465
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 08de10f1cf9ae52f0800000000000000
-      internalID: -982160768403116672
+      spriteID: 7e3e298072fcc614a80c7e8b119fb17b
+      internalID: 54901951
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c7dddfdee0b7fb645bb6a0ce56f8714b
     internalID: 0
     vertices: []
     indices: 
@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      face_bottom_0: -5573027905275751567
+      face_bottom_1: 2139520348531368106
+      face_bottom_2: 8518390321947917867
+      face_bottom_3: -982160768403116672
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

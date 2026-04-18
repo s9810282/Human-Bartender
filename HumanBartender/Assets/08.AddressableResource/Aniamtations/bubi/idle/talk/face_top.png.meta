@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_top_0
+      name: face_top_000
       rect:
         serializedVersion: 2
-        x: 4
-        y: 148
-        width: 77
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c90edbd8599bafdc0800000000000000
-      internalID: -3604364499777363812
+      spriteID: 3aa48841c8d071d4589aa9fd1c1e2779
+      internalID: 1513525891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_1
+      name: face_top_001
       rect:
         serializedVersion: 2
-        x: 159
-        y: 148
-        width: 77
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 155
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 34ccaa564ad067d90800000000000000
-      internalID: -7100472762771518397
+      spriteID: e0d487a745abf8740be14a1cd0b560f6
+      internalID: -879866289
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_2
+      name: face_top_002
       rect:
         serializedVersion: 2
-        x: 314
-        y: 148
-        width: 77
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 310
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 75401494a79cc92a0800000000000000
-      internalID: -6729282216146172841
+      spriteID: b59828cde80bf364b8dbe78daf99288f
+      internalID: -979637852
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_3
+      name: face_top_003
       rect:
         serializedVersion: 2
-        x: 469
-        y: 148
-        width: 77
-        height: 81
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 465
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 92f0aefeaf16dd3c0800000000000000
-      internalID: -4333199536065736919
+      spriteID: fae0103e259391a4181af175263d54a9
+      internalID: 999107886
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: fdd2db96f7202214788c6d58c7eb6581
     internalID: 0
     vertices: []
     indices: 
@@ -222,7 +222,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      face_top_0: -3604364499777363812
+      face_top_1: -7100472762771518397
+      face_top_2: -6729282216146172841
+      face_top_3: -4333199536065736919
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

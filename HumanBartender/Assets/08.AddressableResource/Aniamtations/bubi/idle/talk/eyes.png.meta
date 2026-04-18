@@ -45,7 +45,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,7 +96,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,177 +134,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: eyes_0
+      name: eyes_000
       rect:
         serializedVersion: 2
-        x: 20
-        y: 175
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c40d2c8b6a532a580800000000000000
-      internalID: -8817426130257391540
+      spriteID: 5bd3b4a5bfd5af54387d580e8f5bc316
+      internalID: 962001973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyes_1
+      name: eyes_001
       rect:
         serializedVersion: 2
-        x: 51
-        y: 175
-        width: 19
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 155
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6013684b21f187a20800000000000000
-      internalID: 3060230111996817670
+      spriteID: 455f6895435b20b4ba03b4790c4c193f
+      internalID: -1246331873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyes_2
+      name: eyes_002
       rect:
         serializedVersion: 2
-        x: 175
-        y: 175
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 310
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b7ec58208694d2790800000000000000
-      internalID: -7553300288962703749
+      spriteID: a6dbcda6566c5d5428642b108197d4f6
+      internalID: -892128227
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyes_3
+      name: eyes_003
       rect:
         serializedVersion: 2
-        x: 206
-        y: 175
-        width: 19
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 465
+        y: 0
+        width: 155
+        height: 237
+      alignment: 7
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf8ea771b4c919a50800000000000000
-      internalID: 6526169181366970619
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyes_4
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 175
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 004b9422c6e5178c0800000000000000
-      internalID: -4003314775230925824
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyes_5
-      rect:
-        serializedVersion: 2
-        x: 361
-        y: 175
-        width: 19
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3ec7f137776e82ff0800000000000000
-      internalID: -60545194262561565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyes_6
-      rect:
-        serializedVersion: 2
-        x: 485
-        y: 175
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eba85a1215843aa20800000000000000
-      internalID: 3072378884090858174
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyes_7
-      rect:
-        serializedVersion: 2
-        x: 516
-        y: 175
-        width: 19
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9149b55831c43d4a0800000000000000
-      internalID: -6569823784677960679
+      spriteID: 9b082fe4981267a49a022084ff93475b
+      internalID: -553269842
       vertices: []
       indices: 
       edges: []
@@ -313,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a91c799ef28d3f1438f1cd7dc2bb689f
     internalID: 0
     vertices: []
     indices: 
@@ -322,7 +234,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      eyes_0: -8817426130257391540
+      eyes_1: 3060230111996817670
+      eyes_2: -7553300288962703749
+      eyes_3: 6526169181366970619
+      eyes_4: -4003314775230925824
+      eyes_5: -60545194262561565
+      eyes_6: 3072378884090858174
+      eyes_7: -6569823784677960679
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

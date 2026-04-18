@@ -28,6 +28,7 @@ public class CharacterLoader
     /// 
     /// 파츠 현재 애님이랑 비교해서 같다면 스킵하기
     /// 
+    /// 나중에 다시 검토하기 데이터가 바뀜으로 써 수정사항이 생김.
     /// </summary>
     /// <param name="part"></param>
     /// <param name="data"></param>
@@ -54,9 +55,10 @@ public class CharacterLoader
 
             return;
         }
-
-        if (part.partCurAnim == data.Clip) // 이미 실행 중
+        else if(part.partCurAnim == data.Clip) // 이미 실행 중
             return;
+
+
 
         if (await LoadAnimAsync(slot, part, data, token)) //Part Anim
             return;
@@ -69,9 +71,6 @@ public class CharacterLoader
 
         if (await LoadSpriteAsync(slot, part, defaultData, token)) //Part Default Sprite
             return;
-
-
-        if (defaultData == null) return;
 
         if (part.partName != "body")  //body의 경우만 Portail Image 로드 시도.
         {
