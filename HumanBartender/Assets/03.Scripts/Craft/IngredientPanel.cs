@@ -65,12 +65,13 @@ public class IngredientPanel : MonoBehaviour
         {
             IngredientData data = ingredientDataSO.ingredientData.Ingredients[i];
             
-
             if (!createdIngredientPanelList.ContainsKey(data.Id))
             {
                 var item = Instantiate(ingredientPanel, ingredientPanelParent);
-                //sprite : 값으로 데이터 로드 후 넣기
-                item.SetImage(null);
+
+                Sprite sprite = Resources.Load<Sprite>("UI/Ingredient/" + data.Id);
+                
+                item.SetImage(sprite);
                 item.SetNameText(data.Name);
                 item.ResetCount();
                 item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));

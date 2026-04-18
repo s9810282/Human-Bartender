@@ -20,7 +20,7 @@ public class UICocktailPanel : MonoBehaviour
     [Header("UICocktail Panel")]
     [SerializeField] Dictionary<CocktailData, UICocktailMenuPanel> cocktailPanelList = new();
     [SerializeField] Transform cocktailPanelParent;
-    [SerializeField] UICocktailMenuPanel cocktailPanel;
+    [SerializeField] UICocktailMenuPanel cocktailMenuPanel;
 
     [Header("UICocktail Detail Panel")]
     [SerializeField] UICocktailDetailPanel cocktailDetailPanel;
@@ -90,11 +90,14 @@ public class UICocktailPanel : MonoBehaviour
         {
             CocktailData data = cocktailDataSO.cachedSortedByName[i];
 
-            var panel =  Instantiate(cocktailPanel, cocktailPanelParent);
-            panel.SetImage(null);
+            var panel =  Instantiate(cocktailMenuPanel, cocktailPanelParent);
+
+            Sprite sprite = Resources.Load<Sprite>("UI/Cocktail/" +  data.Id);
+
+            panel.SetImage(sprite);
             panel.SetText(data.Name);
             panel.gameObject.SetActive(false);
-            panel.GetButton().onClick.AddListener(() => OnCocktailPanelTabClicked(data));
+            panel.GetButton().onClick.AddListener(() => OnCocktailPanelTabClicked(data, sprite));
 
             cocktailPanelList.Add(data, panel);
         }
@@ -196,14 +199,14 @@ public class UICocktailPanel : MonoBehaviour
 
 
     #region Cocktail Detail Panel
-    public void OnCocktailPanelTabClicked(CocktailData data)
+    public void OnCocktailPanelTabClicked(CocktailData data, Sprite sprite)
     {
         //Cocktail Panel을 클릭 시 Detail Panel에 정보설정
         
         cocktailDetailPanel.ResetPanel();
 
         cocktailDetailPanel.SetCocktailData(data);
-        cocktailDetailPanel.SetImage(null);
+        cocktailDetailPanel.SetImage(sprite);
         cocktailDetailPanel.SetCocktailName(data.Name);
 
         cocktailDetailPanel.AddContentsTitle("레시피");
