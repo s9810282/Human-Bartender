@@ -135,7 +135,7 @@ public class IngredientPanel : MonoBehaviour
 
         for (int i = 0; i < data.Recipe.Length; i++)
         {
-            AddContentsSummary(data.Recipe[i].Ingredient + " : " + data.Recipe[i].Count);
+            AddContentsSummary(data.Recipe[i].DisplayName + " : " + data.Recipe[i].Count);
         }
     }
     public void AddContentsSummary(string text)

@@ -10,6 +10,7 @@ public struct RecipeIngredient
 {
     [JsonProperty("ingredient")] public string Ingredient { get; set; }
     [JsonProperty("count")] public int Count { get; set; }
+    [JsonProperty("display_name")] public string DisplayName { get; set; }
 }
 
 [Serializable]

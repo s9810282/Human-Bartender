@@ -59,7 +59,7 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     {
         this.tcs = tcs;
         craftStation.craftingResult.acionCount = 0; // 카운트 초기화
-        if (countText != null) countText.text = "0";
+        if (countText != null) countText.text = "횟수 : 0";
     }
     public void CompleteMade()
     {

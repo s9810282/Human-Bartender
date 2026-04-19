@@ -212,7 +212,7 @@ public class UICocktailPanel : MonoBehaviour
         cocktailDetailPanel.AddContentsTitle("레시피");
         for(int i = 0; i < data.Recipe.Length; i++)
         {
-            cocktailDetailPanel.AddContentsSummary(data.Recipe[i].Ingredient + " : " + data.Recipe[i].Count);
+            cocktailDetailPanel.AddContentsSummary(data.Recipe[i].DisplayName + " : " + data.Recipe[i].Count);
         }
         
         cocktailDetailPanel.AddContentsTitle("특성");
