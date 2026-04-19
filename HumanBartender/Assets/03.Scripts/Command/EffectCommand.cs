@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Threading;
 using VContainer;
 
 public class EffectCommand : IDialogueCommand
@@ -17,7 +18,7 @@ public class EffectCommand : IDialogueCommand
 
     bool IDialogueCommand.IsSystemSwitch { get; set; }
 
-    async UniTask<string> IDialogueCommand.ExecuteAsync()
+    async UniTask<string> IDialogueCommand.ExecuteAsync(CancellationToken cancellationToken)
     {
         await effectPlayer.PlayEffectAsync(effectType, duration);
         return "";

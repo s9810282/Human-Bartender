@@ -106,7 +106,7 @@ public class DialogueManager : MonoBehaviour
             sceneDirector.ShowSystemAction();
 
             if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
-                ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
+                await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
 
             await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
@@ -129,7 +129,6 @@ public class DialogueManager : MonoBehaviour
         Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
 
         string id = await sceneDirector.ExcuteTriggerAsync(trigger);
-        //이게 문제로구나~
         
         if (id == "")
         {

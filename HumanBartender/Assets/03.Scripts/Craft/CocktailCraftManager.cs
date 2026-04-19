@@ -96,8 +96,21 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     public void StartBuild()
     {
         //빌드 시에는 컷씬연출로 대체. 이후 재료에 따라 수정될 거 같음.
-
+        EndBuild();
     }
+    //요청에 따른 임시 함수
+    public async void EndBuild()
+    {
+        craftStation.targetCocktailData = GetMatchingCocktails();
+        craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
+
+        string targetCutsceneId = "anim_serve_Default";
+        await cutSceneManager.PlayCutScene(targetCutsceneId);
+
+        controller.OnNextButton();
+    }
+
+
     public void StartShake()
     {
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
@@ -106,9 +119,6 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
-
-        Logger.Log(craftStation.targetCocktailData);
-        Logger.Log(craftStation.targetCocktailData.Id);
 
         StartMiniGameAsync("shake", shakePrefab).Forget();
     }

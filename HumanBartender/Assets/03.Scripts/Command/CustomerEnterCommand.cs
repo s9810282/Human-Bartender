@@ -33,7 +33,7 @@ public class CustomerEnterCommand : IDialogueCommand
     public bool IsSystemSwitch { get; set; }
 
 
-    public async UniTask<string> ExecuteAsync()
+    public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
         SlotType slotType = slot == "left" ? SlotType.Left : 
             slot == "right" ? SlotType.Right : SlotType.Middle;

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using VContainer;
@@ -10,6 +11,7 @@ public class DialogueTriggerManager : MonoBehaviour
     [Inject] IObjectResolver resolver;
 
     Action triggerCallBack = null;
+    CancellationTokenSource _skipCts;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +24,8 @@ public class DialogueTriggerManager : MonoBehaviour
     {
         Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
 
+        _skipCts = new CancellationTokenSource();
+
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
         string nextId = "";
 
@@ -33,9 +37,15 @@ public class DialogueTriggerManager : MonoBehaviour
             }
 
             resolver.Inject(command);
-            nextId = await command.ExecuteAsync();
+            nextId = await command.ExecuteAsync(_skipCts.Token);
         }
 
         return nextId;
+    }
+
+    public void SkipTrigger()
+    {
+        _skipCts?.Cancel();
+        _skipCts = new CancellationTokenSource();
     }
 }

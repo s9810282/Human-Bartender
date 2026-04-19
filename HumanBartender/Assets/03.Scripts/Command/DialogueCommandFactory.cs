@@ -2,12 +2,13 @@ using System.Collections;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
+using System.Threading;
 
 
 public interface IDialogueCommand
 {
     public bool IsSystemSwitch { get; set; }
-    UniTask<string> ExecuteAsync();
+    UniTask<string> ExecuteAsync(CancellationToken ct);
 }
 
 public static class DialogueCommandFactory
