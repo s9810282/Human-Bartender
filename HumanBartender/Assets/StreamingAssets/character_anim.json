@@ -146,7 +146,8 @@
           "eyebrows":    { "clip": "port_eyebrows_anger",    "loop": "always" },
           "upper_face":  { "clip": "port_upper_face_anger",  "loop": "always" },
           "lower_face":  { "clip": "port_lower_face_anger",  "loop": "always_on_dialogue" },
-          "body":        { "clip": "port_body_anger",         "loop": "always" }
+          "body":        { "clip": "port_body_anger",        "loop": "always" },
+          "extra":       { "clip": "port_extra_anger",       "loop": "always" }
         },
         "joy": {
           "eyes":        null,
