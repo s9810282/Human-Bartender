@@ -1,15 +1,16 @@
 {
-  "cocktails": [   
+  "cocktails": [
     {
       "id": "gin_fizz",
       "name": "진피즈",
       "name_en": "Gin Fizz",
       "recipe": [
-        { "ingredient": "gin", "count": 3 },
-        { "ingredient": "sugar_syrup", "count": 1 },
-        { "ingredient": "lemon_juice", "count": 1 },
-        { "ingredient": "lemon_garnish", "count": 1 }
+        { "ingredient": "gin",          "count": 3, "display_name": "진" },
+        { "ingredient": "sugar_syrup",  "count": 1, "display_name": "설탕 시럽" },
+        { "ingredient": "lemon_juice",  "count": 1, "display_name": "레몬 주스" },
+        { "ingredient": "lemon_garnish","count": 1, "display_name": "레몬 가니쉬" }
       ],
+      "process": "쉐이킹",
       "method": "shake",
       "target_count": 20,
       "keywords": ["상큼한", "클래식", "자극적인"],
@@ -23,11 +24,12 @@
       "name": "코스모폴리탄",
       "name_en": "Cosmopolitan",
       "recipe": [
-        { "ingredient": "triple_sec", "count": 1 },
-        { "ingredient": "vodka", "count": 2 },
-        { "ingredient": "cranberry_juice", "count": 2 },
-        { "ingredient": "lime_juice", "count": 1 }
+        { "ingredient": "triple_sec",      "count": 1, "display_name": "트리플 섹" },
+        { "ingredient": "vodka",           "count": 2, "display_name": "보드카" },
+        { "ingredient": "cranberry_juice", "count": 2, "display_name": "크렌베리 주스" },
+        { "ingredient": "lime_juice",      "count": 1, "display_name": "라임 주스" }
       ],
+      "process": "쉐이킹",
       "method": "shake",
       "target_count": 18,
       "keywords": ["상큼한", "고급스러운", "화끈한"],
@@ -40,10 +42,11 @@
       "id": "godfather",
       "name": "갓파더",
       "name_en": "Godfather",
-      "recipe": [ 
-        { "ingredient": "whiskey", "count": 4 },
-        { "ingredient": "disaronno", "count": 1 }
+      "recipe": [
+        { "ingredient": "whiskey",   "count": 4, "display_name": "위스키" },
+        { "ingredient": "disaronno", "count": 1, "display_name": "디사론노" }
       ],
+      "process": "스터",
       "method": "stir",
       "target_count": 20,
       "keywords": ["강한", "부드러운", "클래식"],
@@ -57,12 +60,13 @@
       "name": "모히또",
       "name_en": "Mojito",
       "recipe": [
-        { "ingredient": "rum", "count": 2 },
-        { "ingredient": "lime_juice", "count": 1 },
-        { "ingredient": "mint", "count": 1 },
-        { "ingredient": "sugar_syrup", "count": 1 },
-        { "ingredient": "soda_water", "count": 1 }
+        { "ingredient": "rum",         "count": 2, "display_name": "럼" },
+        { "ingredient": "lime_juice",  "count": 1, "display_name": "라임 주스" },
+        { "ingredient": "mint",        "count": 1, "display_name": "애플 민트" },
+        { "ingredient": "sugar_syrup", "count": 1, "display_name": "설탕 시럽" },
+        { "ingredient": "soda_water",  "count": 1, "display_name": "탄산수" }
       ],
+      "process": "빌드",
       "method": "build",
       "target_count": 0,
       "keywords": ["상큼한", "행복한", "부드러운"],
@@ -76,9 +80,10 @@
       "name": "깔루아 밀크",
       "name_en": "Kahlua Milk",
       "recipe": [
-        { "ingredient": "coffee_liqueur", "count": 1 },
-        { "ingredient": "milk", "count": 3 }
+        { "ingredient": "coffee_liqueur", "count": 1, "display_name": "커피 리큐어" },
+        { "ingredient": "milk",           "count": 3, "display_name": "우유" }
       ],
+      "process": "빌드",
       "method": "build",
       "target_count": 0,
       "keywords": ["달콤한", "부드러운"],

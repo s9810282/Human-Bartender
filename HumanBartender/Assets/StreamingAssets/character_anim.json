@@ -146,8 +146,7 @@
           "eyebrows":    { "clip": "port_eyebrows_anger",    "loop": "always" },
           "upper_face":  { "clip": "port_upper_face_anger",  "loop": "always" },
           "lower_face":  { "clip": "port_lower_face_anger",  "loop": "always_on_dialogue" },
-          "body":        { "clip": "port_body_anger",        "loop": "always" },
-          "extra":       { "clip": "port_extra_anger",       "loop": "always" }
+          "body":        { "clip": "port_body_anger",         "loop": "always" }
         },
         "joy": {
           "eyes":        null,
@@ -188,7 +187,7 @@
       "expressions": {
         "default": {
           "eyes":        { "clip": "bubi_eyes_default",        "loop": "always" },
-          "eyebrows":    ,
+          "eyebrows":    null,
           "upper_face":  { "clip": "bubi_upper_face_default",  "loop": "always" },
           "lower_face":  { "clip": "bubi_lower_face_default",  "loop": "always_on_dialogue" },
           "body":        { "clip": "bubi_body_default",           "loop": "always" },
