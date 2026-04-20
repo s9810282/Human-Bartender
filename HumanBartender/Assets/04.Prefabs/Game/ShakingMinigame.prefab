@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 2856734471065644167}
   - component: {fileID: 5866842411109797065}
   - component: {fileID: 2192543456066468490}
+  - component: {fileID: 7501360714140771676}
   m_Layer: 0
   m_Name: ShakingMinigame
   m_TagString: Untagged
@@ -361,7 +362,7 @@ MonoBehaviour:
   shaker: {fileID: 6340048157419043088}
   characterAnim: {fileID: 5118153745995238304}
   curAnimIndex: 0
-  animMaxnIndex: 4
+  animMaxIndex: 4
   craftServe: {fileID: 11400000, guid: 9889cf706de564f4193623b3420ad0d7, type: 2}
   craftRetry: {fileID: 11400000, guid: 567d4490167cd444eaab0c4a9bb69293, type: 2}
   sceneName: Shake
@@ -413,6 +414,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: PlayShakeAnim
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7501360714140771676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172382848508299158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channel: {fileID: 11400000, guid: 5ee1cb15fda85aa41b09c5bdced554c8, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2856734471065644167}
+        m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
+        m_MethodName: ResetAnimCount
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1061,6 +1090,7 @@ MonoBehaviour:
   onShakeEvent: {fileID: 11400000, guid: 53bee0beeb2ef2642a22930d823ad6d3, type: 2}
   onPenaltyEvent: {fileID: 11400000, guid: b12ced2ee080a2745b76defe13be7d03, type: 2}
   shakeAnimEvent: {fileID: 11400000, guid: 7e8b26a8bea703c4e90fd61feffcd770, type: 2}
+  shakeAnimResetEvent: {fileID: 11400000, guid: 5ee1cb15fda85aa41b09c5bdced554c8, type: 2}
   dotTop: {x: -3.6, y: 0.8}
   dotMid: {x: -4.8, y: 0}
   dotBot: {x: -3.6, y: -0.8}
