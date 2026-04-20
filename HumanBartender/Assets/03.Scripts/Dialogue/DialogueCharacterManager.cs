@@ -24,6 +24,7 @@ public class SlotCharacterPart
     public string expression = "";
     public CharacterPart[] parts;
     public SpriteRenderer portaitSpriteRenderer;
+    
 
     [System.NonSerialized] public Stack<AsyncOperationHandle<Sprite>?> spriteHandles = new();
     [System.NonSerialized] public Stack<AsyncOperationHandle<AnimationClip>?> animHandles = new();

@@ -71,6 +71,9 @@ public class CharacterLoader
         if (await LoadPortaitSpriteAsync(slot, defaultData, token))
             return;
 
+        if (await LoadPortaitSpriteAsync(slot, defaultData, token))
+            return;
+
         part.SetInactive();
 
         if (slot.portaitSpriteRenderer != null)

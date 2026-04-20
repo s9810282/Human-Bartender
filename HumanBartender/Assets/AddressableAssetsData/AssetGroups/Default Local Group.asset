@@ -15,6 +15,16 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 3acaff50e08c3a44596ad98b696b3409
   m_SerializeEntries:
+  - m_GUID: 002f70282b36a6f4e8df89f6d480d6fd
+    m_Address: port_lower_face_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02d6d272f39848c4e8a53c90d9e5c036
+    m_Address: port_body_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 04235a36bfc5d524a9633ef75ab408c4
     m_Address: port_extra_default_Loop
     m_ReadOnly: 0
@@ -32,6 +42,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 095b0bf546efa994991447e930b1a23f
     m_Address: port_eyebrows_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d634b1dcb937a1419b138442f78967b
+    m_Address: port_eyebrows_event_surprise_Loop
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -105,6 +120,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3af3ef06b67d5514481d098b57513e7c
+    m_Address: port_eyes_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f5a43835b3c0b04689e05e76d1c5c9b
     m_Address: port_eyes_default_Dialogue
     m_ReadOnly: 0
@@ -147,6 +167,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 50fe7576745511c4681eef118313ed17
     m_Address: port_upper_face_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 516ba4bc44278b14686eef334e89e4fa
+    m_Address: port_upper_face_event_surprise_Loop
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

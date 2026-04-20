@@ -144,6 +144,7 @@ public class CharacterPart : AnimationPart, IFade
     /// <summary>
     /// clip의 loop설정을 바꾸는건 원본 자체를 건들기 때문에 No
     /// 빌드환경에서는 AnimationClip에 대한 쓰기 권한이 막히는 케이스가 존재함.
+    /// 컨트롤러 내의 속도 고려가 안되어있음.
     /// 1회 실행 타임 체크 후 speed = 0
     /// </summary>
     /// <param name="introClip"></param>
@@ -152,13 +153,12 @@ public class CharacterPart : AnimationPart, IFade
 
     private async UniTaskVoid WaitAndFreezeAsync(CancellationToken token)
     {
-        for(int i = 0; i <  _overrideController.animationClips.Length; i++)
-        {
-            await UniTask.WaitForSeconds(_overrideController.animationClips[i].length);
-        }
+        var introClip = _overrideController["Intro"];
+        if (introClip != null)
+            await UniTask.Delay(TimeSpan.FromSeconds(introClip.length + (introClip.length * animator.GetCurrentAnimatorStateInfo(0).speed)), 
+                cancellationToken: token);
 
-        if (animator != null)
-            animator.speed = 0f;
+        if (animator != null) animator.speed = 0f;
     }
 
 
