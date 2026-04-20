@@ -25,6 +25,7 @@ public struct CocktailData
     [JsonProperty("keywords")] public string[] Keywords { get; set; }
     [JsonProperty("baseIngredient")] public string BaseIngredient { get; set; }
     [JsonProperty("flavor_text")] public string FlavorText { get; set; }
+    [JsonProperty("finish_animation")] public string Finish_animation { get; set; }
     [JsonProperty("serve_animation")] public string Serve_animation { get; set; }
     [JsonProperty("serve_sfx")] public string Serve_sfx { get; set; }
 }

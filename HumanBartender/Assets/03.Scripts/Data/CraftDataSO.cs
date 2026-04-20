@@ -27,7 +27,6 @@ public struct CraftCutSceneData
 public struct CraftFinishData 
 {
     [JsonProperty("default")] public string Default { get; set; }
-    [JsonProperty("by_cocktail")] public Dictionary<string, string> ByCocktail { get; set; }
     [JsonProperty("failed")] public string Failed { get; set; }
 }
 

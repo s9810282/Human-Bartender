@@ -191,9 +191,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
         else
         {
-            if (curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail.ContainsKey(craftStation.targetCocktailData.Id))
-                if(curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id] != null)
-                    targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.ByCocktail[craftStation.targetCocktailData.Id];
+            if (craftStation.targetCocktailData.Finish_animation != null)
+                targetCutsceneId = craftStation.targetCocktailData.Finish_animation;
         }
 
         //Finished CutScene
