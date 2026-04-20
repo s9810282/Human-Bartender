@@ -48,7 +48,6 @@ namespace LiquidSimulation
 
             if (Input.GetMouseButtonDown(0))
             {
-                Logger.Log(mouseWorld);
                 float dist = Vector2.Distance(mouseWorld, (Vector2)transform.position);
                 if (dist < activationRadius)
                 {
@@ -114,7 +113,6 @@ namespace LiquidSimulation
                             // ★ 중앙 복귀 = 1회 쉐이킹!
                             lastReached = 1;
                             if (onShakeEvent != null) onShakeEvent?.Raise(new Void());
-                            Debug.Log("[Shake] Shake!");
 
                             // 다음: 반대쪽 끝점으로
                             targetDot = (lastEndDot == 0) ? 2 : 0;

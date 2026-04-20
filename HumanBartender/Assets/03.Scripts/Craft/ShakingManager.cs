@@ -49,8 +49,6 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     }
     public void PlayShakeAnim(int num)
     {
-        Logger.Log("Shake Anim");
-
         curAnimIndex = (curAnimIndex) % 4 + 1;
         characterAnim.Play("Shaking" + curAnimIndex);
     }
