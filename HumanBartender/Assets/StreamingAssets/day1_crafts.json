@@ -21,9 +21,6 @@
         },
         "finish": {
           "default": "day1_finish_default",
-          "by_cocktail": {
-            "gin_fizz": "day1_finish_gin_fizz"
-          },
           "failed": null
         }
       },
@@ -89,7 +86,6 @@
         },
         "finish": {
           "default": "day1_finish_default",
-          "by_cocktail": {},
           "failed": null
         }
       },
@@ -156,7 +152,6 @@
         },
         "finish": {
           "default": "day1_finish_default",
-          "by_cocktail": {},
           "failed": null
         }
       },
