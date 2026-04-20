@@ -18,7 +18,7 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
     [Header("Craft Anim")]
     [SerializeField] Animator characterAnim;
     [SerializeField] int curAnimIndex = 0;
-    [SerializeField] int animMaxnIndex = 4;
+    [SerializeField] int animMaxIndex = 4;
 
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
@@ -41,6 +41,12 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
         
     }
 
+    public void ResetAnimCount()
+    {
+        PlayShakeAnim(curAnimIndex + 1);
+
+        curAnimIndex = 0;
+    }
     public void PlayShakeAnim(int num)
     {
         Logger.Log("Shake Anim");

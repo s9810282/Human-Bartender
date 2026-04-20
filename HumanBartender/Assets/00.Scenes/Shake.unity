@@ -339,6 +339,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &420748041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+  m_PrefabInstance: {fileID: 1212049942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &420748044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2856734471065644167, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+  m_PrefabInstance: {fileID: 1212049942}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420748041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55eaa381c3774f34aa67ec4ea043f175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &420748046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420748041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  channel: {fileID: 11400000, guid: 5ee1cb15fda85aa41b09c5bdced554c8, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 420748044}
+        m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
+        m_MethodName: ResetAnimCount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1029976369
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,10 +553,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7295099029058447341, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      propertyPath: shakeAnimResetEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ee1cb15fda85aa41b09c5bdced554c8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 420748046}
   m_SourcePrefab: {fileID: 100100000, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
 --- !u!1 &1350689030
 GameObject:

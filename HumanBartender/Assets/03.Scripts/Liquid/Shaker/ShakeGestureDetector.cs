@@ -8,6 +8,7 @@ namespace LiquidSimulation
         [SerializeField] private VoidEvent onShakeEvent;
         [SerializeField] private VoidEvent onPenaltyEvent;
         [SerializeField] private IntEvent shakeAnimEvent;
+        [SerializeField] private VoidEvent shakeAnimResetEvent;
 
         [Header("Dot Layout")]
         [SerializeField] private Vector2 dotTop = new Vector2(0.6f, 0.8f);
@@ -83,6 +84,7 @@ namespace LiquidSimulation
                     case 0: // 미시작 → 중앙(1) 터치로 시작
                         if (i == 1)
                         {
+                            shakeAnimResetEvent?.Raise(new Void());
                             lastReached = 1;
                             targetDot = 0;   // 첫 이동: 위로
                             phase = 1;
