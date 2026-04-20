@@ -57,6 +57,7 @@ public class UICocktailDetailPanel : MonoBehaviour
     }
     public void SetImage(Sprite sprite)
     {
+        cocktailImage.gameObject.SetActive(true);
         cocktailImage.sprite = sprite;
     }    
     public void SetCocktailName(string text)

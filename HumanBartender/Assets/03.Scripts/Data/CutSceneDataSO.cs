@@ -173,14 +173,9 @@ public struct SpriteCutscene
     [JsonProperty("description")] public string Description { get; set; }
     [JsonProperty("type")] public CutsceneType Type { get; set; }
     [JsonProperty("blocking")] public bool Blocking { get; set; }
-    [JsonProperty("asset")] public string Asset { get; set; }
     [JsonProperty("position")] public string Position { get; set; }   // position_presets 키
     [JsonProperty("scale")] public float? Scale { get; set; }
     [JsonProperty("loop")] public bool? Loop { get; set; }
-    [JsonProperty("enter")] public string Enter { get; set; }   // comic_presets.enter_presets 키
-    [JsonProperty("enter_duration")] public float? EnterDuration { get; set; }
-    [JsonProperty("exit")] public string Exit { get; set; }   // comic_presets.exit_presets 키
-    [JsonProperty("exit_duration")] public float? ExitDuration { get; set; }
 }
 
 

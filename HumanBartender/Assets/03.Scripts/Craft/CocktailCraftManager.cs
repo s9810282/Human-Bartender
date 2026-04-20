@@ -231,8 +231,6 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
 
         //Finished CutScene
-
-
         await effectPlayer.PlayEffectAsync("fade_in", 1f);
         cameraZoom.ActionZoom(false);
         await cutScenePlayer.PlayCutScene(targetCutsceneId);

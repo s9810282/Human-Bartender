@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class UICocktailPanel : MonoBehaviour
 {
@@ -31,6 +33,8 @@ public class UICocktailPanel : MonoBehaviour
     {
         CreateCocktailTextPanelAll();
         CreateCocktailPanelAll();
+
+        OnIniatialTabClicked("ㄱ");
     }
 
 
@@ -77,6 +81,8 @@ public class UICocktailPanel : MonoBehaviour
             panel.GetUIContentsText().SetFontSize(25);
             panel.GetButton().onClick.AddListener(() => OnStyleTabClicked(item.Key));
         }
+
+        
 
         cocktailTextPanelInitialParent.gameObject.SetActive(false);
         cocktailTextPanelBaseParent.gameObject.SetActive(false);
