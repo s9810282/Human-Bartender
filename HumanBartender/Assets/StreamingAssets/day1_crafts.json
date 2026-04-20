@@ -140,5 +140,77 @@
         }
       }
     }
+  ,
+    {
+      "id": "day_test_craft",
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": false,
+        "steps": []
+      },
+      "cutscenes": {
+        "craft_enter": {
+          "shake": null,
+          "stir": null,
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "by_cocktail": {},
+          "failed": null
+        }
+      },
+      "evaluation": {
+        "craft_tolerance": 5,
+        "rules": [
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz", "godfather"],
+            "require_craft_success": true,
+            "description": "지정 칵테일(진피즈, 갓파더) 정확히 제조"
+          },
+          {
+            "result": "hidden",
+            "match_type": "cocktail_id",
+            "match_values": ["mojito"],
+            "require_craft_success": true,
+            "description": "숨겨진 레시피 — 모히또 적중"
+          }
+        ]
+      },
+      "reactions": {
+        "perfect": {
+          "dialogue_id": "dt_react_perfect",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "hidden": {
+          "dialogue_id": "dt_react_hidden",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "normal": {
+          "dialogue_id": "dt_react_normal",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "miss": {
+          "dialogue_id": "dt_react_miss",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "bad": {
+          "dialogue_id": "dt_react_bad",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        }
+      }
+    }
   ]
 }
