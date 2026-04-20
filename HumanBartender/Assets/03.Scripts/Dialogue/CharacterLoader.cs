@@ -38,7 +38,7 @@ public class CharacterLoader
         if (data == null)
         {
             Logger.LogWarning($"[CharacterManager] PartAnimData null, Default Data");
-            
+
         }
         else if (data.Loop == "none")
         {
@@ -49,10 +49,6 @@ public class CharacterLoader
 
             return;
         }
-        else if(part.partCurAnim == data.Clip) // 이미 실행 중
-            return;
-
-
 
         if (await LoadAnimAsync(slot, part, data, token)) //Part Anim
             return;

@@ -116,13 +116,24 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
-        string targetCutsceneId = "anim_serve_kahlua_milk";
-        
-        
+
         cameraTcs = new UniTaskCompletionSource();
 
         await effectPlayer.PlayEffectAsync("fade_in", 1f);
-        cameraZoom.ActionZoomAndBack(false, cameraTcs);
+        cameraZoom.ActionZoomAndBack(CameraZoomType.Sub, cameraTcs);
+
+        string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;
+
+        if (craftStation.targetCocktailData.Id == "unknown")
+        {
+            if (curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
+                targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Failed;
+        }
+        else
+        {
+            if (craftStation.targetCocktailData.Finish_animation != null)
+                targetCutsceneId = craftStation.targetCocktailData.Finish_animation;
+        }
 
         await cutScenePlayer.PlayCutScene(targetCutsceneId);
 
@@ -131,6 +142,13 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         vec.z = 0;
         miniGameObj.transform.position = vec;
         controller = miniGameObj.GetComponent<IMiniGameController>();
+
+        //ServeAnimation CutScene
+        if (craftStation.targetCocktailData.Serve_animation != null)
+        {
+            targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
+            await cutScenePlayer.PlayCutScene(targetCutsceneId);
+        }
 
         controller.OnNextButton();
     }
@@ -172,7 +190,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         await effectPlayer.PlayEffectAsync("fade_in", 1f);
 
-        cameraZoom.ActionZoomAndBack(false, cameraTcs); //컷씬용 화면 960 540 전환
+        cameraZoom.ActionZoomAndBack(CameraZoomType.Sub, cameraTcs); //컷씬용 화면 960 540 전환
 
         //TODO : 여기도 진입할 때 컷씬 
         if (curCraftEventData.CraftCutscenes.craftEnterData[style] != null)
@@ -197,7 +215,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
 
         cutScenePlayer.ClearCutScene();
-        cameraZoom.ActionZoom(true); //게임용 화면 1280 720 전환
+        cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
 
         await miniGameInitTcs.Task;
 
@@ -232,7 +250,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         //Finished CutScene
         await effectPlayer.PlayEffectAsync("fade_in", 1f);
-        cameraZoom.ActionZoom(false);
+        cameraZoom.ActionZoom(CameraZoomType.Sub);
         await cutScenePlayer.PlayCutScene(targetCutsceneId);
 
 

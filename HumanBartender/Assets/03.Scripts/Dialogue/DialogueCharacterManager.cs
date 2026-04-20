@@ -27,6 +27,10 @@ public class SlotCharacterPart
 
     [System.NonSerialized] public Stack<AsyncOperationHandle<Sprite>?> spriteHandles = new();
     [System.NonSerialized] public Stack<AsyncOperationHandle<AnimationClip>?> animHandles = new();
+
+    [System.NonSerialized] public Stack<AsyncOperationHandle<Sprite>?> spriteRemoveHandles = new();
+    [System.NonSerialized] public Stack<AsyncOperationHandle<AnimationClip>?> animRemoveHandles = new();
+
     [System.NonSerialized] public CancellationTokenSource cts;
 }
 
@@ -76,59 +80,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-    //오버로딩 한거 구분 제대로해서 다시 하기
-
-    public async UniTask SetCharacterAsync(SlotType slot, string characterId, string expression)
-    {
-        if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
-        {
-            Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
-            return;
-        }
-
-        if (slotData.expression == expression) return;
-
-        slotData.cts?.Cancel();
-        slotData.cts?.Dispose();
-        slotData.cts = new CancellationTokenSource();
-
-        var token = CancellationTokenSource
-           .CreateLinkedTokenSource(slotData.cts.Token, this.GetCancellationTokenOnDestroy())
-           .Token;
-
-
-        ReleaseSlotHandles(slotData);
-        slotData.slotCharacterName = characterId;
-        slotData.expression = expression;
-
-        var parts = slotData.parts;
-        var tasks = new UniTask[parts.Length];
-        for (int i = 0; i < parts.Length; i++)
-        {
-            PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
-            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
-            tasks[i] = characterLoader.LoadPartAsync(slotData, parts[i], data, defaultData, token);
-        }
-
-        try
-        {
-            await UniTask.WhenAll(tasks);
-
-            tasks = new UniTask[parts.Length];
-            for (int i = 0; i < parts.Length; i++)
-            {
-                
-                tasks[i] = parts[i].PlayAnimation(SLOT_INTRO, token);
-            }
-
-            await UniTask.WhenAll(tasks);
-        }
-        catch (OperationCanceledException e)
-        {
-            Logger.Log(e.Message);
-        }
-    }
-
+  
     /// <summary>
     /// Slot이 따로 지정되지 않았기에 검사를 통해 위치 획득
     /// 둘 다 비어있다면 우측부터
@@ -140,7 +92,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     /// <returns></returns>
     public async UniTask SetCharacterAsync(string characterId, string expression)
     {
-        SlotType slot = new();
+        SlotType slot = SlotType.Right;
 
         for (int i = 0; i < slotParts.Length; i++)
         {
@@ -166,11 +118,13 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         slotData.cts?.Dispose();
         slotData.cts = new CancellationTokenSource();
 
-        var token = CancellationTokenSource
-           .CreateLinkedTokenSource(slotData.cts.Token, this.GetCancellationTokenOnDestroy())
-           .Token;
 
-        ReleaseSlotHandles(slotData);
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
+        slotData.cts.Token, this.GetCancellationTokenOnDestroy());
+        var token = linkedCts.Token;
+
+        MoveCurrentHandlesToRemove(slotData);
+
         slotData.slotCharacterName = characterId;
         slotData.expression = expression;
 
@@ -187,6 +141,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         {
             await UniTask.WhenAll(tasks);
 
+            ReleaseRemoveHandles(slotData);
+
             tasks = new UniTask[parts.Length];
             for (int i = 0; i < parts.Length; i++)
             {
@@ -195,9 +151,14 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
             await UniTask.WhenAll(tasks);
         }
-        catch (OperationCanceledException e)
+        catch (OperationCanceledException)
         {
-            Logger.Log(e.Message);
+            ReleaseCurrentHandles(slotData);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError($"[SetCharacterAsync] 실패 - char:{characterId}, expr:{expression}\n{e}");
+            ReleaseCurrentHandles(slotData);
         }
     }
 
@@ -261,19 +222,15 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         if (slotData.portaitSpriteRenderer != null)
             slotData.portaitSpriteRenderer.sprite = null;
+
+        ReleaseCurrentHandles(slotData);
+        ReleaseRemoveHandles(slotData);
     }
     public void ResetCharacter()
     {
         foreach (var slot in slotParts)
         {
-            slot.slotCharacterName = "";
-            slot.expression = "";
-
-            foreach (var part in slot.parts)
-                part.SetInactive();
-
-            if (slot.portaitSpriteRenderer != null)
-                slot.portaitSpriteRenderer.sprite = null;
+            ResetCharacter(slot.type);
         }
     }
 
@@ -310,16 +267,34 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-    public void ReleaseAll()
+
+
+    private void MoveCurrentHandlesToRemove(SlotCharacterPart slot)
     {
-        foreach (var slot in slotParts)
+        while (slot.spriteHandles.Count > 0)
+            slot.spriteRemoveHandles.Push(slot.spriteHandles.Pop());
+
+        while (slot.animHandles.Count > 0)
+            slot.animRemoveHandles.Push(slot.animHandles.Pop());
+    }
+
+    
+    private void ReleaseRemoveHandles(SlotCharacterPart slot)
+    {
+        while (slot.spriteRemoveHandles.Count > 0)
         {
-            ReleaseSlotHandles(slot);
-            foreach (var part in slot.parts)
-                part.Release();
+            var item = slot.spriteRemoveHandles.Pop();
+            ResourceLoader.ReleaseHandle<Sprite>(ref item);
+        }
+
+        while (slot.animRemoveHandles.Count > 0)
+        {
+            var item = slot.animRemoveHandles.Pop();
+            ResourceLoader.ReleaseHandle<AnimationClip>(ref item);
         }
     }
-    private void ReleaseSlotHandles(SlotCharacterPart slot)
+
+    private void ReleaseCurrentHandles(SlotCharacterPart slot)
     {
         while (slot.spriteHandles.Count > 0)
         {
@@ -334,6 +309,16 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    public void ReleaseAll()
+    {
+        foreach (var slot in slotParts)
+        {
+            ReleaseCurrentHandles(slot);
+            ReleaseRemoveHandles(slot);
+            foreach (var part in slot.parts)
+                part.Release();
+        }
+    }
 
     private void OnDestroy()
     {

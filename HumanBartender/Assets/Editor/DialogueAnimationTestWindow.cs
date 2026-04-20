@@ -266,7 +266,7 @@ public class DialogueAnimationTestWindow : EditorWindow
         await ValidateAddressesAsync(speaker, expression);
 
         // 정상 흐름: SetCharacterAsync (Intro → Loop 자동 전환)
-        await _targetManager.SetCharacterAsync(slot, speaker, expression);
+        await _targetManager.SetCharacterAsync(speaker, expression);
 
         AddLog(LogLevel.Success, $"[{slot} / {speaker} / {expression}] 완료");
         Repaint();

@@ -7,13 +7,21 @@ using VContainer;
 
 public class StartCutSceneCommand : IDialogueCommand
 {
-    [Inject] ICutScenePlayer cutSceneManager;
+   
+    [Inject] IEffectPlayer effectPlayer;
+    [Inject] ICutScenePlayer cutScenePlayer;
+    [Inject] ICameraZoom cameraZoom;
 
     private string anim;
+    private string type;
+    UniTaskCompletionSource cameraTcs;
 
     public StartCutSceneCommand(TriggerDetailData data)
     {
         anim = data.CutsceneId;
+        type = data.EffectType;
+
+        cameraTcs = new UniTaskCompletionSource();
     }
 
     public bool IsSystemSwitch { get; set; }
@@ -21,7 +29,19 @@ public class StartCutSceneCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        await cutSceneManager.PlayCutScene(anim);
+        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+
+        //카메라 사이즈 넣어야함
+        CameraZoomType zoomType = type == "base" ? CameraZoomType.Base : type == "sub" ? CameraZoomType.Sub : CameraZoomType.OutSide;
+        cameraZoom.ActionZoomAndBack(zoomType, cameraTcs);
+
+        await cutScenePlayer.PlayCutScene(anim);
+        await UniTask.WaitForSeconds(1f);
+
+        cutScenePlayer.ClearCutScene();
+
+        if (cameraTcs != null)
+            cameraTcs.TrySetResult();
 
         return "";
     }

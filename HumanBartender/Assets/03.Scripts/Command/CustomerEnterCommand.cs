@@ -38,7 +38,7 @@ public class CustomerEnterCommand : IDialogueCommand
         SlotType slotType = slot == "left" ? SlotType.Left : 
             slot == "right" ? SlotType.Right : SlotType.Middle;
 
-        await characterSetter.SetCharacterAsync(slotType, characterId, "default");
+        await characterSetter.SetCharacterAsync(characterId, "default");
         int c = characterSetter.GetCharacterCount();
 
         cts?.Cancel();

@@ -6,7 +6,6 @@ using UnityEngineInternal;
 
 public interface ICharacterSetter
 {
-    public UniTask SetCharacterAsync(SlotType slot, string characterId, string expression);
     public UniTask SetCharacterAsync(string characterId, string expression);
     public int GetCharacterCount();
     public void ResetCharacter(SlotType slot);
@@ -31,8 +30,8 @@ public interface ICameraZoom
 {
     public void ZoomIn(float dur = 1f);
     public void ZoomOut(float dur = 1f);
-    public void ActionZoomAndBack(bool isBase = false, UniTaskCompletionSource tcs = null);
-    public void ActionZoom(bool isBase);
+    public void ActionZoomAndBack(CameraZoomType zoomType = CameraZoomType.Base, UniTaskCompletionSource tcs = null);
+    public void ActionZoom(CameraZoomType zoomType = CameraZoomType.Base);
 }
 
 

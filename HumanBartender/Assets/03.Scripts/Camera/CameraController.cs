@@ -12,6 +12,13 @@ public class CameraPostion
     public Transform pos;
 }
 
+public enum CameraZoomType
+{
+    Base = 0,
+    Sub,
+    OutSide,
+}
+
 
 public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
 {
@@ -22,6 +29,7 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
     [Header("Resolutions")]
     [SerializeField] Vector2Int baseResolution = new Vector2Int(1280, 720);
     [SerializeField] Vector2Int targetResolution = new Vector2Int(960, 540);
+    [SerializeField] Vector2Int outSideResolution = new Vector2Int(480, 270);
 
     [Header("Move Position")]
     [SerializeField] CameraPostion[] movePositions;
@@ -47,10 +55,11 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         ApplyResolutionImmediate(baseResolution);
     }
 
-    public async void ActionZoomAndBack(bool isBase = false,  UniTaskCompletionSource tcs = null)
+    public async void ActionZoomAndBack(CameraZoomType zoomType = CameraZoomType.Base,  UniTaskCompletionSource tcs = null)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
-        Vector2Int target = isBase ? baseResolution : targetResolution;
+        Vector2Int target = zoomType == CameraZoomType.Base ? baseResolution : 
+            zoomType == CameraZoomType.Sub ? targetResolution : outSideResolution;
 
         ApplyResolutionImmediate(target);
 
@@ -61,13 +70,16 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         return;
     }
 
-    public void ActionZoom(bool isBase = false)
+    public void ActionZoom(CameraZoomType zoomType = CameraZoomType.Base)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
-        Vector2Int target = isBase ? baseResolution : targetResolution;
+        Vector2Int target = zoomType == CameraZoomType.Base ? baseResolution :
+             zoomType == CameraZoomType.Sub ? targetResolution : outSideResolution;
 
         ApplyResolutionImmediate(target);
     }
+
+
 
     public void ZoomIn(float dur = 1f)
     {
