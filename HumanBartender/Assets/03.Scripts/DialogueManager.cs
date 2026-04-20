@@ -108,7 +108,7 @@ public class DialogueManager : MonoBehaviour
             if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
                 await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
 
-            await sceneDirector.ShowDialogueAsync(currentDialogue);
+            //await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
         }
 

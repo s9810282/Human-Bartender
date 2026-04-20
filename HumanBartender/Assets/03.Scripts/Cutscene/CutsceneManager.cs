@@ -5,16 +5,23 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 using static UnityEditor.Progress;
+using static UnityEditor.SceneView;
 
 
 
-public class CutSceneManager : MonoBehaviour, IEffectPlayer
+public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 {
     [SerializeField] CutSceneDataSO data;
 
     [SerializeField] SpriteAnimationManager spriteAnimationManager;
     [SerializeField] SpineAnimationManager spineAnimationManager;
+
+    private ICameraZoom cameraZoom;
+    private ICameraMove cameraMove;
+    
+
 
     private const string ANIM_SLOT = "SpriteAnim";
 
@@ -56,6 +63,22 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
         spriteAnimationManager.Initialize();
     }
 
+
+
+
+    public void SetSceneDependencies(ICameraZoom zoom, ICameraMove move)
+    {
+        cameraZoom = zoom;
+        cameraMove = move;
+    }
+    public void ClearSceneDependencies()
+    {
+        cameraZoom = null;
+        cameraMove = null;
+    }
+
+
+
     public void ClearCutScene()
     {
         ResetImages();
@@ -64,7 +87,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
 
 
     }
-
 
     public async UniTask PlayCutScene(
         string id,
@@ -116,15 +138,20 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
     /// </summary>
     /// <param name="data"></param>
     /// <param name="token"></param>
+    /// <param name="tcs"></param>
     /// <returns></returns>
     private async UniTask PlaySpriteAnimationCutScene(
         SpriteCutscene data, 
         CancellationToken token,
         UniTaskCompletionSource tcs = null)
     {
+        UniTaskCompletionSource cameraTcs = new UniTaskCompletionSource();
+
         var handle = await ResourceLoader.TryLoadAsync<AnimationClip>(data.Id, token);
 
         await ExecuteEffect("fade_in", data.EnterDuration.Value);
+        cameraZoom.ActionZoomAndBack(cameraTcs);
+
 
         if (handle.HasValue)
         {
@@ -142,6 +169,8 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer
             tcs.TrySetResult();
 
         await ExecuteEffect("fade_out", data.EnterDuration.Value);
+        cameraTcs.TrySetResult();
+
         ResourceLoader.ReleaseHandle<AnimationClip>(ref handle);
     }
 

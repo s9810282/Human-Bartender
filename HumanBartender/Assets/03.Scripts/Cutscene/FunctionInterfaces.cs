@@ -46,15 +46,12 @@ public interface ICocktailCraft
 }
 
 
-public interface IComicCutScenePlayer
-{
-    float GetComicCutSceneTime(string id);
-    UniTask PlayComicCutSceneAsync(string id, UniTaskCompletionSource tcs = null);
-}
 
-public interface ISpriteAnimationCutScenePlayer
+public interface ICutScenePlayer
 {
-    UniTask PlaySpriteAnimationCutScene(string id);
+    UniTask PlayCutScene(
+        string id,
+        UniTaskCompletionSource tcs = null);
 }
 
 

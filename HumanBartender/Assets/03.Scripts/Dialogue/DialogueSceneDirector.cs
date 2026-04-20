@@ -81,7 +81,9 @@ public class DialogueSceneDirector : MonoBehaviour
     public async UniTask<string> ExcuteTriggerAsync(TriggerData? trigger)
     {
         typer.ClearText();
-        
+
+        Logger.Log(typer.dialogueText.text);
+
         string id = await triggerManager.ExecuteTriggerAsync(trigger);
         
         return id;

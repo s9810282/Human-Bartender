@@ -3,16 +3,17 @@ using Spine;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using VContainer;
 
-public class PlaySideviewAnimCommand : IDialogueCommand
+public class StartCutSceneCommand : IDialogueCommand
 {
-    private string anim;
-    private bool isResumeAfter = false;
+    [Inject] ICutScenePlayer cutSceneManager;
 
-    public PlaySideviewAnimCommand(TriggerDetailData data)
+    private string anim;
+
+    public StartCutSceneCommand(TriggerDetailData data)
     {
-        anim = data.AnimId;
-        isResumeAfter = data.ResumeAfter.Value;
+        anim = data.CutsceneId;
     }
 
     public bool IsSystemSwitch { get; set; }
@@ -20,7 +21,8 @@ public class PlaySideviewAnimCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        await UniTask.Yield();
+        await cutSceneManager.PlayCutScene(anim);
+
         return "";
     }
 }

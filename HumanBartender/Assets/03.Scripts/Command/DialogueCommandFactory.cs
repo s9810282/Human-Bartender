@@ -31,8 +31,8 @@ public static class DialogueCommandFactory
             case "customer_exit":
                 return new CustomerExitCommand(triggerData.Value.Data);
 
-            case "play_sideview_anim":
-                return new PlaySideviewAnimCommand(triggerData.Value.Data);
+            case "start_cutscene":
+                return new StartCutSceneCommand(triggerData.Value.Data);
 
             default:
                 Debug.LogWarning($"[Factory] 정의되지 않은 트리거 타입: {triggerData.Value.Type}");

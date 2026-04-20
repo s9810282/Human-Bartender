@@ -8,6 +8,7 @@ public class ProjectLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<IngredientLibrary>();        
         builder.RegisterComponentInHierarchy<CutSceneManager>()
        .AsSelf()
-       .As<IEffectPlayer>();
+       .As<IEffectPlayer>()
+       .As<ICutScenePlayer>();
     }
 }
