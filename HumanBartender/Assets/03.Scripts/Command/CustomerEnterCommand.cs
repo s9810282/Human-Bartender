@@ -49,18 +49,18 @@ public class CustomerEnterCommand : IDialogueCommand
          .CreateLinkedTokenSource(cts.Token)
          .Token;
 
-        cameraMove.CameraMove(slotType);
+        cameraMove.CameraMove(slotType, enterDuration);
 
 
         if (c == 1)
         {
-            cameraZoom.ZoomIn();
-            cameraMove.CameraMove(slotType);
+            cameraZoom.ZoomIn(enterDuration);
+            cameraMove.CameraMove(slotType, enterDuration);
         }
         else
         {
-            cameraZoom.ZoomOut();
-            cameraMove.CameraMove(SlotType.Middle);
+            cameraZoom.ZoomOut(enterDuration);
+            cameraMove.CameraMove(SlotType.Middle, enterDuration);
         }
 
         characterFader.FadeInAsync(slotType, token).Forget();

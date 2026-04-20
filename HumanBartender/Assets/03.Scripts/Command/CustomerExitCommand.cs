@@ -54,13 +54,14 @@ public class CustomerExitCommand : IDialogueCommand
 
         if (c == 1)
         {
-            cameraZoom.ZoomIn();
-            cameraMove.CameraMove(slotType == SlotType.Left ? SlotType.Right : SlotType.Left);
+            cameraZoom.ZoomIn(exitDuration);
+            cameraMove.CameraMove(slotType == SlotType.Left ? 
+                SlotType.Right : SlotType.Left, exitDuration);
         }
         else
         {
-            cameraZoom.ZoomOut();
-            cameraMove.CameraMove(SlotType.Middle);
+            cameraZoom.ZoomOut(exitDuration);
+            cameraMove.CameraMove(SlotType.Middle, exitDuration);
         }
 
         await UniTask.WaitForSeconds(exitDuration);
