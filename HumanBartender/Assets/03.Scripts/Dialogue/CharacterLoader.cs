@@ -10,12 +10,6 @@ public class CharacterLoader
     private const string SLOT_DIALOGUE = "Dialogue";
 
 
-    public async UniTask PartAnimationSyncStart(CharacterPart part, CancellationToken token)
-    {
-        part.PlayAnimation(SLOT_INTRO, token);
-    }
-
-
     //************************************************************************************//
     // 스크립트 기능 분리 검토. 단순 컴포지션 분리
     /// <summary>

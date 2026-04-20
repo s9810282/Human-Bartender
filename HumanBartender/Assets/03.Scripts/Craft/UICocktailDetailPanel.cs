@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System.Collections.Generic;
-using NUnit.Framework;
-using System.Collections;
+
 
 
 public class UICocktailDetailPanel : MonoBehaviour

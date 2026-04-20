@@ -357,7 +357,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         //제작법이 build 이거나 액션 횟수가 목표횟수 범위 내라면 제작 성공.
         bool craftSuccess = 
         (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build")
-       || (Mathf.Abs(craftStation.craftingResult.acionCount - cocktail.TargetCount)
+       || (Mathf.Abs(craftStation.craftingResult.actionCount - cocktail.TargetCount)
        <= curCraftEventData.Evaluation.CraftTolerance);
 
         foreach (var rule in curCraftEventData.Evaluation.Rules)

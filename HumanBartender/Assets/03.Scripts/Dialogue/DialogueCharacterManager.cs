@@ -117,7 +117,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             tasks = new UniTask[parts.Length];
             for (int i = 0; i < parts.Length; i++)
             {
-                tasks[i] = characterLoader.PartAnimationSyncStart(parts[i], token);
+                
+                tasks[i] = parts[i].PlayAnimation(SLOT_INTRO, token);
             }
 
             await UniTask.WhenAll(tasks);
@@ -189,7 +190,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             tasks = new UniTask[parts.Length];
             for (int i = 0; i < parts.Length; i++)
             {
-                tasks[i] = characterLoader.PartAnimationSyncStart(parts[i], token);
+                tasks[i] = parts[i].PlayAnimation(SLOT_INTRO, token);
             }
 
             await UniTask.WhenAll(tasks);

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -45,6 +46,9 @@ public abstract class AnimationPart
 
     protected AnimatorOverrideController _overrideController;
     
+    private readonly List<KeyValuePair<AnimationClip, AnimationClip>> _overrides
+       = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+
     public void Initialize()
     {
         _overrideController = new AnimatorOverrideController(baseController);
@@ -53,7 +57,14 @@ public abstract class AnimationPart
     }
 
     public void SetSpeed(float s) => animator.speed = s;
-    public void SetInactive() { Logger.Log("SetInactive");  animator.enabled = false; spriteRenderer.sprite = null; }
+    public void SetInactive() 
+    { 
+        Logger.Log($"{partName} SetInactive");  
+        animator.enabled = false; 
+        spriteRenderer.sprite = null;
+
+        ClearAllClips();
+    }
     public void SetActive() { animator.enabled = true; spriteRenderer.sprite = null; }
 
     public virtual void SetClip(string slot, AsyncOperationHandle<AnimationClip>? handle)
@@ -62,14 +73,20 @@ public abstract class AnimationPart
     }
     public virtual void SetClip(string slot, AnimationClip handle) => _overrideController[slot] = handle;
 
-    public abstract void PlayAnimation(string animName, CancellationToken token);
+    public abstract UniTask PlayAnimation(string animName, CancellationToken token);
     public abstract void ApplySprite(Sprite? sprite);
 
-    public virtual void Reset()
+    public void ClearAllClips()
     {
-        _overrideController = new AnimatorOverrideController(baseController);
-        animator.runtimeAnimatorController = _overrideController;
-        animator.enabled = false;
+        _overrides.Clear();
+        _overrideController.GetOverrides(_overrides);
+
+        for (int i = 0; i < _overrides.Count; i++)
+        {
+            _overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(_overrides[i].Key, null);
+        }
+
+        _overrideController.ApplyOverrides(_overrides);
     }
     public virtual void Release()
     {
@@ -94,7 +111,7 @@ public class CharacterPart : AnimationPart, IFade
         _currentLoopMode = loopMode;
     }
 
-    public override void PlayAnimation(string animName, CancellationToken token)
+    public override async UniTask PlayAnimation(string animName, CancellationToken token)
     {
         //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정, 해야하긴함.
 
@@ -120,6 +137,8 @@ public class CharacterPart : AnimationPart, IFade
                 WaitAndFreezeAsync(token).Forget();
                 break;
         }
+
+        return;
     }
 
     /// <summary>
