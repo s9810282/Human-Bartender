@@ -84,6 +84,12 @@ public class DialogueManager : MonoBehaviour
 
     public void DialogueEvent(string id)
     {
+        if (id == null)
+        {
+            EndScene();
+            return;
+        }
+
         PlayDialogue(id).Forget();
     }
 
