@@ -28,14 +28,14 @@ public interface IFade
 
 public interface ICameraZoom
 {
-    public void ZoomIn();
-    public void ZoomOut();
+    public void ZoomIn(float dur = 0);
+    public void ZoomOut(float dur = 0);
 }
 
 
 public interface ICameraMove
 {
-    public void CameraMove(SlotType slot);
+    public void CameraMove(SlotType slot, float dur = 0);
 }
 
 

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shaking2
+  m_Name: Shake1
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -2600429837302774463, guid: f2b0929fc5a6b1a4d85a109950191d59, type: 3}
+      value: {fileID: 6854263378680121715, guid: 49ebf513fce7266459bff623e4a064e9, type: 3}
     - time: 0.083333336
-      value: {fileID: 1397543887, guid: f2b0929fc5a6b1a4d85a109950191d59, type: 3}
+      value: {fileID: 2412856892613413143, guid: 49ebf513fce7266459bff623e4a064e9, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -2600429837302774463, guid: f2b0929fc5a6b1a4d85a109950191d59, type: 3}
-    - {fileID: 1397543887, guid: f2b0929fc5a6b1a4d85a109950191d59, type: 3}
+    - {fileID: 6854263378680121715, guid: 49ebf513fce7266459bff623e4a064e9, type: 3}
+    - {fileID: 2412856892613413143, guid: 49ebf513fce7266459bff623e4a064e9, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

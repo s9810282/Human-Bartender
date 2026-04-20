@@ -47,6 +47,7 @@ namespace LiquidSimulation
 
             if (Input.GetMouseButtonDown(0))
             {
+                Logger.Log(mouseWorld);
                 float dist = Vector2.Distance(mouseWorld, (Vector2)transform.position);
                 if (dist < activationRadius)
                 {
@@ -69,11 +70,13 @@ namespace LiquidSimulation
 
         private void CheckDotHit(Vector2 mousePos)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++) //상단, 중앙, 하단 순
             {
                 float dist = Vector2.Distance(mousePos, GetDotWorldPosition(i));
                 if (dist > dotRadius) continue; // 거리체크
                 if (i == lastReached) continue; // 같은 점 체류
+
+                //도달 완.
 
                 switch (phase)
                 {
@@ -94,12 +97,13 @@ namespace LiquidSimulation
                             lastEndDot = i;
                             targetDot = 1;   // 중앙으로 복귀
                             phase = 2;
+                            shakeAnimEvent?.Raise(phase);
                         }
                         else if (i == 1)
                         {
                             // 아직 끝점 안 갔는데 중앙 → 무시 (통과)
                         }
-                        shakeAnimEvent?.Raise(phase);
+                        
                         break;
 
                     case 2: // 중앙으로 복귀 중
@@ -113,13 +117,12 @@ namespace LiquidSimulation
                             // 다음: 반대쪽 끝점으로
                             targetDot = (lastEndDot == 0) ? 2 : 0;
                             phase = 1;
+
+                            shakeAnimEvent?.Raise(phase);
                         }
-                        shakeAnimEvent?.Raise(phase);
+                        
                         break;
                 }
-
-                
-                return; // 한 프레임에 한 점만 처리
             }
         }
 
@@ -171,15 +174,6 @@ namespace LiquidSimulation
 
             float t = Vector2.Dot(mouseWorldPos - from, dir.normalized) / segLen;
             return Mathf.Clamp01(t);
-        }
-
-        /// <summary>
-        /// 전체 경로 길이 (1→0 + 0→1 또는 1→2 + 2→1)
-        /// View에서 선 그리기에 사용
-        /// </summary>
-        public float GetSegmentLength(int fromDot, int toDot)
-        {
-            return Vector2.Distance(GetDotWorldPosition(fromDot), GetDotWorldPosition(toDot));
         }
     }
 }

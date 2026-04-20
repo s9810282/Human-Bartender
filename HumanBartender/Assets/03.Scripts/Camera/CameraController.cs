@@ -48,33 +48,35 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
     }
 
     
-    public void ZoomIn()
+    public void ZoomIn(float dur = 0)
     {
         Vector2Int target = targetResolution;
+        transitionDuration = dur;
         TransitionResolution(target).Forget();
     }
 
-    public void ZoomOut()
+    public void ZoomOut(float dur = 0)
     {
         Vector2Int target = baseResolution;
+        transitionDuration = dur;
         TransitionResolution(target).Forget();
     }
 
-    public void CameraMove(SlotType slot)
+    public void CameraMove(SlotType slot, float dur = 0)
     {
         Vector3 targetPos = _slotMap[slot].pos.transform.position;
-
+        transitionDuration = dur;
         TransitionPosition(targetPos).Forget();
     }
-    
 
-    private void ApplyResolutionImmediate(Vector2Int res)
+
+    public void ApplyResolutionImmediate(Vector2Int res)
     {
         pixelPerfectCamera.refResolutionX = res.x;
         pixelPerfectCamera.refResolutionY = res.y;
         pixelPerfectCamera.enabled = true;
     }
-    private void ApplyPositionImmediate(Vector3 pos)
+    public void ApplyPositionImmediate(Vector3 pos)
     {
         mainCamera.transform.position = pos;
     }

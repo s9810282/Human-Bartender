@@ -26,6 +26,7 @@ namespace LiquidSimulation
         [SerializeField] private Color pathFillColor = new Color(1f, 0.6f, 0.2f, 1f);
         [SerializeField] private float pathBgWidth = 0.06f;
         [SerializeField] private float pathFillWidth = 0.09f;
+
         [Tooltip("선 구간당 중간 포인트 수 (부드러움)")]
         [SerializeField] private int pointsPerSegment = 8;
 
@@ -37,11 +38,12 @@ namespace LiquidSimulation
         [Header("Sorting")]
         [SerializeField] private int sortingOrder = 20;
 
+        [SerializeField] private Sprite circleSprite;
+
         // 내부
         private SpriteRenderer[] dotRenderers;
         private LineRenderer bgLine;     // 배경 경로 (전체)
         private LineRenderer fillLine;   // 진행 경로 (부분)
-        private Sprite circleSprite;
         private Camera cam;
 
         // 경로 포인트 캐시
@@ -54,45 +56,26 @@ namespace LiquidSimulation
         private void Start()
         {
             cam = Camera.main;
-            if (detector == null)
-                detector = GetComponent<ShakeGestureDetector>();
-            if (detector == null)
-            {
-                Debug.LogError("[ShakeView] ShakeGestureDetector not found!");
-                return;
-            }
 
-            circleSprite = MakeCircleSprite(32);
-            BuildBgPath();
+            bgPointCount = pointsPerSegment * 2 + 1;
+            bgPoints = new Vector3[bgPointCount];
+
             CreateBgLine();
             CreateFillLine();
             CreateDots();
+            BuildBgPath();
         }
 
         private void LateUpdate()
         {
             if (detector == null) return;
-            UpdateBgLine();
             UpdateFillLine();
             UpdateDots();
         }
 
-        // ============================================================
-        // 경로 생성
-        // ============================================================
 
-        /// <summary>
-        /// 배경 경로: dot[0] ← dot[1] → dot[2] (V자 형태)
-        /// 중간 포인트로 보간하여 부드럽게
-        /// </summary>
         private void BuildBgPath()
         {
-            // 구간 1: dot[1] → dot[0] (중앙→위)
-            // 구간 2: dot[1] → dot[2] (중앙→아래)
-            bgPointCount = pointsPerSegment * 2 + 1; // 양쪽 + 중앙
-            bgPoints = new Vector3[bgPointCount];
-
-            // 위쪽 구간 (역순: 0→1 순서로 저장하여 위에서 중앙까지)
             for (int i = 0; i <= pointsPerSegment; i++)
             {
                 float t = (float)i / pointsPerSegment;
@@ -101,7 +84,6 @@ namespace LiquidSimulation
                     detector.GetDotWorldPosition(1), t);
             }
 
-            // 아래쪽 구간 (중앙에서 아래까지, 중앙은 위 구간 마지막과 겹침)
             for (int i = 1; i <= pointsPerSegment; i++)
             {
                 float t = (float)i / pointsPerSegment;
@@ -109,6 +91,9 @@ namespace LiquidSimulation
                     detector.GetDotWorldPosition(1),
                     detector.GetDotWorldPosition(2), t);
             }
+
+            for (int i = 0; i < bgPointCount; i++)
+                bgLine.SetPosition(i, bgPoints[i]);
         }
 
         private void CreateBgLine()
@@ -159,9 +144,8 @@ namespace LiquidSimulation
             }
         }
 
-        // ============================================================
-        // 업데이트
-        // ============================================================
+
+
 
         private void UpdateBgLine()
         {
@@ -180,6 +164,7 @@ namespace LiquidSimulation
                     (Vector3)detector.GetDotWorldPosition(1),
                     (Vector3)detector.GetDotWorldPosition(2), t);
             }
+
             for (int i = 0; i < bgPointCount; i++)
                 bgLine.SetPosition(i, bgPoints[i]);
         }
@@ -195,21 +180,17 @@ namespace LiquidSimulation
                 return;
             }
 
-            int from = detector.LastReached;
-            int to = detector.CurrentTarget;
-
             // 마우스 진행도
-            Vector2 mouseWorld = cam != null
-                ? (Vector2)cam.ScreenToWorldPoint(Input.mousePosition)
-                : (Vector2)detector.GetDotWorldPosition(from);
+            Vector2 mouseWorld = (Vector2)cam.ScreenToWorldPoint(Input.mousePosition);
+
             float progress = detector.GetProgress(mouseWorld);
 
             // from→to 구간의 포인트 수
             int fillCount = Mathf.Max(2, Mathf.RoundToInt(progress * pointsPerSegment) + 1);
             fillLine.positionCount = fillCount;
 
-            Vector3 fromPos = (Vector3)detector.GetDotWorldPosition(from);
-            Vector3 toPos = (Vector3)detector.GetDotWorldPosition(to);
+            Vector3 fromPos = (Vector3)detector.GetDotWorldPosition(detector.LastReached);
+            Vector3 toPos = (Vector3)detector.GetDotWorldPosition(detector.CurrentTarget);
 
             for (int i = 0; i < fillCount; i++)
             {
@@ -238,32 +219,6 @@ namespace LiquidSimulation
                 else
                     dotRenderers[i].color = dotIdle;
             }
-        }
-
-        // ============================================================
-        // 유틸
-        // ============================================================
-
-        private Sprite MakeCircleSprite(int size)
-        {
-            var tex = new Texture2D(size, size, TextureFormat.RGBA32, false)
-            { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
-
-            float c = size * 0.5f, r = size * 0.4f;
-            var px = new Color32[size * size];
-            for (int y = 0; y < size; y++)
-                for (int x = 0; x < size; x++)
-                {
-                    float d = Mathf.Sqrt((x - c) * (x - c) + (y - c) * (y - c));
-                    if (d <= r) px[y * size + x] = new Color32(255, 255, 255, 255);
-                    else if (d <= r + 1.5f)
-                        px[y * size + x] = new Color32(255, 255, 255,
-                            (byte)(255 * Mathf.Clamp01(1f - (d - r) / 1.5f)));
-                    else px[y * size + x] = new Color32(0, 0, 0, 0);
-                }
-            tex.SetPixels32(px);
-            tex.Apply();
-            return Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), size);
         }
     }
 }
