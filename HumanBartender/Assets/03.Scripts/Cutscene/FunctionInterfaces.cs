@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngineInternal;
 
 
@@ -30,7 +31,8 @@ public interface ICameraZoom
 {
     public void ZoomIn(float dur = 1f);
     public void ZoomOut(float dur = 1f);
-    public void ActionZoomAndBack(UniTaskCompletionSource tcs);
+    public void ActionZoomAndBack(bool isBase = false, UniTaskCompletionSource tcs = null);
+    public void ActionZoom(bool isBase);
 }
 
 
@@ -50,13 +52,15 @@ public interface ICocktailCraft
 public interface ICutScenePlayer
 {
     UniTask PlayCutScene(
-        string id,
+        string id,        
         UniTaskCompletionSource tcs = null);
+
+    public void ClearCutScene();
 }
 
 
 public interface IEffectPlayer
 {
-    UniTask PlayEffectAsync(string type, float duration, float Intensity = 0f);
+    UniTask PlayEffectAsync(string type, float duration = 1f, float Intensity = 0f);
 }
 

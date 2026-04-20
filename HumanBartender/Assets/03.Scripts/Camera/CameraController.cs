@@ -47,10 +47,12 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         ApplyResolutionImmediate(baseResolution);
     }
 
-    public async void ActionZoomAndBack(UniTaskCompletionSource tcs = null)
+    public async void ActionZoomAndBack(bool isBase = false,  UniTaskCompletionSource tcs = null)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
-        ApplyResolutionImmediate(baseResolution);
+        Vector2Int target = isBase ? baseResolution : targetResolution;
+
+        ApplyResolutionImmediate(target);
 
         await tcs.Task;
 
@@ -58,7 +60,15 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
 
         return;
     }
-    
+
+    public void ActionZoom(bool isBase = false)
+    {
+        Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
+        Vector2Int target = isBase ? baseResolution : targetResolution;
+
+        ApplyResolutionImmediate(target);
+    }
+
     public void ZoomIn(float dur = 1f)
     {
         Vector2Int target = targetResolution;

@@ -149,10 +149,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
         var handle = await ResourceLoader.TryLoadAsync<AnimationClip>(data.Id, token);
 
-        await ExecuteEffect("fade_in", data.EnterDuration.Value);
-        cameraZoom.ActionZoomAndBack(cameraTcs);
-
-
         if (handle.HasValue)
         {
             spriteAnimationManager.ActiveSelf(true);
@@ -167,9 +163,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             
         if (tcs != null)
             tcs.TrySetResult();
-
-        await ExecuteEffect("fade_out", data.EnterDuration.Value);
-        cameraTcs.TrySetResult();
 
         ResourceLoader.ReleaseHandle<AnimationClip>(ref handle);
     }
@@ -197,7 +190,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-    async UniTask ExecuteEffect(string type, float duration, float intensity = 0)
+    async UniTask ExecuteEffect(string type, float duration = 1f, float intensity = 0)
     {
         switch (type)
         {

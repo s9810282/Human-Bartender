@@ -57,7 +57,6 @@ public struct TriggerDetailData
     
     [JsonProperty("craft_event_id")] public string CraftEventId { get; set; }
     [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
-    [JsonProperty("resume_after")] public bool? ResumeAfter { get; set; }
 
     
     [JsonProperty("effect_type")] public string EffectType { get; set; }

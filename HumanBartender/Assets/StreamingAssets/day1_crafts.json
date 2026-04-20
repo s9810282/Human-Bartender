@@ -146,7 +146,7 @@
       },
       "cutscenes": {
         "craft_enter": {
-          "shake": null,
+          "shake": "anim_serve_gin_fizz",
           "stir": null,
           "build": null
         },
@@ -201,7 +201,7 @@
         },
         "bad": {
           "dialogue_id": "dt_react_bad",
-          "cutscene_id": null,
+          "cutscene_id": "day1_finish_default",
           "affinity": 0,
           "karma": 0
         }

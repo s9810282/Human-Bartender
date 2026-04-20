@@ -27,7 +27,9 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] CraftStationData craftStation;
     [SerializeField] IngredientPanel ingredientPanel;
 
-    [Inject] CutSceneManager cutSceneManager;
+    [Inject] IEffectPlayer effectPlayer;
+    [Inject] ICutScenePlayer cutScenePlayer;
+    [Inject] ICameraZoom cameraZoom;
 
     [Header("MiniGame Prefabs")]
     [SerializeField] private GameObject shakePrefab;
@@ -35,7 +37,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] private GameObject buildPrefab;
 
     [SerializeField] CraftEventData curCraftEventData;
+    
     private UniTaskCompletionSource<string> mainCraftingTcs;
+    UniTaskCompletionSource cameraTcs;
+
 
     GameObject miniGameObj = null;
     IMiniGameController controller = null;
@@ -104,11 +109,28 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     //요청에 따른 임시 함수
     public async void EndBuild()
     {
+        GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
+        ingredientPanel.ResetPanel();
+        ingredientPanel.gameObject.SetActive(false);
+
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
-        string targetCutsceneId = "anim_serve_Default";
-        await cutSceneManager.PlayCutScene(targetCutsceneId);
+        string targetCutsceneId = "anim_serve_kahlua_milk";
+        
+        
+        cameraTcs = new UniTaskCompletionSource();
+
+        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+        cameraZoom.ActionZoomAndBack(false, cameraTcs);
+
+        await cutScenePlayer.PlayCutScene(targetCutsceneId);
+
+        miniGameObj = Instantiate(buildPrefab);
+        Vector3 vec = Camera.main.transform.position;
+        vec.z = 0;
+        miniGameObj.transform.position = vec;
+        controller = miniGameObj.GetComponent<IMiniGameController>();
 
         controller.OnNextButton();
     }
@@ -146,15 +168,22 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         miniGameObj = null;
 
-        //TODO : 여기도 진입할 때 컷씬 재생
+        cameraTcs = new UniTaskCompletionSource();
 
+        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+
+        cameraZoom.ActionZoomAndBack(false, cameraTcs); //컷씬용 화면 960 540 전환
+
+        //TODO : 여기도 진입할 때 컷씬 
         if (curCraftEventData.CraftCutscenes.craftEnterData[style] != null)
         {
-            cutSceneManager.PlayCutScene
-            (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs).Forget();
+            await cutScenePlayer.PlayCutScene
+            (curCraftEventData.CraftCutscenes.craftEnterData[style], miniGameInitTcs);
         }
         else
+        {
             miniGameInitTcs.TrySetResult();
+        }
 
 
         // TODO : 풀링?
@@ -163,7 +192,13 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         vec.z = 0;
         miniGameObj.transform.position = vec;
         controller = miniGameObj.GetComponent<IMiniGameController>();
-        
+
+
+
+
+        cutScenePlayer.ClearCutScene();
+        cameraZoom.ActionZoom(true); //게임용 화면 1280 720 전환
+
         await miniGameInitTcs.Task;
 
         controller.InitGame(miniGameEndTcs);
@@ -196,14 +231,18 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
 
         //Finished CutScene
-        await cutSceneManager.PlayCutScene(targetCutsceneId);
+
+
+        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+        cameraZoom.ActionZoom(false);
+        await cutScenePlayer.PlayCutScene(targetCutsceneId);
 
 
         //ServeAnimation CutScene
         if (craftStation.targetCocktailData.Serve_animation != null)
         {
             targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
-            await cutSceneManager.PlayCutScene(targetCutsceneId);
+            await cutScenePlayer.PlayCutScene(targetCutsceneId);
         }
 
         //컷씬 끝났으면 버튼 활성화.
@@ -224,14 +263,16 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         if (resultReaction.CutsceneId != null)
         {
             UniTaskCompletionSource react = new UniTaskCompletionSource();
-           
-            cutSceneManager.PlayCutScene(resultReaction.CutsceneId, react);
+
+            cutScenePlayer.PlayCutScene(resultReaction.CutsceneId, react);
             ResetCraftObj();
 
             await react.Task;
         }
 
-
+        //카메라 되돌리기
+        cameraTcs.TrySetResult();
+       
         //추후 카르마 판정
 
         if (mainCraftingTcs != null)
@@ -239,6 +280,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             Logger.Log($"Craft tcs not null : {nextDialogueId}");
             mainCraftingTcs.TrySetResult(nextDialogueId);
             mainCraftingTcs = null;
+
+            //카메라 되돌리기
+            cameraTcs.TrySetResult();
+            cameraTcs = null;
         }
 
         ResetCraft();
@@ -252,7 +297,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     public void ResetCraftObj()
     {
-        cutSceneManager.ClearCutScene();
+        cutScenePlayer.ClearCutScene();
 
         if (miniGameObj != null)
             Destroy(miniGameObj);
