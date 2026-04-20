@@ -54,11 +54,14 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         Logger.Log(craftDataSO == null);
         CraftEventData craftEventData = craftDataSO.GetCraftDataByID(id);
 
+        ingredientPanel.ClearCurrentSelectIngredient();
+
         if (craftEventData.AutoOpenRecipeUi)
         {
             ingredientPanel.ResetPanel();
             ingredientPanel.gameObject.SetActive(true);
         }
+
         curCraftEventData = craftEventData;
         TutorialData tutoData = craftEventData.Tutorial.Value;
 
