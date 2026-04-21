@@ -219,12 +219,17 @@ public class UICocktailPanel : MonoBehaviour
         {
             cocktailDetailPanel.AddContentsSummary(data.Recipe[i].DisplayName + " : " + data.Recipe[i].Count);
         }
-        
+
+        cocktailDetailPanel.AddContentsTitle("제조 방법");
+        cocktailDetailPanel.AddContentsSummary(data.Process);
+
+
         cocktailDetailPanel.AddContentsTitle("특성");
 
         string s = "";
         for (int i = 0; i < data.Keywords.Length; i++)
             s += data.Keywords[i] + " ";
+
         cocktailDetailPanel.AddContentsSummary(s);        
 
 

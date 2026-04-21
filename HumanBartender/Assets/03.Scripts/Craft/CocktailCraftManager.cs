@@ -115,7 +115,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
-
+        craftStation.craftingResult.selectMethod = "build";
 
         cameraTcs = new UniTaskCompletionSource();
 
@@ -167,6 +167,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     }
     public void StartStur()
     {
+        return;
+
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
         ingredientPanel.ResetPanel();
         ingredientPanel.gameObject.SetActive(false);
@@ -212,8 +214,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         controller = miniGameObj.GetComponent<IMiniGameController>();
 
 
-
-
+    
         cutScenePlayer.ClearCutScene();
         cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
 

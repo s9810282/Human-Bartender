@@ -14,7 +14,7 @@ AnimatorStateMachine:
     m_Position: {x: 330, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7526631868755185640}
-    m_Position: {x: 330, y: 80, z: 0}
+    m_Position: {x: 330, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4321862305535206482}
     m_Position: {x: 650, y: 80, z: 0}
@@ -86,7 +86,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Intro
-  m_Speed: 0.55
+  m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5286204717966446170}
@@ -111,7 +111,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Body
+  m_Name: CH
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: OnDialogue
@@ -141,7 +141,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Dialogue
-  m_Speed: 0.55
+  m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4921719271080248363}
@@ -190,7 +190,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Loop
-  m_Speed: 0.55
+  m_Speed: 0.3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6428079576843156563}

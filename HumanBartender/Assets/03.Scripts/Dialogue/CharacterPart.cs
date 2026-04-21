@@ -116,7 +116,7 @@ public class CharacterPart : AnimationPart, IFade
         //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정, 해야하긴함.
 
         //alway_on_dialogue, 일반 clip 실행 중 dialogue 시 전환 예정
-
+       
         animator.enabled = true;
         switch (_currentLoopMode)
         {
@@ -185,6 +185,14 @@ public class CharacterPart : AnimationPart, IFade
     
     public void OnDialogueStart()
     {
+
+        //await UniTask.DelayFrame(1);
+
+        if (partName != "lower_face")
+        {
+            animator.enabled = false;
+        }
+
         //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
 
         //animator.enabled = true;
@@ -195,6 +203,7 @@ public class CharacterPart : AnimationPart, IFade
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
+        animator.enabled = true;
         //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
 
         //animator.speed = 0f;
