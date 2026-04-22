@@ -185,30 +185,23 @@ public class CharacterPart : AnimationPart, IFade
     
     public void OnDialogueStart()
     {
-
-        //await UniTask.DelayFrame(1);
-
         if (partName != "lower_face")
         {
-            animator.enabled = false;
+            animator.speed = 0;
+            return;
         }
 
-        //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
-
-        //animator.enabled = true;
-        //animator.speed = 1f;
-        animator.SetBool("OnDialogue", true);
+        animator.Play("Dialogue", 0, 0f);
+        //animator.SetBool("OnDialogue", true);
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
-        animator.enabled = true;
-        //if (_currentLoopMode != "on_dialogue" && _currentLoopMode != "always_on_dialogue") return;
-
-        //animator.speed = 0f;
-
-        animator.SetBool("OnDialogue", false);
+        //animator.enabled = true;
+        //animator.SetBool("OnDialogue", false);
+        animator.speed = 1;
+        animator.Play("Loop", 0, 0f);
     }
 
     public void OnAnimation()
