@@ -1,6 +1,23 @@
-using System;
-using UnityEngine;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Runtime.Serialization;
+using UnityEngine;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EDialogueType
+{
+    None,
+
+    [EnumMember(Value = "system")]
+    System,
+
+    [EnumMember(Value = "monologue")]
+    Monologue,
+
+    [EnumMember(Value = "normal")]
+    Normal,
+}
 
 [Serializable]
 public struct SceneData
@@ -15,7 +32,7 @@ public struct DialogueData
 {
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("speaker")] public string Speaker { get; set; }
-    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("type")] public EDialogueType Type { get; set; }
     [JsonProperty("text")] public string Text { get; set; }
     [JsonProperty("expression")] public string Expression { get; set; }
     [JsonProperty("next")] public string Next { get; set; }
@@ -41,7 +58,6 @@ public struct TriggerData
 [Serializable]
 public struct TriggerDetailData
 {
-    
     [JsonProperty("character_id")] public string CharacterId { get; set; }
     [JsonProperty("slot")] public string Slot { get; set; }
 

@@ -1,11 +1,38 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EffectType
+{
+    None,
+
+    [EnumMember(Value = "fade_out")]
+    FadeOut,
+    [EnumMember(Value = "fade_in")]
+    FadeIn,
+    [EnumMember(Value = "flash_white")]
+    FlashWhite,
+    [EnumMember(Value = "screen_shake")]
+    ScreenShake,
+    [EnumMember(Value = "zoom_pulse")]
+    ZoomPulse,
+    [EnumMember(Value = "vignette")]
+    Vignette,
+    [EnumMember(Value = "dim")]
+    Dim,
+    [EnumMember(Value = "chromatic")]
+    Chromatic
+}
 
 
 
@@ -189,8 +216,17 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
+    public async UniTask PlayEffectAsync(string type, float duration, float intensity = 0f)
+    {
+        await ExecuteEffect(type, duration, intensity);
+    }
+
+
+
     async UniTask ExecuteEffect(string type, float duration = 1f, float intensity = 0)
     {
+
+
         switch (type)
         {
             case "fade_out":
@@ -256,12 +292,21 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-
-    public async UniTask PlayEffectAsync(string type, float duration, float intensity = 0f)
+    public EffectType ConvertStringToEffect(string input)
     {
-        await ExecuteEffect(type, duration, intensity);
+        return input.ToLower() switch
+        {
+            "fade_in" => EffectType.FadeIn,
+            "fade_out" => EffectType.FadeOut,
+            "flash_white" => EffectType.FlashWhite,
+            "screen_shake" => EffectType.ScreenShake,
+            "zoom_pulse" => EffectType.ZoomPulse,
+            "vignette" => EffectType.Vignette,
+            "dim" => EffectType.Dim,
+            "chromatic" => EffectType.Chromatic,
+            _ => EffectType.None // 매핑되지 않은 값 처리
+        };
     }
-
 
 
     /* ************************************************************ */

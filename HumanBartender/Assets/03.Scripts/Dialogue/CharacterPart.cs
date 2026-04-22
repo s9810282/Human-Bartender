@@ -37,7 +37,7 @@ public class AlwaysPlayback : IPlaybackPolicy
 [Serializable]
 public abstract class AnimationPart
 {
-    [SerializeField] public string partName;
+    [SerializeField] public EAnimationPart partName;
     [SerializeField] public string partCurAnim;
     [SerializeField] protected Animator animator;
     [SerializeField] protected SpriteRenderer spriteRenderer;
@@ -185,7 +185,7 @@ public class CharacterPart : AnimationPart, IFade
     
     public void OnDialogueStart()
     {
-        if (partName != "lower_face")
+        if (partName != EAnimationPart.Lower_Face)
         {
             animator.speed = 0;
             return;

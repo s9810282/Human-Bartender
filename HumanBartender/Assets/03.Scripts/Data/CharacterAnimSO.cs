@@ -2,6 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.UIElements;
+
+
+public enum EAnimationPart
+{
+    Eyes = 1,
+    Eyeblows = 2,
+    Body = 3,
+    Upper_Face = 4,
+    Lower_Face = 5,
+    Extra = 6,
+    Sprite = 10,
+}
+
+public enum EAnimLoopMode
+{
+    Always,
+    Always_OnDialogue,
+    Once,
+    None
+}
+
+
+
 
 // ── ScriptableObject ──────────────────────────────────────────────────────
 [CreateAssetMenu(fileName = "New CharacterAnimConfigBase", menuName = "Data/CharacterAnimConfigBase")]
@@ -13,7 +37,7 @@ public class CharacterAnimSO : ScriptableObject
     /// 캐릭터 + expression + 파트로 PartAnimData 조회.
     /// expression 없으면 default 폴백, default도 없으면 null 반환.
     /// </summary>
-    public PartAnimData GetPartData(string characterId, string expression, string partName)
+    public PartAnimData GetPartData(string characterId, string expression, EAnimationPart partName)
     {
         if (animConfig?.Characters == null) return null;
 
@@ -30,11 +54,11 @@ public class CharacterAnimSO : ScriptableObject
                 return null;
         }
 
-        exprData.Parts.TryGetValue(partName, out var partData);
+        exprData.TryGetPart(partName, out var partData);
         return partData;
     }
 
-    public PartAnimData GetDefaultPartData(string characterId, string partName)
+    public PartAnimData GetDefaultPartData(string characterId, EAnimationPart partName)
         => GetPartData(characterId, "default", partName);
 
     public string GetBaseBody(string id)
@@ -44,7 +68,6 @@ public class CharacterAnimSO : ScriptableObject
         return "";
     }
 }
-
 
 [Serializable]
 public class CharacterAnimBase
@@ -72,31 +95,31 @@ public class ExpressionAnimData
     [JsonProperty("body")] public PartAnimData Body { get; set; }
     [JsonProperty("extra")] public PartAnimData Extra { get; set; }
 
-    public bool TryGetPart(string partName, out PartAnimData data)
+    public bool TryGetPart(EAnimationPart partName, out PartAnimData data)
     {
         data = partName switch
         {
-            "eyes" => Eyes,
-            "eyebrows" => Eyebrows,
-            "upper_face" => Upper_face,
-            "lower_face" => Lower_face,
-            "body" => Body,
-            "extra" => Extra,
+            EAnimationPart.Eyes => Eyes,
+            EAnimationPart.Eyeblows => Eyebrows,
+            EAnimationPart.Upper_Face => Upper_face,
+            EAnimationPart.Lower_Face => Lower_face,
+            EAnimationPart.Body => Body,
+            EAnimationPart.Extra => Extra,
             _ => null
         };
         return data != null;
     }
 
-    // SO.GetPartData에서 Dictionary처럼 접근하기 위한 래퍼
-    public Dictionary<string, PartAnimData> Parts => new()
-    {
-        { "eyes",  Eyes  },
-        { "eyebrows",  Eyebrows  },
-        { "upper_face",  Upper_face  },
-        { "lower_face",  Lower_face  },
-        { "body", Body },
-        { "extra",  Extra  }
-    };
+    //// SO.GetPartData에서 Dictionary처럼 접근하기 위한 래퍼
+    //public Dictionary<string, PartAnimData> Parts => new()
+    //{
+    //    { "eyes",  Eyes  },
+    //    { "eyebrows",  Eyebrows  },
+    //    { "upper_face",  Upper_face  },
+    //    { "lower_face",  Lower_face  },
+    //    { "body", Body },
+    //    { "extra",  Extra  }
+    //};
 }
 
 [Serializable]

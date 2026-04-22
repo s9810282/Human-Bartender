@@ -62,7 +62,7 @@ public class CharacterLoader
         if (await LoadSpriteAsync(slot, part, defaultData, token)) //Part Default Sprite
             return;
 
-        if (part.partName != "body")  //body의 경우만 Portail Image 로드 시도.
+        if (part.partName != EAnimationPart.Body)  //body의 경우만 Portail Image 로드 시도.
         {
             part.SetInactive();
             return;

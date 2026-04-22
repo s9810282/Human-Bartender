@@ -5875,7 +5875,7 @@ Transform:
   m_GameObject: {fileID: 749968556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.39786053, y: -7.351919, z: 0}
+  m_LocalPosition: {x: -0.39786053, y: -1.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8338,37 +8338,37 @@ MonoBehaviour:
     slotCharacterName: 
     expression: 
     parts:
-    - partName: body
+    - partName: 3
       partCurAnim: 
       animator: {fileID: 1981843773}
       spriteRenderer: {fileID: 1981843774}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: eyes
+    - partName: 1
       partCurAnim: 
       animator: {fileID: 994129713}
       spriteRenderer: {fileID: 994129714}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: eyebrows
+    - partName: 2
       partCurAnim: 
       animator: {fileID: 619445819}
       spriteRenderer: {fileID: 619445820}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: upper_face
+    - partName: 4
       partCurAnim: 
       animator: {fileID: 493887745}
       spriteRenderer: {fileID: 493887746}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: lower_face
+    - partName: 5
       partCurAnim: 
       animator: {fileID: 222405790}
       spriteRenderer: {fileID: 222405791}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: extra
+    - partName: 6
       partCurAnim: 
       animator: {fileID: 668397309}
       spriteRenderer: {fileID: 668397310}
@@ -8379,37 +8379,37 @@ MonoBehaviour:
     slotCharacterName: 
     expression: 
     parts:
-    - partName: body
+    - partName: 3
       partCurAnim: 
       animator: {fileID: 1995356692}
       spriteRenderer: {fileID: 1995356693}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: eyes
+    - partName: 1
       partCurAnim: 
       animator: {fileID: 1924466412}
       spriteRenderer: {fileID: 1924466413}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: eyebrows
+    - partName: 2
       partCurAnim: 
       animator: {fileID: 1313861210}
       spriteRenderer: {fileID: 1313861211}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: upper_face
+    - partName: 4
       partCurAnim: 
       animator: {fileID: 608151383}
       spriteRenderer: {fileID: 608151384}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: lower_face
+    - partName: 5
       partCurAnim: 
       animator: {fileID: 1206034842}
       spriteRenderer: {fileID: 1206034843}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 
-    - partName: extra
+    - partName: 6
       partCurAnim: 
       animator: {fileID: 199040104}
       spriteRenderer: {fileID: 199040105}

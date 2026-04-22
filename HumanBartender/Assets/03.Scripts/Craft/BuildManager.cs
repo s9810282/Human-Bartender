@@ -37,7 +37,8 @@ public class BuildManager : MonoBehaviour, IMiniGameController
 
     public void InitGame(UniTaskCompletionSource tcs)
     {
-        
+        if (tcs != null)
+            tcs.TrySetResult();
     }
 
     public void CompleteMade()

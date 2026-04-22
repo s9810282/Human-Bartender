@@ -115,42 +115,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
-        craftStation.craftingResult.selectMethod = "build";
 
-        cameraTcs = new UniTaskCompletionSource();
-
-        await effectPlayer.PlayEffectAsync("fade_in", 1f);
-        cameraZoom.ActionZoomAndBack(CameraZoomType.Sub, cameraTcs);
-
-        string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;
-
-        if (craftStation.targetCocktailData.Id == "unknown")
-        {
-            if (curCraftEventData.CraftCutscenes.craftFinishData.Failed != null)
-                targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Failed;
-        }
-        else
-        {
-            if (craftStation.targetCocktailData.Finish_animation != null)
-                targetCutsceneId = craftStation.targetCocktailData.Finish_animation;
-        }
-
-        await cutScenePlayer.PlayCutScene(targetCutsceneId);
-
-        miniGameObj = Instantiate(buildPrefab);
-        Vector3 vec = Camera.main.transform.position;
-        vec.z = 0;
-        miniGameObj.transform.position = vec;
-        controller = miniGameObj.GetComponent<IMiniGameController>();
-
-        //ServeAnimation CutScene
-        if (craftStation.targetCocktailData.Serve_animation != null)
-        {
-            targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
-            await cutScenePlayer.PlayCutScene(targetCutsceneId);
-        }
-
-        controller.OnNextButton();
+        StartMiniGameAsync("build", buildPrefab).Forget();
     }
 
 
@@ -205,6 +171,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             miniGameInitTcs.TrySetResult();
         }
 
+        craftStation.craftingResult.selectMethod = style;
 
         // TODO : 풀링?
         miniGameObj = Instantiate(prefab);
@@ -216,7 +183,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     
         cutScenePlayer.ClearCutScene();
-        cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
+        cameraTcs.TrySetResult();
+
+
+        //cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
 
         await miniGameInitTcs.Task;
 
@@ -392,9 +362,9 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
             bool matched = rule.MatchType switch
             {
-                "cocktail_id" => rule.MatchValues.Contains(cocktail.Id),
-                "keyword" => cocktail.Keywords?.Length > 0 && rule.MatchValues.Any(kw => cocktail.Keywords.Contains(kw)),
-                "base" => rule.MatchValues.Contains(cocktail.BaseIngredient),
+                EMatchType.Id => rule.MatchValues.Contains(cocktail.Id),
+                EMatchType.Keyword => cocktail.Keywords?.Length > 0 && rule.MatchValues.Any(kw => cocktail.Keywords.Contains(kw)),
+                EMatchType.Base => rule.MatchValues.Contains(cocktail.BaseIngredient),
                 _ => false
             };
 

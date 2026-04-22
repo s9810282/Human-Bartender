@@ -107,7 +107,7 @@ public class DialogueManager : MonoBehaviour
         currentDialogue = currentDialogueDB[dialogueId];
 
         // type이 system일 때 처리
-        if (currentDialogue.Type == "system")
+        if (currentDialogue.Type == EDialogueType.System)
         {
             sceneDirector.ShowSystemAction();
 

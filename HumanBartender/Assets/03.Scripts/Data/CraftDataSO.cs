@@ -1,7 +1,27 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
+
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EMatchType
+{
+    None = 0,
+
+    [EnumMember(Value = "cocktail_id")]
+    Id,
+
+    [EnumMember(Value = "keyword")]
+    Keyword,
+
+    [EnumMember(Value = "base")]
+    Base,
+}
+
+
 
 [Serializable]
 public struct CraftEventData
@@ -60,7 +80,7 @@ public struct EvaluationData
 public struct VerdictRule
 {
     [JsonProperty("result")] public string Result { get; set; }
-    [JsonProperty("match_type")] public string MatchType { get; set; }
+    [JsonProperty("match_type")] public EMatchType MatchType { get; set; }
     [JsonProperty("match_values")] public string[] MatchValues { get; set; }
     [JsonProperty("require_craft_success")] public bool RequireCraftSuccess { get; set; }
     [JsonProperty("description")] public string Description { get; set; }
