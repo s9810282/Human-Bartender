@@ -1,6 +1,9 @@
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -12,10 +15,15 @@ public class CameraPostion
     public Transform pos;
 }
 
-public enum CameraZoomType
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ECameraZoomType
 {
-    Base = 0,
+    None = 0,
+    [EnumMember(Value = "base")]
+    Base,
+    [EnumMember(Value = "sub")]
     Sub,
+    [EnumMember(Value = "outside")]
     OutSide,
 }
 
@@ -55,11 +63,11 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         ApplyResolutionImmediate(baseResolution);
     }
 
-    public async void ActionZoomAndBack(CameraZoomType zoomType = CameraZoomType.Base,  UniTaskCompletionSource tcs = null)
+    public async void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base,  UniTaskCompletionSource tcs = null)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
-        Vector2Int target = zoomType == CameraZoomType.Base ? baseResolution : 
-            zoomType == CameraZoomType.Sub ? targetResolution : outSideResolution;
+        Vector2Int target = zoomType == ECameraZoomType.Base ? baseResolution : 
+            zoomType == ECameraZoomType.Sub ? targetResolution : outSideResolution;
 
         ApplyResolutionImmediate(target);
 
@@ -70,11 +78,11 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         return;
     }
 
-    public void ActionZoom(CameraZoomType zoomType = CameraZoomType.Base)
+    public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
-        Vector2Int target = zoomType == CameraZoomType.Base ? baseResolution :
-             zoomType == CameraZoomType.Sub ? targetResolution : outSideResolution;
+        Vector2Int target = zoomType == ECameraZoomType.Base ? baseResolution :
+             zoomType == ECameraZoomType.Sub ? targetResolution : outSideResolution;
 
         ApplyResolutionImmediate(target);
     }

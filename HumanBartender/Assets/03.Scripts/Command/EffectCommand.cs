@@ -6,7 +6,7 @@ public class EffectCommand : IDialogueCommand
 {
     [Inject] private IEffectPlayer effectPlayer;
 
-    private string effectType = "";
+    private EEffectType effectType = EEffectType.None;
     private float duration = 0.3f;
     
 

@@ -30,8 +30,8 @@ public interface ICameraZoom
 {
     public void ZoomIn(float dur = 1f);
     public void ZoomOut(float dur = 1f);
-    public void ActionZoomAndBack(CameraZoomType zoomType = CameraZoomType.Base, UniTaskCompletionSource tcs = null);
-    public void ActionZoom(CameraZoomType zoomType = CameraZoomType.Base);
+    public void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base, UniTaskCompletionSource tcs = null);
+    public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base);
 }
 
 
@@ -60,6 +60,6 @@ public interface ICutScenePlayer
 
 public interface IEffectPlayer
 {
-    UniTask PlayEffectAsync(string type, float duration = 1f, float Intensity = 0f);
+    UniTask PlayEffectAsync(EEffectType type, float duration = 1f, float Intensity = 0f);
 }
 

@@ -156,9 +156,9 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         cameraTcs = new UniTaskCompletionSource();
 
-        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+        await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
 
-        cameraZoom.ActionZoomAndBack(CameraZoomType.Sub, cameraTcs); //컷씬용 화면 960 540 전환
+        cameraZoom.ActionZoomAndBack(ECameraZoomType.Sub, cameraTcs); //컷씬용 화면 960 540 전환
 
         //TODO : 여기도 진입할 때 컷씬 
         if (curCraftEventData.CraftCutscenes.craftEnterData[style] != null)
@@ -220,8 +220,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
 
         //Finished CutScene
-        await effectPlayer.PlayEffectAsync("fade_in", 1f);
-        cameraZoom.ActionZoom(CameraZoomType.Sub);
+        await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
+        cameraZoom.ActionZoom(ECameraZoomType.Sub);
         await cutScenePlayer.PlayCutScene(targetCutsceneId);
 
 

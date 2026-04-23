@@ -13,13 +13,16 @@ public class StartCutSceneCommand : IDialogueCommand
     [Inject] ICameraZoom cameraZoom;
 
     private string anim;
-    private string type;
+    private ECutSceneType type;
+    private ECameraZoomType cameraType;
+
     UniTaskCompletionSource cameraTcs;
 
     public StartCutSceneCommand(TriggerDetailData data)
     {
         anim = data.CutsceneId;
-        type = data.EffectType;
+        type = data.CutsceneType;
+        cameraType = data.CameraType;
 
         cameraTcs = new UniTaskCompletionSource();
     }
@@ -29,12 +32,12 @@ public class StartCutSceneCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        await effectPlayer.PlayEffectAsync("fade_in", 1f);
+        await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
 
         //카메라 사이즈 넣어야함
-        CameraZoomType zoomType = type == "base" ? CameraZoomType.Base : type == "sub" ? CameraZoomType.Sub : CameraZoomType.OutSide;
-        cameraZoom.ActionZoomAndBack(zoomType, cameraTcs);
+        ECameraZoomType zoomType = cameraType;            
 
+        //추후 type 값 추가.
         await cutScenePlayer.PlayCutScene(anim);
         await UniTask.WaitForSeconds(1f);
 

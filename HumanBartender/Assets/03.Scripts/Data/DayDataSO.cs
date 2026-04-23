@@ -19,6 +19,24 @@ public enum EDialogueType
     Normal,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ECutSceneType
+{
+    None,
+
+    [EnumMember(Value = "system")]
+    SpriteOnce,
+
+    [EnumMember(Value = "system")]
+    SpineOnce,
+
+    [EnumMember(Value = "system")]
+    Comic,
+
+    [EnumMember(Value = "outside")]
+    Outside,
+}
+
 [Serializable]
 public struct SceneData
 {
@@ -72,11 +90,17 @@ public struct TriggerDetailData
 
     
     [JsonProperty("craft_event_id")] public string CraftEventId { get; set; }
-    [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
 
     
-    [JsonProperty("effect_type")] public string EffectType { get; set; }
+
+    [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
+    [JsonProperty("cutscene_type")] public ECutSceneType CutsceneType { get; set; }
+    [JsonProperty("camera_type")] public ECameraZoomType CameraType{ get; set; }
+
+    [JsonProperty("effect_type")] public EEffectType EffectType { get; set; }
+    
     [JsonProperty("duration")] public float? Duration { get; set; }
+
 
     
     [JsonProperty("enter_effect")] public string EnterEffect { get; set; }

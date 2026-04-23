@@ -12,7 +12,7 @@ using VContainer;
 
 
 [JsonConverter(typeof(StringEnumConverter))]
-public enum EffectType
+public enum EEffectType
 {
     None,
 
@@ -46,7 +46,8 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
     private ICameraZoom cameraZoom;
     private ICameraMove cameraMove;
-    
+
+    private EEffectType curEffect = EEffectType.None;
 
 
     private const string ANIM_SLOT = "SpriteAnim";
@@ -111,7 +112,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         spriteAnimationManager.ActiveSelf(false);
         spriteAnimationManager.SetInactive();
 
-
+        curEffect = EEffectType.None;
     }
 
     public async UniTask PlayCutScene(
@@ -216,45 +217,48 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-    public async UniTask PlayEffectAsync(string type, float duration, float intensity = 0f)
+    public async UniTask PlayEffectAsync(EEffectType type, float duration, float intensity = 0f)
     {
         await ExecuteEffect(type, duration, intensity);
     }
 
 
 
-    async UniTask ExecuteEffect(string type, float duration = 1f, float intensity = 0)
+    async UniTask ExecuteEffect(EEffectType type, float duration = 1f, float intensity = 0)
     {
+        //추후 타입 따라 처리를 다륵 ㅔ할 것인지, 지금은 현재와 동일 한거라면 return
+        if (curEffect == type) return;
 
+        curEffect = type;
 
         switch (type)
         {
-            case "fade_out":
+            case EEffectType.FadeOut:
                 effectOverlay.color = new Color(1, 1, 1, 1);
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(0f, duration).ToUniTask();
                 effectOverlay.gameObject.SetActive(false);
                 break;
 
-            case "fade_in":
+            case EEffectType.FadeIn:
                 effectOverlay.color = new Color(1, 1, 1, 0);
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(1f, duration).ToUniTask();
                 break;
 
-            case "flash_white":
+            case EEffectType.FlashWhite:
                 effectOverlay.color = Color.white;
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(0f, duration).ToUniTask();
                 effectOverlay.gameObject.SetActive(false);
                 break;
 
-            case "screen_shake":
+            case EEffectType.ScreenShake:
                 await canvasRect.DOShakeAnchorPos(duration, intensity, 20, 90, false, true)
                                 .ToUniTask();
                 break;
 
-            case "zoom_pulse":
+            case EEffectType.ZoomPulse:
 
                 await canvasRect.DOScale(intensity, duration * 0.5f)
                                 .SetEase(Ease.OutQuad)
@@ -264,7 +268,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                                 .ToUniTask();
                 break;
 
-            case "vignette":
+            case EEffectType.Vignette:
                 // 비네트 스프라이트가 effectOverlay에 할당된 상태를 가정
                 effectOverlay.gameObject.SetActive(true);
                 effectOverlay.color = new Color(0, 0, 0, 0);
@@ -272,13 +276,13 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             // 신규: 반투명 검은 오버레이 (dim)
-            case "dim":
+            case EEffectType.Dim:
                 effectOverlay.color = new Color(0, 0, 0, 0);
                 effectOverlay.gameObject.SetActive(true);
                 await effectOverlay.DOFade(intensity, duration).ToUniTask();
                 break;
 
-            case "chromatic":
+            case EEffectType.Chromatic:
                 // URP PostProcessing이 없는 경우 근사치: 오버레이로 대체
                 // TODO: URP Volume 연동으로 교체 가능
                 Debug.Log("[CutsceneManager] chromatic — 현재 오버레이 근사치 사용 중");
@@ -292,19 +296,19 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-    public EffectType ConvertStringToEffect(string input)
+    public EEffectType ConvertStringToEffect(string input)
     {
         return input.ToLower() switch
         {
-            "fade_in" => EffectType.FadeIn,
-            "fade_out" => EffectType.FadeOut,
-            "flash_white" => EffectType.FlashWhite,
-            "screen_shake" => EffectType.ScreenShake,
-            "zoom_pulse" => EffectType.ZoomPulse,
-            "vignette" => EffectType.Vignette,
-            "dim" => EffectType.Dim,
-            "chromatic" => EffectType.Chromatic,
-            _ => EffectType.None // 매핑되지 않은 값 처리
+            "fade_in" => EEffectType.FadeIn,
+            "fade_out" => EEffectType.FadeOut,
+            "flash_white" => EEffectType.FlashWhite,
+            "screen_shake" => EEffectType.ScreenShake,
+            "zoom_pulse" => EEffectType.ZoomPulse,
+            "vignette" => EEffectType.Vignette,
+            "dim" => EEffectType.Dim,
+            "chromatic" => EEffectType.Chromatic,
+            _ => EEffectType.None // 매핑되지 않은 값 처리
         };
     }
 

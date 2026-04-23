@@ -33,9 +33,15 @@ Unitask Await 기능 사용 할 때 구분 명확히 하기
 characterManager 컴포지션으로 나누기
 
 아아 리펙토링 할 생각에 신난다~
+=> CutScene.json 바뀌면 수정하기
+
+컷씬 데이터 cutsceneType 체크하기
+outside가 있는게 애매한 점. (카메라 사이즈를 조절해야하기 때문)
+
+
 => 추후 비동기 함수들에 CancellationToken 전달하기
 => string 으로 case 검사하는 것들 enum으로 활용하기
-=> CutScene.json 바뀌면 수정하기
+
 => 추후 data null값들에 대한 처리하기 데이터 많음.
 => AnimtionClip 로드하는거 SO에 담아서 하기, 구조 벼경 끼얏후
 => Human Error 잡을 툴이든 뭐든 만들기

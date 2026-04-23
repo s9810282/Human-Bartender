@@ -4,7 +4,7 @@ using UnityEngine;
 public class ObjectPool
 {
     private GameObject prefab;
-    private Queue<GameObject> pool = new Queue<GameObject>();
+    private Stack<GameObject> pool = new Stack<GameObject>();
     private Transform parentTransform;
 
     public ObjectPool(GameObject prefab, int initialSize, Transform parent)
@@ -24,7 +24,7 @@ public class ObjectPool
             CreateAndReturn();
         }
 
-        GameObject obj = pool.Dequeue();
+        GameObject obj = pool.Pop();
         obj.SetActive(true);
         return obj;
     }
@@ -32,7 +32,7 @@ public class ObjectPool
     public void Return(GameObject obj)
     {
         obj.SetActive(false);
-        pool.Enqueue(obj);
+        pool.Push(obj);
     }
 
     private void CreateAndReturn()
@@ -40,6 +40,6 @@ public class ObjectPool
         GameObject newObj = Object.Instantiate(prefab, parentTransform);
         newObj.GetComponent<PooledObject>()?.SetPool(this);
         newObj.SetActive(false);
-        pool.Enqueue(newObj);
+        pool.Push(newObj);
     }
 }
