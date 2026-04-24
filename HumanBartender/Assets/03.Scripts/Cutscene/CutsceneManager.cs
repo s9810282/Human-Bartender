@@ -11,6 +11,8 @@ using UnityEngine.UI;
 using VContainer;
 
 
+
+
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EEffectType
 {
@@ -315,12 +317,22 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
     /* ************************************************************ */
 
+
+
+
+
+
+
+
+
+
     #region Comic
-    /*
-    
+
+
 
     // ── 시퀀스 실행 ───────────────────────────────────────────────────
 
+    /*
     async UniTask RunSequenceAsync(SpriteCutscene cutScene)
     {
         float startTime = Time.time;
@@ -341,7 +353,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
     async UniTaskVoid FireAndForget(UniTask task)
     {
-        try   { await task; }
+        try { await task; }
         catch (Exception e) { Debug.LogException(e); }
     }
 
@@ -440,7 +452,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         List<UniTask> enterTasks = new();
         for (int i = 0; i < assigned.Count; i++)
         {
-            assigned[i].gameObject.SetActive(true);   
+            assigned[i].gameObject.SetActive(true);
 
             string enterType;
             float duration;
@@ -487,42 +499,42 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             case "slide_left":
-            {
-                Vector2 origin = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
-                rect.anchoredPosition = origin;
-                img.gameObject.SetActive(true);
+                {
+                    Vector2 origin = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
+                    rect.anchoredPosition = origin;
+                    img.gameObject.SetActive(true);
 
-                await rect.DOAnchorPos(origin - new Vector2(canvasRect.rect.width, 0), duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
-                break;
-            }
+                    await rect.DOAnchorPos(origin - new Vector2(canvasRect.rect.width, 0), duration)
+                               .SetEase(Ease.OutCubic).ToUniTask();
+                    break;
+                }
             case "slide_right":
-            {
-                Vector2 origin = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
-                rect.anchoredPosition = origin;
-                img.gameObject.SetActive(true);
-                await rect.DOAnchorPos(origin + new Vector2(canvasRect.rect.width, 0), duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
-                break;
-            }
+                {
+                    Vector2 origin = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
+                    rect.anchoredPosition = origin;
+                    img.gameObject.SetActive(true);
+                    await rect.DOAnchorPos(origin + new Vector2(canvasRect.rect.width, 0), duration)
+                               .SetEase(Ease.OutCubic).ToUniTask();
+                    break;
+                }
             case "slide_up":
-            {
-                Vector2 origin = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
-                rect.anchoredPosition = origin;
+                {
+                    Vector2 origin = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
+                    rect.anchoredPosition = origin;
                     img.gameObject.SetActive(true);
                     await rect.DOAnchorPos(origin + new Vector2(0, canvasRect.rect.height), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
-                break;
-            }
+                    break;
+                }
             case "slide_down":
-            {
-                Vector2 origin = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
-                rect.anchoredPosition = origin;
+                {
+                    Vector2 origin = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
+                    rect.anchoredPosition = origin;
                     img.gameObject.SetActive(true);
                     await rect.DOAnchorPos(origin - new Vector2(0, canvasRect.rect.height), duration)
                            .SetEase(Ease.OutCubic).ToUniTask();
-                break;
-            }
+                    break;
+                }
             case "zoom_in":
                 rect.localScale = Vector3.one * 0.5f;
                 img.color = new Color(1, 1, 1, 0);
@@ -567,33 +579,33 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             case "slide_left":
-            {
-                Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
-                break;
-            }
+                {
+                    Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
+                    await rect.DOAnchorPos(target, duration)
+                               .SetEase(Ease.InCubic).ToUniTask();
+                    break;
+                }
             case "slide_right":
-            {
-                Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
-                break;
-            }
+                {
+                    Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
+                    await rect.DOAnchorPos(target, duration)
+                               .SetEase(Ease.InCubic).ToUniTask();
+                    break;
+                }
             case "slide_up":
-            {
-                Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
-                break;
-            }
+                {
+                    Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
+                    await rect.DOAnchorPos(target, duration)
+                               .SetEase(Ease.InCubic).ToUniTask();
+                    break;
+                }
             case "slide_down":
-            {
-                Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
-                break;
-            }
+                {
+                    Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
+                    await rect.DOAnchorPos(target, duration)
+                               .SetEase(Ease.InCubic).ToUniTask();
+                    break;
+                }
             case "zoom_out":
                 await UniTask.WhenAll(
                     rect.DOScale(0f, duration).SetEase(Ease.InBack).ToUniTask(),
@@ -611,27 +623,29 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
     float GetEnterDefaultDuration(string enterType) => enterType switch
     {
-        "cut"        => 0.0f,
-        "fade_in"    => 0.4f,
+        "cut" => 0.0f,
+        "fade_in" => 0.4f,
         "slide_left" => 0.3f,
-        "slide_right"=> 0.3f,
-        "slide_up"   => 0.3f,
+        "slide_right" => 0.3f,
+        "slide_up" => 0.3f,
         "slide_down" => 0.3f,
-        "zoom_in"    => 0.4f,
-        "zoom_out"   => 0.4f,
-        _            => 0.3f,
+        "zoom_in" => 0.4f,
+        "zoom_out" => 0.4f,
+        _ => 0.3f,
     };
     float GetExitDefaultDuration(string exitType) => exitType switch
     {
-        "cut"         => 0.0f,
-        "fade_out"    => 0.3f,
-        "slide_left"  => 0.3f,
+        "cut" => 0.0f,
+        "fade_out" => 0.3f,
+        "slide_left" => 0.3f,
         "slide_right" => 0.3f,
-        "slide_up"    => 0.3f,
-        "slide_down"  => 0.3f,
-        "zoom_out"    => 0.4f,
-        _             => 0.3f,
+        "slide_up" => 0.3f,
+        "slide_down" => 0.3f,
+        "zoom_out" => 0.4f,
+        _ => 0.3f,
     };
+
+    */
 
     // ── 포지션/레이아웃 ───────────────────────────────────────────────
 
@@ -642,14 +656,15 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
         rect.anchorMin = anchor;
         rect.anchorMax = anchor;
-        rect.pivot     = anchor;
+        rect.pivot = anchor;
 
         float w = canvasRect.rect.width - padding_X;
         float h = canvasRect.rect.height - padding_Y;
-
-        rect.sizeDelta        = new Vector2(w * preset.Width, h * preset.Height);
         rect.anchoredPosition = new Vector2(w * preset.OffsetX, h * preset.OffsetY);
+        //rect.sizeDelta = new Vector2(w * preset.Width, h * preset.Height);
     }
+
+
     public void SetImagesLayOut(List<Image> imgs, LayoutPreset layoutPreset)
     {
         for (int i = 0; i < imgs.Count; i++)
@@ -657,20 +672,10 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             LayoutSlot slot = layoutPreset.Slots[i];
             PositionPreset preset = default;
 
-            if (!string.IsNullOrEmpty(slot.Position))
-            {
-                preset = data.cutSceneData.PositionPresets[slot.Position];
-                if (slot.WidthOverride  != null) preset.Width  = slot.WidthOverride.Value;
-                if (slot.HeightOverride != null) preset.Height = slot.HeightOverride.Value;
-            }
-            else
-            {
-                preset.Anchor  = slot.Anchor.Value;
-                preset.Width   = slot.Width.Value;
-                preset.Height  = slot.Height.Value;
-                preset.OffsetX = slot.OffsetX.Value;
-                preset.OffsetY = slot.OffsetY.Value;
-            }
+            preset = data.cutSceneData.PositionPresets[slot.Position];
+            //if (slot.WidthOverride != null) preset.Width = slot.WidthOverride.Value;
+            //if (slot.HeightOverride != null) preset.Height = slot.HeightOverride.Value;
+
 
             SetImagePositionPreset(imgs[i], preset);
 
@@ -683,9 +688,9 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         }
     }
 
-    
-    */
-    #endregion 
+
+
+    #endregion
 
 
 

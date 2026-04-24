@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d35b332cbd605d4181071ac5be5825c, type: 3}
+  m_Name: TestCutScene
+  m_EditorClassIdentifier: 
+  isCutSceneMove: 1
+  cameraDuration: 5
+  cameraSpeed: 0.15
+  cameraMoveType: 1
+  easeGraph: 1
+  isSetBGSprite: 0
+  bgPath: 
+  steps:
+  - time: 0
+    action: 1
+    positionPreset:
+      Anchor: 0
+      OffsetX: 0
+      OffsetY: 0.25
+    path: A
+    enterType: 6
+    enterDuration: 0.5
+    duration: 1
+    exitType: 2
+    exitDuration: 1
+  - time: 0.5
+    action: 1
+    positionPreset:
+      Anchor: 0
+      OffsetX: 0
+      OffsetY: -0.25
+    path: B
+    enterType: 5
+    enterDuration: 0.5
+    duration: 3
+    exitType: 0
+    exitDuration: 0
+  - time: 1
+    action: 1
+    positionPreset:
+      Anchor: 0
+      OffsetX: 0.1
+      OffsetY: 0
+    path: AA
+    enterType: 2
+    enterDuration: 1
+    duration: 3
+    exitType: 0
+    exitDuration: 0

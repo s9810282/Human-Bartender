@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using JetBrains.Annotations;
 
 [JsonConverter(typeof(StringEnumConverter))]
 public enum AnchorType
@@ -12,6 +13,8 @@ public enum AnchorType
     [EnumMember(Value = "center")] Center,
     [EnumMember(Value = "left")] Left,
     [EnumMember(Value = "right")] Right,
+    [EnumMember(Value = "top")] Top,
+    [EnumMember(Value = "bottom")] Bottom,
     [EnumMember(Value = "top_left")] TopLeft,
     [EnumMember(Value = "top_right")] TopRight,
     [EnumMember(Value = "bottom_left")] BottomLeft,
@@ -60,13 +63,41 @@ public enum CutsceneType
     [EnumMember(Value = "comic")] Comic,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EPositionPreset
+{
+    [EnumMember(Value = "full")] Full,
+    [EnumMember(Value = "center")] Center,
+    [EnumMember(Value = "center_small")] CenterSmall,
+    [EnumMember(Value = "center_top")] CenterTop,
+    [EnumMember(Value = "center_bottom")] CenterBottom,
+    [EnumMember(Value = "left_panel")] LeftPanel,
+    [EnumMember(Value = "right_panel")] RightPanel,
+    [EnumMember(Value = "left_focus")] LeftFocus,
+    [EnumMember(Value = "right_focus")] RightFocus,
+    [EnumMember(Value = "top_left")] TopLeft,
+    [EnumMember(Value = "top_right")] TopRight,
+    [EnumMember(Value = "bottom_left")] BottomLeft,
+    [EnumMember(Value = "bottom_right")] BottomRight,
+}
+
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ELayoutPreset
+{
+    [EnumMember(Value = "single")] Single,
+    [EnumMember(Value = "split_2")] Split2,
+    [EnumMember(Value = "split_3_horizontal")] Split3_horizontal,
+    [EnumMember(Value = "main_left_sub_right")] MainLeftSubRight,
+    [EnumMember(Value = "stack_vertical")] StackVertical,
+    [EnumMember(Value = "dim_focus")] DimFocus,
+}
+
 
 [Serializable]
 public struct PositionPreset
 {
     [JsonProperty("anchor")] public AnchorType Anchor { get; set; }
-    [JsonProperty("width")] public float Width { get; set; }
-    [JsonProperty("height")] public float Height { get; set; }
     [JsonProperty("offset_x")] public float OffsetX { get; set; }
     [JsonProperty("offset_y")] public float OffsetY { get; set; }
 }
@@ -81,10 +112,9 @@ public struct LayoutPreset
 [Serializable]
 public struct LayoutSlot
 {
-    [JsonProperty("position")] public string Position { get; set; }
-    [JsonProperty("width_override")] public float? WidthOverride { get; set; }
-    [JsonProperty("height_override")] public float? HeightOverride { get; set; }
+    [JsonProperty("position")] public EPositionPreset Position { get; set; }
     [JsonProperty("anchor")] public AnchorType? Anchor { get; set; }
+
     [JsonProperty("width")] public float? Width { get; set; }
     [JsonProperty("height")] public float? Height { get; set; }
     [JsonProperty("offset_x")] public float? OffsetX { get; set; }
@@ -215,8 +245,8 @@ public class CutSceneDataSO : ScriptableObject
 [Serializable]
 public class CutSceneDataBase
 {
-    [JsonProperty("position_presets")] public Dictionary<string, PositionPreset> PositionPresets { get; set; }
-    [JsonProperty("layout_presets")] public Dictionary<string, LayoutPreset> LayoutPresets { get; set; }
+    [JsonProperty("position_presets")] public Dictionary<EPositionPreset, PositionPreset> PositionPresets { get; set; }
+    [JsonProperty("layout_presets")] public Dictionary<ELayoutPreset, LayoutPreset> LayoutPresets { get; set; }
     [JsonProperty("comic_presets")] public ComicPresets ComicPresets { get; set; }
     [JsonProperty("cutscenes")] public SpriteCutscene[] SpriteCutscenes { get; set; }
 }
