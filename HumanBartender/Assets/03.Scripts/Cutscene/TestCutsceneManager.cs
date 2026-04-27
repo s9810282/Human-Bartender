@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
 {
-    // ── 참조 ──────────────────────────────────────────────────────────
     [Header("Canvas")]
     [SerializeField] Canvas        cutSceneCanvas;
     [SerializeField] RectTransform canvasRect;
@@ -27,29 +26,24 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     [SerializeField] float padding_Y = 0;
 
 
-    // ── 상태 ──────────────────────────────────────────────────────────
     private EEffectType curEffect = EEffectType.None;
     private CancellationTokenSource _cts;
 
-    // ── 현재 재생 정보 (에디터 툴 표시용) ─────────────────────────────
     public int  CurrentStepIndex { get; private set; } = -1;
     public bool IsPlaying        { get; private set; } = false;
 
-    // ── 풀 ────────────────────────────────────────────────────────────
     Queue<Image>              imagePool    = new();
     Dictionary<string, Image> activeImages = new();
 
-    // ── 핸들러 ────────────────────────────────────────────────────────
+
     Dictionary<ECutSceneAction, Func<TestCutSceneStep, UniTask>> actionHandlers;
 
-    // ── Anchor 매핑 ───────────────────────────────────────────────────
+
     static readonly Dictionary<AnchorType, Vector2> anchorPreset = new()
     {
         { AnchorType.Center,      new Vector2(0.5f, 0.5f) },
         { AnchorType.Left,        new Vector2(0.0f, 0.5f) },
         { AnchorType.Right,       new Vector2(1.0f, 0.5f) },
-        { AnchorType.Top,         new Vector2(0.5f, 1.0f) },
-        { AnchorType.Bottom,      new Vector2(0.5f, 0.0f) },
         { AnchorType.TopLeft,     new Vector2(0.0f, 1.0f) },
         { AnchorType.TopRight,    new Vector2(1.0f, 1.0f) },
         { AnchorType.BottomLeft,  new Vector2(0.0f, 0.0f) },
@@ -57,9 +51,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     };
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  초기화
-    // ══════════════════════════════════════════════════════════════════
 
     void Awake()
     {
@@ -76,13 +67,7 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  외부 진입점
-    // ══════════════════════════════════════════════════════════════════
-
-    /// <summary>
-    /// 전체 시퀀스 재생 (처음부터 끝까지)
-    /// </summary>
+    
     public async UniTask PlayComicCutSceneAsync(
         TestCutScene cutScene,
         CancellationToken token = default,
@@ -92,10 +77,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         tcs?.TrySetResult();
     }
 
-    /// <summary>
-    /// 특정 인덱스부터 끝까지 이어서 재생.
-    /// 카메라 무브도 남은 비율만큼 적용.
-    /// </summary>
     public async UniTask PlayFromStepAsync(
         TestCutScene cutScene,
         int startIndex,
@@ -129,10 +110,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         ResetRootPosition();
     }
 
-    /// <summary>
-    /// 선택한 Step 하나만 단독 실행.
-    /// 기존 상태를 초기화하지 않으므로 이전 Step 결과 위에 쌓을 수 있음.
-    /// </summary>
     public async UniTask PlaySingleStepAsync(
         TestCutSceneStep step,
         CancellationToken token = default)
@@ -151,9 +128,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         IsPlaying = false;
     }
 
-    /// <summary>
-    /// 재생 중단
-    /// </summary>
     public void StopPlayback()
     {
         _cts?.Cancel();
@@ -171,10 +145,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         curEffect = EEffectType.None;
     }
 
-
-    // ══════════════════════════════════════════════════════════════════
-    //  BG
-    // ══════════════════════════════════════════════════════════════════
 
     void SetupBackground(TestCutScene cutScene)
     {
@@ -202,9 +172,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Root 패닝 (카메라 무브 대체)
-    // ══════════════════════════════════════════════════════════════════
 
     async UniTask RunCameraMoveAsync(
         TestCutScene cutScene,
@@ -215,7 +182,7 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
 
         float w = canvasRect.rect.width;
         float h = canvasRect.rect.height;
-        float moveRatio = cutScene.cameraSpeed;
+        float moveRatio = cutScene.cameraRatio;
 
         Vector2 fullDelta = cutScene.cameraMoveType switch
         {
@@ -228,7 +195,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
 
         if (fullDelta == Vector2.zero) return;
 
-        // 도중부터 시작 시 → 이미 지나간 비율만큼 시작 위치 보정
         int totalSteps = cutScene.steps.Count;
         float startRatio = totalSteps > 1 ? (float)startIndex / (totalSteps - 1) : 0f;
 
@@ -256,21 +222,20 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  시퀀스 실행
-    // ══════════════════════════════════════════════════════════════════
 
     async UniTask RunSequenceAsync(
         TestCutScene cutScene,
         int startIndex,
         CancellationToken token)
     {
-        // startIndex 이전 Step들의 시간 오프셋 보정
         float timeOffset = startIndex > 0
             ? cutScene.steps[startIndex].time
             : 0f;
 
         float startTime = Time.time - timeOffset;
+
+        // 발사한 Step Task를 모아둔다
+        List<UniTask> runningSteps = new();
 
         for (int i = startIndex; i < cutScene.steps.Count; i++)
         {
@@ -284,23 +249,16 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
                                     cancellationToken: token);
 
             if (actionHandlers.TryGetValue(step.action, out var handler))
-                FireAndForget(handler(step)).Forget();
+                runningSteps.Add(handler(step));
             else
                 Debug.LogWarning($"[TestCutSceneManager] 알 수 없는 action: {step.action}");
         }
-    }
 
-    async UniTaskVoid FireAndForget(UniTask task)
-    {
-        try   { await task; }
-        catch (OperationCanceledException) { /* 정상 취소 */ }
-        catch (Exception e) { Debug.LogException(e); }
+        // 모든 Step의 enter → duration → exit가 끝날 때까지 대기
+        await UniTask.WhenAll(runningSteps);
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Action 핸들러
-    // ══════════════════════════════════════════════════════════════════
 
     async UniTask ExecuteShowImage(TestCutSceneStep step)
     {
@@ -309,23 +267,19 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
 
         Sprite sprite = Resources.Load<Sprite>($"Cutscenes/{step.path}");
         if (sprite != null) img.sprite = sprite;
-
         img.SetNativeSize();
 
         SetImagePositionPreset(img, step.positionPreset);
         activeImages[step.path] = img;
 
-        // 1. 등장
-        await ApplyEnterAnimation(img, step.enterType, step.enterDuration, step.slideDistance);
+        await ApplyEnterAnimation(img, step);
 
-        // 2. 유지
         if (step.duration > 0)
             await UniTask.Delay(TimeSpan.FromSeconds(step.duration));
 
-        // 3. 퇴장 (None이면 스킵 → HideAll이 처리)
         if (step.exitType != EExitPreset.None)
         {
-            await ApplyExitAnimation(img, step.exitType, step.exitDuration);
+            await ApplyExitAnimation(img, step);
             ReturnToPool(step.path, img);
         }
     }
@@ -334,7 +288,7 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     {
         if (!activeImages.TryGetValue(step.path, out Image img)) return;
 
-        await ApplyExitAnimation(img, step.exitType, step.exitDuration);
+        await ApplyExitAnimation(img, step);
         ReturnToPool(step.path, img);
     }
 
@@ -342,14 +296,11 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     {
         if (activeImages.Count == 0) return;
 
-        EExitPreset exitType = step.exitType;
-        float duration = step.exitDuration;
-
         List<UniTask> exitTasks = new();
         List<KeyValuePair<string, Image>> snapshot = new(activeImages);
 
         foreach (var kvp in snapshot)
-            exitTasks.Add(ApplyExitAnimation(kvp.Value, exitType, duration));
+            exitTasks.Add(ApplyExitAnimation(kvp.Value, step));
 
         await UniTask.WhenAll(exitTasks);
 
@@ -363,15 +314,33 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Enter 애니메이션
-    // ══════════════════════════════════════════════════════════════════
 
-    async UniTask ApplyEnterAnimation(Image img, EEneterPreset enterType, float duration, float distance = 0)
+    float GetEnterSlideDistance(TestCutSceneStep step)
+    {
+        return step.enterSlideDistance > 0f ? step.enterSlideDistance : 1.0f;
+    }
+    float GetExitSlideDistance(TestCutSceneStep step)
+    {
+        return step.exitSlideDistance > 0f ? step.exitSlideDistance : 1.0f;
+    }
+    Ease GetEnterEase(TestCutSceneStep step, Ease fallback = Ease.OutCubic)
+    {
+        return step.enterEase == Ease.Unset ? fallback : step.enterEase;
+    }
+    Ease GetExitEase(TestCutSceneStep step, Ease fallback = Ease.InCubic)
+    {
+        return step.exitEase == Ease.Unset ? fallback : step.exitEase;
+    }
+
+
+    async UniTask ApplyEnterAnimation(Image img, TestCutSceneStep step)
     {
         RectTransform rect = img.GetComponent<RectTransform>();
+        float duration = step.enterDuration;
+        float dist     = GetEnterSlideDistance(step);
+        Ease  ease     = GetEnterEase(step);
 
-        switch (enterType)
+        switch (step.enterType)
         {
             case EEneterPreset.Cut:
                 img.color = Color.white;
@@ -381,134 +350,130 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
             case EEneterPreset.FadeIn:
                 img.color = new Color(1, 1, 1, 0);
                 img.gameObject.SetActive(true);
-                await img.DOFade(1f, duration).ToUniTask();
+                await img.DOFade(1f, duration)
+                         .SetEase(GetEnterEase(step, Ease.Linear))
+                         .ToUniTask();
                 break;
 
             case EEneterPreset.SlideLeft:
             {
                 Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest + new Vector2(canvasRect.rect.width, 0);
+                rect.anchoredPosition = dest + new Vector2(canvasRect.rect.width * dist, 0);
                 img.gameObject.SetActive(true);
-                await rect.DOAnchorPos(dest, duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
+                await rect.DOAnchorPos(dest, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EEneterPreset.SlideRight:
             {
                 Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest - new Vector2(canvasRect.rect.width, 0);
+                rect.anchoredPosition = dest - new Vector2(canvasRect.rect.width * dist, 0);
                 img.gameObject.SetActive(true);
-                await rect.DOAnchorPos(dest, duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
+                await rect.DOAnchorPos(dest, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EEneterPreset.SlideUp:
             {
                 Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest - new Vector2(0, canvasRect.rect.height);
+                rect.anchoredPosition = dest - new Vector2(0, canvasRect.rect.height * dist);
                 img.gameObject.SetActive(true);
-                await rect.DOAnchorPos(dest, duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
+                await rect.DOAnchorPos(dest, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EEneterPreset.SlideDown:
             {
                 Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest + new Vector2(0, canvasRect.rect.height);
+                rect.anchoredPosition = dest + new Vector2(0, canvasRect.rect.height * dist);
                 img.gameObject.SetActive(true);
-                await rect.DOAnchorPos(dest, duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
+                await rect.DOAnchorPos(dest, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EEneterPreset.ScaleUp:
+            {
+                Ease scaleEase = GetEnterEase(step, Ease.OutBack);
                 rect.localScale = Vector3.one * 0.5f;
                 img.color = new Color(1, 1, 1, 0);
                 img.gameObject.SetActive(true);
                 await UniTask.WhenAll(
-                    rect.DOScale(1f, duration).SetEase(Ease.OutBack).ToUniTask(),
+                    rect.DOScale(1f, duration).SetEase(scaleEase).ToUniTask(),
                     img.DOFade(1f, duration).ToUniTask()
                 );
                 break;
+            }
 
             default:
                 img.color = Color.white;
                 img.gameObject.SetActive(true);
-                Debug.LogWarning($"[TestCutSceneManager] 알 수 없는 enter type: {enterType}");
+                Debug.LogWarning($"[TestCutSceneManager] 알 수 없는 enter type: {step.enterType}");
                 break;
         }
     }
 
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Exit 애니메이션
-    // ══════════════════════════════════════════════════════════════════
-
-    async UniTask ApplyExitAnimation(Image img, EExitPreset exitType, float duration)
+ 
+    async UniTask ApplyExitAnimation(Image img, TestCutSceneStep step)
     {
         RectTransform rect = img.GetComponent<RectTransform>();
+        float duration = step.exitDuration;
+        float dist     = GetExitSlideDistance(step);
+        Ease  ease     = GetExitEase(step);
 
-        switch (exitType)
+        switch (step.exitType)
         {
             case EExitPreset.Cut:
                 img.color = new Color(1, 1, 1, 0);
                 break;
 
             case EExitPreset.FadeOut:
-                await img.DOFade(0f, duration).ToUniTask();
+                await img.DOFade(0f, duration)
+                         .SetEase(GetExitEase(step, Ease.Linear))
+                         .ToUniTask();
                 break;
 
             case EExitPreset.SlideLeft:
             {
-                Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
+                Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width * dist, 0);
+                await rect.DOAnchorPos(target, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EExitPreset.SlideRight:
             {
-                Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
+                Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width * dist, 0);
+                await rect.DOAnchorPos(target, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EExitPreset.SlideUp:
             {
-                Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
+                Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height * dist);
+                await rect.DOAnchorPos(target, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EExitPreset.SlideDown:
             {
-                Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
-                await rect.DOAnchorPos(target, duration)
-                           .SetEase(Ease.InCubic).ToUniTask();
+                Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height * dist);
+                await rect.DOAnchorPos(target, duration).SetEase(ease).ToUniTask();
                 break;
             }
             case EExitPreset.ScaleDown:
+            {
+                Ease scaleEase = GetExitEase(step, Ease.InBack);
                 await UniTask.WhenAll(
-                    rect.DOScale(0f, duration).SetEase(Ease.InBack).ToUniTask(),
+                    rect.DOScale(0f, duration).SetEase(scaleEase).ToUniTask(),
                     img.DOFade(0f, duration).ToUniTask()
                 );
                 break;
+            }
 
             default:
                 await img.DOFade(0f, duration).ToUniTask();
-                Debug.LogWarning($"[TestCutSceneManager] 알 수 없는 exit type: {exitType}, FadeOut 대체");
+                Debug.LogWarning($"[TestCutSceneManager] 알 수 없는 exit type: {step.exitType}, FadeOut 대체");
                 break;
         }
     }
-
-
-    // ══════════════════════════════════════════════════════════════════
-    //  이펙트 (IEffectPlayer)
-    // ══════════════════════════════════════════════════════════════════
 
     public async UniTask PlayEffectAsync(EEffectType type, float duration, float intensity = 0f)
     {
         await ExecuteEffect(type, duration, intensity);
     }
-
     async UniTask ExecuteEffect(EEffectType type, float duration = 1f, float intensity = 0)
     {
         if (curEffect == type) return;
@@ -570,7 +535,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
                 break;
         }
     }
-
     public EEffectType ConvertStringToEffect(string input)
     {
         return input.ToLower() switch
@@ -587,11 +551,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         };
     }
 
-
-    // ══════════════════════════════════════════════════════════════════
-    //  포지션
-    // ══════════════════════════════════════════════════════════════════
-
     public void SetImagePositionPreset(Image img, TestPositionPreset preset)
     {
         RectTransform rect = img.GetComponent<RectTransform>();
@@ -606,11 +565,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         rect.anchoredPosition = new Vector2(w * preset.OffsetX, h * preset.OffsetY);
     }
 
-
-    // ══════════════════════════════════════════════════════════════════
-    //  Image 풀
-    // ══════════════════════════════════════════════════════════════════
-
     Image GetPooledImage()
     {
         if (imagePool.Count == 0)
@@ -620,7 +574,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         }
         return imagePool.Dequeue();
     }
-
     void ReturnToPool(string imageId, Image img)
     {
         img.gameObject.SetActive(false);
@@ -629,7 +582,6 @@ public class TestCutSceneManager : MonoBehaviour, IEffectPlayer
         activeImages.Remove(imageId);
         imagePool.Enqueue(img);
     }
-
     public void ResetImages()
     {
         foreach (var kvp in activeImages)

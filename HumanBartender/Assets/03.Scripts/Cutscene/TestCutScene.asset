@@ -13,46 +13,58 @@ MonoBehaviour:
   m_Name: TestCutScene
   m_EditorClassIdentifier: 
   isCutSceneMove: 1
-  cameraDuration: 5
-  cameraSpeed: 0.15
+  cameraDuration: 10
+  cameraRatio: 0.6
   cameraMoveType: 1
   easeGraph: 1
   isSetBGSprite: 0
-  bgPath: 
+  bgPath: BG
   steps:
-  - time: 0
-    action: 1
-    positionPreset:
-      Anchor: 0
-      OffsetX: 0
-      OffsetY: 0.25
-    path: A
-    enterType: 6
-    enterDuration: 0.5
-    duration: 1
-    exitType: 2
-    exitDuration: 1
   - time: 0.5
     action: 1
     positionPreset:
-      Anchor: 0
+      Anchor: 5
       OffsetX: 0
-      OffsetY: -0.25
-    path: B
-    enterType: 5
-    enterDuration: 0.5
+      OffsetY: 0
+    path: gin_fizz1
+    enterType: 6
+    enterDuration: 1.5
+    enterEase: 3
+    enterSlideDistance: 0.6
     duration: 3
     exitType: 0
-    exitDuration: 0
-  - time: 1
+    exitDuration: 0.6
+    exitEase: 3
+    exitSlideDistance: 1
+  - time: 2.1
+    action: 1
+    positionPreset:
+      Anchor: 7
+      OffsetX: 0
+      OffsetY: 0
+    path: gin_fizz2
+    enterType: 5
+    enterDuration: 1.5
+    enterEase: 3
+    enterSlideDistance: 0.6
+    duration: 3
+    exitType: 0
+    exitDuration: 0.6
+    exitEase: 3
+    exitSlideDistance: 1
+  - time: 3.7
     action: 1
     positionPreset:
       Anchor: 0
-      OffsetX: 0.1
+      OffsetX: 0.45
       OffsetY: 0
-    path: AA
+    path: gin_fizz3
     enterType: 2
-    enterDuration: 1
+    enterDuration: 0.6
+    enterEase: 3
+    enterSlideDistance: 0.6
     duration: 3
     exitType: 0
-    exitDuration: 0
+    exitDuration: 0.6
+    exitEase: 3
+    exitSlideDistance: 1

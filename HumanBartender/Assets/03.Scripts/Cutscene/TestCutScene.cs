@@ -1,6 +1,4 @@
 using DG.Tweening;
-using DG.Tweening.Core.Easing;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +21,7 @@ public enum ECutSceneAction
     HideImage,
     HideAll,
     ShowLayout,
+    Effect
 }
 
 public enum EEneterPreset
@@ -76,31 +75,32 @@ public struct TestCutSceneStep
 
     [Space(10f)]
 
-    [Tooltip("등장 타입")] 
+    [Tooltip("등장 타입")]
     public EEneterPreset enterType;
-    [Tooltip("등장 시간")] 
+    [Tooltip("등장 시간")]
     public float enterDuration;
-    [Tooltip("등장 이징 (기본: OutCubic)")]
+    [Tooltip("등장 이징 (Unset = OutCubic 기본값)")]
     public Ease enterEase;
+    [Tooltip("등장 슬라이드 거리 비율 (1.0 = 화면 전체). 0이면 기본값 1.0")]
+    [Range(0.1f, 2.0f)]
+    public float enterSlideDistance;
 
     [Space(10f)]
 
-    [Tooltip("유지 시간")] 
+    [Tooltip("유지 시간")]
     public float duration;
 
     [Space(10f)]
 
-    [Tooltip("퇴장 타입 (일괄 퇴장 시 None)")] 
+    [Tooltip("퇴장 타입 (일괄 퇴장 시 None)")]
     public EExitPreset exitType;
-    [Tooltip("퇴장 시간")] 
+    [Tooltip("퇴장 시간")]
     public float exitDuration;
-    [Tooltip("퇴장 이징 (기본: InCubic)")]
+    [Tooltip("퇴장 이징 (Unset = InCubic 기본값)")]
     public Ease exitEase;
-
-    [Space(10f)]
-    [Tooltip("슬라이드 거리 비율 (1.0 = 화면 전체, 0.5 = 절반 거리)")]
+    [Tooltip("퇴장 슬라이드 거리 비율 (1.0 = 화면 전체). 0이면 기본값 1.0")]
     [Range(0.1f, 2.0f)]
-    public float slideDistance;
+    public float exitSlideDistance;
 }
 
 
@@ -109,14 +109,13 @@ public class TestCutScene : ScriptableObject
 {
     public bool isCutSceneMove;
     public float cameraDuration;
-    public float cameraSpeed = 0.15f;
+    public float cameraRatio;
     public ECutSceneCameraMoveType cameraMoveType;
 
     public Ease easeGraph;
 
     public bool isSetBGSprite;
     public string bgPath;
-    
+
     public List<TestCutSceneStep> steps;
 }
-

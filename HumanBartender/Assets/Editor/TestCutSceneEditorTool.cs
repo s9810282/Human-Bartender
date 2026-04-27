@@ -1,6 +1,7 @@
 // Assets/Editor/TestCutSceneEditorTool.cs
 
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,6 +35,9 @@ public class TestCutSceneEditorTool : EditorWindow
     static readonly Color ColShowLayout = new(0.4f, 0.8f, 1f);
     static readonly Color ColTag        = new(0.25f, 0.25f, 0.25f);
     static readonly Color ColDivider    = new(0.15f, 0.15f, 0.15f);
+    static readonly Color ColEase       = new(0.7f, 0.85f, 1f);
+    static readonly Color ColEnterBar   = new(0.4f, 0.85f, 0.5f);
+    static readonly Color ColExitBar    = new(1f, 0.55f, 0.35f);
 
     [MenuItem("Tools/Test CutScene Tool")]
     public static void Open()
@@ -42,7 +46,6 @@ public class TestCutSceneEditorTool : EditorWindow
         w.minSize = new Vector2(720, 520);
     }
 
-    // ── 재생 중일 때 실시간 갱신 ──────────────────────────────────────
     void OnInspectorUpdate()
     {
         if (cutSceneManager != null && cutSceneManager.IsPlaying)
@@ -108,7 +111,6 @@ public class TestCutSceneEditorTool : EditorWindow
             return;
         }
 
-        // 재생 중 프로그레스 바
         DrawProgressBar();
 
         using (new EditorGUILayout.HorizontalScope())
@@ -226,7 +228,6 @@ public class TestCutSceneEditorTool : EditorWindow
             return;
         }
 
-        // 현재 재생 중인 Step 인덱스
         int playingIndex = (cutSceneManager != null && cutSceneManager.IsPlaying)
             ? cutSceneManager.CurrentStepIndex
             : -1;
@@ -237,7 +238,6 @@ public class TestCutSceneEditorTool : EditorWindow
             bool isSel     = (i == selectedStepIndex);
             bool isPlaying = (i == playingIndex);
 
-            // 스타일 우선순위: 재생 중 > 선택됨 > 기본
             GUIStyle boxStyle;
             if (isPlaying)       boxStyle = stylePlayingBox;
             else if (isSel)      boxStyle = styleSelectedBox;
@@ -247,7 +247,6 @@ public class TestCutSceneEditorTool : EditorWindow
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    // 재생 인디케이터
                     if (isPlaying)
                         GUILayout.Label("▶", GUILayout.Width(14));
 
@@ -299,6 +298,7 @@ public class TestCutSceneEditorTool : EditorWindow
             GUILayout.Label($"Step #{selectedStepIndex}", styleHeader);
             GUILayout.Space(6);
 
+            // ── Basic ─────────────────────────────────────────────────
             DrawSection("Basic", () =>
             {
                 DrawRow("Action",   step.action.ToString(),   ActionColor(step.action));
@@ -307,34 +307,88 @@ public class TestCutSceneEditorTool : EditorWindow
                 DrawRow("Duration", $"{step.duration:F2}s",   Color.white);
             });
 
+            // ── Position ──────────────────────────────────────────────
             DrawSection("Position", () =>
             {
                 DrawRow("Anchor",  step.positionPreset.Anchor.ToString(), Color.white);
                 DrawRow("Offset",  $"({step.positionPreset.OffsetX:F2}, {step.positionPreset.OffsetY:F2})", Color.white);
             });
 
+            // ── Enter ─────────────────────────────────────────────────
+            bool isEnterSlide = IsSlideEnterType(step.enterType);
             DrawSection("Enter", () =>
             {
                 DrawRow("Type",     step.enterType.ToString(),     ColShowImage);
                 DrawRow("Duration", $"{step.enterDuration:F2}s",   Color.white);
+
+                string easeName = step.enterEase == Ease.Unset ? "OutCubic (기본)" : step.enterEase.ToString();
+                DrawRow("Ease",     easeName,                      ColEase);
+
+                if (isEnterSlide)
+                {
+                    float dist = step.enterSlideDistance > 0 ? step.enterSlideDistance : 1.0f;
+                    DrawRow("Distance", $"{dist:F2}x", Color.white);
+                    DrawDistanceBar(dist, ColEnterBar);
+
+                    if (step.enterSlideDistance <= 0)
+                        EditorGUILayout.HelpBox("enterSlideDistance = 0 → 기본값 1.0 적용", MessageType.Info);
+                }
             });
 
+            // ── Exit ──────────────────────────────────────────────────
+            bool isExitSlide = IsSlideExitType(step.exitType);
             DrawSection("Exit", () =>
             {
-                Color exitCol = step.exitType == EExitPreset.None
-                    ? Color.gray
-                    : ColHideImage;
+                Color exitCol = step.exitType == EExitPreset.None ? Color.gray : ColHideImage;
                 DrawRow("Type",     step.exitType.ToString(),    exitCol);
                 DrawRow("Duration", $"{step.exitDuration:F2}s",  Color.white);
+
+                string easeName = step.exitEase == Ease.Unset ? "InCubic (기본)" : step.exitEase.ToString();
+                DrawRow("Ease",     easeName,                    ColEase);
+
+                if (isExitSlide)
+                {
+                    float dist = step.exitSlideDistance > 0 ? step.exitSlideDistance : 1.0f;
+                    DrawRow("Distance", $"{dist:F2}x", Color.white);
+                    DrawDistanceBar(dist, ColExitBar);
+
+                    if (step.exitSlideDistance <= 0)
+                        EditorGUILayout.HelpBox("exitSlideDistance = 0 → 기본값 1.0 적용", MessageType.Info);
+                }
 
                 if (step.exitType == EExitPreset.None)
                     EditorGUILayout.HelpBox("Exit None → HideAll Step에서 일괄 퇴장", MessageType.Info);
             });
 
+            // ── 슬라이드 비교 (Enter/Exit 둘 다 슬라이드일 때) ────────
+            if (isEnterSlide && isExitSlide)
+            {
+                DrawSection("Slide 비교", () =>
+                {
+                    float enterDist = step.enterSlideDistance > 0 ? step.enterSlideDistance : 1.0f;
+                    float exitDist  = step.exitSlideDistance  > 0 ? step.exitSlideDistance  : 1.0f;
+
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label("Enter", EditorStyles.miniLabel, GUILayout.Width(40));
+                        DrawDistanceBar(enterDist, ColEnterBar);
+                        GUILayout.Label($"{enterDist:F2}x", EditorStyles.miniLabel, GUILayout.Width(40));
+                    }
+
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label("Exit",  EditorStyles.miniLabel, GUILayout.Width(40));
+                        DrawDistanceBar(exitDist, ColExitBar);
+                        GUILayout.Label($"{exitDist:F2}x",  EditorStyles.miniLabel, GUILayout.Width(40));
+                    }
+                });
+            }
+
             EditorGUILayout.EndScrollView();
         }
     }
 
+    // ── 상세 헬퍼 ─────────────────────────────────────────────────────
     void DrawSection(string title, System.Action content)
     {
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
@@ -356,20 +410,28 @@ public class TestCutSceneEditorTool : EditorWindow
         }
     }
 
+    void DrawDistanceBar(float dist, Color barColor)
+    {
+        Rect barRect = EditorGUILayout.GetControlRect(false, 10);
+        EditorGUI.DrawRect(barRect, new Color(0.2f, 0.2f, 0.2f));
+        Rect fillRect = new Rect(barRect.x, barRect.y,
+                                 barRect.width * Mathf.Clamp01(dist / 2f), barRect.height);
+        EditorGUI.DrawRect(fillRect, barColor);
+    }
+
     // ══════════════════════════════════════════════════════════════════
-    //  재생 버튼 (3모드 + 중지 + 초기화)
+    //  재생 버튼
     // ══════════════════════════════════════════════════════════════════
     void DrawPlayButtons()
     {
         EditorGUILayout.Space(4);
 
-        bool canPlay = Application.isPlaying && cutSceneManager != null;
-        bool isPlaying = canPlay && cutSceneManager.IsPlaying;
+        bool canPlay    = Application.isPlaying && cutSceneManager != null;
+        bool isPlaying  = canPlay && cutSceneManager.IsPlaying;
         bool hasSelection = selectedStepIndex >= 0 &&
                             targetCutScene.steps != null &&
                             selectedStepIndex < targetCutScene.steps.Count;
 
-        // ── 1행: 전체 재생 + 중지 + 초기화 ───────────────────────────
         using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
         {
             GUI.enabled = canPlay && !isPlaying;
@@ -387,7 +449,6 @@ public class TestCutSceneEditorTool : EditorWindow
             GUI.enabled = true;
         }
 
-        // ── 2행: 선택 Step 기반 재생 ─────────────────────────────────
         using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
         {
             GUI.enabled = canPlay && hasSelection && !isPlaying;
@@ -404,7 +465,6 @@ public class TestCutSceneEditorTool : EditorWindow
             GUI.enabled = true;
         }
 
-        // ── 상태 안내 ────────────────────────────────────────────────
         if (!Application.isPlaying)
             EditorGUILayout.HelpBox("플레이 모드에서만 실행 가능", MessageType.None);
         else if (cutSceneManager == null)
@@ -426,17 +486,46 @@ public class TestCutSceneEditorTool : EditorWindow
         _                          => Color.white,
     };
 
-    string StepSummary(TestCutSceneStep step) => step.action switch
+    string StepSummary(TestCutSceneStep step)
     {
-        ECutSceneAction.ShowImage =>
-            step.exitType != EExitPreset.None
-                ? $"enter:{step.enterType} {step.enterDuration:F1}s → hold:{step.duration:F1}s → exit:{step.exitType} {step.exitDuration:F1}s"
-                : $"enter:{step.enterType} {step.enterDuration:F1}s → hold:{step.duration:F1}s → (HideAll 대기)",
-        ECutSceneAction.HideImage  => $"exit:{step.exitType} {step.exitDuration:F1}s",
-        ECutSceneAction.HideAll    => $"exit:{step.exitType} {step.exitDuration:F1}s  (전체 퇴장)",
-        ECutSceneAction.ShowLayout => $"enter:{step.enterType} {step.enterDuration:F1}s",
-        _                          => ""
-    };
+        switch (step.action)
+        {
+            case ECutSceneAction.ShowImage:
+                string enterEase = step.enterEase != Ease.Unset ? $" ({step.enterEase})" : "";
+                if (step.exitType != EExitPreset.None)
+                {
+                    string exitEase = step.exitEase != Ease.Unset ? $" ({step.exitEase})" : "";
+                    return $"{step.enterType}{enterEase} {step.enterDuration:F1}s → hold:{step.duration:F1}s → {step.exitType}{exitEase} {step.exitDuration:F1}s";
+                }
+                return $"{step.enterType}{enterEase} {step.enterDuration:F1}s → hold:{step.duration:F1}s → (HideAll 대기)";
+
+            case ECutSceneAction.HideImage:
+            {
+                string easeStr = step.exitEase != Ease.Unset ? $" ({step.exitEase})" : "";
+                return $"exit:{step.exitType}{easeStr} {step.exitDuration:F1}s";
+            }
+            case ECutSceneAction.HideAll:
+            {
+                string easeStr = step.exitEase != Ease.Unset ? $" ({step.exitEase})" : "";
+                return $"exit:{step.exitType}{easeStr} {step.exitDuration:F1}s  (전체 퇴장)";
+            }
+            case ECutSceneAction.ShowLayout:
+            {
+                string easeStr = step.enterEase != Ease.Unset ? $" ({step.enterEase})" : "";
+                return $"enter:{step.enterType}{easeStr} {step.enterDuration:F1}s";
+            }
+            default:
+                return "";
+        }
+    }
+
+    bool IsSlideEnterType(EEneterPreset type) =>
+        type == EEneterPreset.SlideLeft  || type == EEneterPreset.SlideRight ||
+        type == EEneterPreset.SlideUp    || type == EEneterPreset.SlideDown;
+
+    bool IsSlideExitType(EExitPreset type) =>
+        type == EExitPreset.SlideLeft  || type == EExitPreset.SlideRight ||
+        type == EExitPreset.SlideUp    || type == EExitPreset.SlideDown;
 
     string TruncatePath(string path, int max)
     {
