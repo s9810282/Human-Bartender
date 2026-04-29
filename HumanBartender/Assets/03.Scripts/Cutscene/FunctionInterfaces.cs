@@ -1,7 +1,14 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.Timeline;
 using UnityEngineInternal;
+
+public interface ITimeLinePlayer
+{
+    public void PlayTimeline(TimelineAsset timeline);
+    public void StopTimeline();
+}
 
 
 public interface ICharacterSetter

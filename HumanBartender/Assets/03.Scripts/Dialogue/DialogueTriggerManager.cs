@@ -46,6 +46,7 @@ public class DialogueTriggerManager : MonoBehaviour
     public void SkipTrigger()
     {
         _skipCts?.Cancel();
+        _skipCts?.Dispose();
         _skipCts = new CancellationTokenSource();
     }
 }

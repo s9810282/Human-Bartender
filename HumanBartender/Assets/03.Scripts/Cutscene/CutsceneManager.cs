@@ -271,13 +271,11 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             case EEffectType.Vignette:
-                // 비네트 스프라이트가 effectOverlay에 할당된 상태를 가정
                 effectOverlay.gameObject.SetActive(true);
                 effectOverlay.color = new Color(0, 0, 0, 0);
                 await effectOverlay.DOFade(0.7f, duration).ToUniTask();
                 break;
 
-            // 신규: 반투명 검은 오버레이 (dim)
             case EEffectType.Dim:
                 effectOverlay.color = new Color(0, 0, 0, 0);
                 effectOverlay.gameObject.SetActive(true);
@@ -285,8 +283,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             case EEffectType.Chromatic:
-                // URP PostProcessing이 없는 경우 근사치: 오버레이로 대체
-                // TODO: URP Volume 연동으로 교체 가능
                 Debug.Log("[CutsceneManager] chromatic — 현재 오버레이 근사치 사용 중");
                 await UniTask.Delay(TimeSpan.FromSeconds(duration));
                 break;
@@ -310,7 +306,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             "vignette" => EEffectType.Vignette,
             "dim" => EEffectType.Dim,
             "chromatic" => EEffectType.Chromatic,
-            _ => EEffectType.None // 매핑되지 않은 값 처리
+            _ => EEffectType.None 
         };
     }
 

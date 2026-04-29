@@ -124,6 +124,17 @@ public class CutSceneTimelineManager : MonoBehaviour
         activeImages[imageId] = img;
     }
 
+    /// <summary>
+    /// imagePath로 현재 활성화된 Image를 찾는다.
+    /// SpriteAnim, Move 등 보조 트랙에서 대상을 참조할 때 사용.
+    /// </summary>
+    public Image GetActiveImage(string imageId)
+    {
+        if (string.IsNullOrEmpty(imageId)) return null;
+        activeImages.TryGetValue(imageId, out Image img);
+        return img;
+    }
+
     public void ReturnToPool(string imageId, Image img)
     {
         img.gameObject.SetActive(false);
