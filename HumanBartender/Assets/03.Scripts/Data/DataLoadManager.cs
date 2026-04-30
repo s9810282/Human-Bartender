@@ -18,7 +18,7 @@ public class DataLoadManager : MonoBehaviour
 
     void Start()
     {
-        // 1. JSON 파일 로드
+        // 비동기로 바꾸기
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(
             isTest ? testDayName : "day1.json");
 
@@ -29,11 +29,13 @@ public class DataLoadManager : MonoBehaviour
         craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
         cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
 
-        // 2. 칵테일 데이터 캐싱
+        
+        
         cocktailData.Cached();
         cutSceneData.Cached();
 
-        // 3. 개별 데이터 세부 검증
+
+        
         Debug.Log("<color=yellow>=== 데이터 세부 검증 시작 ===</color>");
         VerifyCharacterData();
         VerifyCharacterAnimConfig();

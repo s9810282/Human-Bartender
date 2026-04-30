@@ -62,7 +62,12 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
         if (targetImage == null)
         {
             targetImage = manager.GetActiveImage(imagePath);
-            if (targetImage == null) return;
+
+            if (targetImage == null)
+            {
+                Logger.Log("target Image is Null");
+                return;
+            }
         }
 
         // 스프라이트 시트에서 서브 스프라이트 로드 (한 번만)
@@ -71,7 +76,7 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
             loaded = true;
 
             // LoadAll<Sprite>는 해당 텍스처의 모든 서브 스프라이트를 반환
-            Sprite[] allSprites = Resources.LoadAll<Sprite>(spriteSheetPath);
+            Sprite[] allSprites = Resources.LoadAll<Sprite>($"Cutscenes/{spriteSheetPath}");
 
             if (allSprites == null || allSprites.Length == 0)
             {
@@ -83,6 +88,7 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
 
             // 이름순 정렬 (슬라이스 순서 보장)
             Array.Sort(allSprites, (a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+            Logger.Log(allSprites.Length);
 
             // 프레임 범위 계산
             actualStartFrame = Mathf.Clamp(startFrame, 0, allSprites.Length - 1);
@@ -111,7 +117,9 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
             frameIndex = Mathf.Min(frameIndex, frames.Length - 1);
         }
 
+        //Logger.Log(frameIndex);
         targetImage.sprite = frames[frameIndex];
+        targetImage.SetNativeSize();
     }
 
     public override void OnBehaviourPause(Playable playable, FrameData info)

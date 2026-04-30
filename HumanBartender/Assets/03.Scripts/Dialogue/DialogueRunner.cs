@@ -171,6 +171,14 @@ public class DialogueRunner : MonoBehaviour
                 }
                 return;
             }
+            else if (currentDialogue.Type == EDialogueType.ChoiceRoot)
+            {
+                if (currentDialogue.Choices != null && currentDialogue.Choices.Length > 0)
+                {
+                    ShowChoices();
+                    return;
+                }
+            }
 
             currentState = DialogueState.Typing;
             await presenter.ShowDialogueAsync(currentDialogue, runnerCts.Token);
@@ -225,6 +233,7 @@ public class DialogueRunner : MonoBehaviour
     private void EndScene()
     {
         currentState = DialogueState.Idle;
+        presenter.EndScene();
         completionSource?.TrySetResult();
     }
 }

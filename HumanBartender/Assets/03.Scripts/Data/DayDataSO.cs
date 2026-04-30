@@ -17,6 +17,9 @@ public enum EDialogueType
 
     [EnumMember(Value = "normal")]
     Normal,
+
+    [EnumMember(Value = "choice_root")]
+    ChoiceRoot,
 }
 
 [JsonConverter(typeof(StringEnumConverter))]
@@ -119,7 +122,7 @@ public class DayDatabBase
     [JsonProperty("scenes")] public SceneData[] Scenes { get; set; }
 }
 
-[CreateAssetMenu(fileName = "DayDatabBase", menuName = "Data/DayDatabBase")]
+[CreateAssetMenu(fileName = "DayDataSO", menuName = "Data/DayDataSO")]
 public class DayDataSO : ScriptableObject
 {
     public DayDatabBase dayData;

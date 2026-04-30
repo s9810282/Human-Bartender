@@ -1,21 +1,22 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UIInteractableButton : UIOutside
+public class UIInteractableButton : UIOutsideTracker
 {
-    [Header("Event Channels")]
-    [SerializeField] private InteractableEventChannel visibleInteractble;
-
-    private void OnEnable()
+    public override void OnEnable()
     {
-        if (visibleInteractble != null)
-            visibleInteractble.OnRaised += OnVisibleInteractButton;
+        base.OnEnable();
+
+        if (OnTrackedText != null)
+            OnTrackedText.OnRaised += OnVisibleInteractButton;
     }
 
-    public void OnDisable()
+    public override void OnDisable()
     {
-        if (visibleInteractble != null)
-            visibleInteractble.OnRaised -= OnVisibleInteractButton;
+        base.OnDisable();
+
+        if (OnTrackedText != null)
+            OnTrackedText.OnRaised -= OnVisibleInteractButton;
     }
 
     public override void LateUpdate()
@@ -25,8 +26,6 @@ public class UIInteractableButton : UIOutside
 
     public void OnVisibleInteractButton(IInteractable interactable)
     {
-        trackedTarget = interactable;
-
         if (interactable == null)
         {
             target.gameObject.SetActive(false);

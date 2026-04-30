@@ -31,9 +31,6 @@ public class UIDialogueTextView : MonoBehaviour
     public TextMeshProUGUI nameTMPText;      // 이름 텍스트
     public TextMeshProUGUI dialogueTMPText;  // 대사 텍스트
 
-    public Text nameText;
-    public Text dialogueText;
-
     
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
@@ -55,29 +52,29 @@ public class UIDialogueTextView : MonoBehaviour
             return;
         }
 
-        dialogueText.fontStyle = FontStyle.Normal;
+        dialoguePanel.gameObject.SetActive(true);
         dialogueTMPText.fontStyle = FontStyles.Normal;
 
         curTypingData = data;
-        await TypeSentence(curTypingData.str);
+        await TypeSentenceTMP(curTypingData.str);
     }
     public void ClearText()
     {
-        nameText.text = "";
-        nameTMPText.text = "";
+        if (nameTMPText != null)
+            nameTMPText.text = "";
 
-        dialogueTMPText.text = "";
-        dialogueText.text = "";
+        if (dialogueTMPText != null)
+            dialogueTMPText.text = "";
     }
     public void SetNameColor(Color32 color)
     {
-        nameText.color = color;
-        nameTMPText.color = color;
+        if (nameTMPText != null)
+            nameTMPText.color = color;
     }
     public void SetNameText(string str)
     {
-        nameText.text = str;
-        nameTMPText.text = str;
+        if (nameTMPText != null)
+            nameTMPText.text = str;
     }
 
     public void OnScreenClick()
@@ -103,6 +100,8 @@ public class UIDialogueTextView : MonoBehaviour
     public async UniTask TypeSentenceTMP(string rawSentence)
     {
         if (!(rawSentence.Length > 0)) return;
+        if (dialogueTMPText == null) return;
+
 
         StopTyping();
 
@@ -154,65 +153,4 @@ public class UIDialogueTextView : MonoBehaviour
 
         CompleteTyping();
     }
-
-
-    #region Legacy Text
-    private string currentCleanText = "";
-    public async UniTask TypeSentence(string rawSentence)
-    {
-        if (rawSentence == null) return;
-        if (!(rawSentence.Length > 0)) return;
-
-        StopTyping();
-
-        typingCts = new CancellationTokenSource();
-        CancellationToken token = typingCts.Token;
-
-        string cleanSentence = rawSentence;
-        Dictionary<int, float> delayDict = new Dictionary<int, float>();
-        Regex tagRegex = new Regex(@"<(\d+)>");
-        MatchCollection matches = tagRegex.Matches(rawSentence);
-
-        int offset = 0;
-        foreach (Match match in matches)
-        {
-            int delayMs = int.Parse(match.Groups[1].Value);
-            int targetIndex = match.Index - offset;
-            delayDict[targetIndex] = delayMs / 1000f;
-
-            cleanSentence = cleanSentence.Remove(targetIndex, match.Length);
-            offset += match.Length;
-        }
-
-        currentCleanText = cleanSentence;
-
-        dialogueText.text = "";
-        int totalChars = cleanSentence.Length;
-
-        try
-        {
-            for (int i = 0; i <= totalChars; i++)
-            {
-                dialogueText.text = cleanSentence.Substring(0, i);
-
-                if (delayDict.ContainsKey(i))
-                {
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
-                }
-
-                if (i < totalChars)
-                {
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            dialogueText.text = cleanSentence;    
-        }
-
-        CompleteTyping();
-    }
-
-    #endregion
 }

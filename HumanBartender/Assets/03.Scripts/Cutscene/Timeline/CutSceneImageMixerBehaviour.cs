@@ -8,12 +8,7 @@ using UnityEngine.UI;
 
 public class CutSceneImageMixerBehaviour : PlayableBehaviour
 {
-    // Mixer가 Track에서 받아오는 바인딩
     internal CutSceneTimelineManager manager;
-
-    // ══════════════════════════════════════════════════════════════════
-    //  매 프레임 — 클립 활성/비활성 감지 후 Enter/Exit 트리거
-    // ══════════════════════════════════════════════════════════════════
 
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
@@ -49,7 +44,6 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
             }
             else if (weight <= 0f && behaviour.isActive)
             {
-                // ── 클립 종료 → Exit ──────────────────────────────────
                 behaviour.isActive = false;
 
                 if (behaviour.assignedImage != null && !behaviour.exitDone)
@@ -63,14 +57,9 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
 
     public override void OnPlayableDestroy(Playable playable)
     {
-        // Timeline 정지 시 잔여 이미지 정리
         if (manager != null)
             manager.ResetImages();
     }
-
-    // ══════════════════════════════════════════════════════════════════
-    //  Enter 애니메이션
-    // ══════════════════════════════════════════════════════════════════
 
     async UniTaskVoid PlayEnter(Image img, CutSceneImageBehaviour b)
     {
@@ -146,9 +135,6 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
         }
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Exit 애니메이션
-    // ══════════════════════════════════════════════════════════════════
 
     async UniTaskVoid PlayExit(Image img, CutSceneImageBehaviour b)
     {
@@ -208,7 +194,6 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
                 break;
         }
 
-        // 풀에 반환
         manager.ReturnToPool(b.imagePath, img);
         b.assignedImage = null;
     }

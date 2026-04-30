@@ -1,42 +1,9 @@
 {
-  "scene_group": "park_hyuksoo_daily",
+ "day": 1,
   "scenes": [
    {
   "scene_id": "hyuksoo_commute_out",
-  "trigger_condition": "luna_going_to_work",
   "dialogues": [
-
-    {
-      "id": "hco_000",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": "hco_001",
-      "choices": null,
-      "trigger": {
-        "type": "scene_set",
-        "data": { "location": "building_entrance", "time": "commute_out" }
-      }
-    },
-
-    {
-      "id": "hco_001",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": "hco_choice_root",
-      "choices": null,
-      "trigger": {
-        "type": "character_appear",
-        "data": {
-          "character_id": "park_hyuksoo",
-          "animation": "standing_outside",
-          "note": "건물 입구 밖, 불량한 차림으로 서 있음"
-        }
-      }
-    },
 
     {
       "id": "hco_choice_root",
@@ -60,10 +27,7 @@
       "expression": null,
       "next": null,
       "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 0, "affection": 0 }
-      }
+      "trigger": null
     },
 
     {

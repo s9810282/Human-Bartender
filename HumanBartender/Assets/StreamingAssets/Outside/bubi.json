@@ -1,0 +1,31 @@
+{
+  "day": 1,
+  "scenes": [
+   {
+  "scene_id": "bubi_sleep",
+  
+  "dialogues": [
+    {
+      "id": "hco_a_001",
+      "speaker": "bubi",
+      "type": "normal",
+      "text": "Zzzz...",
+      "expression": "flustered",
+      "next": "hco_a_002",
+      "choices": null,
+      "trigger": null
+    },
+    {
+      "id": "hco_a_002",
+      "speaker": "bubi",
+      "type": "normal",
+      "text": "야옹..Zzz..ㅇ..",
+      "expression": "default",
+      "next": null,
+      "choices": null,
+      "trigger": null
+    }
+  ]
+    }
+  ]
+}

@@ -28,7 +28,6 @@ public class CutSceneMoveBehaviour : PlayableBehaviour
     [Header("이동")]
     public Ease moveEase = Ease.InOutCubic;
 
-    // ── 런타임 ────────────────────────────────────────────────────────
     [NonSerialized] internal CutSceneTimelineManager manager;
     [NonSerialized] private Image targetImage;
     [NonSerialized] private bool initialized;
@@ -96,6 +95,6 @@ public class CutSceneMoveBehaviour : PlayableBehaviour
             _                     => new Vector2(w * 0.5f, h * 0.5f),
         };
 
-        return anchorPos + new Vector2(w * offsetX, h * offsetY);
+        return new Vector2(w * offsetX, h * offsetY);
     }
 }

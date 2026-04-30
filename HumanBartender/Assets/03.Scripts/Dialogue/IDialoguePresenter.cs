@@ -9,6 +9,7 @@ public interface IDialoguePresenter
     void SkipTyping();
     void HideDialogue();
     void ShowSystemAction();
+    void EndScene();
 
     UniTask<string> ExecuteTriggerAsync(TriggerData? trigger);
 }
