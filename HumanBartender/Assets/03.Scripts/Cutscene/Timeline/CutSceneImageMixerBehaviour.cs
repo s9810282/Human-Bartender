@@ -34,6 +34,7 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
 
                 Sprite sprite = Resources.Load<Sprite>($"Cutscenes/{behaviour.imagePath}");
                 if (sprite != null) img.sprite = sprite;
+                img.rectTransform.rotation = Quaternion.identity;
                 img.SetNativeSize();
 
                 manager.SetImagePosition(img, behaviour.anchor, behaviour.offsetX, behaviour.offsetY);

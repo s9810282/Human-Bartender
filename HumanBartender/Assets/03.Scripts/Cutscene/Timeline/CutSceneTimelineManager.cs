@@ -19,8 +19,9 @@ public class CutSceneTimelineManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] Canvas        cutSceneCanvas;
     [SerializeField] RectTransform canvasRect;
+    [SerializeField] CanvasScaler  canvasScaler;
 
-    [Header("CutScene Root")]
+    [Header("CutScene Root (패닝 대상)")]
     [SerializeField] RectTransform cutSceneRoot;
 
     [Header("Overlay / Images")]
@@ -35,13 +36,17 @@ public class CutSceneTimelineManager : MonoBehaviour
     [Header("Timeline")]
     [SerializeField] PlayableDirector director;
 
+    // ── Public Accessors (Mixer Behaviour들이 사용) ───────────────────
     public RectTransform CanvasRect    => canvasRect;
     public RectTransform CutSceneRoot  => cutSceneRoot;
+    public CanvasScaler  CanvasScaler  => canvasScaler;
     public Image         EffectOverlay => effectOverlay;
 
+    // ── 풀 ────────────────────────────────────────────────────────────
     Queue<Image>              imagePool    = new();
     Dictionary<string, Image> activeImages = new();
 
+    // ── Anchor 매핑 ───────────────────────────────────────────────────
     static readonly Dictionary<AnchorType, Vector2> anchorPreset = new()
     {
         { AnchorType.Center,      new Vector2(0.5f, 0.5f) },
@@ -53,6 +58,9 @@ public class CutSceneTimelineManager : MonoBehaviour
         { AnchorType.BottomRight, new Vector2(1.0f, 0.0f) },
     };
 
+    // ══════════════════════════════════════════════════════════════════
+    //  초기화
+    // ══════════════════════════════════════════════════════════════════
 
     void Awake()
     {
@@ -82,6 +90,10 @@ public class CutSceneTimelineManager : MonoBehaviour
             effectOverlay.gameObject.SetActive(false);
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    //  외부 재생 (코드에서 Timeline 트리거 시)
+    // ══════════════════════════════════════════════════════════════════
+
     public void PlayTimeline(TimelineAsset timeline)
     {
         if (director == null) return;
@@ -94,6 +106,10 @@ public class CutSceneTimelineManager : MonoBehaviour
         if (director != null)
             director.Stop();
     }
+
+    // ══════════════════════════════════════════════════════════════════
+    //  Image 풀 (Mixer에서 호출)
+    // ══════════════════════════════════════════════════════════════════
 
     public Image GetPooledImage()
     {
@@ -143,6 +159,9 @@ public class CutSceneTimelineManager : MonoBehaviour
             effectOverlay.gameObject.SetActive(false);
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    //  포지션
+    // ══════════════════════════════════════════════════════════════════
 
     public void SetImagePosition(Image img, AnchorType anchorType, float offsetX, float offsetY)
     {
@@ -158,6 +177,9 @@ public class CutSceneTimelineManager : MonoBehaviour
         rect.anchoredPosition = new Vector2(w * offsetX, h * offsetY);
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    //  Root
+    // ══════════════════════════════════════════════════════════════════
 
     public void ResetRootPosition()
     {
@@ -167,6 +189,9 @@ public class CutSceneTimelineManager : MonoBehaviour
         }
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    //  BG
+    // ══════════════════════════════════════════════════════════════════
 
     public Image BgImage => bgImage;
 

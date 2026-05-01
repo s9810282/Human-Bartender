@@ -1,5 +1,97 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8023240308478295695
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c637cfc738dab4e986a36bfccd0852, type: 3}
+  m_Name: Cut Scene Resolution Track
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneResolutionTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: -5799507079687144799}
+    m_Duration: 12.883333333333333
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -8023240308478295695}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneResolutionClip
+  m_Markers:
+    m_Objects: []
 --- !u!114 &-7874369032153145750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25,7 +117,7 @@ MonoBehaviour:
     m_Start: 1
     m_ClipIn: 0
     m_Asset: {fileID: -4236679640723777667}
-    m_Duration: 7.9833333333333325
+    m_Duration: 9.033333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: -7874369032153145750}
     m_EaseInDuration: 0
@@ -107,8 +199,8 @@ MonoBehaviour:
   template:
     imagePath: Bubi
     anchor: 0
-    offsetX: -0.04
-    offsetY: -0.33
+    offsetX: -0.031
+    offsetY: -0.3385
     enterType: 2
     enterDuration: 0.3
     enterEase: 0
@@ -261,6 +353,27 @@ MonoBehaviour:
     loop: 1
     startFrame: 0
     endFrame: 0
+    overridePivot: 1
+    pivot: {x: 0.5, y: 0.4}
+    autoCompensate: 0
+--- !u!114 &-5799507079687144799
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96cb58200559934c8773da9eaabc67a, type: 3}
+  m_Name: CutSceneResolutionClip
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneResolutionClip
+  template:
+    resolution: {x: 480, y: 270}
+    transition: 0
+    transitionDuration: 0.3
+    transitionEase: 10
+    matchWidthOrHeight: 0
 --- !u!114 &-5582682955468319131
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,7 +399,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -4593159324456466898}
-    m_Duration: 8.983333333333333
+    m_Duration: 12.883333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5582682955468319131}
     m_EaseInDuration: 0
@@ -464,7 +577,7 @@ MonoBehaviour:
     m_Start: 3.85
     m_ClipIn: 0
     m_Asset: {fileID: 8153990042572897347}
-    m_Duration: 5.133333333333333
+    m_Duration: 6.183333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -547,7 +660,7 @@ MonoBehaviour:
     imagePath: Luna
     anchor: 0
     offsetX: 0.22
-    offsetY: -0.28
+    offsetY: -0.34
     enterType: 2
     enterDuration: 1
     enterEase: 0
@@ -755,6 +868,7 @@ MonoBehaviour:
   - {fileID: -4527149525053943110}
   - {fileID: 5925220164130230586}
   - {fileID: -4175413328291441618}
+  - {fileID: -8023240308478295695}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -1009,7 +1123,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -552647804239900340}
-    m_Duration: 8.983333333333333
+    m_Duration: 12.883333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: 7163471571545682924}
     m_EaseInDuration: 0
@@ -1095,3 +1209,6 @@ MonoBehaviour:
     loop: 0
     startFrame: 0
     endFrame: 0
+    overridePivot: 1
+    pivot: {x: 0.5, y: -0.1}
+    autoCompensate: 1

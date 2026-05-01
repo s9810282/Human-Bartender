@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 /// <summary>
 /// 클립 구간 동안 UI Image에 스프라이트 시트 기반 프레임 애니메이션 재생.
@@ -39,6 +40,14 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
     [Tooltip("끝 프레임 (0이면 마지막까지)")]
     public int endFrame = 0;
 
+    [Header("Pivot 보정")]
+    [Tooltip("이 애니메이션의 기준점. Image의 RectTransform.pivot을 덮어씀")]
+    public bool overridePivot = false;
+    [Tooltip("Pivot (0,0)=좌하단, (0.5,0.5)=중앙, (0.5,0)=하단중앙(발 기준)")]
+    public Vector2 pivot = new Vector2(0.5f, 0.5f);
+    [Tooltip("Pivot 변경으로 인한 위치 틀어짐을 자동 보정")]
+    public bool autoCompensate = true;
+
     // ── 런타임 ────────────────────────────────────────────────────────
     [NonSerialized] internal CutSceneTimelineManager manager;
     [NonSerialized] private Sprite[] frames;
@@ -46,11 +55,14 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
     [NonSerialized] private Image targetImage;
     [NonSerialized] private int actualStartFrame;
     [NonSerialized] private int actualEndFrame;
+    [NonSerialized] private Vector2 prevPivot;
+    [NonSerialized] private bool pivotApplied;
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
     {
         loaded = false;
         targetImage = null;
+        pivotApplied = false;
     }
 
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -62,11 +74,28 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
         if (targetImage == null)
         {
             targetImage = manager.GetActiveImage(imagePath);
+            if (targetImage == null) return;
+        }
 
-            if (targetImage == null)
+        // Pivot 적용 (한 번만)
+        if (overridePivot && !pivotApplied)
+        {
+            pivotApplied = true;
+            RectTransform rect = targetImage.GetComponent<RectTransform>();
+            prevPivot = rect.pivot;
+
+            if (autoCompensate)
             {
-                Logger.Log("target Image is Null");
-                return;
+                // pivot 변경 시 위치가 틀어지므로 보정
+                // 보정량 = (newPivot - oldPivot) * size
+                Vector2 pivotDelta = pivot - prevPivot;
+                Vector2 size = rect.rect.size;
+                rect.pivot = pivot;
+                rect.anchoredPosition += new Vector2(pivotDelta.x * size.x, pivotDelta.y * size.y);
+            }
+            else
+            {
+                rect.pivot = pivot;
             }
         }
 
@@ -86,9 +115,13 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
                 return;
             }
 
-            // 이름순 정렬 (슬라이스 순서 보장)
-            Array.Sort(allSprites, (a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
-            Logger.Log(allSprites.Length);
+            // _숫자 기준 정렬 (Unity 슬라이스: sheetName_0, sheetName_1, ...)
+            Array.Sort(allSprites, (a, b) =>
+            {
+                int numA = int.Parse(a.name.Substring(a.name.LastIndexOf('_') + 1));
+                int numB = int.Parse(b.name.Substring(b.name.LastIndexOf('_') + 1));
+                return numA.CompareTo(numB);
+            });
 
             // 프레임 범위 계산
             actualStartFrame = Mathf.Clamp(startFrame, 0, allSprites.Length - 1);
@@ -117,13 +150,32 @@ public class CutSceneSpriteAnimBehaviour : PlayableBehaviour
             frameIndex = Mathf.Min(frameIndex, frames.Length - 1);
         }
 
-        //Logger.Log(frameIndex);
         targetImage.sprite = frames[frameIndex];
         targetImage.SetNativeSize();
     }
 
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
+        // Pivot 복구 — 다음 SpriteAnim 클립이 자기 pivot을 설정하므로
+        // 클립 사이에 빈 구간이 있을 때만 의미 있음
+        if (overridePivot && pivotApplied && targetImage != null)
+        {
+            RectTransform rect = targetImage.GetComponent<RectTransform>();
+
+            if (autoCompensate)
+            {
+                Vector2 pivotDelta = prevPivot - rect.pivot;
+                Vector2 size = rect.rect.size;
+                rect.pivot = prevPivot;
+                rect.anchoredPosition += new Vector2(pivotDelta.x * size.x, pivotDelta.y * size.y);
+            }
+            else
+            {
+                rect.pivot = prevPivot;
+            }
+        }
+
         targetImage = null;
+        pivotApplied = false;
     }
 }

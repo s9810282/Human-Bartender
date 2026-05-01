@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.004357815}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2104,7 +2104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -104.77496, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1220416236
@@ -2951,6 +2951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutSceneCanvas: {fileID: 1701543478}
   canvasRect: {fileID: 1701543479}
+  canvasScaler: {fileID: 1701543477}
   cutSceneRoot: {fileID: 1086804399}
   effectOverlay: {fileID: 201875519}
   bgImage: {fileID: 450778834}
@@ -2973,7 +2974,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1701543475}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 1ec5c136b6d90bb4a9c0a2cde90d8764, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -3004,6 +3005,10 @@ PlayableDirector:
   - key: {fileID: 4861606086542988456, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
     value: {fileID: 1701543480}
   - key: {fileID: -4175413328291441618, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
+    value: {fileID: 1701543480}
+  - key: {fileID: -8023240308478295695, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
+    value: {fileID: 1701543480}
+  - key: {fileID: -4622627850341606890, guid: 1ec5c136b6d90bb4a9c0a2cde90d8764, type: 2}
     value: {fileID: 1701543480}
   m_ExposedReferences:
     m_References: []
