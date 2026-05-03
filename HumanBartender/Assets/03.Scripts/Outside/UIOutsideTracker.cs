@@ -34,7 +34,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
     {
         if (trackedTarget == null) return;
 
-        if (!trackedTarget.IsAvailable)
+        if (!trackedTarget.IsAvaliable)
         {
             target.gameObject.SetActive(false);
             trackedTarget = null;

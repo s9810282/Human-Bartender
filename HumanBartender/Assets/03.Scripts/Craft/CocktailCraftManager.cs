@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.XR;
 using VContainer;
 using VContainer.Unity;
+using static UnityEngine.Rendering.DebugUI.MessageBox;
 
 
 public interface IMiniGameController
@@ -157,8 +158,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         cameraTcs = new UniTaskCompletionSource();
 
         await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
-
-        cameraZoom.ActionZoomAndBack(ECameraZoomType.Sub, cameraTcs); //컷씬용 화면 960 540 전환
+        cameraZoom.ActionZoomAndBack(ECameraZoomType.Sub, cameraTcs);
 
         //TODO : 여기도 진입할 때 컷씬 
         if (curCraftEventData.CraftCutscenes.craftEnterData[style] != null)
@@ -181,11 +181,12 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         controller = miniGameObj.GetComponent<IMiniGameController>();
 
 
-    
-        cutScenePlayer.ClearCutScene();
+        if (style != "build" && curCraftEventData.CraftCutscenes.craftEnterData[style] == null)
+        {
+            cutScenePlayer.ClearCutScene();
+        }
+
         cameraTcs.TrySetResult();
-
-
         //cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
 
         await miniGameInitTcs.Task;
@@ -221,6 +222,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         //Finished CutScene
         await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
+
+
         cameraZoom.ActionZoom(ECameraZoomType.Sub);
         await cutScenePlayer.PlayCutScene(targetCutsceneId);
 

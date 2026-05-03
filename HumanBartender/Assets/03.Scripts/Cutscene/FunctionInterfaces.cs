@@ -65,6 +65,7 @@ public interface ICutScenePlayer
 }
 
 
+
 public interface IEffectPlayer
 {
     UniTask PlayEffectAsync(EEffectType type, float duration = 1f, float Intensity = 0f);

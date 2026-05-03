@@ -35,7 +35,8 @@ public class StartCutSceneCommand : IDialogueCommand
         await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
 
         //카메라 사이즈 넣어야함
-        ECameraZoomType zoomType = cameraType;            
+        ECameraZoomType zoomType = cameraType;
+        cameraZoom.ActionZoomAndBack(zoomType, cameraTcs);
 
         //추후 type 값 추가.
         await cutScenePlayer.PlayCutScene(anim);

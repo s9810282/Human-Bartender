@@ -25,6 +25,7 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
 
             if (weight > 0f && !behaviour.isActive)
             {
+                // ── 클립 시작 → 배경 전환 ─────────────────────────────
                 behaviour.isActive = true;
                 behaviour.fadeOutStarted = false;
 
@@ -33,6 +34,7 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
 
                 Image bg = manager.BgImage;
 
+                // 이전 배경과 다르면 전환
                 if (behaviour.bgPath != currentBgPath)
                 {
                     currentBgPath = behaviour.bgPath;
@@ -41,19 +43,23 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
             }
             else if (weight <= 0f && behaviour.isActive)
             {
+                // ── 클립 종료 → 페이드 아웃 ───────────────────────────
                 behaviour.isActive = false;
 
                 if (!behaviour.fadeOutStarted)
                 {
                     behaviour.fadeOutStarted = true;
 
+                    // 다음 클립이 있는지 확인
                     bool hasNext = HasActiveClipAfter(playable, i);
 
                     if (!hasNext)
                     {
+                        // 다음 배경 클립이 없으면 페이드 아웃
                         currentBgPath = null;
                         TransitionOut(manager.BgImage, behaviour).Forget();
                     }
+                    // 다음 클립이 있으면 그 클립의 TransitionIn이 처리
                 }
             }
         }
@@ -86,6 +92,9 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
     {
         bg.DOKill();
 
+        // 위치/크기/피벗 적용
+        ApplyBGTransform(bg, behaviour);
+
         if (behaviour.fadeInDuration > 0)
         {
             bg.color = new Color(behaviour.tint.r, behaviour.tint.g, behaviour.tint.b, 0);
@@ -95,7 +104,6 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
         }
         else
         {
-       
             bg.sprite = sprite;
             bg.color = behaviour.tint;
             bg.gameObject.SetActive(true);
@@ -117,7 +125,42 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
             bg.gameObject.SetActive(false);
         }
 
+        // 트랜스폼 초기화
+        ResetBGTransform(bg);
         bg.sprite = null;
+    }
+
+    /// <summary>
+    /// 배경 Image에 offset, scale, pivot 적용.
+    /// 캔버스보다 큰 배경의 보이는 영역을 조절.
+    /// </summary>
+    void ApplyBGTransform(Image bg, CutSceneBGBehaviour behaviour)
+    {
+        RectTransform rect = bg.GetComponent<RectTransform>();
+        RectTransform canvasRect = manager.CanvasRect;
+
+        float w = canvasRect.rect.width;
+        float h = canvasRect.rect.height;
+
+        // 피벗
+        rect.pivot = behaviour.bgPivot;
+
+        // 스케일
+        rect.localScale = Vector3.one * behaviour.bgScale;
+
+        // 오프셋 (캔버스 비율 기준)
+        rect.anchoredPosition = new Vector2(
+            w * behaviour.bgOffset.x,
+            h * behaviour.bgOffset.y
+        );
+    }
+
+    void ResetBGTransform(Image bg)
+    {
+        RectTransform rect = bg.GetComponent<RectTransform>();
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.localScale = Vector3.one;
+        rect.anchoredPosition = Vector2.zero;
     }
 
     public override void OnPlayableDestroy(Playable playable)

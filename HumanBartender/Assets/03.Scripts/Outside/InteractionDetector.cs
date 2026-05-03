@@ -100,7 +100,7 @@ public class InteractionDetector : MonoBehaviour
                 interactable = col.GetComponentInParent<IInteractable>();
 
             if (interactable == null) continue;
-            if (!interactable.IsAvailable) continue;
+            if (!interactable.IsAvaliable) continue;
 
             currentFrameCandidates.Add(interactable);
         }
@@ -108,7 +108,7 @@ public class InteractionDetector : MonoBehaviour
 
     private void HandleInteractInput(IInteractor interactor)
     {
-        if (currentTarget == null || !currentTarget.IsAvailable) return;
+        if (currentTarget == null || !currentTarget.IsAvaliable) return;
         currentTarget.Interact(interactor);
     }
 

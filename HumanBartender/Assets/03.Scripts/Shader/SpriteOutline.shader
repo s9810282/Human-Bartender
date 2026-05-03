@@ -51,8 +51,10 @@ Shader "Custom/SpriteOutline"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
+            // 수정된 부분: _MainTex_TexelSize를 CBUFFER 외부로 분리
+            float4 _MainTex_TexelSize;   
+
             CBUFFER_START(UnityPerMaterial)
-                float4 _MainTex_TexelSize;   // (1/w, 1/h, w, h) - 자동 채워짐
                 float4 _Color;
                 float4 _OutlineColor;
                 float  _OutlineThickness;

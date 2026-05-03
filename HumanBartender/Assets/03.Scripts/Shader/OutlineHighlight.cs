@@ -14,8 +14,9 @@ public class OutlineHighlight : MonoBehaviour
     
     private MaterialPropertyBlock _block;
 
-    private float _currentIntensity;
-    private float _targetIntensity;
+    private float _currentIntensity = 0;
+    private float _targetIntensity = 0;
+
 
     private void Awake()
     {
@@ -32,28 +33,7 @@ public class OutlineHighlight : MonoBehaviour
         _renderer.SetPropertyBlock(_block);
     }
 
-    // --- 외부 호출용 함수 ---
 
-    /// <summary>
-    /// 아웃라인을 켭니다.
-    /// </summary>
-    public void EnableHighlight()
-    {
-        _targetIntensity = 1f;
-    }
-
-    /// <summary>
-    /// 아웃라인을 끕니다.
-    /// </summary>
-    public void DisableHighlight()
-    {
-        _targetIntensity = 0f;
-    }
-
-    /// <summary>
-    /// bool 값을 통해 아웃라인 상태를 켜거나 끕니다.
-    /// </summary>
-    /// <param name="isOn">true면 켜짐, false면 꺼짐</param>
     public void SetHighlight(bool isOn)
     {
         _targetIntensity = isOn ? 1f : 0f;

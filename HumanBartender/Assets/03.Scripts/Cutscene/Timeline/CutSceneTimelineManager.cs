@@ -1,21 +1,13 @@
+using Cysharp.Threading.Tasks;
+using Spine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
-/// <summary>
-/// Timeline 커스텀 트랙들의 바인딩 대상.
-/// Image 풀, Canvas, EffectOverlay 등 공용 리소스를 관리한다.
-/// 
-/// 사용법:
-/// 1. 이 컴포넌트를 Canvas 하위 오브젝트에 부착
-/// 2. PlayableDirector의 각 트랙 바인딩에 이 오브젝트를 할당
-/// 3. Timeline 에디터에서 클립 배치 후 재생
-/// </summary>
 public class CutSceneTimelineManager : MonoBehaviour
 {
-    // ── Inspector ─────────────────────────────────────────────────────
     [Header("Canvas")]
     [SerializeField] Canvas        cutSceneCanvas;
     [SerializeField] RectTransform canvasRect;
@@ -25,9 +17,9 @@ public class CutSceneTimelineManager : MonoBehaviour
     [SerializeField] RectTransform cutSceneRoot;
 
     [Header("Overlay / Images")]
-    [SerializeField] Image         effectOverlay;
-    [SerializeField] Image         bgImage;
-    [SerializeField] List<Image>   images = new();
+    [SerializeField] Image          bgImage;
+    [SerializeField] Image          effectOverlay;
+    [SerializeField] List<Image>    images = new();
 
     [Header("Padding")]
     [SerializeField] float padding_X = 0;
@@ -36,17 +28,15 @@ public class CutSceneTimelineManager : MonoBehaviour
     [Header("Timeline")]
     [SerializeField] PlayableDirector director;
 
-    // ── Public Accessors (Mixer Behaviour들이 사용) ───────────────────
+    
     public RectTransform CanvasRect    => canvasRect;
     public RectTransform CutSceneRoot  => cutSceneRoot;
     public CanvasScaler  CanvasScaler  => canvasScaler;
-    public Image         EffectOverlay => effectOverlay;
+    public Image EffectOverlay => effectOverlay;
 
-    // ── 풀 ────────────────────────────────────────────────────────────
     Queue<Image>              imagePool    = new();
     Dictionary<string, Image> activeImages = new();
 
-    // ── Anchor 매핑 ───────────────────────────────────────────────────
     static readonly Dictionary<AnchorType, Vector2> anchorPreset = new()
     {
         { AnchorType.Center,      new Vector2(0.5f, 0.5f) },
@@ -58,17 +48,37 @@ public class CutSceneTimelineManager : MonoBehaviour
         { AnchorType.BottomRight, new Vector2(1.0f, 0.0f) },
     };
 
-    // ══════════════════════════════════════════════════════════════════
-    //  초기화
-    // ══════════════════════════════════════════════════════════════════
+
+    private bool poolInitialized;
 
     void Awake()
     {
-        imagePool = new Queue<Image>(images);
-        ResetImages();
+        EnsurePoolInitialized();
 
         if (director != null)
             director.stopped += OnTimelineStopped;
+
+        cutSceneRoot.anchoredPosition = Vector2.zero;
+
+        effectOverlay.gameObject.SetActive(false);
+    }
+
+    void EnsurePoolInitialized()
+    {
+        if (poolInitialized) return;
+        poolInitialized = true;
+
+        imagePool = new Queue<Image>();
+        activeImages = new();
+
+        foreach (var img in images)
+        {
+            if (img != null)
+            {
+                img.gameObject.SetActive(false);
+                imagePool.Enqueue(img);
+            }
+        }
     }
 
     void OnDestroy()
@@ -76,6 +86,7 @@ public class CutSceneTimelineManager : MonoBehaviour
         if (director != null)
             director.stopped -= OnTimelineStopped;
     }
+
 
     /// <summary>
     /// Timeline 전체 종료 시 호출 — Root 위치 복구 + 잔여 정리
@@ -86,82 +97,77 @@ public class CutSceneTimelineManager : MonoBehaviour
         ResetImages();
         ClearBackground();
 
-        if (effectOverlay != null)
-            effectOverlay.gameObject.SetActive(false);
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    //  외부 재생 (코드에서 Timeline 트리거 시)
-    // ══════════════════════════════════════════════════════════════════
 
-    public void PlayTimeline(TimelineAsset timeline)
+
+
+
+    public void PlayTimelineCutScene(TimelineAsset timeline)
     {
         if (director == null) return;
         director.playableAsset = timeline;
         director.Play();
     }
-
     public void StopTimeline()
     {
         if (director != null)
             director.Stop();
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    //  Image 풀 (Mixer에서 호출)
-    // ══════════════════════════════════════════════════════════════════
 
     public Image GetPooledImage()
     {
+        EnsurePoolInitialized();
+
         if (imagePool.Count == 0)
         {
-            Debug.LogWarning("[CutSceneTimelineManager] 이미지 풀 비어있음");
+            Debug.LogWarning("[CutSceneTimelineManager] 이미지 풀 비어있음 — 모든 이미지가 사용 중");
             return null;
         }
         return imagePool.Dequeue();
     }
-
     public void RegisterActive(string imageId, Image img)
     {
+        EnsurePoolInitialized();
         activeImages[imageId] = img;
     }
-
-    /// <summary>
-    /// imagePath로 현재 활성화된 Image를 찾는다.
-    /// SpriteAnim, Move 등 보조 트랙에서 대상을 참조할 때 사용.
-    /// </summary>
     public Image GetActiveImage(string imageId)
     {
+        EnsurePoolInitialized();
         if (string.IsNullOrEmpty(imageId)) return null;
         activeImages.TryGetValue(imageId, out Image img);
         return img;
     }
-
     public void ReturnToPool(string imageId, Image img)
     {
+        EnsurePoolInitialized();
+
         img.gameObject.SetActive(false);
         img.color = Color.white;
+
         img.GetComponent<RectTransform>().localScale = Vector3.one;
+        img.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        img.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+        img.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
+        img.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
+
         activeImages.Remove(imageId);
         imagePool.Enqueue(img);
     }
-
     public void ResetImages()
     {
+        EnsurePoolInitialized();
+
         foreach (var kvp in activeImages)
         {
             kvp.Value.gameObject.SetActive(false);
             imagePool.Enqueue(kvp.Value);
         }
         activeImages.Clear();
-
-        if (effectOverlay != null)
-            effectOverlay.gameObject.SetActive(false);
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    //  포지션
-    // ══════════════════════════════════════════════════════════════════
+
 
     public void SetImagePosition(Image img, AnchorType anchorType, float offsetX, float offsetY)
     {
@@ -176,11 +182,6 @@ public class CutSceneTimelineManager : MonoBehaviour
         float h = canvasRect.rect.height - padding_Y;
         rect.anchoredPosition = new Vector2(w * offsetX, h * offsetY);
     }
-
-    // ══════════════════════════════════════════════════════════════════
-    //  Root
-    // ══════════════════════════════════════════════════════════════════
-
     public void ResetRootPosition()
     {
         if (cutSceneRoot != null)
@@ -188,13 +189,7 @@ public class CutSceneTimelineManager : MonoBehaviour
             cutSceneRoot.anchoredPosition = Vector2.zero;
         }
     }
-
-    // ══════════════════════════════════════════════════════════════════
-    //  BG
-    // ══════════════════════════════════════════════════════════════════
-
     public Image BgImage => bgImage;
-
     public void SetBackground(string path)
     {
         if (bgImage == null) return;
@@ -205,7 +200,6 @@ public class CutSceneTimelineManager : MonoBehaviour
             bgImage.gameObject.SetActive(true);
         }
     }
-
     public void ClearBackground()
     {
         if (bgImage != null)
@@ -214,4 +208,48 @@ public class CutSceneTimelineManager : MonoBehaviour
             bgImage.gameObject.SetActive(false);
         }
     }
+
+
+
+
+    // ══════════════════════════════════════════════════════════════════
+    //  에디터 전용 — 풀 없이 직접 접근 (플레이 모드 불필요)
+    // ══════════════════════════════════════════════════════════════════
+
+#if UNITY_EDITOR
+
+    public Image GetImageByIndex(int index)
+    {
+        if (images == null || index < 0 || index >= images.Count) return null;
+        return images[index];
+    }
+    public int ImageCount => images?.Count ?? 0;
+
+    public void ResetImageEditor(int index)
+    {
+        if (images == null || index < 0 || index >= images.Count) return;
+
+        var img = images[index];
+        img.sprite = null;
+        img.color = Color.white;
+        img.gameObject.SetActive(false);
+        img.GetComponent<RectTransform>().localScale = Vector3.one;
+        img.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        img.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+        img.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
+        img.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
+    }
+
+    public void ResetAllEditor()
+    {
+        for (int i = 0; i < ImageCount; i++)
+            ResetImageEditor(i);
+
+        ClearBackground();
+    }
+
+
+
+#endif
+
 }

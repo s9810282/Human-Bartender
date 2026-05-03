@@ -56,7 +56,6 @@ public class CutSceneResolutionMixerBehaviour : PlayableBehaviour
                 }
                 else
                 {
-                    Logger.Log("chage Resolution");
                     scaler.referenceResolution = behaviour.resolution;
                     scaler.matchWidthOrHeight = behaviour.matchWidthOrHeight;
                 }

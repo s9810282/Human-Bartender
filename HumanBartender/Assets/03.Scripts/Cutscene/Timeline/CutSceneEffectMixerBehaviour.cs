@@ -20,9 +20,5 @@ public class CutSceneEffectMixerBehaviour : PlayableBehaviour
             var behaviour = inputPlayable.GetBehaviour();
             behaviour.manager = manager;
         }
-
-        // 활성 클립이 없으면 오버레이 끄기
-        if (!anyActive && manager.EffectOverlay != null)
-            manager.EffectOverlay.gameObject.SetActive(false);
     }
 }

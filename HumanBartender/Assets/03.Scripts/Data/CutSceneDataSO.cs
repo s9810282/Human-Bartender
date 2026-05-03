@@ -61,6 +61,7 @@ public enum CutsceneType
     [EnumMember(Value = "sprite")] Sprite,
     [EnumMember(Value = "spine")] Spine,
     [EnumMember(Value = "comic")] Comic,
+    [EnumMember(Value = "timeline")] Timeline,
 }
 
 [JsonConverter(typeof(StringEnumConverter))]

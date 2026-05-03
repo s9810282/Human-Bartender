@@ -5,6 +5,9 @@ using UnityEngine.Playables;
 /// <summary>
 /// 배경 클립 데이터.
 /// 실제 전환 로직은 MixerBehaviour에서 처리.
+///
+/// 배경이 캔버스보다 클 때:
+///   bgScale로 크기 조절, bgOffset으로 보이는 영역 이동
 /// </summary>
 [Serializable]
 public class CutSceneBGBehaviour : PlayableBehaviour
@@ -12,6 +15,16 @@ public class CutSceneBGBehaviour : PlayableBehaviour
     [Header("배경 이미지")]
     [Tooltip("Resources/Cutscenes/ 하위 경로 (확장자 제외)")]
     public string bgPath;
+
+    [Header("위치/크기")]
+    [Tooltip("배경 오프셋 (캔버스 비율, 예: (0.1, 0) = 오른쪽으로 10% 이동)")]
+    public Vector2 bgOffset = Vector2.zero;
+
+    [Tooltip("배경 스케일 (1.0 = 캔버스에 맞춤, 1.5 = 150% 크기)")]
+    public float bgScale = 1.0f;
+
+    [Tooltip("배경 피벗 (0.5,0.5)=중앙 기준, (0,0.5)=왼쪽 기준")]
+    public Vector2 bgPivot = new Vector2(0.5f, 0.5f);
 
     [Header("전환")]
     [Tooltip("등장 페이드 시간 (0이면 즉시)")]

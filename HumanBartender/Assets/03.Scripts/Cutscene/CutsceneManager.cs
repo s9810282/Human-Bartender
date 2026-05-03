@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 using VContainer;
 
@@ -45,6 +47,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
     [SerializeField] SpriteAnimationManager spriteAnimationManager;
     [SerializeField] SpineAnimationManager spineAnimationManager;
+    [SerializeField] CutSceneTimelineManager timelineManager;
 
     private ICameraZoom cameraZoom;
     private ICameraMove cameraMove;
@@ -139,7 +142,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
         cutSceneCanvas.worldCamera = Camera.main;
 
-
         //Enter, Exit 구조 변경.
 
         switch (cutScene.Type)
@@ -154,11 +156,42 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             case CutsceneType.Comic:
                 await PlayComicCutSceneAsync(id, token, tcs);
                 break;
-            
+
+            case CutsceneType.Timeline:
+                await PlayTimelineCutScene(cutScene, token, tcs);
+                break;
 
             default: break;
         }
     }
+
+
+    public async UniTask PlayTimelineCutScene(
+        SpriteCutscene data,
+        CancellationToken token,
+        UniTaskCompletionSource tcs = null)
+    {
+
+        var handle = await ResourceLoader.TryLoadAsync<TimelineAsset>(data.Id, token);
+
+        if (handle.HasValue)
+        {
+            Logger.LogWarning($"{data.Id} is Play");
+            timelineManager.PlayTimelineCutScene(handle.Value.Result);
+            await UniTask.WaitForSeconds((float)handle.Value.Result.duration);
+        }
+        else
+        {
+            Logger.LogWarning($"{data.Id} is Not Exist or Load Failed");
+            await UniTask.WaitForSeconds(1f);
+        }
+
+        if (tcs != null)
+            tcs.TrySetResult();
+
+        ResourceLoader.ReleaseHandle<TimelineAsset>(ref handle);
+    }
+
 
 
     /// <summary>
@@ -197,7 +230,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-
     private async UniTask PlayComicCutSceneAsync(
         string id, 
         CancellationToken token, 
@@ -223,9 +255,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     {
         await ExecuteEffect(type, duration, intensity);
     }
-
-
-
     async UniTask ExecuteEffect(EEffectType type, float duration = 1f, float intensity = 0)
     {
         //추후 타입 따라 처리를 다륵 ㅔ할 것인지, 지금은 현재와 동일 한거라면 return
@@ -311,385 +340,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     }
 
 
-    /* ************************************************************ */
-
-
-
-
-
-
-
-
-
-
-    #region Comic
-
-
-
-    // ── 시퀀스 실행 ───────────────────────────────────────────────────
-
-    /*
-    async UniTask RunSequenceAsync(SpriteCutscene cutScene)
-    {
-        float startTime = Time.time;
-
-        //foreach (CutsceneStep step in cutScene.Steps)
-        //{
-        //    // 지정된 time까지 대기
-        //    float targetTime = startTime + step.Time;
-        //    await UniTask.WaitUntil(() => Time.time >= targetTime);
-
-        //    // 핸들러 실행 — 대기 없이 발사(non-blocking)하여 다음 step 타이밍과 겹칠 수 있음
-        //    if (actionHandlers.TryGetValue(step.Action, out var handler))
-        //        FireAndForget(handler(step)).Forget();
-        //    else
-        //        Debug.LogWarning($"[CutsceneManager] 알 수 없는 action: {step.Action}");
-        //}
-    }
-
-    async UniTaskVoid FireAndForget(UniTask task)
-    {
-        try { await task; }
-        catch (Exception e) { Debug.LogException(e); }
-    }
-
-
-    // ── Action 핸들러 구현 ────────────────────────────────────────────
-
-    async UniTask ExecuteShowImage(CutsceneStep step)
-    {
-        Image img = GetPooledImage();
-        if (img == null) return;
-
-        // 스프라이트 로드 (Resources 폴더 기준 — 프로젝트 구조에 맞게 교체)
-        Sprite sprite = Resources.Load<Sprite>($"Cutscenes/{step.Image}");
-        if (sprite != null) img.sprite = sprite;
-
-        SetImagePositionPreset(img, data.cutSceneData.PositionPresets[step.Position ?? "center"]);
-
-        activeImages[step.Image] = img;
-
-        float duration = step.EnterDuration ?? GetEnterDefaultDuration(step.Enter);
-        await ApplyEnterAnimation(img, step.Enter ?? "cut", duration);
-    }
-
-    async UniTask ExecuteHideImage(CutsceneStep step)
-    {
-        if (!activeImages.TryGetValue(step.Image, out Image img)) return;
-
-        string exitType = step.Exit ?? "fade_out";
-        float duration = step.ExitDuration ?? GetExitDefaultDuration(exitType);
-        await ApplyExitAnimation(img, exitType, duration);
-
-        ReturnToPool(step.Image, img);
-    }
-
-    /// <summary>
-    /// 신규: 현재 활성화된 모든 컷씬 이미지를 병렬로 퇴장시킨 뒤 풀에 반환
-    /// Effect Overlay도 포함
-    /// </summary>
-    async UniTask ExecuteHideAll(CutsceneStep step)
-    {
-        if (activeImages.Count == 0) return;
-
-        string exitType = step.Exit ?? "fade_out";
-        float duration = step.ExitDuration ?? GetExitDefaultDuration(exitType);
-
-        List<UniTask> exitTasks = new();
-        List<KeyValuePair<string, Image>> snapshot = new(activeImages);
-
-        foreach (var kvp in snapshot)
-        {
-            exitTasks.Add(ApplyExitAnimation(kvp.Value, exitType, duration));
-        }
-
-        //exitTasks.Add(ApplyExitAnimation(effectOverlay, exitType, duration));
-
-        await UniTask.WhenAll(exitTasks);
-
-        // 퇴장 완료 후 풀에 반환
-        foreach (var kvp in snapshot)
-        {
-            ReturnToPool(kvp.Key, kvp.Value);
-        }
-    }
-
-    async UniTask ExecuteShowLayout(CutsceneStep step)
-    {
-        if (!data.cutSceneData.LayoutPresets.TryGetValue(step.Layout, out LayoutPreset layout)) return;
-        if (step.Images == null || step.Images.Length < layout.Slots.Length) return;
-
-        List<Image> assigned = new();
-        for (int i = 0; i < layout.Slots.Length; i++)
-        {
-            Image img = GetPooledImage();
-            if (img == null) break;
-
-            Sprite sprite = Resources.Load<Sprite>($"Cutscenes/{step.Images[i]}");
-            if (sprite != null) img.sprite = sprite;
-
-            assigned.Add(img);
-            activeImages[step.Images[i]] = img;
-        }
-
-        SetImagesLayOut(assigned, layout);
-
-        // ── enters 배열 지원 (신규) ──────────────────────────────────
-        // enters 배열이 있으면 이미지별 개별 enter 적용,
-        // 없으면 기존 enter 단일값을 모든 이미지에 적용 (하위호환)
-        bool hasIndividualEnters = step.Enters != null && step.Enters.Length > 0;
-
-        if (hasIndividualEnters && step.Enters.Length != assigned.Count)
-        {
-            Debug.LogWarning($"[CutsceneManager] enters 배열 길이({step.Enters.Length})와 " +
-                             $"images 수({assigned.Count})가 불일치. 부족분은 'cut' 적용.");
-        }
-
-        List<UniTask> enterTasks = new();
-        for (int i = 0; i < assigned.Count; i++)
-        {
-            assigned[i].gameObject.SetActive(true);
-
-            string enterType;
-            float duration;
-
-            if (hasIndividualEnters)
-            {
-                enterType = i < step.Enters.Length ? step.Enters[i] : "cut";
-                duration = (step.EnterDurations != null && i < step.EnterDurations.Length)
-                    ? step.EnterDurations[i]
-                    : GetEnterDefaultDuration(enterType);
-            }
-            else
-            {
-                enterType = step.Enter ?? "cut";
-                duration = step.EnterDuration ?? GetEnterDefaultDuration(enterType);
-            }
-
-            enterTasks.Add(ApplyEnterAnimation(assigned[i], enterType, duration));
-        }
-
-        await UniTask.WhenAll(enterTasks);
-    }
-
-
-
-    // ── Enter 애니메이션 ──────────────────────────────────────────────
-    //아 이미지 위치 옮겨지고 액티브되어야함.
-
-    async UniTask ApplyEnterAnimation(Image img, string enterType, float duration)
-    {
-        RectTransform rect = img.GetComponent<RectTransform>();
-
-        switch (enterType)
-        {
-            case "cut":
-                img.color = Color.white;
-                img.gameObject.SetActive(true);
-                break;
-
-            case "fade_in":
-                img.color = new Color(1, 1, 1, 0);
-                img.gameObject.SetActive(true);
-                await img.DOFade(1f, duration).ToUniTask();
-                break;
-
-            case "slide_left":
-                {
-                    Vector2 origin = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
-                    rect.anchoredPosition = origin;
-                    img.gameObject.SetActive(true);
-
-                    await rect.DOAnchorPos(origin - new Vector2(canvasRect.rect.width, 0), duration)
-                               .SetEase(Ease.OutCubic).ToUniTask();
-                    break;
-                }
-            case "slide_right":
-                {
-                    Vector2 origin = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
-                    rect.anchoredPosition = origin;
-                    img.gameObject.SetActive(true);
-                    await rect.DOAnchorPos(origin + new Vector2(canvasRect.rect.width, 0), duration)
-                               .SetEase(Ease.OutCubic).ToUniTask();
-                    break;
-                }
-            case "slide_up":
-                {
-                    Vector2 origin = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
-                    rect.anchoredPosition = origin;
-                    img.gameObject.SetActive(true);
-                    await rect.DOAnchorPos(origin + new Vector2(0, canvasRect.rect.height), duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
-                    break;
-                }
-            case "slide_down":
-                {
-                    Vector2 origin = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
-                    rect.anchoredPosition = origin;
-                    img.gameObject.SetActive(true);
-                    await rect.DOAnchorPos(origin - new Vector2(0, canvasRect.rect.height), duration)
-                           .SetEase(Ease.OutCubic).ToUniTask();
-                    break;
-                }
-            case "zoom_in":
-                rect.localScale = Vector3.one * 0.5f;
-                img.color = new Color(1, 1, 1, 0);
-                img.gameObject.SetActive(true);
-                await UniTask.WhenAll(
-                    rect.DOScale(1f, duration).SetEase(Ease.OutBack).ToUniTask(),
-                    img.DOFade(1f, duration).ToUniTask()
-                );
-                break;
-
-            case "zoom_out":
-                rect.localScale = Vector3.one * 1.5f;
-                img.color = new Color(1, 1, 1, 0);
-                img.gameObject.SetActive(true);
-                await UniTask.WhenAll(
-                    rect.DOScale(1f, duration).SetEase(Ease.OutCubic).ToUniTask(),
-                    img.DOFade(1f, duration).ToUniTask()
-                );
-                break;
-
-            default:
-                img.color = Color.white;
-                img.gameObject.SetActive(true);
-                Debug.LogWarning($"[CutsceneManager] 알 수 없는 enter type: {enterType}");
-                break;
-        }
-    }
-
-    // ── Exit 애니메이션 ─────────────────────────────────────────
-    async UniTask ApplyExitAnimation(Image img, string exitType, float duration)
-    {
-        RectTransform rect = img.GetComponent<RectTransform>();
-
-        switch (exitType)
-        {
-            case "cut":
-                img.color = new Color(1, 1, 1, 0);
-                break;
-
-            case "fade_out":
-                await img.DOFade(0f, duration).ToUniTask();
-                break;
-
-            case "slide_left":
-                {
-                    Vector2 target = rect.anchoredPosition - new Vector2(canvasRect.rect.width, 0);
-                    await rect.DOAnchorPos(target, duration)
-                               .SetEase(Ease.InCubic).ToUniTask();
-                    break;
-                }
-            case "slide_right":
-                {
-                    Vector2 target = rect.anchoredPosition + new Vector2(canvasRect.rect.width, 0);
-                    await rect.DOAnchorPos(target, duration)
-                               .SetEase(Ease.InCubic).ToUniTask();
-                    break;
-                }
-            case "slide_up":
-                {
-                    Vector2 target = rect.anchoredPosition + new Vector2(0, canvasRect.rect.height);
-                    await rect.DOAnchorPos(target, duration)
-                               .SetEase(Ease.InCubic).ToUniTask();
-                    break;
-                }
-            case "slide_down":
-                {
-                    Vector2 target = rect.anchoredPosition - new Vector2(0, canvasRect.rect.height);
-                    await rect.DOAnchorPos(target, duration)
-                               .SetEase(Ease.InCubic).ToUniTask();
-                    break;
-                }
-            case "zoom_out":
-                await UniTask.WhenAll(
-                    rect.DOScale(0f, duration).SetEase(Ease.InBack).ToUniTask(),
-                    img.DOFade(0f, duration).ToUniTask()
-                );
-                break;
-
-            default:
-                await img.DOFade(0f, duration).ToUniTask();
-                Debug.LogWarning($"[CutsceneManager] 알 수 없는 exit type: {exitType}, fade_out으로 대체");
-                break;
-        }
-    }
-
-
-    float GetEnterDefaultDuration(string enterType) => enterType switch
-    {
-        "cut" => 0.0f,
-        "fade_in" => 0.4f,
-        "slide_left" => 0.3f,
-        "slide_right" => 0.3f,
-        "slide_up" => 0.3f,
-        "slide_down" => 0.3f,
-        "zoom_in" => 0.4f,
-        "zoom_out" => 0.4f,
-        _ => 0.3f,
-    };
-    float GetExitDefaultDuration(string exitType) => exitType switch
-    {
-        "cut" => 0.0f,
-        "fade_out" => 0.3f,
-        "slide_left" => 0.3f,
-        "slide_right" => 0.3f,
-        "slide_up" => 0.3f,
-        "slide_down" => 0.3f,
-        "zoom_out" => 0.4f,
-        _ => 0.3f,
-    };
-
-    */
-
-    // ── 포지션/레이아웃 ───────────────────────────────────────────────
-
-    public void SetImagePositionPreset(Image img, PositionPreset preset)
-    {
-        RectTransform rect = img.GetComponent<RectTransform>();
-        Vector2 anchor = anchorPreset[preset.Anchor];
-
-        rect.anchorMin = anchor;
-        rect.anchorMax = anchor;
-        rect.pivot = anchor;
-
-        float w = canvasRect.rect.width - padding_X;
-        float h = canvasRect.rect.height - padding_Y;
-        rect.anchoredPosition = new Vector2(w * preset.OffsetX, h * preset.OffsetY);
-        //rect.sizeDelta = new Vector2(w * preset.Width, h * preset.Height);
-    }
-
-
-    public void SetImagesLayOut(List<Image> imgs, LayoutPreset layoutPreset)
-    {
-        for (int i = 0; i < imgs.Count; i++)
-        {
-            LayoutSlot slot = layoutPreset.Slots[i];
-            PositionPreset preset = default;
-
-            preset = data.cutSceneData.PositionPresets[slot.Position];
-            //if (slot.WidthOverride != null) preset.Width = slot.WidthOverride.Value;
-            //if (slot.HeightOverride != null) preset.Height = slot.HeightOverride.Value;
-
-
-            SetImagePositionPreset(imgs[i], preset);
-
-            // dim 슬롯 처리: 이미지 대신 검은 반투명 오버레이로 사용
-            if (slot.Dim.HasValue)
-            {
-                imgs[i].sprite = null;
-                imgs[i].color = new Color(0, 0, 0, slot.Dim.Value);
-            }
-        }
-    }
-
-
-
-    #endregion
-
-
-
     // ── Image 풀 관리 ─────────────────────────────────────────────────
 
     Image GetPooledImage()
@@ -701,7 +351,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         }
         return imagePool.Dequeue();
     }
-
     void ReturnToPool(string imageId, Image img)
     {
         img.gameObject.SetActive(false);
@@ -710,7 +359,6 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         activeImages.Remove(imageId);
         imagePool.Enqueue(img);
     }
-
     public void ResetImages()
     {
         foreach (var kvp in activeImages)

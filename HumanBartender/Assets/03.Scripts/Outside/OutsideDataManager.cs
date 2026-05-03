@@ -20,8 +20,6 @@ public class OutsideDataManager : MonoBehaviour
         foreach(var item in outsideCharacterDatas)
         {
             item.data.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(item.id);
-            Logger.Log(item.data.dayData.Day);
-            Logger.Log(item.data.dayData.Scenes.Length);
         }
     }
 

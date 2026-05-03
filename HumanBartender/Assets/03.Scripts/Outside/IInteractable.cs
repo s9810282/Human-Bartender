@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public interface IInteractable
+
+
+public interface IInteractable : IEntity
 {
-    Vector3 Position { get; }
     int Priority { get; }
-    bool IsAvailable { get; }
+    bool IsAvaliable { get; }
 
     public void Interact(IInteractor player);
     public void OnFocusEnter();
