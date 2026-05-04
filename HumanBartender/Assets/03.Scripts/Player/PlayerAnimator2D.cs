@@ -10,7 +10,6 @@ using UnityEngine;
 public class PlayerAnimator2D : MonoBehaviour
 {
     [SerializeField] Animator _anim;
-    [SerializeField] PlayerMovement2D _movement;
 
 
     private static readonly int HashSpeed     = Animator.StringToHash("Speed");
@@ -40,13 +39,8 @@ public class PlayerAnimator2D : MonoBehaviour
     
     */
     
-    private void Update()
+    public void Handle(float value)
     {
-        // 지속 상태는 매 프레임 동기화
-        _anim.SetFloat(HashSpeed, Mathf.Abs(_movement.VelocityX));
-        //_anim.SetFloat(HashVelocityY, _movement.VelocityY);
-        //_anim.SetBool(HashGrounded, _movement.IsGrounded);
+        _anim.SetFloat(HashSpeed, Mathf.Abs(value));
     }
-
-
 }

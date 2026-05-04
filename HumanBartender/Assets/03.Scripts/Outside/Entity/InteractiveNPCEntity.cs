@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class InteractiveNPCEntity : InteractiveEntity
 {
-    [SerializeField] protected InteractableEventChannel OnTrackedText;
+    [SerializeField] protected InteractableEvent OnTrackedText;
 
     //고민해보기
     //data는 so같은 형태로 변경 필요
@@ -18,6 +18,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
     public override async void Interact(IInteractor player)
     {
         isTalking = true;
+        player.State = EInteractorState.Interct;
 
         OnTrackedText?.Raise(this);
 
@@ -25,5 +26,6 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         await runner.PlayAsync(dialogueData.dayData.Scenes[0].Dialogues);
 
         isTalking = false;
+        player.State = EInteractorState.None;
     }
 }

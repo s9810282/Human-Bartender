@@ -6,8 +6,8 @@ using UnityEngine;
 public class InteractionDetector : MonoBehaviour
 {
     [Header("Event Channels")]
-    [SerializeField] private InteractorEventChannel interactPressedChannel;
-    [SerializeField] private InteractableEventChannel OnTargetChanged;
+    [SerializeField] private InteractorEvent interactPressedChannel;
+    [SerializeField] private InteractableEvent OnTargetChanged;
 
     [Header("References")]
     [SerializeField] private Transform origin;
@@ -78,7 +78,14 @@ public class InteractionDetector : MonoBehaviour
         currentFrameCandidates.Clear();
     }
 
-    private void Update()
+    private void HandleInteractInput(IInteractor interactor)
+    {
+        if (currentTarget == null || !currentTarget.IsAvaliable) return;
+        currentTarget.Interact(interactor);
+    }
+
+
+    public void Handle()
     {
         ScanCandidates();
         UpdateCurrentTarget();
@@ -105,13 +112,6 @@ public class InteractionDetector : MonoBehaviour
             currentFrameCandidates.Add(interactable);
         }
     }
-
-    private void HandleInteractInput(IInteractor interactor)
-    {
-        if (currentTarget == null || !currentTarget.IsAvaliable) return;
-        currentTarget.Interact(interactor);
-    }
-
     private void UpdateCurrentTarget()
     {
         IInteractable best = null;

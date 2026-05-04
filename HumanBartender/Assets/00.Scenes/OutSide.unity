@@ -615,6 +615,7 @@ GameObject:
   - component: {fileID: 398070679}
   - component: {fileID: 398070678}
   - component: {fileID: 398070684}
+  - component: {fileID: 398070685}
   m_Layer: 0
   m_Name: Luna
   m_TagString: Player
@@ -826,7 +827,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator2D
   _anim: {fileID: 398070677}
-  _movement: {fileID: 398070680}
 --- !u!114 &398070682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,6 +839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e9ac90fdddccb46b3669d089f7afab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
+  movement2D: {fileID: 398070680}
+  animator2D: {fileID: 398070681}
+  detector: {fileID: 1872714672}
 --- !u!114 &398070683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,8 +854,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e0d0dc670ea694bb9dbe10a2015f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractHandler
-  interactPressedChannel: {fileID: 11400000, guid: 37625331b3fa62e41a52f54e9557c6a8, type: 2}
   interactor: {fileID: 398070682}
+  interactPressedEvent: {fileID: 11400000, guid: 40be41cab298b2242a9cf7f4d3240be4, type: 2}
+  onMoveEvent: {fileID: 11400000, guid: fc97bd69b8ee16f41a00475f3045d577, type: 2}
 --- !u!114 &398070684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,6 +876,34 @@ MonoBehaviour:
       - m_Target: {fileID: 398070680}
         m_TargetAssemblyTypeName: PlayerMovement2D, Assembly-CSharp
         m_MethodName: HandleExternalDelta
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &398070685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398070673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e296a03e29a7d8d4898c5f07f6c93da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Vector2EventListener
+  channel: {fileID: 11400000, guid: fc97bd69b8ee16f41a00475f3045d577, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 398070680}
+        m_TargetAssemblyTypeName: PlayerMovement2D, Assembly-CSharp
+        m_MethodName: GetMoveInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3724,7 +3756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4b64c9fc1d1b241803c6e9f188ba62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionDetector
-  interactPressedChannel: {fileID: 11400000, guid: 37625331b3fa62e41a52f54e9557c6a8, type: 2}
+  interactPressedChannel: {fileID: 11400000, guid: 40be41cab298b2242a9cf7f4d3240be4, type: 2}
   OnTargetChanged: {fileID: 11400000, guid: 040e6b61ee8ef44429c208ef1d5bff07, type: 2}
   origin: {fileID: 1872714670}
   detectionRadius: 0.5

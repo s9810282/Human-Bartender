@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InteractorEventChannel", menuName = "Scriptable Objects/InteractorEventChannel")]
-public class InteractorEventChannel : ScriptableObject
+public class InteractorEvent : ScriptableObject
 {
     public event Action<IInteractor> OnRaised;
 

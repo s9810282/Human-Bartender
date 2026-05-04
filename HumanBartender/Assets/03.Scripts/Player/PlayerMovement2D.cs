@@ -1,10 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Unity 6 - 2D 횡스크롤 플레이어 (이동만 담당)
-/// 애니메이션은 PlayerAnimator2D가 이 스크립트의 상태를 읽어 처리
-/// </summary>
+
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement2D : MonoBehaviour
@@ -18,18 +15,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     [SerializeField] BoxCollider2D _col;
 
-    // 입력
-    private float _moveInput;
 
-    // 속도
+    private float _moveInputX;
+
     private float _velocityX;
     private float _velocityY;
 
-    // 외부 영향 (엘리베이터, 이동 플랫폼, 컨베이어 벨트 등)
-    // 이번 프레임에 외부 시스템이 더해줄 이동량. 매 프레임 누적되고, 적용 후 리셋된다.
     private Vector2 _externalDelta;
 
-    // 상태
     private bool _isGrounded;
     private bool _isFacingRight = true;
 
@@ -37,22 +30,17 @@ public class PlayerMovement2D : MonoBehaviour
     public float VelocityY => _velocityY;
     public bool  IsGrounded => _isGrounded;
     public bool  IsFacingRight => _isFacingRight;
-    public bool  IsMoving => Mathf.Abs(_moveInput) > 0.01f;
+    public bool  IsMoving => Mathf.Abs(_moveInputX) > 0.01f;
 
 
-    private void Awake()
-    {
-        
-    }
-
-    public void OnMove(InputValue value) => _moveInput = value.Get<Vector2>().x;
+    public void GetMoveInput(Vector2 value) => _moveInputX = value.x;
     public void HandleExternalDelta(Vector2 delta) => _externalDelta += delta;
 
-    private void Update()
-    {
-        _velocityX = _moveInput * moveSpeed;
 
-       
+    public void Handle()
+    {
+        _velocityX = _moveInputX * moveSpeed;
+
         MoveWithCollision();
         HandleFlip();
     }
@@ -102,10 +90,9 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void HandleFlip()
     {
-        if (_moveInput > 0.01f && !_isFacingRight) Flip();
-        else if (_moveInput < -0.01f && _isFacingRight) Flip();
+        if (_moveInputX > 0.01f && !_isFacingRight) Flip();
+        else if (_moveInputX < -0.01f && _isFacingRight) Flip();
     }
-
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
@@ -113,6 +100,8 @@ public class PlayerMovement2D : MonoBehaviour
         s.x *= -1f;
         transform.localScale = s;
     }
+
+
 
     private void OnDrawGizmosSelected()
     {

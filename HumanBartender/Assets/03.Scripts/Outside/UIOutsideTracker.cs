@@ -8,7 +8,7 @@ public interface UITracker
 
 public class UIOutsideTracker : MonoBehaviour, UITracker
 {
-    [SerializeField] protected InteractableEventChannel OnTrackedText;
+    [SerializeField] protected InteractableEvent OnTrackedText;
 
     [SerializeField] protected RectTransform target;
     [SerializeField] protected Camera cam;
