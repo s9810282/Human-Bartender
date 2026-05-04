@@ -44,6 +44,11 @@ public abstract class AnimationPart
 
     [SerializeField] protected RuntimeAnimatorController baseController;
 
+    protected const float TARGET_LENGTH = 1f;
+    protected const string CLIP_SPEED = "ClipSpeed";
+
+    protected float curAnimSpeed = 0.3f;
+
     protected AnimatorOverrideController _overrideController;
     
     private readonly List<KeyValuePair<AnimationClip, AnimationClip>> _overrides
@@ -57,9 +62,15 @@ public abstract class AnimationPart
     }
 
     public void SetSpeed(float s) => animator.speed = s;
+    public void SetClipSpeed(float f)
+    {
+        float calculatedSpeed = f / TARGET_LENGTH;
+        curAnimSpeed = calculatedSpeed;
+        animator.SetFloat(CLIP_SPEED, calculatedSpeed);
+    }
     public void SetInactive() 
     { 
-        Logger.Log($"{partName} SetInactive");  
+        Logger.Log($"{partName.ToString()} SetInactive");  
         animator.enabled = false; 
         spriteRenderer.sprite = null;
 
@@ -103,9 +114,9 @@ public abstract class AnimationPart
     [Serializable]
 public class CharacterPart : AnimationPart, IFade
 {
-     [SerializeField] string _currentLoopMode;
+     [SerializeField] EAnimLoopMode _currentLoopMode;
 
-    public void SetLoopMode(string loopMode)
+    public void SetLoopMode(EAnimLoopMode loopMode)
     {
         spriteRenderer.sprite = null;
         _currentLoopMode = loopMode;
@@ -113,28 +124,25 @@ public class CharacterPart : AnimationPart, IFade
 
     public override async UniTask PlayAnimation(string animName, CancellationToken token)
     {
-        //Play Animation,  IPlaybackPolicy.OnPlay로 변경 예정, 해야하긴함.
-
-        //alway_on_dialogue, 일반 clip 실행 중 dialogue 시 전환 예정
-       
+        var Clip = _overrideController[animName];
+        
+        //TargetDuration을 State 별로 두기
+        SetClipSpeed(Clip.length);
+        
         animator.enabled = true;
         switch (_currentLoopMode)
         {
-            case "always_on_dialogue":
-            case "always":
+            case EAnimLoopMode.Always_OnDialogue:
+            case EAnimLoopMode.Always:
                 animator.speed = 1f;
                 animator.Play(animName, 0, 0f);
                 break;
 
-            case "on_dialogue":
-                animator.Play(animName, 0, 0f);
-                animator.speed = 0f;
-                break;
 
-            case "once":
+            case EAnimLoopMode.Once:
                 animator.speed = 1f;
                 animator.Play(animName, 0, 0f);
-                WaitAndFreezeAsync(token).Forget();
+                WaitAndFreezeAsync(animName, token).Forget();
                 break;
         }
 
@@ -151,12 +159,16 @@ public class CharacterPart : AnimationPart, IFade
     /// <param name="loopClip"></param>
     /// <returns></returns>
 
-    private async UniTaskVoid WaitAndFreezeAsync(CancellationToken token)
+    private async UniTaskVoid WaitAndFreezeAsync(string animName, CancellationToken token)
     {
-        var introClip = _overrideController["Intro"];
-        if (introClip != null)
-            await UniTask.Delay(TimeSpan.FromSeconds(introClip.length + (introClip.length * animator.GetCurrentAnimatorStateInfo(0).speed)), 
-                cancellationToken: token);
+        await UniTask.Yield(PlayerLoopTiming.Update, token);
+        
+        await UniTask.WaitUntil(() =>
+        {
+            if (animator == null) return true;
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo.IsName(animName) && stateInfo.normalizedTime >= 0.99f;
+        }, cancellationToken: token);
 
         if (animator != null) animator.speed = 0f;
     }
@@ -182,9 +194,11 @@ public class CharacterPart : AnimationPart, IFade
 
     // Dialogue
     //IPlaybackPolicy.OnDialogueStart
-    
+
     public void OnDialogueStart()
     {
+        if (_currentLoopMode == EAnimLoopMode.Once) return;
+
         if (partName != EAnimationPart.Lower_Face)
         {
             animator.speed = 0;
@@ -192,12 +206,14 @@ public class CharacterPart : AnimationPart, IFade
         }
 
         animator.Play("Dialogue", 0, 0f);
+
         //animator.SetBool("OnDialogue", true);
     }
 
     //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
+        if (_currentLoopMode == EAnimLoopMode.Once) return;
         //animator.enabled = true;
         //animator.SetBool("OnDialogue", false);
         animator.speed = 1;

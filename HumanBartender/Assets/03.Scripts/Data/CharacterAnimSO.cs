@@ -1,7 +1,9 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
-using Newtonsoft.Json;
 using UnityEngine.UIElements;
 
 
@@ -16,11 +18,16 @@ public enum EAnimationPart
     Sprite = 10,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
 public enum EAnimLoopMode
 {
+    [EnumMember(Value = "always")]
     Always,
+    [EnumMember(Value = "always_on_dialogue")]
     Always_OnDialogue,
+    [EnumMember(Value = "once")]
     Once,
+    [EnumMember(Value = "none")]
     None
 }
 
@@ -80,7 +87,6 @@ public class CharacterAnimBase
 public class CharacterAnimData
 {
     [JsonProperty("base_body")] public string BaseBody { get; set; }
-
     [JsonProperty("expressions")] public Dictionary<string, ExpressionAnimData> Expressions { get; set; }
 }
 
@@ -128,5 +134,5 @@ public class PartAnimData
     [JsonProperty("clip")] public string Clip { get; set; }
 
     /// <summary>"always" / "on_dialogue" / "once" / "none"</summary>
-    [JsonProperty("loop")] public string Loop { get; set; }
+    [JsonProperty("loop")] public EAnimLoopMode Loop { get; set; }
 }

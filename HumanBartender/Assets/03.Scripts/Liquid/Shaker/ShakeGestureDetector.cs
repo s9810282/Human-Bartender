@@ -16,12 +16,14 @@ namespace LiquidSimulation
         [SerializeField] private Vector2 dotBot = new Vector2(0.6f, -0.8f);
         [SerializeField] private float dotRadius = 0.4f;
 
+
         [Header("Detection")]
         [SerializeField] private float activationRadius = 2.0f;
 
         // 상태
         private bool isDragging = false;
         private Camera cam;
+
 
         // 시퀀스 추적
         // phase:

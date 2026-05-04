@@ -40,7 +40,7 @@ public class CharacterLoader
             Logger.LogWarning($"[CharacterManager] PartAnimData null, Default Data");
 
         }
-        else if (data.Loop == "none")
+        else if (data.Loop == EAnimLoopMode.None)
         {
             part.SetInactive();
 
