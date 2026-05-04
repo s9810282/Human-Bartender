@@ -8,18 +8,24 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 
-public enum SlotType
+public enum ESlotType
 {
+    /* Inside */
+
     Left,
     Right,
     Middle,
+
+    /* Outside */
+
+
 }
 
 
 [System.Serializable]
 public class SlotCharacterPart
 {
-    public SlotType type;
+    public ESlotType type;
     public string slotCharacterName = "";
     public string expression = "";
     public CharacterPart[] parts;
@@ -45,7 +51,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     [Header("Parts")]
     [SerializeField] private SlotCharacterPart[] slotParts;
 
-    private Dictionary<SlotType, SlotCharacterPart> _slotMap;
+    private Dictionary<ESlotType, SlotCharacterPart> _slotMap;
 
     private CharacterLoader characterLoader;
 
@@ -57,7 +63,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
     private void Awake()
     {
-        _slotMap = new Dictionary<SlotType, SlotCharacterPart>(slotParts.Length);
+        _slotMap = new Dictionary<ESlotType, SlotCharacterPart>(slotParts.Length);
         characterLoader = new CharacterLoader();
 
         foreach (var slot in slotParts)
@@ -93,7 +99,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     /// <returns></returns>
     public async UniTask SetCharacterAsync(string characterId, string expression)
     {
-        SlotType slot = SlotType.Right;
+        ESlotType slot = ESlotType.Right;
 
         for (int i = 0; i < slotParts.Length; i++)
         {
@@ -166,7 +172,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
     
 
-    public void OnDialogueStart(SlotType slot)
+    public void OnDialogueStart(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
         foreach (var part in slotData.parts)
@@ -184,7 +190,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
-    public void OnDialogueEnd(SlotType slot)
+    public void OnDialogueEnd(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
         foreach (var part in slotData.parts)
@@ -211,7 +217,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
-    public void ResetCharacter(SlotType slot)
+    public void ResetCharacter(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
 
@@ -236,7 +242,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-    public async UniTask FadeInAsync(SlotType slot, CancellationToken token)
+    public async UniTask FadeInAsync(ESlotType slot, CancellationToken token)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
         {
@@ -251,7 +257,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         await UniTask.WhenAll(tasks);
     }
-    public async UniTask FadeOutAsync(SlotType slot, CancellationToken token)
+    public async UniTask FadeOutAsync(ESlotType slot, CancellationToken token)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
         {

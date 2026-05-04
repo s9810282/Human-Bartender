@@ -18,6 +18,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
     public override async void Interact(IInteractor player)
     {
         isTalking = true;
+        isInteracting = true;
         player.State = EInteractorState.Interct;
 
         OnTrackedText?.Raise(this);
@@ -26,6 +27,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         await runner.PlayAsync(dialogueData.dayData.Scenes[0].Dialogues);
 
         isTalking = false;
+        isInteracting = false;
         player.State = EInteractorState.None;
     }
 }

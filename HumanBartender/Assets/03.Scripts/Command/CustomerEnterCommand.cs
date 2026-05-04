@@ -35,8 +35,8 @@ public class CustomerEnterCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        SlotType slotType = slot == "left" ? SlotType.Left : 
-            slot == "right" ? SlotType.Right : SlotType.Middle;
+        ESlotType slotType = slot == "left" ? ESlotType.Left : 
+            slot == "right" ? ESlotType.Right : ESlotType.Middle;
 
         await characterSetter.SetCharacterAsync(characterId, "default");
         int c = characterSetter.GetCharacterCount();
@@ -60,7 +60,7 @@ public class CustomerEnterCommand : IDialogueCommand
         else
         {
             cameraZoom.ZoomOut(enterDuration);
-            cameraMove.CameraMove(SlotType.Middle, enterDuration);
+            cameraMove.CameraMove(ESlotType.Middle, enterDuration);
         }
 
         characterFader.FadeInAsync(slotType, token).Forget();

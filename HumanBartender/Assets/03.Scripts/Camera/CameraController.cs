@@ -1,8 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Spine;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -11,7 +11,7 @@ using UnityEngine.Rendering.Universal;
 [System.Serializable]
 public class CameraPostion
 {
-    public SlotType slotType = SlotType.Middle;
+    public ESlotType slotType = ESlotType.Middle;
     public Transform pos;
 }
 
@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
     [Header("Move Position")]
     [SerializeField] CameraPostion[] movePositions;
 
-    private Dictionary<SlotType, CameraPostion> _slotMap;
+    private Dictionary<ESlotType, CameraPostion> _slotMap;
 
     [Header("Transition")]
     [SerializeField] float transitionDuration = 1f;
@@ -52,15 +52,11 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
 
     void Start()
     {
-
-        _slotMap = new Dictionary<SlotType, CameraPostion>(movePositions.Length);
-
+        _slotMap = new Dictionary<ESlotType, CameraPostion>(movePositions.Length);
         foreach (var slot in movePositions)
         {
             _slotMap[slot.slotType] = slot;            
         }
-
-        ApplyResolutionImmediate(baseResolution);
     }
 
     public async void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base,  UniTaskCompletionSource tcs = null)
@@ -103,13 +99,19 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         TransitionResolution(target).Forget();
     }
 
-    public void CameraMove(SlotType slot, float dur = 1f)
+    public void CameraMove(ESlotType slot, float dur = 1f)
     {
         Vector3 targetPos = _slotMap[slot].pos.transform.position;
         transitionDuration = dur;
         TransitionPosition(targetPos).Forget();
     }
 
+    public void CameraMove(Vector3 pos, float dur = 1)
+    {
+        Vector3 targetPos = pos;
+        transitionDuration = dur;
+        TransitionPosition(targetPos).Forget();
+    }
 
     public void ApplyResolutionImmediate(Vector2Int res)
     {

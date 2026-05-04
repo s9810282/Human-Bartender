@@ -19,11 +19,10 @@ public class Player : MonoBehaviour, IInteractor
 
     public void Update()
     {
-        detector.Handle();
-
         if (state == EInteractorState.Interct) return;
 
         movement2D.Handle();
         animator2D.Handle(movement2D.VelocityX);
+        detector.Handle();
     }
 }

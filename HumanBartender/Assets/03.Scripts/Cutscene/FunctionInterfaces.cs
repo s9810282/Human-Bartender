@@ -1,8 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine;
 using UnityEngine.Timeline;
-using UnityEngineInternal;
 
 public interface ITimeLinePlayer
 {
@@ -15,14 +14,14 @@ public interface ICharacterSetter
 {
     public UniTask SetCharacterAsync(string characterId, string expression);
     public int GetCharacterCount();
-    public void ResetCharacter(SlotType slot);
+    public void ResetCharacter(ESlotType slot);
     public void ResetCharacter();
 }
 
 public interface IDialogueFader
 {
-    public UniTask FadeInAsync(SlotType slot, CancellationToken token);
-    public UniTask FadeOutAsync(SlotType slot, CancellationToken token);
+    public UniTask FadeInAsync(ESlotType slot, CancellationToken token);
+    public UniTask FadeOutAsync(ESlotType slot, CancellationToken token);
 }
 
 
@@ -44,7 +43,8 @@ public interface ICameraZoom
 
 public interface ICameraMove
 {
-    public void CameraMove(SlotType slot, float dur = 1f);
+    public void CameraMove(ESlotType slot, float dur = 1f);
+    public void CameraMove(Vector3 pos, float dur = 1);
 }
 
 

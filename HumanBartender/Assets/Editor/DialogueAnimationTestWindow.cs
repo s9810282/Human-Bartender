@@ -11,7 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class DialogueAnimationTestWindow : EditorWindow
 {
     // ─── 입력 ───────────────────────────────────────────
-    private SlotType _slot = SlotType.Left;
+    private ESlotType _slot = ESlotType.Left;
     private string _speaker = "luna";
     private string _expression = "joy";
 
@@ -93,7 +93,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     {
         EditorGUILayout.LabelField("Input & Control", EditorStyles.boldLabel);
 
-        _slot = (SlotType)EditorGUILayout.EnumPopup("Slot", _slot);
+        _slot = (ESlotType)EditorGUILayout.EnumPopup("Slot", _slot);
         _speaker = EditorGUILayout.TextField("Speaker", _speaker);
         _expression = EditorGUILayout.TextField("Expression", _expression);
 
@@ -252,7 +252,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     // 재생 로직
     // ═══════════════════════════════════════════════════════
 
-    private async UniTaskVoid PlayAsync(SlotType slot, string speaker, string expression)
+    private async UniTaskVoid PlayAsync(ESlotType slot, string speaker, string expression)
     {
         if (_targetManager == null)
         {
@@ -272,7 +272,7 @@ public class DialogueAnimationTestWindow : EditorWindow
         Repaint();
     }
 
-    private void SetDialogueBool(SlotType slot, bool value)
+    private void SetDialogueBool(ESlotType slot, bool value)
     {
         if (_targetManager == null) return;
 
@@ -317,7 +317,7 @@ public class DialogueAnimationTestWindow : EditorWindow
     // 유틸
     // ═══════════════════════════════════════════════════════
 
-    private void ApplyPartToggles(SlotType slot)
+    private void ApplyPartToggles(ESlotType slot)
     {
         if (_targetManager == null) return;
 

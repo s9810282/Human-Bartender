@@ -1,8 +1,14 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using UnityEditor.Rendering;
 using UnityEngine;
+
+
 
 public class OutsideElevator : InteractiveEntity
 {
     [SerializeField] Vector2Event externalDeltaEvent;
+    [SerializeField] ElevatorCamera camera;
     
     [SerializeField] Transform topPoint;
     [SerializeField] Transform bottomPoint;
@@ -10,48 +16,49 @@ public class OutsideElevator : InteractiveEntity
     [SerializeField] GameObject wallColider;
 
     [SerializeField] float speed;
+    [SerializeField] Ease ease;
 
     Transform targetPoint;
 
-    bool isHasPassenger = false;
     bool isMoving = false;
     bool isTop = false;
 
     public override void Interact(IInteractor player)
     {
+        if (isMoving) return;
+
         isMoving = true;
-        isHasPassenger = true;
+        isInteracting = true;
 
-        Vector3 vec = this.transform.position;
-        vec.y = player.Transform.position.y;
+        player.State = EInteractorState.Interct;
 
-        player.Transform.position = vec;
+        Vector3 oldPos = this.transform.position;
+        oldPos.y = player.Transform.position.y;
+        player.Transform.position = oldPos;
+        player.Transform.SetParent(transform, worldPositionStays: true);
 
         wallColider.gameObject.SetActive(true);
-
         targetPoint = isTop ? bottomPoint : topPoint;
-    }
 
-    private void Update()
-    {
-        if (!isMoving) return;
+        OnFocusExit();
 
-        Vector3 oldPos = transform.position;
-        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, speed * Time.deltaTime);
+        camera.Init(player.Transform);
 
-        Vector2 delta = transform.position - oldPos;
+        transform.DOMove(targetPoint.position, speed)
+              .SetSpeedBased(true)
+              .SetEase(ease)
+              .OnComplete(() =>
+              {
+                  transform.position = targetPoint.position;
 
-        if (isHasPassenger && delta != Vector2.zero)
-        {
-            externalDeltaEvent.Raise(delta);
-        }
+                  player.Transform.SetParent(null, worldPositionStays: true);
 
-        if (Mathf.Approximately(transform.position.y, targetPoint.position.y))
-        {
-            transform.position = targetPoint.position;
-            isMoving = false;
-            isTop = !isTop;
-            wallColider.gameObject.SetActive(false);
-        }
+                  isMoving = false;
+                  isInteracting = false;
+                  isTop = !isTop;
+                  OnFocusEnter();
+                  wallColider.gameObject.SetActive(false);
+                  player.State = EInteractorState.None;
+              });
     }
 }

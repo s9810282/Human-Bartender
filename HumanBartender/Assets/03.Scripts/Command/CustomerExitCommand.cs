@@ -35,8 +35,8 @@ public class CustomerExitCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        SlotType slotType = slot == "left" ? SlotType.Left :
-             slot == "right" ? SlotType.Right : SlotType.Middle;
+        ESlotType slotType = slot == "left" ? ESlotType.Left :
+             slot == "right" ? ESlotType.Right : ESlotType.Middle;
 
         cts?.Cancel();
         cts?.Dispose();
@@ -55,13 +55,13 @@ public class CustomerExitCommand : IDialogueCommand
         if (c == 1)
         {
             cameraZoom.ZoomIn(exitDuration);
-            cameraMove.CameraMove(slotType == SlotType.Left ? 
-                SlotType.Right : SlotType.Left, exitDuration);
+            cameraMove.CameraMove(slotType == ESlotType.Left ? 
+                ESlotType.Right : ESlotType.Left, exitDuration);
         }
         else
         {
             cameraZoom.ZoomOut(exitDuration);
-            cameraMove.CameraMove(SlotType.Middle, exitDuration);
+            cameraMove.CameraMove(ESlotType.Middle, exitDuration);
         }
 
         await UniTask.WaitForSeconds(exitDuration);
