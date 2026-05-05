@@ -4,8 +4,7 @@ using VContainer;
 
 public class CustomerEnterCommand : IDialogueCommand
 {
-    [Inject] ICameraMove cameraMove;
-    [Inject] ICameraZoom cameraZoom;
+    [Inject] ICameraControl cameraZoom;
     [Inject] ICharacterSetter characterSetter;
     [Inject] IDialogueFader characterFader;
 
@@ -49,18 +48,18 @@ public class CustomerEnterCommand : IDialogueCommand
          .CreateLinkedTokenSource(cts.Token)
          .Token;
 
-        cameraMove.CameraMove(slotType, enterDuration);
+        cameraZoom.CameraMove(slotType, enterDuration);
 
 
         if (c == 1)
         {
-            cameraZoom.ZoomIn(enterDuration);
-            cameraMove.CameraMove(slotType, enterDuration);
+            cameraZoom.CameraZoom(ECameraZoomType.Sub, enterDuration);
+            cameraZoom.CameraMove(slotType, enterDuration);
         }
         else
         {
-            cameraZoom.ZoomOut(enterDuration);
-            cameraMove.CameraMove(ESlotType.Middle, enterDuration);
+            cameraZoom.CameraZoom(ECameraZoomType.Base, enterDuration);
+            cameraZoom.CameraMove(ESlotType.Middle, enterDuration);
         }
 
         characterFader.FadeInAsync(slotType, token).Forget();

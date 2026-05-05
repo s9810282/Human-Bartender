@@ -11,9 +11,8 @@ public class InGameLifetimeScope : LifetimeScope
          .As<ICocktailCraft>();
 
         builder.RegisterComponentInHierarchy<CameraController>()
-         .As<ICameraZoom>()
-         .As<ICameraMove>();
-        
+         .As<ICameraControl>();
+
         builder.RegisterComponentInHierarchy<DialogueCharacterManager>()
             .As<ICharacterSetter>()
             .As<IDialogueFader>();
@@ -24,9 +23,9 @@ public class InGameLifetimeScope : LifetimeScope
 
             if (_cutSceneManager != null)
             {
-                var zoom = container.Resolve<ICameraZoom>();
-                var move = container.Resolve<ICameraMove>();
-                _cutSceneManager.SetSceneDependencies(zoom, move);
+                var zoom = container.Resolve<ICameraControl>();
+
+                _cutSceneManager.SetSceneDependencies(zoom);
             }
         });
     }

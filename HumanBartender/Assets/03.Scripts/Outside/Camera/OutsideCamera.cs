@@ -1,26 +1,45 @@
+using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 public enum EOutsideCameraMode
 {
-    Follow,
-    Elevator
+    Follow = 0,
+    Elevator = 1
 }
 
+[System.Serializable]
+public class OutsideCameraOption
+{
+    public EOutsideCameraMode cameraMode;
 
+    public Transform cameraTarget;
+    public Vector3 cameraOffset;
+
+    public bool isChangeResolution;
+    public ECameraZoomType targetResolution;
+}
 
 public class OutsideCamera : MonoBehaviour
 {
-    [Header("Camera")]
-    [SerializeField] CameraFollow2D followCamera;
-    [SerializeField] ElevatorCamera elevatorCamera;
-
+    [Header("CameraOption")]
+    [SerializeField] OutsideCameraOption[] cameraOptions;
+    
     [SerializeField] EOutsideCameraMode curCameraMode = EOutsideCameraMode.Follow;
 
+    [SerializeField] CameraControllerNew cameraZoom;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private Dictionary<EOutsideCameraMode, OutsideCameraOption> _cameraMap;
+    
+
     void Start()
     {
-        
+        _cameraMap = new Dictionary<EOutsideCameraMode, OutsideCameraOption>(cameraOptions.Length);
+        foreach (var slot in cameraOptions)
+        {
+            _cameraMap[slot.cameraMode] = slot;
+        }
     }
 
     // Update is called once per frame
@@ -29,9 +48,16 @@ public class OutsideCamera : MonoBehaviour
         
     }
 
-    private void LateUpdate()
+    public void ChangeCameraMode(int n)
     {
-        if(curCameraMode == EOutsideCameraMode.Follow )
-            followCamera.Handle();
+        curCameraMode = (EOutsideCameraMode)n;
+
+        ExcuteCameraOption(_cameraMap[curCameraMode]);
+    }
+
+    public void ExcuteCameraOption(OutsideCameraOption mode)
+    {
+        cameraZoom.TransitionFollowOffset(mode.cameraOffset, 1f);
+        cameraZoom.CameraZoom(mode.targetResolution, 1f);
     }
 }

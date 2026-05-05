@@ -30,7 +30,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
-    [Inject] ICameraZoom cameraZoom;
+    [Inject] ICameraControl cameraZoom;
 
     [Header("MiniGame Prefabs")]
     [SerializeField] private GameObject shakePrefab;

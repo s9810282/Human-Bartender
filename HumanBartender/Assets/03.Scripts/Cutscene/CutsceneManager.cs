@@ -49,8 +49,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
     [SerializeField] SpineAnimationManager spineAnimationManager;
     [SerializeField] CutSceneTimelineManager timelineManager;
 
-    private ICameraZoom cameraZoom;
-    private ICameraMove cameraMove;
+    private ICameraControl cameraZoom;
 
     private EEffectType curEffect = EEffectType.None;
 
@@ -98,15 +97,13 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
 
 
-    public void SetSceneDependencies(ICameraZoom zoom, ICameraMove move)
+    public void SetSceneDependencies(ICameraControl zoom)
     {
         cameraZoom = zoom;
-        cameraMove = move;
     }
     public void ClearSceneDependencies()
     {
         cameraZoom = null;
-        cameraMove = null;
     }
 
 

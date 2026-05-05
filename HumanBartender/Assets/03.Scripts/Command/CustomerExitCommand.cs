@@ -8,8 +8,7 @@ using VContainer;
 
 public class CustomerExitCommand : IDialogueCommand
 {
-    [Inject] ICameraMove cameraMove;
-    [Inject] ICameraZoom cameraZoom;
+    [Inject] ICameraControl cameraZoom;
     [Inject] ICharacterSetter characterSetter;
     [Inject] IDialogueFader characterFader;
 
@@ -54,14 +53,14 @@ public class CustomerExitCommand : IDialogueCommand
 
         if (c == 1)
         {
-            cameraZoom.ZoomIn(exitDuration);
-            cameraMove.CameraMove(slotType == ESlotType.Left ? 
+            cameraZoom.CameraZoom(ECameraZoomType.Sub, exitDuration);
+            cameraZoom.CameraMove(slotType == ESlotType.Left ? 
                 ESlotType.Right : ESlotType.Left, exitDuration);
         }
         else
         {
-            cameraZoom.ZoomOut(exitDuration);
-            cameraMove.CameraMove(ESlotType.Middle, exitDuration);
+            cameraZoom.CameraZoom(ECameraZoomType.Base, exitDuration);
+            cameraZoom.CameraMove(ESlotType.Middle, exitDuration);
         }
 
         await UniTask.WaitForSeconds(exitDuration);

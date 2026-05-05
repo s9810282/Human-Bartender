@@ -32,17 +32,13 @@ public interface IFade
 }
 
 
-public interface ICameraZoom
+public interface ICameraControl
 {
-    public void ZoomIn(float dur = 1f);
-    public void ZoomOut(float dur = 1f);
+    
     public void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base, UniTaskCompletionSource tcs = null);
     public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base);
-}
+    public void CameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f);
 
-
-public interface ICameraMove
-{
     public void CameraMove(ESlotType slot, float dur = 1f);
     public void CameraMove(Vector3 pos, float dur = 1);
 }

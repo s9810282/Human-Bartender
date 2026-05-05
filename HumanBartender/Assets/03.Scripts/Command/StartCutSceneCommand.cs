@@ -10,7 +10,7 @@ public class StartCutSceneCommand : IDialogueCommand
    
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
-    [Inject] ICameraZoom cameraZoom;
+    [Inject] ICameraControl cameraZoom;
 
     private string anim;
     private ECutSceneType type;

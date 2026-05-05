@@ -8,7 +8,7 @@ using UnityEngine;
 public class OutsideElevator : InteractiveEntity
 {
     [SerializeField] Vector2Event externalDeltaEvent;
-    [SerializeField] ElevatorCamera camera;
+    [SerializeField] IntEvent changeCameraModeEvent;
     
     [SerializeField] Transform topPoint;
     [SerializeField] Transform bottomPoint;
@@ -41,8 +41,7 @@ public class OutsideElevator : InteractiveEntity
         targetPoint = isTop ? bottomPoint : topPoint;
 
         OnFocusExit();
-
-        camera.Init(player.Transform);
+        changeCameraModeEvent?.Raise(1);
 
         transform.DOMove(targetPoint.position, speed)
               .SetSpeedBased(true)
@@ -58,6 +57,9 @@ public class OutsideElevator : InteractiveEntity
                   isTop = !isTop;
                   OnFocusEnter();
                   wallColider.gameObject.SetActive(false);
+
+                  changeCameraModeEvent?.Raise(0);
+
                   player.State = EInteractorState.None;
               });
     }

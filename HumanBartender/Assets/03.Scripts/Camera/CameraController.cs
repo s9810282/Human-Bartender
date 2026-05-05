@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Spine;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -28,10 +28,16 @@ public enum ECameraZoomType
 }
 
 
-public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
+/// <summary>
+/// 추후 공용으로 사용할 항목과 실내 전용 구분하기
+/// </summary>
+
+public class CameraController : MonoBehaviour, ICameraControl
 {
     [Header("References")] 
     [SerializeField] PixelPerfectCamera pixelPerfectCamera;
+    [SerializeField] CinemachineCamera vcam;
+    [SerializeField] CinemachineConfiner2D confiner;
     [SerializeField] Camera mainCamera;
 
     [Header("Resolutions")]
@@ -83,18 +89,11 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         ApplyResolutionImmediate(target);
     }
 
-
-
-    public void ZoomIn(float dur = 1f)
+    public void CameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f)
     {
-        Vector2Int target = targetResolution;
-        transitionDuration = dur;
-        TransitionResolution(target).Forget();
-    }
+        Vector2Int target = zoomType == ECameraZoomType.Base ? baseResolution :
+                 zoomType == ECameraZoomType.Sub ? targetResolution : outSideResolution;
 
-    public void ZoomOut(float dur = 1f)
-    {
-        Vector2Int target = baseResolution;
         transitionDuration = dur;
         TransitionResolution(target).Forget();
     }
@@ -118,6 +117,7 @@ public class CameraController : MonoBehaviour, ICameraZoom, ICameraMove
         pixelPerfectCamera.refResolutionX = res.x;
         pixelPerfectCamera.refResolutionY = res.y;
         pixelPerfectCamera.enabled = true;
+
     }
     public void ApplyPositionImmediate(Vector3 pos)
     {

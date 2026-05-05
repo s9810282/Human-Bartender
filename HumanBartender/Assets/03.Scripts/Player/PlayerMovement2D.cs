@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement2D : MonoBehaviour
 {
     [Header("이동")]
+    [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] private float moveSpeed = 6f;
 
     [Header("충돌")]
@@ -24,7 +25,7 @@ public class PlayerMovement2D : MonoBehaviour
     private Vector2 _externalDelta;
 
     private bool _isGrounded;
-    private bool _isFacingRight = true;
+    [SerializeField] private bool _isFacingRight = true;
 
     public float VelocityX => _velocityX;
     public float VelocityY => _velocityY;
@@ -96,6 +97,10 @@ public class PlayerMovement2D : MonoBehaviour
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
+        spriteRenderer.flipX = !_isFacingRight;
+
+        return;
+
         Vector3 s = transform.localScale;
         s.x *= -1f;
         transform.localScale = s;
