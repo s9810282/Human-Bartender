@@ -1,4 +1,4 @@
-Shader "Custom/SpriteOutline"
+Shader "Custom/SpriteOutline_Lit"
 {
     Properties
     {
@@ -28,11 +28,22 @@ Shader "Custom/SpriteOutline"
 
         Pass
         {
+            Name "Universal2D"
+            Tags { "LightMode" = "Universal2D" } 
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
+            #pragma multi_compile USE_SHAPE_LIGHT_TYPE_0 __
+            #pragma multi_compile USE_SHAPE_LIGHT_TYPE_1 __
+            #pragma multi_compile USE_SHAPE_LIGHT_TYPE_2 __
+            #pragma multi_compile USE_SHAPE_LIGHT_TYPE_3 __
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/SurfaceData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/InputData2D.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/CombinedShapeLightShared.hlsl"
 
             struct Attributes
             {
@@ -46,12 +57,13 @@ Shader "Custom/SpriteOutline"
                 float4 positionHCS : SV_POSITION;
                 float2 uv          : TEXCOORD0;
                 float4 color       : COLOR;
+                // 수정됨: 2D 라이팅은 월드 좌표가 아닌 Screen-space UV를 사용합니다.
+                float2 lightingUV  : TEXCOORD1; 
             };
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
-            // 수정된 부분: _MainTex_TexelSize를 CBUFFER 외부로 분리
             float4 _MainTex_TexelSize;   
 
             CBUFFER_START(UnityPerMaterial)
@@ -67,15 +79,18 @@ Shader "Custom/SpriteOutline"
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.uv = IN.uv;
                 OUT.color = IN.color * _Color;
+                
+                // 수정됨: URP 2D 조명 텍스처를 샘플링하기 위한 스크린 좌표 계산
+                float4 screenPos = ComputeScreenPos(OUT.positionHCS);
+                OUT.lightingUV = screenPos.xy / screenPos.w;
+                
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // 본체 색상
                 half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color;
 
-                // 주변 8방향 알파 샘플링 (이웃에 알파가 있으면 외곽선 영역)
                 float2 texel = _MainTex_TexelSize.xy * _OutlineThickness;
                 float neighborAlpha = 0;
                 neighborAlpha += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv + float2( texel.x,  0)).a;
@@ -87,14 +102,27 @@ Shader "Custom/SpriteOutline"
                 neighborAlpha += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv + float2( texel.x, -texel.y)).a;
                 neighborAlpha += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv + float2(-texel.x, -texel.y)).a;
 
-                // 마스크: 본체는 비어있고(c.a=0) 주변에 알파 존재
                 float outlineMask = saturate(neighborAlpha) * (1.0 - c.a);
 
-                // 본체 색 + 외곽선 합성
                 half4 result;
                 result.rgb = lerp(_OutlineColor.rgb, c.rgb, c.a);
                 result.a   = max(c.a, outlineMask * _OutlineIntensity * _OutlineColor.a);
-                return result;
+
+                // --- 2. URP 2D 라이팅 연산 ---
+                SurfaceData2D surfaceData;
+                surfaceData.albedo = result.rgb;
+                surfaceData.alpha = result.a;
+                surfaceData.mask = 1.0; 
+                
+                // 수정됨: positionWS 대신 스크린 공간의 lightingUV를 매핑해야 합니다.
+                InputData2D inputData;
+                inputData.uv = IN.uv;
+                inputData.lightingUV = IN.lightingUV; 
+
+                // 2D 라이팅 블렌딩
+                half4 finalColor = CombinedShapeLightShared(surfaceData, inputData);
+                
+                return half4(finalColor.rgb, result.a);
             }
             ENDHLSL
         }
