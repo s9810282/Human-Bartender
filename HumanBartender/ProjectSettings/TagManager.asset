@@ -18,7 +18,7 @@ TagManager:
   - Floor
   - Interactable
   - 
-  - 
+  - Lighting
   - 
   - 
   - 
@@ -42,6 +42,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 701995941
+    locked: 0
+  - name: Character
+    uniqueID: 1950817317
     locked: 0
   m_RenderingLayers:
   - Default
