@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace SpriteGlow
 {
@@ -44,9 +44,9 @@ namespace SpriteGlow
 
         [Tooltip("Base color of the glow.")]
         [SerializeField] private Color glowColor = Color.white;
-        [Tooltip("The brightness (power) of the glow."), Range(1, 10)]
+        [Tooltip("The brightness (power) of the glow."), Range(0f, 10f)]
         [SerializeField] private float glowBrightness = 2f;
-        [Tooltip("Width of the outline, in texels."), Range(0, 10)]
+        [Tooltip("Width of the outline, in texels."), Range(0f, 10f)]
         [SerializeField] private int outlineWidth = 1;
         [Tooltip("Threshold to determine sprite borders."), Range(0f, 1f)]
         [SerializeField] private float alphaThreshold = .01f;

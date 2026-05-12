@@ -10,7 +10,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - CupTriggers
@@ -43,8 +43,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Sky
+    uniqueID: 3762850521
+    locked: 0
+  - name: BackgroundFar
     uniqueID: 701995941
+    locked: 0
+  - name: BackgroundMid
+    uniqueID: 1240998441
+    locked: 0
+  - name: Foreground
+    uniqueID: 2870188765
+    locked: 0
+  - name: ForeLightground
+    uniqueID: 1211334403
+    locked: 0
+  - name: ForeNoneLightground
+    uniqueID: 3077180185
     locked: 0
   - name: Character
     uniqueID: 1950817317
