@@ -1144,12 +1144,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4730881779857819832}
-  - component: {fileID: 2856734472270071441}
-  - component: {fileID: 5866842409901172447}
-  - component: {fileID: 2192543457003475100}
-  - component: {fileID: 7501360712930824010}
   - component: {fileID: 7501360712930824011}
   - component: {fileID: 7501360712930824012}
+  - component: {fileID: 7501360712930824013}
+  - component: {fileID: 7501360712930824014}
   m_Layer: 0
   m_Name: ShakingMinigame
   m_TagString: Untagged
@@ -1287,34 +1285,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2192543457003475100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172382849448766848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40054e2fa42098042b18cc0048d0ae50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 7e8b26a8bea703c4e90fd61feffcd770, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
-        m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
-        m_MethodName: PlayShakeAnim
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!222 &2252763206106752518
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1438,29 +1408,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2856734472270071441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172382849448766848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55eaa381c3774f34aa67ec4ea043f175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameCanvas: {fileID: 3068325674867707217}
-  buttonCanvas: {fileID: 1164064824323063365}
-  countText: {fileID: 0}
-  craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
-  shaker: {fileID: 6340048156212499206}
-  characterAnim: {fileID: 5118153744787169718}
-  curAnimIndex: 0
-  animMaxIndex: 4
-  craftServe: {fileID: 11400000, guid: 9889cf706de564f4193623b3420ad0d7, type: 2}
-  craftRetry: {fileID: 11400000, guid: 567d4490167cd444eaab0c4a9bb69293, type: 2}
-  sceneName: Shake
 --- !u!114 &2987879944205742366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1713,7 +1660,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: CompleteMade
         m_Mode: 1
@@ -1957,7 +1904,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: Serve
         m_Mode: 1
@@ -2072,37 +2019,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -470.2, y: 0}
+  m_AnchoredPosition: {x: -470.20007, y: 0}
   m_SizeDelta: {x: 470.19995, y: 0}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &5866842409901172447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172382849448766848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 53bee0beeb2ef2642a22930d823ad6d3, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
-        m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
-        m_MethodName: UpdateActionCount
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &5903752251314344508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2147,7 +2066,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
         m_MethodName: Serve
         m_Mode: 1
@@ -2293,34 +2212,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2318791115577668332}
   m_CullTransparentMesh: 1
---- !u!114 &7501360712930824010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172382849448766848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 5ee1cb15fda85aa41b09c5bdced554c8, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2856734472270071441}
-        m_TargetAssemblyTypeName: ShakingManager, Assembly-CSharp
-        m_MethodName: ResetAnimCount
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7501360712930824011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2363,6 +2254,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bd57d7ebc32b948b6f3e5b5847a37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShakingInputHandler
+--- !u!114 &7501360712930824013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172382849448766848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a64920a4421a1c34f9ae37edec4e3425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakingManagerNew
+  shakeLineCreator: {fileID: 1525312367}
+  shakingStrikeNode: {fileID: 1416491952}
+  nodeCreator: {fileID: 0}
+--- !u!114 &7501360712930824014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172382849448766848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af9332e9665f81499f63f35f9b7d72e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShakingCatergoryNodeCreator
+  categoryNodePrefab: {fileID: 0}
+  ratio: 1
+  createDelay: 0
+  createNodeMinCount: 0
+  createNodeMaxCount: 0
+  createTargetNodeMinCount: 0
+  createTargetNodeMaxCount: 0
+  lr: {fileID: 0}
 --- !u!222 &7573465394631962339
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 {
-
     [SerializeField] ShakeLineCreator shakeLineCreator;
     [SerializeField] ShakingStrikeNode shakingStrikeNode;
     [SerializeField] ShakingCatergoryNodeCreator nodeCreator;

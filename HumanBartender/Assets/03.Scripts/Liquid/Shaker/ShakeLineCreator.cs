@@ -40,8 +40,6 @@ public class ShakeLineCreator : MonoBehaviour
         dotTop.color = startColor;
         dotMiddle.color = Color.Lerp(startColor, endColor, 0.5f);
         dotBottom.color = endColor;
-
-        strikeNode.InitToStart(dotLine);
     }
 
 
