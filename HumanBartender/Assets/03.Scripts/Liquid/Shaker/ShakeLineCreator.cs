@@ -5,15 +5,6 @@ using UnityEngine.UI;
 
 public class ShakeLineCreator : MonoBehaviour
 {
-    [Header("StrikeNode")]
-    [SerializeField] ShakingStrikeNode strikeNode;
-
-    [Header("Dot")]
-    [SerializeField] Image dotMiddle;
-    [SerializeField] Image dotTop;
-    [SerializeField] Image dotBottom;
-
-
     [Header("Path Line")]
     [SerializeField] private Color startColor = new Color(0.3f, 0.3f, 0.3f, 0.6f);
     [SerializeField] private Color endColor = new Color(1f, 0.6f, 0.2f, 1f);
@@ -27,53 +18,14 @@ public class ShakeLineCreator : MonoBehaviour
     [SerializeField] private Sprite circleSprite;
 
     private LineRenderer dotLine; 
-    private Camera cam;
 
 
-    private void Start()
+    public void SetLinePosition(int i, Vector3 pos)
     {
-        cam = Camera.main;
-
-        CreateLine();
-        BuildBgPath();
-
-        dotTop.color = startColor;
-        dotMiddle.color = Color.Lerp(startColor, endColor, 0.5f);
-        dotBottom.color = endColor;
+        dotLine.SetPosition(i, pos);
     }
 
-
-    public Vector3 GetDotWorldPosition(int index)
-    {
-        Vector3 local;
-
-        switch (index)
-        {
-            case 0: local = dotTop.rectTransform.position; break;
-            case 1: local = dotMiddle.rectTransform.position; break;
-            case 2: local = dotBottom.rectTransform.position; break;
-
-            default: return (Vector2)transform.position;
-        }
-
-
-        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint
-            (cam, local);
-        screenPos.z = 10f;
-        Vector3 worldPos = cam.ScreenToWorldPoint(screenPos);
-
-
-        return worldPos;
-    }
-
-
-    private void BuildBgPath()
-    {
-        dotLine.SetPosition(0, GetDotWorldPosition(0));
-        dotLine.SetPosition(1, GetDotWorldPosition(1));
-        dotLine.SetPosition(2, GetDotWorldPosition(2));
-    }
-    private void CreateLine()
+    public void CreateLine()
     {
         var obj = new GameObject("ShakeBg");
         obj.transform.parent = transform;

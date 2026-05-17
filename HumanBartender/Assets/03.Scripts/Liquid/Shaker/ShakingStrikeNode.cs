@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShakingStrikeNode : MonoBehaviour
@@ -6,13 +7,15 @@ public class ShakingStrikeNode : MonoBehaviour
     [SerializeField] int currentIndex = 0;
     [SerializeField] Vector3 targetPos;
 
-    int[] targetSequence = { 1, 2, 1, 0, 1 };
+    int[] targetSequence = { 1, 0, 1, 2, 1 };
+    Vector3[] targetPostions;
 
-    public LineRenderer lr;
+    bool isStart = false;
+
 
     public void Handle()
     {
-        if (lr == null) return;
+        if (!isStart) return;
 
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
 
@@ -23,14 +26,17 @@ public class ShakingStrikeNode : MonoBehaviour
             if (currentIndex >= targetSequence.Length)
                 currentIndex = 0;
 
-            targetPos = lr.GetPosition(targetSequence[currentIndex]);
+            targetPos = targetPostions[targetSequence[currentIndex]]; 
         }
     }
 
-    
-    public void InitToStart(LineRenderer line)
+    public void InitToStart(Vector3[] line)
     {
-        lr = line;
-        targetPos = lr.GetPosition(targetSequence[currentIndex]);
+        currentIndex = 1;
+        targetPostions = line;
+
+        targetPos = targetPostions[targetSequence[currentIndex]];
+
+        isStart = true;
     }
 }

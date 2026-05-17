@@ -12,7 +12,6 @@ public class PoolManager : MonoBehaviour
         public int initialSize = 10;
     }
 
-    [Header("UI")]
     [SerializeField] private List<PoolPrefab> uiPrefabs;
 
 

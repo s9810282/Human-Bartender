@@ -1,11 +1,26 @@
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+
+
+
+
+
 
 public class ShakingCatergoryNodeCreator : MonoBehaviour
 {
-    [SerializeField] CategoryNode categoryNodePrefab;
+    [SerializeField] CategoryColorData colorData;
+
+    [SerializeField] ObjectPool nodePool;
+    [SerializeField] ObjectPool targetNodePool;
 
     [SerializeField] float ratio = 1f;
-    [SerializeField] float createDelay;
+
+    [SerializeField] float createNodeDelay;
+    [SerializeField] float createTargetDelay;
+
+    [SerializeField] float nodeLifeTime = 2f;
 
     [SerializeField] int createNodeMinCount;
     [SerializeField] int createNodeMaxCount;
@@ -13,59 +28,163 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     [SerializeField] int createTargetNodeMinCount;
     [SerializeField] int createTargetNodeMaxCount;
 
-    public LineRenderer lr;
-    
-    
+    bool isStart = false;
+
+    float curNodeTime = 0f;
+    float curTargetNodeTime = 0f;
+
+    Vector3 spawnRangeTop;
+    Vector3 spawnRangeMiddle;
+    Vector3 spawnRangeBottom;
+
+    List<CategoryNode> curActiveNodes = new List<CategoryNode>();
+    List<CategoryNode> curActiveTargetNodes = new List<CategoryNode>();
+
     void Start()
     {
-        
+        curActiveNodes = new List<CategoryNode>();
+
+        nodePool.Init();
+        targetNodePool.Init();
     }
 
     public void Handle()
     {
-        if (lr == null) return;
-    }
+        if (!isStart) return;
 
-    public void InitToStart(LineRenderer line)
-    {
-        lr = line; 
-    }
+        curNodeTime += Time.deltaTime;
+        curTargetNodeTime += Time.deltaTime;
 
-    public void SpawnAt(float t)
-    {
-        Vector3 pos = GetPointOnLine(t);
-        Instantiate(categoryNodePrefab, pos, Quaternion.identity);
-    }
-
-    public Vector3 GetPointOnLine(float t)
-    {
-        int count = lr.positionCount;
-        if (count < 2) return lr.GetPosition(0);
-
-        float totalLength = 0f;
-        float[] lengths = new float[count - 1];
-        for (int i = 0; i < count - 1; i++)
+        if (curNodeTime >= createNodeDelay * ratio)
         {
-            lengths[i] = Vector3.Distance(lr.GetPosition(i), lr.GetPosition(i + 1));
-            totalLength += lengths[i];
+            curNodeTime = 0f;
+            //CreateNode();
         }
 
-        float targetDist = t * totalLength;
-        float accumulated = 0f;
-
-        for (int i = 0; i < count - 1; i++)
+        if (curTargetNodeTime >= createTargetDelay * ratio)
         {
-            if (accumulated + lengths[i] >= targetDist)
+            curTargetNodeTime = 0f;
+            CreateTargetNode();
+        }
+
+        
+
+        for (int i = curActiveTargetNodes.Count - 1; i >= 0; i--)
+        {
+            CategoryNode node = curActiveTargetNodes[i];
+
+            if (Time.time - node.spawnTime >= node.lifeTime)
             {
-                float segmentT = (targetDist - accumulated) / lengths[i];
-                Vector3 p = Vector3.Lerp(lr.GetPosition(i), lr.GetPosition(i + 1), segmentT);
-                return lr.useWorldSpace ? p : lr.transform.TransformPoint(p);
+                curActiveTargetNodes.RemoveAt(i);
+                targetNodePool.Return(node.gameObject);
             }
-            accumulated += lengths[i];
+        }
+    }
+
+    public void InitToStart(Vector3 a, Vector3 b, Vector3 c)
+    {
+        isStart = true;
+
+        spawnRangeTop = a;
+        spawnRangeMiddle = b;
+        spawnRangeBottom = c;
+    }
+
+    public CategoryNode GetNearestNode(Vector3 pos, float judgeRange)
+    {
+        CategoryNode nearest = null;
+        float minSqr = float.MaxValue;
+
+        for (int i = 0; i < curActiveTargetNodes.Count; i++)
+        {
+            float sqr = (curActiveTargetNodes[i].transform.position - pos).sqrMagnitude;
+            if (sqr < minSqr)
+            {
+                minSqr = sqr;
+                nearest = curActiveTargetNodes[i];
+            }
         }
 
-        return lr.GetPosition(count - 1);
+        if (nearest != null && minSqr <= judgeRange * judgeRange)
+        {
+            //Judge(nearest);
+            curActiveTargetNodes.Remove(nearest);
+            targetNodePool.Return(nearest.gameObject);
+            return nearest;
+        }
+
+
+        return null;
     }
+
+
+    public void CreateNode()
+    {
+        int count = Random.Range(createNodeMinCount, createNodeMaxCount);
+
+        for(int i = 0; i < count; i++)
+        {
+            int rand = Random.Range(0, 2);
+            RandomSpawnCategoryNode(rand);
+        }
+    }
+
+    public void CreateTargetNode()
+    {
+        int count = Random.Range(createTargetNodeMinCount, createTargetNodeMaxCount);
+
+        for (int i = 0; i < count; i++)
+        {
+            int rand = Random.Range(0, 2);
+            RandomSpawnCategoryTargetNode(rand);
+        }
+    }
+
+
+    public void RandomSpawnCategoryNode(int line)
+    {
+        Vector3 a = spawnRangeMiddle;
+        Vector3 b = line == 0 ? spawnRangeTop : spawnRangeBottom;
+
+        float t = Random.Range(0.1f, 0.9f);
+
+        Vector3 pos = GetSpawnPoint(a, b, t);
+
+        CategoryNode node = nodePool.Get().GetComponent<CategoryNode>();
+
+        node.transform.position = pos;
+        node.spawnTime = Time.time;
+        node.lifeTime = nodeLifeTime;
+        node.Category = "ad";
+
+        curActiveNodes.Add(node);
+    }
+
+    public void RandomSpawnCategoryTargetNode(int line)
+    {
+        Vector3 a = spawnRangeMiddle;
+        Vector3 b = line == 0 ? spawnRangeTop : spawnRangeBottom;
+
+        float t = Random.value;
+
+        Vector3 pos = GetSpawnPoint(a, b, t);
+
+        CategoryNode node = targetNodePool.Get().GetComponent<CategoryNode>();
+
+        node.transform.position = pos;
+        node.spawnTime = Time.time;
+        node.lifeTime = nodeLifeTime;
+        node.Category = "target";
+
+        curActiveTargetNodes.Add(node);
+    }
+
+
+    public Vector3 GetSpawnPoint(Vector3 a, Vector3 b, float t)
+    {
+        Vector3 pos = Vector3.Lerp(a, b, t);
+        return pos;
+    }    
 }
 
 

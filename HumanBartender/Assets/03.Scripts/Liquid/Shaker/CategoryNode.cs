@@ -1,15 +1,20 @@
 using UnityEngine;
 
-public class CategoryNode : MonoBehaviour
+public class CategoryNode : PooledObject
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer outLineSprite;
+    [SerializeField] SpriteRenderer centerSprite;
     [SerializeField] Color curColor;
+
+    public float spawnTime = 0;
+    public float lifeTime = 0;
 
     public string Category;
 
     public void SetNodeColor(Color color)
     {
         curColor = color;
-        spriteRenderer.color = curColor;
+        outLineSprite.color = curColor;
+        centerSprite.color = curColor;
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class ShakingInputHandler : MonoBehaviour
 {
-    VoidEvent startGame;
-    VoidEvent onClickEvent;
+    [SerializeField] VoidEvent startGame;
+    [SerializeField] VoidEvent onClickEvent;
 
     bool isInit = false;
 
@@ -13,9 +13,7 @@ public class ShakingInputHandler : MonoBehaviour
     {
         if (value.isPressed)
         {
-            Logger.Log("On Down");
-
-            if (isInit)
+            if (!isInit)
             {
                 isInit = true;
                 startGame?.Raise(new Void());
@@ -27,7 +25,7 @@ public class ShakingInputHandler : MonoBehaviour
         }
         else
         {
-            Logger.Log("On Up");
+
         }
     }
 }
