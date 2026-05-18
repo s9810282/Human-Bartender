@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cbcc613e2629ba743803f9ea872adfe6
+guid: 595b9f9729be3ee408b3e63752343a72
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7113649127239303626
-    second: "\uD558\uB298_0"
+      213: 8847785645946945282
+    second: sky 3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -96,24 +96,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uD558\uB298_0"
+      name: sky 3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac1cdd50132c8b260800000000000000
-      internalID: 7113649127239303626
+      spriteID: 20fb77bda26a9ca70800000000000000
+      internalID: 8847785645946945282
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uD558\uB298_0": 7113649127239303626
+      sky 3_0: 8847785645946945282
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
