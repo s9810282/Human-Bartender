@@ -159,37 +159,37 @@ MonoBehaviour:
       animator: {fileID: 1943879030}
       spriteRenderer: {fileID: 1943879031}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 1072756149}
       spriteRenderer: {fileID: 1072756150}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 924339428}
       spriteRenderer: {fileID: 924339429}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 702976515}
       spriteRenderer: {fileID: 702976516}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 430358930}
       spriteRenderer: {fileID: 430358931}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 1027273953}
       spriteRenderer: {fileID: 1027273954}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     portaitSpriteRenderer: {fileID: 1526230317}
   - type: 0
     slotCharacterName: 
@@ -200,37 +200,37 @@ MonoBehaviour:
       animator: {fileID: 798660674}
       spriteRenderer: {fileID: 798660675}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 1688425676}
       spriteRenderer: {fileID: 1688425677}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 265690888}
       spriteRenderer: {fileID: 265690889}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 353590619}
       spriteRenderer: {fileID: 353590620}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 269192042}
       spriteRenderer: {fileID: 269192043}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 0
       partCurAnim: 
       animator: {fileID: 962038092}
       spriteRenderer: {fileID: 962038093}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     portaitSpriteRenderer: {fileID: 1269255381}
 --- !u!4 &4463866
 Transform:
@@ -2221,6 +2221,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1715988332}
+    - target: {fileID: 4278224256057399545, guid: c199fb25c03682e40b3bb84d2d0d0b77, type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
     - target: {fileID: 7091543009631301304, guid: c199fb25c03682e40b3bb84d2d0d0b77, type: 3}
       propertyPath: m_Name
       value: ProjectLifeScope

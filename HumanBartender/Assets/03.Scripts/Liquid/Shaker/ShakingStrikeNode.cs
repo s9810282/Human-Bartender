@@ -4,6 +4,8 @@ using System;
 
 public class ShakingStrikeNode : MonoBehaviour
 {
+    [SerializeField] BoolEvent OnChangeSeqIndex;
+
     [SerializeField] Vector3 fromPos;
     [SerializeField] Vector3 toPos;
 
@@ -61,6 +63,11 @@ public class ShakingStrikeNode : MonoBehaviour
             lastSeqIndex = seqIndex;
             //이벤트 호출
             Logger.Log("Change LastSeqIndex");
+
+            if (targetSequence[fromSeq] == 3)
+                OnChangeSeqIndex?.Raise(false);
+            else if (targetSequence[fromSeq] == 0)
+                OnChangeSeqIndex?.Raise(true);
         }
     }
 

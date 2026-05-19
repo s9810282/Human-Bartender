@@ -27,14 +27,12 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     
     List<CategoryNode> curActiveTargetNodes = new List<CategoryNode>();
 
-    void Start()
+    public void Init()
     {
         curActiveTargetNodes = new();
 
         effectPool.Init();
         targetNodePool.Init();
-
-        SpawnPatternNode();
     }
 
     public void Handle()
@@ -86,8 +84,7 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
         }
 
         if (nearest != null && minSqr <= judgeRange * judgeRange)
-        {
-            //Judge(nearest);
+        {            
             curActiveTargetNodes.Remove(nearest);
             targetNodePool.Return(nearest.gameObject);
             return nearest;
@@ -107,19 +104,26 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     }
 
 
-    public void SpawnPatternNode()
+    public void SpawnPatternNode(bool isDown)
     {
-        for(int i = 0; i < targetPostions.Length - 1; i++)
+        foreach(var item in curActiveTargetNodes)
+        {
+            targetNodePool.Return(item.gameObject);
+        }
+        curActiveTargetNodes.Clear();
+
+        for (int i = 0; i < targetPostions.Length - 1; i++)
         {
             Vector3 a = targetPostions[i];
             Vector3 b = targetPostions[i + 1];
 
             for (int j = 0; j < curPatternData.patternTime.Length;j++)
             {
-                SpawnNode(a, b, curPatternData.patternTime[j]);
+                float t = isDown ? curPatternData.patternTime[j] : (1 - curPatternData.patternTime[j]);
+                SpawnNode(a, b, t);
             }
 
-            SpawnNode(a, b, 1);
+            SpawnNode(a, b, isDown ? 1 : 0);
         }
     }
 

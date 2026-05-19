@@ -56,6 +56,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
             colors[i] = colorData.colors[n];
         }
 
+        nodeCreator.Init();
         nodeCreator.InitToStart(
             dotPositions, 
             colors, 
