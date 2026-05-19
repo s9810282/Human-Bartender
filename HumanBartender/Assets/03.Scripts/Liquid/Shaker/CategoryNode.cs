@@ -4,8 +4,9 @@ public class CategoryNode : PooledObject
 {
     [SerializeField] SpriteRenderer outLineSprite;
     [SerializeField] SpriteRenderer centerSprite;
-    [SerializeField] Color curColor;
 
+
+    public Color curColor;
     public float spawnTime = 0;
     public float lifeTime = 0;
 

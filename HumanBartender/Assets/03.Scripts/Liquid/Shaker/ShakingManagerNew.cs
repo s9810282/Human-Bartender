@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Mono.Cecil;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,44 +8,61 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 {
     [Header("Data")]
     [SerializeField] CraftStationData data;
+    [SerializeField] CategoryColorData colorData;
+    [SerializeField] CocktailDataSO cocktailDataSO;
+    [SerializeField] NodePatternData nodePatternData;
 
     [Header("Manager")]
     [SerializeField] ShakeLineCreator shakeLineCreator;
     [SerializeField] ShakingStrikeNode shakingStrikeNode;
     [SerializeField] ShakingCatergoryNodeCreator nodeCreator;
+    [SerializeField] AudioSource bgmSource;
 
     [Header("Dot")]
-    [SerializeField] Image dotMiddle;
-    [SerializeField] Image dotTop;
-    [SerializeField] Image dotBottom;
+    [SerializeField] List<Image> dots;
 
-    [SerializeField] int dotCount = 3;
     [SerializeField] float judgeRange = 1;
 
     [SerializeField] Camera canvasCamera;
 
 
+    Vector3[] dotPositions;
+
     void Start()
     {
+        data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+
         shakeLineCreator.CreateLine();
 
-        for (int i = 0; i < dotCount; i++)
+        for (int i = 0; i < dots.Count; i++)
         {
             shakeLineCreator.SetLinePosition(i , GetDotWorldPosition(i));
         }
 
-        shakingStrikeNode.InitToStart(new Vector3[] 
-        {   GetDotWorldPosition(0), 
-            GetDotWorldPosition(1), 
-            GetDotWorldPosition(2) });
+
+        dotPositions = new Vector3[dots.Count];
+        for (int i = 0; i < dotPositions.Length; i++)
+        {
+            dotPositions[i] = GetDotWorldPosition(i);
+        }
+
+
+        Color[] colors = new Color[data.targetCocktailData.Keywords.Length];
+        for(int i = 0; i < colors.Length; i++)
+        {
+            int n = colorData.categorys.
+                FindIndex(a => a.Contains(data.targetCocktailData.Keywords[i]));
+
+            colors[i] = colorData.colors[n];
+        }
 
         nodeCreator.InitToStart(
-            GetDotWorldPosition(0),
-            GetDotWorldPosition(1),
-            GetDotWorldPosition(2));
+            dotPositions, 
+            colors, 
+            nodePatternData.patternDatas[Random.Range(0, nodePatternData.patternDatas.Count)]);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         shakingStrikeNode.Handle();
@@ -81,13 +99,12 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     }
 
 
-
-
-
-
     public void StartGame()
     {
         Logger.Log("Start Game");
+
+        bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
+        shakingStrikeNode.InitToStart(dotPositions, 60);
     }
 
     public void ClickEvent()
@@ -98,10 +115,12 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         if (node != null)
         {
             Logger.Log("Judge");
+            nodeCreator.CreateEffectNode(node.transform.position, node.curColor);
         }
         else
         {
             Logger.Log("Judge Fail");
+            nodeCreator.CreateEffectNode(shakingStrikeNode.transform.position, Color.white);
         }
     }
 
@@ -113,17 +132,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 
     public Vector3 GetDotWorldPosition(int index)
     {
-        Vector3 local;
-
-        switch (index)
-        {
-            case 0: local = dotTop.rectTransform.position; break;
-            case 1: local = dotMiddle.rectTransform.position; break;
-            case 2: local = dotBottom.rectTransform.position; break;
-
-            default: return (Vector2)transform.position;
-        }
-
+        Vector3 local = dots[index].rectTransform.position;
 
         Vector3 screenPos = RectTransformUtility.WorldToScreenPoint
             (canvasCamera, local);

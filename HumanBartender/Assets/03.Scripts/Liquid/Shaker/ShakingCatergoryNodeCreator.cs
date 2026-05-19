@@ -1,74 +1,54 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-
-
-
-
 
 
 public class ShakingCatergoryNodeCreator : MonoBehaviour
 {
-    [SerializeField] CategoryColorData colorData;
-
-    [SerializeField] ObjectPool nodePool;
     [SerializeField] ObjectPool targetNodePool;
+    [SerializeField] ObjectPool effectPool;
 
     [SerializeField] float ratio = 1f;
 
-    [SerializeField] float createNodeDelay;
     [SerializeField] float createTargetDelay;
 
     [SerializeField] float nodeLifeTime = 2f;
 
-    [SerializeField] int createNodeMinCount;
-    [SerializeField] int createNodeMaxCount;
-
     [SerializeField] int createTargetNodeMinCount;
     [SerializeField] int createTargetNodeMaxCount;
 
-    bool isStart = false;
+    [SerializeField] Vector3[] targetPostions;
+    [SerializeField] Color[] targetColors;
+    [SerializeField] PatternData curPatternData;
 
-    float curNodeTime = 0f;
+
+    bool isStart = false;
     float curTargetNodeTime = 0f;
 
-    Vector3 spawnRangeTop;
-    Vector3 spawnRangeMiddle;
-    Vector3 spawnRangeBottom;
-
-    List<CategoryNode> curActiveNodes = new List<CategoryNode>();
+    
     List<CategoryNode> curActiveTargetNodes = new List<CategoryNode>();
 
     void Start()
     {
-        curActiveNodes = new List<CategoryNode>();
+        curActiveTargetNodes = new();
 
-        nodePool.Init();
+        effectPool.Init();
         targetNodePool.Init();
+
+        SpawnPatternNode();
     }
 
     public void Handle()
     {
         if (!isStart) return;
-
-        curNodeTime += Time.deltaTime;
+;
         curTargetNodeTime += Time.deltaTime;
-
-        if (curNodeTime >= createNodeDelay * ratio)
-        {
-            curNodeTime = 0f;
-            //CreateNode();
-        }
 
         if (curTargetNodeTime >= createTargetDelay * ratio)
         {
             curTargetNodeTime = 0f;
-            CreateTargetNode();
         }
 
-        
-
+       
         for (int i = curActiveTargetNodes.Count - 1; i >= 0; i--)
         {
             CategoryNode node = curActiveTargetNodes[i];
@@ -76,18 +56,18 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
             if (Time.time - node.spawnTime >= node.lifeTime)
             {
                 curActiveTargetNodes.RemoveAt(i);
-                targetNodePool.Return(node.gameObject);
+                //targetNodePool.Return(node.gameObject);
             }
         }
     }
 
-    public void InitToStart(Vector3 a, Vector3 b, Vector3 c)
+    public void InitToStart(Vector3[] dots, Color[] colors, PatternData patternData)
     {
         isStart = true;
 
-        spawnRangeTop = a;
-        spawnRangeMiddle = b;
-        spawnRangeBottom = c;
+        curPatternData = patternData;
+        targetPostions = dots;
+        targetColors = colors;
     }
 
     public CategoryNode GetNearestNode(Vector3 pos, float judgeRange)
@@ -118,55 +98,33 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     }
 
 
-    public void CreateNode()
+    public void CreateEffectNode(Vector3 vec, Color color)
     {
-        int count = Random.Range(createNodeMinCount, createNodeMaxCount);
+        NodeEffect node = effectPool.Get().GetComponent<NodeEffect>();
+        node.transform.position = vec;
+        node.SetNodeColor(color);
+        node.PlayEffect();
+    }
 
-        for(int i = 0; i < count; i++)
+
+    public void SpawnPatternNode()
+    {
+        for(int i = 0; i < targetPostions.Length - 1; i++)
         {
-            int rand = Random.Range(0, 2);
-            RandomSpawnCategoryNode(rand);
+            Vector3 a = targetPostions[i];
+            Vector3 b = targetPostions[i + 1];
+
+            for (int j = 0; j < curPatternData.patternTime.Length;j++)
+            {
+                SpawnNode(a, b, curPatternData.patternTime[j]);
+            }
+
+            SpawnNode(a, b, 1);
         }
     }
 
-    public void CreateTargetNode()
+    public void SpawnNode(Vector3 a, Vector3 b, float t)
     {
-        int count = Random.Range(createTargetNodeMinCount, createTargetNodeMaxCount);
-
-        for (int i = 0; i < count; i++)
-        {
-            int rand = Random.Range(0, 2);
-            RandomSpawnCategoryTargetNode(rand);
-        }
-    }
-
-
-    public void RandomSpawnCategoryNode(int line)
-    {
-        Vector3 a = spawnRangeMiddle;
-        Vector3 b = line == 0 ? spawnRangeTop : spawnRangeBottom;
-
-        float t = Random.Range(0.1f, 0.9f);
-
-        Vector3 pos = GetSpawnPoint(a, b, t);
-
-        CategoryNode node = nodePool.Get().GetComponent<CategoryNode>();
-
-        node.transform.position = pos;
-        node.spawnTime = Time.time;
-        node.lifeTime = nodeLifeTime;
-        node.Category = "ad";
-
-        curActiveNodes.Add(node);
-    }
-
-    public void RandomSpawnCategoryTargetNode(int line)
-    {
-        Vector3 a = spawnRangeMiddle;
-        Vector3 b = line == 0 ? spawnRangeTop : spawnRangeBottom;
-
-        float t = Random.value;
-
         Vector3 pos = GetSpawnPoint(a, b, t);
 
         CategoryNode node = targetNodePool.Get().GetComponent<CategoryNode>();
@@ -175,6 +133,9 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
         node.spawnTime = Time.time;
         node.lifeTime = nodeLifeTime;
         node.Category = "target";
+
+        int colorIndex = Random.Range(0, targetColors.Length);
+        node.SetNodeColor(targetColors[colorIndex]);
 
         curActiveTargetNodes.Add(node);
     }

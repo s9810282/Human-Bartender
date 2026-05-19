@@ -1,41 +1,77 @@
-using Unity.VisualScripting;
+using DG.Tweening;
 using UnityEngine;
+using System;
 
 public class ShakingStrikeNode : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] int currentIndex = 0;
-    [SerializeField] Vector3 targetPos;
+    [SerializeField] Vector3 fromPos;
+    [SerializeField] Vector3 toPos;
 
-    int[] targetSequence = { 1, 0, 1, 2, 1 };
+    [SerializeField] Ease ease = Ease.InOutQuad;
+    [SerializeField] float curBpm = 60;
+
+    double startDspTime;
+    float beatDuration;
+
+    int[] targetSequence = { 0, 1, 2, 3, 2, 1 };
     Vector3[] targetPostions;
 
     bool isStart = false;
 
+    double elapsed;
+    double beats;
+
+    int fromSeq;
+    int toSeq;
+
+    int seqIndex;
+    float t;
+
+    float easedT;
+
+    int lastSeqIndex = -1;
 
     public void Handle()
     {
         if (!isStart) return;
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, targetPos) < 0.01f)
+        elapsed = AudioSettings.dspTime - startDspTime;
+        if (elapsed < 0)
         {
-            currentIndex++;
+            transform.position = targetPostions[targetSequence[0]];
+            return;
+        }
 
-            if (currentIndex >= targetSequence.Length)
-                currentIndex = 0;
+        beats = elapsed / beatDuration;
 
-            targetPos = targetPostions[targetSequence[currentIndex]]; 
+        seqIndex = (int)beats;
+        t = (float)(beats - Math.Floor(beats));
+
+        fromSeq = seqIndex % targetSequence.Length;
+        toSeq = (seqIndex + 1) % targetSequence.Length;
+
+        fromPos = targetPostions[targetSequence[fromSeq]];
+        toPos = targetPostions[targetSequence[toSeq]];
+
+        easedT = DOVirtual.EasedValue(0f, 1f, t, ease);
+        transform.position = Vector3.LerpUnclamped(fromPos, toPos, easedT);
+
+        if (seqIndex != lastSeqIndex)
+        {
+            lastSeqIndex = seqIndex;
+            //이벤트 호출
+            Logger.Log("Change LastSeqIndex");
         }
     }
 
-    public void InitToStart(Vector3[] line)
+    public void InitToStart(Vector3[] line, float bpm)
     {
-        currentIndex = 1;
+        lastSeqIndex = -1;
+        curBpm = bpm;
         targetPostions = line;
 
-        targetPos = targetPostions[targetSequence[currentIndex]];
+        beatDuration = 60f / bpm;
+        startDspTime = AudioSettings.dspTime + 0.1f;
 
         isStart = true;
     }
