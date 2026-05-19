@@ -12,5 +12,5 @@ public struct PatternData
 [CreateAssetMenu(fileName = "NodePatternData", menuName = "Scriptable Objects/NodePatternData")]
 public class NodePatternData : ScriptableObject
 {
-    public List<PatternData> patternDatas;
+    public PatternData[] patternDatas;
 }

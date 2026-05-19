@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Mono.Cecil;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,6 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     [SerializeField] CraftStationData data;
     [SerializeField] CategoryColorData colorData;
     [SerializeField] CocktailDataSO cocktailDataSO;
-    [SerializeField] NodePatternData nodePatternData;
 
     [Header("Manager")]
     [SerializeField] ShakeLineCreator shakeLineCreator;
@@ -59,8 +57,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         nodeCreator.Init();
         nodeCreator.InitToStart(
             dotPositions, 
-            colors, 
-            nodePatternData.patternDatas[Random.Range(0, nodePatternData.patternDatas.Count)]);
+            colors);
     }
 
     

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShakingCatergoryNodeCreator : MonoBehaviour
 {
+    [SerializeField] NodePatternData nodePatternData;
     [SerializeField] ObjectPool targetNodePool;
     [SerializeField] ObjectPool effectPool;
 
@@ -59,11 +60,10 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
         }
     }
 
-    public void InitToStart(Vector3[] dots, Color[] colors, PatternData patternData)
+    public void InitToStart(Vector3[] dots, Color[] colors)
     {
         isStart = true;
 
-        curPatternData = patternData;
         targetPostions = dots;
         targetColors = colors;
     }
@@ -111,6 +111,8 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
             targetNodePool.Return(item.gameObject);
         }
         curActiveTargetNodes.Clear();
+
+        curPatternData = nodePatternData.patternDatas[Random.Range(0, nodePatternData.patternDatas.Length)];
 
         for (int i = 0; i < targetPostions.Length - 1; i++)
         {
