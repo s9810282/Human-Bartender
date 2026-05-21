@@ -19,7 +19,7 @@ TagManager:
   - Interactable
   - InteractableWithPP
   - Lighting
-  - 
+  - Effect
   - 
   - 
   - 
@@ -72,6 +72,9 @@ TagManager:
     locked: 0
   - name: ForeFore
     uniqueID: 3031165737
+    locked: 0
+  - name: Effect
+    uniqueID: 3576253499
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
+using Spine;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     [SerializeField] ShakeLineCreator shakeLineCreator;
     [SerializeField] ShakingStrikeNode shakingStrikeNode;
     [SerializeField] ShakingCatergoryNodeCreator nodeCreator;
+    [SerializeField] AnimSpeedController characterAnim;
     [SerializeField] AudioSource bgmSource;
 
     [Header("Dot")]
@@ -103,6 +106,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
         shakingStrikeNode.InitToStart(dotPositions, 60);
+        characterAnim.Init();
     }
 
     public void ClickEvent()
@@ -111,8 +115,9 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         CategoryNode node =  nodeCreator.GetNearestNode(shakingStrikeNode.transform.position, judgeRange);
 
         if (node != null)
-        {
+        {          
             Logger.Log("Judge");
+            characterAnim.PlayAnim();
             nodeCreator.CreateEffectNode(node.transform.position, node.curColor);
         }
         else

@@ -36,7 +36,7 @@ public class SturStrikeNode : MonoBehaviour
         if (!isStart) return;
 
         double dsp = AudioSettings.dspTime;
-        if (dsp != lastDsp)        // dsp가 갱신된 프레임
+        if (dsp != lastDsp)   
         {
             audioTime = dsp - startDspTime;
             lastDsp = dsp;
@@ -44,7 +44,7 @@ public class SturStrikeNode : MonoBehaviour
         }
         else
         {
-            dspDelta += Time.unscaledDeltaTime; // 갱신 없는 프레임은 실시간으로 메움
+            dspDelta += Time.unscaledDeltaTime; 
         }
 
         elapsed = audioTime + dspDelta;

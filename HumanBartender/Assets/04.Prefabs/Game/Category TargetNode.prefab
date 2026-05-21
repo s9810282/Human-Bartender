@@ -119,7 +119,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.13, y: -0.02, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6866439089862388277}
@@ -199,4 +199,6 @@ MonoBehaviour:
   outLineSprite: {fileID: 6309574510560077876}
   centerSprite: {fileID: 1638340679382751866}
   curColor: {r: 1, g: 1, b: 1, a: 1}
+  spawnTime: 0
+  lifeTime: 0
   Category: 
