@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IInteractor
 
     EInteractorState state = EInteractorState.None;
 
+
     public void Update()
     {
         if (state == EInteractorState.Interct) return;

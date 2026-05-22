@@ -28,7 +28,7 @@ public class OutsideElevator : InteractiveEntity
         isMoving = true;
         isInteracting = true;
 
-        player.State = EInteractorState.Interct;
+        player.State = EInteractorState.ForceMove;
 
         Vector3 oldPos = this.transform.position;
         oldPos.y = player.Transform.position.y;
@@ -38,7 +38,6 @@ public class OutsideElevator : InteractiveEntity
         wallColider.gameObject.SetActive(true);
         targetPoint = isTop ? bottomPoint : topPoint;
 
-        OnFocusExit();
         changeCameraModeEvent?.Raise(1);
 
         transform.DOMove(targetPoint.position, speed)

@@ -58,6 +58,6 @@ public class OutsideCamera : MonoBehaviour
     public void ExcuteCameraOption(OutsideCameraOption mode)
     {
         cameraZoom.TransitionFollowOffset(mode.cameraOffset, 1f);
-        cameraZoom.CameraZoom(mode.targetResolution, 1f);
+        cameraZoom.CameraZoom(mode.targetResolution, 1.2f);
     }
 }

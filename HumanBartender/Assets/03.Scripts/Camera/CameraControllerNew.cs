@@ -191,6 +191,8 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         pixelPerfectCamera.enabled = false;
 
         float t = 0f;
+        var lens = vcam.Lens;
+
         try
         {
             while (t < duration)
@@ -198,8 +200,7 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
                 token.ThrowIfCancellationRequested();
                 t += Time.deltaTime;
                 float k = ease.Evaluate(Mathf.Clamp01(t / duration));
-
-                var lens = vcam.Lens;
+  
                 lens.OrthographicSize = Mathf.Lerp(fromSize, toSize, k);
                 vcam.Lens = lens;
 
@@ -212,6 +213,11 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         {
             return;
         }
+
+        lens.OrthographicSize = toSize;
+        vcam.Lens = lens;
+
+        await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
 
         ApplyResolutionImmediate(to);
     }
