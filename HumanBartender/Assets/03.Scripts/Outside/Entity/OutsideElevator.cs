@@ -13,7 +13,7 @@ public class OutsideElevator : InteractiveEntity
 
     [SerializeField] GameObject wallColider;
 
-    [SerializeField] float speed;
+    [SerializeField] float speed = 1f;
     [SerializeField] Ease ease;
 
     Transform targetPoint;
