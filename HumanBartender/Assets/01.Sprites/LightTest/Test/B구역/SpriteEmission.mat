@@ -42,12 +42,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaMultiplier: 0.8
-    - _EmissionIntensity: 1
+    - _EmissionIntensity: 2
     - _EnableExternalAlpha: 0
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 2, g: 2, b: 2, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 40530228f8e81c5469d87b75623aae3b
+guid: 6533078c0b0e0ab448a62e6eb9adfd05
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7983411398699805531
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_0"
+      213: 6154868422277423989
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_0"
   - first:
-      213: -663673952916924426
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_1"
+      213: 4725245115779024885
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_1"
   - first:
-      213: -2180201892138262118
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_2"
+      213: -7427805516473743633
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_2"
   - first:
-      213: -3272210054960785875
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_3"
+      213: -3701662195785642412
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_3"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,30 +105,39 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_0"
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_0"
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 1
+        width: 488
+        height: 290
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5736d1d583c7a6550800000000000000
+      internalID: 6154868422277423989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_1"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
         width: 100
-        height: 89
+        height: 90
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5b6e438e56cace60800000000000000
-      internalID: 7983411398699805531
+      spriteID: 5f788aab561739140800000000000000
+      internalID: 4725245115779024885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_1"
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_2"
       rect:
         serializedVersion: 2
-        x: 112
-        y: 0
-        width: 376
-        height: 255
+        x: 562
+        y: 1
+        width: 281
+        height: 263
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f715bd5e082ac6f0800000000000000
-      internalID: -663673952916924426
+      spriteID: fe645e9ac322be890800000000000000
+      internalID: -7427805516473743633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_2"
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_3"
       rect:
         serializedVersion: 2
-        x: 565
+        x: 834
         y: 0
-        width: 278
-        height: 231
+        width: 526
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,30 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a91e6782eed5eb1e0800000000000000
-      internalID: -2180201892138262118
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_3"
-      rect:
-        serializedVersion: 2
-        x: 842
-        y: 0
-        width: 522
-        height: 284
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d26d99bba46c692d0800000000000000
-      internalID: -3272210054960785875
+      spriteID: 45e44bd58dd01acc0800000000000000
+      internalID: -3701662195785642412
       vertices: []
       indices: 
       edges: []
@@ -223,10 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_0": 7983411398699805531
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_1": -663673952916924426
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_2": -2180201892138262118
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C_3": -3272210054960785875
+      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_0": 6154868422277423989
+      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_1": 4725245115779024885
+      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_2": -7427805516473743633
+      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 2_3": -3701662195785642412
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
