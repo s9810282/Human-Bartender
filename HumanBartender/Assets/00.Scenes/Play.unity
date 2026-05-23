@@ -6763,6 +6763,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelPerfectCamera: {fileID: 882009346}
+  vcam: {fileID: 0}
+  confiner: {fileID: 0}
   mainCamera: {fileID: 882009342}
   baseResolution: {x: 1280, y: 720}
   targetResolution: {x: 960, y: 540}
@@ -8220,37 +8222,37 @@ MonoBehaviour:
       animator: {fileID: 1981843773}
       spriteRenderer: {fileID: 1981843774}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 1
       partCurAnim: 
       animator: {fileID: 994129713}
       spriteRenderer: {fileID: 994129714}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 2
       partCurAnim: 
       animator: {fileID: 619445819}
       spriteRenderer: {fileID: 619445820}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 4
       partCurAnim: 
       animator: {fileID: 493887745}
       spriteRenderer: {fileID: 493887746}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 5
       partCurAnim: 
       animator: {fileID: 222405790}
       spriteRenderer: {fileID: 222405791}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 6
       partCurAnim: 
       animator: {fileID: 668397309}
       spriteRenderer: {fileID: 668397310}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     portaitSpriteRenderer: {fileID: 1969909681}
   - type: 0
     slotCharacterName: 
@@ -8261,37 +8263,37 @@ MonoBehaviour:
       animator: {fileID: 1995356692}
       spriteRenderer: {fileID: 1995356693}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 1
       partCurAnim: 
       animator: {fileID: 1924466412}
       spriteRenderer: {fileID: 1924466413}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 2
       partCurAnim: 
       animator: {fileID: 1313861210}
       spriteRenderer: {fileID: 1313861211}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 4
       partCurAnim: 
       animator: {fileID: 608151383}
       spriteRenderer: {fileID: 608151384}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 5
       partCurAnim: 
       animator: {fileID: 1206034842}
       spriteRenderer: {fileID: 1206034843}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     - partName: 6
       partCurAnim: 
       animator: {fileID: 199040104}
       spriteRenderer: {fileID: 199040105}
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
-      _currentLoopMode: 
+      _currentLoopMode: 0
     portaitSpriteRenderer: {fileID: 1463825292}
 --- !u!4 &1147809953
 Transform:
@@ -12981,7 +12983,7 @@ MonoBehaviour:
   cocktailDataSO: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
   craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
   ingredientPanel: {fileID: 1492390161}
-  shakePrefab: {fileID: 1172382848508299158, guid: 3600e76ddfe831c4eaea96e9a22aa57d, type: 3}
+  shakePrefab: {fileID: 7448686757909715907, guid: 19fa6dc02bb9d6740b17e576ce95e9be, type: 3}
   stirPrefab: {fileID: 0}
   buildPrefab: {fileID: 1172382848508299158, guid: ff3e987bacd490b4a927e7b9083d4945, type: 3}
 --- !u!4 &1601650328

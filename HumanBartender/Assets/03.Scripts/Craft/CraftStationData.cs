@@ -25,6 +25,7 @@ public class CraftIngrediantData
 public class CraftStationData : ScriptableObject
 {
     public string targetCocktailId;
+    public int targetCraft_tolerance;
     public CocktailData targetCocktailData;
     public Dictionary<string, CraftIngrediantData> ingredientDatas = new();
     

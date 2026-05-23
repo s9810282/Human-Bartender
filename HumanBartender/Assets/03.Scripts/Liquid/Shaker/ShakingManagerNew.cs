@@ -18,20 +18,37 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     [SerializeField] ShakingCatergoryNodeCreator nodeCreator;
     [SerializeField] AnimSpeedController characterAnim;
     [SerializeField] AudioSource bgmSource;
+    [SerializeField] GradientRatioController gageBar;
 
-    [Header("Dot")]
+    [Header("UI")]
     [SerializeField] List<Image> dots;
-
-    [SerializeField] float judgeRange = 1;
-
     [SerializeField] Camera canvasCamera;
+    [SerializeField] Canvas gameCanvas;
+    [SerializeField] Canvas buttonCanvas;
 
+    [Header("Judge")]
+    [SerializeField] float judgeRange = 1;
+    [SerializeField] int totalJudge;
+    [SerializeField] int successJudge;
+    [SerializeField] int failJudge;
+
+    [Header("Craft Event")]
+    [SerializeField] VoidEvent craftServe;
+    [SerializeField] VoidEvent craftRetry;
 
     Vector3[] dotPositions;
 
+    bool isPlay = false;
+
     void Start()
     {
-        data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+        canvasCamera = Camera.main;
+
+        gameCanvas.worldCamera = canvasCamera;
+        buttonCanvas.worldCamera = canvasCamera;
+
+        //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+        //data.targetCraft_tolerance = 15;
 
         shakeLineCreator.CreateLine();
 
@@ -61,6 +78,14 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         nodeCreator.InitToStart(
             dotPositions, 
             colors);
+
+        totalJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 1.3f);
+        successJudge = 0;
+        failJudge = 0;
+
+        gageBar.UpdateValues(totalJudge, 0, totalJudge, 0);
+
+        isPlay = true;
     }
 
     
@@ -73,35 +98,46 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 
 
 
-
+    private UniTaskCompletionSource tcs;
     public void InitGame(UniTaskCompletionSource tcs)
     {
-        
+        this.tcs = tcs;
+        data.craftingResult.actionCount = 0;
     }
 
     public void CompleteMade()
     {
-        
+        bgmSource.Stop();
+        data.craftingResult.isResult = true;
+        data.craftingResult.actionCount = successJudge;
+
+        if (tcs != null)
+        {
+            Logger.Log("shakeManager tcs not null");
+            tcs.TrySetResult();
+        }
     }
 
     public void OnNextButton()
     {
-        
+        buttonCanvas.gameObject.SetActive(true);
     }
 
     public void Serve()
     {
-        
+        craftServe?.Raise(new Void());
     }
 
     public void Retry()
     {
-        
+        craftRetry?.Raise(new Void());
     }
 
 
     public void StartGame()
     {
+        if (!isPlay) return;
+
         Logger.Log("Start Game");
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
@@ -111,6 +147,8 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 
     public void ClickEvent()
     {
+        if (!isPlay) return;
+
         Logger.Log("Click Event");
         CategoryNode node =  nodeCreator.GetNearestNode(shakingStrikeNode.transform.position, judgeRange);
 
@@ -119,11 +157,21 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
             Logger.Log("Judge");
             characterAnim.PlayAnim();
             nodeCreator.CreateEffectNode(node.transform.position, node.curColor);
+            successJudge++;
         }
         else
         {
             Logger.Log("Judge Fail");
             nodeCreator.CreateEffectNode(shakingStrikeNode.transform.position, Color.white);
+            failJudge++;
+        }
+
+        gageBar.UpdateValues(totalJudge, successJudge, totalJudge-successJudge-failJudge, failJudge);
+
+        if(successJudge + failJudge >= totalJudge)
+        {
+            isPlay = false;
+            CompleteMade();
         }
     }
 

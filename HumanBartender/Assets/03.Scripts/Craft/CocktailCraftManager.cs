@@ -172,6 +172,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
 
         craftStation.craftingResult.selectMethod = style;
+        craftStation.targetCraft_tolerance = curCraftEventData.Evaluation.CraftTolerance;
 
         // TODO : 풀링?
         miniGameObj = Instantiate(prefab);
@@ -348,15 +349,14 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         //제작법이 build 이거나 액션 횟수가 목표횟수 범위 내라면 제작 성공.
         bool CheckBuild = (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build");
-        bool CheckCount = (Mathf.Abs(craftStation.craftingResult.actionCount - curCraftEventData.Evaluation.CraftTolerance) <= 5);
+        bool CheckCount = (Mathf.Abs(craftStation.craftingResult.actionCount - craftStation.targetCraft_tolerance) <= 5);
 
         bool craftSuccess = CheckBuild || CheckCount;
 
         Logger.Log(craftStation.craftingResult.actionCount); //
         Logger.Log(cocktail.TargetCount);
-        Logger.Log(curCraftEventData.Evaluation.CraftTolerance); //
+        Logger.Log(craftStation.targetCraft_tolerance); //
 
-        Logger.Log(Mathf.Abs(craftStation.craftingResult.actionCount - cocktail.TargetCount) <= curCraftEventData.Evaluation.CraftTolerance);
         Logger.Log($"craft Success : {craftSuccess}");
 
         foreach (var rule in curCraftEventData.Evaluation.Rules)
