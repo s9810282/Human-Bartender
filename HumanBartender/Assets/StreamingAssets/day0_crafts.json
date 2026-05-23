@@ -1,0 +1,80 @@
+{
+  "craft_events": [
+    {
+      "id": "day0_chris_order1",
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": true,
+        "steps": [
+          {
+            "type": "highlight",
+            "target": "ingredient_panel",
+            "text": "레시피를 확인하고 재료를 선택해 드라이 마티니를 만들어보세요."
+          }
+        ]
+      },
+      "cutscenes": {
+        "craft_enter": {
+          "shake": null,
+          "stir": null,
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "failed": null
+        }
+      },
+      "evaluation": {
+        "craft_tolerance": 20,
+        "rules": [
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
+            "require_craft_success": true,
+            "description": "드라이 마티니를 정확한 레시피와 제조 미니게임 성공으로 완성"
+          },
+          {
+            "result": "good",
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
+            "require_craft_success": false,
+            "description": "드라이 마티니 레시피는 맞지만 제조 미니게임 미흡"
+          }
+        ]
+      },
+      "reactions": {
+        "perfect": {
+          "dialogue_id": "d0c_react_perfect_001",
+          "cutscene_id": null,
+          "affinity": 5,
+          "karma": 0
+        },
+        "good": {
+          "dialogue_id": "d0c_react_good_001",
+          "cutscene_id": null,
+          "affinity": 1,
+          "karma": 0
+        },
+        "hidden": {
+          "dialogue_id": null,
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "miss": {
+          "dialogue_id": "d0c_react_normal_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        },
+        "bad": {
+          "dialogue_id": "d0c_react_bad_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0
+        }
+      }
+    }
+  ]
+}
