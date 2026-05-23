@@ -25,307 +25,62 @@
           "type": "monologue",
           "text": "[테스트] 페이드 인 확인.",
           "expression": null,
-          "next": "dt_090",
+          "next": "dt_start",
           "choices": null,
           "trigger": null
         },
 
 
         {
-          "id": "dt_090",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "dt_091",
-          "choices": null,
-          "trigger": {
-            "type": "customer_enter",
-            "data": {
-              "character_id": "port",
-              "slot": "right",
-              "enter_effect": "silhouette_reveal",
-              "enter_duration": 1.0,
-              "sfx_mode": "default_only"
-            }
-          }
-        },
-        {
-          "id": "dt_091",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 다음 손님 등장 확인 — 슬롯 초기화 후 진입.",
-          "expression": null,
-          "next": "dt_092",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_092",
-          "speaker": "port",
-          "type": "normal",
-          "text": "다음 손님입니다.",
-          "expression": "default",
-          "next": "dt_093",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_093",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "dt_094",
-          "choices": null,
-          "trigger": {
-            "type": "customer_exit",
-            "data": {
-              "character_id": "port",
-              "slot": "right",
-              "exit_effect": "fade_out",
-              "exit_duration": 0.5,
-              "sfx_mode": "default_only"
-            }
-          }
-        },
-        {
-          "id": "dt_094",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 다음 손님 퇴장 확인.",
-          "expression": null,
-          "next": "dt_010",
-          "choices": null,
-          "trigger": null
-        },
-
-
-        {
-          "id": "dt_010",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "dt_011",
-          "choices": null,
-          "trigger": {
-            "type": "customer_enter",
-            "data": {
-              "character_id": "port",
-              "slot": "right",
-              "enter_effect": "silhouette_reveal",
-              "enter_duration": 1.0,
-              "sfx_mode": "default_only"
-            }
-          }
-        },
-        {
-          "id": "dt_011",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 오른쪽 슬롯 포트 등장 확인.",
-          "expression": null,
-          "next": "dt_012",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_012",
-          "speaker": "port",
-          "type": "normal",
-          "text": "오른쪽 슬롯에서 말하는 중.",
-          "expression": "default",
-          "next": "dt_020",
-          "choices": null,
-          "trigger": null
-        },
-
-
-        {
-          "id": "dt_020",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "dt_021",
-          "choices": null,
-          "trigger": {
-            "type": "customer_enter",
-            "data": {
-              "character_id": "bubi",
-              "slot": "left",
-              "enter_effect": "silhouette_reveal",
-              "enter_duration": 1.0,
-              "sfx_mode": "default_only"
-            }
-          }
-        },
-        {
-          "id": "dt_021",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 왼쪽 슬롯 부비 등장 확인.",
-          "expression": null,
-          "next": "dt_022",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_022",
-          "speaker": "bubi",
-          "type": "normal",
-          "text": "야옹.",
-          "expression": "default",
-          "next": "dt_023",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_023",
-          "speaker": "port",
-          "type": "normal",
-          "text": "양쪽 슬롯 동시 점유 상태. 오른쪽.",
-          "expression": "default",
-          "next": "dt_024",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_024",
-          "speaker": "bubi",
-          "type": "normal",
-          "text": "야옹.",
-          "expression": "default",
-          "next": "dt_030",
-          "choices": null,
-          "trigger": null
-        },
-
-
-        {
-          "id": "dt_030",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — default",
-          "expression": "default",
-          "next": "dt_031",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_031",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — anger",
-          "expression": "anger",
-          "next": "dt_032",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_032",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — joy",
-          "expression": "joy",
-          "next": "dt_033",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_033",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — serious",
-          "expression": "serious",
-          "next": "dt_034",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_034",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[테스트] 표정 전환 — event_surprise (once)",
-          "expression": "event_surprise",
-          "next": "dt_035",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_035",
-          "speaker": "port",
-          "type": "normal",
-          "text": "event_surprise 이후 default 복귀.",
-          "expression": "default",
-          "next": "dt_050",
-          "choices": null,
-          "trigger": null
-        },
-
-
-        {
-          "id": "dt_050",
+          "id": "dt_start",
           "speaker": "luna",
           "type": "normal",
-          "text": "[테스트] 선택지 분기 확인.",
+          "text": "[테스트] 테스트 항목을 선택하세요.",
           "expression": null,
           "next": null,
           "choices": [
-            { "text": "선택지 A", "next": "dt_051a", "choice_effect": null },
-            { "text": "선택지 B", "next": "dt_051b", "choice_effect": null },
-            { "text": "선택지 C", "next": "dt_051c", "choice_effect": null }
+            { "text": "칵테일 제작 테스트", "next": "dt_craft_001", "choice_effect": null },
+            { "text": "캐릭터 표정 및 등장/퇴장 테스트", "next": "dt_char_001", "choice_effect": null },
+            { "text": "코믹 컷씬 테스트", "next": "dt_cutscene_001", "choice_effect": null }
           ],
           "trigger": null
         },
-        {
-          "id": "dt_051a",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "A 선택. 합류 지점으로 이동.",
-          "expression": null,
-          "next": "dt_052",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_051b",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "B 선택. 합류 지점으로 이동.",
-          "expression": null,
-          "next": "dt_052",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_051c",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "C 선택. 합류 지점으로 이동.",
-          "expression": null,
-          "next": "dt_052",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_052",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 선택지 합류 확인.",
-          "expression": null,
-          "next": "dt_060",
-          "choices": null,
-          "trigger": null
-        },
 
 
         {
-          "id": "dt_060",
+          "id": "dt_craft_001",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_craft_002",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_craft_002",
           "speaker": "luna",
           "type": "monologue",
-          "text": "[테스트] 크래프트 시작.",
+          "text": "[테스트] 칵테일 제작 테스트 시작.",
+          "expression": null,
+          "next": "dt_craft_trigger",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_craft_trigger",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
           "expression": null,
           "next": null,
           "choices": null,
@@ -339,29 +94,19 @@
           "id": "dt_react_perfect",
           "speaker": "port",
           "type": "normal",
-          "text": "[반응: perfect] 지정 칵테일(진피즈/갓파더) 정확히 제조.",
+          "text": "내가 주문한 게 이거지 실력도 좋군.\n(주문 부합 + 완벽)",
           "expression": "joy",
-          "next": "dt_080",
+          "next": "dt_craft_exit",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "dt_react_hidden",
+          "id": "dt_react_good",
           "speaker": "port",
           "type": "normal",
-          "text": "[반응: hidden] 숨겨진 레시피(모히또) 적중.",
-          "expression": "event_surprise",
-          "next": "dt_080",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "dt_react_normal",
-          "speaker": "port",
-          "type": "normal",
-          "text": "[반응: normal] 인식된 칵테일이지만 지정 외 제공.",
-          "expression": "serious",
-          "next": "dt_080",
+          "text": "내가 주문한게 맞군 괜찮게 만들었네.\n(주문 부합 + 보통)",
+          "expression": "default",
+          "next": "dt_craft_exit",
           "choices": null,
           "trigger": null
         },
@@ -369,60 +114,80 @@
           "id": "dt_react_miss",
           "speaker": "port",
           "type": "normal",
-          "text": "[반응: miss] 인식된 칵테일이지만 제조 오차 초과.",
-          "expression": "anger",
-          "next": "dt_080",
+          "text": "주문한 건 맞지만.. 잘못만들었군.\n(주문 부합 + 실패)",
+          "expression": "serious",
+          "next": "dt_craft_exit",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "dt_react_bad",
+          "id": "dt_react_normal_kw_perfect",
           "speaker": "port",
           "type": "normal",
-          "text": "[반응: bad] 알 수 없는 칵테일 제공.",
+          "text": "주문한 건 아니지만 좋은 술이군 잘 만들었어.\n(키워드 일치 + 완벽)",
+          "expression": "default",
+          "next": "dt_craft_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_react_normal_kw_normal",
+          "speaker": "port",
+          "type": "normal",
+          "text": "주문한 게 아니지만 나쁘지 않군.\n(키워드 일치 + 보통)",
+          "expression": "default",
+          "next": "dt_craft_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_react_bad_kw_fail",
+          "speaker": "port",
+          "type": "normal",
+          "text": "왜 나에게 이런 걸 주는거지?\n(키워드 일치 + 실패)",
           "expression": "anger",
-          "next": "dt_080",
-          "choices": null,
-          "trigger": null
-        },
-
-
-        {
-          "id": "dt_080",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "dt_081",
-          "choices": null,
-          "trigger": {
-            "type": "customer_exit",
-            "data": {
-              "character_id": "bubi",
-              "slot": "left",
-              "exit_effect": "fade_out",
-              "exit_duration": 0.5,
-              "sfx_mode": "default_only"
-            }
-          }
-        },
-        {
-          "id": "dt_081",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "[테스트] 왼쪽 슬롯 부비 퇴장 확인.",
-          "expression": null,
-          "next": "dt_082",
+          "next": "dt_craft_exit",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "dt_082",
+          "id": "dt_react_normal_nm_perfect",
+          "speaker": "port",
+          "type": "normal",
+          "text": "술은 괜찮아 보이는데 내 취향이 아니야.\n(불일치 + 완벽)",
+          "expression": "default",
+          "next": "dt_craft_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_react_bad_nm_normal",
+          "speaker": "port",
+          "type": "normal",
+          "text": "왜 나에게 이런 걸 주는거지?\n(불일치 + 보통)",
+          "expression": "anger",
+          "next": "dt_craft_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_react_bad_nm_fail",
+          "speaker": "port",
+          "type": "normal",
+          "text": "왜 나에게 이런 쓰레기를 주는거지?\n(불일치 + 실패)",
+          "expression": "anger",
+          "next": "dt_craft_exit",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_craft_exit",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "dt_083",
+          "next": "dt_craft_end_choice",
           "choices": null,
           "trigger": {
             "type": "customer_exit",
@@ -436,13 +201,344 @@
           }
         },
         {
-          "id": "dt_083",
+          "id": "dt_craft_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 칵테일 제작 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+
+        {
+          "id": "dt_char_001",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_002",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_002",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 다음 손님 등장 확인 — 슬롯 초기화 후 진입.",
+          "expression": null,
+          "next": "dt_char_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_003",
+          "speaker": "port",
+          "type": "normal",
+          "text": "다음 손님입니다.",
+          "expression": "default",
+          "next": "dt_char_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_004",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_005",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_005",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 다음 손님 퇴장 확인.",
+          "expression": null,
+          "next": "dt_char_010",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_char_010",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_011",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_011",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 오른쪽 슬롯 포트 등장 확인.",
+          "expression": null,
+          "next": "dt_char_012",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_012",
+          "speaker": "port",
+          "type": "normal",
+          "text": "오른쪽 슬롯에서 말하는 중.",
+          "expression": "default",
+          "next": "dt_char_020",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_char_020",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_021",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "bubi",
+              "slot": "left",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_021",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 왼쪽 슬롯 부비 등장 확인.",
+          "expression": null,
+          "next": "dt_char_022",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_022",
+          "speaker": "bubi",
+          "type": "normal",
+          "text": "야옹.",
+          "expression": "default",
+          "next": "dt_char_023",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_023",
+          "speaker": "port",
+          "type": "normal",
+          "text": "양쪽 슬롯 동시 점유 상태. 오른쪽.",
+          "expression": "default",
+          "next": "dt_char_024",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_024",
+          "speaker": "bubi",
+          "type": "normal",
+          "text": "야옹.",
+          "expression": "default",
+          "next": "dt_char_030",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_char_030",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[테스트] 표정 전환 — default",
+          "expression": "default",
+          "next": "dt_char_031",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_031",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[테스트] 표정 전환 — anger",
+          "expression": "anger",
+          "next": "dt_char_032",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_032",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[테스트] 표정 전환 — joy",
+          "expression": "joy",
+          "next": "dt_char_033",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_033",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[테스트] 표정 전환 — serious",
+          "expression": "serious",
+          "next": "dt_char_034",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_034",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[테스트] 표정 전환 — event_surprise (once)",
+          "expression": "event_surprise",
+          "next": "dt_char_035",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_035",
+          "speaker": "port",
+          "type": "normal",
+          "text": "event_surprise 이후 default 복귀.",
+          "expression": "default",
+          "next": "dt_char_exit_bubi",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_char_exit_bubi",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_exit_bubi_confirm",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "bubi",
+              "slot": "left",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_exit_bubi_confirm",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 왼쪽 슬롯 부비 퇴장 확인.",
+          "expression": null,
+          "next": "dt_char_exit_port",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_exit_port",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_char_exit_port_confirm",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_char_exit_port_confirm",
           "speaker": "luna",
           "type": "monologue",
           "text": "[테스트] 오른쪽 슬롯 포트 퇴장 확인.",
           "expression": null,
-          "next": "dt_end",
+          "next": "dt_char_end_choice",
           "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_char_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 캐릭터 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+
+        {
+          "id": "dt_cutscene_001",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 코믹 컷씬 테스트 — 미구현.",
+          "expression": null,
+          "next": "dt_cutscene_end_choice",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_cutscene_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 코믹 컷씬 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+          ],
           "trigger": null
         },
 
