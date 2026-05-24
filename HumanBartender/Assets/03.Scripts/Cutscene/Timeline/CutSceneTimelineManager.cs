@@ -28,7 +28,9 @@ public class CutSceneTimelineManager : MonoBehaviour
     [Header("Timeline")]
     [SerializeField] PlayableDirector director;
 
-    
+    [Header("Signal")]
+    [SerializeField] VoidEvent OnServeComplete;
+
     public RectTransform CanvasRect    => canvasRect;
     public RectTransform CutSceneRoot  => cutSceneRoot;
     public CanvasScaler  CanvasScaler  => canvasScaler;
@@ -99,14 +101,27 @@ public class CutSceneTimelineManager : MonoBehaviour
 
     }
 
+    public void ServeAnimEnd()
+    {
+        Logger.Log("ServeEnd");
+        director.Pause();
 
+        OnServeComplete?.Raise(new Void());
+    }
+
+    public void OnContinueCutScene()
+    {
+        director.Stop();
+    }
 
 
 
     public void PlayTimelineCutScene(TimelineAsset timeline)
     {
         if (director == null) return;
+        cutSceneRoot.anchoredPosition = Vector2.zero;
         director.playableAsset = timeline;
+        director.time = 0;
         director.Play();
     }
     public void StopTimeline()

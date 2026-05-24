@@ -106,6 +106,11 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         cameraZoom = null;
     }
 
+    public void OnContinueTimeline()
+    {
+        timelineManager.OnContinueCutScene();
+    }
+
 
 
     public void ClearCutScene()

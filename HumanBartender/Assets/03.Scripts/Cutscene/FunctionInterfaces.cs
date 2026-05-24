@@ -58,6 +58,7 @@ public interface ICutScenePlayer
         UniTaskCompletionSource tcs = null);
 
     public void ClearCutScene();
+    public void OnContinueTimeline();
 }
 
 

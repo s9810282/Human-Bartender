@@ -135,9 +135,9 @@
     },
 
     {
-      "id": "anim_serve_failed",
+      "id": "Serve_Unknown",
       "description": "알수없는 칵테일 제공 컷씬",
-      "type": "sprite",
+      "type": "timeline",
       "blocking": true,
       "asset": "anim_serve_failed",
       "position": "full",
@@ -149,9 +149,9 @@
       "exit_duration": 1.0
     },
     {
-      "id": "anim_serve_gin_fizz",
+      "id": "Serve_Ginfizz",
       "description": "진 피즈 제공 컷씬",
-      "type": "sprite",
+      "type": "timeline",
       "blocking": true,
       "asset": "anim_serve_gin_fizz",
       "position": "full",
@@ -205,9 +205,9 @@
       "exit_duration": 1.0
     },
     {
-      "id": "anim_serve_kahlua_milk",
+      "id": "Serve_Kalua",
       "description": "깔루아 밀크 제공 컷씬",
-      "type": "sprite",
+      "type": "timeline",
       "blocking": true,
       "asset": "anim_serve_kahlua_milk",
       "position": "full",
@@ -234,9 +234,9 @@
     },
 
     {
-      "id": "day1_get_bubi_outside",
+      "id": "FindLuna",
       "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 스프라이트 컷씬",
-      "type": "sprite",
+      "type": "timeline",
       "blocking": true,
       "asset": "cutscene_get_bubi_outside",
       "position": "full",

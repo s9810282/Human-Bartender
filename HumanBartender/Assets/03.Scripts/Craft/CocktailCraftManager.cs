@@ -37,6 +37,9 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] private GameObject stirPrefab;
     [SerializeField] private GameObject buildPrefab;
 
+    [Header("Canvas")]
+    [SerializeField] GameObject dialogueCanvas;
+
     [SerializeField] CraftEventData curCraftEventData;
     
     private UniTaskCompletionSource<string> mainCraftingTcs;
@@ -59,6 +62,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     {
         Logger.Log(craftDataSO == null);
         CraftEventData craftEventData = craftDataSO.GetCraftDataByID(id);
+
+        dialogueCanvas.gameObject.SetActive(false);
 
         ingredientPanel.ClearCurrentSelectIngredient();
 
@@ -234,9 +239,17 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         {
             targetCutsceneId = craftStation.targetCocktailData.Serve_animation;
             await cutScenePlayer.PlayCutScene(targetCutsceneId);
-        }
 
-        //컷씬 끝났으면 버튼 활성화.
+            //제공 컷씬의 경우 Signal 기능 이용
+        }
+        else
+            OnCutSceneEnd(new Void());
+
+    }
+
+    public void OnCutSceneEnd(Void v)
+    {
+        dialogueCanvas.gameObject.SetActive(true);
         controller.OnNextButton();
     }
 
@@ -244,6 +257,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     //아래 2개 버튼에 들어가야하는 함수.
     public async void CraftServe()
     {
+        cutScenePlayer.OnContinueTimeline();
+
         string result = Evaluate();
         Logger.Log(result);
 
@@ -263,7 +278,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         //카메라 되돌리기
         cameraTcs.TrySetResult();
-       
+        
+
         //추후 카르마 판정
 
         if (mainCraftingTcs != null)
