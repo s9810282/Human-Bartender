@@ -1,24 +1,51 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SturManagerNew : MonoBehaviour, IMiniGameController 
 {
+    [Header("Data")]
+    [SerializeField] CraftStationData data;
+    [SerializeField] CategoryColorData colorData;
+    [SerializeField] CocktailDataSO cocktailDataSO;
+
     [Header("Manager")]
     [SerializeField] SturStrikeNode sturStrikeNode;
+    [SerializeField] CircleLineCreator circleLineCreator;
     [SerializeField] AudioSource bgmSource;
 
-    [Header("Center")]
+    [Header("UI")]
     [SerializeField] Image center;
-    [SerializeField] float judgeRange = 1;
-
+    [SerializeField] float radius = 2;
     [SerializeField] Camera canvasCamera;
+    [SerializeField] Canvas gameCanvas;
+    [SerializeField] Canvas buttonCanvas;
+
+    [Header("Judge")]
+    [SerializeField] float judgeRange = 1;
+    [SerializeField] int totalJudge;
+    [SerializeField] int successJudge;
+    [SerializeField] int failJudge;
+
+    [Header("Craft Event")]
+    [SerializeField] VoidEvent craftServe;
+    [SerializeField] VoidEvent craftRetry;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        canvasCamera = Camera.main;
+
+        gameCanvas.worldCamera = canvasCamera;
+        buttonCanvas.worldCamera = canvasCamera;
+
+        data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+        data.targetCraft_tolerance = 15;
+
+        circleLineCreator.BuildCircle(radius, GetCenterWorldPosition());
     }
 
     // Update is called once per frame
@@ -28,29 +55,39 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
     }
 
 
-    public void CompleteMade()
-    {
-
-    }
-
+    private UniTaskCompletionSource tcs;
     public void InitGame(UniTaskCompletionSource tcs)
     {
+        this.tcs = tcs;
+        data.craftingResult.actionCount = 0;
+    }
 
+    public void CompleteMade()
+    {
+        bgmSource.Stop();
+        data.craftingResult.isResult = true;
+        data.craftingResult.actionCount = successJudge;
+
+        if (tcs != null)
+        {
+            Logger.Log("shakeManager tcs not null");
+            tcs.TrySetResult();
+        }
     }
 
     public void OnNextButton()
     {
-
-    }
-
-    public void Retry()
-    {
-
+        buttonCanvas.gameObject.SetActive(true);
     }
 
     public void Serve()
     {
+        craftServe?.Raise(new Void());
+    }
 
+    public void Retry()
+    {
+        craftRetry?.Raise(new Void());
     }
 
     public void StartGame()
@@ -58,7 +95,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         Logger.Log("Start Game");
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
-        sturStrikeNode.InitToStart(GetCenterWorldPosition(), 60, 4, 2);
+        sturStrikeNode.InitToStart(GetCenterWorldPosition(), 60, 4, radius);
     }
 
     public void ClickEvent()
