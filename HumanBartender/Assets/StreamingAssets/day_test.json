@@ -41,7 +41,7 @@
           "choices": [
             { "text": "칵테일 제작 테스트", "next": "dt_craft_001", "choice_effect": null },
             { "text": "캐릭터 표정 및 등장/퇴장 테스트", "next": "dt_char_001", "choice_effect": null },
-            { "text": "코믹 컷씬 테스트", "next": "dt_cutscene_001", "choice_effect": null }
+            { "text": "호감도 분기 테스트", "next": "dt_affinity_001", "choice_effect": null }
           ],
           "trigger": null
         },
@@ -94,7 +94,7 @@
           "id": "dt_react_perfect",
           "speaker": "port",
           "type": "normal",
-          "text": "내가 주문한 게 이거지 실력도 좋군.\n(주문 부합 + 완벽)",
+          "text": "내가 주문한 게 이거지. 실력도 좋군.",
           "expression": "joy",
           "next": "dt_craft_exit",
           "choices": null,
@@ -104,7 +104,7 @@
           "id": "dt_react_good",
           "speaker": "port",
           "type": "normal",
-          "text": "내가 주문한게 맞군 괜찮게 만들었네.\n(주문 부합 + 보통)",
+          "text": "내가 주문한 게 맞군. 괜찮게 만들었네.",
           "expression": "default",
           "next": "dt_craft_exit",
           "choices": null,
@@ -114,7 +114,7 @@
           "id": "dt_react_miss",
           "speaker": "port",
           "type": "normal",
-          "text": "주문한 건 맞지만.. 잘못만들었군.\n(주문 부합 + 실패)",
+          "text": "주문한 건 맞지만.. 잘못 만들었군.",
           "expression": "serious",
           "next": "dt_craft_exit",
           "choices": null,
@@ -124,7 +124,7 @@
           "id": "dt_react_normal_kw_perfect",
           "speaker": "port",
           "type": "normal",
-          "text": "주문한 건 아니지만 좋은 술이군 잘 만들었어.\n(키워드 일치 + 완벽)",
+          "text": "주문한 건 아니지만 좋은 <order>술</order>이군. 잘 만들었어.",
           "expression": "default",
           "next": "dt_craft_exit",
           "choices": null,
@@ -134,7 +134,7 @@
           "id": "dt_react_normal_kw_normal",
           "speaker": "port",
           "type": "normal",
-          "text": "주문한 게 아니지만 나쁘지 않군.\n(키워드 일치 + 보통)",
+          "text": "주문한 게 아니지만 나쁘지 않군.",
           "expression": "default",
           "next": "dt_craft_exit",
           "choices": null,
@@ -144,7 +144,7 @@
           "id": "dt_react_bad_kw_fail",
           "speaker": "port",
           "type": "normal",
-          "text": "왜 나에게 이런 걸 주는거지?\n(키워드 일치 + 실패)",
+          "text": "왜 나에게 이런 걸 주는거지?",
           "expression": "anger",
           "next": "dt_craft_exit",
           "choices": null,
@@ -154,7 +154,7 @@
           "id": "dt_react_normal_nm_perfect",
           "speaker": "port",
           "type": "normal",
-          "text": "술은 괜찮아 보이는데 내 취향이 아니야.\n(불일치 + 완벽)",
+          "text": "<order>술</order>은 괜찮아 보이는데 내 취향이 아니야.",
           "expression": "default",
           "next": "dt_craft_exit",
           "choices": null,
@@ -164,7 +164,7 @@
           "id": "dt_react_bad_nm_normal",
           "speaker": "port",
           "type": "normal",
-          "text": "왜 나에게 이런 걸 주는거지?\n(불일치 + 보통)",
+          "text": "왜 나에게 이런 걸 주는거지?",
           "expression": "anger",
           "next": "dt_craft_exit",
           "choices": null,
@@ -174,7 +174,7 @@
           "id": "dt_react_bad_nm_fail",
           "speaker": "port",
           "type": "normal",
-          "text": "왜 나에게 이런 쓰레기를 주는거지?\n(불일치 + 실패)",
+          "text": "왜 나에게 이런 쓰레기를 주는거지?",
           "expression": "anger",
           "next": "dt_craft_exit",
           "choices": null,
@@ -519,25 +519,273 @@
 
 
         {
-          "id": "dt_cutscene_001",
+          "id": "dt_affinity_001",
           "speaker": "luna",
           "type": "monologue",
-          "text": "[테스트] 코믹 컷씬 테스트 — 미구현.",
+          "text": "[테스트] <name>포트</name>의 호감도 단계를 설정하세요. (1/2)",
           "expression": null,
-          "next": "dt_cutscene_end_choice",
+          "next": null,
+          "choices": [
+            { "text": "최저 — very_low (5)", "next": "dt_affinity_set_very_low", "choice_effect": null },
+            { "text": "낮음 — low (15)",     "next": "dt_affinity_set_low",      "choice_effect": null },
+            { "text": "다음 단계 보기 →",     "next": "dt_affinity_002",          "choice_effect": null }
+          ],
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_002",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] <name>포트</name>의 호감도 단계를 설정하세요. (2/2)",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "보통 — mid (35)",      "next": "dt_affinity_set_mid",      "choice_effect": null },
+            { "text": "높음 — high (60)",     "next": "dt_affinity_set_high",     "choice_effect": null },
+            { "text": "최고 — very_high (80)","next": "dt_affinity_set_very_high","choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+        {
+          "id": "dt_affinity_set_very_low",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_enter",
+          "choices": null,
+          "trigger": {
+            "type": "set_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 5 }
+          }
+        },
+        {
+          "id": "dt_affinity_set_low",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_enter",
+          "choices": null,
+          "trigger": {
+            "type": "set_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 15 }
+          }
+        },
+        {
+          "id": "dt_affinity_set_mid",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_enter",
+          "choices": null,
+          "trigger": {
+            "type": "set_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 35 }
+          }
+        },
+        {
+          "id": "dt_affinity_set_high",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_enter",
+          "choices": null,
+          "trigger": {
+            "type": "set_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 60 }
+          }
+        },
+        {
+          "id": "dt_affinity_set_very_high",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_enter",
+          "choices": null,
+          "trigger": {
+            "type": "set_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 80 }
+          }
+        },
+
+        {
+          "id": "dt_affinity_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_branch",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_affinity_branch",
+          "speaker": "system",
+          "type": "condition_branch",
+          "text": "",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": null,
+          "next_conditions": {
+            "character": "port",
+            "stat": "affinity",
+            "default": "dt_affinity_default",
+            "branches": [
+              { "tier": "very_low",  "goto": "dt_affinity_very_low_001" },
+              { "tier": "low",       "goto": "dt_affinity_low_001" },
+              { "tier": "mid",       "goto": "dt_affinity_mid_001" },
+              { "tier": "high",      "goto": "dt_affinity_high_001" },
+              { "tier": "very_high", "goto": "dt_affinity_very_high_001" }
+            ]
+          }
+        },
+
+        {
+          "id": "dt_affinity_very_low_001",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[반응: 최저] 당신이 내 앞에 있다는 게 불쾌하군.",
+          "expression": "anger",
+          "next": "dt_affinity_adjust",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "dt_cutscene_end_choice",
+          "id": "dt_affinity_low_001",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[반응: 낮음] 아직 낯설군요. 오래 보진 않았으니.",
+          "expression": "serious",
+          "next": "dt_affinity_adjust",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_mid_001",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[반응: 보통] 어, 왔어요.",
+          "expression": "default",
+          "next": "dt_affinity_adjust",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_high_001",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[반응: 높음] 오셨군요. 기다리고 있었는데.",
+          "expression": "joy",
+          "next": "dt_affinity_adjust",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_very_high_001",
+          "speaker": "port",
+          "type": "normal",
+          "text": "[반응: 최고] 당신이 오면 하루가 달라지는군요.",
+          "expression": "joy",
+          "next": "dt_affinity_adjust",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_default",
           "speaker": "luna",
           "type": "monologue",
-          "text": "[테스트] 코믹 컷씬 테스트 완료.",
+          "text": "[기본값] 분기 조건에 해당하지 않습니다.",
+          "expression": null,
+          "next": "dt_affinity_adjust",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "dt_affinity_adjust",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] add_stat으로 호감도를 조정하겠습니까?",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "+10 추가", "next": "dt_affinity_add_pos", "choice_effect": null },
+            { "text": "-10 감소", "next": "dt_affinity_add_neg", "choice_effect": null },
+            { "text": "확인 완료", "next": "dt_affinity_exit",    "choice_effect": null }
+          ],
+          "trigger": null
+        },
+        {
+          "id": "dt_affinity_add_pos",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_exit",
+          "choices": null,
+          "trigger": {
+            "type": "add_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": 10 }
+          }
+        },
+        {
+          "id": "dt_affinity_add_neg",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_exit",
+          "choices": null,
+          "trigger": {
+            "type": "add_stat",
+            "data": { "character_id": "port", "stat": "affinity", "value": -10 }
+          }
+        },
+
+        {
+          "id": "dt_affinity_exit",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_affinity_end_choice",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "port",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_affinity_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 호감도 분기 테스트 완료.",
           "expression": null,
           "next": null,
           "choices": [
             { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
-            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+            { "text": "테스트 종료",       "next": "dt_end",   "choice_effect": null }
           ],
           "trigger": null
         },
