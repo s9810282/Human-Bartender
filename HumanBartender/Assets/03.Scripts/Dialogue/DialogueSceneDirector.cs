@@ -17,6 +17,7 @@ public class DialogueSceneDirector : MonoBehaviour
     [SerializeField] private DialogueTriggerManager triggerManager;
 
 
+    const string PLAYER_ID = "luna";
 
     private Dictionary<string, CharacterData> characterDB = new Dictionary<string, CharacterData>();
 
@@ -47,16 +48,17 @@ public class DialogueSceneDirector : MonoBehaviour
     }
     public async UniTask ShowDialogueAsync(DialogueData dialogueData)
     {
+        //여기서 텍스트 및 사이즈가 이미 초기화 된 상태여야함
+
+        typer.ClearText();
         dialoguePanel.SetActive(true);
+
+        Color nameColor = Color.white;
 
         if (characterDB.TryGetValue(dialogueData.Speaker, out CharacterData speakerData))
         {
-            if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out Color color))
-                typer.SetNameColor(color);
+            if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out nameColor))
 
-            typer.ClearText();
-            typer.SetNameText(speakerData.DisplayName);
-            
             if (!string.IsNullOrEmpty(dialogueData.Expression))
             {
                 await characterManager.SetCharacterAsync(dialogueData.Speaker, dialogueData.Expression);
@@ -64,7 +66,10 @@ public class DialogueSceneDirector : MonoBehaviour
         }
 
         characterManager?.OnDialogueStart(dialogueData.Speaker);
-        await typer.StartType(new TypingData(dialogueData.Text));
+        
+        await typer.StartType(new TypingData
+            (dialogueData.Text, speakerData.DisplayName, nameColor, dialogueData.Speaker == PLAYER_ID));
+        
         characterManager?.OnDialogueEnd(dialogueData.Speaker);
     }
 

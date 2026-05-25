@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TMPro;
@@ -11,15 +12,21 @@ using UnityEngine.UI;
 [System.Serializable]
 public class TypingData
 {
+    public string speaker = "";
     public string str;
+    public Color32 nameColor;
+    public bool isLunaSpeak = false;
 
     public TypingData()
     {
     }
 
-    public TypingData(string str)
+    public TypingData(string str, string speaker, Color32 nameColor, bool isLunaSpeak)
     {
+        this.speaker = speaker;
         this.str = str;
+        this.nameColor = nameColor;
+        this.isLunaSpeak = isLunaSpeak;
     }
 }
 
@@ -27,11 +34,9 @@ public class TypingData
 public class UIDialogueTextView : MonoBehaviour
 {
     [Header("UI Components")]
-    public GameObject dialoguePanel;      // 대화창 전체 패널
-    public TextMeshProUGUI nameTMPText;      // 이름 텍스트
-    public TextMeshProUGUI dialogueTMPText;  // 대사 텍스트
+    public DynamicSpeechBubble lunaSpeechBubble;
+    public DynamicSpeechBubble customerSpeechBubble;
 
-    
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
 
@@ -52,29 +57,27 @@ public class UIDialogueTextView : MonoBehaviour
             return;
         }
 
-        dialoguePanel.gameObject.SetActive(true);
-        dialogueTMPText.fontStyle = FontStyles.Normal;
-
         curTypingData = data;
-        await TypeSentenceTMP(curTypingData.str);
+        await TypeSentenceTMP(curTypingData);
     }
+
     public void ClearText()
     {
-        if (nameTMPText != null)
-            nameTMPText.text = "";
+        if (lunaSpeechBubble != null && lunaSpeechBubble.textLabel != null)
+        {
+            lunaSpeechBubble.textLabel.enableAutoSizing = false;
+            lunaSpeechBubble.textLabel.text = "";
+            lunaSpeechBubble.textLabel.fontSize = lunaSpeechBubble.baseFontSize;
+            lunaSpeechBubble.gameObject.SetActive(false);
+        }
 
-        if (dialogueTMPText != null)
-            dialogueTMPText.text = "";
-    }
-    public void SetNameColor(Color32 color)
-    {
-        if (nameTMPText != null)
-            nameTMPText.color = color;
-    }
-    public void SetNameText(string str)
-    {
-        if (nameTMPText != null)
-            nameTMPText.text = str;
+        if (customerSpeechBubble != null && customerSpeechBubble.textLabel != null)
+        {
+            customerSpeechBubble.textLabel.enableAutoSizing = false;
+            customerSpeechBubble.textLabel.text = "";
+            customerSpeechBubble.textLabel.fontSize = customerSpeechBubble.baseFontSize;
+            customerSpeechBubble.gameObject.SetActive(false);
+        }
     }
 
     public void OnScreenClick()
@@ -97,11 +100,20 @@ public class UIDialogueTextView : MonoBehaviour
         }
     }
 
-    public async UniTask TypeSentenceTMP(string rawSentence)
+    public async UniTask TypeSentenceTMP(TypingData data)
     {
-        if (!(rawSentence.Length > 0)) return;
-        if (dialogueTMPText == null) return;
+        string rawSentence = data.str;
 
+        if (!(rawSentence.Length > 0)) return;
+
+        DynamicSpeechBubble targetBubble = 
+            data.isLunaSpeak ? lunaSpeechBubble : customerSpeechBubble;
+
+        if (targetBubble == null) return;
+
+        targetBubble.gameObject.SetActive(true);
+        targetBubble.nameLabel.text = data.speaker;
+        targetBubble.nameLabel.color = data.nameColor;
 
         StopTyping();
 
@@ -124,16 +136,33 @@ public class UIDialogueTextView : MonoBehaviour
             offset += match.Length;
         }
 
-        dialogueTMPText.text = cleanSentence;
-        dialogueTMPText.maxVisibleCharacters = 0;
-        dialogueTMPText.ForceMeshUpdate();
-        int totalVisibleChars = dialogueTMPText.textInfo.characterCount;
+        if (targetBubble != null)
+        {
+            targetBubble.textLabel.enableAutoSizing = false;
+            targetBubble.textLabel.fontSize = targetBubble.baseFontSize;
+            targetBubble.textLabel.text = cleanSentence;
+            targetBubble.BeginTyping();
+        }
+
+        targetBubble.textLabel.maxVisibleCharacters = 0;
+        targetBubble.textLabel.ForceMeshUpdate();
+
+        int totalVisibleChars = targetBubble.textLabel.textInfo.characterCount;
 
         try
         {
             for (int i = 0; i <= totalVisibleChars; i++)
             {
-                dialogueTMPText.maxVisibleCharacters = i;
+                targetBubble.textLabel.maxVisibleCharacters = i;
+
+                if (targetBubble != null)
+                {
+                    string visiblePart = cleanSentence.Substring(0, i);
+                    if (i < cleanSentence.Length && cleanSentence[i] == '\n')
+                        visiblePart = cleanSentence.Substring(0, i + 1);
+
+                    targetBubble.ResizeToFit(visiblePart);
+                }
 
                 if (delayDict.ContainsKey(i))
                 {
@@ -148,7 +177,10 @@ public class UIDialogueTextView : MonoBehaviour
         }
         catch (Exception ex)
         {
-            dialogueTMPText.maxVisibleCharacters = dialogueTMPText.textInfo.characterCount;
+            targetBubble.textLabel.maxVisibleCharacters = targetBubble.textLabel.textInfo.characterCount;
+
+            if (targetBubble != null)
+                targetBubble.ResizeToFit(cleanSentence);
         }
 
         CompleteTyping();

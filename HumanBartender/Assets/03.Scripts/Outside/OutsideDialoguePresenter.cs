@@ -58,7 +58,8 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
         
         //이름 텍스트 및, 애니메이션 전화 여기서, 일반 Dialgue와 동일함.
         
-        await typer.StartType(new TypingData(dialogueData.Text));
+        await typer.StartType(new TypingData(
+            dialogueData.Text, dialogueData.Speaker, Color.white, dialogueData.Speaker == PLAYER_ID));
     }
 
     public void SkipTyping()
