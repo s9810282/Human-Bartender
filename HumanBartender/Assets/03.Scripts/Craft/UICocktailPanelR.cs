@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UICocktailPanel : MonoBehaviour
+public class UICocktailPanelR : MonoBehaviour
 {
     [Header("SO DATA")]
     [SerializeField] CocktailDataSO cocktailDataSO;
@@ -24,7 +24,7 @@ public class UICocktailPanel : MonoBehaviour
     [SerializeField] UICocktailMenuPanel cocktailMenuPanel;
 
     [Header("UICocktail Detail Panel")]
-    [SerializeField] UICocktailDetailPanel cocktailDetailPanel;
+    [SerializeField] UICocktailDetailPanelR cocktailDetailPanel;
 
 
 

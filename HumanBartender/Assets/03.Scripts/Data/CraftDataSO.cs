@@ -27,6 +27,7 @@ public enum EMatchType
 public struct CraftEventData
 {
     [JsonProperty("id")] public string Id { get; set; }
+    [JsonProperty("order")] public string Order { get; set; }
     [JsonProperty("auto_open_recipe_ui")] public bool AutoOpenRecipeUi { get; set; }
     [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
     [JsonProperty("cutscenes")] public CraftCutSceneData CraftCutscenes { get; set; }

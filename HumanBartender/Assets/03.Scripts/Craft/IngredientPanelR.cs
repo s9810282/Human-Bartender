@@ -5,7 +5,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 using VContainer;
 
-public class IngredientPanel : MonoBehaviour
+public class IngredientPanelR : MonoBehaviour
 {
     [Header("SO DATA")]
     [SerializeField] IngredientDataSO ingredientDataSO;
@@ -15,8 +15,8 @@ public class IngredientPanel : MonoBehaviour
 
     [Header("UICocktail Ingredient Panel")]
     [SerializeField] Transform ingredientPanelParent;
-    [SerializeField] UIIngredientBox ingredientPanel;
-    [SerializeField] Dictionary<string, UIIngredientBox> createdIngredientPanelList = new();
+    [SerializeField] UIIngredientSlot ingredientPanel;
+    [SerializeField] Dictionary<string, UIIngredientSlot> createdIngredientPanelList = new();
 
     [Header("INFO")]
     [SerializeField] Text cocktailNameText;
@@ -40,7 +40,7 @@ public class IngredientPanel : MonoBehaviour
     {
         contentsContextList = new Queue<UIContentsText>(inspectorContextList);
         currentSelectIngredients = new Dictionary<string, int>();
-        createdIngredientPanelList = new Dictionary<string, UIIngredientBox>();
+        createdIngredientPanelList = new Dictionary<string, UIIngredientSlot>();
 
         usedUIContexts.Clear(); 
         inspectorContextList.Clear();
@@ -74,8 +74,8 @@ public class IngredientPanel : MonoBehaviour
                 item.SetImage(sprite);
                 item.SetNameText(data.Name);
                 item.ResetCount();
-                item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
-                item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
+                //item.GetButton().onClick.AddListener(() => OnClickedIngredient(data));
+                //item.GetButton().onClick.AddListener(() => effectEvent?.Raise(new Void()));
 
                 createdIngredientPanelList.Add(data.Id, item);
             }
@@ -91,7 +91,7 @@ public class IngredientPanel : MonoBehaviour
             currentSelectIngredients[data.Id]++;
 
         disEffectEvent?.Raise(new Void());
-        createdIngredientPanelList[data.Id].IncreaseCount();
+        createdIngredientPanelList[data.Id].IncreaseCount(1);
         craftLiquidData.AddIngrediant(data, 10);
     }
 

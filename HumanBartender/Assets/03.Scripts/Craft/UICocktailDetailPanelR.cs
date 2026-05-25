@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-public class UICocktailDetailPanel : MonoBehaviour
+public class UICocktailDetailPanelR : MonoBehaviour
 {
     [SerializeField] Image cocktailImage;
     [SerializeField] Text cocktailNameText;

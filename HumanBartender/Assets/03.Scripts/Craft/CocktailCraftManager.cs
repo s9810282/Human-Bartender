@@ -1,15 +1,10 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.Diagnostics;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.XR;
 using VContainer;
-using VContainer.Unity;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
-
 
 public interface IMiniGameController
 {
@@ -26,7 +21,6 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] CraftDataSO craftDataSO;
     [SerializeField] CocktailDataSO cocktailDataSO;
     [SerializeField] CraftStationData craftStation;
-    [SerializeField] IngredientPanel ingredientPanel;
 
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
@@ -37,8 +31,12 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] private GameObject stirPrefab;
     [SerializeField] private GameObject buildPrefab;
 
-    [Header("Canvas")]
+    [Header("UI")]
     [SerializeField] GameObject dialogueCanvas;
+    [SerializeField] GameObject craftObject;
+    [SerializeField] TextMeshProUGUI orderText;
+    [SerializeField] TextMeshProUGUI popupText;
+    
 
     [SerializeField] CraftEventData curCraftEventData;
     
@@ -64,14 +62,16 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         CraftEventData craftEventData = craftDataSO.GetCraftDataByID(id);
 
         dialogueCanvas.gameObject.SetActive(false);
+        orderText.text = "";
 
-        ingredientPanel.ClearCurrentSelectIngredient();
 
         if (craftEventData.AutoOpenRecipeUi)
         {
-            ingredientPanel.ResetPanel();
-            ingredientPanel.gameObject.SetActive(true);
+            craftObject.gameObject.SetActive(true);
         }
+
+        if(craftEventData.Order != null)
+            orderText.text = craftEventData.Order.ToString();
 
         curCraftEventData = craftEventData;
         TutorialData tutoData = craftEventData.Tutorial.Value;
@@ -104,34 +104,53 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
     }
 
-    /// <summary>
-    /// 연출 있다는데 그건 그때 넣어야되는거고
-    /// </summary>
-    public void StartBuild()
+
+
+
+    string curSelectMethod = "";
+    public GameObject GetMethodObject(string method) => method switch
     {
-        //빌드 시에는 컷씬연출로 대체. 이후 재료에 따라 수정될 거 같음.
-        EndBuild();
+        "shake" => shakePrefab,
+        "stir" => stirPrefab,
+        "build" => buildPrefab,
+        _ => null,
+    };
+    public string GetMethodtoKOR(string method) => method switch
+    {
+        "shake" => "쉐이킹",
+        "stir" => "스터",
+        "build" => "빌드",
+        _ => null,
+    };
+
+    public void OnClickMethod(string method)
+    {
+        popupText.text = GetMethodtoKOR(method) + "를 진행하시겠습니까";
+        curSelectMethod = method;
     }
-    //요청에 따른 임시 함수
-    public async void EndBuild()
+    public void StartMethod()
     {
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
-        ingredientPanel.ResetPanel();
-        ingredientPanel.gameObject.SetActive(false);
 
+        craftStation.targetCocktailData = GetMatchingCocktails();
+        craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
+
+        StartMiniGameAsync(curSelectMethod, GetMethodObject(curSelectMethod)).Forget();
+    }
+
+
+    public void StartBuild()
+    {
+        GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
         StartMiniGameAsync("build", buildPrefab).Forget();
     }
 
-
     public void StartShake()
     {
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
-        ingredientPanel.ResetPanel();
-        ingredientPanel.gameObject.SetActive(false);
-
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
 
@@ -142,8 +161,6 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         return;
 
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
-        ingredientPanel.ResetPanel();
-        ingredientPanel.gameObject.SetActive(false);
 
         craftStation.targetCocktailData = GetMatchingCocktails();
         craftStation.targetCocktailId = craftStation.targetCocktailData.Id;
@@ -159,6 +176,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         UniTaskCompletionSource miniGameInitTcs = new UniTaskCompletionSource();
 
         miniGameObj = null;
+
+        craftObject.gameObject.SetActive(false);
 
         cameraTcs = new UniTaskCompletionSource();
 
@@ -210,7 +229,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     public async UniTask EndCraft()
     {
         GameStateManager.Instance.CurrentGameState = GameState.Play;
-        ingredientPanel.gameObject.SetActive(false);
+
 
 
         string targetCutsceneId = curCraftEventData.CraftCutscenes.craftFinishData.Default;

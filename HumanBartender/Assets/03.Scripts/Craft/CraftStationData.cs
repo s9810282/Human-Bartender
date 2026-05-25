@@ -35,12 +35,17 @@ public class CraftStationData : ScriptableObject
     {
         if (!ingredientDatas.ContainsKey(data.Id))
         {
+            if (amount <= 0) return;
+
             CraftIngrediantData initial = new CraftIngrediantData(data, amount);
             ingredientDatas.Add(data.Id, initial);
         }
         else
         {
             ingredientDatas[data.Id].value += amount;
+
+            if(ingredientDatas[data.Id].value <= 0)
+                ingredientDatas.Remove(data.Id);
         }
     }
 
