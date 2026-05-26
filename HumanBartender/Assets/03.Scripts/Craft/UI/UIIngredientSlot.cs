@@ -10,6 +10,9 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] TextMeshProUGUI countText;
     [SerializeField] Image ingredientImage;
 
+    [SerializeField] Image slotImage;
+    [SerializeField] Image slotSelectImage;
+
     IngredientData data;
     public event Action<IngredientData> OnLeftClick;
     public event Action<IngredientData> OnRightClick;
@@ -20,13 +23,17 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         count = 0;
-        countText.text = "0";   
+        countText.text = "0";
+
+        slotImage.enabled = true;
+        slotSelectImage.enabled = false ;
     }
 
     public void SetData(IngredientData d)
     {
         data = d;
     }
+
 
     public void SetImage(Sprite sprite)
     {
@@ -39,11 +46,14 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
     public void ResetCount()
     {
         count = 0;
-        SetCountText();
+        SetUI();
     }
-    public void SetCountText()
+    public void SetUI()
     {
         countText.text = count.ToString();
+
+        slotImage.enabled = count <= 0;
+        slotSelectImage.enabled = count > 0;
     }
     public void IncreaseCount(int v)
     {
@@ -51,7 +61,7 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
 
         if (count < 0) count = 0;
 
-        SetCountText();
+        SetUI();
     }
 
     public void OnPointerClick(PointerEventData e)

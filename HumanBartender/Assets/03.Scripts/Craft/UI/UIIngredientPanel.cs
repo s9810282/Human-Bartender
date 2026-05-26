@@ -95,9 +95,11 @@ public class UIIngredientPanel : MonoBehaviour
         else
             currentSelectIngredients[data.Id]--;
 
-
         createdIngredientPanelList[data.Id].IncreaseCount(-1);
         craftLiquidData.AddIngrediant(data, -10);
+
+        if (currentSelectIngredients[data.Id] <= 0)
+            currentSelectIngredients.Remove(data.Id);
     }
 
 
