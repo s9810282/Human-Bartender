@@ -13,6 +13,7 @@ using UnityEngine.UI;
 public class TypingData
 {
     public string speaker = "";
+    public Vector3 speakerPos;
     public string str;
     public Color32 nameColor;
     public bool isLunaSpeak = false;
@@ -21,9 +22,10 @@ public class TypingData
     {
     }
 
-    public TypingData(string str, string speaker, Color32 nameColor, bool isLunaSpeak)
+    public TypingData(string str, string speaker, Vector3 speakerPos, Color32 nameColor, bool isLunaSpeak)
     {
         this.speaker = speaker;
+        this.speakerPos = speakerPos;
         this.str = str;
         this.nameColor = nameColor;
         this.isLunaSpeak = isLunaSpeak;
@@ -36,6 +38,12 @@ public class UIDialogueTextView : MonoBehaviour
     [Header("UI Components")]
     public DynamicSpeechBubble lunaSpeechBubble;
     public DynamicSpeechBubble customerSpeechBubble;
+    public RectTransform canvasRect;
+
+    [Header("Slot")]
+    [SerializeField] Vector2 baseOffset;
+    [SerializeField] Vector2 subOffset;
+
 
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
@@ -47,6 +55,7 @@ public class UIDialogueTextView : MonoBehaviour
         curTypingData = new TypingData();
     }
 
+    DynamicSpeechBubble targetBubble;
 
 
     public async UniTask StartType(TypingData data)
@@ -58,8 +67,29 @@ public class UIDialogueTextView : MonoBehaviour
         }
 
         curTypingData = data;
+
+
+        targetBubble = data.isLunaSpeak ? lunaSpeechBubble : customerSpeechBubble;
+
+        if (!data.isLunaSpeak)
+            SetBubblePosition(data.speakerPos);
+
         await TypeSentenceTMP(curTypingData);
     }
+
+    public void SetBubblePosition(Vector3 characterTransform)
+    {
+        Vector2 screenPoint = Camera.main.WorldToScreenPoint(characterTransform + (Vector3)subOffset);
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out localPoint);
+
+        localPoint.x = Mathf.RoundToInt(localPoint.x);
+        localPoint.y = Mathf.RoundToInt(localPoint.y);
+        targetBubble.bubble.localPosition = localPoint;
+    }
+
+
 
     public void ClearText()
     {
@@ -105,11 +135,6 @@ public class UIDialogueTextView : MonoBehaviour
         string rawSentence = data.str;
 
         if (!(rawSentence.Length > 0)) return;
-
-        DynamicSpeechBubble targetBubble = 
-            data.isLunaSpeak ? lunaSpeechBubble : customerSpeechBubble;
-
-        if (targetBubble == null) return;
 
         targetBubble.gameObject.SetActive(true);
         targetBubble.nameLabel.text = data.speaker;

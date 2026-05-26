@@ -56,6 +56,7 @@ public class UIIngredientPanel : MonoBehaviour
         for (int i = 0; i < ingredientDataSO.ingredientData.Ingredients.Length; i++)
         {
             IngredientData data = ingredientDataSO.ingredientData.Ingredients[i];
+            if (data.Id == "ice") continue;
 
             if (!createdIngredientPanelList.ContainsKey(data.Id))
             {

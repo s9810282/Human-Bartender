@@ -53,6 +53,7 @@ public class CameraController : MonoBehaviour, ICameraControl
     [Header("Transition")]
     [SerializeField] float transitionDuration = 1f;
     [SerializeField] AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    
 
     private bool isAtTarget = false;
 

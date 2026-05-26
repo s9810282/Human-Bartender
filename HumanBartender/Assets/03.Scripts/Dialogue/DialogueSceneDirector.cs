@@ -68,7 +68,12 @@ public class DialogueSceneDirector : MonoBehaviour
         characterManager?.OnDialogueStart(dialogueData.Speaker);
         
         await typer.StartType(new TypingData
-            (dialogueData.Text, speakerData.DisplayName, nameColor, dialogueData.Speaker == PLAYER_ID));
+            (dialogueData.Text, 
+            speakerData.DisplayName, 
+            characterManager.GetCharacterPosition(dialogueData.Speaker), 
+            nameColor, 
+            dialogueData.Speaker == PLAYER_ID));
+
         
         characterManager?.OnDialogueEnd(dialogueData.Speaker);
     }

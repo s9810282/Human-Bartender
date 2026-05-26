@@ -12,8 +12,13 @@ public class UITest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        textView.StartType(new TypingData(
-            "측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)", "Luna", Color.white, true
+        textView.StartType(
+            new TypingData(
+            "측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)", 
+            "Luna", 
+            Vector2.zero,
+            Color.white, 
+            true
             ));
     }
 }

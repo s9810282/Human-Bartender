@@ -55,11 +55,15 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
         UIDialogueTextView typer = dialogueData.Speaker == PLAYER_ID ? playerTyper : targetTyper;
 
         typer.ClearText();
-        
+
         //이름 텍스트 및, 애니메이션 전화 여기서, 일반 Dialgue와 동일함.
-        
+
         await typer.StartType(new TypingData(
-            dialogueData.Text, dialogueData.Speaker, Color.white, dialogueData.Speaker == PLAYER_ID));
+            dialogueData.Text,
+            dialogueData.Speaker,
+            Vector2.zero,
+            Color.white,
+            dialogueData.Speaker == PLAYER_ID));
     }
 
     public void SkipTyping()

@@ -25,6 +25,7 @@ public enum ESlotType
 [System.Serializable]
 public class SlotCharacterPart
 {
+    public GameObject slot;
     public ESlotType type;
     public string slotCharacterName = "";
     public string expression = "";
@@ -84,6 +85,21 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
 
         return n;
+    }
+    public Vector3 GetCharacterPosition(string characterId)
+    {
+        for (int i = 0; i < slotParts.Length; i++)
+        {
+            if (slotParts[i].slotCharacterName == "")
+                continue;
+
+            if (characterId == slotParts[i].slotCharacterName)
+            {
+                return slotParts[i].slot.transform.position;
+            }
+        }
+
+        return Vector3.zero;
     }
 
 
