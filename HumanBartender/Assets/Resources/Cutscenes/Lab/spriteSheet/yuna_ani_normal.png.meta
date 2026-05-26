@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 7ab773290e3210d42b3bec2b61654574
+guid: a40f3469f7b19954abf3602b951bea2e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4957098707380532390
-    second: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0"
-  - first:
-      213: 8872961218019913615
-    second: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1"
+      213: 5939404854031983373
+    second: yuna_ani_normal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0"
+      name: yuna_ani_normal_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 650
-        width: 1280
-        height: 70
+        x: 40
+        y: 5
+        width: 43
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a5b090e4df8d43bb0800000000000000
-      internalID: -4957098707380532390
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1"
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1280
-        height: 413
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f8fe4e18737132b70800000000000000
-      internalID: 8872961218019913615
+      spriteID: d03aec51f310d6250800000000000000
+      internalID: 5939404854031983373
       vertices: []
       indices: 
       edges: []
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0": -4957098707380532390
-      "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1": 8872961218019913615
+      yuna_ani_normal_0: 5939404854031983373
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

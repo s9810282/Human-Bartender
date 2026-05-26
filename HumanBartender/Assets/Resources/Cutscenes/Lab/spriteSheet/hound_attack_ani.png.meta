@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: c24bf47e793a7de4aab1791ebd3e6890
+guid: d94c418957fb2ed47ac3f9cac2aa16fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1018200104729064352
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      213: -2780725178866805312
+    second: hound_attack_ani_0
   - first:
-      213: -798865525720716611
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      213: -9135040867549012745
+    second: hound_attack_ani_1
   - first:
-      213: -5167182452050615750
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      213: -989238281883970465
+    second: hound_attack_ani_2
   - first:
-      213: 3485704387109006191
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      213: -940308000166317798
+    second: hound_attack_ani_3
+  - first:
+      213: 684439762037223643
+    second: hound_attack_ani_4
+  - first:
+      213: -2294625295135230775
+    second: hound_attack_ani_5
+  - first:
+      213: 4361307851380633600
+    second: hound_attack_ani_6
+  - first:
+      213: -1694479899054998584
+    second: hound_attack_ani_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -122,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      name: hound_attack_ani_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 197
-        width: 373
-        height: 147
+        x: 72
+        y: 182
+        width: 76
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06ccb5f3660aed1f0800000000000000
-      internalID: -1018200104729064352
+      spriteID: 0c5d8a7ce21e869d0800000000000000
+      internalID: -2780725178866805312
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      name: hound_attack_ani_1
       rect:
         serializedVersion: 2
-        x: 444
-        y: 197
-        width: 373
-        height: 147
+        x: 396
+        y: 182
+        width: 83
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dba6c14790cd9e4f0800000000000000
-      internalID: -798865525720716611
+      spriteID: 7fc90110bb0d93180800000000000000
+      internalID: -9135040867549012745
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      name: hound_attack_ani_2
       rect:
         serializedVersion: 2
-        x: 902
-        y: 188
-        width: 121
-        height: 229
+        x: 720
+        y: 182
+        width: 51
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a3224efcfea7a48b0800000000000000
-      internalID: -5167182452050615750
+      spriteID: f54961a16058542f0800000000000000
+      internalID: -989238281883970465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      name: hound_attack_ani_3
       rect:
         serializedVersion: 2
-        x: 1022
-        y: 196
-        width: 136
-        height: 183
+        x: 1044
+        y: 182
+        width: 48
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +215,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6b27a90ca5bf5030800000000000000
-      internalID: 3485704387109006191
+      spriteID: a11f0a61bda53f2f0800000000000000
+      internalID: -940308000166317798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_attack_ani_4
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 182
+        width: 49
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd0b166565e9f7900800000000000000
+      internalID: 684439762037223643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_attack_ani_5
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 14
+        width: 108
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c4b6d6937ad720e0800000000000000
+      internalID: -2294625295135230775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_attack_ani_6
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 14
+        width: 127
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0003aa5326a768c30800000000000000
+      internalID: 4361307851380633600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_attack_ani_7
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 14
+        width: 67
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cb79c1728ffb78e0800000000000000
+      internalID: -1694479899054998584
       vertices: []
       indices: 
       edges: []
@@ -223,10 +323,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0": -1018200104729064352
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1": -798865525720716611
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2": -5167182452050615750
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3": 3485704387109006191
+      hound_attack_ani_0: -2780725178866805312
+      hound_attack_ani_1: -9135040867549012745
+      hound_attack_ani_2: -989238281883970465
+      hound_attack_ani_3: -940308000166317798
+      hound_attack_ani_4: 684439762037223643
+      hound_attack_ani_5: -2294625295135230775
+      hound_attack_ani_6: 4361307851380633600
+      hound_attack_ani_7: -1694479899054998584
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

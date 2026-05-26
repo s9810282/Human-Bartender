@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Spine;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class CutSceneTimelineManager : MonoBehaviour
     [SerializeField] Image          bgImage;
     [SerializeField] Image          effectOverlay;
     [SerializeField] List<Image>    images = new();
+
+    [Header("Dialogue Bubbles")]
+    [SerializeField] List<DynamicSpeechBubble> dialogueBubbles = new();
 
     [Header("Padding")]
     [SerializeField] float padding_X = 0;
@@ -99,6 +103,8 @@ public class CutSceneTimelineManager : MonoBehaviour
         ResetImages();
         ClearBackground();
 
+        if (effectOverlay != null)
+            effectOverlay.gameObject.SetActive(false);
     }
 
     public void ServeAnimEnd()
@@ -140,7 +146,18 @@ public class CutSceneTimelineManager : MonoBehaviour
             Debug.LogWarning("[CutSceneTimelineManager] 이미지 풀 비어있음 — 모든 이미지가 사용 중");
             return null;
         }
-        return imagePool.Dequeue();
+
+        Image img = imagePool.Dequeue();
+
+        RectTransform rect = img.GetComponent<RectTransform>();
+        img.DOKill();
+        rect.DOKill();
+
+        img.color = new Color(1, 1, 1, 0);
+        rect.localScale = Vector3.one;
+        rect.localRotation = Quaternion.identity;
+
+        return img;
     }
     public void RegisterActive(string imageId, Image img)
     {
@@ -176,10 +193,17 @@ public class CutSceneTimelineManager : MonoBehaviour
 
         foreach (var kvp in activeImages)
         {
+            kvp.Value.DOKill();
+            kvp.Value.GetComponent<RectTransform>().DOKill();
+
             kvp.Value.gameObject.SetActive(false);
             imagePool.Enqueue(kvp.Value);
         }
+
         activeImages.Clear();
+
+        if (effectOverlay != null)
+            effectOverlay.gameObject.SetActive(false);
     }
 
 
@@ -224,7 +248,34 @@ public class CutSceneTimelineManager : MonoBehaviour
         }
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    //  Dialogue Bubbles
+    // ══════════════════════════════════════════════════════════════════
 
+    /// <summary> 인덱스로 말풍선 가져오기. Mixer에서 사용. </summary>
+    public DynamicSpeechBubble GetDialogueBubble(int index)
+    {
+        if (dialogueBubbles == null || index < 0 || index >= dialogueBubbles.Count)
+            return null;
+        return dialogueBubbles[index];
+    }
+
+    /// <summary> 모든 말풍선 숨기기. Timeline 종료 시 호출. </summary>
+    public void HideAllDialogueBubbles()
+    {
+        if (dialogueBubbles == null) return;
+
+        foreach (var bubble in dialogueBubbles)
+        {
+            if (bubble == null) continue;
+
+            bubble.GetComponent<RectTransform>().DOKill();
+            bubble.gameObject.SetActive(false);
+            bubble.textLabel.text = "";
+            bubble.textLabel.maxVisibleCharacters = 99999;
+            bubble.GetComponent<RectTransform>().localScale = Vector3.one;
+        }
+    }
 
 
     // ══════════════════════════════════════════════════════════════════
@@ -261,6 +312,9 @@ public class CutSceneTimelineManager : MonoBehaviour
             ResetImageEditor(i);
 
         ClearBackground();
+
+        if (effectOverlay != null)
+            effectOverlay.gameObject.SetActive(false);
     }
 
 

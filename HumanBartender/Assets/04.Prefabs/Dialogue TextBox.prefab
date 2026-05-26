@@ -109,8 +109,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 18.2, y: -32}
-  m_SizeDelta: {x: -45, y: -64}
+  m_AnchoredPosition: {x: 12, y: -20}
+  m_SizeDelta: {x: -36, y: -40}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5537357230631914008
 CanvasRenderer:
@@ -445,10 +445,10 @@ MonoBehaviour:
   bubble: {fileID: 2101170864369400019}
   minSize: {x: 50, y: 80.5}
   maxSize: {x: 560, y: 150}
-  paddingLeft: 40.7
-  paddingRight: 4.3
-  paddingTop: 32
-  paddingBottom: 32
+  paddingLeft: 30
+  paddingRight: 6
+  paddingTop: 20
+  paddingBottom: 20
   baseFontSize: 15
   minFontSize: 10
   widthSafetyMargin: 12

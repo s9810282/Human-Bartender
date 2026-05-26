@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: 7ab773290e3210d42b3bec2b61654574
+guid: 5a268e339a6decc4295357657c09d733
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4957098707380532390
-    second: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0"
+      213: 6127827103433965313
+    second: yuna_ani_run_0
   - first:
-      213: 8872961218019913615
-    second: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1"
+      213: -6754559606573568158
+    second: yuna_ani_run_1
+  - first:
+      213: 2752887561185553535
+    second: yuna_ani_run_2
+  - first:
+      213: 1473345393657730771
+    second: yuna_ani_run_3
+  - first:
+      213: 4062315097668957058
+    second: yuna_ani_run_4
+  - first:
+      213: -2311401179344455143
+    second: yuna_ani_run_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +52,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -116,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0"
+      name: yuna_ani_run_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 650
-        width: 1280
-        height: 70
+        x: 24
+        y: 7
+        width: 44
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a5b090e4df8d43bb0800000000000000
-      internalID: -4957098707380532390
+      spriteID: 10f3131b84a6a0550800000000000000
+      internalID: 6127827103433965313
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1"
+      name: yuna_ani_run_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1280
-        height: 413
+        x: 120
+        y: 5
+        width: 44
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +165,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8fe4e18737132b70800000000000000
-      internalID: 8872961218019913615
+      spriteID: 26feaf333dbf242a0800000000000000
+      internalID: -6754559606573568158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_run_2
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 5
+        width: 43
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7c6e07c6a8343620800000000000000
+      internalID: 2752887561185553535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_run_3
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 8
+        width: 44
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d65d6454df527410800000000000000
+      internalID: 1473345393657730771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_run_4
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 5
+        width: 44
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 283b34aee0e306830800000000000000
+      internalID: 4062315097668957058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_run_5
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 5
+        width: 43
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91a31cbafd04cefd0800000000000000
+      internalID: -2311401179344455143
       vertices: []
       indices: 
       edges: []
@@ -173,8 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_0": -4957098707380532390
-      "\uBA54\uB274\uD310X-\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uADFC\uACBD(\uB77C\uC774\uD305)(2026-05-26)_1": 8872961218019913615
+      yuna_ani_run_0: 6127827103433965313
+      yuna_ani_run_1: -6754559606573568158
+      yuna_ani_run_2: 2752887561185553535
+      yuna_ani_run_3: 1473345393657730771
+      yuna_ani_run_4: 4062315097668957058
+      yuna_ani_run_5: -2311401179344455143
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,19 +1,28 @@
 fileFormatVersion: 2
-guid: c24bf47e793a7de4aab1791ebd3e6890
+guid: 1a3c2be154cf01945a79ecc91ef7eea1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1018200104729064352
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      213: 4749451277543116145
+    second: yuna_ani_stand_up_0
   - first:
-      213: -798865525720716611
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      213: -1580257016113362067
+    second: yuna_ani_stand_up_1
   - first:
-      213: -5167182452050615750
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      213: 7595850528049289508
+    second: yuna_ani_stand_up_2
   - first:
-      213: 3485704387109006191
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      213: 5828316181002563924
+    second: yuna_ani_stand_up_3
+  - first:
+      213: 4549235260520154109
+    second: yuna_ani_stand_up_4
+  - first:
+      213: 4242063433029691835
+    second: yuna_ani_stand_up_5
+  - first:
+      213: -5959316852891908081
+    second: yuna_ani_stand_up_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -122,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      name: yuna_ani_stand_up_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 197
-        width: 373
-        height: 147
+        x: 40
+        y: 5
+        width: 43
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06ccb5f3660aed1f0800000000000000
-      internalID: -1018200104729064352
+      spriteID: 17d8bf3f5c079e140800000000000000
+      internalID: 4749451277543116145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      name: yuna_ani_stand_up_1
       rect:
         serializedVersion: 2
-        x: 444
-        y: 197
-        width: 373
-        height: 147
+        x: 136
+        y: 5
+        width: 42
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dba6c14790cd9e4f0800000000000000
-      internalID: -798865525720716611
+      spriteID: d6b8ebccd9cc11ae0800000000000000
+      internalID: -1580257016113362067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      name: yuna_ani_stand_up_2
       rect:
         serializedVersion: 2
-        x: 902
-        y: 188
-        width: 121
-        height: 229
+        x: 232
+        y: 5
+        width: 43
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a3224efcfea7a48b0800000000000000
-      internalID: -5167182452050615750
+      spriteID: 429575b8fc1e96960800000000000000
+      internalID: 7595850528049289508
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      name: yuna_ani_stand_up_3
       rect:
         serializedVersion: 2
-        x: 1022
-        y: 196
-        width: 136
-        height: 183
+        x: 330
+        y: 5
+        width: 40
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +212,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6b27a90ca5bf5030800000000000000
-      internalID: 3485704387109006191
+      spriteID: 451b157dfa652e050800000000000000
+      internalID: 5828316181002563924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_stand_up_4
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 5
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df34cf6dd51222f30800000000000000
+      internalID: 4549235260520154109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_stand_up_5
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 5
+        width: 38
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb9a8688736deda30800000000000000
+      internalID: 4242063433029691835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_stand_up_6
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 5
+        width: 45
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f08016765e04c4da0800000000000000
+      internalID: -5959316852891908081
       vertices: []
       indices: 
       edges: []
@@ -223,10 +298,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0": -1018200104729064352
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1": -798865525720716611
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2": -5167182452050615750
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3": 3485704387109006191
+      yuna_ani_stand_up_0: 4749451277543116145
+      yuna_ani_stand_up_1: -1580257016113362067
+      yuna_ani_stand_up_2: 7595850528049289508
+      yuna_ani_stand_up_3: 5828316181002563924
+      yuna_ani_stand_up_4: 4549235260520154109
+      yuna_ani_stand_up_5: 4242063433029691835
+      yuna_ani_stand_up_6: -5959316852891908081
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: c24bf47e793a7de4aab1791ebd3e6890
+guid: f00d0ec6467ffa34b86d5db273eeb71a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1018200104729064352
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      213: -285320875588639055
+    second: luna_crawl_0
   - first:
-      213: -798865525720716611
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      213: -1765839005436639974
+    second: luna_crawl_1
   - first:
-      213: -5167182452050615750
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      213: -7430219999642160827
+    second: luna_crawl_2
   - first:
-      213: 3485704387109006191
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      213: 3687891977166343850
+    second: luna_crawl_3
+  - first:
+      213: 1871791925062643261
+    second: luna_crawl_4
+  - first:
+      213: -5787341812236557205
+    second: luna_crawl_5
+  - first:
+      213: -8015043443951264014
+    second: luna_crawl_6
+  - first:
+      213: -5732590153910939912
+    second: luna_crawl_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -122,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      name: luna_crawl_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 197
-        width: 373
-        height: 147
+        x: 19
+        y: 89
+        width: 47
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06ccb5f3660aed1f0800000000000000
-      internalID: -1018200104729064352
+      spriteID: 1b62983ec265a0cf0800000000000000
+      internalID: -285320875588639055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      name: luna_crawl_1
       rect:
         serializedVersion: 2
-        x: 444
-        y: 197
-        width: 373
-        height: 147
+        x: 104
+        y: 89
+        width: 52
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dba6c14790cd9e4f0800000000000000
-      internalID: -798865525720716611
+      spriteID: a158b66c7ca7e77e0800000000000000
+      internalID: -1765839005436639974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      name: luna_crawl_2
       rect:
         serializedVersion: 2
-        x: 902
-        y: 188
-        width: 121
-        height: 229
+        x: 188
+        y: 89
+        width: 52
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a3224efcfea7a48b0800000000000000
-      internalID: -5167182452050615750
+      spriteID: 541735ef64e82e890800000000000000
+      internalID: -7430219999642160827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      name: luna_crawl_3
       rect:
         serializedVersion: 2
-        x: 1022
-        y: 196
-        width: 136
-        height: 183
+        x: 273
+        y: 89
+        width: 52
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +215,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6b27a90ca5bf5030800000000000000
-      internalID: 3485704387109006191
+      spriteID: aae4305c6360e2330800000000000000
+      internalID: 3687891977166343850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_crawl_4
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 89
+        width: 50
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3eadc2b6d0f9f910800000000000000
+      internalID: 1871791925062643261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_crawl_5
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 12
+        width: 49
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b64efdfc84b3fafa0800000000000000
+      internalID: -5787341812236557205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_crawl_6
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 12
+        width: 53
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fe16f70478d4c090800000000000000
+      internalID: -8015043443951264014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_crawl_7
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 12
+        width: 52
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fe8c39a0afb170b0800000000000000
+      internalID: -5732590153910939912
       vertices: []
       indices: 
       edges: []
@@ -223,10 +323,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0": -1018200104729064352
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1": -798865525720716611
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2": -5167182452050615750
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3": 3485704387109006191
+      luna_crawl_0: -285320875588639055
+      luna_crawl_1: -1765839005436639974
+      luna_crawl_2: -7430219999642160827
+      luna_crawl_3: 3687891977166343850
+      luna_crawl_4: 1871791925062643261
+      luna_crawl_5: -5787341812236557205
+      luna_crawl_6: -8015043443951264014
+      luna_crawl_7: -5732590153910939912
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

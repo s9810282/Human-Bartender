@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: c24bf47e793a7de4aab1791ebd3e6890
+guid: d3d15f6da0220444e9389f76c08a434b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1018200104729064352
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      213: -8619904744271522093
+    second: soldier_ani_idle_0
   - first:
-      213: -798865525720716611
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      213: 1018616392750129029
+    second: soldier_ani_idle_1
   - first:
-      213: -5167182452050615750
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      213: -8798409461998993174
+    second: soldier_ani_idle_2
   - first:
-      213: 3485704387109006191
-    second: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      213: -446135367751276985
+    second: soldier_ani_idle_3
+  - first:
+      213: -4525188588813897335
+    second: soldier_ani_idle_4
+  - first:
+      213: 5693047692736358297
+    second: soldier_ani_idle_5
+  - first:
+      213: -7662238217309625070
+    second: soldier_ani_idle_6
+  - first:
+      213: 5441693500790357336
+    second: soldier_ani_idle_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -122,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0"
+      name: soldier_ani_idle_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 197
-        width: 373
-        height: 147
+        x: 13
+        y: 15
+        width: 53
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06ccb5f3660aed1f0800000000000000
-      internalID: -1018200104729064352
+      spriteID: 3d6ddf72e42ff5880800000000000000
+      internalID: -8619904744271522093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1"
+      name: soldier_ani_idle_1
       rect:
         serializedVersion: 2
-        x: 444
-        y: 197
-        width: 373
-        height: 147
+        x: 106
+        y: 15
+        width: 53
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dba6c14790cd9e4f0800000000000000
-      internalID: -798865525720716611
+      spriteID: 58fd24c563ad22e00800000000000000
+      internalID: 1018616392750129029
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2"
+      name: soldier_ani_idle_2
       rect:
         serializedVersion: 2
-        x: 902
-        y: 188
-        width: 121
-        height: 229
+        x: 199
+        y: 15
+        width: 53
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a3224efcfea7a48b0800000000000000
-      internalID: -5167182452050615750
+      spriteID: ae04d15d535c5e580800000000000000
+      internalID: -8798409461998993174
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3"
+      name: soldier_ani_idle_3
       rect:
         serializedVersion: 2
-        x: 1022
-        y: 196
-        width: 136
-        height: 183
+        x: 292
+        y: 15
+        width: 53
+        height: 51
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +215,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6b27a90ca5bf5030800000000000000
-      internalID: 3485704387109006191
+      spriteID: 746627b2f320fc9f0800000000000000
+      internalID: -446135367751276985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: soldier_ani_idle_4
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 15
+        width: 53
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 981b81634fc4331c0800000000000000
+      internalID: -4525188588813897335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: soldier_ani_idle_5
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 15
+        width: 53
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99768e6a6b4c10f40800000000000000
+      internalID: 5693047692736358297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: soldier_ani_idle_6
+      rect:
+        serializedVersion: 2
+        x: 571
+        y: 15
+        width: 53
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21566d800f24aa590800000000000000
+      internalID: -7662238217309625070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: soldier_ani_idle_7
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 15
+        width: 53
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85d392b5867c48b40800000000000000
+      internalID: 5441693500790357336
       vertices: []
       indices: 
       edges: []
@@ -223,10 +323,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_0": -1018200104729064352
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_1": -798865525720716611
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_2": -5167182452050615750
-      "\uB300\uD654\uD654\uBA74_\uD480\uC0F7_\uC911\uACBD(\uB77C\uC774\uD305)(2026-05-06)_3": 3485704387109006191
+      soldier_ani_idle_0: -8619904744271522093
+      soldier_ani_idle_1: 1018616392750129029
+      soldier_ani_idle_2: -8798409461998993174
+      soldier_ani_idle_3: -446135367751276985
+      soldier_ani_idle_4: -4525188588813897335
+      soldier_ani_idle_5: 5693047692736358297
+      soldier_ani_idle_6: -7662238217309625070
+      soldier_ani_idle_7: 5441693500790357336
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
