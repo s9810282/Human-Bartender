@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: 56eff4fc9b111974e93fbac4cef6f6a0
+guid: 2d25e5d7474d9a145ab7ef294d32ca58
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5836878837769586662
-    second: luna_walk3-Sheet_0
+      213: 323260114409291657
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_0"
   - first:
-      213: -7051397520041810269
-    second: luna_walk3-Sheet_1
+      213: -1581451858697020675
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_1"
   - first:
-      213: -2596611547073492328
-    second: luna_walk3-Sheet_2
+      213: 5230694785351221449
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_2"
   - first:
-      213: 6723122239148902377
-    second: luna_walk3-Sheet_3
+      213: -1795618969118656454
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_3"
   - first:
-      213: 5322861382265111242
-    second: luna_walk3-Sheet_4
+      213: -6895708124889770189
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_4"
   - first:
-      213: -2112625258067111008
-    second: luna_walk3-Sheet_5
+      213: 5099772809943244713
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_5"
   - first:
-      213: -1109446719683441209
-    second: luna_walk3-Sheet_6
-  - first:
-      213: 2359811600099924414
-    second: luna_walk3-Sheet_7
+      213: -6704126978198371252
+    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_6"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,10 +64,10 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
-  alignment: 0
+  spriteMeshType: 1
+  alignment: 7
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -117,194 +114,159 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: luna_walk3-Sheet_0
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_0"
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 32
-        height: 54
+        y: 2
+        width: 97
+        height: 63
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6e7404ab062c00150800000000000000
-      internalID: 5836878837769586662
+      spriteID: 98ffa618c537c7400800000000000000
+      internalID: 323260114409291657
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_1
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_1"
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 54
+        x: 335
+        y: 3
+        width: 147
+        height: 95
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3a666dfb057642e90800000000000000
-      internalID: -7051397520041810269
+      spriteID: dfa9bf4d9ed8d0ae0800000000000000
+      internalID: -1581451858697020675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_2
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_2"
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 54
+        x: 658
+        y: 2
+        width: 49
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 89ac10d2e8bf6fbd0800000000000000
-      internalID: -2596611547073492328
+      spriteID: 9c00951a139279840800000000000000
+      internalID: 5230694785351221449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_3
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_3"
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 54
+        x: 732
+        y: 8
+        width: 19
+        height: 14
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e7cffd4e045d4d50800000000000000
-      internalID: 6723122239148902377
+      spriteID: a38bab9af0ea417e0800000000000000
+      internalID: -1795618969118656454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_4
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_4"
       rect:
         serializedVersion: 2
-        x: 128
+        x: 907
         y: 0
-        width: 32
-        height: 54
+        width: 72
+        height: 61
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac28e86b93a9ed940800000000000000
-      internalID: 5322861382265111242
+      spriteID: 3379b25def58d40a0800000000000000
+      internalID: -6895708124889770189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_5
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_5"
       rect:
         serializedVersion: 2
-        x: 160
+        x: 987
         y: 0
-        width: 32
-        height: 54
+        width: 157
+        height: 76
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a3546d55827ea2e0800000000000000
-      internalID: -2112625258067111008
+      spriteID: 9afdcd3d95806c640800000000000000
+      internalID: 5099772809943244713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_walk3-Sheet_6
+      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_6"
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 54
+        x: 1188
+        y: 8
+        width: 26
+        height: 42
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7cdcb0826147a90f0800000000000000
-      internalID: -1109446719683441209
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: luna_walk3-Sheet_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 54
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: eb95dc0c52cbfb020800000000000000
-      internalID: 2359811600099924414
+      spriteID: c448f57880826f2a0800000000000000
+      internalID: -6704126978198371252
       vertices: []
       indices: 
       edges: []
@@ -313,26 +275,23 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 07e0423a550dd624a8cf877da82aa117
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures:
-    - texture: {fileID: 2800000, guid: 95549ad7877d51a45ada7b2fba24d9da, type: 3}
-      name: _NormalMap
+    secondaryTextures: []
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      luna_walk3-Sheet_0: 5836878837769586662
-      luna_walk3-Sheet_1: -7051397520041810269
-      luna_walk3-Sheet_2: -2596611547073492328
-      luna_walk3-Sheet_3: 6723122239148902377
-      luna_walk3-Sheet_4: 5322861382265111242
-      luna_walk3-Sheet_5: -2112625258067111008
-      luna_walk3-Sheet_6: -1109446719683441209
-      luna_walk3-Sheet_7: 2359811600099924414
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_0": 323260114409291657
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_1": -1581451858697020675
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_2": 5230694785351221449
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_3": -1795618969118656454
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_4": -6895708124889770189
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_5": 5099772809943244713
+      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B8_6": -6704126978198371252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
