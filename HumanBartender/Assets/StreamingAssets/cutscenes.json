@@ -90,7 +90,7 @@
   "cutscenes": [
 
     {
-      "id": "Finished_Ginfizz",
+      "id": "Finished_GinFizz",
       "description": "진피즈 완성 컷씬",
       "type": "timeline",
       "blocking": true,
@@ -105,7 +105,67 @@
     },
 
     {
-      "id": "Finished_kalua",
+      "id": "Finished_DryMartini",
+      "description": "드라이 마티니 완성 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "Finished_DryMartini",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Finished_Cosmopolitan",
+      "description": "코스모폴리탄 완성 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "Finished_Cosmopolitan",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Finished_Godfather",
+      "description": "갓파더 완성 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "Finished_Godfather",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Finished_Mojito",
+      "description": "모히또 완성 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "Finished_Mojito",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Finished_KahluaMilk",
       "description": "깔루아 밀크 완성 컷씬",
       "type": "timeline",
       "blocking": true,
@@ -149,7 +209,7 @@
       "exit_duration": 1.0
     },
     {
-      "id": "Serve_Ginfizz",
+      "id": "Serve_GinFizz",
       "description": "진 피즈 제공 컷씬",
       "type": "timeline",
       "blocking": true,
@@ -163,7 +223,21 @@
       "exit_duration": 1.0
     },
     {
-      "id": "anim_serve_cosmopolitan",
+      "id": "Serve_DryMartini",
+      "description": "드라이 마티니 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_dry_martini",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_Cosmopolitan",
       "description": "코스모폴리탄 제공 컷씬",
       "type": "sprite",
       "blocking": true,
@@ -177,7 +251,7 @@
       "exit_duration": 1.0
     },
     {
-      "id": "anim_serve_godfather",
+      "id": "Serve_Godfather",
       "description": "갓파더 제공 컷씬",
       "type": "sprite",
       "blocking": true,
@@ -191,8 +265,8 @@
       "exit_duration": 1.0
     },
     {
-      "id": "anim_serve_mojito",
-      "description": "모히토 제공 컷씬",
+      "id": "Serve_Mojito",
+      "description": "모히또 제공 컷씬",
       "type": "sprite",
       "blocking": true,
       "asset": "anim_serve_mojito",
@@ -205,7 +279,7 @@
       "exit_duration": 1.0
     },
     {
-      "id": "Serve_Kalua",
+      "id": "Serve_KahluaMilk",
       "description": "깔루아 밀크 제공 컷씬",
       "type": "timeline",
       "blocking": true,

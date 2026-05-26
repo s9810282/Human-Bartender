@@ -4,6 +4,7 @@
       "id": "gin_fizz",
       "name": "진피즈",
       "name_en": "Gin Fizz",
+      "price": 220,
       "recipe": [
         { "ingredient": "gin",          "count": 4, "display_name": "진" },
         { "ingredient": "sugar_syrup",  "count": 1, "display_name": "설탕 시럽" },
@@ -15,16 +16,17 @@
       "process": "쉐이킹",
       "method": "shake",
       "keywords": ["상큼한", "클래식", "청량한"],
-      "baseIngredient": "진",
+      "baseIngredient": "gin",
       "flavor_text": "진과 상큼한 레몬이 잘 어울리는 칵테일입니다.\n대부분의 손님이 호불호 없이 즐길 수 있는 메뉴죠.\n여담으로, 진 피즈에서 '피즈'는 탄산이 터지는 '피즈 피즈' 소리를 따서 만들어졌다는 속설이 있습니다.\n이상하죠. B-52 칵테일에서는 폭탄이 떨어지는 소리가 나지 않는데 말입니다.",
-      "finish_animation": "Finished_Ginfizz",
-      "serve_animation": "Serve_Ginfizz",
+      "finish_animation": "Finished_GinFizz",
+      "serve_animation": "Serve_GinFizz",
       "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "dry_martini",
       "name": "드라이 마티니",
       "name_en": "Dry Martini",
+      "price": 300,
       "recipe": [
         { "ingredient": "gin",          "count": 6, "display_name": "진" },
         { "ingredient": "dry_vermouth", "count": 1, "display_name": "드라이 베르무트" },
@@ -33,16 +35,17 @@
       "process": "스터",
       "method": "stir",
       "keywords": ["씁쓸한", "클래식", "고급스러운"],
-      "baseIngredient": "진",
+      "baseIngredient": "gin",
       "flavor_text": "진을 가장 제대로 즐길 수 있는 칵테일입니다.\n가끔 손님 중에 \"젓지 말고 흔들어서.\"라고 주문하는 사람이 있다면, 그 사람은 살인 면허가 있는 사람일 가능성이 높습니다.\n절대 자극하지 마세요.",
-      "finish_animation": null,
-      "serve_animation": "anim_serve_gin_fizz",
+      "finish_animation": "Finished_DryMartini",
+      "serve_animation": "Serve_DryMartini",
       "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "cosmopolitan",
       "name": "코스모폴리탄",
       "name_en": "Cosmopolitan",
+      "price": 250,
       "recipe": [
         { "ingredient": "vodka",           "count": 4, "display_name": "보드카" },
         { "ingredient": "triple_sec",      "count": 1, "display_name": "트리플 섹" },
@@ -52,16 +55,17 @@
       "process": "쉐이킹",
       "method": "shake",
       "keywords": ["상큼한", "부드러운", "고급스러운"],
-      "baseIngredient": "보드카",
+      "baseIngredient": "vodka",
       "flavor_text": "대표적인 레이디 킬러 술로 불립니다.\n물론 정말 이 술이 여자들을 죽이진 않겠죠.\n둘이 먹다 둘 다 죽을 맛이라는 뜻입니다.",
-      "finish_animation": null,
-      "serve_animation": "anim_serve_cosmopolitan",
+      "finish_animation": "Finished_Cosmopolitan",
+      "serve_animation": "Serve_Cosmopolitan",
       "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "godfather",
       "name": "갓파더",
       "name_en": "Godfather",
+      "price": 280,
       "recipe": [
         { "ingredient": "whiskey",   "count": 3, "display_name": "위스키" },
         { "ingredient": "disaronno", "count": 2, "display_name": "디사론노" },
@@ -70,16 +74,17 @@
       "process": "스터",
       "method": "stir",
       "keywords": ["클래식", "고급스러운", "스모키"],
-      "baseIngredient": "위스키",
+      "baseIngredient": "whiskey",
       "flavor_text": "스모키, 위스키, 차이콥스키.\n이들의 공통점은 입에 담배를 문 건장한 마초들에게 더할 나위 없이 잘 어울린다는 겁니다.\n이걸 주문하는 대부들에게는 시가와 함께 즐길 친구를 제공하세요.",
-      "finish_animation": null,
-      "serve_animation": "anim_serve_godfather",
+      "finish_animation": "Finished_Godfather",
+      "serve_animation": "Serve_Godfather",
       "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "mojito",
       "name": "모히또",
       "name_en": "Mojito",
+      "price": 180,
       "recipe": [
         { "ingredient": "rum",         "count": 4, "display_name": "럼" },
         { "ingredient": "lime_juice",  "count": 2, "display_name": "라임 주스" },
@@ -91,16 +96,17 @@
       "process": "빌드",
       "method": "build",
       "keywords": ["상큼한", "부드러운", "청량한"],
-      "baseIngredient": "럼",
+      "baseIngredient": "rum",
       "flavor_text": "과거 이 칵테일은 관광지의 이름으로 쓰였던 적이 있습니다.\n그만큼 유명하고, 누구나 부담 없이 즐길 수 있는 술이라는 뜻이죠.\n\"모히또에서 몰디브 한 잔.\"",
-      "finish_animation": null,
-      "serve_animation": "anim_serve_mojito",
+      "finish_animation": "Finished_Mojito",
+      "serve_animation": "Serve_Mojito",
       "serve_sfx": "SFX_glass_slide"
     },
     {
       "id": "kahlua_milk",
       "name": "깔루아 밀크",
       "name_en": "Kahlua Milk",
+      "price": 150,
       "recipe": [
         { "ingredient": "coffee_liqueur", "count": 2, "display_name": "커피 리큐어" },
         { "ingredient": "milk",           "count": 5, "display_name": "우유" }
@@ -108,10 +114,10 @@
       "process": "빌드",
       "method": "build",
       "keywords": ["달콤한", "부드러운"],
-      "baseIngredient": "커피 리큐어",
+      "baseIngredient": "coffee_liqueur",
       "flavor_text": "예전부터 존재하던 칵테일이지만, 2054년 어떤 정신 나간 바텐더가 길고양이에게 깔루아 밀크를 주었습니다.\n그 이후 이 칵테일은 여성뿐만 아니라 고양이들의 마음까지 사로잡은 마성의 칵테일로 자리 잡게 되었죠.\n고양이가 술을 마실 수 있냐고요?\n길거리에 자기 몸에 동물 귀랑 꼬리를 달고 다니는 사람들도 있는데, 안 되는 게 어디 있습니까?",
-      "finish_animation": "Finished_kalua",
-      "serve_animation": "Serve_Kalua",
+      "finish_animation": "Finished_KahluaMilk",
+      "serve_animation": "Serve_KahluaMilk",
       "serve_sfx": "SFX_glass_slide"
     }
   ],

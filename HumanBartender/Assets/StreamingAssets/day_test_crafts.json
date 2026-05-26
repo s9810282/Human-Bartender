@@ -2,6 +2,7 @@
   "craft_events": [
     {
       "id": "day_test_craft",
+      "order": "[테스트] 진피즈 또는 드라이 마티니",
       "auto_open_recipe_ui": true,
       "tutorial": {
         "enabled": false,
@@ -91,63 +92,72 @@
           "dialogue_id": "dt_react_perfect",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": true, "tip_rate": 0.2 }
         },
         "good": {
           "verdict": "good",
           "dialogue_id": "dt_react_good",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "miss": {
           "verdict": "miss",
           "dialogue_id": "dt_react_miss",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "normal_kw_perfect": {
           "verdict": "normal",
           "dialogue_id": "dt_react_normal_kw_perfect",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
         "normal_kw_normal": {
           "verdict": "normal",
           "dialogue_id": "dt_react_normal_kw_normal",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "bad_kw_fail": {
           "verdict": "bad",
           "dialogue_id": "dt_react_bad_kw_fail",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "normal_nm_perfect": {
           "verdict": "normal",
           "dialogue_id": "dt_react_normal_nm_perfect",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad_nm_normal": {
           "verdict": "bad",
           "dialogue_id": "dt_react_bad_nm_normal",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad_nm_fail": {
           "verdict": "bad",
           "dialogue_id": "dt_react_bad_nm_fail",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         }
       }
     }

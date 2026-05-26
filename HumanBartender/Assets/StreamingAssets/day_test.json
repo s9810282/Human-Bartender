@@ -35,13 +35,42 @@
           "id": "dt_start",
           "speaker": "luna",
           "type": "normal",
-          "text": "[테스트] 테스트 항목을 선택하세요.",
+          "text": "[테스트] 테스트 항목을 선택하세요. (1/2)",
           "expression": null,
           "next": null,
           "choices": [
             { "text": "칵테일 제작 테스트", "next": "dt_craft_001", "choice_effect": null },
-            { "text": "캐릭터 표정 및 등장/퇴장 테스트", "next": "dt_char_001", "choice_effect": null },
-            { "text": "호감도 분기 테스트", "next": "dt_affinity_001", "choice_effect": null }
+            { "text": "캐릭터 테스트", "next": "dt_char_menu", "choice_effect": null },
+            { "text": "다음 →", "next": "dt_start_002", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+        {
+          "id": "dt_start_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "[테스트] 테스트 항목을 선택하세요. (2/2)",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "호감도 분기 테스트", "next": "dt_affinity_001", "choice_effect": null },
+            { "text": "텍스트 태그 테스트", "next": "dt_tag_001", "choice_effect": null },
+            { "text": "← 처음으로", "next": "dt_start", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+        {
+          "id": "dt_char_menu",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 캐릭터 테스트 항목을 선택하세요.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "포트 · 부비 테스트", "next": "dt_char_001", "choice_effect": null },
+            { "text": "아일리 · 삼호 테스트", "next": "dt_new_char_001", "choice_effect": null }
           ],
           "trigger": null
         },
@@ -786,6 +815,222 @@
           "choices": [
             { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
             { "text": "테스트 종료",       "next": "dt_end",   "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+
+        {
+          "id": "dt_new_char_001",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 신규 캐릭터 등장/퇴장 테스트 시작.",
+          "expression": null,
+          "next": "dt_new_char_aili_enter",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_aili_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_new_char_aili_speak",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "aili",
+              "slot": "left",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_new_char_aili_speak",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "[테스트] 왼쪽 슬롯 아일리 등장 확인.",
+          "expression": "default",
+          "next": "dt_new_char_samho_enter",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_samho_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_new_char_samho_speak",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "samho",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_new_char_samho_speak",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "[테스트] 오른쪽 슬롯 삼호 등장 확인.",
+          "expression": "default",
+          "next": "dt_new_char_both_confirm",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_both_confirm",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 양쪽 슬롯 동시 점유 확인.",
+          "expression": null,
+          "next": "dt_new_char_aili_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_aili_exit",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_new_char_aili_exit_confirm",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "aili",
+              "slot": "left",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_new_char_aili_exit_confirm",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 왼쪽 슬롯 아일리 퇴장 확인.",
+          "expression": null,
+          "next": "dt_new_char_samho_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_samho_exit",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_new_char_samho_exit_confirm",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "samho",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_new_char_samho_exit_confirm",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 오른쪽 슬롯 삼호 퇴장 확인.",
+          "expression": null,
+          "next": "dt_new_char_end_choice",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_new_char_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 신규 캐릭터 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+
+        {
+          "id": "dt_tag_001",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 텍스트 태그 색상 표시 확인을 시작합니다.",
+          "expression": null,
+          "next": "dt_tag_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_tag_002",
+          "speaker": "port",
+          "type": "normal",
+          "text": "<world>월드 태그</world> — 중요 키워드 색상 확인.",
+          "expression": "default",
+          "next": "dt_tag_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_tag_003",
+          "speaker": "port",
+          "type": "normal",
+          "text": "<name>네임 태그</name> — 인물 이름 색상 확인.",
+          "expression": "default",
+          "next": "dt_tag_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_tag_004",
+          "speaker": "port",
+          "type": "normal",
+          "text": "<order>오더 태그</order> — 칵테일·주문 키워드 색상 확인.",
+          "expression": "default",
+          "next": "dt_tag_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_tag_005",
+          "speaker": "port",
+          "type": "normal",
+          "text": "복합: <world>갱단원</world>이 <order>드라이 마티니</order>를 주문했다. <name>포트</name>가 마셨다.",
+          "expression": "default",
+          "next": "dt_tag_end_choice",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_tag_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 텍스트 태그 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
           ],
           "trigger": null
         },
