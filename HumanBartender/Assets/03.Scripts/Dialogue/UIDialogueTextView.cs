@@ -35,6 +35,9 @@ public class TypingData
 
 public class UIDialogueTextView : MonoBehaviour
 {
+    [Header("Data")]
+    [SerializeField] TextTagDataSO textTagData;
+
     [Header("UI Components")]
     public DynamicSpeechBubble lunaSpeechBubble;
     public DynamicSpeechBubble customerSpeechBubble;

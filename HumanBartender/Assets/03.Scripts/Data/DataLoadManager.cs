@@ -15,6 +15,10 @@ public class DataLoadManager : MonoBehaviour
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
     [SerializeField] CutSceneDataSO cutSceneData;
+    [SerializeField] SettlementDataSO settlementDataSO;
+    [SerializeField] TextTagDataSO textTagDataSO;
+    [SerializeField] CharacterTierDataSO characterTierDataSO;
+    [SerializeField] SkillTierDataSO skillTierDataSO;
 
     void Start()
     {
@@ -28,13 +32,20 @@ public class DataLoadManager : MonoBehaviour
         ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
         craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
         cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
+        settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets("settlements.json");
+        textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets("text_styles.json");
+        characterTierDataSO.characterTiers  = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets("character_tiers.json");
+        skillTierDataSO.skillTier           = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets("skill_tiers.json");
 
-        
-        
+
         cocktailData.Cached();
         cutSceneData.Cached();
 
+        Logger.Log(skillTierDataSO.skillTier.Tiers.Keys.Count);
+        Logger.Log(characterTierDataSO.characterTiers.Characters.Keys.Count);
+        
 
+        return;
         
         Debug.Log("<color=yellow>=== 데이터 세부 검증 시작 ===</color>");
         VerifyCharacterData();

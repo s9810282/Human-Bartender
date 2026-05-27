@@ -1,9 +1,30 @@
 {
-  "skill_tiers": [
-    { "tier": "beginner",     "display_name": "비기너",  "min": 0,  "max": 19  },
-    { "tier": "apprentice",   "display_name": "견습",    "min": 20, "max": 39  },
-    { "tier": "intermediate", "display_name": "중수",    "min": 40, "max": 59  },
-    { "tier": "advanced",     "display_name": "고수",    "min": 60, "max": 79  },
-    { "tier": "master",       "display_name": "마스터",  "min": 80, "max": 100 }
-  ]
+  "tiers" : {
+    "beginner":{
+    "display_name": "비기너",  
+    "min": 0,  
+    "max": 19 
+  },
+    "apprentice":{
+    "display_name": "견습",  
+    "min": 20,  
+    "max": 39 
+  },
+    "intermediate":{
+    "display_name": "중수",  
+    "min": 40,  
+    "max": 59
+  },
+    "advanced":{
+    "display_name": "고수",  
+    "min": 60,  
+    "max": 79 
+  },
+    "master":{
+    "display_name": "마스터",  
+    "min": 79,  
+    "max": 100 
+  }
 }
+}
+

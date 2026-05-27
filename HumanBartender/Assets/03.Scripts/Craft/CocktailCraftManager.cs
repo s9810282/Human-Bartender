@@ -389,12 +389,11 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         bool craftSuccess = CheckBuild || CheckCount;
 
         Logger.Log(craftStation.craftingResult.actionCount); //
-        Logger.Log(cocktail.TargetCount);
         Logger.Log(craftStation.targetCraft_tolerance); //
 
         Logger.Log($"craft Success : {craftSuccess}");
 
-        foreach (var rule in curCraftEventData.Evaluation.Rules)
+        foreach (var rule in curCraftEventData.Evaluation.Rules)    
         {
             if (rule.MatchValues == null || rule.MatchValues.Length == 0) continue;
 
@@ -411,12 +410,13 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             if (!matched) continue;
 
             // require_craft_success가 true면 제조도 성공해야 통과
-            if (rule.RequireCraftSuccess && !craftSuccess) continue;
+            //if (rule.RequireCraftSuccess && !craftSuccess) 
+            //    continue;
 
             return rule.Result; // "perfect", "hidden", "normal"
         }
 
         // 아무 규칙에도 안 걸리면
-        return "miss";
+        return "fail";
     }
 }

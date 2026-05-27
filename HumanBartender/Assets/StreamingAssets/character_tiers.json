@@ -1,4 +1,5 @@
 {
+  "characters" : {
   "port": {
     "affinity": [
       { "tier": "very_low",  "max": 9 },
@@ -35,4 +36,5 @@
       { "tier": "very_high", "min": 85 }
     ]
   }
+}
 }

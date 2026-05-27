@@ -19,10 +19,10 @@ public struct CocktailData
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("name")] public string Name { get; set; }
     [JsonProperty("name_en")] public string NameEn { get; set; }
+    [JsonProperty("price")] public string Price { get; set; }
     [JsonProperty("recipe")] public RecipeIngredient[] Recipe { get; set; }
     [JsonProperty("method")] public string Method { get; set; }
     [JsonProperty("process")] public string Process { get; set; }
-    [JsonProperty("target_count")] public int TargetCount { get; set; }
     [JsonProperty("keywords")] public string[] Keywords { get; set; }
     [JsonProperty("baseIngredient")] public string BaseIngredient { get; set; }
     [JsonProperty("flavor_text")] public string FlavorText { get; set; }

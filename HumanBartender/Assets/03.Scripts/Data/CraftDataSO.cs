@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EMatchType
 {
@@ -21,6 +20,27 @@ public enum EMatchType
     Base,
 }
 
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EVerdictType
+{
+    None = 0,
+
+    [EnumMember(Value = "perfect")]
+    perfect,
+
+    [EnumMember(Value = "good")]
+    Good,
+
+    [EnumMember(Value = "normal")]
+    Normal,
+
+    [EnumMember(Value = "bad")]
+    Bad,
+
+    [EnumMember(Value = "miss")]
+    Miss,
+}
 
 
 [Serializable]
@@ -83,7 +103,7 @@ public struct VerdictRule
     [JsonProperty("result")] public string Result { get; set; }
     [JsonProperty("match_type")] public EMatchType MatchType { get; set; }
     [JsonProperty("match_values")] public string[] MatchValues { get; set; }
-    [JsonProperty("require_craft_success")] public bool RequireCraftSuccess { get; set; }
+    [JsonProperty("require_craft_success")] public string RequireCraftSuccess { get; set; }
     [JsonProperty("description")] public string Description { get; set; }
 }
 
@@ -92,10 +112,18 @@ public struct VerdictRule
 [Serializable]
 public struct ReactionDetailData
 {
+    [JsonProperty("verdict")] public EVerdictType Verdict { get; set; }
     [JsonProperty("dialogue_id")] public string DialogueId { get; set; }
     [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
     [JsonProperty("affinity")] public int Affinity { get; set; }
     [JsonProperty("karma")] public int Karma { get; set; }
+    [JsonProperty("payment")] public PaymentData Payment { get; set; }
+}
+
+public struct PaymentData
+{
+    [JsonProperty("pay_price")] public bool Payprice { get; set; }
+    [JsonProperty("tip_rate")] public float TipRate { get; set; }
 }
 
 [CreateAssetMenu(fileName = "CraftDataBase", menuName = "Data/CraftDataBase")]
