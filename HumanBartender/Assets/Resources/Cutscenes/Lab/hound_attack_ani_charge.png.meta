@@ -85,7 +85,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -155,12 +155,12 @@ TextureImporter:
       name: hound_attack_ani_charge_0
       rect:
         serializedVersion: 2
-        x: 76
-        y: 350
-        width: 67
-        height: 79
+        x: 0
+        y: 336
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +177,12 @@ TextureImporter:
       name: hound_attack_ani_charge_1
       rect:
         serializedVersion: 2
-        x: 400
-        y: 350
-        width: 66
-        height: 80
+        x: 324
+        y: 336
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -199,12 +199,12 @@ TextureImporter:
       name: hound_attack_ani_charge_2
       rect:
         serializedVersion: 2
-        x: 724
-        y: 350
-        width: 64
-        height: 80
+        x: 648
+        y: 336
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,12 +221,12 @@ TextureImporter:
       name: hound_attack_ani_charge_3
       rect:
         serializedVersion: 2
-        x: 1048
-        y: 350
-        width: 80
-        height: 78
+        x: 972
+        y: 336
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -243,12 +243,12 @@ TextureImporter:
       name: hound_attack_ani_charge_4
       rect:
         serializedVersion: 2
-        x: 1363
-        y: 350
-        width: 85
-        height: 67
+        x: 1296
+        y: 336
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -265,12 +265,12 @@ TextureImporter:
       name: hound_attack_ani_charge_5
       rect:
         serializedVersion: 2
-        x: 57
-        y: 182
-        width: 63
-        height: 56
+        x: 0
+        y: 168
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -287,12 +287,12 @@ TextureImporter:
       name: hound_attack_ani_charge_6
       rect:
         serializedVersion: 2
-        x: 378
-        y: 182
-        width: 64
-        height: 54
+        x: 324
+        y: 168
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -309,12 +309,12 @@ TextureImporter:
       name: hound_attack_ani_charge_7
       rect:
         serializedVersion: 2
-        x: 700
-        y: 182
-        width: 65
-        height: 54
+        x: 648
+        y: 168
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -331,12 +331,12 @@ TextureImporter:
       name: hound_attack_ani_charge_8
       rect:
         serializedVersion: 2
-        x: 1023
-        y: 182
-        width: 68
-        height: 54
+        x: 972
+        y: 168
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -353,12 +353,12 @@ TextureImporter:
       name: hound_attack_ani_charge_9
       rect:
         serializedVersion: 2
-        x: 1347
-        y: 182
-        width: 67
-        height: 54
+        x: 1296
+        y: 168
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -375,12 +375,12 @@ TextureImporter:
       name: hound_attack_ani_charge_10
       rect:
         serializedVersion: 2
-        x: 51
-        y: 14
-        width: 66
-        height: 55
+        x: 0
+        y: 0
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -397,12 +397,12 @@ TextureImporter:
       name: hound_attack_ani_charge_11
       rect:
         serializedVersion: 2
-        x: 375
-        y: 14
-        width: 66
-        height: 56
+        x: 324
+        y: 0
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -419,12 +419,12 @@ TextureImporter:
       name: hound_attack_ani_charge_12
       rect:
         serializedVersion: 2
-        x: 699
-        y: 14
-        width: 66
-        height: 57
+        x: 648
+        y: 0
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -441,12 +441,12 @@ TextureImporter:
       name: hound_attack_ani_charge_13
       rect:
         serializedVersion: 2
-        x: 1023
-        y: 14
-        width: 66
-        height: 57
+        x: 972
+        y: 0
+        width: 324
+        height: 168
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -471,7 +471,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":3.0},"gridSpriteSize":{"x":324.0,"y":168.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       hound_attack_ani_charge_0: -3426506809163511313
       hound_attack_ani_charge_1: 8486266802414424511

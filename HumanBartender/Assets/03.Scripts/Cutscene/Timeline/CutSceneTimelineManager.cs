@@ -153,7 +153,7 @@ public class CutSceneTimelineManager : MonoBehaviour
         img.DOKill();
         rect.DOKill();
 
-        img.color = new Color(1, 1, 1, 0);
+        img.color = new Color(1, 1, 1, 1);
         rect.localScale = Vector3.one;
         rect.localRotation = Quaternion.identity;
 
@@ -273,7 +273,7 @@ public class CutSceneTimelineManager : MonoBehaviour
             bubble.gameObject.SetActive(false);
             bubble.textLabel.text = "";
             bubble.textLabel.maxVisibleCharacters = 99999;
-            bubble.GetComponent<RectTransform>().localScale = Vector3.one;
+            bubble.GetComponent<RectTransform>().localScale = Vector3.one * 0.5f;
         }
     }
 

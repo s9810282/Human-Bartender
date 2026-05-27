@@ -203,13 +203,13 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
         {
             case EEneterPreset.ScaleUp:
                 rect.localScale = Vector3.zero;
-                await rect.DOScale(1f, b.enterDuration).SetEase(b.enterEase).ToUniTask();
+                await rect.DOScale(b.sizeScale, b.enterDuration).SetEase(b.enterEase).ToUniTask();
                 break;
 
             case EEneterPreset.FadeIn:
                 var cg = GetOrAddCanvasGroup(bubble.gameObject);
                 cg.alpha = 0f;
-                rect.localScale = Vector3.one;
+                rect.localScale = Vector3.one * b.sizeScale;
                 await DOTween.To(() => cg.alpha, x => cg.alpha = x, 1f, b.enterDuration).ToUniTask();
                 break;
 
@@ -218,7 +218,7 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
                 float h = manager.CanvasRect.rect.height;
                 Vector2 dest = rect.anchoredPosition;
                 rect.anchoredPosition = dest - new Vector2(0, h * 0.1f);
-                rect.localScale = Vector3.one;
+                rect.localScale = Vector3.one * b.sizeScale;
                 await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
                 break;
             }
@@ -227,17 +227,17 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
                 float h = manager.CanvasRect.rect.height;
                 Vector2 dest = rect.anchoredPosition;
                 rect.anchoredPosition = dest + new Vector2(0, h * 0.1f);
-                rect.localScale = Vector3.one;
+                rect.localScale = Vector3.one * b.sizeScale;
                 await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
                 break;
             }
 
             case EEneterPreset.Cut:
-                rect.localScale = Vector3.one;
+                rect.localScale = Vector3.one * b.sizeScale;
                 break;
 
             default:
-                rect.localScale = Vector3.one;
+                rect.localScale = Vector3.one * b.sizeScale;
                 break;
         }
 

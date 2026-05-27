@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 5a268e339a6decc4295357657c09d733
+guid: 67f637fcbe4a1c64183f20cfdc3ad6b7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6127827103433965313
-    second: yuna_ani_run_0
+      213: -7556869240767223159
+    second: soldier_ani_shoot_0
   - first:
-      213: -6754559606573568158
-    second: yuna_ani_run_1
+      213: -208316348464915967
+    second: soldier_ani_shoot_1
   - first:
-      213: 2752887561185553535
-    second: yuna_ani_run_2
+      213: -6555414939811790352
+    second: soldier_ani_shoot_2
   - first:
-      213: 1473345393657730771
-    second: yuna_ani_run_3
+      213: 3265448115954547281
+    second: soldier_ani_shoot_3
   - first:
-      213: 4062315097668957058
-    second: yuna_ani_run_4
+      213: -1034593472168556830
+    second: soldier_ani_shoot_4
   - first:
-      213: -2311401179344455143
-    second: yuna_ani_run_5
+      213: -1618459492858357552
+    second: soldier_ani_shoot_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -61,7 +61,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,133 +128,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yuna_ani_run_0
+      name: soldier_ani_shoot_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 7
-        width: 44
-        height: 51
+        x: 0
+        y: 0
+        width: 93
+        height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10f3131b84a6a0550800000000000000
-      internalID: 6127827103433965313
+      spriteID: 98a6ef9a67b902790800000000000000
+      internalID: -7556869240767223159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_run_1
+      name: soldier_ani_shoot_1
       rect:
         serializedVersion: 2
-        x: 120
-        y: 5
-        width: 44
-        height: 52
+        x: 93
+        y: 0
+        width: 93
+        height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26feaf333dbf242a0800000000000000
-      internalID: -6754559606573568158
+      spriteID: 10a97d08269eb1df0800000000000000
+      internalID: -208316348464915967
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_run_2
+      name: soldier_ani_shoot_2
       rect:
         serializedVersion: 2
-        x: 216
-        y: 5
-        width: 43
-        height: 49
+        x: 186
+        y: 0
+        width: 93
+        height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f7c6e07c6a8343620800000000000000
-      internalID: 2752887561185553535
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yuna_ani_run_3
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 8
-        width: 44
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3d65d6454df527410800000000000000
-      internalID: 1473345393657730771
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yuna_ani_run_4
-      rect:
-        serializedVersion: 2
-        x: 408
-        y: 5
-        width: 44
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 283b34aee0e306830800000000000000
-      internalID: 4062315097668957058
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yuna_ani_run_5
-      rect:
-        serializedVersion: 2
-        x: 504
-        y: 5
-        width: 43
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 91a31cbafd04cefd0800000000000000
-      internalID: -2311401179344455143
+      spriteID: ea67b69dc05021841b536fa85eeec99e
+      internalID: -6555414939811790352
       vertices: []
       indices: 
       edges: []
@@ -271,14 +205,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":93.0,"y":96.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      yuna_ani_run_0: 6127827103433965313
-      yuna_ani_run_1: -6754559606573568158
-      yuna_ani_run_2: 2752887561185553535
-      yuna_ani_run_3: 1473345393657730771
-      yuna_ani_run_4: 4062315097668957058
-      yuna_ani_run_5: -2311401179344455143
+      soldier_ani_shoot_0: -7556869240767223159
+      soldier_ani_shoot_1: -208316348464915967
+      soldier_ani_shoot_2: -6555414939811790352
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

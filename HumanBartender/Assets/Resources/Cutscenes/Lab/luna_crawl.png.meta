@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: d94c418957fb2ed47ac3f9cac2aa16fc
+guid: f00d0ec6467ffa34b86d5db273eeb71a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2780725178866805312
-    second: hound_attack_ani_0
+      213: -285320875588639055
+    second: luna_crawl_0
   - first:
-      213: -9135040867549012745
-    second: hound_attack_ani_1
+      213: -1765839005436639974
+    second: luna_crawl_1
   - first:
-      213: -989238281883970465
-    second: hound_attack_ani_2
+      213: -7430219999642160827
+    second: luna_crawl_2
   - first:
-      213: -940308000166317798
-    second: hound_attack_ani_3
+      213: 3687891977166343850
+    second: luna_crawl_3
   - first:
-      213: 684439762037223643
-    second: hound_attack_ani_4
+      213: 1871791925062643261
+    second: luna_crawl_4
   - first:
-      213: -2294625295135230775
-    second: hound_attack_ani_5
+      213: -5787341812236557205
+    second: luna_crawl_5
   - first:
-      213: 4361307851380633600
-    second: hound_attack_ani_6
+      213: -8015043443951264014
+    second: luna_crawl_6
   - first:
-      213: -1694479899054998584
-    second: hound_attack_ani_7
+      213: -5732590153910939912
+    second: luna_crawl_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,7 +67,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -134,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hound_attack_ani_0
+      name: luna_crawl_0
       rect:
         serializedVersion: 2
-        x: 72
-        y: 182
-        width: 76
-        height: 79
+        x: 19
+        y: 89
+        width: 47
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c5d8a7ce21e869d0800000000000000
-      internalID: -2780725178866805312
+      spriteID: 1b62983ec265a0cf0800000000000000
+      internalID: -285320875588639055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_1
+      name: luna_crawl_1
       rect:
         serializedVersion: 2
-        x: 396
-        y: 182
-        width: 83
-        height: 79
+        x: 104
+        y: 89
+        width: 52
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7fc90110bb0d93180800000000000000
-      internalID: -9135040867549012745
+      spriteID: a158b66c7ca7e77e0800000000000000
+      internalID: -1765839005436639974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_2
+      name: luna_crawl_2
       rect:
         serializedVersion: 2
-        x: 720
-        y: 182
-        width: 51
-        height: 79
+        x: 188
+        y: 89
+        width: 52
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f54961a16058542f0800000000000000
-      internalID: -989238281883970465
+      spriteID: 541735ef64e82e890800000000000000
+      internalID: -7430219999642160827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_3
+      name: luna_crawl_3
       rect:
         serializedVersion: 2
-        x: 1044
-        y: 182
-        width: 48
-        height: 79
+        x: 273
+        y: 89
+        width: 52
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +215,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a11f0a61bda53f2f0800000000000000
-      internalID: -940308000166317798
+      spriteID: aae4305c6360e2330800000000000000
+      internalID: 3687891977166343850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_4
+      name: luna_crawl_4
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 182
+        x: 360
+        y: 89
+        width: 50
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3eadc2b6d0f9f910800000000000000
+      internalID: 1871791925062643261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_crawl_5
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 12
         width: 49
-        height: 79
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,20 +259,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bd0b166565e9f7900800000000000000
-      internalID: 684439762037223643
+      spriteID: b64efdfc84b3fafa0800000000000000
+      internalID: -5787341812236557205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_5
+      name: luna_crawl_6
       rect:
         serializedVersion: 2
-        x: 74
-        y: 14
-        width: 108
-        height: 79
+        x: 101
+        y: 12
+        width: 53
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,20 +281,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c4b6d6937ad720e0800000000000000
-      internalID: -2294625295135230775
+      spriteID: 2fe16f70478d4c090800000000000000
+      internalID: -8015043443951264014
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_attack_ani_6
+      name: luna_crawl_7
       rect:
         serializedVersion: 2
-        x: 400
-        y: 14
-        width: 127
-        height: 81
+        x: 187
+        y: 12
+        width: 52
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,30 +303,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0003aa5326a768c30800000000000000
-      internalID: 4361307851380633600
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hound_attack_ani_7
-      rect:
-        serializedVersion: 2
-        x: 724
-        y: 14
-        width: 67
-        height: 79
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8cb79c1728ffb78e0800000000000000
-      internalID: -1694479899054998584
+      spriteID: 8fe8c39a0afb170b0800000000000000
+      internalID: -5732590153910939912
       vertices: []
       indices: 
       edges: []
@@ -323,14 +323,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      hound_attack_ani_0: -2780725178866805312
-      hound_attack_ani_1: -9135040867549012745
-      hound_attack_ani_2: -989238281883970465
-      hound_attack_ani_3: -940308000166317798
-      hound_attack_ani_4: 684439762037223643
-      hound_attack_ani_5: -2294625295135230775
-      hound_attack_ani_6: 4361307851380633600
-      hound_attack_ani_7: -1694479899054998584
+      luna_crawl_0: -285320875588639055
+      luna_crawl_1: -1765839005436639974
+      luna_crawl_2: -7430219999642160827
+      luna_crawl_3: 3687891977166343850
+      luna_crawl_4: 1871791925062643261
+      luna_crawl_5: -5787341812236557205
+      luna_crawl_6: -8015043443951264014
+      luna_crawl_7: -5732590153910939912
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

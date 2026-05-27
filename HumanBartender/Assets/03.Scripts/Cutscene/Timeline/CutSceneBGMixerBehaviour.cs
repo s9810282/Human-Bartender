@@ -33,6 +33,7 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
                 if (sprite == null) continue;
 
                 Image bg = manager.BgImage;
+                bg.SetNativeSize();
 
                 // 이전 배경과 다르면 전환
                 if (behaviour.bgPath != currentBgPath)

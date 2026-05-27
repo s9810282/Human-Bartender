@@ -1,28 +1,43 @@
 fileFormatVersion: 2
-guid: 1a3c2be154cf01945a79ecc91ef7eea1
+guid: d6a8d5babd7d625409b61cc1108114a5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4749451277543116145
-    second: yuna_ani_stand_up_0
+      213: 3068170432321077760
+    second: hound_ani_BITE_0
   - first:
-      213: -1580257016113362067
-    second: yuna_ani_stand_up_1
+      213: 3127654198781918630
+    second: hound_ani_BITE_1
   - first:
-      213: 7595850528049289508
-    second: yuna_ani_stand_up_2
+      213: 3807182012978761198
+    second: hound_ani_BITE_2
   - first:
-      213: 5828316181002563924
-    second: yuna_ani_stand_up_3
+      213: 4090293099216879798
+    second: hound_ani_BITE_3
   - first:
-      213: 4549235260520154109
-    second: yuna_ani_stand_up_4
+      213: 3092453607424123920
+    second: hound_ani_BITE_4
   - first:
-      213: 4242063433029691835
-    second: yuna_ani_stand_up_5
+      213: 1905520686327512085
+    second: hound_ani_BITE_5
   - first:
-      213: -5959316852891908081
-    second: yuna_ani_stand_up_6
+      213: 6154394574484371741
+    second: hound_ani_BITE_6
+  - first:
+      213: 5606309563625318150
+    second: hound_ani_BITE_7
+  - first:
+      213: -9100840708184981494
+    second: hound_ani_BITE_8
+  - first:
+      213: 7530164086841964533
+    second: hound_ani_BITE_9
+  - first:
+      213: 322153475435958597
+    second: hound_ani_BITE_10
+  - first:
+      213: -96781434615155983
+    second: hound_ani_BITE_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -64,7 +79,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -131,13 +146,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yuna_ani_stand_up_0
+      name: hound_ani_BITE_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 5
-        width: 43
-        height: 34
+        x: 25
+        y: 217
+        width: 67
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 17d8bf3f5c079e140800000000000000
-      internalID: 4749451277543116145
+      spriteID: 002cad890c4549a20800000000000000
+      internalID: 3068170432321077760
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_1
+      name: hound_ani_BITE_1
       rect:
         serializedVersion: 2
-        x: 136
-        y: 5
-        width: 42
-        height: 34
+        x: 167
+        y: 217
+        width: 93
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6b8ebccd9cc11ae0800000000000000
-      internalID: -1580257016113362067
+      spriteID: 6adb7aa3ce8a76b20800000000000000
+      internalID: 3127654198781918630
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_2
+      name: hound_ani_BITE_2
       rect:
         serializedVersion: 2
-        x: 232
-        y: 5
-        width: 43
-        height: 33
+        x: 310
+        y: 217
+        width: 98
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,20 +205,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 429575b8fc1e96960800000000000000
-      internalID: 7595850528049289508
+      spriteID: eed0bd69ed3d5d430800000000000000
+      internalID: 3807182012978761198
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_3
+      name: hound_ani_BITE_3
       rect:
         serializedVersion: 2
-        x: 330
-        y: 5
-        width: 40
-        height: 32
+        x: 454
+        y: 217
+        width: 99
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,20 +227,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 451b157dfa652e050800000000000000
-      internalID: 5828316181002563924
+      spriteID: 6b0cd0607e3a3c830800000000000000
+      internalID: 4090293099216879798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_4
+      name: hound_ani_BITE_4
       rect:
         serializedVersion: 2
-        x: 430
-        y: 5
-        width: 36
-        height: 33
+        x: 599
+        y: 217
+        width: 104
+        height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,20 +249,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: df34cf6dd51222f30800000000000000
-      internalID: 4549235260520154109
+      spriteID: 014e3e2eb2a9aea20800000000000000
+      internalID: 3092453607424123920
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_5
+      name: hound_ani_BITE_5
       rect:
         serializedVersion: 2
-        x: 513
-        y: 5
-        width: 38
-        height: 47
+        x: 23
+        y: 112
+        width: 107
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb9a8688736deda30800000000000000
-      internalID: 4242063433029691835
+      spriteID: 51cb5b4e7f4c17a10800000000000000
+      internalID: 1905520686327512085
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_stand_up_6
+      name: hound_ani_BITE_6
       rect:
         serializedVersion: 2
-        x: 602
-        y: 5
-        width: 45
-        height: 50
+        x: 169
+        y: 112
+        width: 93
+        height: 78
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,8 +293,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f08016765e04c4da0800000000000000
-      internalID: -5959316852891908081
+      spriteID: d197bb3124dc86550800000000000000
+      internalID: 6154394574484371741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_ani_BITE_7
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 112
+        width: 72
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60723c838dc9dcd40800000000000000
+      internalID: 5606309563625318150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_ani_BITE_8
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 112
+        width: 63
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a00483f189153b180800000000000000
+      internalID: -9100840708184981494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_ani_BITE_9
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 112
+        width: 60
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f77e982754808860800000000000000
+      internalID: 7530164086841964533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_ani_BITE_10
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 7
+        width: 57
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 541948a01e4887400800000000000000
+      internalID: 322153475435958597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hound_ani_BITE_11
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 7
+        width: 55
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f239e84cc928aef0800000000000000
+      internalID: -96781434615155983
       vertices: []
       indices: 
       edges: []
@@ -298,13 +423,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      yuna_ani_stand_up_0: 4749451277543116145
-      yuna_ani_stand_up_1: -1580257016113362067
-      yuna_ani_stand_up_2: 7595850528049289508
-      yuna_ani_stand_up_3: 5828316181002563924
-      yuna_ani_stand_up_4: 4549235260520154109
-      yuna_ani_stand_up_5: 4242063433029691835
-      yuna_ani_stand_up_6: -5959316852891908081
+      hound_ani_BITE_0: 3068170432321077760
+      hound_ani_BITE_1: 3127654198781918630
+      hound_ani_BITE_10: 322153475435958597
+      hound_ani_BITE_11: -96781434615155983
+      hound_ani_BITE_2: 3807182012978761198
+      hound_ani_BITE_3: 4090293099216879798
+      hound_ani_BITE_4: 3092453607424123920
+      hound_ani_BITE_5: 1905520686327512085
+      hound_ani_BITE_6: 6154394574484371741
+      hound_ani_BITE_7: 5606309563625318150
+      hound_ani_BITE_8: -9100840708184981494
+      hound_ani_BITE_9: 7530164086841964533
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

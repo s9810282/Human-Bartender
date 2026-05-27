@@ -31,6 +31,9 @@ public class CutSceneDialogueBehaviour : PlayableBehaviour
     [Tooltip("타이핑 시작 전 대기 시간 (말풍선 등장 후)")]
     public float typingDelay = 0.2f;
 
+    [Tooltip("말풍선 size localScale")]
+    public float sizeScale = 0.5f;
+
     [Header("말풍선 위치")]
     [Tooltip("따라갈 이미지의 imagePath (비어있으면 고정 위치)")]
     public string targetImagePath = "";

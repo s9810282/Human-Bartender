@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: d3d15f6da0220444e9389f76c08a434b
+guid: 1a3c2be154cf01945a79ecc91ef7eea1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8619904744271522093
-    second: soldier_ani_idle_0
+      213: 4749451277543116145
+    second: yuna_ani_stand_up_0
   - first:
-      213: 1018616392750129029
-    second: soldier_ani_idle_1
+      213: -1580257016113362067
+    second: yuna_ani_stand_up_1
   - first:
-      213: -8798409461998993174
-    second: soldier_ani_idle_2
+      213: 7595850528049289508
+    second: yuna_ani_stand_up_2
   - first:
-      213: -446135367751276985
-    second: soldier_ani_idle_3
+      213: 5828316181002563924
+    second: yuna_ani_stand_up_3
   - first:
-      213: -4525188588813897335
-    second: soldier_ani_idle_4
+      213: 4549235260520154109
+    second: yuna_ani_stand_up_4
   - first:
-      213: 5693047692736358297
-    second: soldier_ani_idle_5
+      213: 4242063433029691835
+    second: yuna_ani_stand_up_5
   - first:
-      213: -7662238217309625070
-    second: soldier_ani_idle_6
-  - first:
-      213: 5441693500790357336
-    second: soldier_ani_idle_7
+      213: -5959316852891908081
+    second: yuna_ani_stand_up_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,7 +64,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -134,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soldier_ani_idle_0
+      name: yuna_ani_stand_up_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 15
-        width: 53
-        height: 51
+        x: 40
+        y: 5
+        width: 43
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3d6ddf72e42ff5880800000000000000
-      internalID: -8619904744271522093
+      spriteID: 17d8bf3f5c079e140800000000000000
+      internalID: 4749451277543116145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: soldier_ani_idle_1
+      name: yuna_ani_stand_up_1
       rect:
         serializedVersion: 2
-        x: 106
-        y: 15
-        width: 53
-        height: 51
+        x: 136
+        y: 5
+        width: 42
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58fd24c563ad22e00800000000000000
-      internalID: 1018616392750129029
+      spriteID: d6b8ebccd9cc11ae0800000000000000
+      internalID: -1580257016113362067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: soldier_ani_idle_2
+      name: yuna_ani_stand_up_2
       rect:
         serializedVersion: 2
-        x: 199
-        y: 15
-        width: 53
-        height: 51
+        x: 232
+        y: 5
+        width: 43
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae04d15d535c5e580800000000000000
-      internalID: -8798409461998993174
+      spriteID: 429575b8fc1e96960800000000000000
+      internalID: 7595850528049289508
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: soldier_ani_idle_3
+      name: yuna_ani_stand_up_3
       rect:
         serializedVersion: 2
-        x: 292
-        y: 15
-        width: 53
-        height: 51
+        x: 330
+        y: 5
+        width: 40
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,19 +212,63 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 746627b2f320fc9f0800000000000000
-      internalID: -446135367751276985
+      spriteID: 451b157dfa652e050800000000000000
+      internalID: 5828316181002563924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: soldier_ani_idle_4
+      name: yuna_ani_stand_up_4
       rect:
         serializedVersion: 2
-        x: 385
-        y: 15
-        width: 53
+        x: 430
+        y: 5
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df34cf6dd51222f30800000000000000
+      internalID: 4549235260520154109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_stand_up_5
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 5
+        width: 38
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb9a8688736deda30800000000000000
+      internalID: 4242063433029691835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_stand_up_6
+      rect:
+        serializedVersion: 2
+        x: 602
+        y: 5
+        width: 45
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -237,74 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 981b81634fc4331c0800000000000000
-      internalID: -4525188588813897335
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: soldier_ani_idle_5
-      rect:
-        serializedVersion: 2
-        x: 478
-        y: 15
-        width: 53
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 99768e6a6b4c10f40800000000000000
-      internalID: 5693047692736358297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: soldier_ani_idle_6
-      rect:
-        serializedVersion: 2
-        x: 571
-        y: 15
-        width: 53
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 21566d800f24aa590800000000000000
-      internalID: -7662238217309625070
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: soldier_ani_idle_7
-      rect:
-        serializedVersion: 2
-        x: 664
-        y: 15
-        width: 53
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 85d392b5867c48b40800000000000000
-      internalID: 5441693500790357336
+      spriteID: f08016765e04c4da0800000000000000
+      internalID: -5959316852891908081
       vertices: []
       indices: 
       edges: []
@@ -323,14 +298,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      soldier_ani_idle_0: -8619904744271522093
-      soldier_ani_idle_1: 1018616392750129029
-      soldier_ani_idle_2: -8798409461998993174
-      soldier_ani_idle_3: -446135367751276985
-      soldier_ani_idle_4: -4525188588813897335
-      soldier_ani_idle_5: 5693047692736358297
-      soldier_ani_idle_6: -7662238217309625070
-      soldier_ani_idle_7: 5441693500790357336
+      yuna_ani_stand_up_0: 4749451277543116145
+      yuna_ani_stand_up_1: -1580257016113362067
+      yuna_ani_stand_up_2: 7595850528049289508
+      yuna_ani_stand_up_3: 5828316181002563924
+      yuna_ani_stand_up_4: 4549235260520154109
+      yuna_ani_stand_up_5: 4242063433029691835
+      yuna_ani_stand_up_6: -5959316852891908081
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

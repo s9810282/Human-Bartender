@@ -9,7 +9,14 @@ public class CutSceneImageBehaviour : PlayableBehaviour
 {
     // ── 데이터 (인스펙터에서 설정) ────────────────────────────────────
     [Header("Image")]
+    [Tooltip("이미지 고유 키 (항상 필수). 다른 트랙(SpriteAnim, Move 등)에서 이 값으로 참조")]
     public string imagePath;
+
+    [Header("스프라이트 소스 (선택)")]
+    [Tooltip("비어있으면 Resources/Cutscenes/{imagePath}에서 단일 이미지 로드.\n채우면 이 시트에서 특정 프레임을 로드")]
+    public string sheetPath;
+    [Tooltip("시트에서 몇 번째 프레임 (0부터). sheetPath가 있을 때만 사용")]
+    public int frameIndex = 0;
 
     [Header("Position")]
     public AnchorType anchor = AnchorType.Center;

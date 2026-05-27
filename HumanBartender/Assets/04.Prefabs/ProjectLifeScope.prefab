@@ -757,7 +757,7 @@ PlayableDirector:
   m_GameObject: {fileID: 2705091408427173801}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 2cc34af79e9335e43bcefc48f59d29cb, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -836,6 +836,24 @@ PlayableDirector:
   - key: {fileID: -3071665920189455895, guid: 2cc34af79e9335e43bcefc48f59d29cb, type: 2}
     value: {fileID: 1182543933211446036}
   - key: {fileID: -4542155416430154734, guid: 2cc34af79e9335e43bcefc48f59d29cb, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 7163471571545682924, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -5582682955468319131, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 4861606086542988456, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -6451502659142167226, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -7874369032153145750, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -4527149525053943110, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 0}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 0}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -8023240308478295695, guid: 0668da64d631f6a4d92ce7aac44c5d53, type: 2}
     value: {fileID: 1182543933211446036}
   m_ExposedReferences:
     m_References: []
@@ -2024,6 +2042,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialogue TextBox (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2137,6 +2159,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dialogue TextBox
       objectReference: {fileID: 0}
+    - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2249,6 +2275,10 @@ PrefabInstance:
     - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_Name
       value: Dialogue TextBox (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

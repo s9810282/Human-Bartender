@@ -145,7 +145,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -215,12 +215,12 @@ TextureImporter:
       name: hound_ani_PULL_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 637
-        width: 55
-        height: 77
+        x: 0
+        y: 630
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -237,12 +237,12 @@ TextureImporter:
       name: hound_ani_PULL_1
       rect:
         serializedVersion: 2
-        x: 169
-        y: 637
-        width: 55
-        height: 79
+        x: 144
+        y: 630
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -259,12 +259,12 @@ TextureImporter:
       name: hound_ani_PULL_2
       rect:
         serializedVersion: 2
-        x: 313
-        y: 637
-        width: 55
-        height: 79
+        x: 288
+        y: 630
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -281,12 +281,12 @@ TextureImporter:
       name: hound_ani_PULL_3
       rect:
         serializedVersion: 2
-        x: 457
-        y: 637
-        width: 55
-        height: 79
+        x: 432
+        y: 630
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -303,12 +303,12 @@ TextureImporter:
       name: hound_ani_PULL_4
       rect:
         serializedVersion: 2
-        x: 601
-        y: 637
-        width: 55
-        height: 79
+        x: 576
+        y: 630
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -325,12 +325,12 @@ TextureImporter:
       name: hound_ani_PULL_5
       rect:
         serializedVersion: 2
-        x: 25
-        y: 532
-        width: 56
-        height: 79
+        x: 0
+        y: 525
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -347,12 +347,12 @@ TextureImporter:
       name: hound_ani_PULL_6
       rect:
         serializedVersion: 2
-        x: 169
-        y: 532
-        width: 57
-        height: 80
+        x: 144
+        y: 525
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -369,12 +369,12 @@ TextureImporter:
       name: hound_ani_PULL_7
       rect:
         serializedVersion: 2
-        x: 313
-        y: 532
-        width: 55
-        height: 80
+        x: 288
+        y: 525
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -391,12 +391,12 @@ TextureImporter:
       name: hound_ani_PULL_8
       rect:
         serializedVersion: 2
-        x: 457
-        y: 532
-        width: 57
-        height: 80
+        x: 432
+        y: 525
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -413,12 +413,12 @@ TextureImporter:
       name: hound_ani_PULL_9
       rect:
         serializedVersion: 2
-        x: 601
-        y: 532
-        width: 58
-        height: 81
+        x: 576
+        y: 525
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -435,12 +435,12 @@ TextureImporter:
       name: hound_ani_PULL_10
       rect:
         serializedVersion: 2
-        x: 25
-        y: 427
-        width: 60
-        height: 81
+        x: 0
+        y: 420
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -457,12 +457,12 @@ TextureImporter:
       name: hound_ani_PULL_11
       rect:
         serializedVersion: 2
-        x: 169
-        y: 427
-        width: 58
-        height: 81
+        x: 144
+        y: 420
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -479,12 +479,12 @@ TextureImporter:
       name: hound_ani_PULL_12
       rect:
         serializedVersion: 2
-        x: 313
-        y: 427
-        width: 60
-        height: 81
+        x: 288
+        y: 420
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -501,12 +501,12 @@ TextureImporter:
       name: hound_ani_PULL_13
       rect:
         serializedVersion: 2
-        x: 457
-        y: 427
-        width: 58
-        height: 80
+        x: 432
+        y: 420
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -523,12 +523,12 @@ TextureImporter:
       name: hound_ani_PULL_14
       rect:
         serializedVersion: 2
-        x: 597
-        y: 427
-        width: 98
-        height: 82
+        x: 576
+        y: 420
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -545,12 +545,12 @@ TextureImporter:
       name: hound_ani_PULL_15
       rect:
         serializedVersion: 2
-        x: 21
-        y: 322
-        width: 88
-        height: 77
+        x: 0
+        y: 315
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -567,12 +567,12 @@ TextureImporter:
       name: hound_ani_PULL_16
       rect:
         serializedVersion: 2
-        x: 165
-        y: 322
-        width: 88
-        height: 77
+        x: 144
+        y: 315
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -589,12 +589,12 @@ TextureImporter:
       name: hound_ani_PULL_17
       rect:
         serializedVersion: 2
-        x: 306
-        y: 322
-        width: 102
-        height: 77
+        x: 288
+        y: 315
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -611,12 +611,12 @@ TextureImporter:
       name: hound_ani_PULL_18
       rect:
         serializedVersion: 2
-        x: 453
-        y: 322
-        width: 92
-        height: 77
+        x: 432
+        y: 315
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -633,12 +633,12 @@ TextureImporter:
       name: hound_ani_PULL_19
       rect:
         serializedVersion: 2
-        x: 597
-        y: 322
-        width: 89
-        height: 77
+        x: 576
+        y: 315
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -655,12 +655,12 @@ TextureImporter:
       name: hound_ani_PULL_20
       rect:
         serializedVersion: 2
-        x: 21
-        y: 217
-        width: 88
-        height: 77
+        x: 0
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -677,12 +677,12 @@ TextureImporter:
       name: hound_ani_PULL_21
       rect:
         serializedVersion: 2
-        x: 165
-        y: 217
-        width: 87
-        height: 77
+        x: 144
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -699,12 +699,12 @@ TextureImporter:
       name: hound_ani_PULL_22
       rect:
         serializedVersion: 2
-        x: 309
-        y: 217
-        width: 86
-        height: 77
+        x: 288
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -721,12 +721,12 @@ TextureImporter:
       name: hound_ani_PULL_23
       rect:
         serializedVersion: 2
-        x: 453
-        y: 217
-        width: 85
-        height: 77
+        x: 432
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -743,12 +743,12 @@ TextureImporter:
       name: hound_ani_PULL_24
       rect:
         serializedVersion: 2
-        x: 597
-        y: 217
-        width: 85
-        height: 77
+        x: 576
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -765,12 +765,12 @@ TextureImporter:
       name: hound_ani_PULL_25
       rect:
         serializedVersion: 2
-        x: 21
-        y: 112
-        width: 85
-        height: 79
+        x: 0
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -787,12 +787,12 @@ TextureImporter:
       name: hound_ani_PULL_26
       rect:
         serializedVersion: 2
-        x: 165
-        y: 112
-        width: 85
-        height: 78
+        x: 144
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -809,12 +809,12 @@ TextureImporter:
       name: hound_ani_PULL_27
       rect:
         serializedVersion: 2
-        x: 313
-        y: 112
-        width: 80
-        height: 77
+        x: 288
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -831,12 +831,12 @@ TextureImporter:
       name: hound_ani_PULL_28
       rect:
         serializedVersion: 2
-        x: 457
-        y: 112
-        width: 79
-        height: 78
+        x: 432
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -853,12 +853,12 @@ TextureImporter:
       name: hound_ani_PULL_29
       rect:
         serializedVersion: 2
-        x: 601
-        y: 112
-        width: 79
-        height: 78
+        x: 576
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -875,12 +875,12 @@ TextureImporter:
       name: hound_ani_PULL_30
       rect:
         serializedVersion: 2
-        x: 25
-        y: 7
-        width: 79
-        height: 78
+        x: 0
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -897,12 +897,12 @@ TextureImporter:
       name: hound_ani_PULL_31
       rect:
         serializedVersion: 2
-        x: 169
-        y: 7
-        width: 79
-        height: 78
+        x: 144
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -919,12 +919,12 @@ TextureImporter:
       name: hound_ani_PULL_32
       rect:
         serializedVersion: 2
-        x: 313
-        y: 7
-        width: 79
-        height: 78
+        x: 288
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -941,12 +941,12 @@ TextureImporter:
       name: hound_ani_PULL_33
       rect:
         serializedVersion: 2
-        x: 457
-        y: 7
-        width: 79
-        height: 78
+        x: 432
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -971,7 +971,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":7.0},"gridSpriteSize":{"x":144.0,"y":105.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       hound_ani_PULL_0: 6479002972014107451
       hound_ani_PULL_1: -7154624764643377127
