@@ -93,6 +93,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 3,
           "payment": { "pay_price": true, "tip_rate": 0.2 }
         },
         "good": {
@@ -101,6 +102,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 2,
           "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "miss": {
@@ -109,6 +111,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "normal_kw_perfect": {
@@ -117,6 +120,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 1,
           "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
         "normal_kw_normal": {
@@ -125,6 +129,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 1,
           "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "bad_kw_fail": {
@@ -133,6 +138,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "normal_nm_perfect": {
@@ -141,6 +147,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 1,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad_nm_normal": {
@@ -149,6 +156,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad_nm_fail": {
@@ -157,6 +165,7 @@
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
+          "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         }
       }
