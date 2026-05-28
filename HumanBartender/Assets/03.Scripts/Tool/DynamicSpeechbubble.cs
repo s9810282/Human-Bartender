@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,9 @@ public class DynamicSpeechBubble : MonoBehaviour
     [Header("Layout")]
     [Tooltip("측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)")]
     public float widthSafetyMargin = 4f;
+
+    [Tooltip("줄바꿈 직전 가로 확장의 글자당 시간 (보통 typingDelay와 같게)")]
+    public float expandTimePerChar = 0.05f;
 
     float typingMaxWidth = 0f;
     float lockedTypingWidth = -1f; // -1 = 잠금 없음 (일반 모드)
@@ -87,6 +91,56 @@ public class DynamicSpeechBubble : MonoBehaviour
         if (longest <= 0f) longest = minSize.x - paddingH;
         return Mathf.Min(Mathf.Ceil(longest) + widthSafetyMargin, maxTextW);
     }
+
+
+    public async Cysharp.Threading.Tasks.UniTask ExpandToLockedWidth(
+      string visibleContent,
+      System.Threading.CancellationToken token = default)
+    {
+        if (lockedTypingWidth <= 0f) return;
+        if (lockedTypingWidth <= typingMaxWidth) return;
+
+        float paddingH = paddingLeft + paddingRight;
+        float paddingV = paddingTop + paddingBottom;
+
+        float startW = typingMaxWidth;
+        float targetW = lockedTypingWidth;
+
+        int firstLineLen = Mathf.Max(1, visibleContent?.Length ?? 1);
+        float charWidth = startW / firstLineLen;
+        if (charWidth < 1f) charWidth = 1f;
+
+        Vector2 visWrapped = textLabel.GetPreferredValues(visibleContent, targetW, 0f);
+        float fixedHeight = Mathf.Clamp(visWrapped.y + paddingV, minSize.y, maxSize.y);
+
+        float currentW = startW;
+        while (currentW < targetW)
+        {
+            currentW = Mathf.Min(currentW + charWidth, targetW);
+            typingMaxWidth = currentW;
+
+            Vector2 newSize = new Vector2(
+                Mathf.Clamp(currentW + paddingH, minSize.x, maxSize.x),
+                fixedHeight
+            );
+
+            if (bubble.sizeDelta != newSize)
+            {
+                bubble.sizeDelta = newSize;
+                LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);
+                textLabel.ForceMeshUpdate();
+            }
+
+            await Cysharp.Threading.Tasks.UniTask.Delay(
+                System.TimeSpan.FromSeconds(expandTimePerChar),
+                cancellationToken: token);
+        }
+
+        typingMaxWidth = targetW;
+    }
+
+
+
     public void ResizeToFit(string content, float typingProgress = -1f)
     {
         float paddingH = paddingLeft + paddingRight;
@@ -111,25 +165,9 @@ public class DynamicSpeechBubble : MonoBehaviour
         if (naturalW <= 0f) naturalW = minSize.x - paddingH;
         naturalW = Mathf.Min(Mathf.Ceil(naturalW) + widthSafetyMargin, maxTextW);
 
-
-        float textW;
-        if (lockedTypingWidth > 0f && typingProgress >= 0f)
-        {
-            float minW = minSize.x - paddingH;
-            float progress = Mathf.Clamp01(typingProgress);
-            float interpolated = Mathf.Lerp(minW, lockedTypingWidth, progress);
-
-            textW = Mathf.Max(interpolated, naturalW);
-
-            if (textW > typingMaxWidth) typingMaxWidth = textW;
-            textW = typingMaxWidth;
-        }
-        else
-        {
-            if (naturalW > typingMaxWidth) typingMaxWidth = naturalW;
-            textW = typingMaxWidth;
-        }
-
+        // 자연 확장 + 단조 증가
+        if (naturalW > typingMaxWidth) typingMaxWidth = naturalW;
+        float textW = typingMaxWidth;
 
         Vector2 wrapped = textLabel.GetPreferredValues(content, textW, 0f);
 

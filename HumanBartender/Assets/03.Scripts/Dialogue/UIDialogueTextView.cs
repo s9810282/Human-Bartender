@@ -48,6 +48,7 @@ public class UIDialogueTextView : MonoBehaviour
     [SerializeField] Vector2 subOffset;
 
 
+
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
 
@@ -190,16 +191,18 @@ public class UIDialogueTextView : MonoBehaviour
                     if (i < cleanSentence.Length && cleanSentence[i] == '\n')
                         visiblePart = cleanSentence.Substring(0, i + 1);
 
-                    float progress = (progressDenom > 0)
-                        ? Mathf.Clamp01((float)i / progressDenom)
-                        : 1f;
-
-                    targetBubble.ResizeToFit(visiblePart, progress);
+                    targetBubble.ResizeToFit(visiblePart);
                 }
 
 
                 if (delayDict.ContainsKey(i))
                     await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
+
+                if (i < cleanSentence.Length && cleanSentence[i] == '\n')
+                {
+                    string firstLine = cleanSentence.Substring(0, i);
+                    await targetBubble.ExpandToLockedWidth(firstLine, token);
+                }
 
                 if (i < totalVisibleChars)
                     await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
