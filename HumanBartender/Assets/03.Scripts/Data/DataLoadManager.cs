@@ -20,7 +20,7 @@ public class DataLoadManager : MonoBehaviour
     [SerializeField] CharacterTierDataSO characterTierDataSO;
     [SerializeField] SkillTierDataSO skillTierDataSO;
 
-    void Start()
+    void Awake()
     {
         // 비동기로 바꾸기
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(

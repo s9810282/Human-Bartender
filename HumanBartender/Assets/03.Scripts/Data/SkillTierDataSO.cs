@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 
 [Serializable]
 [JsonConverter(typeof(StringEnumConverter))]
-public enum SkillTier
+public enum ESkillTier
 {
     [EnumMember(Value = "beginner")] Beginner,
     [EnumMember(Value = "apprentice")] Apprentice,
@@ -28,7 +28,7 @@ public class SkillTierDataClass
 public class SkillTierDataBase
 {
     [JsonProperty("tiers")]
-    public Dictionary<SkillTier, SkillTierDataClass> Tiers { get; set; }
+    public Dictionary<ESkillTier, SkillTierDataClass> Tiers { get; set; }
 }
 
 

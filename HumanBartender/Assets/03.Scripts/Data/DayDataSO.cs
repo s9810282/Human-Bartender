@@ -40,6 +40,24 @@ public enum ECutSceneType
     Outside,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EConditionCheckType
+{
+    None,
+
+    [EnumMember(Value = "affinity")]
+    Affinity,
+
+    [EnumMember(Value = "skill")]
+    Skill,
+
+    [EnumMember(Value = "money")]
+    Money,
+
+    [EnumMember(Value = "flag")]
+    Flag,
+}
+
 [Serializable]
 public struct SceneData
 {
@@ -68,6 +86,18 @@ public struct ChoiceData
     [JsonProperty("next")] public string Next { get; set; }
     [JsonProperty("choice_effect")] public string ChoiceEffect { get; set; }
 }
+
+public struct ChoiceCondition
+{
+    [JsonProperty("operator")] public string Operator { get; set; }
+}
+public struct ChoiceConditionCheck
+{
+    [JsonProperty("type")] public EConditionCheckType Type { get; set; }
+    [JsonProperty("character")] public string Character { get; set; }
+    [JsonProperty("min_tier")] public string minTier { get; set; }
+}
+
 
 [Serializable]
 public struct TriggerData

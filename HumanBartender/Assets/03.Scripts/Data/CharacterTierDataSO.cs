@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 
 [Serializable]
 [JsonConverter(typeof(StringEnumConverter))]
-public enum AffinityTier
+public enum EAffinityTier
 {
     [EnumMember(Value = "very_low")] VeryLow,
     [EnumMember(Value = "low")] Low,
@@ -19,7 +19,7 @@ public enum AffinityTier
 [Serializable]
 public struct AffinityTierData
 {
-    [JsonProperty("tier")] public AffinityTier Tier { get; set; }
+    [JsonProperty("tier")] public EAffinityTier Tier { get; set; }
     [JsonProperty("min")] public int? Min { get; set; }
     [JsonProperty("max")] public int? Max { get; set; }
 }
