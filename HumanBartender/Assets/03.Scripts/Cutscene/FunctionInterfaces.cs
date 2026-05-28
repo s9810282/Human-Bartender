@@ -12,7 +12,7 @@ public interface ITimeLinePlayer
 
 public interface ICharacterSetter
 {
-    public UniTask SetCharacterAsync(string characterId, string expression);
+    public UniTask SetCharacterAsync(string characterId, string expression, ESlotType slotType = ESlotType.Right);
     public int GetCharacterCount();
     public void ResetCharacter(ESlotType slot);
     public void ResetCharacter();

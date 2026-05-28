@@ -30,7 +30,7 @@ public class DataLoadManager : MonoBehaviour
         characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
         characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets("character_anim.json");
         ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
-        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day1_crafts.json");
+        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day_test_crafts.json");
         cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
         settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets("settlements.json");
         textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets("text_styles.json");
@@ -40,10 +40,6 @@ public class DataLoadManager : MonoBehaviour
 
         cocktailData.Cached();
         cutSceneData.Cached();
-
-        Logger.Log(skillTierDataSO.skillTier.Tiers.Keys.Count);
-        Logger.Log(characterTierDataSO.characterTiers.Characters.Keys.Count);
-        
 
         return;
         

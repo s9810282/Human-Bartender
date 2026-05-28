@@ -37,7 +37,8 @@ public class CustomerEnterCommand : IDialogueCommand
         ESlotType slotType = slot == "left" ? ESlotType.Left : 
             slot == "right" ? ESlotType.Right : ESlotType.Middle;
 
-        await characterSetter.SetCharacterAsync(characterId, "default");
+        Logger.Log($"{characterId} : {slot}");
+        await characterSetter.SetCharacterAsync(characterId, "default", slotType);
         int c = characterSetter.GetCharacterCount();
 
         cts?.Cancel();
@@ -47,9 +48,6 @@ public class CustomerEnterCommand : IDialogueCommand
         var token = CancellationTokenSource
          .CreateLinkedTokenSource(cts.Token)
          .Token;
-
-        cameraZoom.CameraMove(slotType, enterDuration);
-
 
         if (c == 1)
         {

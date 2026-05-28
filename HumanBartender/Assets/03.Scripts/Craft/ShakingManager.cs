@@ -56,14 +56,14 @@ public class ShakingManager : MonoBehaviour, IMiniGameController
 
     public void UpdateActionCount()
     {
-        craftStation.craftingResult.actionCount++;
-        countText.text = "횟수 : " + craftStation.craftingResult.actionCount.ToString() + "회";
+        craftStation.craftingResult.actionFailCount++;
+        countText.text = "횟수 : " + craftStation.craftingResult.actionFailCount.ToString() + "회";
     }
 
     public void InitGame(UniTaskCompletionSource tcs)
     {
         this.tcs = tcs;
-        craftStation.craftingResult.actionCount = 0; // 카운트 초기화
+        craftStation.craftingResult.actionFailCount = 0; // 카운트 초기화
         if (countText != null) countText.text = "횟수 : 0";
     }
     public void CompleteMade()

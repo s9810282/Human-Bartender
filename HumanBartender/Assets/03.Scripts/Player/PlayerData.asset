@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   money: 0
-  characeterTiers:
-    keys: []
-    values: []
+  characterTierDataSO: {fileID: 11400000, guid: 8b43359c7c482b945b13d916638e3791, type: 2}
+  characterTierDatas:
+  - characterId: port
+    tierAmount: 15
+  skillTierDataSO: {fileID: 11400000, guid: 8eafc0f6f8d8f324dbec0be6be949bb1, type: 2}
+  skillTierAmount: 0

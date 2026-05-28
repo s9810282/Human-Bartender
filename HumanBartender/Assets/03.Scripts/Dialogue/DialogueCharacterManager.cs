@@ -113,20 +113,20 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     /// <param name="characterId"></param>
     /// <param name="expression"></param>
     /// <returns></returns>
-    public async UniTask SetCharacterAsync(string characterId, string expression)
+    public async UniTask SetCharacterAsync(string characterId, string expression, ESlotType slotType = ESlotType.Right)
     {
-        ESlotType slot = ESlotType.Right;
+        ESlotType slot = slotType;
 
-        for (int i = 0; i < slotParts.Length; i++)
-        {
-            if (slotParts[i].slotCharacterName == "")
-                continue;
+        //for (int i = 0; i < slotParts.Length; i++)
+        //{
+        //    if (slotParts[i].slotCharacterName == "")
+        //        continue;
             
-            if(characterId == slotParts[i].slotCharacterName)
-            {
-                slot = slotParts[i].type;
-            }
-        }
+        //    if(characterId == slotParts[i].slotCharacterName)
+        //    {
+        //        slot = slotParts[i].type;
+        //    }
+        //}
 
         
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
@@ -135,7 +135,12 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             return;
         }
 
+
+        Logger.Log($"{characterId} Load, Slot, {slotData.type}, Expression {slotData.expression}, Express {expression}");
+
         if (slotData.expression == expression) return;
+
+        Logger.Log($"{characterId} Load");
 
         slotData.cts?.Cancel();
         slotData.cts?.Dispose();
@@ -150,6 +155,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         slotData.slotCharacterName = characterId;
         slotData.expression = expression;
+
+
 
         var parts = slotData.parts;
         var tasks = new UniTask[parts.Length];
@@ -186,7 +193,8 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-    
+
+
 
     public void OnDialogueStart(ESlotType slot)
     {

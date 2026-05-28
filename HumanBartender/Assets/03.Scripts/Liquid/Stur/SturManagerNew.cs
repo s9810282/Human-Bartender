@@ -59,14 +59,14 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
     public void InitGame(UniTaskCompletionSource tcs)
     {
         this.tcs = tcs;
-        data.craftingResult.actionCount = 0;
+        data.craftingResult.actionFailCount = 0;
     }
 
     public void CompleteMade()
     {
         bgmSource.Stop();
         data.craftingResult.isResult = true;
-        data.craftingResult.actionCount = successJudge;
+        data.craftingResult.actionFailCount = successJudge;
 
         if (tcs != null)
         {

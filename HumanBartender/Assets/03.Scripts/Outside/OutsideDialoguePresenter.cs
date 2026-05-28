@@ -12,7 +12,7 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
     [SerializeField] private UIDialogueTextView targetTyper;
     [SerializeField] private UIDialogueTextView playerTyper;
     [SerializeField] private DialogueTriggerManager triggerManager;
-    [SerializeField] private UIDialogueChoice choiceManager;
+    [SerializeField] private UIDialogueChoiceView choiceManager;
 
     const string PLAYER_ID = "luna";
 

@@ -9,7 +9,7 @@ using Newtonsoft.Json.Converters;
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ESkillTier
 {
-    [EnumMember(Value = "beginner")] Beginner,
+    [EnumMember(Value = "beginner")] Beginner = 0,
     [EnumMember(Value = "apprentice")] Apprentice,
     [EnumMember(Value = "intermediate")] Intermediate,
     [EnumMember(Value = "advanced")] Advanced,

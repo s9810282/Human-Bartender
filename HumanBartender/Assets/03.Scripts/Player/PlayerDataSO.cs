@@ -1,9 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
+
+public interface IPlayerDataReader
+{
+    bool HasEnoughMoney(int cost);
+    EAffinityTier GetCurCharacterTier(string id);
+    ESkillTier GetSkillTier();
+}
+
+public interface IPlayerDataWriter
+{
+    void AddMoney(int val);
+    bool TrySpend(int cost);
+    void SetCharacterTierAmount(string id, int val);
+    void AddCharacterTierAmount(string id, int val);
+    void AddSkillTier(int val);
+}
+
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable Objects/PlayerData")]
-public class PlayerData : ScriptableObject
+public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWriter
 {
     [Header("Header")]
     [SerializeField] int money;
@@ -25,9 +41,22 @@ public class PlayerData : ScriptableObject
     {
         money += val;
 
-        if (val <= 0) money = 0;
+        if (money <= 0) money = 0;
     }
-    public bool isCheckMoney(int val) { return money >= val; }
+
+    public bool TrySpend(int cost)
+    {
+        if (HasEnoughMoney(100))
+        {
+            AddMoney(-100);
+            return true;
+        }
+
+        return false;
+    }
+    public bool HasEnoughMoney(int val) { return money >= val; }
+
+
     #endregion
 
     #region CharacterTier
@@ -40,8 +69,7 @@ public class PlayerData : ScriptableObject
             characterTierDatas.Add(characterTierDics[id]);
         }
     }
-
-    public void AddTierAmount(string id, int val)
+    public void AddCharacterTierAmount(string id, int val)
     {
         if (!characterTierDics.ContainsKey(id))
         {
@@ -52,10 +80,23 @@ public class PlayerData : ScriptableObject
             characterTierDics[id].tierAmount += val;
         }
     }
-
+    public void SetCharacterTierAmount(string id, int val)
+    {
+        if (!characterTierDics.ContainsKey(id))
+        {
+            AddNewCharacter(id, val);
+        }
+        else
+        {
+            characterTierDics[id].tierAmount = val;
+        }
+    }
     public EAffinityTier GetCurCharacterTier(string id)
     {
         CharacterAffinityData data = characterTierDataSO.characterTiers.Characters[id];
+
+        if(!characterTierDics.ContainsKey(id)) return EAffinityTier.Very_Low;
+
         int curTierAmount = characterTierDics[id].tierAmount;
 
         foreach (var item in data.Affinity)
@@ -66,7 +107,7 @@ public class PlayerData : ScriptableObject
             return item.Tier;
         }
 
-        return EAffinityTier.VeryLow;
+        return EAffinityTier.Very_Low;
     }
 
     #endregion
@@ -78,7 +119,6 @@ public class PlayerData : ScriptableObject
     {
         skillTierAmount += val;
     }
-
     public ESkillTier GetSkillTier()
     {
         foreach(var item in skillTierDataSO.skillTier.Tiers)

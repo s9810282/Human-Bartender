@@ -20,6 +20,9 @@ public enum EDialogueType
 
     [EnumMember(Value = "choice_root")]
     ChoiceRoot,
+
+    [EnumMember(Value = "condition_branch")]
+    ConditionBranch,
 }
 
 [JsonConverter(typeof(StringEnumConverter))]
@@ -58,6 +61,34 @@ public enum EConditionCheckType
     Flag,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ETriggetType
+{
+    None,
+
+    [EnumMember(Value = "effect")]
+    Effect,
+
+    [EnumMember(Value = "start_craft")]
+    StartCraft,
+
+    [EnumMember(Value = "customer_enter")]
+    CustomerEnter,
+
+    [EnumMember(Value = "customer_exit")]
+    CustomerExit,
+
+    [EnumMember(Value = "start_cutscene")]
+    StartCutScene,
+
+    [EnumMember(Value = "set_stat")]
+    SetStat, 
+    
+    [EnumMember(Value = "add_stat")]
+    AddStat,
+}
+
+
 [Serializable]
 public struct SceneData
 {
@@ -77,6 +108,21 @@ public struct DialogueData
     [JsonProperty("next")] public string Next { get; set; }
     [JsonProperty("choices")] public ChoiceData[] Choices { get; set; }
     [JsonProperty("trigger")] public TriggerData? Trigger { get; set; }
+    [JsonProperty("next_conditions")] public NextConditions? Nextconditions { get; set; }
+}
+
+public struct NextConditions
+{
+    [JsonProperty("character")] public string Character { get; set; }
+    [JsonProperty("stat")] public string Stat { get; set; }
+    [JsonProperty("default")] public string Default { get; set; }
+    [JsonProperty("branches")] public BranchData[] Branches { get; set; }
+}
+
+public struct BranchData
+{
+    [JsonProperty("tier")] public EAffinityTier Tier { get; set; }
+    [JsonProperty("goto")] public string Goto { get; set; }
 }
 
 [Serializable]
@@ -85,24 +131,27 @@ public struct ChoiceData
     [JsonProperty("text")] public string Text { get; set; }
     [JsonProperty("next")] public string Next { get; set; }
     [JsonProperty("choice_effect")] public string ChoiceEffect { get; set; }
+    [JsonProperty("condition")] public ChoiceCondition? Condition { get; set; }
 }
 
 public struct ChoiceCondition
 {
     [JsonProperty("operator")] public string Operator { get; set; }
+    [JsonProperty("checks")] public ChoiceConditionCheck[] Checks { get; set; }
 }
 public struct ChoiceConditionCheck
 {
     [JsonProperty("type")] public EConditionCheckType Type { get; set; }
     [JsonProperty("character")] public string Character { get; set; }
     [JsonProperty("min_tier")] public string minTier { get; set; }
+    [JsonProperty("min_amount")] public int? minAmount { get; set; }
 }
 
 
 [Serializable]
 public struct TriggerData
 {
-    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("type")] public ETriggetType Type { get; set; }
     [JsonProperty("data")] public TriggerDetailData Data { get; set; }
 }
 
@@ -112,7 +161,8 @@ public struct TriggerDetailData
     [JsonProperty("character_id")] public string CharacterId { get; set; }
     [JsonProperty("slot")] public string Slot { get; set; }
 
-    
+    [JsonProperty("value")] public int Value { get; set; }
+
     [JsonProperty("sfx")] public string Sfx { get; set; }
     [JsonProperty("sfx_mode")] public string SfxMode { get; set; }
     [JsonProperty("bgm")] public string Bgm { get; set; }

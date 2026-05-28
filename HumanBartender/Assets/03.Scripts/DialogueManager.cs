@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 
 public enum DialogueState
@@ -18,8 +20,9 @@ public enum DialogueState
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] DayDataSO dayScripteData;
-  
     [SerializeField] DialogueSceneDirector sceneDirector;
+
+    [Inject] IPlayerDataReader PlayerData;
 
     #region Data Field
 
@@ -106,16 +109,29 @@ public class DialogueManager : MonoBehaviour
 
         currentDialogue = currentDialogueDB[dialogueId];
 
-        // type이 system일 때 처리
         if (currentDialogue.Type == EDialogueType.System)
         {
             sceneDirector.ShowSystemAction();
 
-            if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
+            if (currentDialogue.Trigger != null) 
                 await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
 
-            //await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
+        }
+        else if (currentDialogue.Type == EDialogueType.ConditionBranch)
+        {
+            NextConditions next = currentDialogue.Nextconditions.Value;
+
+            EAffinityTier characterTier = PlayerData.GetCurCharacterTier(next.Character);
+            
+            foreach(var item in next.Branches)
+            {
+                if (characterTier == item.Tier)
+                {
+                    DialogueEvent(item.Goto);
+                    return;
+                }
+            }
         }
 
         currentState = DialogueState.Typing;
@@ -190,7 +206,7 @@ public class DialogueManager : MonoBehaviour
             }
             else if (currentDialogue.Trigger != null)
             {
-                if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
+                if (currentDialogue.Trigger.Value.Type != ETriggetType.None)
                     ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
             else if (!string.IsNullOrEmpty(currentDialogue.Next))

@@ -136,7 +136,6 @@ public class UIDialogueTextView : MonoBehaviour
     public async UniTask TypeSentenceTMP(TypingData data)
     {
         string rawSentence = data.str;
-
         if (!(rawSentence.Length > 0)) return;
 
         targetBubble.gameObject.SetActive(true);
@@ -144,14 +143,15 @@ public class UIDialogueTextView : MonoBehaviour
         targetBubble.nameLabel.color = data.nameColor;
 
         StopTyping();
-
         typingCts = new CancellationTokenSource();
         CancellationToken token = typingCts.Token;
 
-        string cleanSentence = rawSentence;
+        string processed = ApplyCustomTags(rawSentence);
+
+        string cleanSentence = processed;
         Dictionary<int, float> delayDict = new Dictionary<int, float>();
         Regex tagRegex = new Regex(@"<(\d+)>");
-        MatchCollection matches = tagRegex.Matches(rawSentence);
+        MatchCollection matches = tagRegex.Matches(processed);
 
         int offset = 0;
         foreach (Match match in matches)
@@ -159,7 +159,6 @@ public class UIDialogueTextView : MonoBehaviour
             int delayMs = int.Parse(match.Groups[1].Value);
             int targetIndex = match.Index - offset;
             delayDict[targetIndex] = delayMs / 1000f;
-
             cleanSentence = cleanSentence.Remove(targetIndex, match.Length);
             offset += match.Length;
         }
@@ -169,13 +168,15 @@ public class UIDialogueTextView : MonoBehaviour
             targetBubble.textLabel.enableAutoSizing = false;
             targetBubble.textLabel.fontSize = targetBubble.baseFontSize;
             targetBubble.textLabel.text = cleanSentence;
-            targetBubble.BeginTyping();
+            targetBubble.BeginTyping(cleanSentence);
         }
 
         targetBubble.textLabel.maxVisibleCharacters = 0;
         targetBubble.textLabel.ForceMeshUpdate();
-
         int totalVisibleChars = targetBubble.textLabel.textInfo.characterCount;
+
+        int firstNewlineIdx = cleanSentence.IndexOf('\n');
+        int progressDenom = (firstNewlineIdx > 0) ? firstNewlineIdx : totalVisibleChars;
 
         try
         {
@@ -189,28 +190,70 @@ public class UIDialogueTextView : MonoBehaviour
                     if (i < cleanSentence.Length && cleanSentence[i] == '\n')
                         visiblePart = cleanSentence.Substring(0, i + 1);
 
-                    targetBubble.ResizeToFit(visiblePart);
+                    float progress = (progressDenom > 0)
+                        ? Mathf.Clamp01((float)i / progressDenom)
+                        : 1f;
+
+                    targetBubble.ResizeToFit(visiblePart, progress);
                 }
+
 
                 if (delayDict.ContainsKey(i))
-                {
                     await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
-                }
 
                 if (i < totalVisibleChars)
-                {
                     await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
-                }
             }
         }
         catch (Exception ex)
         {
             targetBubble.textLabel.maxVisibleCharacters = targetBubble.textLabel.textInfo.characterCount;
-
             if (targetBubble != null)
                 targetBubble.ResizeToFit(cleanSentence);
         }
 
         CompleteTyping();
+    }
+
+
+    string ApplyCustomTags(string raw)
+    {
+        if (textTagData == null || textTagData.textTagData?.TextTags == null)
+            return raw;
+
+        string result = raw;
+
+        foreach (var pair in textTagData.textTagData.TextTags)
+        {
+            string key = pair.Key;
+            string color = pair.Value.Color;
+            if (string.IsNullOrEmpty(color)) continue;
+
+            // # 보장
+            if (!color.StartsWith("#")) color = "#" + color;
+
+            // <key>...</key> 매칭 (내용은 비탐욕적으로)
+            string pattern = $@"<{Regex.Escape(key)}>(.*?)</{Regex.Escape(key)}>";
+            string replacement = $"<color={color}>$1</color>";
+
+            result = Regex.Replace(result, pattern, replacement);
+        }
+
+        return result;
+    }
+
+    string GetVisibleSubstring(string fullText, int visibleCharCount)
+    {
+        if (visibleCharCount <= 0) return "";
+        if (visibleCharCount >= targetBubble.textLabel.textInfo.characterCount)
+            return fullText;
+
+        var charInfo = targetBubble.textLabel.textInfo.characterInfo[visibleCharCount - 1];
+        int endIndex = charInfo.index + 1;
+
+        if (endIndex < fullText.Length && fullText[endIndex] == '\n')
+            endIndex++;
+
+        return fullText.Substring(0, endIndex);
     }
 }

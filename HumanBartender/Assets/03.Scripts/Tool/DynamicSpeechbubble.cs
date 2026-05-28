@@ -29,10 +29,10 @@ public class DynamicSpeechBubble : MonoBehaviour
     public float widthSafetyMargin = 4f;
 
     float typingMaxWidth = 0f;
+    float lockedTypingWidth = -1f; // -1 = 잠금 없음 (일반 모드)
 
     public void ResetToMinSize()
     {
-        Logger.Log("bubble Resize");
         textLabel.enableAutoSizing = false;
         textLabel.fontSize = baseFontSize;
 
@@ -50,14 +50,44 @@ public class DynamicSpeechBubble : MonoBehaviour
         ResizeToFit(content);
     }
 
-
+    /// <summary>전체 텍스트를 모를 때 — 기존처럼 점진 확장.</summary>
     public void BeginTyping()
     {
         typingMaxWidth = 0f;
+        lockedTypingWidth = -1f;
         ResetToMinSize();
     }
 
-    public void ResizeToFit(string content)
+    /// <summary>전체 텍스트를 알 때 — 줄바꿈 시점에 최종 너비로 점프.</summary>
+    public void BeginTyping(string fullText)
+    {
+        typingMaxWidth = 0f;
+        ResetToMinSize();
+        lockedTypingWidth = CalcTargetWidth(fullText);
+    }
+
+    /// <summary>전체 텍스트 기준 가장 긴 줄 너비 (패딩 제외, 안전 마진 포함).</summary>
+    float CalcTargetWidth(string fullText)
+    {
+        float paddingH = paddingLeft + paddingRight;
+        float maxTextW = maxSize.x - paddingH;
+
+        float longest = 0f;
+        if (!string.IsNullOrEmpty(fullText))
+        {
+            string[] lines = fullText.Split('\n');
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrEmpty(line)) continue;
+                Vector2 size = textLabel.GetPreferredValues(line, float.PositiveInfinity, 0f);
+                if (size.x > longest) longest = size.x;
+            }
+        }
+
+        if (longest <= 0f) longest = minSize.x - paddingH;
+        return Mathf.Min(Mathf.Ceil(longest) + widthSafetyMargin, maxTextW);
+    }
+    public void ResizeToFit(string content, float typingProgress = -1f)
     {
         float paddingH = paddingLeft + paddingRight;
         float paddingV = paddingTop + paddingBottom;
@@ -77,13 +107,29 @@ public class DynamicSpeechBubble : MonoBehaviour
             }
         }
 
-        float textW = Mathf.Min(longestLineW, maxTextW);
-        if (textW <= 0f) textW = minSize.x - paddingH;
+        float naturalW = Mathf.Min(longestLineW, maxTextW);
+        if (naturalW <= 0f) naturalW = minSize.x - paddingH;
+        naturalW = Mathf.Min(Mathf.Ceil(naturalW) + widthSafetyMargin, maxTextW);
 
 
-        textW = Mathf.Min(Mathf.Ceil(textW) + widthSafetyMargin, maxTextW);
-        if (textW > typingMaxWidth) typingMaxWidth = textW;
-        textW = typingMaxWidth;
+        float textW;
+        if (lockedTypingWidth > 0f && typingProgress >= 0f)
+        {
+            float minW = minSize.x - paddingH;
+            float progress = Mathf.Clamp01(typingProgress);
+            float interpolated = Mathf.Lerp(minW, lockedTypingWidth, progress);
+
+            textW = Mathf.Max(interpolated, naturalW);
+
+            if (textW > typingMaxWidth) typingMaxWidth = textW;
+            textW = typingMaxWidth;
+        }
+        else
+        {
+            if (naturalW > typingMaxWidth) typingMaxWidth = naturalW;
+            textW = typingMaxWidth;
+        }
+
 
         Vector2 wrapped = textLabel.GetPreferredValues(content, textW, 0f);
 

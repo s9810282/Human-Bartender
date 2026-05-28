@@ -32,7 +32,7 @@ public class SturManager : MonoBehaviour, IMiniGameController
     public void InitGame(UniTaskCompletionSource tcs)
     {
         this.tcs = tcs;
-        craftStation.craftingResult.actionCount = 0; // 카운트 초기화
+        craftStation.craftingResult.actionFailCount = 0; // 카운트 초기화
         if (countText != null) countText.text = "0";
     }
 

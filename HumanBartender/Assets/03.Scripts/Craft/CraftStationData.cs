@@ -5,7 +5,8 @@ public class CraftingResult
 {
     public bool isResult = false;
     public string selectMethod = "";
-    public int actionCount = 0;
+    public int actionFailCount = 0;
+    public int limitFailCount = 0;
     public Color32 mixedColor = Color.white;
 }
 

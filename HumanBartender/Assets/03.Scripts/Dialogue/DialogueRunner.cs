@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using VContainer;
 
 
 
 public class DialogueRunner : MonoBehaviour
 {
+    [Inject] IPlayerDataReader PlayerData;
     private IDialoguePresenter presenter;
 
     private readonly Dictionary<string, DialogueData> currentDB = new();
@@ -117,7 +119,7 @@ public class DialogueRunner : MonoBehaviour
                 ShowChoices();
             }
             else if (currentDialogue.Trigger != null
-                     && !string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
+                     && currentDialogue.Trigger.Value.Type != ETriggetType.None)
             {
                 ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
@@ -161,7 +163,7 @@ public class DialogueRunner : MonoBehaviour
                 presenter.ShowSystemAction();
 
                 if (currentDialogue.Trigger != null
-                    && !string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
+                     && currentDialogue.Trigger.Value.Type != ETriggetType.None)
                 {
                     await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
                 }
@@ -170,6 +172,21 @@ public class DialogueRunner : MonoBehaviour
                     DialogueEvent(currentDialogue.Next);
                 }
                 return;
+            }
+            else if (currentDialogue.Type == EDialogueType.ConditionBranch)
+            {
+                NextConditions next = currentDialogue.Nextconditions.Value;
+
+                EAffinityTier characterTier = PlayerData.GetCurCharacterTier(next.Character);
+
+                foreach (var item in next.Branches)
+                {
+                    if (characterTier == item.Tier)
+                    {
+                        DialogueEvent(item.Goto);
+                        return;
+                    }
+                }
             }
             else if (currentDialogue.Type == EDialogueType.ChoiceRoot)
             {

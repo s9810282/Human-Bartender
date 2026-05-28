@@ -15,24 +15,31 @@ public static class DialogueCommandFactory
 {
     public static IDialogueCommand CreateCommand(TriggerData? triggerData)
     {
-        if (string.IsNullOrEmpty(triggerData.Value.Type)) return null;
-
         switch (triggerData.Value.Type)
         {
-            case "effect":
+            case ETriggetType.None:
+                return null;
+
+            case ETriggetType.Effect:
                 return new EffectCommand(triggerData.Value.Data);
 
-            case "start_craft":
+            case ETriggetType.StartCraft:
                 return new StartCraftCommand(triggerData.Value.Data);
 
-            case "customer_enter":
+            case ETriggetType.CustomerEnter:
                 return new CustomerEnterCommand(triggerData.Value.Data);
 
-            case "customer_exit":
+            case ETriggetType.CustomerExit:
                 return new CustomerExitCommand(triggerData.Value.Data);
 
-            case "start_cutscene":
+            case ETriggetType.StartCutScene:
                 return new StartCutSceneCommand(triggerData.Value.Data);
+            
+            case ETriggetType.SetStat:
+                return new SetStatCommand(triggerData.Value.Data);
+
+            case ETriggetType.AddStat:
+                return new AddStatCommand(triggerData.Value.Data);
 
             default:
                 Debug.LogWarning($"[Factory] 정의되지 않은 트리거 타입: {triggerData.Value.Type}");

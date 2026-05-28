@@ -9,11 +9,11 @@ using Newtonsoft.Json.Converters;
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EAffinityTier
 {
-    [EnumMember(Value = "very_low")] VeryLow,
+    [EnumMember(Value = "very_low")] Very_Low = 0,
     [EnumMember(Value = "low")] Low,
     [EnumMember(Value = "mid")] Mid,
     [EnumMember(Value = "high")] High,
-    [EnumMember(Value = "very_high")] VeryHigh
+    [EnumMember(Value = "very_high")] Very_High
 }
 
 [Serializable]

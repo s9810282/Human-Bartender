@@ -31,6 +31,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     [SerializeField] int totalJudge;
     [SerializeField] int successJudge;
     [SerializeField] int failJudge;
+    [SerializeField] int limitFailJudge;
 
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
@@ -47,8 +48,11 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
-        data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
-        data.targetCraft_tolerance = 15;
+
+        //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+        //data.targetCraft_tolerance = 15;
+
+        Logger.Log(data.targetCocktailId);
 
         shakeLineCreator.CreateLine();
 
@@ -82,6 +86,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         totalJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 1.3f);
         successJudge = 0;
         failJudge = 0;
+        limitFailJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 0.3f);
 
         gageBar.UpdateValues(totalJudge, 0, totalJudge, 0);
 
@@ -102,14 +107,15 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     public void InitGame(UniTaskCompletionSource tcs)
     {
         this.tcs = tcs;
-        data.craftingResult.actionCount = 0;
+        data.craftingResult.actionFailCount = 0;
     }
 
     public void CompleteMade()
     {
         bgmSource.Stop();
         data.craftingResult.isResult = true;
-        data.craftingResult.actionCount = successJudge;
+        data.craftingResult.actionFailCount = failJudge;
+        data.craftingResult.limitFailCount = limitFailJudge;
 
         if (tcs != null)
         {
@@ -169,6 +175,11 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         gageBar.UpdateValues(totalJudge, successJudge, totalJudge-successJudge-failJudge, failJudge);
 
         if(successJudge + failJudge >= totalJudge)
+        {
+            isPlay = false;
+            CompleteMade();
+        }
+        else if(failJudge > limitFailJudge)
         {
             isPlay = false;
             CompleteMade();

@@ -11,7 +11,7 @@ public class DialogueSceneDirector : MonoBehaviour
 
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private UIDialogueTextView typer;
-    [SerializeField] private UIDialogueChoice choiceManager;
+    [SerializeField] private UIDialogueChoiceView choiceManager;
     [SerializeField] private DialogueCharacterManager characterManager;
     [SerializeField] private DialogueBackgroundManager backgroundManager;
     [SerializeField] private DialogueTriggerManager triggerManager;

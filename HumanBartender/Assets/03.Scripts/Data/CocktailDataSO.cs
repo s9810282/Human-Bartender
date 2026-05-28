@@ -19,7 +19,7 @@ public struct CocktailData
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("name")] public string Name { get; set; }
     [JsonProperty("name_en")] public string NameEn { get; set; }
-    [JsonProperty("price")] public string Price { get; set; }
+    [JsonProperty("price")] public int Price { get; set; }
     [JsonProperty("recipe")] public RecipeIngredient[] Recipe { get; set; }
     [JsonProperty("method")] public string Method { get; set; }
     [JsonProperty("process")] public string Process { get; set; }

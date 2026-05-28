@@ -18,6 +18,9 @@ public enum EMatchType
 
     [EnumMember(Value = "base")]
     Base,
+
+    [EnumMember(Value = "any")]
+    Any,
 }
 
 
@@ -42,6 +45,16 @@ public enum EVerdictType
     Miss,
 }
 
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EResultType
+{
+    [EnumMember(Value = "perfect")]
+    Perfect,
+    [EnumMember(Value = "normal")]
+    Normal,
+    [EnumMember(Value = "fail")]
+    Failed
+}
 
 [Serializable]
 public struct CraftEventData
@@ -103,7 +116,7 @@ public struct VerdictRule
     [JsonProperty("result")] public string Result { get; set; }
     [JsonProperty("match_type")] public EMatchType MatchType { get; set; }
     [JsonProperty("match_values")] public string[] MatchValues { get; set; }
-    [JsonProperty("require_craft_success")] public string RequireCraftSuccess { get; set; }
+    [JsonProperty("require_craft_success")] public EResultType RequireCraftSuccess { get; set; }
     [JsonProperty("description")] public string Description { get; set; }
 }
 

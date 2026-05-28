@@ -30,9 +30,10 @@ public class UIIngredientPanel : MonoBehaviour
 
     [SerializeField] UIIngredientSlot ingredientPanel;
 
-
     Dictionary<string, UIIngredientSlot> createdIngredientPanelList = new();
     Dictionary<string, int> currentSelectIngredients = new Dictionary<string, int>();
+
+    IngredientData iceData;
 
     void Start()
     {
@@ -56,7 +57,11 @@ public class UIIngredientPanel : MonoBehaviour
         for (int i = 0; i < ingredientDataSO.ingredientData.Ingredients.Length; i++)
         {
             IngredientData data = ingredientDataSO.ingredientData.Ingredients[i];
-            if (data.Id == "ice") continue;
+            if (data.Id == "ice")
+            {
+                iceData = data;
+                continue;
+            }
 
             if (!createdIngredientPanelList.ContainsKey(data.Id))
             {
@@ -77,6 +82,22 @@ public class UIIngredientPanel : MonoBehaviour
         }
     }
 
+
+    
+    public void OnIceIngredient(bool isBool)
+    {
+        if (isBool)
+        {
+            currentSelectIngredients.Add(iceData.Id, 1);
+            craftLiquidData.AddIngrediant(iceData, 1);
+        }
+        else
+        {
+            currentSelectIngredients.Remove(iceData.Id);
+            craftLiquidData.AddIngrediant(iceData, -1);
+        }
+    }
+
     public void OnLeftClickedIngredient(IngredientData data)
     {
         if (!currentSelectIngredients.ContainsKey(data.Id))
@@ -85,7 +106,7 @@ public class UIIngredientPanel : MonoBehaviour
             currentSelectIngredients[data.Id]++;
 
         createdIngredientPanelList[data.Id].IncreaseCount(1);
-        craftLiquidData.AddIngrediant(data, 10);
+        craftLiquidData.AddIngrediant(data, 1);
     }
 
     public void OnRightClickedIngredient(IngredientData data)
@@ -96,7 +117,7 @@ public class UIIngredientPanel : MonoBehaviour
             currentSelectIngredients[data.Id]--;
 
         createdIngredientPanelList[data.Id].IncreaseCount(-1);
-        craftLiquidData.AddIngrediant(data, -10);
+        craftLiquidData.AddIngrediant(data, -1);
 
         if (currentSelectIngredients[data.Id] <= 0)
             currentSelectIngredients.Remove(data.Id);

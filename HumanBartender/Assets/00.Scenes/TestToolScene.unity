@@ -531,6 +531,10 @@ MonoBehaviour:
   dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
   craftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
   cutSceneData: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
+  settlementDataSO: {fileID: 11400000, guid: 7818a78b81a76b74d86e60ab0da90ded, type: 2}
+  textTagDataSO: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
+  characterTierDataSO: {fileID: 11400000, guid: 8b43359c7c482b945b13d916638e3791, type: 2}
+  skillTierDataSO: {fileID: 11400000, guid: 8eafc0f6f8d8f324dbec0be6be949bb1, type: 2}
 --- !u!4 &287488622
 Transform:
   m_ObjectHideFlags: 0
@@ -2346,7 +2350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1811782416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2387,9 +2391,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3df068dc8ea8f6248a4c7d3c6d4c3857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDialogueTextView
+  textTagData: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
   lunaSpeechBubble: {fileID: 96362529}
-  customerSpeechBubble: {fileID: 0}
-  canvasRect: {fileID: 0}
+  customerSpeechBubble: {fileID: 96362529}
+  canvasRect: {fileID: 1849371911}
   baseOffset: {x: 0, y: 0}
   subOffset: {x: 0, y: 0}
 --- !u!114 &1849371910 stripped
@@ -2403,6 +2408,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ec52dc6e229244d8a97d82b8afd02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1849371911 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2366362166523076582, guid: c199fb25c03682e40b3bb84d2d0d0b77, type: 3}
+  m_PrefabInstance: {fileID: 1888981603}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1888981603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3199,14 +3209,6 @@ PrefabInstance:
     - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_Name
       value: Dialogue TextBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885226018701176427, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
-      propertyPath: widthSafetyMargin
-      value: 32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

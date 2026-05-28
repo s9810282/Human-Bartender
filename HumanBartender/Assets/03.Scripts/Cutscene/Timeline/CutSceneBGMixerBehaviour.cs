@@ -147,7 +147,7 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
         rect.pivot = behaviour.bgPivot;
 
         // 스케일
-        rect.localScale = Vector3.one * behaviour.bgScale;
+        //rect.localScale = Vector3.one * behaviour.bgScale;
 
         // 오프셋 (캔버스 비율 기준)
         rect.anchoredPosition = new Vector2(

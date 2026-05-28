@@ -19,26 +19,23 @@ public class DialogueTriggerManager : MonoBehaviour
         
     }
 
-
     public async UniTask<string> ExecuteTriggerAsync(TriggerData? trigger)
     {
         Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
-
         _skipCts = new CancellationTokenSource();
 
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
+        if (command == null) return "";
+
         string nextId = "";
 
-        if (command != null)
+        if (resolver == null)
         {
-            if (resolver == null)
-            {
-                Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
-            }
-
-            resolver.Inject(command);
-            nextId = await command.ExecuteAsync(_skipCts.Token);
+            Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
         }
+
+        resolver.Inject(command);
+        nextId = await command.ExecuteAsync(_skipCts.Token);
 
         return nextId;
     }
