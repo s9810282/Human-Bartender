@@ -47,8 +47,8 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
-        //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
-        //data.targetCraft_tolerance = 15;
+        data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+        data.targetCraft_tolerance = 15;
 
         shakeLineCreator.CreateLine();
 

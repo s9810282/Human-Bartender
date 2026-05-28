@@ -13,16 +13,55 @@ MonoBehaviour:
   m_Name: NodePatternData
   m_EditorClassIdentifier: Assembly-CSharp::NodePatternData
   patternDatas:
-  - patternName: 1
-    patternTime:
-    - 0.5
-  - patternName: 2
-    patternTime:
-    - 0.25
-  - patternName: 3
-    patternTime:
-    - 0.75
-  - patternName: 4
-    patternTime:
-    - 0.5
-    - 0.25
+  - patternDatas:
+    - patternName: 
+      lineIndex: 0
+      patternT: 0.37
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.47
+  - patternDatas:
+    - patternName: 0
+      lineIndex: 0
+      patternT: 0.28
+    - patternName: 0
+      lineIndex: 0
+      patternT: 0.38
+    - patternName: 
+      lineIndex: 1
+      patternT: 0.38
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.49
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.56
+  - patternDatas:
+    - patternName: 
+      lineIndex: 0
+      patternT: 0.39
+    - patternName: 
+      lineIndex: 0
+      patternT: 0.57
+    - patternName: 
+      lineIndex: 1
+      patternT: 0.32
+    - patternName: 
+      lineIndex: 1
+      patternT: 0.48
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.55
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.82
+  - patternDatas:
+    - patternName: 
+      lineIndex: 0
+      patternT: 0.28
+    - patternName: 
+      lineIndex: 1
+      patternT: 0.32
+    - patternName: 
+      lineIndex: 2
+      patternT: 0.55

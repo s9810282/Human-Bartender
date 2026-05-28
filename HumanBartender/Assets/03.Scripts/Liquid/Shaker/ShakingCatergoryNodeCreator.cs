@@ -112,20 +112,21 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
         }
         curActiveTargetNodes.Clear();
 
-        curPatternData = nodePatternData.patternDatas[Random.Range(0, nodePatternData.patternDatas.Length)];
+        if (isDown)
+            curPatternData = nodePatternData.patternDatas[Random.Range(0, nodePatternData.patternDatas.Length)];
 
-        for (int i = 0; i < targetPostions.Length - 1; i++)
+        for (int i = 0; i < curPatternData.patternDatas.Length; i++)
         {
-            Vector3 a = targetPostions[i];
-            Vector3 b = targetPostions[i + 1];
+            int startIndex = curPatternData.patternDatas[i].lineIndex;
+            int nextVal = isDown ? 1 : -1;
 
-            for (int j = 0; j < curPatternData.patternTime.Length;j++)
-            {
-                float t = isDown ? curPatternData.patternTime[j] : (1 - curPatternData.patternTime[j]);
-                SpawnNode(a, b, t);
-            }
+            if (!isDown)
+                startIndex = targetPostions.Length - 1 - startIndex;
 
-            SpawnNode(a, b, isDown ? 1 : 0);
+            Vector3 a = targetPostions[startIndex];
+            Vector3 b = targetPostions[startIndex + nextVal];
+
+            SpawnNode(a, b, curPatternData.patternDatas[i].patternT);
         }
     }
 
