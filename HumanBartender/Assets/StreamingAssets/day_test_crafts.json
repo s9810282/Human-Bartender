@@ -15,7 +15,7 @@
           "build": null
         },
         "finish": {
-          "default": null,
+          "default": "day1_finish_default",
           "failed": null
         }
       },
@@ -161,6 +161,15 @@
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad_nm_fail": {
+          "verdict": "bad",
+          "dialogue_id": "dt_react_bad_nm_fail",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad": {
           "verdict": "bad",
           "dialogue_id": "dt_react_bad_nm_fail",
           "cutscene_id": null,
