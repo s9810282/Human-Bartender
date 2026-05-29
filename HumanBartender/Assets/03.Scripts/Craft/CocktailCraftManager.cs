@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,6 +38,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [Header("UI")]
     [SerializeField] GameObject dialogueCanvas;
     [SerializeField] GameObject craftObject;
+
+    [SerializeField] UICocktailPanel cocktailPanel;
+    [SerializeField] UIIngredientPanel ingredientPanel;
+
     [SerializeField] TextMeshProUGUI orderText;
     [SerializeField] TextMeshProUGUI popupText;
     
@@ -52,7 +57,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     public void Start()
     {
-
+        cocktailPanel.Init();
+        ingredientPanel.Init();
     }
 
     /// <summary>
@@ -130,11 +136,20 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     public void OnClickMethod(string method)
     {
-        popupText.text = GetMethodtoKOR(method) + "를 진행하시겠습니까";
-        curSelectMethod = method;
+        if (craftStation.ingredientDatas.Count == 0)
+        {
+            popupText.text = "재료를 선택하지 않았습니다.";
+        }
+        else
+        {
+            popupText.text = GetMethodtoKOR(method) + "를 진행하시겠습니까";
+            curSelectMethod = method;
+        }
     }
     public void StartMethod()
     {
+        if (craftStation.ingredientDatas.Count == 0) return;
+
         GameStateManager.Instance.CurrentGameState = GameState.MiniGame;
 
         craftStation.targetCocktailData = GetMatchingCocktails();
@@ -307,7 +322,11 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     public void ResetCraft()
     {
         ResetCraftObj();
+        craftStation.ResetCraftStation();
         curCraftEventData = default;
+
+        cocktailPanel.ResetCocktailFilter();
+        ingredientPanel.ResetCurrentSelectIngredient();
 
         miniGameObj = null;
         controller = null;

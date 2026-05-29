@@ -138,28 +138,28 @@ public class CharacterPart : AnimationPart, IFade
                 animator.Play(animName, 0, 0f);
                 break;
 
+            case EAnimLoopMode.Special_OnDialogue:
+                animator.speed = 1f;
+                animator.Play(animName, 0, 0f);
+                await WaitAndDelayAsync(animName, token);
+                break;
 
             case EAnimLoopMode.Once:
                 animator.speed = 1f;
                 animator.Play(animName, 0, 0f);
-                WaitAndFreezeAsync(animName, token).Forget();
+                await WaitAndFreezeAsync(animName, token);
                 break;
         }
 
         return;
     }
 
-    /// <summary>
-    /// clip의 loop설정을 바꾸는건 원본 자체를 건들기 때문에 No
-    /// 빌드환경에서는 AnimationClip에 대한 쓰기 권한이 막히는 케이스가 존재함.
-    /// 컨트롤러 내의 속도 고려가 안되어있음.
-    /// 1회 실행 타임 체크 후 speed = 0
-    /// </summary>
+
     /// <param name="introClip"></param>
     /// <param name="loopClip"></param>
     /// <returns></returns>
 
-    private async UniTaskVoid WaitAndFreezeAsync(string animName, CancellationToken token)
+    private async UniTask WaitAndFreezeAsync(string animName, CancellationToken token)
     {
         await UniTask.Yield(PlayerLoopTiming.Update, token);
         
@@ -173,6 +173,19 @@ public class CharacterPart : AnimationPart, IFade
         if (animator != null) animator.speed = 0f;
     }
 
+    private async UniTask WaitAndDelayAsync(string animName, CancellationToken token)
+    {
+        await UniTask.Yield(PlayerLoopTiming.Update, token);
+
+        await UniTask.WaitUntil(() =>
+        {
+            if (animator == null) return true;
+            var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo.IsName(animName) && stateInfo.normalizedTime >= 0.99f;
+        }, cancellationToken: token);
+
+        animator.Play("Loop", 0, 0f);
+    }
 
     public override void ApplySprite(Sprite sprite)
     {
@@ -192,8 +205,8 @@ public class CharacterPart : AnimationPart, IFade
     }
 
 
-    // Dialogue
-    //IPlaybackPolicy.OnDialogueStart
+
+    //지금 보니 이걸 여기서 체크하는건 모순인데
 
     public void OnDialogueStart()
     {
@@ -207,15 +220,12 @@ public class CharacterPart : AnimationPart, IFade
 
         animator.Play("Dialogue", 0, 0f);
 
-        //animator.SetBool("OnDialogue", true);
     }
 
-    //IPlaybackPolicy.OnDialogueStart
     public void OnDialogueEnd()
     {
         if (_currentLoopMode == EAnimLoopMode.Once) return;
-        //animator.enabled = true;
-        //animator.SetBool("OnDialogue", false);
+ 
         animator.speed = 1;
         animator.Play("Loop", 0, 0f);
     }

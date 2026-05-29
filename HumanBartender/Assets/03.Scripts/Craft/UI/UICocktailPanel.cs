@@ -1,6 +1,7 @@
 using Spine;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,7 @@ public class UICocktailPanel : MonoBehaviour
     [Header("UICocktail Panel")]
     [SerializeField] UICocktailSlot[] cocktailSlots;
     [SerializeField] private List<KeywordToggle> keywordToggles;
+    [SerializeField] TMP_InputField searchFieldText;
     [SerializeField] string curSearchKeyword;
     [SerializeField] int currentPage = 0;
 
@@ -32,9 +34,9 @@ public class UICocktailPanel : MonoBehaviour
 
     private Dictionary<string, Sprite> cocktailSprites = new Dictionary<string, Sprite>();
 
-    
 
-    void Start()
+
+    public void Init()
     {
         allCocktailData = cocktailDataSO.cachedSortedByName;
         filteredData = allCocktailData.ToList();
@@ -59,6 +61,24 @@ public class UICocktailPanel : MonoBehaviour
         }
     }
 
+    public void ResetCocktailFilter()
+    {
+        cocktailDetailPanel.gameObject.SetActive(false);
+
+        filteredData = allCocktailData.ToList();
+        cocktailSprites = new Dictionary<string, Sprite>();
+
+        for (int i = 0; i < keywordToggles.Count; i++)
+        {
+            keywordToggles[i].toggle.isOn = false;
+        }
+
+        searchFieldText.text = "";
+        curSearchKeyword = "";
+
+        currentPage = 0;
+        Refresh();
+    }
 
 
     #region Slot

@@ -14,11 +14,11 @@ public class UITest : MonoBehaviour
     {
         textView.StartType(
             new TypingData(
-            "측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)\n측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)", 
+            "[테스트] 표정 전환angerasdaasdasdadadadadadadada\nasdasdadadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
             "Luna", 
             Vector2.zero,
             Color.white, 
             true
-            ));
+            )).Forget();
     }
 }

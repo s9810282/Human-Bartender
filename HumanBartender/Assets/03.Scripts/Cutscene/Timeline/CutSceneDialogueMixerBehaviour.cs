@@ -35,7 +35,6 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
 
             if (weight > 0f && !behaviour.isActive)
             {
-                // ── 클립 시작 → 말풍선 등장 ──────────────────────────
                 behaviour.isActive = true;
                 behaviour.exitStarted = false;
                 behaviour.enterDone = false;
@@ -83,7 +82,15 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
 
     void SetupBubble(DynamicSpeechBubble bubble, CutSceneDialogueBehaviour b)
     {
-        // 이름
+        // 1. 오브젝트 활성화
+        bubble.gameObject.SetActive(true);
+
+        RectTransform rect = bubble.GetComponent<RectTransform>();
+
+        // [핵심 수정] 레이아웃 계산이 무시되지 않도록 스케일을 정상(1) 상태로 둡니다.
+        rect.localScale = Vector3.one;
+
+        // 이름 처리
         if (bubble.nameLabel != null)
         {
             if (!string.IsNullOrEmpty(b.speakerName))
@@ -97,18 +104,14 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
             }
         }
 
-        // 텍스트 초기화 — 전체 텍스트를 세팅하되 아직 안 보이게
-        bubble.textLabel.text = b.text;
-        bubble.textLabel.maxVisibleCharacters = 0;
-        bubble.BeginTyping();
+        // 2. 스케일이 1인 정상 상태에서 텍스트 레이아웃을 완벽하게 계산합니다.
+        bubble.PrepareForText(b.text);
 
-        // 위치
+        // 위치 설정
         PositionBubble(bubble, b);
 
-        // 초기 상태 (숨김)
-        RectTransform rect = bubble.GetComponent<RectTransform>();
+        // 3. 계산이 모두 끝난 후, 등장 애니메이션(ScaleUp 등)을 위해 스케일을 0으로 접어둡니다.
         rect.localScale = Vector3.zero;
-        bubble.gameObject.SetActive(true);
     }
 
     void PositionBubble(DynamicSpeechBubble bubble, CutSceneDialogueBehaviour b)
@@ -171,11 +174,14 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
         if (elapsed < typingStart)
         {
             bubble.textLabel.maxVisibleCharacters = 0;
+            bubble.UpdateForVisible(0); // 초기 최소 크기 유지
             return;
         }
 
         float typingElapsed = elapsed - typingStart;
-        int totalChars = b.text.Length;
+
+        // [수정] 원본 문자열의 Length 대신 파싱 완료된 TotalVisibleCharacters를 사용합니다.
+        int totalChars = bubble.TotalVisibleCharacters;
         int visibleChars = Mathf.Min(Mathf.FloorToInt(typingElapsed * b.charsPerSecond), totalChars);
 
         // 글자 수가 변했을 때만 리사이즈 (매 프레임 호출 방지)
@@ -184,9 +190,8 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
             b.prevVisibleCount = visibleChars;
             bubble.textLabel.maxVisibleCharacters = visibleChars;
 
-            // 현재까지 보이는 텍스트로 말풍선 크기 재계산
-            string visibleText = b.text.Substring(0, visibleChars);
-            bubble.ResizeToFit(visibleText);
+            // [수정] 현재까지 보이는 글자 수로 말풍선 크기 및 마진 재계산
+            bubble.UpdateForVisible(visibleChars);
         }
     }
 
@@ -214,23 +219,23 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
                 break;
 
             case EEneterPreset.SlideUp:
-            {
-                float h = manager.CanvasRect.rect.height;
-                Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest - new Vector2(0, h * 0.1f);
-                rect.localScale = Vector3.one * b.sizeScale;
-                await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
-                break;
-            }
+                {
+                    float h = manager.CanvasRect.rect.height;
+                    Vector2 dest = rect.anchoredPosition;
+                    rect.anchoredPosition = dest - new Vector2(0, h * 0.1f);
+                    rect.localScale = Vector3.one * b.sizeScale;
+                    await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
+                    break;
+                }
             case EEneterPreset.SlideDown:
-            {
-                float h = manager.CanvasRect.rect.height;
-                Vector2 dest = rect.anchoredPosition;
-                rect.anchoredPosition = dest + new Vector2(0, h * 0.1f);
-                rect.localScale = Vector3.one * b.sizeScale;
-                await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
-                break;
-            }
+                {
+                    float h = manager.CanvasRect.rect.height;
+                    Vector2 dest = rect.anchoredPosition;
+                    rect.anchoredPosition = dest + new Vector2(0, h * 0.1f);
+                    rect.localScale = Vector3.one * b.sizeScale;
+                    await rect.DOAnchorPos(dest, b.enterDuration).SetEase(b.enterEase).ToUniTask();
+                    break;
+                }
 
             case EEneterPreset.Cut:
                 rect.localScale = Vector3.one * b.sizeScale;
@@ -274,6 +279,9 @@ public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
         bubble.textLabel.text = "";
         bubble.textLabel.maxVisibleCharacters = 99999;
         rect.localScale = Vector3.one;
+
+        // [수정] 말풍선을 다시 최소 크기로 접어둡니다.
+        bubble.ResetToMinSize();
     }
 
     // ══════════════════════════════════════════════════════════════════

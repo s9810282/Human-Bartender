@@ -32,8 +32,12 @@ public class UICocktailDetailPanel : MonoBehaviour
     }
     public void SetCategorys()
     {
-        for(int i = 0; i < data.Keywords.Length; i++)
+        for (int i = 0; i < categoryText.Length; i++) 
+            categoryText[i].gameObject.SetActive(false);
+
+        for (int i = 0; i < data.Keywords.Length; i++)
         {
+            categoryText[i].gameObject.SetActive(true);
             categoryText[i].text = data.Keywords[i];
         }
     }

@@ -6,6 +6,7 @@ using System.Threading;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.TextCore.Text;
 
 
 public enum ESlotType
@@ -191,8 +192,6 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             ReleaseCurrentHandles(slotData);
         }
     }
-
-
 
 
 

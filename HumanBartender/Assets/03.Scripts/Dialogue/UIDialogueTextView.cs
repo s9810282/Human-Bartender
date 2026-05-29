@@ -164,55 +164,35 @@ public class UIDialogueTextView : MonoBehaviour
             offset += match.Length;
         }
 
+
+        
         if (targetBubble != null)
         {
-            targetBubble.textLabel.enableAutoSizing = false;
-            targetBubble.textLabel.fontSize = targetBubble.baseFontSize;
-            targetBubble.textLabel.text = cleanSentence;
-            targetBubble.BeginTyping(cleanSentence);
+            targetBubble.PrepareForText(cleanSentence);
         }
 
         targetBubble.textLabel.maxVisibleCharacters = 0;
-        targetBubble.textLabel.ForceMeshUpdate();
-        int totalVisibleChars = targetBubble.textLabel.textInfo.characterCount;
+        int totalVisibleChars = targetBubble.TotalVisibleCharacters;
 
-        int firstNewlineIdx = cleanSentence.IndexOf('\n');
-        int progressDenom = (firstNewlineIdx > 0) ? firstNewlineIdx : totalVisibleChars;
 
         try
         {
             for (int i = 0; i <= totalVisibleChars; i++)
             {
                 targetBubble.textLabel.maxVisibleCharacters = i;
-
-                if (targetBubble != null)
-                {
-                    string visiblePart = cleanSentence.Substring(0, i);
-                    if (i < cleanSentence.Length && cleanSentence[i] == '\n')
-                        visiblePart = cleanSentence.Substring(0, i + 1);
-
-                    targetBubble.ResizeToFit(visiblePart);
-                }
-
+                targetBubble.UpdateForVisible(i);
 
                 if (delayDict.ContainsKey(i))
                     await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
-
-                if (i < cleanSentence.Length && cleanSentence[i] == '\n')
-                {
-                    string firstLine = cleanSentence.Substring(0, i);
-                    await targetBubble.ExpandToLockedWidth(firstLine, token);
-                }
 
                 if (i < totalVisibleChars)
                     await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            targetBubble.textLabel.maxVisibleCharacters = targetBubble.textLabel.textInfo.characterCount;
-            if (targetBubble != null)
-                targetBubble.ResizeToFit(cleanSentence);
+            targetBubble.textLabel.maxVisibleCharacters = totalVisibleChars;
+            targetBubble.UpdateForVisible(totalVisibleChars);
         }
 
         CompleteTyping();
@@ -244,7 +224,6 @@ public class UIDialogueTextView : MonoBehaviour
 
         return result;
     }
-
     string GetVisibleSubstring(string fullText, int visibleCharCount)
     {
         if (visibleCharCount <= 0) return "";

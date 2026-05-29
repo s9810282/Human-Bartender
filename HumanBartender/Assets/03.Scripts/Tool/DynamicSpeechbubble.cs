@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,172 +25,221 @@ public class DynamicSpeechBubble : MonoBehaviour
     public float minFontSize = 14f;
 
     [Header("Layout")]
-    [Tooltip("측정 너비에 추가할 안전 마진 (wrap 경계 흔들림 방지)")]
-    public float widthSafetyMargin = 4f;
+    [Tooltip("측정 너비에 더하는 안전 마진(px). 보통 1~3이면 충분.")]
+    public float widthSafetyMargin = 2f;
 
-    [Tooltip("줄바꿈 직전 가로 확장의 글자당 시간 (보통 typingDelay와 같게)")]
-    public float expandTimePerChar = 0.05f;
+    // ── 한 문장 단위로 미리 계산되는 캐시 ────────────────────────────
+    string _fullText = "";
+    float _targetTextW;     // 최종(가장 긴 줄) 텍스트 너비 (패딩 제외)
+    int _visibleCount;    // 전체 보이는 글자 수
+    int _firstLineEnd;    // 첫 줄이 끝나는 '보이는 글자' 인덱스
+    bool _overflow;        // 최대 높이 초과 → 오토사이즈 모드
+    bool _ready;
 
-    float typingMaxWidth = 0f;
-    float lockedTypingWidth = -1f; // -1 = 잠금 없음 (일반 모드)
+    // 최종 너비 레이아웃에서 캡처한 글자별 정보
+    float[] _charRight;      // 글자 오른쪽 x (라벨 로컬)
+    int[] _charLine;       // 글자가 속한 줄 번호
+    bool[] _isSpace;        // 공백/개행 여부 (단어 경계 판정)
+    float _originX;        // 첫 글자 왼쪽 x
+    float _ascender0;      // 0번 줄 위쪽 y
+    float[] _lineDescender;  // 줄별 아래쪽 y
 
+    float PaddingH => paddingLeft + paddingRight;
+    float PaddingV => paddingTop + paddingBottom;
+    float MaxTextW => maxSize.x - PaddingH;
+    float MaxTextH => maxSize.y - PaddingV;
+    float MinTextW => minSize.x - PaddingH;
+
+    public int TotalVisibleCharacters => _visibleCount;
+
+    void OnEnable()
+    {
+        paddingLeft = textLabel.rectTransform.offsetMin.x;
+        paddingRight = -textLabel.rectTransform.offsetMax.x;
+        paddingTop = -textLabel.rectTransform.offsetMax.y;
+        paddingBottom = textLabel.rectTransform.offsetMin.y;
+    }
+
+    // \n 으로 나눈 줄 중 가장 긴 줄의 자연 너비
+    float MeasureLongestLine(string text)
+    {
+        float longest = 0f;
+        if (!string.IsNullOrEmpty(text))
+        {
+            foreach (var line in text.Split('\n'))
+            {
+                if (line.Length == 0) continue;
+                float w = textLabel.GetPreferredValues(line, Mathf.Infinity, 0f).x;
+                if (w > longest) longest = w;
+            }
+        }
+        if (longest <= 0f) longest = MinTextW;
+        return longest;
+    }
+
+    /// <summary>
+    /// 타이핑 시작 전에 한 번 호출. fullClean = 색상 태그까지 적용되고
+    /// 타이핑 딜레이 태그(&lt;123&gt;)는 제거된 최종 문자열.
+    /// </summary>
+    public void PrepareForText(string fullClean)
+    {
+        _ready = false;
+        _fullText = fullClean ?? "";
+        textLabel.margin = Vector4.zero;
+        textLabel.enableAutoSizing = false;
+        textLabel.fontSize = baseFontSize;
+        textLabel.text = _fullText;
+
+        // 1) 최종 너비 결정 (가장 긴 줄 + 일관된 마진)
+        float longest = MeasureLongestLine(_fullText);
+        _targetTextW = Mathf.Clamp(Mathf.Ceil(longest) + widthSafetyMargin, MinTextW, MaxTextW);
+
+        // 2) 최종 너비/넉넉한 높이로 한 번 레이아웃 → 글자 최종 위치 캡처
+        //    (여기서 잡힌 줄바꿈 위치가 곧 '최종' 위치이므로 타이핑 중 흔들리지 않음)
+        bubble.sizeDelta = new Vector2(_targetTextW + PaddingH, maxSize.y);
+        textLabel.maxVisibleCharacters = int.MaxValue;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(textLabel.rectTransform);
+        Canvas.ForceUpdateCanvases();
+        textLabel.ForceMeshUpdate(true, true);
+
+        var info = textLabel.textInfo;
+        _visibleCount = Mathf.Max(0, info.characterCount);
+
+        int n = Mathf.Max(1, _visibleCount);
+        _charRight = new float[n];
+        _charLine = new int[n];
+        _isSpace = new bool[n];
+
+        _originX = (_visibleCount > 0) ? info.characterInfo[0].bottomLeft.x : 0f;
+        _firstLineEnd = _visibleCount;
+
+        for (int c = 0; c < _visibleCount; c++)
+        {
+            var ci = info.characterInfo[c];
+            _charRight[c] = ci.topRight.x;
+            _charLine[c] = ci.lineNumber;
+            char ch = ci.character;
+            _isSpace[c] = (ch == ' ' || ch == '\n' || ch == '\t');
+
+            // 처음으로 1번 줄에 들어간 글자 = 첫 줄의 끝
+            if (_firstLineEnd == _visibleCount && _charLine[c] > 0)
+                _firstLineEnd = c;
+        }
+
+        int lineCount = Mathf.Max(1, info.lineCount);
+        _ascender0 = (info.lineCount > 0) ? info.lineInfo[0].ascender : 0f;
+        _lineDescender = new float[lineCount];
+        for (int l = 0; l < info.lineCount; l++)
+            _lineDescender[l] = info.lineInfo[l].descender;
+
+        // 3) 최대 높이 초과면 오토사이즈로 폴백
+        float fullH = (info.lineCount > 0) ? (_ascender0 - _lineDescender[info.lineCount - 1]) : 0f;
+        _overflow = fullH > MaxTextH;
+        if (_overflow)
+        {
+            textLabel.enableAutoSizing = true;
+            textLabel.fontSizeMin = minFontSize;
+            textLabel.fontSizeMax = baseFontSize;
+        }
+
+        // 4) 최소 크기에서 시작
+        textLabel.maxVisibleCharacters = 0;
+        ApplySize(MinTextW, minSize.y - PaddingV);
+        _ready = true;
+    }
+
+    // visibleCount 가 포함된 단어의 끝(배타적, '보이는 글자' 기준)
+    // 현재 타이핑 중인 단어 전체 폭을 박스가 보장하도록 해 줄밀림을 막는다.
+    int WordEndVisible(int visibleCount)
+    {
+        int last = Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1);
+        int i = last;
+        if (!_isSpace[i])
+            while (i + 1 < _visibleCount && !_isSpace[i + 1]) i++;
+        return i + 1;
+    }
+
+    /// <summary>타이핑 매 스텝마다 호출 (visibleCount = 현재 보이는 글자 수).</summary>
+    public void UpdateForVisible(int visibleCount)
+    {
+        if (!_ready) return;
+        visibleCount = Mathf.Clamp(visibleCount, 0, _visibleCount);
+
+        if (_overflow) { ApplySize(MaxTextW, MaxTextH); return; }
+        if (visibleCount == 0) { ApplySize(MinTextW, minSize.y - PaddingV); return; }
+
+        float widthW;
+        if (visibleCount <= _firstLineEnd)
+        {
+            // 1. 단어 단위(뭉텅이) 계산을 완전히 제거하고, 순수하게 '현재 글자'의 우측 좌표를 가져옵니다.
+            int idx = Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1);
+            float charRightW = (_charRight[idx] - _originX) + widthSafetyMargin;
+
+            // 2. 첫째 줄 타이핑 진행률에 맞춰, '최종 너비(_targetTextW)'까지 여백을 늘려줍니다.
+            // visibleCount가 정수이므로, 스무스하게 늘어나는 게 아니라 타닥타닥 끊어지며 늘어납니다.
+            float progress = _firstLineEnd > 0 ? (float)visibleCount / _firstLineEnd : 1f;
+            float toward = Mathf.Lerp(MinTextW, _targetTextW, progress);
+
+            // 3. 실제 텍스트 길이와 여백 확장 길이 중 더 큰 값을 적용합니다.
+            widthW = Mathf.Max(charRightW, toward);
+        }
+        else
+        {
+            // 4. 둘째 줄부터는 최종 너비로 단단하게 고정합니다. (2, 3번째 줄에서 늘어남 방지)
+            widthW = _targetTextW;
+        }
+
+        widthW = Mathf.Clamp(widthW, MinTextW, _targetTextW);
+
+        // ── 높이 ── (최종 레이아웃의 줄 번호 기준 = 안정적, 흔들림 없음)
+        int lastLine = _charLine[Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1)];
+        lastLine = Mathf.Clamp(lastLine, 0, _lineDescender.Length - 1);
+        float heightH = _ascender0 - _lineDescender[lastLine];
+        heightH = Mathf.Clamp(heightH, minSize.y - PaddingV, MaxTextH);
+
+        ApplySize(widthW, heightH);
+    }
+
+    void ApplySize(float textW, float textH)
+    {
+        Vector2 newSize = new Vector2(
+            Mathf.Clamp(textW + PaddingH, minSize.x, maxSize.x),
+            Mathf.Clamp(textH + PaddingV, minSize.y, maxSize.y));
+
+        if (bubble.sizeDelta == newSize) return;
+
+        float deficitW = _targetTextW - textW;
+        if (deficitW > 0)
+        {
+            textLabel.margin = new Vector4(0, 0, -deficitW, 0);
+        }
+        else
+        {
+            textLabel.margin = Vector4.zero;
+        }
+
+        bubble.sizeDelta = newSize;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(textLabel.rectTransform);
+        Canvas.ForceUpdateCanvases();
+        textLabel.ForceMeshUpdate(true, true);
+    }
+
+    // ── 호환용 / 즉시 전체 표시 ───────────────────────────────────
     public void ResetToMinSize()
     {
         textLabel.enableAutoSizing = false;
         textLabel.fontSize = baseFontSize;
-
         bubble.sizeDelta = minSize;
         LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);
         textLabel.ForceMeshUpdate();
     }
 
+    /// <summary>타이핑 없이 전체 텍스트를 한 번에 표시.</summary>
     public void SetText(string content)
     {
-        textLabel.enableAutoSizing = false;
-        textLabel.fontSize = baseFontSize;
-        textLabel.text = content;
-        BeginTyping();
-        ResizeToFit(content);
-    }
-
-    /// <summary>전체 텍스트를 모를 때 — 기존처럼 점진 확장.</summary>
-    public void BeginTyping()
-    {
-        typingMaxWidth = 0f;
-        lockedTypingWidth = -1f;
-        ResetToMinSize();
-    }
-
-    /// <summary>전체 텍스트를 알 때 — 줄바꿈 시점에 최종 너비로 점프.</summary>
-    public void BeginTyping(string fullText)
-    {
-        typingMaxWidth = 0f;
-        ResetToMinSize();
-        lockedTypingWidth = CalcTargetWidth(fullText);
-    }
-
-    /// <summary>전체 텍스트 기준 가장 긴 줄 너비 (패딩 제외, 안전 마진 포함).</summary>
-    float CalcTargetWidth(string fullText)
-    {
-        float paddingH = paddingLeft + paddingRight;
-        float maxTextW = maxSize.x - paddingH;
-
-        float longest = 0f;
-        if (!string.IsNullOrEmpty(fullText))
-        {
-            string[] lines = fullText.Split('\n');
-            foreach (var line in lines)
-            {
-                if (string.IsNullOrEmpty(line)) continue;
-                Vector2 size = textLabel.GetPreferredValues(line, float.PositiveInfinity, 0f);
-                if (size.x > longest) longest = size.x;
-            }
-        }
-
-        if (longest <= 0f) longest = minSize.x - paddingH;
-        return Mathf.Min(Mathf.Ceil(longest) + widthSafetyMargin, maxTextW);
-    }
-
-
-    public async Cysharp.Threading.Tasks.UniTask ExpandToLockedWidth(
-      string visibleContent,
-      System.Threading.CancellationToken token = default)
-    {
-        if (lockedTypingWidth <= 0f) return;
-        if (lockedTypingWidth <= typingMaxWidth) return;
-
-        float paddingH = paddingLeft + paddingRight;
-        float paddingV = paddingTop + paddingBottom;
-
-        float startW = typingMaxWidth;
-        float targetW = lockedTypingWidth;
-
-        int firstLineLen = Mathf.Max(1, visibleContent?.Length ?? 1);
-        float charWidth = startW / firstLineLen;
-        if (charWidth < 1f) charWidth = 1f;
-
-        Vector2 visWrapped = textLabel.GetPreferredValues(visibleContent, targetW, 0f);
-        float fixedHeight = Mathf.Clamp(visWrapped.y + paddingV, minSize.y, maxSize.y);
-
-        float currentW = startW;
-        while (currentW < targetW)
-        {
-            currentW = Mathf.Min(currentW + charWidth, targetW);
-            typingMaxWidth = currentW;
-
-            Vector2 newSize = new Vector2(
-                Mathf.Clamp(currentW + paddingH, minSize.x, maxSize.x),
-                fixedHeight
-            );
-
-            if (bubble.sizeDelta != newSize)
-            {
-                bubble.sizeDelta = newSize;
-                LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);
-                textLabel.ForceMeshUpdate();
-            }
-
-            await Cysharp.Threading.Tasks.UniTask.Delay(
-                System.TimeSpan.FromSeconds(expandTimePerChar),
-                cancellationToken: token);
-        }
-
-        typingMaxWidth = targetW;
-    }
-
-
-
-    public void ResizeToFit(string content, float typingProgress = -1f)
-    {
-        float paddingH = paddingLeft + paddingRight;
-        float paddingV = paddingTop + paddingBottom;
-
-        float maxTextW = maxSize.x - paddingH;
-        float maxTextH = maxSize.y - paddingV;
-
-        float longestLineW = 0f;
-        if (!string.IsNullOrEmpty(content))
-        {
-            string[] lines = content.Split('\n');
-            foreach (var line in lines)
-            {
-                if (string.IsNullOrEmpty(line)) continue;
-                Vector2 lineSize = textLabel.GetPreferredValues(line, float.PositiveInfinity, 0f);
-                if (lineSize.x > longestLineW) longestLineW = lineSize.x;
-            }
-        }
-
-        float naturalW = Mathf.Min(longestLineW, maxTextW);
-        if (naturalW <= 0f) naturalW = minSize.x - paddingH;
-        naturalW = Mathf.Min(Mathf.Ceil(naturalW) + widthSafetyMargin, maxTextW);
-
-        // 자연 확장 + 단조 증가
-        if (naturalW > typingMaxWidth) typingMaxWidth = naturalW;
-        float textW = typingMaxWidth;
-
-        Vector2 wrapped = textLabel.GetPreferredValues(content, textW, 0f);
-
-        Vector2 newSize;
-        if (wrapped.y > maxTextH)
-        {
-            newSize = new Vector2(maxSize.x, maxSize.y);
-            textLabel.enableAutoSizing = true;
-            textLabel.fontSizeMin = minFontSize;
-            textLabel.fontSizeMax = baseFontSize;
-        }
-        else
-        {
-            newSize = new Vector2(
-                Mathf.Clamp(textW + paddingH, minSize.x, maxSize.x),
-                Mathf.Clamp(wrapped.y + paddingV, minSize.y, maxSize.y)
-            );
-        }
-
-        if (bubble.sizeDelta != newSize)
-        {
-            bubble.sizeDelta = newSize;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);
-            textLabel.ForceMeshUpdate();
-        }
+        PrepareForText(content);
+        textLabel.maxVisibleCharacters = int.MaxValue;
+        UpdateForVisible(_visibleCount);
     }
 }

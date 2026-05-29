@@ -23,8 +23,13 @@ public enum EAnimLoopMode
 {
     [EnumMember(Value = "always")]
     Always,
+
     [EnumMember(Value = "always_on_dialogue")]
     Always_OnDialogue,
+
+    [EnumMember(Value = "Special_on_dialogue")]
+    Special_OnDialogue,
+
     [EnumMember(Value = "once")]
     Once,
     [EnumMember(Value = "none")]

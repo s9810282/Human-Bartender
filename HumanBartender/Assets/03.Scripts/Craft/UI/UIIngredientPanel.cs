@@ -2,6 +2,7 @@ using Spine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct CategoryButtons
@@ -25,8 +26,9 @@ public class UIIngredientPanel : MonoBehaviour
     [SerializeField] Transform etcParent;
     [Space(20f)]
     [SerializeField] CategoryButtons[] categories;
-    [SerializeField] RectTransform selectBtn;
-    [SerializeField] TextMeshProUGUI selectBtnText;
+    [SerializeField] RectTransform selectUI;
+    [SerializeField] TextMeshProUGUI selectUIText;
+    [SerializeField] Toggle iceToggle;
 
     [SerializeField] UIIngredientSlot ingredientPanel;
 
@@ -35,7 +37,7 @@ public class UIIngredientPanel : MonoBehaviour
 
     IngredientData iceData;
 
-    void Start()
+    public void Init()
     {
         currentSelectIngredients = new Dictionary<string, int>();
         createdIngredientPanelList = new Dictionary<string, UIIngredientSlot>();
@@ -133,15 +135,18 @@ public class UIIngredientPanel : MonoBehaviour
         _ => etcParent,
     };
 
-    public void ClearCurrentSelectIngredient()
+    public void ResetCurrentSelectIngredient()
     {
         foreach (var item in currentSelectIngredients)
         {
             createdIngredientPanelList[item.Key].ResetCount();
         }
 
+        iceToggle.isOn = false;
         currentSelectIngredients.Clear();
         craftLiquidData.ResetIngrediant();
+
+        OnCategoryContents(0);
     }
 
     public void OnCategoryContents(int n)
@@ -155,7 +160,7 @@ public class UIIngredientPanel : MonoBehaviour
 
         GetCategoryParent(category.category).gameObject.SetActive(true);
 
-        selectBtn.anchoredPosition = new Vector2(category.selectXPos, selectBtn.anchoredPosition.y);
-        selectBtnText.text = category.name;
+        selectUI.anchoredPosition = new Vector2(category.selectXPos, selectUI.anchoredPosition.y);
+        selectUIText.text = category.name;
     }
 }
