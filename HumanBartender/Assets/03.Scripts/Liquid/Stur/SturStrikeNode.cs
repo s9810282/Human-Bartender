@@ -53,8 +53,9 @@ public class SturStrikeNode : MonoBehaviour
         beats = elapsed / beatDuration;
         laps = beats / curBeatsPerLap;     
         lapT = (float)(laps - Math.Floor(laps));
+
         angle = lapT * Mathf.PI * 2f;    
-        offset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius;
+        offset = new Vector3(Mathf.Cos(-angle), Mathf.Sin(-angle), 0f) * radius;
         transform.position = center + offset;
     }
 

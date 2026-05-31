@@ -288,101 +288,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: c3efcb279f404d54f8d6761470840e96, type: 3}
   m_ActionId: 32b35790-4ed0-4e9a-aa41-69ac6d629449
---- !u!1 &595282774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 595282775}
-  - component: {fileID: 595282778}
-  - component: {fileID: 595282777}
-  - component: {fileID: 595282776}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &595282775
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595282774}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5531473804126030413}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -2.7398987, y: 40}
-  m_SizeDelta: {x: -68.86005, y: 12.089996}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &595282776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595282774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287615d6ed97ff944bf49208400a3806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GradientRatioController
-  targetImage: {fileID: 595282777}
-  instancedMaterial: {fileID: 0}
-  totalValue: 100
-  greenValue: 0
-  whiteValue: 100
-  redValue: 0
-  smoothness: 0.05
---- !u!114 &595282777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595282774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 2100000, guid: 4159eb4b44f69dd419280373cf658df4, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &595282778
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595282774}
-  m_CullTransparentMesh: 1
 --- !u!1 &821629011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,8 +911,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0
+    height: 0
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1564,7 +1469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CircleNodeCreator
   targetNodePool:
-    prefab: {fileID: 3983218708060719690, guid: fb1d7e2d72a62d243be80efdf2f56cf3, type: 3}
+    prefab: {fileID: 3983218708060719690, guid: 67d79f763d8ea7a4a95c5d11b315ed75, type: 3}
     initCount: 0
     parentTransform: {fileID: 1681244344}
   effectPool:
@@ -1572,17 +1477,14 @@ MonoBehaviour:
     initCount: 0
     parentTransform: {fileID: 220362637}
   ratio: 1
-  staticNodeCount: 4
+  staticNodeCount: 3
   angleStep: 0
-  nodePadding: 20
-  createTargetDelay: 2
-  nodeLifeTime: 5
+  nodePadding: 0
+  createTargetDelay: 0
+  nodeLifeTime: 2
   radius: 2
   centerPos: {x: 0, y: 0, z: 0}
   targetColors: []
-  curActiveTargetNodes: []
-  staticActiveTargetNodes: []
-  staticAngle: 
 --- !u!114 &2006690489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2875,7 +2777,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8312777906729219125}
-  - {fileID: 595282775}
   m_Father: {fileID: 4673894277858799385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -3193,7 +3094,6 @@ MonoBehaviour:
   circleLineCreator: {fileID: 1525312367}
   nodeCreator: {fileID: 2005897507}
   bgmSource: {fileID: 913375478}
-  gageBar: {fileID: 595282776}
   center: {fileID: 1468741070}
   radius: 2
   canvasCamera: {fileID: 1352947451}
@@ -3203,7 +3103,6 @@ MonoBehaviour:
   totalJudge: 0
   successJudge: 0
   failJudge: 0
-  limitFailJudge: 0
   craftServe: {fileID: 11400000, guid: 9889cf706de564f4193623b3420ad0d7, type: 2}
   craftRetry: {fileID: 11400000, guid: 567d4490167cd444eaab0c4a9bb69293, type: 2}
 --- !u!222 &7573465394631962339

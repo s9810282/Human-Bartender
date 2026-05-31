@@ -102,8 +102,6 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
         node.SetNodeColor(color);
         node.PlayEffect();
     }
-
-
     public void SpawnPatternNode(bool isDown)
     {
         foreach(var item in curActiveTargetNodes)
@@ -129,7 +127,6 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
             SpawnNode(a, b, curPatternData.patternDatas[i].patternT);
         }
     }
-
     public void SpawnNode(Vector3 a, Vector3 b, float t)
     {
         Vector3 pos = GetSpawnPoint(a, b, t);

@@ -1395,7 +1395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShakingInputHandler
   startGame: {fileID: 11400000, guid: 14f0146608e5d0e438b9dc0f3596fe60, type: 2}
-  onClickEvent: {fileID: 11400000, guid: eb823089b09656144b5fa991a8fb96cf, type: 2}
+  onPressEvent: {fileID: 11400000, guid: eb823089b09656144b5fa991a8fb96cf, type: 2}
+  onReleaseEvent: {fileID: 0}
 --- !u!114 &9167172625707758545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,6 +1430,7 @@ MonoBehaviour:
   totalJudge: 0
   successJudge: 0
   failJudge: 0
+  limitFailJudge: 0
   craftServe: {fileID: 11400000, guid: 9889cf706de564f4193623b3420ad0d7, type: 2}
   craftRetry: {fileID: 11400000, guid: 567d4490167cd444eaab0c4a9bb69293, type: 2}
 --- !u!114 &4557777930855669539
@@ -1633,8 +1635,7 @@ MonoBehaviour:
   targetPostions: []
   targetColors: []
   curPatternData:
-    patternName: 
-    patternTime: []
+    patternDatas: []
 --- !u!114 &3801584735000777453
 MonoBehaviour:
   m_ObjectHideFlags: 0

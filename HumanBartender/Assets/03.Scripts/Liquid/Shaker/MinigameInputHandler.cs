@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class ShakingInputHandler : MonoBehaviour
+public class MinigameInputHandler : MonoBehaviour
 {
     [SerializeField] VoidEvent startGame;
-    [SerializeField] VoidEvent onClickEvent;
+    [SerializeField] VoidEvent onPressEvent;
+    [SerializeField] VoidEvent onReleaseEvent;
 
     bool isInit = false;
 
@@ -20,12 +21,12 @@ public class ShakingInputHandler : MonoBehaviour
             }
             else
             {
-                onClickEvent?.Raise(new Void());
+                onPressEvent?.Raise(new Void());
             }
         }
         else
         {
-
+            onReleaseEvent?.Raise(new Void());
         }
     }
 }

@@ -1,7 +1,12 @@
 using UnityEngine;
+using static TreeEditor.TreeEditorHelper;
+
+public enum NoteType { Short, Long }
+public enum NoteState { Idle, Active, Holding }
+public enum Judgement { Perfect, Good, Miss }
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class CircleNote : MonoBehaviour
+public class CircleNote : PooledObject
 {
     [SerializeField] Material noteMaterial;
     [SerializeField] float arcLengthDeg = 10f;
@@ -11,24 +16,48 @@ public class CircleNote : MonoBehaviour
     [SerializeField] float radius = 2f;
     [SerializeField] Vector3 centerPos;
 
-    public float CurrentAngleDeg { get; set; }
+    public NoteType type;
+    public NoteState state = NoteState.Idle;
+    public float centerAngleDeg;
+    public Judgement startJudge;
+
+    public bool clockwise = true;
+
+    public Vector3 HeadPosition => AngleToPos(HeadAngleDeg);
+    public Vector3 TailPosition => AngleToPos(TailAngleDeg);
+
+    public float HeadAngleDeg => centerAngleDeg + (clockwise ? +arcLengthDeg * 0.5f : -arcLengthDeg * 0.5f);
+    public float TailAngleDeg => centerAngleDeg + (clockwise ? -arcLengthDeg * 0.5f : +arcLengthDeg * 0.5f);
+
+    public Color curColor;
+    public float spawnTime = 0;
+    public float lifeTime = 0;
+
+    public string Category;
+
+    public void SetNodeColor(Color color)
+    {
+        curColor = color;
+        GetComponent<MeshRenderer>().material.color = curColor;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         transform.localPosition = centerPos;
         BuildArcMesh();
-        GetComponent<MeshRenderer>().material = noteMaterial;
-
+        GetComponent<MeshRenderer>().material = new Material(noteMaterial);
+        
         var mr = GetComponent<MeshRenderer>();
         mr.sortingLayerName = "Default";
         mr.sortingOrder = 20;
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void UpdateRotation()
     {
-        
+        transform.rotation = Quaternion.Euler(0, 0, centerAngleDeg);
     }
 
     void BuildArcMesh()
@@ -52,7 +81,7 @@ public class CircleNote : MonoBehaviour
             Vector3 dir = new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0f);
 
             // 양 끝 tipRatio 구간에서만 두께 변화, 가운데는 1로 평평
-            float tipRatio = 0.15f;   // 양 끝 각각 전체 길이의 15%가 뾰족 구간
+            float tipRatio = 0.1f;   // 양 끝 각각 전체 길이의 15%가 뾰족 구간
             float taper;
             if (t < tipRatio) taper = t / tipRatio;
             else if (t > 1f - tipRatio) taper = (1f - t) / tipRatio;
@@ -88,4 +117,25 @@ public class CircleNote : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
     }
 
+    Vector3 AngleToPos(float deg)
+    {
+        float rad = deg * Mathf.Deg2Rad;
+        return centerPos + new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * radius;
+    }
+    public void Activate(NoteType t, float centerDeg, float arcDeg)
+    {
+        type = t;
+        centerAngleDeg = centerDeg;
+        arcLengthDeg = arcDeg;
+        state = NoteState.Active;
+        gameObject.SetActive(true);
+        BuildArcMesh();
+        UpdateRotation();
+    }
+
+    public void Deactivate()
+    {
+        state = NoteState.Idle;
+        gameObject.SetActive(false);
+    }
 }

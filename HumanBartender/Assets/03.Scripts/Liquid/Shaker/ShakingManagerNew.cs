@@ -52,15 +52,12 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
         //data.targetCraft_tolerance = 15;
 
-        Logger.Log(data.targetCocktailId);
-
         shakeLineCreator.CreateLine();
 
         for (int i = 0; i < dots.Count; i++)
         {
             shakeLineCreator.SetLinePosition(i , GetDotWorldPosition(i));
         }
-
 
         dotPositions = new Vector3[dots.Count];
         for (int i = 0; i < dotPositions.Length; i++)
