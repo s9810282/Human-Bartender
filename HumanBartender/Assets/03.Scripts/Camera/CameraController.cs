@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using VContainer;
 
 
 [System.Serializable]
@@ -53,17 +54,32 @@ public class CameraController : MonoBehaviour, ICameraControl
     [Header("Transition")]
     [SerializeField] float transitionDuration = 1f;
     [SerializeField] AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    
+
+    IDisplaySettings _display;
+
+    [Inject]
+    public void Construct(IDisplaySettings display)
+    {
+        _display = display;
+    }
+
 
     private bool isAtTarget = false;
 
     void Start()
     {
+        _display.RegisterActiveCamera(pixelPerfectCamera);
+
         _slotMap = new Dictionary<ESlotType, CameraPostion>(movePositions.Length);
         foreach (var slot in movePositions)
         {
             _slotMap[slot.slotType] = slot;            
         }
+    }
+
+    private void OnDestroy()
+    {
+        _display.UnregisterActiveCamera(pixelPerfectCamera);
     }
 
     public async void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base,  UniTaskCompletionSource tcs = null)

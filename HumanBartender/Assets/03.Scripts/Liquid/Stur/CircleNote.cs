@@ -1,5 +1,4 @@
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 
 public enum NoteType { Short, Long }
 public enum NoteState { Idle, Active, Holding }

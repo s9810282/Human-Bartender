@@ -161,10 +161,7 @@
       "expression": null,
       "next": "hci_001",
       "choices": null,
-      "trigger": {
-        "type": "scene_set",
-        "data": { "location": "building_entrance", "time": "commute_in" }
-      }
+      "trigger": null
     },
 
     {
@@ -175,14 +172,7 @@
       "expression": null,
       "next": "hci_choice_root",
       "choices": null,
-      "trigger": {
-        "type": "character_appear",
-        "data": {
-          "character_id": "park_hyuksoo",
-          "animation": "standing_outside_night",
-          "note": "출근 때와 같은 자리, 같은 차림"
-        }
-      }
+      "trigger": null
     },
 
     {

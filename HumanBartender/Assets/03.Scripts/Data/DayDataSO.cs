@@ -30,13 +30,13 @@ public enum ECutSceneType
 {
     None,
 
-    [EnumMember(Value = "system")]
+    [EnumMember(Value = "spriteOnce")]
     SpriteOnce,
 
-    [EnumMember(Value = "system")]
+    [EnumMember(Value = "spinece")]
     SpineOnce,
 
-    [EnumMember(Value = "system")]
+    [EnumMember(Value = "comic")]
     Comic,
 
     [EnumMember(Value = "outside")]
@@ -86,6 +86,12 @@ public enum ETriggetType
     
     [EnumMember(Value = "add_stat")]
     AddStat,
+
+    [EnumMember(Value = "apply_effects")]
+    ApplyEffect,
+
+    [EnumMember(Value = "character_action")]
+    CharacterAction,
 }
 
 

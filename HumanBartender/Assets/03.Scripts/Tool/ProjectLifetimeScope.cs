@@ -19,5 +19,12 @@ public class ProjectLifetimeScope : LifetimeScope
         builder.RegisterInstance(playerData)
                       .As<IPlayerDataReader>()
                       .As<IPlayerDataWriter>();
+
+        builder.RegisterComponentInHierarchy<SoundManager>()
+        .As<ISoundManager>();
+
+        builder.RegisterComponentInHierarchy<UIDisplayOptions>();
+        builder.Register<DisplaySettings>(Lifetime.Singleton)
+            .AsImplementedInterfaces();
     }
 }

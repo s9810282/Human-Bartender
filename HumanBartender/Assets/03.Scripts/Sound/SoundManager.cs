@@ -12,15 +12,18 @@ public class Sound
     [Range(0.1f, 3f)] public float pitch = 1f;
 }
 
-
+/// <summary>
+/// BG / SE 2채널 사운드 매니저.
+/// static Instance 없음 — VContainer 가 Lifetime.Singleton 으로 단일 인스턴스를 보장하고
+/// ISoundManager 로 주입한다.
+/// </summary>
 public class SoundManager : MonoBehaviour, ISoundManager
 {
-    [Header("Audio Mixer (그룹: Master/BGM/SE/SpecialSE)")]
+    [Header("Audio Mixer (그룹: Master/BGM/SE)")]
     [SerializeField] private AudioMixer mixer;
 
     [Header("Audio Sources")]
-    [SerializeField] private AudioSource bgmSource;        // BG 전용 (Loop)
-    [SerializeField] private AudioSource specialSeSource;  // Special SE 전용 (단독 재생)
+    [SerializeField] private AudioSource bgmSource; // BG 전용 (Loop)
 
     [Header("SE Pool")]
     [SerializeField] private int sePoolSize = 12;
@@ -30,33 +33,40 @@ public class SoundManager : MonoBehaviour, ISoundManager
     [Header("Sound Lists")]
     [SerializeField] private List<Sound> bgmList = new();
     [SerializeField] private List<Sound> seList = new();
-    [SerializeField] private List<Sound> specialSeList = new();
 
     private Dictionary<string, Sound> _bgm;
     private Dictionary<string, Sound> _se;
-    private Dictionary<string, Sound> _special;
 
     private const string MIXER_BGM = "BGMVolume";
     private const string MIXER_SE = "SEVolume";
-    private const string MIXER_SPECIAL = "SpecialSEVolume";
+
+
+    private const string PREF_BGM = "vol_bgm";
+    private const string PREF_SE = "vol_se";
+    private const float DEFAULT_VOLUME = 0.5f;
 
     private Coroutine _bgmFadeRoutine;
 
+    // VContainer 가 프리팹을 Instantiate 하면 Awake 가 호출된다.
     private void Awake()
     {
         BuildDictionaries();
         BuildSePool();
     }
 
+    // AudioMixer.SetFloat 은 Awake 프레임에 무시될 수 있어 Start 에서 로드한다.
+    private void Start()
+    {
+        LoadVolumes();
+    }
+
     private void BuildDictionaries()
     {
         _bgm = new Dictionary<string, Sound>();
         _se = new Dictionary<string, Sound>();
-        _special = new Dictionary<string, Sound>();
 
         foreach (var s in bgmList) if (s != null && !string.IsNullOrEmpty(s.name)) _bgm[s.name] = s;
         foreach (var s in seList) if (s != null && !string.IsNullOrEmpty(s.name)) _se[s.name] = s;
-        foreach (var s in specialSeList) if (s != null && !string.IsNullOrEmpty(s.name)) _special[s.name] = s;
     }
 
     private void BuildSePool()
@@ -173,35 +183,17 @@ public class SoundManager : MonoBehaviour, ISoundManager
         return reuse;
     }
 
-    // ─── Special SE (단독 채널) ─────────────────────
-    public void PlaySpecialSE(string name, bool interrupt = true)
-    {
-        if (!_special.TryGetValue(name, out var sound))
-        {
-            Debug.LogWarning($"[SoundManager] Special SE '{name}' 없음");
-            return;
-        }
-
-        if (specialSeSource.isPlaying)
-        {
-            if (interrupt) specialSeSource.Stop();
-            else return;
-        }
-
-        specialSeSource.clip = sound.clip;
-        specialSeSource.volume = sound.volume;
-        specialSeSource.pitch = sound.pitch;
-        specialSeSource.loop = false;
-        specialSeSource.Play();
-    }
-
-    public void StopSpecialSE() => specialSeSource.Stop();
-    public bool IsSpecialSEPlaying => specialSeSource.isPlaying;
-
     // ─── Volume ─────────────────────────────────────
-    public void SetBGMVolume(float v) => SetMixerVolume(MIXER_BGM, v);
-    public void SetSEVolume(float v) => SetMixerVolume(MIXER_SE, v);
-    public void SetSpecialSEVolume(float v) => SetMixerVolume(MIXER_SPECIAL, v);
+    public void SetBGMVolume(float v) => ApplyAndSave(MIXER_BGM, PREF_BGM, v);
+    public void SetSEVolume(float v) => ApplyAndSave(MIXER_SE, PREF_SE, v);
+
+    private void ApplyAndSave(string mixerParam, string prefKey, float linear01)
+    {
+        linear01 = Mathf.Clamp01(linear01);
+        SetMixerVolume(mixerParam, linear01);
+        PlayerPrefs.SetFloat(prefKey, linear01);
+        PlayerPrefs.Save();
+    }
 
     private void SetMixerVolume(string param, float linear01)
     {
@@ -209,4 +201,13 @@ public class SoundManager : MonoBehaviour, ISoundManager
         float dB = linear01 <= 0.0001f ? -80f : Mathf.Log10(linear01) * 20f;
         mixer.SetFloat(param, dB);
     }
+
+    private void LoadVolumes()
+    {
+        SetMixerVolume(MIXER_BGM, PlayerPrefs.GetFloat(PREF_BGM, DEFAULT_VOLUME));
+        SetMixerVolume(MIXER_SE, PlayerPrefs.GetFloat(PREF_SE, DEFAULT_VOLUME));
+    }
+
+    public float GetBGMVolume() => PlayerPrefs.GetFloat(PREF_BGM, DEFAULT_VOLUME);
+    public float GetSEVolume() => PlayerPrefs.GetFloat(PREF_SE, DEFAULT_VOLUME);
 }

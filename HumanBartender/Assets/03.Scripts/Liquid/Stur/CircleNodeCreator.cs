@@ -50,6 +50,9 @@ public class CircleNodeCreator : MonoBehaviour
         targetColors = colors;
         angleStep = 360 / staticNodeCount;
 
+        SpawnStaticNode(270);
+
+        return;
 
         for (int i = 0; i < staticNodeCount; i++)
         {
@@ -69,7 +72,7 @@ public class CircleNodeCreator : MonoBehaviour
         if (curTargetNodeTime >= createTargetDelay * ratio)
         {
             curTargetNodeTime = 0f;
-            SpawnRandomNode();
+            SpawnRandomNode2();
         }
 
 
@@ -151,6 +154,11 @@ public class CircleNodeCreator : MonoBehaviour
         int angle = Random.Range(min, max + 1) % 360;
         SpawnNode(angle);
     }
+    public void SpawnRandomNode2()
+    {
+        int angle = Random.Range(0, 360);
+        SpawnNode(angle);
+    }
     void SpawnNode(float t)
     {
         Vector3 pos = GetSpawnPoint(t);
@@ -179,7 +187,7 @@ public class CircleNodeCreator : MonoBehaviour
         node.Category = "target";
 
         int colorIndex = Random.Range(0, targetColors.Length);
-        node.SetNodeColor(targetColors[colorIndex]);
+        node.SetNodeColor(Color.red);
 
         staticActiveTargetNodes.Add(node);
     }

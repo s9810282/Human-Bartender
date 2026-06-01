@@ -47,8 +47,9 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
+        
         //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
-        //data.targetCraft_tolerance = 15;
+       // data.targetCraft_tolerance = 15;
 
 
         colors = new Color[data.targetCocktailData.Keywords.Length];
