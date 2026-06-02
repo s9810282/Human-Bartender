@@ -2,16 +2,11 @@
   "craft_events": [
     {
       "id": "day0_chris_order1",
+      "order": "드라이 마티니",
       "auto_open_recipe_ui": true,
       "tutorial": {
-        "enabled": true,
-        "steps": [
-          {
-            "type": "highlight",
-            "target": "ingredient_panel",
-            "text": "레시피를 확인하고 재료를 선택해 드라이 마티니를 만들어보세요."
-          }
-        ]
+        "enabled": false,
+        "steps": []
       },
       "cutscenes": {
         "craft_enter": {
@@ -25,54 +20,97 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 20,
+        "craft_tolerance": 15,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
             "match_values": ["dry_martini"],
-            "require_craft_success": true,
-            "description": "드라이 마티니를 정확한 레시피와 제조 미니게임 성공으로 완성"
+            "require_craft_success": "perfect",
+            "description": "드라이 마티니 + 미니게임 완벽"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
             "match_values": ["dry_martini"],
-            "require_craft_success": false,
-            "description": "드라이 마티니 레시피는 맞지만 제조 미니게임 미흡"
+            "require_craft_success": "normal",
+            "description": "드라이 마티니 + 미니게임 보통"
+          },
+          {
+            "result": "good",
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
+            "require_craft_success": "fail",
+            "description": "드라이 마티니 + 미니게임 실패"
+          },
+          {
+            "result": "normal",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "perfect",
+            "description": "다른 칵테일 + 미니게임 완벽"
+          },
+          {
+            "result": "normal",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "normal",
+            "description": "다른 칵테일 + 미니게임 보통"
+          },
+          {
+            "result": "normal",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "fail",
+            "description": "다른 칵테일 + 미니게임 실패"
           }
         ]
       },
       "reactions": {
         "perfect": {
+          "verdict": "perfect",
           "dialogue_id": "d0c_react_perfect_001",
           "cutscene_id": null,
           "affinity": 5,
-          "karma": 0
+          "karma": 0,
+          "skill": 3,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "good": {
+          "verdict": "good",
           "dialogue_id": "d0c_react_good_001",
           "cutscene_id": null,
           "affinity": 1,
-          "karma": 0
+          "karma": 0,
+          "skill": 2,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
-        "hidden": {
-          "dialogue_id": null,
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0
-        },
-        "miss": {
+        "normal": {
+          "verdict": "normal",
           "dialogue_id": "d0c_react_normal_001",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
         "bad": {
+          "verdict": "bad",
           "dialogue_id": "d0c_react_bad_001",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad_nm_fail": {
+          "verdict": "bad",
+          "dialogue_id": "d0c_react_normal_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         }
       }
     }
