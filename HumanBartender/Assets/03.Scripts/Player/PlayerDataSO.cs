@@ -13,10 +13,12 @@ public interface IPlayerDataWriter
 {
     void AddMoney(int val);
     bool TrySpend(int cost);
+
     void SetCharacterAffinityAmount(string id, int val);
     void AddCharacterAffinityAmount(string id, int val);
     void SetCharacterKarmaAmount(string id, int val);
     void AddCharacterKarmaAmount(string id, int val);
+
     void AddSkillTier(int val);
 }
 
@@ -26,6 +28,8 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
 {
     [Header("Header")]
     [SerializeField] int money;
+    [SerializeField] IntEvent addMoneyEvent;
+    [SerializeField] IntEvent setMoneyEvent;
 
     [Header("Character Tier")]
     [Tooltip("인스펙터 보여주기 용, 내부적으로 Dic 사용")]
@@ -43,6 +47,7 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
     public void AddMoney(int val)
     {
         money += val;
+        addMoneyEvent?.Raise(val);
 
         if (money <= 0) money = 0;
     }

@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
   slotParts:
-  - slot: {fileID: 0}
+  - slot: {fileID: 1931732897}
     type: 1
     slotCharacterName: 
     expression: 
@@ -192,7 +192,7 @@ MonoBehaviour:
       baseController: {fileID: 9100000, guid: a0df5cdeaca9c8340b60548c8ee15828, type: 2}
       _currentLoopMode: 0
     portaitSpriteRenderer: {fileID: 1526230317}
-  - slot: {fileID: 0}
+  - slot: {fileID: 632931554}
     type: 0
     slotCharacterName: 
     expression: 
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTest: 0
-  testDayName: Test
+  testDayName: day_test.json
   cocktailData: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
   ingredientDataSO: {fileID: 11400000, guid: 5dd40507ddfeb7f41be7d64a9fe4cb6a, type: 2}
   characterData: {fileID: 11400000, guid: d6dc2f25938ac55429f3365eb23948a9, type: 2}
@@ -1227,12 +1227,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5432356970334017506, guid: 2c3a29beb3624844585cbe94457f9ffd, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.02, y: 2.93}
+  m_Size: {x: 2.86, y: 3.49}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -1800,7 +1800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1269255380
 Transform:
   m_ObjectHideFlags: 0
@@ -1865,15 +1865,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1880120661550918566, guid: 0e04ffc747f5393418928fc96edd98dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 927663465cdc0cf49989260f252f3678, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.02, y: 2.93}
+  m_Size: {x: 5.3, y: 3.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1376127947
 GameObject:
@@ -2234,7 +2234,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.35
+  orthographic size: 3.6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2323,8 +2323,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
   m_AssetsPPU: 100
-  m_RefResolutionX: 480
-  m_RefResolutionY: 270
+  m_RefResolutionX: 1280
+  m_RefResolutionY: 720
   m_CropFrame: 4
   m_GridSnapping: 2
   m_FilterMode: 0
@@ -2363,7 +2363,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c16f8956fd8c7c4bb171cdc9113bd8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITest
+  playerDataAsset: {fileID: 11400000, guid: 2fd3768d3d1393647a7e88b72e79c9e0, type: 2}
   textView: {fileID: 1811782418}
+  currency: {fileID: 0}
+  settlement: {fileID: 0}
 --- !u!4 &1811782417
 Transform:
   m_ObjectHideFlags: 0
@@ -2394,7 +2397,7 @@ MonoBehaviour:
   textTagData: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
   lunaSpeechBubble: {fileID: 96362529}
   customerSpeechBubble: {fileID: 96362529}
-  canvasRect: {fileID: 0}
+  canvasRect: {fileID: 562793721}
   baseOffset: {x: 0, y: 0}
   subOffset: {x: 0, y: 0}
 --- !u!1 &1931732897
@@ -2637,13 +2640,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 562793721}
     m_Modifications:
     - target: {fileID: 772632315790225463, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 772632315790225463, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 5518620734502561977, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
+    - target: {fileID: 772632315790225463, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1210526396636069146, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 5518620734502561977, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
+    - target: {fileID: 1210526396636069146, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

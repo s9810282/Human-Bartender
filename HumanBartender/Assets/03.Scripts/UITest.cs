@@ -7,18 +7,27 @@ using UnityEngine;
 
 public class UITest : MonoBehaviour
 {
+    [SerializeField] PlayerDataSO playerDataAsset;
     [SerializeField] UIDialogueTextView textView;
+    [SerializeField] private UICashPanel currency;
+    [SerializeField] private SettlementUI settlement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        textView.StartType(
-            new TypingData(
-            "[테스트] 표정 전환angerasdaasdasdadadadadadadada\nasdasdadadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
-            "Luna", 
-            Vector2.zero,
-            Color.white, 
-            true
-            )).Forget();
+        playerDataAsset.AddMoney(500);
+        playerDataAsset.AddMoney(500);
+        playerDataAsset.AddMoney(500);
+        playerDataAsset.AddMoney(500);
+        playerDataAsset.AddMoney(500);
+        //textView.StartType(
+        //    new TypingData(
+        //    "[테스트] 표정 전환angerasdaasdasdadadadadadadada\nasdasdadadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
+        //    "Luna", 
+        //    Vector2.zero,
+        //    Color.white, 
+        //    true
+        //    )).Forget();
+
     }
 }

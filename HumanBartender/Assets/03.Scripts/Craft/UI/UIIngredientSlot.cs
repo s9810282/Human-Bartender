@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
+public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler,
+     IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI countText;
@@ -64,6 +65,7 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
         SetUI();
     }
 
+
     public void OnPointerClick(PointerEventData e)
     {
         switch (e.button)
@@ -75,5 +77,16 @@ public class UIIngredientSlot : MonoBehaviour, IPointerClickHandler
                 OnRightClick?.Invoke(data);
                 break;
         }
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        slotImage.enabled = false;
+        slotSelectImage.enabled = true;
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        SetUI();
     }
 }

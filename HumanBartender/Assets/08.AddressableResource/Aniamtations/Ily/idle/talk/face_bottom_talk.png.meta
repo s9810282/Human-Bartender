@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_bottom_talk_0
+      name: face_bottom_talk_000
       rect:
         serializedVersion: 2
-        x: 110
-        y: 232
-        width: 56
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c75143a1d235b8ad0800000000000000
-      internalID: -2698972098500225668
+      spriteID: d177b16297aea394388c23e344450786
+      internalID: -657423775
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_talk_1
+      name: face_bottom_talk_001
       rect:
         serializedVersion: 2
-        x: 396
-        y: 232
-        width: 56
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 286
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5e6528b73ebf8a2c0800000000000000
-      internalID: -4420006079815854363
+      spriteID: 20422589759203c4fbc221a4e73e16e0
+      internalID: 422716958
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_talk_2
+      name: face_bottom_talk_002
       rect:
         serializedVersion: 2
-        x: 682
-        y: 231
-        width: 56
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 572
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.09986533}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 268a673889093e700800000000000000
-      internalID: 568456962693834850
+      spriteID: 987fe6e07a5fef6468cac44446f1c565
+      internalID: -1130483515
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_talk_3
+      name: face_bottom_talk_003
       rect:
         serializedVersion: 2
-        x: 968
-        y: 232
-        width: 56
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 858
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bdde0cbbbe80ee510800000000000000
-      internalID: 1580210327813942747
+      spriteID: 72fb550c9c7972f45a25a61bec60e99c
+      internalID: 1701465187
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4022359594fb76f40abe8c66d194b615
     internalID: 0
     vertices: []
     indices: 
@@ -224,6 +224,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       face_bottom_talk_0: -2698972098500225668
+      face_bottom_talk_000: -657423775
+      face_bottom_talk_001: 422716958
+      face_bottom_talk_002: -1130483515
+      face_bottom_talk_003: 1701465187
       face_bottom_talk_1: -4420006079815854363
       face_bottom_talk_2: 568456962693834850
       face_bottom_talk_3: 1580210327813942747

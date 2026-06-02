@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 
@@ -73,12 +74,44 @@ public class CharacterAnimSO : ScriptableObject
     public PartAnimData GetDefaultPartData(string characterId, EAnimationPart partName)
         => GetPartData(characterId, "default", partName);
 
-    public string GetBaseBody(string id)
+    public bool CheckExpressionPortailSprite(string characterId, string expression)
     {
+        if (!animConfig.Characters.TryGetValue(characterId, out var charData))
+        {
+            Logger.LogWarning($"[AnimConfig] 캐릭터 없음: {characterId}");
+            return false;
+        }
 
 
-        return "";
+        if (!charData.Expressions.TryGetValue(expression, out var exprData))
+        {
+            Logger.LogWarning($"[AnimConfig] '{characterId}'에 '{expression}' 없음 → default 사용");
+            if (!charData.Expressions.TryGetValue("default", out exprData))
+                return false;
+        }
+
+        return exprData.Type != null && exprData.Type == "sprite";
     }
+
+    public string GetSpritePath(string characterId, string expression)
+    {
+        if (!animConfig.Characters.TryGetValue(characterId, out var charData))
+        {
+            Logger.LogWarning($"[AnimConfig] 캐릭터 없음: {characterId}");
+            return null;
+        }
+
+
+        if (!charData.Expressions.TryGetValue(expression, out var exprData))
+        {
+            Logger.LogWarning($"[AnimConfig] '{characterId}'에 '{expression}' 없음 → default 사용");
+            if (!charData.Expressions.TryGetValue("default", out exprData))
+                return null;
+        }
+
+        return exprData.SpritePath;
+    }
+    
 }
 
 [Serializable]
@@ -99,6 +132,9 @@ public class CharacterAnimData
 [Serializable]
 public class ExpressionAnimData
 {
+    [JsonProperty("type")] public string Type { get; set; }
+    [JsonProperty("sprite")] public string SpritePath { get; set; }
+
     [JsonProperty("eyes")] public PartAnimData Eyes { get; set; }
     [JsonProperty("eyebrows")] public PartAnimData Eyebrows { get; set; }
     [JsonProperty("upper_face")] public PartAnimData Upper_face { get; set; }
@@ -141,3 +177,4 @@ public class PartAnimData
     /// <summary>"always" / "on_dialogue" / "once" / "none"</summary>
     [JsonProperty("loop")] public EAnimLoopMode Loop { get; set; }
 }
+

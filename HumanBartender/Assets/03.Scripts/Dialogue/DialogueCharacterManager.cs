@@ -1,13 +1,9 @@
 using Cysharp.Threading.Tasks;
-using Spine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.TextCore.Text;
-
 
 public enum ESlotType
 {
@@ -16,7 +12,7 @@ public enum ESlotType
     Left,
     Right,
     Middle,
-
+    None,
     /* Outside */
 
 
@@ -104,7 +100,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
 
-  
+
     /// <summary>
     /// Slot이 따로 지정되지 않았기에 검사를 통해 위치 획득
     /// 둘 다 비어있다면 우측부터
@@ -114,22 +110,31 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     /// <param name="characterId"></param>
     /// <param name="expression"></param>
     /// <returns></returns>
-    public async UniTask SetCharacterAsync(string characterId, string expression, ESlotType slotType = ESlotType.Right)
+    public async UniTask SetCharacterAsync(string characterId, string expression, ESlotType slotType = ESlotType.None)
     {
-        ESlotType slot = slotType;
+        ESlotType slot = ESlotType.None;
 
-        //for (int i = 0; i < slotParts.Length; i++)
-        //{
-        //    if (slotParts[i].slotCharacterName == "")
-        //        continue;
-            
-        //    if(characterId == slotParts[i].slotCharacterName)
-        //    {
-        //        slot = slotParts[i].type;
-        //    }
-        //}
+        //위치가 지정된 경우는 문제가 없지만 지정되지 않았을 경우.
 
-        
+        if (slotType != ESlotType.None)
+            slot = slotType;
+        else
+        {
+            for (int i = 0; i < slotParts.Length; i++)
+            {
+                if (slotParts[i].slotCharacterName == "")
+                    continue;
+
+                if (characterId == slotParts[i].slotCharacterName)
+                {
+                    slot = slotParts[i].type;
+                }
+            }
+        }
+
+
+
+
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
         {
             Logger.LogWarning($"[DialogueCharacterManager] Slot '{slot}' not found");
@@ -139,7 +144,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         Logger.Log($"{characterId} Load, Slot, {slotData.type}, Expression {slotData.expression}, Express {expression}");
 
-        if (slotData.expression == expression) return;
+        if (slotData.slotCharacterName == characterId && slotData.expression == expression) return;
 
         Logger.Log($"{characterId} Load");
 
@@ -157,39 +162,54 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         slotData.slotCharacterName = characterId;
         slotData.expression = expression;
 
-
-
+        bool isSprite = animConfig.CheckExpressionPortailSprite(characterId, expression);
         var parts = slotData.parts;
-        var tasks = new UniTask[parts.Length];
-        for (int i = 0; i < parts.Length; i++)
+
+        if (!isSprite)
         {
-            PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
-            PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
-            tasks[i] = characterLoader.LoadPartAsync(slotData, parts[i], data, defaultData, token);
-        }
 
-        try
-        {
-            await UniTask.WhenAll(tasks);
-
-            ReleaseRemoveHandles(slotData);
-
-            tasks = new UniTask[parts.Length];
+            var tasks = new UniTask[parts.Length];
             for (int i = 0; i < parts.Length; i++)
             {
-                tasks[i] = parts[i].PlayAnimation(SLOT_INTRO, token);
+                PartAnimData data = animConfig.GetPartData(characterId, expression, parts[i].partName);
+                PartAnimData defaultData = animConfig.GetDefaultPartData(characterId, parts[i].partName);
+                tasks[i] = characterLoader.LoadPartAsync(slotData, parts[i], data, defaultData, token);
             }
 
-            await UniTask.WhenAll(tasks);
+            try
+            {
+                await UniTask.WhenAll(tasks);
+
+                ReleaseRemoveHandles(slotData);
+
+                tasks = new UniTask[parts.Length];
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    tasks[i] = parts[i].PlayAnimation(SLOT_INTRO, token);
+                }
+
+                await UniTask.WhenAll(tasks);
+            }
+            catch (OperationCanceledException)
+            {
+                ReleaseCurrentHandles(slotData);
+                ReleaseRemoveHandles(slotData);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"[SetCharacterAsync] 실패 - char:{characterId}, expr:{expression}\n{e}");
+                ReleaseCurrentHandles(slotData);
+            }
         }
-        catch (OperationCanceledException)
+        else
         {
-            ReleaseCurrentHandles(slotData);
-        }
-        catch (Exception e)
-        {
-            Logger.LogError($"[SetCharacterAsync] 실패 - char:{characterId}, expr:{expression}\n{e}");
-            ReleaseCurrentHandles(slotData);
+            for (int i = 0; i < parts.Length; i++)
+            {
+                parts[i].SetInactive();
+            }
+
+            string path = animConfig.GetSpritePath(characterId, expression);
+            await characterLoader.LoadPortaitSpriteAsync(slotData, path, token);
         }
     }
 

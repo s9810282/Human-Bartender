@@ -18,6 +18,7 @@ public class UICocktailPanel : MonoBehaviour
     [SerializeField] CocktailDataSO cocktailDataSO;
 
     [Header("UICocktail Panel")]
+    [SerializeField] GameObject cocktailObjs;
     [SerializeField] UICocktailSlot[] cocktailSlots;
     [SerializeField] private List<KeywordToggle> keywordToggles;
     [SerializeField] TMP_InputField searchFieldText;
@@ -145,14 +146,14 @@ public class UICocktailPanel : MonoBehaviour
                     cocktailSprites.Add(filteredData[dataIndex].Id, sprite);
                 }
 
-                cocktailSlots[i].OnOff(true);
+                cocktailSlots[i].OnOffSlot(true);
                 cocktailSlots[i].SetData(filteredData[dataIndex]);
                 cocktailSlots[i].SetNameText(filteredData[dataIndex].Name);
                 cocktailSlots[i].SetImage(sprite);
             }
             else
             {
-                cocktailSlots[i].OnOff(false);
+                cocktailSlots[i].OnOffSlot(false);
             }
         }
     }
@@ -180,6 +181,8 @@ public class UICocktailPanel : MonoBehaviour
         cocktailDetailPanel.SetSummary();
 
         cocktailDetailPanel.gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        cocktailDetailPanel.SlideDetailPopup(true);
+
+        cocktailObjs.gameObject.SetActive(false);
     }
 }

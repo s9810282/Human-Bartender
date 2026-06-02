@@ -8,12 +8,13 @@ public class UICashPanel : MonoBehaviour
 {
     [Header("Main Display")]
     [SerializeField] private TMP_Text amountText;        // 메인 "191V" 텍스트
-    [SerializeField] private string suffix = "V";        // 단위 표기
+    [SerializeField] private string suffix = "";        // 단위 표기
     [SerializeField] private string numberFormat = "N0"; // "N0" => 1,234 / "0" => 1234
     [SerializeField] private int currentAmount = 0;      // 현재 보유량
 
     [Header("Gain Popups")]
     [SerializeField] private Canvas canvas;              // 소속 Canvas (비우면 부모에서 자동 검색)
+    [SerializeField] private GameObject cashLine;
     [SerializeField] private CurrencyGainText gainPrefab; // 팝업 프리팹
     [SerializeField] private RectTransform gainLayer;     // 팝업이 생성될 컨테이너 (★ LayoutGroup 없는 빈 RectTransform)
     [SerializeField] private RectTransform mergeTarget;   // 병합 도착점 (비우면 amountText 사용)
@@ -24,8 +25,12 @@ public class UICashPanel : MonoBehaviour
     [SerializeField] private float punchScale = 1.12f;    // 병합 시 메인 텍스트 살짝 커지는 효과
     [SerializeField] private float punchTime = 0.12f;
 
+    [Header("Cash Line")]
+    [SerializeField] private float lineHideDelay = 1f;    // 마지막 팝업 종료 후 cashLine 숨김 지연(초)
+
     private int activeGainCount;
     private Coroutine punchRoutine;
+    private Coroutine hideLineRoutine;
 
     private void Awake()
     {
@@ -34,6 +39,10 @@ public class UICashPanel : MonoBehaviour
 
         if (canvas == null)
             canvas = GetComponentInParent<Canvas>();
+
+        // 시작 시에는 숨김 상태로
+        if (cashLine != null)
+            cashLine.SetActive(false);
     }
 
     private void Start() => Refresh();
@@ -43,21 +52,27 @@ public class UICashPanel : MonoBehaviour
     {
         if (amount == 0 || gainPrefab == null || gainLayer == null) return;
 
-        Camera cam = (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
-            ? canvas.worldCamera : null;
+        // cashLine 표시 + 대기 중인 숨김 타이머 취소 (연속 호출 대응)
+        ShowCashLine();
+
+        Logger.Log($"amount {amount}");
 
         // 메인 텍스트의 월드 위치를 gainLayer 로컬 좌표로 변환 → 좌표계 일치
-        Vector2 target = WorldToLocal(gainLayer, mergeTarget.position, cam);
+        Vector2 target = WorldToLocal(gainLayer, mergeTarget.position, null);
         Vector2 start = target + spawnOffset + new Vector2(0f, -stackSpacing * activeGainCount);
         activeGainCount++;
 
         CurrencyGainText popup = Instantiate(gainPrefab, gainLayer);
         popup.Play(amount, suffix, start, target, () =>
         {
-            currentAmount += amount;   // 겹치는 순간 값 반영
+            currentAmount += amount;
             Refresh();
             Punch();
             activeGainCount = Mathf.Max(0, activeGainCount - 1);
+
+            // 진행 중인 팝업이 모두 끝났을 때만 숨김 타이머 시작
+            if (activeGainCount == 0)
+                ScheduleHideCashLine();
         });
     }
 
@@ -75,6 +90,39 @@ public class UICashPanel : MonoBehaviour
         if (amountText != null)
             amountText.text = currentAmount.ToString(numberFormat) + suffix;
     }
+
+    // ─────────────────────────────── Cash Line ───────────────────────────────
+
+    private void ShowCashLine()
+    {
+        // 진행 중인 숨김 타이머가 있으면 취소 (연속 호출 시 깜빡임 방지)
+        if (hideLineRoutine != null)
+        {
+            StopCoroutine(hideLineRoutine);
+            hideLineRoutine = null;
+        }
+
+        if (cashLine != null && !cashLine.activeSelf)
+            cashLine.SetActive(true);
+    }
+
+    private void ScheduleHideCashLine()
+    {
+        if (hideLineRoutine != null) StopCoroutine(hideLineRoutine);
+        hideLineRoutine = StartCoroutine(HideCashLineCo());
+    }
+
+    private IEnumerator HideCashLineCo()
+    {
+        yield return new WaitForSeconds(lineHideDelay);
+
+        if (cashLine != null)
+            cashLine.SetActive(false);
+
+        hideLineRoutine = null;
+    }
+
+    // ─────────────────────────────── Punch ───────────────────────────────
 
     private void Punch()
     {

@@ -92,6 +92,9 @@ public enum ETriggetType
 
     [EnumMember(Value = "character_action")]
     CharacterAction,
+
+    [EnumMember(Value = "day_end")]
+    Day_End,
 }
 
 

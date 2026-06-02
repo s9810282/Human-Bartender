@@ -13,7 +13,8 @@ public struct VisualUI
 }
 
 
-public class UICocktailSlot : MonoBehaviour, IPointerClickHandler
+public class UICocktailSlot : MonoBehaviour, IPointerClickHandler, 
+    IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Data UI")]
     [SerializeField] TextMeshProUGUI nameText;
@@ -28,7 +29,7 @@ public class UICocktailSlot : MonoBehaviour, IPointerClickHandler
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        OnOffVisual(false);
     }
 
     public void SetData(CocktailData d)
@@ -45,22 +46,41 @@ public class UICocktailSlot : MonoBehaviour, IPointerClickHandler
         nameText.text = text;
     }
 
-    public void OnOff(bool isOn)
+    public void OnOffVisual(bool isOn)
     {
         foreach (var item in visualUIs)
         {
             item.img.sprite = isOn ? item.onSprite : item.offSprite;
+            //cocktailImage.gameObject.SetActive(isOn);
+        }
+    }
+    public void OnOffSlot(bool isOn)
+    {
+        foreach (var item in visualUIs)
+        {
+            item.img.sprite = item.offSprite;
+            nameText.text = isOn ? data.Name : "";
             cocktailImage.gameObject.SetActive(isOn);
         }
     }
-
     public void OnPointerClick(PointerEventData e)
     {
         switch (e.button)
         {
             case PointerEventData.InputButton.Left:
                 OnClick?.Invoke(data);
+                OnOffVisual(false);
                 break;
         }
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        OnOffVisual(true);
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        OnOffVisual(false);
     }
 }

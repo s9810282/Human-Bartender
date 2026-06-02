@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_top_0
+      name: face_top_000
       rect:
         serializedVersion: 2
-        x: 177
-        y: 146
-        width: 103
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c90edbd8599bafdc0800000000000000
-      internalID: -3604364499777363812
+      spriteID: 19ce60452a858c04d8c628cda8192c02
+      internalID: 522322790
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_1
+      name: face_top_001
       rect:
         serializedVersion: 2
-        x: 579
-        y: 146
-        width: 103
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 402
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 34ccaa564ad067d90800000000000000
-      internalID: -7100472762771518397
+      spriteID: c4a9b5b8b4b7c524e87b58192f887a76
+      internalID: 993445583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_2
+      name: face_top_002
       rect:
         serializedVersion: 2
-        x: 981
-        y: 147
-        width: 103
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 804
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 75401494a79cc92a0800000000000000
-      internalID: -6729282216146172841
+      spriteID: ed206411a6058ce41a9c121c3265a137
+      internalID: 1451682845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_top_3
+      name: face_top_003
       rect:
         serializedVersion: 2
-        x: 1383
-        y: 145
-        width: 103
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1206
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 92f0aefeaf16dd3c0800000000000000
-      internalID: -4333199536065736919
+      spriteID: 592d4698bc019114eb6b3c8b935665b1
+      internalID: -1755033193
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b2f0bdc49511dc84da95f79f49d2633c
     internalID: 0
     vertices: []
     indices: 
@@ -224,6 +224,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       face_top_0: -3604364499777363812
+      face_top_000: 522322790
+      face_top_001: 993445583
+      face_top_002: 1451682845
+      face_top_003: -1755033193
       face_top_1: -7100472762771518397
       face_top_2: -6729282216146172841
       face_top_3: -4333199536065736919

@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: body_0
+      name: body_000
       rect:
         serializedVersion: 2
-        x: 10
+        x: 0
         y: 0
-        width: 261
-        height: 301
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a549269383878e5e0800000000000000
-      internalID: -1880120661550918566
+      spriteID: 738f2bc6d51a9f041b51159c47eb8ed0
+      internalID: 492243271
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: body_1
+      name: body_001
       rect:
         serializedVersion: 2
-        x: 296
+        x: 286
         y: 0
-        width: 260
-        height: 301
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3abf3df13d74cc630800000000000000
-      internalID: 3948609945394740131
+      spriteID: 01f7950791c2bd44d92d7891b539c06e
+      internalID: 661823315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: body_2
+      name: body_002
       rect:
         serializedVersion: 2
-        x: 582
+        x: 572
         y: 0
-        width: 260
-        height: 300
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 09597a3a27a3b46f0800000000000000
-      internalID: -699401053079628400
+      spriteID: a5c05ff4a171f0547beb0fa26b976ae4
+      internalID: 839280969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: body_3
+      name: body_003
       rect:
         serializedVersion: 2
-        x: 868
+        x: 858
         y: 0
-        width: 261
-        height: 301
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4993b57dc032152e0800000000000000
-      internalID: -2138889809964615276
+      spriteID: 26ccc2d8359340b40a1a93f09c0ae91a
+      internalID: -599515094
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 04433da678bab2c44bb1878e64fe6821
     internalID: 0
     vertices: []
     indices: 
@@ -224,6 +224,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       body_0: -1880120661550918566
+      body_000: 492243271
+      body_001: 661823315
+      body_002: 839280969
+      body_003: -599515094
       body_1: 3948609945394740131
       body_2: -699401053079628400
       body_3: -2138889809964615276

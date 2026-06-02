@@ -57,7 +57,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -70,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -108,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -146,265 +146,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: eyebrows_0
+      name: eyebrows_000
       rect:
         serializedVersion: 2
-        x: 113
-        y: 279
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8625ef3b5a0b31bf0800000000000000
-      internalID: -354745719896255896
+      spriteID: 352e7a7a7299a4f469127722e3c0b1cb
+      internalID: -836125133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyebrows_1
+      name: eyebrows_001
       rect:
         serializedVersion: 2
-        x: 122
-        y: 279
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 286
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 104b2288879d072e0800000000000000
-      internalID: -2129963512042966015
+      spriteID: 4b687f4128fe2ad4cab640b42205721d
+      internalID: -338207944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyebrows_2
+      name: eyebrows_002
       rect:
         serializedVersion: 2
-        x: 140
-        y: 281
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 572
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a8063a09659717680800000000000000
-      internalID: -8759086387558129526
+      spriteID: cdfba3f1bd743694aa3417d4b0fa4827
+      internalID: 2142405233
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: eyebrows_3
+      name: eyebrows_003
       rect:
         serializedVersion: 2
-        x: 399
-        y: 279
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 858
+        y: 0
+        width: 286
+        height: 349
+      alignment: 9
+      pivot: {x: 0.5, y: -0.097}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dbac5dba45a492ce0800000000000000
-      internalID: -1429529679192798531
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_4
-      rect:
-        serializedVersion: 2
-        x: 408
-        y: 279
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 208f7de7f00154f70800000000000000
-      internalID: 9170753874948519938
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_5
-      rect:
-        serializedVersion: 2
-        x: 426
-        y: 281
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f029ac72b54234a80800000000000000
-      internalID: -8483897299107671537
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_6
-      rect:
-        serializedVersion: 2
-        x: 685
-        y: 278
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 87ca63127f677ce30800000000000000
-      internalID: 4523715154503183480
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_7
-      rect:
-        serializedVersion: 2
-        x: 694
-        y: 278
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dd99dbcdd38771c50800000000000000
-      internalID: 6635904783045466589
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_8
-      rect:
-        serializedVersion: 2
-        x: 712
-        y: 280
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2a2905a0c5fdbc470800000000000000
-      internalID: 8416065915074941602
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_9
-      rect:
-        serializedVersion: 2
-        x: 971
-        y: 279
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bdf3b1cc3503e1550800000000000000
-      internalID: 6133392878989950939
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_10
-      rect:
-        serializedVersion: 2
-        x: 980
-        y: 279
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7f3d24fddbaa2a450800000000000000
-      internalID: 6098624577884312567
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: eyebrows_11
-      rect:
-        serializedVersion: 2
-        x: 998
-        y: 281
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd5a9350621df4630800000000000000
-      internalID: 3913576562434876891
+      spriteID: 8ee48278823f8d6468b4b2e931997d8d
+      internalID: 190149275
       vertices: []
       indices: 
       edges: []
@@ -413,7 +237,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f9af0d67cd8cd924792b30fcd160e2d9
     internalID: 0
     vertices: []
     indices: 
@@ -424,6 +248,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       eyebrows_0: -354745719896255896
+      eyebrows_000: -836125133
+      eyebrows_001: -338207944
+      eyebrows_002: 2142405233
+      eyebrows_003: 190149275
       eyebrows_1: -2129963512042966015
       eyebrows_10: 6098624577884312567
       eyebrows_11: 3913576562434876891

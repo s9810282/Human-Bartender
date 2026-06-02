@@ -187,4 +187,28 @@ public class CharacterLoader
         Logger.LogWarning($"[CharacterPart:Portait] '{clipaddress}' 리소스 없음");
         return false;
     }
+
+
+    public async UniTask<bool> LoadPortaitSpriteAsync(
+        SlotCharacterPart slot,
+        string dataPath,
+        CancellationToken token)
+    {
+        if (dataPath == null)
+            return false;
+
+        string clipaddress = dataPath;
+
+        var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(clipaddress, token);
+        slot.spriteHandles.Push(spriteHandle);
+
+        if (spriteHandle.HasValue)
+        {
+            slot.portaitSpriteRenderer.sprite = spriteHandle.Value.Result;
+            return true;
+        }
+
+        Logger.LogWarning($"[CharacterPart:Portait] '{clipaddress}' 리소스 없음");
+        return false;
+    }
 }

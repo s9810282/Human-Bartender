@@ -33,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,89 +122,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_bottom_default_0
+      name: face_bottom_default_000
       rect:
         serializedVersion: 2
-        x: 210
-        y: 171
-        width: 38
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b0285ddebc95dae80800000000000000
-      internalID: -8165771816949415413
+      spriteID: 7931ee4edb827d14ba93e7f66da540de
+      internalID: 107607005
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_default_1
+      name: face_bottom_default_001
       rect:
         serializedVersion: 2
-        x: 612
-        y: 171
-        width: 38
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 402
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f21246209836b5ee0800000000000000
-      internalID: -1271313029700247249
+      spriteID: b9276e8a40109f244ae0bb62b21bfaf6
+      internalID: -692840400
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_default_2
+      name: face_bottom_default_002
       rect:
         serializedVersion: 2
-        x: 1014
-        y: 172
-        width: 38
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 804
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 21eff5018af419a80800000000000000
-      internalID: -8461894641604624878
+      spriteID: c53efef886689c04c80e02449382badb
+      internalID: -1595212136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_bottom_default_3
+      name: face_bottom_default_003
       rect:
         serializedVersion: 2
-        x: 1416
-        y: 170
-        width: 38
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1206
+        y: 0
+        width: 402
+        height: 315
+      alignment: 9
+      pivot: {x: 0.5, y: -0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cf69171f41c255260800000000000000
-      internalID: 7085618057199064828
+      spriteID: 6c9cf63c79cdb7f45b31783893f81665
+      internalID: 1595497616
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 159a4e7dd4627a34fbdf63c92a4d545e
     internalID: 0
     vertices: []
     indices: 
@@ -224,6 +224,10 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       face_bottom_default_0: -8165771816949415413
+      face_bottom_default_000: 107607005
+      face_bottom_default_001: -692840400
+      face_bottom_default_002: -1595212136
+      face_bottom_default_003: 1595497616
       face_bottom_default_1: -1271313029700247249
       face_bottom_default_2: -8461894641604624878
       face_bottom_default_3: 7085618057199064828
