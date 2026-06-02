@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IPlayerDataReader
 {
+    int HasMoney();
     bool HasEnoughMoney(int cost);
     EAffinityTier GetCurCharacterAffinityTier(string id);
     ESkillTier GetSkillTier();
@@ -44,6 +45,10 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
         money += val;
 
         if (money <= 0) money = 0;
+    }
+    public int HasMoney()
+    {
+        return money;
     }
 
     public bool TrySpend(int cost)

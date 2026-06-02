@@ -281,13 +281,14 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             await react.Task;
         }
 
-        playerDataAsset.AddMoney(craftStation.targetCocktailData.Price);
-
-
-        playerDataAsset.AddSkillTier(resultReaction.Affinity);
+       
+        playerDataAsset.AddSkillTier(resultReaction.Skill);
+        playerDataAsset.AddCharacterAffinityAmount(curCraftEventData.TargetId, resultReaction.Affinity);
+        playerDataAsset.AddCharacterKarmaAmount(curCraftEventData.TargetId, resultReaction.Karma);
 
         if (resultReaction.Payment.Payprice)
         {
+            playerDataAsset.AddMoney(craftStation.targetCocktailData.Price);
             playerDataAsset.AddMoney(
                 Mathf.RoundToInt(craftStation.targetCocktailData.Price * resultReaction.Payment.TipRate));
         }

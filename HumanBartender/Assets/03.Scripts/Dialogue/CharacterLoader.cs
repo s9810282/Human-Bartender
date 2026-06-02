@@ -68,7 +68,7 @@ public class CharacterLoader
             return;
         }
 
-        if (await LoadPortaitSpriteAsync(slot, defaultData, token))
+        if (await LoadPortaitSpriteAsync(slot, data, token))
             return;
 
         if (await LoadPortaitSpriteAsync(slot, defaultData, token))

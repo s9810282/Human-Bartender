@@ -61,6 +61,7 @@ public struct CraftEventData
 {
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("order")] public string Order { get; set; }
+    [JsonProperty("targetId")] public string TargetId { get; set; }
     [JsonProperty("auto_open_recipe_ui")] public bool AutoOpenRecipeUi { get; set; }
     [JsonProperty("tutorial")] public TutorialData? Tutorial { get; set; }
     [JsonProperty("cutscenes")] public CraftCutSceneData CraftCutscenes { get; set; }
@@ -128,6 +129,7 @@ public struct ReactionDetailData
     [JsonProperty("verdict")] public EVerdictType Verdict { get; set; }
     [JsonProperty("dialogue_id")] public string DialogueId { get; set; }
     [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
+    [JsonProperty("skill")] public int Skill { get; set; }
     [JsonProperty("affinity")] public int Affinity { get; set; }
     [JsonProperty("karma")] public int Karma { get; set; }
     [JsonProperty("payment")] public PaymentData Payment { get; set; }
