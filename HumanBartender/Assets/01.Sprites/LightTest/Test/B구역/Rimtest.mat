@@ -51,13 +51,13 @@ Material:
     - _GradientHeight: 0.8
     - _NoiseScale: 1
     - _RimAlwaysBright: 1
-    - _RimWidth: 1
+    - _RimWidth: 1.72
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _FlowSpeed: {r: 5, g: 5, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0.6784314, g: 0.47843137, b: 0.49922156, a: 1}
-    - _RimColorTop: {r: 0.966921, g: 1, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0, b: 0.09803915, a: 1}
+    - _RimColorTop: {r: 0.002501011, g: 0, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
