@@ -5,13 +5,7 @@
       "display_name": "루나",
       "name_color": "#4A90D9",
       "expressions": [
-        "default",
-        "joy",
-        "sadness",
-        "anger",
-        "disgust",
-        "surprise",
-        "fear"
+        "default"
       ],
       "is_player": true,
       "enter_sfx": null,
@@ -23,12 +17,8 @@
       "name_color": "#A0866B",
       "expressions": [
         "default",
-        "joy",
-        "sadness",
-        "anger",
-        "worry",
-        "serious",
-        "smile"
+        "success",
+        "fail"
       ],
       "is_player": false,
       "enter_sfx": "SFX_chris_enter",
@@ -65,7 +55,9 @@
       "display_name": "아일리",
       "name_color": "#7EB89A",
       "expressions": [
-        "default"
+        "default",
+        "success",
+        "fail"
       ],
       "is_player": false,
       "enter_sfx": null,
@@ -76,7 +68,10 @@
       "display_name": "삼호",
       "name_color": "#9B7EC8",
       "expressions": [
-        "default"
+        "default",
+        "success",
+        "fail",
+        "drunk"
       ],
       "is_player": false,
       "enter_sfx": null,
