@@ -1,0 +1,206 @@
+{
+  "character_id": "shiba",
+  "interact": {
+    "label": "대화"
+  },
+  "days": [
+    {
+      "day": 1,
+      "selection": { "type": "conditional" },
+      "flows": [
+
+        {
+          "flow_id": "poster_confrontation",
+          "condition": {
+            "type": "and",
+            "conditions": [
+              { "type": "flag", "flag_id": "shiba_flow1_done",        "value": true },
+              { "type": "flag", "flag_id": "read_poster_shiba_wanted", "value": true },
+              { "type": "flag", "flag_id": "shiba_poster_done",        "value": false }
+            ]
+          },
+          "dialogues": [
+
+            {
+              "id": "shiba_poster_001",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "혹시 벽에 붙은게 당신입니까?",
+              "next": "shiba_poster_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_poster_002",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "뭐 저거?",
+              "next": "shiba_poster_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_poster_003",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "세상에 시바견이 얼마나 많은데 저게 나일 것 같아?",
+              "next": "shiba_poster_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_poster_004",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "이상한 소리하지말고 꺼져 시바.",
+              "next": "shiba_poster_005",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_poster_005",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "네.. 알겠습니다.",
+              "next": "shiba_poster_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_poster_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "value": true } }
+              ]
+            }
+
+          ]
+        },
+
+        {
+          "flow_id": "first_encounter",
+          "condition": { "type": "flag", "flag_id": "shiba_flow1_done", "value": false },
+          "dialogues": [
+
+            {
+              "id": "shiba_first_001",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "…",
+              "next": "shiba_first_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_002",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "뭘봐?",
+              "next": "shiba_first_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_003",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "혹시 인간입니까?",
+              "next": "shiba_first_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_004",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "뭐래 너 머리 나쁘냐?",
+              "next": "shiba_first_005",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_005",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "딱 보면 시바 잖아 시바.",
+              "next": "shiba_first_006",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_006",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "아하.. 그렇군요.",
+              "next": "shiba_first_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_first_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done", "value": true } }
+              ]
+            }
+
+          ]
+        },
+
+        {
+          "flow_id": "revisit",
+          "condition": { "type": "flag", "flag_id": "shiba_flow1_done", "value": true },
+          "dialogues": [
+
+            {
+              "id": "shiba_revisit_001",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "뭐야 왜 다시 왔어?",
+              "next": "shiba_revisit_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_revisit_002",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "…",
+              "next": "shiba_revisit_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_revisit_003",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "용건 없으면 꺼져 시바.",
+              "next": "shiba_revisit_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_revisit_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": []
+            }
+
+          ]
+        }
+
+      ]
+    }
+  ]
+}

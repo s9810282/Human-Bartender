@@ -1,349 +1,262 @@
 {
- "day": 1,
-  "scenes": [
-   {
-  "scene_id": "hyuksoo_commute_out",
-  "dialogues": [
+  "character_id": "park_hyuksoo",
+  "interact": {
+    "label": "대화"
+  },
+  "days": [
+    {
+      "day": 1,
+      "selection": { "type": "conditional" },
+      "flows": [
 
-    {
-      "id": "hco_choice_root",
-      "speaker": "system",
-      "type": "choice_root",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": [
-        { "text": "말을 건다.", "next": "hco_talk_branch", "choice_effect": null },
-        { "text": "무시한다.", "next": "hco_ignore",       "choice_effect": null }
-      ],
-      "trigger": null
-    },
+        {
+          "flow_id": "hyuksoo_day1_out",
+          "condition": { "type": "flag", "flag_id": "luna_leaving", "value": true },
+          "dialogues": [
 
-    {
-      "id": "hco_ignore",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": null
-    },
+            {
+              "id": "hco_talk",
+              "speaker": "luna",
+              "type": "choice",
+              "text": "…",
+              "next": null,
+              "choices": [
+                { "text": "저기, 괜찮으세요?",        "next": "hco_a_001" },
+                { "text": "이 동네는 원래 이런가요?", "next": "hco_b_001" }
+              ],
+              "triggers": []
+            },
 
-    {
-      "id": "hco_talk_branch",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "…",
-      "expression": "default",
-      "next": null,
-      "choices": [
-        { "text": "저기, 괜찮으세요?",        "next": "hco_a_001", "choice_effect": null },
-        { "text": "이 동네는 원래 이런가요?", "next": "hco_b_001", "choice_effect": null }
-      ],
-      "trigger": null
-    },
+            {
+              "id": "hco_a_001",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "저한테 물어보시는 건가요?",
+              "next": "hco_a_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_a_002",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "네, 어디가 힘들어 보이셔서요.",
+              "next": "hco_a_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_a_003",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "…전 괜찮습니다.",
+              "next": "hco_a_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_a_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_a", "value": true } },
+                { "type": "apply_effects", "data": { "affinity": 10 } }
+              ]
+            },
 
-    {
-      "id": "hco_a_001",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "저한테 물어보시는 건가요?",
-      "expression": "flustered",
-      "next": "hco_a_002",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_a_002",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "네, 어디가 힘들어 보이셔서요.",
-      "expression": "default",
-      "next": "hco_a_003",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_a_003",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "…전 괜찮습니다.",
-      "expression": "default",
-      "next": "hco_a_end",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_a_end",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 5, "affection": 10 }
-      }
-    },
+            {
+              "id": "hco_b_001",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "…?",
+              "next": "hco_b_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_b_002",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "왜 그러시죠?",
+              "next": "hco_b_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_b_003",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "자신의 차림을 보고 말하는 거예요.",
+              "next": "hco_b_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hco_b_004",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "..아, 네. 뭐, 불편했다면 죄송하네요.",
+              "next": "hco_b_end",
+              "choices": null,
+              "triggers": [
+                { "type": "character_action", "data": { "character_id": "park_hyuksoo", "animation": "light_cigarette" } }
+              ]
+            },
+            {
+              "id": "hco_b_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_b", "value": true } },
+                { "type": "apply_effects", "data": { "awareness": 10 } }
+              ]
+            }
 
-    {
-      "id": "hco_b_001",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "…?",
-      "expression": "flustered",
-      "next": "hco_b_002",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_b_002",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "왜 그러시죠?",
-      "expression": "default",
-      "next": "hco_b_003",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_b_003",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "자신의 차림을 보고 말하는 거예요.",
-      "expression": "default",
-      "next": "hco_b_004",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_b_004",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "..아, 네. 뭐, 불편했다면 죄송하네요.",
-      "expression": "default",
-      "next": "hco_b_end",
-      "choices": null,
-      "trigger": {
-        "type": "character_action",
-        "data": { "character_id": "park_hyuksoo", "animation": "light_cigarette" }
-      }
-    },
-    {
-      "id": "hco_b_end",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 10, "affection": 0 }
-      }
-    }
+          ]
+        },
 
-  ]
-},
+        {
+          "flow_id": "hyuksoo_day1_in",
+          "condition": { "type": "flag", "flag_id": "luna_returning", "value": true },
+          "dialogues": [
 
-{
-  "scene_id": "hyuksoo_commute_in",
-  "trigger_condition": "luna_returning_from_work",
-  "dialogues": [
+            {
+              "id": "hci_talk",
+              "speaker": "luna",
+              "type": "choice",
+              "text": "…",
+              "next": null,
+              "choices": [
+                { "text": "설마 출근할 때부터 계속 계셨던 건가요?", "next": "hci_a_001" },
+                { "text": "이 시간에 뭐 하세요?",                    "next": "hci_b_001" }
+              ],
+              "triggers": []
+            },
 
-    {
-      "id": "hci_000",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": "hci_001",
-      "choices": null,
-      "trigger": null
-    },
+            {
+              "id": "hci_a_001",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "…하하.",
+              "next": "hci_a_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_002",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "방금 나왔어요.",
+              "next": "hci_a_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_003",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "추운데 하루종일 그런 차림으로 계시네요.",
+              "next": "hci_a_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_004",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "집이 바로 옆 건물인데 뭐 어때요.",
+              "next": "hci_a_005",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_005",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "이제… 어떤 모습이든 상관없어요.",
+              "next": "hci_a_006",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_006",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "그렇군요.. 먼저 들어가볼게요.",
+              "next": "hci_a_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_a_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag", "data": { "flag_id": "hyuksoo_in_day1_a", "value": true } }
+              ]
+            },
 
-    {
-      "id": "hci_001",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": "hci_choice_root",
-      "choices": null,
-      "trigger": null
-    },
+            {
+              "id": "hci_b_001",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "…이 시간에 왜 밖에 있어요.",
+              "next": "hci_b_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_b_002",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "방금 퇴근하고 왔어요.",
+              "next": "hci_b_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_b_003",
+              "speaker": "park_hyuksoo",
+              "type": "normal",
+              "text": "…바람이 차네요. 얼른 들어가요.",
+              "next": "hci_b_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_b_004",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "네.",
+              "next": "hci_b_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "hci_b_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_in_day1_b", "value": true } },
+                { "type": "apply_effects", "data": { "affinity": 10 } }
+              ]
+            }
 
-    {
-      "id": "hci_choice_root",
-      "speaker": "system",
-      "type": "choice_root",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": [
-        { "text": "말을 건다.", "next": "hci_talk_branch", "choice_effect": null },
-        { "text": "무시한다.",  "next": "hci_ignore",      "choice_effect": null }
-      ],
-      "trigger": null
-    },
+          ]
+        }
 
-    {
-      "id": "hci_ignore",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 0, "affection": 0 }
-      }
-    },
-
-    {
-      "id": "hci_talk_branch",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "…",
-      "expression": "default",
-      "next": null,
-      "choices": [
-        { "text": "설마 출근할 때부터 계속 계셨던 건가요?", "next": "hci_a_001", "choice_effect": null },
-        { "text": "이 시간에 뭐 하세요?",                    "next": "hci_b_001", "choice_effect": null }
-      ],
-      "trigger": null
-    },
-
-    {
-      "id": "hci_a_001",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "…하하.",
-      "expression": "awkward_laugh",
-      "next": "hci_a_002",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_002",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "방금 나왔어요.",
-      "expression": "default",
-      "next": "hci_a_003",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_003",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "추운데 하루종일 그런 차림으로 계시네요.",
-      "expression": "default",
-      "next": "hci_a_004",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_004",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "집이 바로 옆 건물인데 뭐 어때요.",
-      "expression": "default",
-      "next": "hci_a_005",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_005",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "이제… 어떤 모습이든 상관없어요.",
-      "expression": "empty",
-      "next": "hci_a_006",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_006",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "그렇군요.. 먼저 들어가볼게요.",
-      "expression": "default",
-      "next": "hci_a_end",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_a_end",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 0, "affection": 0 }
-      }
-    },
-
-    {
-      "id": "hci_b_001",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "…이 시간에 왜 밖에 있어요.",
-      "expression": "default",
-      "next": "hci_b_002",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_b_002",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "방금 퇴근하고 왔어요.",
-      "expression": "default",
-      "next": "hci_b_003",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_b_003",
-      "speaker": "park_hyuksoo",
-      "type": "normal",
-      "text": "…바람이 차네요. 얼른 들어가요.",
-      "expression": "default",
-      "next": "hci_b_004",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_b_004",
-      "speaker": "luna",
-      "type": "normal",
-      "text": "네.",
-      "expression": "default",
-      "next": "hci_b_end",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hci_b_end",
-      "speaker": "system",
-      "type": "system",
-      "text": "",
-      "expression": null,
-      "next": null,
-      "choices": null,
-      "trigger": {
-        "type": "apply_effects",
-        "data": { "awareness": 10, "affection": 10 }
-          }
-    }
       ]
     }
   ]

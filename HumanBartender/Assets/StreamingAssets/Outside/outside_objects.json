@@ -1,0 +1,180 @@
+{
+  "objects": [
+    {
+      "object_id": "poster_help_wanted",
+      "day":null,
+      "interact_label": "보기",
+      "dialogues": [
+        {
+          "id": "poster_hw_001",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>구인 중</world>",
+          "next": "poster_hw_002",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_hw_002",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>경험 무관 / 야간 환영</world>",
+          "next": "poster_hw_003",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_hw_003",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>문의: 지하 1층</world>",
+          "next": "poster_hw_end",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_hw_end",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "next": null,
+          "choices": null,
+          "triggers": [
+            { "type": "set_flag", "data": { "flag_id": "read_poster_help_wanted", "value": true } }
+          ]
+        }
+      ]
+    },
+    {
+      "object_id": "poster_shiba_wanted_day1",
+      "day":1,
+      "interact_label": "보기",
+      "dialogues": [
+        {
+          "id": "poster_shiba_001",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>시바견을 찾습니다</world>",
+          "next": "poster_shiba_002",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_shiba_002",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>성격 불같음</world>",
+          "next": "poster_shiba_003",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_shiba_003",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>눈깔이 초롱초롱 함.</world>",
+          "next": "poster_shiba_004",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_shiba_004",
+          "speaker": "object",
+          "type": "normal",
+          "text": "<world>주의. 개소리를 너무 많</world>",
+          "next": "poster_shiba_end",
+          "choices": null,
+          "triggers": []
+        },
+        {
+          "id": "poster_shiba_end",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "next": null,
+          "choices": null,
+          "triggers": [
+            { "type": "set_flag", "data": { "flag_id": "read_poster_shiba_wanted", "value": true } }
+          ]
+        }
+      ]
+    },
+    {
+      "object_id": "vending_machine",
+      "day":null,
+      "interact_label": "보기",
+      "dialogues": [
+
+        {
+          "id": "vm_001",
+          "speaker": "object",
+          "type": "normal",
+          "text": "(음료를 판매하는 자판기처럼 보인다.)",
+          "next": "vm_choice",
+          "choices": null,
+          "triggers": []
+        },
+
+        {
+          "id": "vm_choice",
+          "speaker": "system",
+          "type": "choice",
+          "text": "",
+          "next": null,
+          "choices": [
+            { "text": "산다 (500원 필요)", "next": "vm_money_check" },
+            { "text": "안산다",            "next": "vm_end" }
+          ],
+          "triggers": []
+        },
+
+        {
+          "id": "vm_money_check",
+          "speaker": "system",
+          "type": "condition_branch",
+          "text": "",
+          "next": null,
+          "choices": null,
+          "branches": [
+            { "condition": { "type": "money", "min": 500 }, "next": "vm_buy" },
+            { "condition": null, "next": "vm_poor" }
+          ],
+          "triggers": []
+        },
+
+        {
+          "id": "vm_buy",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "'초정 탄산수'를 얻었다.",
+          "next": "vm_end",
+          "choices": null,
+          "triggers": [
+            { "type": "money_change", "data": { "amount": -500 } }
+          ]
+        },
+
+        {
+          "id": "vm_poor",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "(현재 소지금이 적어서 구매할 수 없네..)",
+          "next": "vm_end",
+          "choices": null,
+          "triggers": []
+        },
+
+        {
+          "id": "vm_end",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "next": null,
+          "choices": null,
+          "triggers": []
+        }
+
+      ]
+    }
+  ]
+}

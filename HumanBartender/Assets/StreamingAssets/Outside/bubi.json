@@ -1,31 +1,53 @@
 {
-  "day": 1,
-  "scenes": [
-   {
-  "scene_id": "bubi_sleep",
-  
-  "dialogues": [
+  "character_id": "bubi",
+  "interact": {
+    "label": "대화"
+  },
+  "days": [
     {
-      "id": "hco_a_001",
-      "speaker": "bubi",
-      "type": "normal",
-      "text": "Zzzz...",
-      "expression": "flustered",
-      "next": "hco_a_002",
-      "choices": null,
-      "trigger": null
-    },
-    {
-      "id": "hco_a_002",
-      "speaker": "bubi",
-      "type": "normal",
-      "text": "야옹..Zzz..ㅇ..",
-      "expression": "default",
-      "next": null,
-      "choices": null,
-      "trigger": null
-    }
-  ]
+      "day": 1,
+      "selection": { "type": "sequential" },
+      "flows": [
+
+        {
+          "flow_id": "bubi_day1_sleep",
+          "condition": null,
+          "dialogues": [
+
+            {
+              "id": "bubi_sleep_001",
+              "speaker": "bubi",
+              "type": "normal",
+              "text": "Zzzz...",
+              "next": "bubi_sleep_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "bubi_sleep_002",
+              "speaker": "bubi",
+              "type": "normal",
+              "text": "야옹..Zzz..ㅇ..",
+              "next": "bubi_sleep_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "bubi_sleep_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag", "data": { "flag_id": "saw_bubi_outside_day1", "value": true } }
+              ]
+            }
+
+          ]
+        }
+
+      ]
     }
   ]
 }
