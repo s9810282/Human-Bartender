@@ -20,7 +20,7 @@ public class SetStatCommand : IDialogueCommand
 
     async UniTask<string> IDialogueCommand.ExecuteAsync(CancellationToken cancellationToken)
     {
-        playerData.SetCharacterTierAmount(character, value);
+        playerData.SetCharacterAffinityAmount(character, value);
         return "";
     }
 }

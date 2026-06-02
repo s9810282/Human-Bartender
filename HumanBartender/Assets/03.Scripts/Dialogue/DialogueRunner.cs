@@ -177,7 +177,7 @@ public class DialogueRunner : MonoBehaviour
             {
                 NextConditions next = currentDialogue.Nextconditions.Value;
 
-                EAffinityTier characterTier = PlayerData.GetCurCharacterTier(next.Character);
+                EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(next.Character);
 
                 foreach (var item in next.Branches)
                 {

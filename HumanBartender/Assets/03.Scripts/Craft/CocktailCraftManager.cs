@@ -283,6 +283,9 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         playerDataAsset.AddMoney(craftStation.targetCocktailData.Price);
 
+
+        playerDataAsset.AddSkillTier(resultReaction.Affinity);
+
         if (resultReaction.Payment.Payprice)
         {
             playerDataAsset.AddMoney(

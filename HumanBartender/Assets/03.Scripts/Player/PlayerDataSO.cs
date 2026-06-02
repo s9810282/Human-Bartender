@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IPlayerDataReader
 {
     bool HasEnoughMoney(int cost);
-    EAffinityTier GetCurCharacterTier(string id);
+    EAffinityTier GetCurCharacterAffinityTier(string id);
     ESkillTier GetSkillTier();
 }
 
@@ -12,8 +12,10 @@ public interface IPlayerDataWriter
 {
     void AddMoney(int val);
     bool TrySpend(int cost);
-    void SetCharacterTierAmount(string id, int val);
-    void AddCharacterTierAmount(string id, int val);
+    void SetCharacterAffinityAmount(string id, int val);
+    void AddCharacterAffinityAmount(string id, int val);
+    void SetCharacterKarmaAmount(string id, int val);
+    void AddCharacterKarmaAmount(string id, int val);
     void AddSkillTier(int val);
 }
 
@@ -65,11 +67,11 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
     {
         if(!characterTierDics.ContainsKey(id))
         {
-            characterTierDics.Add(id, new CharacterTierData(id, defaultVal));
+            characterTierDics.Add(id, new CharacterTierData(id, defaultVal, defaultVal));
             characterTierDatas.Add(characterTierDics[id]);
         }
     }
-    public void AddCharacterTierAmount(string id, int val)
+    public void AddCharacterAffinityAmount(string id, int val = 0)
     {
         if (!characterTierDics.ContainsKey(id))
         {
@@ -77,10 +79,10 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
         }
         else
         {
-            characterTierDics[id].tierAmount += val;
+            characterTierDics[id].affinityAmount += val;
         }
     }
-    public void SetCharacterTierAmount(string id, int val)
+    public void AddCharacterKarmaAmount(string id, int val = 0)
     {
         if (!characterTierDics.ContainsKey(id))
         {
@@ -88,16 +90,43 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
         }
         else
         {
-            characterTierDics[id].tierAmount = val;
+            characterTierDics[id].karamaAmount += val;
         }
     }
-    public EAffinityTier GetCurCharacterTier(string id)
+    public void SetCharacterAffinityAmount(string id, int val)
+    {
+        if (!characterTierDics.ContainsKey(id))
+        {
+            AddNewCharacter(id, val);
+        }
+        else
+        {
+            characterTierDics[id].affinityAmount = val;
+        }
+    }
+    public void SetCharacterKarmaAmount(string id, int val)
+    {
+        if (!characterTierDics.ContainsKey(id))
+        {
+            AddNewCharacter(id, val);
+        }
+        else
+        {
+            characterTierDics[id].karamaAmount = val;
+        }
+    }
+
+
+
+
+
+    public EAffinityTier GetCurCharacterAffinityTier(string id)
     {
         CharacterAffinityData data = characterTierDataSO.characterTiers.Characters[id];
 
         if(!characterTierDics.ContainsKey(id)) return EAffinityTier.Very_Low;
 
-        int curTierAmount = characterTierDics[id].tierAmount;
+        int curTierAmount = characterTierDics[id].affinityAmount;
 
         foreach (var item in data.Affinity)
         {
@@ -140,11 +169,13 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
 public class CharacterTierData
 {
     public string characterId;
-    public int tierAmount;
+    public int affinityAmount;
+    public int karamaAmount;
 
-    public CharacterTierData(string characterId, int tierAmount)
+    public CharacterTierData(string characterId, int affinityAmount, int karamaAmount)
     {
         this.characterId = characterId;
-        this.tierAmount = tierAmount;
+        this.affinityAmount = affinityAmount;
+        this.karamaAmount = karamaAmount;
     }
 }

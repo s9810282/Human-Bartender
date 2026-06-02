@@ -87,7 +87,7 @@ public class UIDialogueChoiceView : MonoBehaviour
                 break;
 
             case EConditionCheckType.Affinity:
-                EAffinityTier characterTier = PlayerData.GetCurCharacterTier(checkType.Character);
+                EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(checkType.Character);
                 EAffinityTier targettier = (EAffinityTier)Enum.Parse(typeof(EAffinityTier), checkType.minTier, true);
                 return characterTier >= targettier;
 
