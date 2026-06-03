@@ -134,12 +134,12 @@ TextureImporter:
       name: yuna_ani_stand_up_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 5
-        width: 43
-        height: 34
+        x: 0
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: yuna_ani_stand_up_1
       rect:
         serializedVersion: 2
-        x: 136
-        y: 5
-        width: 42
-        height: 34
+        x: 96
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,12 +178,12 @@ TextureImporter:
       name: yuna_ani_stand_up_2
       rect:
         serializedVersion: 2
-        x: 232
-        y: 5
-        width: 43
-        height: 33
+        x: 192
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,12 +200,12 @@ TextureImporter:
       name: yuna_ani_stand_up_3
       rect:
         serializedVersion: 2
-        x: 330
-        y: 5
-        width: 40
-        height: 32
+        x: 288
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -222,12 +222,12 @@ TextureImporter:
       name: yuna_ani_stand_up_4
       rect:
         serializedVersion: 2
-        x: 430
-        y: 5
-        width: 36
-        height: 33
+        x: 384
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -244,12 +244,12 @@ TextureImporter:
       name: yuna_ani_stand_up_5
       rect:
         serializedVersion: 2
-        x: 513
-        y: 5
-        width: 38
-        height: 47
+        x: 480
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,12 +266,12 @@ TextureImporter:
       name: yuna_ani_stand_up_6
       rect:
         serializedVersion: 2
-        x: 602
-        y: 5
-        width: 45
-        height: 50
+        x: 576
+        y: 0
+        width: 96
+        height: 104
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -296,7 +296,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":104.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       yuna_ani_stand_up_0: 4749451277543116145
       yuna_ani_stand_up_1: -1580257016113362067

@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: b4e9b1b00dff8bc4cb471401077435a1
+guid: f637df03c0fdafa4db6a6786fb626afb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5537341955638767243
-    second: hound_attack_ani_down_0
-  - first:
-      213: -2960447036529188657
-    second: hound_attack_ani_down_1
+      213: -186480559930966769
+    second: "\uCF54\uC2A4\uBAA8\uD3F4\uB9AC\uD0C4_2_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -116,45 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hound_attack_ani_down_0
+      name: "\uCF54\uC2A4\uBAA8\uD3F4\uB9AC\uD0C4_2_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 324
-        height: 168
+        width: 530
+        height: 376
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b8e27b9ab2798dc40800000000000000
-      internalID: 5537341955638767243
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hound_attack_ani_down_1
-      rect:
-        serializedVersion: 2
-        x: 324
-        y: 0
-        width: 324
-        height: 168
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fc0e15bfa116ae6d0800000000000000
-      internalID: -2960447036529188657
+      spriteID: f0d7cc33bec796df0800000000000000
+      internalID: -186480559930966769
       vertices: []
       indices: 
       edges: []
@@ -171,12 +146,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":324.0,"y":168.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      hound_attack_ani_down_0: 5537341955638767243
-      hound_attack_ani_down_1: -2960447036529188657
+      "\uCF54\uC2A4\uBAA8\uD3F4\uB9AC\uD0C4_2_0": -186480559930966769
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

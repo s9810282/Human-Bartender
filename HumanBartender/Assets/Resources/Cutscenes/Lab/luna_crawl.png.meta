@@ -137,12 +137,12 @@ TextureImporter:
       name: luna_crawl_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 89
-        width: 47
-        height: 28
+        x: 0
+        y: 77
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +159,12 @@ TextureImporter:
       name: luna_crawl_1
       rect:
         serializedVersion: 2
-        x: 104
-        y: 89
-        width: 52
-        height: 28
+        x: 86
+        y: 77
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: luna_crawl_2
       rect:
         serializedVersion: 2
-        x: 188
-        y: 89
-        width: 52
-        height: 27
+        x: 172
+        y: 77
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +203,12 @@ TextureImporter:
       name: luna_crawl_3
       rect:
         serializedVersion: 2
-        x: 273
-        y: 89
-        width: 52
-        height: 27
+        x: 258
+        y: 77
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: luna_crawl_4
       rect:
         serializedVersion: 2
-        x: 360
-        y: 89
-        width: 50
-        height: 27
+        x: 344
+        y: 77
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +247,12 @@ TextureImporter:
       name: luna_crawl_5
       rect:
         serializedVersion: 2
-        x: 18
-        y: 12
-        width: 49
-        height: 27
+        x: 0
+        y: 0
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +269,12 @@ TextureImporter:
       name: luna_crawl_6
       rect:
         serializedVersion: 2
-        x: 101
-        y: 12
-        width: 53
-        height: 28
+        x: 86
+        y: 0
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +291,12 @@ TextureImporter:
       name: luna_crawl_7
       rect:
         serializedVersion: 2
-        x: 187
-        y: 12
-        width: 52
-        height: 28
+        x: 172
+        y: 0
+        width: 86
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -321,7 +321,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":2.0},"gridSpriteSize":{"x":86.0,"y":77.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       luna_crawl_0: -285320875588639055
       luna_crawl_1: -1765839005436639974
