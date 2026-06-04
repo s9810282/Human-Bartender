@@ -137,6 +137,8 @@ public class UIIngredientPanel : MonoBehaviour
 
     public void ResetCurrentSelectIngredient()
     {
+        OnIceIngredient(false);
+
         foreach (var item in currentSelectIngredients)
         {
             createdIngredientPanelList[item.Key].ResetCount();
@@ -145,8 +147,6 @@ public class UIIngredientPanel : MonoBehaviour
         iceToggle.isOn = false;
         currentSelectIngredients.Clear();
         craftLiquidData.ResetIngrediant();
-
-        OnCategoryContents(0);
     }
 
     public void OnCategoryContents(int n)

@@ -43,6 +43,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] UIIngredientPanel ingredientPanel;
 
     [SerializeField] TextMeshProUGUI orderText;
+    [SerializeField] GameObject popupObj;
     [SerializeField] TextMeshProUGUI popupText;
     
 
@@ -76,6 +77,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         if (craftEventData.AutoOpenRecipeUi)
         {
+            popupObj.gameObject.SetActive(false);
             ingredientPanel.OnCategoryContents(0);
             craftObject.gameObject.SetActive(true);
         }

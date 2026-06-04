@@ -4931,6 +4931,7 @@ MonoBehaviour:
   cocktailPanel: {fileID: 266569731}
   ingredientPanel: {fileID: 1523711445}
   orderText: {fileID: 206715387}
+  popupObj: {fileID: 1862285105717275559}
   popupText: {fileID: 639185622}
 --- !u!4 &1601650328
 Transform:
@@ -6951,6 +6952,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
+--- !u!1 &1862285105717275559 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4037620567757497166, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
+  m_PrefabInstance: {fileID: 1862285105717275558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
