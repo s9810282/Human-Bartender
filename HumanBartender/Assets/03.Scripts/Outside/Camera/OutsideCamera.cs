@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
@@ -12,9 +13,14 @@ public enum EOutsideCameraMode
 public class OutsideCameraOption
 {
     public EOutsideCameraMode cameraMode;
+    public AnimationCurve offsetCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    public AnimationCurve resolutionCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
     public Transform cameraTarget;
     public Vector3 cameraOffset;
+
+    public float offsetDuration = 1f;
+    public float resolutionDuration = 1f;
 
     public bool isChangeResolution;
     public ECameraZoomType targetResolution;
@@ -24,9 +30,7 @@ public class OutsideCamera : MonoBehaviour
 {
     [Header("CameraOption")]
     [SerializeField] OutsideCameraOption[] cameraOptions;
-    
     [SerializeField] EOutsideCameraMode curCameraMode = EOutsideCameraMode.Follow;
-
     [SerializeField] CameraControllerNew cameraZoom;
 
 
@@ -42,12 +46,6 @@ public class OutsideCamera : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ChangeCameraMode(int n)
     {
         curCameraMode = (EOutsideCameraMode)n;
@@ -57,7 +55,7 @@ public class OutsideCamera : MonoBehaviour
 
     public void ExcuteCameraOption(OutsideCameraOption mode)
     {
-        cameraZoom.TransitionFollowOffset(mode.cameraOffset, 1f);
-        cameraZoom.CameraZoom(mode.targetResolution, 1.2f);
+        cameraZoom.TransitionFollowOffset(mode.cameraOffset, mode.offsetDuration, mode.offsetCurve);
+        cameraZoom.TransitionCameraZoom(mode.targetResolution, mode.resolutionDuration, mode.resolutionCurve);
     }
 }

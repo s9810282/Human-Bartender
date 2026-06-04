@@ -1,11 +1,12 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 
-public class CameraControllerNew : MonoBehaviour, ICameraControl
+public class CameraControllerNew : MonoBehaviour, ICameraControlNew
 {
     [Header("References")]
     [SerializeField] private PixelPerfectCamera pixelPerfectCamera;
@@ -41,6 +42,9 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         CancelOffset();
     }
 
+
+
+    #region TargetOffset
     public void FollowTarget(Transform target, Vector3 localOffset = default)
     {
         if (cameraAnchor == null || target == null) return;
@@ -48,26 +52,22 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         cameraAnchor.SetParent(target, worldPositionStays: false);
         cameraAnchor.localPosition = localOffset;
     }
-
     public void Unfollow()
     {
         if (cameraAnchor == null) return;
         cameraAnchor.SetParent(null, worldPositionStays: true);
     }
-
-
     public void SetFollowOffset(Vector3 localOffset)
     {
         CancelOffset();
         if (cameraAnchor != null)
             cameraAnchor.localPosition = localOffset;
     }
-    public void TransitionFollowOffset(Vector3 targetOffset, float duration = 1f)
+    public void TransitionFollowOffset(Vector3 targetOffset, float duration = 1f, AnimationCurve curve = null)
     {
-        TransitionOffsetAsync(targetOffset, duration).Forget();
+        TransitionOffsetAsync(targetOffset, duration, SafeCurve(curve)).Forget();
     }
-
-    private async UniTaskVoid TransitionOffsetAsync(Vector3 targetOffset, float duration)
+    private async UniTaskVoid TransitionOffsetAsync(Vector3 targetOffset, float duration, AnimationCurve curve)
     {
         if (cameraAnchor == null) return;
 
@@ -83,7 +83,7 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
             {
                 token.ThrowIfCancellationRequested();
                 t += Time.deltaTime;
-                float k = ease.Evaluate(Mathf.Clamp01(t / duration));
+                float k = curve.Evaluate(Mathf.Clamp01(t / duration));
                 cameraAnchor.localPosition = Vector3.Lerp(from, targetOffset, k);
                 await UniTask.Yield(token);
             }
@@ -91,61 +91,14 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         }
         catch (System.OperationCanceledException) { }
     }
+    #endregion
 
 
-    public void CameraMove(ESlotType slot, float dur = 1f)
-    {
-        return;
-    }
-    public void CameraMove(Vector3 worldPos, float dur = 1f)
-    {
-        Unfollow();
-        TransitionPosition(worldPos, dur).Forget();
-    }
-
-    public void ApplyPositionImmediate(Vector3 worldPos)
-    {
-        CancelPosition();
-        Unfollow();
-
-        if (cameraAnchor != null)
-            cameraAnchor.position = new Vector3(worldPos.x, worldPos.y, cameraAnchor.position.z);
-    }
-    private async UniTaskVoid TransitionPosition(Vector3 targetPos, float duration)
-    {
-        if (cameraAnchor == null) return;
-
-        CancelPosition();
-        _positionCts = new CancellationTokenSource();
-        var token = _positionCts.Token;
-
-        Vector3 from = cameraAnchor.position;
-        Vector3 to = new Vector3(targetPos.x, targetPos.y, from.z);
-
-        float t = 0f;
-        try
-        {
-            while (t < duration)
-            {
-                token.ThrowIfCancellationRequested();
-
-                t += Time.deltaTime;
-                float k = ease.Evaluate(Mathf.Clamp01(t / duration));
-                cameraAnchor.position = Vector3.Lerp(from, to, k);
-
-                await UniTask.Yield(token);
-            }
-            cameraAnchor.position = to;
-        }
-        catch (System.OperationCanceledException) { }
-    }
-
-
+    #region CameraZoom
     public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base)
     {
         ApplyResolutionImmediate(GetResolution(zoomType));
     }
-
     public async void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base, UniTaskCompletionSource tcs = null)
     {
         Vector2Int current = new Vector2Int(
@@ -159,14 +112,6 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
 
         ApplyResolutionImmediate(current);
     }
-
-
-    public void CameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f)
-    {
-        Vector2Int target = GetResolution(zoomType);
-        TransitionResolution(target, dur).Forget();
-    }
-
     public void ApplyResolutionImmediate(Vector2Int res)
     {
         CancelResolution();
@@ -178,8 +123,12 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         SyncLensToPPC();
         InvalidateConfinerCache();
     }
-
-    private async UniTaskVoid TransitionResolution(Vector2Int to, float duration)
+    public void TransitionCameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f, AnimationCurve curve = null)
+    {
+        Vector2Int target = GetResolution(zoomType);
+        TransitionResolution(target, dur, SafeCurve(curve)).Forget();
+    }
+    private async UniTaskVoid TransitionResolution(Vector2Int to, float duration, AnimationCurve curve)
     {
         CancelResolution();
         _resolutionCts = new CancellationTokenSource();
@@ -199,12 +148,12 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
             {
                 token.ThrowIfCancellationRequested();
                 t += Time.deltaTime;
-                float k = ease.Evaluate(Mathf.Clamp01(t / duration));
-  
+                float k = curve.Evaluate(Mathf.Clamp01(t / duration));
+
                 lens.OrthographicSize = Mathf.Lerp(fromSize, toSize, k);
                 vcam.Lens = lens;
 
-                //InvalidateConfinerCache();
+                InvalidateConfinerCache();
 
                 await UniTask.Yield(token);
             }
@@ -221,9 +170,16 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
 
         ApplyResolutionImmediate(to);
     }
+    #endregion
 
 
 
+    #region Util
+    private static readonly AnimationCurve LinearCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    private static AnimationCurve SafeCurve(AnimationCurve curve)
+    {
+        return curve ?? LinearCurve;
+    }
     private Vector2Int GetResolution(ECameraZoomType zoomType) => zoomType switch
     {
         ECameraZoomType.Base    => baseResolution,
@@ -231,12 +187,10 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         ECameraZoomType.OutSide => outSideResolution,
         _                       => baseResolution,
     };
-
     private float ResToOrthoSize(Vector2Int res)
     {
         return res.y / (2f * pixelPerfectCamera.assetsPPU);
     }
-
     private void SyncLensToPPC()
     {
         if (vcam == null || pixelPerfectCamera == null) return;
@@ -248,12 +202,10 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
         ));
         vcam.Lens = lens;
     }
-
     private void InvalidateConfinerCache()
     {
         if (confiner != null) confiner.InvalidateBoundingShapeCache();
     }
-
     private void CancelPosition()
     {
         if (_positionCts != null)
@@ -263,7 +215,6 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
             _positionCts = null;
         }
     }
-
     private void CancelResolution()
     {
         if (_resolutionCts != null)
@@ -273,7 +224,6 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
             _resolutionCts = null;
         }
     }
-
     private void CancelOffset()
     {
         if (_offsetCts != null)
@@ -283,4 +233,5 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
             _offsetCts = null;
         }
     }
+    #endregion
 }

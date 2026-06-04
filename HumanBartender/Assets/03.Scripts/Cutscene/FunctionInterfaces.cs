@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Timeline;
@@ -41,6 +42,13 @@ public interface ICameraControl
 
     public void CameraMove(ESlotType slot, float dur = 1f);
     public void CameraMove(Vector3 pos, float dur = 1);
+}
+
+public interface ICameraControlNew
+{
+    public void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base, UniTaskCompletionSource tcs = null);
+    public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base);
+    public void TransitionCameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f, AnimationCurve curve = null);
 }
 
 
