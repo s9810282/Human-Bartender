@@ -204,7 +204,7 @@ public class CameraControllerNew : MonoBehaviour, ICameraControl
                 lens.OrthographicSize = Mathf.Lerp(fromSize, toSize, k);
                 vcam.Lens = lens;
 
-                InvalidateConfinerCache();
+                //InvalidateConfinerCache();
 
                 await UniTask.Yield(token);
             }
