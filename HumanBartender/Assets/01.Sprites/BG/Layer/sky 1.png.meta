@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 1f5ed9522e011134499512f6229bea28
+guid: eafe82189abeda24daf74baaa49841aa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3717177272122756993
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_0"
-  - first:
-      213: -6682068684862263452
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_1"
+      213: -278833479259874675
+    second: sky 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_0"
+      name: sky 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 106
-        height: 70
+        width: 2880
+        height: 1620
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f70b7f727fee96cc0800000000000000
-      internalID: -3717177272122756993
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_1"
-      rect:
-        serializedVersion: 2
-        x: 426
-        y: 0
-        width: 56
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 46fe50a2fe58443a0800000000000000
-      internalID: -6682068684862263452
+      spriteID: d8a9a3d8d62612cf0800000000000000
+      internalID: -278833479259874675
       vertices: []
       indices: 
       edges: []
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_0": -3717177272122756993
-      "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82_1": -6682068684862263452
+      sky 1_0: -278833479259874675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

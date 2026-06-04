@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 33c65ccc113ea7d44b014601520bc85f
+guid: 21ed37f6ead09ea4b94fe0aa07303fc0
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -17,6 +17,9 @@ TextureImporter:
   - first:
       213: 7886950118995721139
     second: "C\uAD6C\uC5ED \uC911\uACBD 3_4"
+  - first:
+      213: -3441028314505602423
+    second: "C\uAD6C\uC5ED \uC911\uACBD 3_5"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +87,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -183,8 +186,8 @@ TextureImporter:
         serializedVersion: 2
         x: 1308
         y: 0
-        width: 1244
-        height: 500
+        width: 880
+        height: 451
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,10 +206,10 @@ TextureImporter:
       name: "C\uAD6C\uC5ED \uC911\uACBD 3_4"
       rect:
         serializedVersion: 2
-        x: 2554
+        x: 2226
         y: 0
         width: 326
-        height: 651
+        height: 500
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,6 +220,28 @@ TextureImporter:
       bones: []
       spriteID: 3bbf6fba853147d60800000000000000
       internalID: 7886950118995721139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "C\uAD6C\uC5ED \uC911\uACBD 3_5"
+      rect:
+        serializedVersion: 2
+        x: 2562
+        y: 0
+        width: 318
+        height: 651
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98a15d3baf20f30d0800000000000000
+      internalID: -3441028314505602423
       vertices: []
       indices: 
       edges: []
@@ -240,6 +265,7 @@ TextureImporter:
       "C\uAD6C\uC5ED \uC911\uACBD 3_2": 7074318157778941607
       "C\uAD6C\uC5ED \uC911\uACBD 3_3": 5334135783826660478
       "C\uAD6C\uC5ED \uC911\uACBD 3_4": 7886950118995721139
+      "C\uAD6C\uC5ED \uC911\uACBD 3_5": -3441028314505602423
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
