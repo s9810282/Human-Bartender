@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: CutSceneImageClip(Clone)(Clone)
   m_EditorClassIdentifier: 
   template:
-    imagePath: gin_fizz3
+    imagePath: Ginfizz\gin_fizz3
+    sheetPath: 
+    frameIndex: 0
     anchor: 0
     offsetX: 0.45
     offsetY: 0
@@ -149,8 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootTemplate:
     direction: 1
-    moveRatio: 0.4
+    moveRatio: 0.3
     ease: 1
+    endMode: 0
 --- !u!114 &-4622627850341606890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -374,7 +377,9 @@ MonoBehaviour:
   m_Name: CutSceneImageClip
   m_EditorClassIdentifier: 
   template:
-    imagePath: gin_fizz1
+    imagePath: Ginfizz\gin_fizz1
+    sheetPath: 
+    frameIndex: 0
     anchor: 5
     offsetX: 0
     offsetY: 0
@@ -442,7 +447,9 @@ MonoBehaviour:
   m_Name: CutSceneImageClip(Clone)
   m_EditorClassIdentifier: 
   template:
-    imagePath: gin_fizz2
+    imagePath: Ginfizz\gin_fizz2
+    sheetPath: 
+    frameIndex: 0
     anchor: 7
     offsetX: 0.02
     offsetY: 0

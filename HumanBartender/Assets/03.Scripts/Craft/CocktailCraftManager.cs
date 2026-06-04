@@ -76,6 +76,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         if (craftEventData.AutoOpenRecipeUi)
         {
+            ingredientPanel.OnCategoryContents(0);
             craftObject.gameObject.SetActive(true);
         }
 

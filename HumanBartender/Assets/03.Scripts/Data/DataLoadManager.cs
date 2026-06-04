@@ -6,36 +6,48 @@ public class DataLoadManager : MonoBehaviour
 {
     [SerializeField] bool isTest;
     [SerializeField] string testDayName;
-    
 
+    [SerializeField] DayDataSO dayData;
+    [SerializeField] CraftDataSO craftData;
     [SerializeField] CocktailDataSO cocktailData;
     [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CharacterDataSO characterData;
     [SerializeField] CharacterAnimSO characterAnimConfig;
-    [SerializeField] DayDataSO dayData;
-    [SerializeField] CraftDataSO craftData;
     [SerializeField] CutSceneDataSO cutSceneData;
     [SerializeField] SettlementDataSO settlementDataSO;
     [SerializeField] TextTagDataSO textTagDataSO;
     [SerializeField] CharacterTierDataSO characterTierDataSO;
     [SerializeField] SkillTierDataSO skillTierDataSO;
 
+    [Header("DataFile Name")]
+    [SerializeField] string dayDataFileName = "day0.json";
+    [SerializeField] string craftDataFileName = "day_test_crafts.json";
+    [SerializeField] string cocktailDataFileName = "cocktails.json";
+    [SerializeField] string characterDataFileName = "characters.json";
+    [SerializeField] string characterAnimConfigFileName = "character_anim.json";
+    [SerializeField] string ingredientDataFileName = "ingredients.json";
+    [SerializeField] string cutSceneDataFileName = "cutscenes.json";
+    [SerializeField] string settlementDataFileName = "settlements.json";
+    [SerializeField] string textTagDataFileName = "text_styles.json";
+    [SerializeField] string characterTierDataFileName = "character_tiers.json";
+    [SerializeField] string skillTierDataFileName = "skill_tiers.json";
+
     void Awake()
     {
         // 비동기로 바꾸기
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(
-            isTest ? testDayName : "day1.json");
+            isTest ? testDayName : dayDataFileName);
 
-        cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets("cocktails.json");
-        characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets("characters.json");
-        characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets("character_anim.json");
-        ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets("ingredients.json");
-        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets("day_test_crafts.json");
-        cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets("cutscenes.json");
-        settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets("settlements.json");
-        textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets("text_styles.json");
-        characterTierDataSO.characterTiers  = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets("character_tiers.json");
-        skillTierDataSO.skillTier           = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets("skill_tiers.json");
+        cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(cocktailDataFileName);
+        characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets(characterDataFileName);
+        characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets(characterAnimConfigFileName);
+        ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets(ingredientDataFileName);
+        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(craftDataFileName);
+        cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets(cutSceneDataFileName);
+        settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets(settlementDataFileName);
+        textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets(textTagDataFileName);
+        characterTierDataSO.characterTiers  = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets(characterTierDataFileName);
+        skillTierDataSO.skillTier           = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets(skillTierDataFileName);
 
 
         cocktailData.Cached();
