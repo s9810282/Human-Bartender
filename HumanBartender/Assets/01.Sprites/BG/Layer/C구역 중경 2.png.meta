@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: 2d6e5beeef8dae142b7afed875060454
+guid: 4b1c4c3fe5ef47c4c9fc34cce4745c13
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2557686620899630556
-    second: "C\uAD6C\uC5ED \uC911\uACBD 6_0"
+      213: 4408960349315956256
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_0"
   - first:
-      213: -6710049650462062757
-    second: "C\uAD6C\uC5ED \uC911\uACBD 6_1"
+      213: 1135272529103890788
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_1"
+  - first:
+      213: -4491767110832411919
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_2"
+  - first:
+      213: 4819422501821972587
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_3"
+  - first:
+      213: -2532804183417493853
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_4"
+  - first:
+      213: -4753491812889012372
+    second: "C\uAD6C\uC5ED \uC911\uACBD 2_5"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +52,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -49,10 +61,10 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -78,7 +90,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "C\uAD6C\uC5ED \uC911\uACBD 6_0"
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 452
-        height: 1620
+        x: 2864
+        y: 660
+        width: 16
+        height: 45
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cdddd753e6abe7320800000000000000
-      internalID: 2557686620899630556
+      spriteID: 02e72c9f316cf2d30800000000000000
+      internalID: 4408960349315956256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "C\uAD6C\uC5ED \uC911\uACBD 6_1"
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_1"
       rect:
         serializedVersion: 2
-        x: 502
+        x: 0
         y: 0
-        width: 271
-        height: 1359
+        width: 866
+        height: 499
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +152,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5789fee46d11e2a0800000000000000
-      internalID: -6710049650462062757
+      spriteID: 4692f7ca95c41cf00800000000000000
+      internalID: 1135272529103890788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_2"
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 326
+        height: 525
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fa2d017c990aa1c0800000000000000
+      internalID: -4491767110832411919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_3"
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 0
+        width: 880
+        height: 451
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b608f932b3702e240800000000000000
+      internalID: 4819422501821972587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_4"
+      rect:
+        serializedVersion: 2
+        x: 2226
+        y: 0
+        width: 326
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a6e6c9b30ca9dcd0800000000000000
+      internalID: -2532804183417493853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "C\uAD6C\uC5ED \uC911\uACBD 2_5"
+      rect:
+        serializedVersion: 2
+        x: 2562
+        y: 0
+        width: 318
+        height: 651
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67d50a9164380eb0800000000000000
+      internalID: -4753491812889012372
       vertices: []
       indices: 
       edges: []
@@ -150,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +260,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "C\uAD6C\uC5ED \uC911\uACBD 6_0": 2557686620899630556
-      "C\uAD6C\uC5ED \uC911\uACBD 6_1": -6710049650462062757
+      "C\uAD6C\uC5ED \uC911\uACBD 2_0": 4408960349315956256
+      "C\uAD6C\uC5ED \uC911\uACBD 2_1": 1135272529103890788
+      "C\uAD6C\uC5ED \uC911\uACBD 2_2": -4491767110832411919
+      "C\uAD6C\uC5ED \uC911\uACBD 2_3": 4819422501821972587
+      "C\uAD6C\uC5ED \uC911\uACBD 2_4": -2532804183417493853
+      "C\uAD6C\uC5ED \uC911\uACBD 2_5": -4753491812889012372
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
