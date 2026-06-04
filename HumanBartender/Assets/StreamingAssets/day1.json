@@ -6,10 +6,29 @@
       "customer": "chris",
       "dialogues": [
         {
+          "id": "d1s_chris_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1s_001",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "chris",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
           "id": "d1s_001",
           "speaker": "chris",
           "type": "normal",
-          "text": "좋아. 그럼 부탁할게.",
+          "text": "아니 이거 왜 적용이 안되지?좋아. 그럼 부탁할게.",
           "expression": "default",
           "next": "d1s_002",
           "choices": null,
@@ -180,7 +199,7 @@
           "type": "system",
           "text": "",
           "expression": null,
-          "next": null,
+          "next": "d1p_001",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -192,13 +211,8 @@
               "sfx_mode": "default_only"
             }
           }
-        }
-      ]
-    },
-    {
-      "scene_id": "day1_port",
-      "customer": "port",
-      "dialogues": [
+        },
+
         {
           "id": "d1p_001",
           "speaker": "port",
@@ -855,7 +869,7 @@
           "trigger": {
             "type": "start_cutscene",
             "data": {
-              "cutscene_id": "day1_bubi_fetch"
+              "cutscene_id": "FindLuna"
             }
           }
         },
