@@ -11,6 +11,7 @@ public class StartCutSceneCommand : IDialogueCommand
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
     [Inject] ICameraControl cameraZoom;
+    [Inject] ISoundManager soundManager;
 
     private string anim;
     private ECutSceneType type;
@@ -33,6 +34,7 @@ public class StartCutSceneCommand : IDialogueCommand
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
         await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
+        soundManager.PauseBGM();
 
         //카메라 사이즈 넣어야함
         ECameraZoomType zoomType = cameraType;
@@ -43,6 +45,8 @@ public class StartCutSceneCommand : IDialogueCommand
         await UniTask.WaitForSeconds(1f);
 
         cutScenePlayer.ClearCutScene();
+
+        soundManager.ResumeBGM();
 
         if (cameraTcs != null)
             cameraTcs.TrySetResult();

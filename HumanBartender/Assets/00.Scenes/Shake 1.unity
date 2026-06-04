@@ -178,17 +178,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTest: 0
   testDayName: day_test.json
+  testCraftName: 
+  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
+  craftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
   cocktailData: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
   ingredientDataSO: {fileID: 11400000, guid: 5dd40507ddfeb7f41be7d64a9fe4cb6a, type: 2}
   characterData: {fileID: 11400000, guid: d6dc2f25938ac55429f3365eb23948a9, type: 2}
   characterAnimConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
-  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
-  craftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
   cutSceneData: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
   settlementDataSO: {fileID: 11400000, guid: 7818a78b81a76b74d86e60ab0da90ded, type: 2}
   textTagDataSO: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
   characterTierDataSO: {fileID: 11400000, guid: 8b43359c7c482b945b13d916638e3791, type: 2}
   skillTierDataSO: {fileID: 11400000, guid: 8eafc0f6f8d8f324dbec0be6be949bb1, type: 2}
+  dayDataFileName: day0.json
+  craftDataFileName: day_test_crafts.json
+  cocktailDataFileName: cocktails.json
+  characterDataFileName: characters.json
+  characterAnimConfigFileName: character_anim.json
+  ingredientDataFileName: ingredients.json
+  cutSceneDataFileName: cutscenes.json
+  settlementDataFileName: settlements.json
+  textTagDataFileName: text_styles.json
+  characterTierDataFileName: character_tiers.json
+  skillTierDataFileName: skill_tiers.json
 --- !u!4 &827647418
 Transform:
   m_ObjectHideFlags: 0
@@ -321,7 +333,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1352947452}
   - component: {fileID: 1352947451}
-  - component: {fileID: 1352947450}
   - component: {fileID: 1352947449}
   - component: {fileID: 1352947453}
   m_Layer: 0
@@ -375,14 +386,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &1352947450
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352947447}
-  m_Enabled: 1
 --- !u!20 &1352947451
 Camera:
   m_ObjectHideFlags: 0

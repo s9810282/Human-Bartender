@@ -1,3 +1,4 @@
+using AutoGroupGenerator;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
@@ -29,6 +30,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
     [Inject] ICameraControl cameraZoom;
+    [Inject] IObjectResolver resolver;
 
     [Header("MiniGame Prefabs")]
     [SerializeField] private GameObject shakePrefab;
@@ -205,9 +207,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
 
         cameraTcs.TrySetResult();
-        //cameraZoom.ActionZoom(CameraZoomType.Base); //게임용 화면 1280 720 전환
-
         await miniGameInitTcs.Task;
+
+        if (resolver != null)
+            resolver.Inject(controller);
 
         controller.InitGame(miniGameEndTcs);
 

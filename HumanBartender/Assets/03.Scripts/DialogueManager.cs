@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] DialogueSceneDirector sceneDirector;
 
     [Inject] IPlayerDataReader PlayerData;
+    [Inject] ISoundManager soundManager;
 
     #region Data Field
 
@@ -41,12 +42,8 @@ public class DialogueManager : MonoBehaviour
             InitSystem();
 
         GameStateManager.Instance.IsStart = true;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        soundManager.PlayBGM("BGM_bar_01", 1f, true);
     }
 
     /// <summary>

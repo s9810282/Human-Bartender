@@ -17,16 +17,16 @@ public class InGameLifetimeScope : LifetimeScope
             .As<ICharacterSetter>()
             .As<IDialogueFader>();
 
-        builder.RegisterBuildCallback(container =>
-        {
-            _cutSceneManager = FindAnyObjectByType<CutSceneManager>();
+        //builder.RegisterBuildCallback(container =>
+        //{
+        //    _cutSceneManager = FindAnyObjectByType<CutSceneManager>();
 
-            if (_cutSceneManager != null)
-            {
-                var zoom = container.Resolve<ICameraControl>();
+        //    if (_cutSceneManager != null)
+        //    {
+        //        var zoom = container.Resolve<ICameraControl>();
 
-                _cutSceneManager.SetSceneDependencies(zoom);
-            }
-        });
+        //        _cutSceneManager.SetSceneDependencies(zoom);
+        //    }
+        //});
     }
 }

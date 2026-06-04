@@ -790,7 +790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1726889541}
   - component: {fileID: 1726889540}
-  - component: {fileID: 1726889539}
   - component: {fileID: 1726889538}
   - component: {fileID: 1726889542}
   m_Layer: 0
@@ -844,14 +843,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &1726889539
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726889537}
-  m_Enabled: 1
 --- !u!20 &1726889540
 Camera:
   m_ObjectHideFlags: 0
@@ -1158,15 +1149,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: isTest
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
+      propertyPath: testCraftName
+      value: day_test_crafts.json
       objectReference: {fileID: 0}
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: dayDataFileName
-      value: day1.json
+      value: day0.json
       objectReference: {fileID: 0}
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: craftDataFileName
-      value: day1_crafts.json
+      value: day0_crafts.json
       objectReference: {fileID: 0}
     - target: {fileID: 6871407068154430108, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: m_LocalPosition.x

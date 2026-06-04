@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 {
@@ -36,6 +37,8 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
     [SerializeField] VoidEvent craftRetry;
+
+    [Inject] ISoundManager soundManager;
 
     Vector3[] dotPositions;
 
@@ -158,6 +161,7 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         if (node != null)
         {          
             Logger.Log("Judge");
+            soundManager.PlaySE("SFX_shaking");
             characterAnim.PlayAnim();
             nodeCreator.CreateEffectNode(node.transform.position, node.curColor);
             successJudge++;

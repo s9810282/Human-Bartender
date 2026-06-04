@@ -6,6 +6,7 @@ public class DataLoadManager : MonoBehaviour
 {
     [SerializeField] bool isTest;
     [SerializeField] string testDayName;
+    [SerializeField] string testCraftName;
 
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
@@ -38,11 +39,13 @@ public class DataLoadManager : MonoBehaviour
         dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(
             isTest ? testDayName : dayDataFileName);
 
+        craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(
+             isTest ? testCraftName : craftDataFileName);
+
         cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(cocktailDataFileName);
         characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets(characterDataFileName);
         characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets(characterAnimConfigFileName);
         ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets(ingredientDataFileName);
-        craftData.craftData                 = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(craftDataFileName);
         cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets(cutSceneDataFileName);
         settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets(settlementDataFileName);
         textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets(textTagDataFileName);

@@ -156,7 +156,11 @@ public class SoundManager : MonoBehaviour, ISoundManager
         _bgmFadeRoutine = null;
     }
 
-    public void PauseBGM() => bgmSource.Pause();
+    public void PauseBGM()
+    {
+        Logger.Log("asdad"); bgmSource.Pause();
+    }
+
     public void ResumeBGM() => bgmSource.UnPause();
 
     // ─── SE (동시 재생) ─────────────────────────────
