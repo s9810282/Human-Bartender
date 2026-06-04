@@ -269,7 +269,7 @@
     {
       "id": "Serve_Cosmopolitan",
       "description": "코스모폴리탄 제공 컷씬",
-      "type": "sprite",
+      "type": "timeline",
       "blocking": true,
       "asset": "anim_serve_cosmopolitan",
       "position": "full",
@@ -338,7 +338,7 @@
     },
 
     {
-      "id": "FindLuna",
+      "id": "day1_bubi_fetch",
       "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 스프라이트 컷씬",
       "type": "timeline",
       "blocking": true,
