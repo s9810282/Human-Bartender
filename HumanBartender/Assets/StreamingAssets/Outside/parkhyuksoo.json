@@ -62,7 +62,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_a", "value": true } },
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_a" } },
                 { "type": "apply_effects", "data": { "affinity": 10 } }
               ]
             },
@@ -113,7 +113,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_b", "value": true } },
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_out_day1_b" } },
                 { "type": "apply_effects", "data": { "awareness": 10 } }
               ]
             }
@@ -201,7 +201,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "hyuksoo_in_day1_a", "value": true } }
+                { "type": "set_flag", "data": { "flag_id": "hyuksoo_in_day1_a" } }
               ]
             },
 
@@ -249,7 +249,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_in_day1_b", "value": true } },
+                { "type": "set_flag",      "data": { "flag_id": "hyuksoo_in_day1_b" } },
                 { "type": "apply_effects", "data": { "affinity": 10 } }
               ]
             }

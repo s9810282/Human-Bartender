@@ -74,7 +74,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "value": true } }
+                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done" } }
               ]
             }
 
@@ -148,7 +148,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done", "value": true } }
+                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done" } }
               ]
             }
 
