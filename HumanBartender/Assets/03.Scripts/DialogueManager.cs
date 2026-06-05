@@ -38,10 +38,10 @@ public class DialogueManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(!GameStateManager.Instance.IsStart)
+        if(!GameStateManager.Instance.IsDialogInitStart)
             InitSystem();
 
-        GameStateManager.Instance.IsStart = true;
+        GameStateManager.Instance.IsDialogInitStart = true;
 
         soundManager.PlayBGM("BGM_bar_01", 1f, true);
     }

@@ -9,7 +9,13 @@ public enum GameState
     Loading,
     MiniGame,
 }
-
+public enum EGameFlow
+{
+    Bar,
+    Attendance,
+    OffWork,
+    Home,
+}
 
 public class GameStateManager
 {
@@ -21,7 +27,7 @@ public class GameStateManager
             if (instance == null)
             {
                 instance = new GameStateManager();
-                instance.gameState = GameState.None;
+                instance.Init();
             }
             return instance;
         }
@@ -32,13 +38,22 @@ public class GameStateManager
     #region Field
 
     GameState gameState = GameState.Play;
-    bool isStart = false;
+    EGameFlow gameFlow = EGameFlow.Bar;
+    bool isDialogInitStart = false;
+    int currentDay = 0;
 
     #endregion
 
     #region Property
     public GameState CurrentGameState { get => gameState; set => gameState = value; }
-    public bool IsStart { get => isStart; set => isStart = value; }
-
+    public EGameFlow GameFlow { get => gameFlow; set => gameFlow = value; }
+    public bool IsDialogInitStart { get => isDialogInitStart; set => isDialogInitStart = value; }
+    public int CurrentDay { get => currentDay; set => currentDay = value; }
     #endregion
+
+    private void Init()
+    {
+        gameFlow = EGameFlow.Bar;
+        currentDay = 0;
+    }
 }
