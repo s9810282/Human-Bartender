@@ -7,6 +7,7 @@ public class InteractionDetector : MonoBehaviour
 {
     [Header("Event Channels")]
     [SerializeField] private InteractorEvent interactPressedChannel;
+    [SerializeField] private InteractableEvent OnInteractedTargetChannel;
     [SerializeField] private InteractableEvent OnTargetChanged;
 
     [Header("References")]
@@ -62,12 +63,18 @@ public class InteractionDetector : MonoBehaviour
     {
         if (interactPressedChannel != null)
             interactPressedChannel.OnRaised += HandleInteractInput;
+
+        if (OnInteractedTargetChannel != null)
+            OnInteractedTargetChannel.OnRaised += InteractedTarget;
     }
 
     private void OnDisable()
     {
         if (interactPressedChannel != null)
             interactPressedChannel.OnRaised -= HandleInteractInput;
+
+        if (OnInteractedTargetChannel != null)
+            OnInteractedTargetChannel.OnRaised -= InteractedTarget;
 
         if (currentTarget != null)
         {
@@ -141,5 +148,15 @@ public class InteractionDetector : MonoBehaviour
             currentTarget?.OnFocusEnter();
             OnTargetChanged?.Raise(currentTarget);
         }
+    }
+
+    /// <summary>
+    /// Interaction 중 하이라이트 및 버튼 숨기기
+    /// </summary>
+    /// <param name="target"></param>
+    public void InteractedTarget(IInteractable target = null)
+    {
+        target?.OnFocusExit();
+        OnTargetChanged?.Raise(null);
     }
 }

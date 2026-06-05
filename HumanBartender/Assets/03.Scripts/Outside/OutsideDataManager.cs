@@ -5,7 +5,7 @@ using UnityEngine;
 public class OutsideCharacterData
 {
     public string id;
-    public DayDataSO data;
+    public NPCCharacterDayDataSO data;
 }
 
 
@@ -13,19 +13,12 @@ public class OutsideDataManager : MonoBehaviour
 {
     [SerializeField] List<OutsideCharacterData> outsideCharacterDatas;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
-        //비동기처리하기 OS 시간에 배움 
         foreach(var item in outsideCharacterDatas)
         {
-            item.data.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(item.id);
+            item.data.dayData = JsonManager<NPCCharacterDay>.LoadGameData_StreamingAssets(item.id);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

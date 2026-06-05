@@ -524,17 +524,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTest: 0
   testDayName: day_test.json
+  testCraftName: 
+  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
+  craftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
   cocktailData: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
   ingredientDataSO: {fileID: 11400000, guid: 5dd40507ddfeb7f41be7d64a9fe4cb6a, type: 2}
   characterData: {fileID: 11400000, guid: d6dc2f25938ac55429f3365eb23948a9, type: 2}
   characterAnimConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
-  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
-  craftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
   cutSceneData: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
   settlementDataSO: {fileID: 11400000, guid: 7818a78b81a76b74d86e60ab0da90ded, type: 2}
   textTagDataSO: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
   characterTierDataSO: {fileID: 11400000, guid: 8b43359c7c482b945b13d916638e3791, type: 2}
   skillTierDataSO: {fileID: 11400000, guid: 8eafc0f6f8d8f324dbec0be6be949bb1, type: 2}
+  dayDataFileName: day0.json
+  craftDataFileName: day_test_crafts.json
+  cocktailDataFileName: cocktails.json
+  characterDataFileName: characters.json
+  characterAnimConfigFileName: character_anim.json
+  ingredientDataFileName: ingredients.json
+  cutSceneDataFileName: cutscenes.json
+  settlementDataFileName: settlements.json
+  textTagDataFileName: text_styles.json
+  characterTierDataFileName: character_tiers.json
+  skillTierDataFileName: skill_tiers.json
 --- !u!4 &287488622
 Transform:
   m_ObjectHideFlags: 0
@@ -2255,7 +2267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1526230317
 SpriteRenderer:
   serializedVersion: 2
@@ -2305,12 +2317,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 1184fd2afa3c5654595724a215334bb1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b29b0e5017f73ba489ad059237a4096f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.86, y: 3.1}
+  m_Size: {x: 3.17, y: 3.85}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

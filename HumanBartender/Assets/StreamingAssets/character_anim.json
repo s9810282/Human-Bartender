@@ -41,6 +41,8 @@
           "sprite": "chris_fail"
         },
         "default": {
+          "type": "sprite",
+          "sprite": "chris_default",
           "eyes":        { "clip": "chris_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_default",  "loop": "always" },

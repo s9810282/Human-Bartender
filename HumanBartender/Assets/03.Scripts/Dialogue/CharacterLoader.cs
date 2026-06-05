@@ -197,6 +197,8 @@ public class CharacterLoader
         if (dataPath == null)
             return false;
 
+        Logger.Log("Load Portait");
+
         string clipaddress = dataPath;
 
         var spriteHandle = await ResourceLoader.TryLoadAsync<Sprite>(clipaddress, token);
@@ -204,6 +206,7 @@ public class CharacterLoader
 
         if (spriteHandle.HasValue)
         {
+            slot.portaitSpriteRenderer.gameObject.SetActive(true);
             slot.portaitSpriteRenderer.sprite = spriteHandle.Value.Result;
             return true;
         }

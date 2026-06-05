@@ -9,7 +9,6 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
 {
     [SerializeField] GameObject dialoguePanel;
     
-    [SerializeField] private UIDialogueTextView targetTyper;
     [SerializeField] private UIDialogueTextView playerTyper;
     [SerializeField] private DialogueTriggerManager triggerManager;
     [SerializeField] private UIDialogueChoiceView choiceManager;
@@ -28,7 +27,7 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
     {
         return "";
 
-        targetTyper.ClearText();
+        playerTyper.ClearText();
 
         string id = await triggerManager.ExecuteTriggerAsync(trigger);
 
@@ -52,13 +51,11 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
         //추후 DB 추가
         //if (characterDB.TryGetValue(dialogueData.Speaker, out CharacterData speakerData))
 
-        UIDialogueTextView typer = dialogueData.Speaker == PLAYER_ID ? playerTyper : targetTyper;
-
-        typer.ClearText();
+        playerTyper.ClearText();
 
         //이름 텍스트 및, 애니메이션 전화 여기서, 일반 Dialgue와 동일함.
 
-        await typer.StartType(new TypingData(
+        await playerTyper.StartType(new TypingData(
             dialogueData.Text,
             dialogueData.Speaker,
             Vector2.zero,
@@ -68,7 +65,7 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
 
     public void SkipTyping()
     {
-        targetTyper.OnScreenClick();
+        playerTyper.OnScreenClick();
     }
 
     public void ShowSystemAction()
@@ -78,7 +75,6 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
 
     public void EndScene()
     {
-        targetTyper.ClearText();
         playerTyper.ClearText();
     }
 }

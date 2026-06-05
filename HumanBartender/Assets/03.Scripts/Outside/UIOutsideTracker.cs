@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public interface UITracker
 {
@@ -12,7 +13,6 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
 
     [SerializeField] protected RectTransform target;
     [SerializeField] protected Camera cam;
-    [SerializeField] protected Vector2 offset;
 
     protected IInteractable trackedTarget;
 
@@ -50,9 +50,12 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
 
     public void UpdateButtonPosition()
     {
-        Vector2 screenPoint = cam.WorldToScreenPoint(trackedTarget.Position);
-        screenPoint += offset;
+        Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Position);
+        
+        screenPos.x += trackedTarget.Offset.x;
+        screenPos.y += trackedTarget.Offset.y;
+        screenPos.z = 10f;
 
-        target.position = screenPoint;
+        target.position = screenPos;
     }
 }

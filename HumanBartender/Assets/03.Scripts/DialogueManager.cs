@@ -117,11 +117,11 @@ public class DialogueManager : MonoBehaviour
         }
         else if (currentDialogue.Type == EDialogueType.ConditionBranch)
         {
-            NextConditions next = currentDialogue.Nextconditions.Value;
+            NextConditions? next = currentDialogue.Nextconditions;
 
-            EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(next.Character);
+            EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(next.Value.Character);
             
-            foreach(var item in next.Branches)
+            foreach(var item in next.Value.Branches)
             {
                 if (characterTier == item.Tier)
                 {

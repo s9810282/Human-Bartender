@@ -18,6 +18,9 @@ public enum EDialogueType
     [EnumMember(Value = "normal")]
     Normal,
 
+    [EnumMember(Value = "choice")]
+    Choice,
+
     [EnumMember(Value = "choice_root")]
     ChoiceRoot,
 
@@ -95,6 +98,12 @@ public enum ETriggetType
 
     [EnumMember(Value = "day_end")]
     Day_End,
+
+    [EnumMember(Value = "set_flag")]
+    SetFlag,
+
+    [EnumMember(Value = "money_change")]
+    MoneyChange,
 }
 
 
