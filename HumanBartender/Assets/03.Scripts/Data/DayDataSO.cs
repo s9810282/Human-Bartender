@@ -126,6 +126,7 @@ public struct DialogueData
     [JsonProperty("next")] public string Next { get; set; }
     [JsonProperty("choices")] public ChoiceData[] Choices { get; set; }
     [JsonProperty("trigger")] public TriggerData? Trigger { get; set; }
+    [JsonProperty("triggers")] public TriggerData[] Triggers { get; set; }
     [JsonProperty("next_conditions")] public NextConditions? Nextconditions { get; set; }
 }
 
@@ -192,7 +193,6 @@ public struct TriggerDetailData
     
     [JsonProperty("craft_event_id")] public string CraftEventId { get; set; }
 
-    
 
     [JsonProperty("cutscene_id")] public string CutsceneId { get; set; }
     [JsonProperty("cutscene_type")] public ECutSceneType CutsceneType { get; set; }

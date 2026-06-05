@@ -11,12 +11,18 @@ public class OutsideCharacterData
 
 public class OutsideDataManager : MonoBehaviour
 {
+    [SerializeField] OutsideObjectDataSO objectData;
     [SerializeField] List<OutsideCharacterData> outsideCharacterDatas;
 
 
-    void Start()
+    void Awake()
     {
-        foreach(var item in outsideCharacterDatas)
+        objectData.outsideObjectData = JsonManager<OutsideObjectDataBase>.
+            LoadGameData_StreamingAssets("Outside\\outside_objects.json");
+
+        objectData.Cached();
+
+        foreach (var item in outsideCharacterDatas)
         {
             item.data.dayData = JsonManager<NPCCharacterDay>.LoadGameData_StreamingAssets(item.id);
         }
