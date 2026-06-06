@@ -24,6 +24,8 @@ public class Player : MonoBehaviour, IInteractor
 
         movement2D.Handle();
         animator2D.Handle(movement2D.VelocityX);
+
+        if (state == EInteractorState.ForceMove) return;
         detector.Handle();
     }
 }

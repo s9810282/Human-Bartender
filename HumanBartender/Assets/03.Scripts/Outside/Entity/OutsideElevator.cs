@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 
@@ -14,6 +15,8 @@ public class OutsideElevator : InteractiveEntity
     [SerializeField] GameObject wallColider;
 
     [SerializeField] float speed = 1f;
+    [Tooltip("Camera Controller Duration이랑 맞추기")]
+    [SerializeField] float delayDuration = 3f;
     [SerializeField] Ease ease;
 
     Transform targetPoint;
@@ -40,6 +43,8 @@ public class OutsideElevator : InteractiveEntity
 
         changeCameraModeEvent?.Raise(1);
 
+        OnInteracted?.Raise(this);
+
         transform.DOMove(targetPoint.position, speed)
               .SetSpeedBased(true)
               .SetEase(ease)
@@ -48,16 +53,22 @@ public class OutsideElevator : InteractiveEntity
                   transform.position = targetPoint.position;
 
                   player.Transform.SetParent(null, worldPositionStays: true);
-
-                  isMoving = false;
-                  isInteracting = false;
-                  isTop = !isTop;
-                  OnFocusEnter();
-                  wallColider.gameObject.SetActive(false);
-
                   changeCameraModeEvent?.Raise(0);
 
-                  player.State = EInteractorState.None;
+                  StartCoroutine(DelayToChangeState(player));
               });
+    }
+
+    public IEnumerator DelayToChangeState(IInteractor player)
+    {
+        yield return new WaitForSeconds(delayDuration);
+        
+        isMoving = false;
+        isInteracting = false;
+        isTop = !isTop;
+        wallColider.gameObject.SetActive(false);
+
+        OnFocusEnter();
+        player.State = EInteractorState.None;
     }
 }

@@ -17,7 +17,9 @@ public class OutsideCameraOption
     public AnimationCurve resolutionCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
     public Transform cameraTarget;
+    public Transform cameraParent;
     public Vector3 cameraOffset;
+    public bool isFirstChangeParent = false;
 
     public float offsetDuration = 1f;
     public float resolutionDuration = 1f;
@@ -55,7 +57,13 @@ public class OutsideCamera : MonoBehaviour
 
     public void ExcuteCameraOption(OutsideCameraOption mode)
     {
+        if(mode.isFirstChangeParent)
+            cameraZoom.FollowTarget(mode.cameraParent);
+
         cameraZoom.TransitionFollowOffset(mode.cameraOffset, mode.offsetDuration, mode.offsetCurve);
         cameraZoom.TransitionCameraZoom(mode.targetResolution, mode.resolutionDuration, mode.resolutionCurve);
+
+        if(!mode.isFirstChangeParent)
+            cameraZoom.FollowTarget(mode.cameraParent);
     }
 }

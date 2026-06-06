@@ -40,10 +40,6 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
 
-        //그니까 여기서 selectionType 값을 이용해서 시작 순서를 결정하기
-        //sequential 순차적
-        //conditional 조건에 맞는 하나
-
         if (selectionType == ESelectionType.Conditional)
             curFlowIndex = 0;
 
