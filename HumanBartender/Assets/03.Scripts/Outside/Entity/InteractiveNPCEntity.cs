@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class InteractiveNPCEntity : InteractiveEntity
@@ -7,12 +8,25 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
     //고민해보기
     //data는 so같은 형태로 변경 필요
     //Runner 및 Presenter DI로 받아야함 동적 생성 이유.
-    [SerializeField] protected NPCCharacterDayDataSO dialogueData;
+    [SerializeField] protected List<FlowData> flows;
     [SerializeField] protected DialogueRunner runner;
     [SerializeField] protected OutsideDialoguePresenter presenter;
 
 
     protected bool isTalking = false;
+
+    int curFlowIndex = 0;
+    ESelectionType selectionType = ESelectionType.Random;
+
+    public void InjectDialogue(List<FlowData> data, ESelectionType selection)
+    {
+        if (data.Count == 0)
+            Logger.LogError($"Select Flow Data is Null");
+
+        flows = data;
+        curFlowIndex = 0;
+        selectionType = selection;
+    }
 
 
     public override async void Interact(IInteractor player)
@@ -26,14 +40,21 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
 
-
         //그니까 여기서 selectionType 값을 이용해서 시작 순서를 결정하기
+        //sequential 순차적
+        //conditional 조건에 맞는 하나
+
+        if (selectionType == ESelectionType.Conditional)
+            curFlowIndex = 0;
 
         runner.Bind(presenter);
-        await runner.PlayAsync(dialogueData.dayData.Days[0].FlowData[0].Dialogues);
+        await runner.PlayAsync(flows[curFlowIndex].Dialogues);
 
         isTalking = false;
         isInteracting = false;
         player.State = EInteractorState.None;
+
+        curFlowIndex++;
+        curFlowIndex %= flows.Count;
     }
 }

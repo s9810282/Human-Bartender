@@ -1,3 +1,8 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -9,11 +14,19 @@ public enum GameState
     Loading,
     MiniGame,
 }
+
+[Serializable]
+[JsonConverter(typeof(StringEnumConverter))]
 public enum EGameFlow
 {
     Bar,
+
+    [EnumMember(Value = "commute_in")]
     Attendance,
+
+    [EnumMember(Value = "commute_out")]
     OffWork,
+
     Home,
 }
 

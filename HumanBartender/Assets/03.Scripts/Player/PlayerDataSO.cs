@@ -5,8 +5,14 @@ public interface IPlayerDataReader
 {
     int HasMoney();
     bool HasEnoughMoney(int cost);
+
     EAffinityTier GetCurCharacterAffinityTier(string id);
+    int GetCurCharacterAffinityValue(string id);
+
     ESkillTier GetSkillTier();
+    int GetSkillValue();
+
+    bool CheckFlag(string id);
 }
 
 public interface IPlayerDataWriter
@@ -20,6 +26,8 @@ public interface IPlayerDataWriter
     void AddCharacterKarmaAmount(string id, int val);
 
     void AddSkillTier(int val);
+
+    void AddFlag(string id, bool value);
 }
 
 
@@ -35,13 +43,28 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
     [Tooltip("인스펙터 보여주기 용, 내부적으로 Dic 사용")]
     [SerializeField] CharacterTierDataSO characterTierDataSO;
     [SerializeField] List<CharacterTierData> characterTierDatas = new();
+    Dictionary<string, CharacterTierData> characterTierDics = new();
+
 
     [Header("Skill Tier")]
     [SerializeField] SkillTierDataSO skillTierDataSO;
     [SerializeField] int skillTierAmount = 0;
 
-    Dictionary<string, CharacterTierData> characterTierDics = new();
 
+
+    [Header("Flag")]
+    [SerializeField] Dictionary<string, bool> flagList = new();
+
+    public void Init()
+    {
+        characterTierDatas = new List<CharacterTierData>();
+        characterTierDics = new Dictionary<string, CharacterTierData>();
+
+        flagList = new Dictionary<string, bool>();
+
+        money = 0;
+        skillTierAmount = 0;
+    }
 
     #region Money
     public void AddMoney(int val)
@@ -125,11 +148,6 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
             characterTierDics[id].karamaAmount = val;
         }
     }
-
-
-
-
-
     public EAffinityTier GetCurCharacterAffinityTier(string id)
     {
         CharacterAffinityData data = characterTierDataSO.characterTiers.Characters[id];
@@ -147,6 +165,12 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
         }
 
         return EAffinityTier.Very_Low;
+    }
+    public int GetCurCharacterAffinityValue(string id)
+    {
+        if (!characterTierDics.ContainsKey(id)) return 0;
+
+        return characterTierDics[id].affinityAmount;
     }
 
     #endregion
@@ -170,6 +194,32 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
 
         return ESkillTier.Beginner;
     }
+
+    public int GetSkillValue()
+    {
+        return skillTierAmount;
+    }
+
+    #endregion
+
+
+    #region Flag
+
+    public void AddFlag(string id, bool value)
+    {
+        if (flagList.ContainsKey(id))
+            flagList[id] = value;
+        else
+            flagList.Add(id, value);
+
+    }
+    public bool CheckFlag(string id)
+    {
+        if (!flagList.ContainsKey(id)) return false;
+
+        return flagList[id];
+    }
+
 
     #endregion
 }

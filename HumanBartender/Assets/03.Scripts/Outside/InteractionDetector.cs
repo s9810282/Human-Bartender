@@ -85,13 +85,6 @@ public class InteractionDetector : MonoBehaviour
         currentFrameCandidates.Clear();
     }
 
-    private void HandleInteractInput(IInteractor interactor)
-    {
-        if (currentTarget == null || !currentTarget.IsAvaliable) return;
-        currentTarget.Interact(interactor);
-    }
-
-
     public void Handle()
     {
         ScanCandidates();
@@ -143,6 +136,8 @@ public class InteractionDetector : MonoBehaviour
 
         if (!ReferenceEquals(best, currentTarget))
         {
+            if (best != null && !best.IsAvaliable) return;
+
             currentTarget?.OnFocusExit();
             currentTarget = best;
             currentTarget?.OnFocusEnter();
@@ -157,6 +152,13 @@ public class InteractionDetector : MonoBehaviour
     public void InteractedTarget(IInteractable target = null)
     {
         target?.OnFocusExit();
-        OnTargetChanged?.Raise(null);
+        currentTarget = null;
+        OnTargetChanged?.Raise(currentTarget);
+    }
+
+    private void HandleInteractInput(IInteractor interactor)
+    {
+        if (currentTarget == null || !currentTarget.IsAvaliable) return;
+        currentTarget.Interact(interactor);
     }
 }

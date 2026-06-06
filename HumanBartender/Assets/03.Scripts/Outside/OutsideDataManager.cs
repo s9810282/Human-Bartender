@@ -15,7 +15,7 @@ public class OutsideDataManager : MonoBehaviour
     [SerializeField] List<OutsideCharacterData> outsideCharacterDatas;
 
 
-    void Awake()
+    public void Load()
     {
         objectData.outsideObjectData = JsonManager<OutsideObjectDataBase>.
             LoadGameData_StreamingAssets("Outside\\outside_objects.json");

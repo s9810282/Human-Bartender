@@ -8,6 +8,7 @@ public class ProjectLifetimeScope : LifetimeScope
 
     protected override void Configure(IContainerBuilder builder)
     {
+        playerData.Init();
 
         builder.RegisterComponentInHierarchy<IngredientLibrary>();
 

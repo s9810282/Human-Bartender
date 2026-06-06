@@ -25,7 +25,10 @@ public class DialogueTriggerManager : MonoBehaviour
         _skipCts = new CancellationTokenSource();
 
         IDialogueCommand command = DialogueCommandFactory.CreateCommand(trigger);
-        if (command == null) return "";
+        if (command == null)
+        {
+            return "";
+        }
 
         string nextId = "";
 
@@ -36,7 +39,7 @@ public class DialogueTriggerManager : MonoBehaviour
 
         resolver.Inject(command);
         nextId = await command.ExecuteAsync(_skipCts.Token);
-
+        
         return nextId;
     }
 

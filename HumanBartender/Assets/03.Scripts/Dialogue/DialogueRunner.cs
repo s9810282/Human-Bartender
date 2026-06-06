@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using VContainer;
 
@@ -123,6 +124,10 @@ public class DialogueRunner : MonoBehaviour
             {
                 ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
+            else if (currentDialogue.Triggers != null && currentDialogue.Triggers.Length > 0)
+            {
+                ExecuteTriggersAsync(currentDialogue.Triggers, currentDialogue.Next).Forget();
+            }
             else if (!string.IsNullOrEmpty(currentDialogue.Next))
             {
                 DialogueEvent(currentDialogue.Next);
@@ -152,6 +157,7 @@ public class DialogueRunner : MonoBehaviour
         PlayDialogueAsync(id).Forget();
     }
 
+
     private async UniTaskVoid PlayDialogueAsync(string dialogueId)
     {
         try
@@ -167,10 +173,15 @@ public class DialogueRunner : MonoBehaviour
                 {
                     await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
                 }
+                else if(currentDialogue.Triggers != null && currentDialogue.Triggers.Length > 0)
+                {
+                    await ExecuteTriggersAsync(currentDialogue.Triggers, currentDialogue.Next);
+                }
                 else
                 {
                     DialogueEvent(currentDialogue.Next);
                 }
+
                 return;
             }
             else if (currentDialogue.Type == EDialogueType.ConditionBranch)
@@ -237,6 +248,36 @@ public class DialogueRunner : MonoBehaviour
         else
             DialogueEvent(nextId);
     }
+
+    private async UniTask ExecuteTriggersAsync(TriggerData[] triggers, string fallbackNextId)
+    {
+        currentState = DialogueState.WaitingForTrigger;
+        string nextId = null;
+
+        foreach (var triggerData in triggers)
+        {
+            try
+            {
+                nextId = await presenter.ExecuteTriggerAsync(triggerData);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[DialogueRunner] ExecuteTriggerAsync 오류: {e}");
+                EndScene();
+                return;
+            }
+        }
+
+        if (string.IsNullOrEmpty(nextId))
+            DialogueEvent(fallbackNextId);
+        else
+            DialogueEvent(nextId);
+    }
+
 
     private void ShowChoices()
     {

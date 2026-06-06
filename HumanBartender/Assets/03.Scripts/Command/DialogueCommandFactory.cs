@@ -34,12 +34,27 @@ public static class DialogueCommandFactory
 
             case ETriggetType.StartCutScene:
                 return new StartCutSceneCommand(triggerData.Value.Data);
-            
+
             case ETriggetType.SetStat:
                 return new SetStatCommand(triggerData.Value.Data);
 
             case ETriggetType.AddStat:
                 return new AddStatCommand(triggerData.Value.Data);
+
+            case ETriggetType.ApplyEffect:
+                return new AddStatCommand(triggerData.Value.Data);
+                
+            case ETriggetType.CharacterAction:
+                return null;
+
+            case ETriggetType.Day_End:
+                return new DayEndCommand(triggerData.Value.Data);
+
+            case ETriggetType.SetFlag:
+                return new SetFlagCommand(triggerData.Value.Data);
+
+            case ETriggetType.MoneyChange:
+                return new MoneyChangeCommand(triggerData.Value.Data);
 
             default:
                 Debug.LogWarning($"[Factory] 정의되지 않은 트리거 타입: {triggerData.Value.Type}");

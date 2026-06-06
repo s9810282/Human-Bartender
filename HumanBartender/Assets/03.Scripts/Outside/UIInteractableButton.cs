@@ -1,8 +1,11 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIInteractableButton : UIOutsideTracker
 {
+    [SerializeField] TMP_Text interactText;
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -32,6 +35,7 @@ public class UIInteractableButton : UIOutsideTracker
             return;
         }
 
+        interactText.text = interactable.Label;
         target.gameObject.SetActive(true);
     }
 

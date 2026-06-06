@@ -180,7 +180,11 @@ public struct TriggerDetailData
     [JsonProperty("character_id")] public string CharacterId { get; set; }
     [JsonProperty("slot")] public string Slot { get; set; }
 
+    [JsonProperty("flag_id")] public string FlagId { get; set; }
     [JsonProperty("value")] public int Value { get; set; }
+    [JsonProperty("bValue")] public bool BValue { get; set; }
+
+    [JsonProperty("amount")] public int Amount { get; set; }
 
     [JsonProperty("sfx")] public string Sfx { get; set; }
     [JsonProperty("sfx_mode")] public string SfxMode { get; set; }

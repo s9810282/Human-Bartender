@@ -11,8 +11,10 @@ public struct OutsideObjectData
 {
     [JsonProperty("object_id")] public string ObjectId { get; set; }
     [JsonProperty("day")] public int? Day { get; set; }
+    [JsonProperty("selection")] public SelectionConfigData Selection { get; set; }
     [JsonProperty("interact_label")] public string InteractLabel { get; set; }
-    [JsonProperty("dialogues")] public DialogueData[] Dialogues { get; set; }
+    [JsonProperty("flows")] public FlowData[] FlowData { get; set; }
+
 }
 
 [Serializable]
