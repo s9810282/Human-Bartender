@@ -15,12 +15,11 @@
           "flow_id": "bubi_day1_sleep",
           "condition": null,
           "dialogues": [
-
             {
               "id": "bubi_sleep_001",
               "speaker": "bubi",
               "type": "normal",
-              "text": "Zzzz...",
+              "text": "Zzz..드르러어어엉..",
               "next": "bubi_sleep_002",
               "choices": null,
               "triggers": []
@@ -29,7 +28,16 @@
               "id": "bubi_sleep_002",
               "speaker": "bubi",
               "type": "normal",
-              "text": "야옹..Zzz..ㅇ..",
+              "text": "야옹..Zzz....",
+              "next": "bubi_sleep_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "bubi_sleep_003",
+              "speaker": "luna",
+              "type": "monologue",
+              "text": "(되게 잘 자네.)",
               "next": "bubi_sleep_end",
               "choices": null,
               "triggers": []
@@ -45,7 +53,6 @@
                 { "type": "set_flag", "data": { "flag_id": "saw_bubi_outside_day1", "bValue": true } }
               ]
             }
-
           ]
         }
 

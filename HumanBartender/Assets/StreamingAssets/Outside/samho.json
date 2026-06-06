@@ -90,7 +90,7 @@
               "id": "samho_out_d2_002",
               "speaker": "luna",
               "type": "normal",
-              "text": "…삼호씨.",
+              "text": "…네?",
               "next": "samho_out_d2_003",
               "choices": null,
               "triggers": []
@@ -99,7 +99,7 @@
               "id": "samho_out_d2_003",
               "speaker": "samho",
               "type": "normal",
-              "text": "아까 그거… 더 안 준 거 맞지?",
+              "text": "덕분에 죽을 뻔했다.",
               "next": "samho_out_d2_004",
               "choices": null,
               "triggers": []
@@ -108,7 +108,7 @@
               "id": "samho_out_d2_004",
               "speaker": "luna",
               "type": "normal",
-              "text": "네.",
+              "text": "다행이네요.",
               "next": "samho_out_d2_005",
               "choices": null,
               "triggers": []
@@ -117,7 +117,7 @@
               "id": "samho_out_d2_005",
               "speaker": "samho",
               "type": "normal",
-              "text": "…그래. 알겠어.",
+              "text": "…그래.",
               "next": "samho_out_d2_end",
               "choices": null,
               "triggers": []
@@ -136,6 +136,5 @@
 
       ]
     }
-
   ]
 }

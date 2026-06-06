@@ -285,66 +285,45 @@
         "rules": [
           {
             "result": "perfect",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "부드러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
             "require_craft_success": "perfect",
-            "description": "달콤/부드러운 키워드 + 미니게임 완벽"
+            "description": "깔루아 밀크 + 미니게임 완벽"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "부드러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
             "require_craft_success": "normal",
-            "description": "달콤/부드러운 키워드 + 미니게임 보통"
+            "description": "깔루아 밀크 + 미니게임 보통"
           },
           {
-            "result": "good",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "부드러운"],
+            "result": "normal",
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
             "require_craft_success": "fail",
-            "description": "달콤/부드러운 키워드 + 미니게임 실패"
+            "description": "깔루아 밀크 + 미니게임 실패"
           },
           {
-            "result": "good",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "청량한"],
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "perfect",
-            "description": "상큼/청량 키워드 + 미니게임 완벽"
+            "description": "다른 칵테일"
           },
           {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "청량한"],
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "normal",
-            "description": "상큼/청량 키워드 + 미니게임 보통"
+            "description": "다른 칵테일"
           },
           {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "청량한"],
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "fail",
-            "description": "상큼/청량 키워드 + 미니게임 실패"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
-            "require_craft_success": "perfect",
-            "description": "자극적인 키워드 + 미니게임 완벽"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
-            "require_craft_success": "normal",
-            "description": "자극적인 키워드 + 미니게임 보통"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
-            "require_craft_success": "fail",
-            "description": "자극적인 키워드 + 미니게임 실패"
+            "description": "다른 칵테일"
           }
         ]
       },
@@ -381,15 +360,6 @@
           "dialogue_id": "d1b_react_bad_001",
           "cutscene_id": null,
           "affinity": -2,
-          "karma": 0,
-          "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
-        },
-        "bad_nm_fail": {
-          "verdict": "normal",
-          "dialogue_id": "d1b_react_normal_001",
-          "cutscene_id": null,
-          "affinity": 0,
           "karma": 0,
           "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
