@@ -2444,8 +2444,7 @@
             "type": "set_flag",
             "data": {
               "flag_id": "samho_death_route",
-              "samho_drink_count": 3,
-              "samho_refused_drink": false
+              "bValue": true
             }
           }
         },
@@ -2572,7 +2571,7 @@
             "type": "set_flag",
             "data": {
               "flag_id": "samho_refused_drink",
-              "samho_drink_count": 2
+              "bValue": true
             }
           }
         },
