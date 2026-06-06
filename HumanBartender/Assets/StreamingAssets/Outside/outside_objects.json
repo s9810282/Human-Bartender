@@ -15,37 +15,25 @@
               "id": "poster_hw_001",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>구인 중</world>",
-              "next": null,
+              "text": "<world>야간 아르바이트 구인 중</world>",
+              "next": "poster_hw_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_hw_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_hw_002",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>경험 무관 / 야간 환영</world>",
-              "next": null,
+              "text": "<world>요구 조건: 갱단의 습격에도 살아남을 수 있는 사람</world>",
+              "next": "poster_hw_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_hw_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_hw_003",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>문의: 지하 1층</world>",
+              "text": "<world>시급: 500원</world>",
               "next": "poster_hw_end",
               "choices": null,
               "triggers": []
@@ -80,52 +68,34 @@
               "id": "poster_shiba_001",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>시바견을 찾습니다</world>",
-              "next": null,
+              "text": "<world>시바견을 찾습니다.</world>",
+              "next": "poster_shiba_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_shiba_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_shiba_002",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>성격 불같음</world>",
-              "next": null,
+              "text": "<world>특징: 항상 헛소리와 개소리를 늘어놓으며,</world>",
+              "next": "poster_shiba_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_shiba_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_shiba_003",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>눈깔이 초롱초롱 함.</world>",
-              "next": null,
+              "text": "<world>주변 사람들의 정신을 혼란스럽게 만듭니다.</world>",
+              "next": "poster_shiba_004",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_shiba_flow_4",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_shiba_004",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>주의. 개소리를 너무 많</world>",
+              "text": "<world>발견 시 연락 바람: 0X0-XXXX-XXXX</world>",
               "next": "poster_shiba_end",
               "choices": null,
               "triggers": []
@@ -160,7 +130,7 @@
               "id": "vm_001",
               "speaker": "object",
               "type": "normal",
-              "text": "(음료를 판매하는 자판기처럼 보인다.)",
+              "text": "(지이잉―)",
               "next": "vm_choice",
               "choices": null,
               "triggers": []
@@ -172,8 +142,8 @@
               "text": "",
               "next": null,
               "choices": [
-                { "text": "산다 (500원 필요)", "next": "vm_money_check" },
-                { "text": "안산다",            "next": "vm_end" }
+                { "text": "산다 (100원 필요)", "next": "vm_money_check" },
+                { "text": "안 산다",            "next": "vm_end" }
               ],
               "triggers": []
             },
@@ -186,7 +156,7 @@
               "choices": null,
               "next_conditions": {
                 "stat": "money",
-                "min_amount": 500,
+                "min_amount": 100,
                 "default": "vm_poor",
                 "branches": [
                   { "goto": "vm_buy" }
@@ -202,14 +172,14 @@
               "next": "vm_end",
               "choices": null,
               "triggers": [
-                { "type": "money_change", "data": { "amount": -500 } }
+                { "type": "money_change", "data": { "amount": -100 } }
               ]
             },
             {
               "id": "vm_poor",
               "speaker": "luna",
-              "type": "normal",
-              "text": "(현재 소지금이 적어서 구매할 수 없네..)",
+              "type": "monologue",
+              "text": "(100원이 많이 비싼 건가?)",
               "next": "vm_end",
               "choices": null,
               "triggers": []
@@ -240,114 +210,27 @@
           "dialogues": [
             {
               "id": "exp_r_001",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "조건 없이 사람을 실험 참여자를 모집하는 전단지네.",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>인공 신경망 분석 임상시험 참가자 모집</world>",
+              "next": "exp_r_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "exp_r_002",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "\" 실험 참가자 모집. 조건 없음.\"….\n조건이 없다는 게 조건 아닌가...?",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>주관: ㈜코라AI</world>",
+              "next": "exp_r_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "exp_r_003",
               "speaker": "luna",
               "type": "monologue",
-              "text": "사례금과 식사 제공. \n크리스한테 배운 표현으로 하자면 '공짜 점심은 없다.' 라는 표현이랑 같은건가.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_4",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "exp_r_004",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "실험 내용은 참가 후 고지라.. \n내용을 알면 아무도 안오니까 나중에 알려주겠다는건가.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_5",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "exp_r_005",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "응하는 사람이 있을까. \n이 구역 사람들을 봤을 때 꽤 많이 갈지도..",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_6",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "exp_r_006",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "간단한 실험이라면서 왜 정보를 보여주지 않는거지?",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_7",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "exp_r_007",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "크리스라면 이걸 보고 어떤 반응일까.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "exp_r_flow_8",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "exp_r_008",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "연락처가 적혀있네. 559*989*956….\n전화하면 누가 받을까",
+              "text": "음… 설마.",
               "next": null,
               "choices": null,
               "triggers": []
@@ -370,83 +253,26 @@
             {
               "id": "toilet_001",
               "speaker": "luna",
-              "type": "monologue",
-              "text": "딱히 볼 이유가 없는데 멈춰서 보고있다. \n아무도 치울 생각이 없다는 게 참 이 구역 분위기랑 잘 어울리는거 같기도..",
-              "next": null,
+              "type": "normal",
+              "text": "…뭐지, 이건?",
+              "next": "toilet_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "toilet_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "toilet_002",
               "speaker": "luna",
-              "type": "monologue",
-              "text": "변기통이 버려져 있다는게….\n버려질 수 있는 사물이었구나…",
-              "next": null,
+              "type": "normal",
+              "text": "방금 전까지 누군가 사용한 흔적이 있는 것 같은데.",
+              "next": "toilet_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "toilet_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "toilet_003",
               "speaker": "luna",
               "type": "monologue",
-              "text": "사용했던 흔적이 있는걸 보니….. (할많않)..",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "toilet_flow_4",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "toilet_004",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "그냥 지나치면 됐는데… 왜 멈춰서 보고 있는 걸까.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "toilet_flow_5",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "toilet_005",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "변기통 앞에서 이렇게 오래 서있는 게 정상일까.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "toilet_flow_6",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "toilet_006",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "변기통 색이 바랬는데, 무슨 색이었을까…. 변기통 원래 색이 궁금한건 처음이네…",
+              "text": "(더는 보고 싶지 않다.)",
               "next": null,
               "choices": null,
               "triggers": []
@@ -552,69 +378,27 @@
           "dialogues": [
             {
               "id": "poster_ht_001",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "기계 부품 매입이라…대놓고 매수하려 하네",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>귀신·헬리콥터 고가 매입</world>",
+              "next": "poster_ht_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_ht_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_ht_002",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "\"상태 불문\".. 망가진 것도 괜찮다는건가.",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>연락처: 0X0-XXXX-XXXX</world>",
+              "next": "poster_ht_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_ht_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "poster_ht_003",
               "speaker": "luna",
               "type": "monologue",
-              "text": "누군가에겐 생명줄이고, 누군가에겐 장례줄이겠네.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_ht_flow_4",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "poster_ht_004",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "불법이라는 것과 필요하다는 것이 공존하는 동네.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "poster_ht_flow_5",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "poster_ht_005",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "고장 난 인간이 고장 난 부품으로 버티는 도시라..",
+              "text": "이런 것들도 사고팔 수 있나 보네.",
               "next": null,
               "choices": null,
               "triggers": []
@@ -636,69 +420,27 @@
           "dialogues": [
             {
               "id": "realestate_001",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "슬럼가 부동산 전단… 이 구역에 방을 사려는 사람이 있다는 게 신기하네",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>파노라마 한강 뷰, 최고층 복층 원룸</world>",
+              "next": "realestate_002",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "realestate_flow_2",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "realestate_002",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "방 매물 중에 '조용함'이라고 적힌 것이 있다. 이 구역에서 조용한 방은 희소성이 높은데 왜 가격이 낮은거지?",
-              "next": null,
+              "speaker": "object",
+              "type": "normal",
+              "text": "<world>급매물 전세 250억 원</world>",
+              "next": "realestate_003",
               "choices": null,
               "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "realestate_flow_3",
-          "condition": null,
-          "dialogues": [
+            },
             {
               "id": "realestate_003",
               "speaker": "luna",
               "type": "monologue",
-              "text": "저녁 알람 시계로 사이렌 소리가 들릴텐데 왜 조용함이 있는거지.",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "realestate_flow_4",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "realestate_004",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "관리비 받는 건 또 양심이 없네",
-              "next": null,
-              "choices": null,
-              "triggers": []
-            }
-          ]
-        },
-        {
-          "flow_id": "realestate_flow_5",
-          "condition": null,
-          "dialogues": [
-            {
-              "id": "realestate_005",
-              "speaker": "luna",
-              "type": "monologue",
-              "text": "비 맞고도 안 떨어진 걸 보면 계속 새로 붙이고 있는건가.",
+              "text": "(작은 글씨로 '5층, 3평'이라고 적혀 있다.)",
               "next": null,
               "choices": null,
               "triggers": []

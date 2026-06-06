@@ -285,6 +285,7 @@
             }
           ]
         }
+
       ]
     },
 
@@ -360,6 +361,112 @@
               "choices": null,
               "triggers": [
                 { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
+              ]
+            }
+          ]
+        },
+
+        {
+          "flow_id": "revisit_bubi",
+          "condition": {
+            "type": "and",
+            "conditions": [
+              { "type": "flag", "flag_id": "shiba_d1_in_rev1_done",   "bValue": true  },
+              { "type": "flag", "flag_id": "bubi_affinity_high",       "bValue": true  },
+              { "type": "flag", "flag_id": "shiba_d1_out_bubi_done",   "bValue": false }
+            ]
+          },
+          "dialogues": [
+            {
+              "id": "shiba_out_d1_bubi_001",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "또 왔네, 시바.",
+              "next": "shiba_out_d1_bubi_002",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_002",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "안녕하세요.",
+              "next": "shiba_out_d1_bubi_003",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_003",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "생각보다 실력이 있나 봐?",
+              "next": "shiba_out_d1_bubi_004",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_004",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "네?",
+              "next": "shiba_out_d1_bubi_005",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_005",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "부비가 네가 만든 게 생각보다 나쁘지 않았다던데.",
+              "next": "shiba_out_d1_bubi_006",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_006",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "부비랑 친하셨나요?",
+              "next": "shiba_out_d1_bubi_007",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_007",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "한때 부비와 내가 이 뒷골목을 제패했던 적이 있어.",
+              "next": "shiba_out_d1_bubi_008",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_008",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "거지 같은 패러사이트 새끼들도 감히 우리 상대가 되지 못했었어, 시바.",
+              "next": "shiba_out_d1_bubi_009",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_009",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "아… 네…",
+              "next": "shiba_out_d1_bubi_end",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "shiba_out_d1_bubi_end",
+              "speaker": "system",
+              "type": "system",
+              "text": "",
+              "next": null,
+              "choices": null,
+              "triggers": [
+                { "type": "set_flag", "data": { "flag_id": "shiba_d1_out_bubi_done", "bValue": true } }
               ]
             }
           ]
