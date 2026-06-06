@@ -365,6 +365,66 @@
       "enter_duration": 1.0,
       "exit": "fade_out",
       "exit_duration": 1.0
+    },
+
+    {
+      "id": "elevator_opening",
+      "description": "0일차 엘리베이터 오프닝 컷씬 (루나가 처음 출근하는 연출)",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_elevator_opening",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_first_meet",
+      "description": "2일차 출근길 삼호 첫 만남 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_first_meet",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_death",
+      "description": "2일차 퇴근길 삼호 사망 분기 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_death",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_survived",
+      "description": "2일차 퇴근길 삼호 생존 분기 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_survived",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
     }
 
   ]

@@ -1129,7 +1129,7 @@
               "condition": {
                 "operator": "and",
                 "checks": [
-                  { "type": "flag", "flag_id": "test_flag", "value": true }
+                  { "type": "flag", "flag_id": "test_flag", "bValue": true }
                 ]
               }
             }

@@ -47,7 +47,7 @@
     },
     {
       "object_id": "poster_shiba_wanted_day1",
-      "day":1,
+      "day":null,
       "interact_label": "보기",
       "dialogues": [
         {
@@ -377,113 +377,7 @@
     },
 
     {
-      "object_id": "sold_out_notice",
-      "day": null,
-      "interact_label": "보기",
-      "dialogues": [
-        {
-          "id": "sold_out_001",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "누군가 벽에 품절 정보를 적어뒀네.",
-          "next": "sold_out_002",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "sold_out_002",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "왜 요즘 뭐든 인지도가 조금이라도 오르면 다 같이 맹수처럼 달려드는건지",
-          "next": "sold_out_003",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "sold_out_003",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "품절 날짜랑 입고 날짜가 없네. 언제 다시 들어오는지 알 수 없네.",
-          "next": "sold_out_001",
-          "choices": null,
-          "triggers": []
-        }
-      ]
-    },
-
-    {
-      "object_id": "vending_machine_examine",
-      "day": null,
-      "interact_label": "보기",
-      "dialogues": [
-        {
-          "id": "vm_ex_001",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "이 깊숙하고 치안 안좋은 곳에 음료를 팔다니.. 먹어도 괜찮은건가",
-          "next": "vm_ex_002",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_002",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "누가 관리하는 거지.. 관리하는 사람이 있긴 한가?",
-          "next": "vm_ex_003",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_003",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "이 동네에서 재고 관리 같은 건 진작 포기했겠지?",
-          "next": "vm_ex_004",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_004",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "돈 넣고 눌러보기 전까진 뭐가 나올지 모른다니….거의 슈뢰딩거의 자판기인네.",
-          "next": "vm_ex_005",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_005",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "…크리스한테 전염됐나보네….",
-          "next": "vm_ex_006",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_006",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "낡긴 했는데 작동은 하네.. 이 기준에선 그나마 멀쩡한 편인가.",
-          "next": "vm_ex_007",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "vm_ex_007",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "내가 지금 자판기 붙잡고 무슨 말을 하고 있는거지..",
-          "next": "vm_ex_001",
-          "choices": null,
-          "triggers": []
-        }
-      ]
-    },
-
-    {
-      "object_id": "illegal_parts_posting",
+      "object_id": "poster_human_trafficking",
       "day": null,
       "interact_label": "보기",
       "dialogues": [
@@ -529,77 +423,6 @@
           "type": "monologue",
           "text": "고장 난 인간이 고장 난 부품으로 버티는 도시라..",
           "next": "parts_001",
-          "choices": null,
-          "triggers": []
-        }
-      ]
-    },
-
-    {
-      "object_id": "medical_posting",
-      "day": null,
-      "interact_label": "보기",
-      "dialogues": [
-        {
-          "id": "medical_001",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "불법 아닌 불법 의료 시술 광고라..",
-          "next": "medical_002",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_002",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "불법 시술 광고가 이렇게 대놓고 붙여 있네",
-          "next": "medical_003",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_003",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "이 동네에선 멀쩡한 몸이 희귀할지도",
-          "next": "medical_004",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_004",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "인간이 자기 몸을 개조한다면 어떤 게 더 자기 몸인걸까",
-          "next": "medical_005",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_005",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "어디까지 바꾸면 인간이라고 할 수 있을까.",
-          "next": "medical_006",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_006",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "광고 문구가 너무 친절해서 더 불안하네.",
-          "next": "medical_007",
-          "choices": null,
-          "triggers": []
-        },
-        {
-          "id": "medical_007",
-          "speaker": "luna",
-          "type": "monologue",
-          "text": "고장난 도시에서 고장 난 사람을 고친다라..",
-          "next": "medical_001",
           "choices": null,
           "triggers": []
         }

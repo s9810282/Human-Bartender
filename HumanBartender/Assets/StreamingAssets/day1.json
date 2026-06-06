@@ -28,7 +28,7 @@
           "id": "d1s_001",
           "speaker": "chris",
           "type": "normal",
-          "text": "아니 이거 왜 적용이 안되지?좋아. 그럼 부탁할게.",
+          "text": "좋아. 그럼 부탁할게.",
           "expression": "default",
           "next": "d1s_002",
           "choices": null,
@@ -212,7 +212,6 @@
             }
           }
         },
-
         {
           "id": "d1p_001",
           "speaker": "port",
@@ -358,7 +357,6 @@
             }
           }
         },
-
         {
           "id": "d1p_react_perfect_001",
           "speaker": "port",
@@ -429,7 +427,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1p_react_good_001",
           "speaker": "port",
@@ -480,7 +477,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1p_react_miss_001",
           "speaker": "port",
@@ -541,7 +537,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1p_react_bad_001",
           "speaker": "port",
@@ -637,7 +632,6 @@
             }
           }
         },
-
         {
           "id": "d1p_after_001",
           "speaker": "port",
@@ -869,7 +863,7 @@
           "trigger": {
             "type": "start_cutscene",
             "data": {
-              "cutscene_id": "FindLuna"
+              "cutscene_id": "day1_bubi_fetch"
             }
           }
         },
@@ -892,7 +886,6 @@
             }
           }
         },
-
         {
           "id": "d1p_bubi_001",
           "speaker": "port",
@@ -1061,7 +1054,6 @@
             }
           }
         },
-
         {
           "id": "d1a_001",
           "speaker": "aili",
@@ -1283,7 +1275,6 @@
           ],
           "trigger": null
         },
-
         {
           "id": "d1a_q_001",
           "speaker": "luna",
@@ -1384,7 +1375,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1a_craft_001",
           "speaker": "luna",
@@ -1410,7 +1400,6 @@
             }
           }
         },
-
         {
           "id": "d1a_react_perfect_001",
           "speaker": "aili",
@@ -1541,7 +1530,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1a_react_good_001",
           "speaker": "aili",
@@ -1612,7 +1600,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1a_react_normal_001",
           "speaker": "aili",
@@ -1683,7 +1670,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1a_react_bad_001",
           "speaker": "aili",
@@ -1744,7 +1730,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1a_after_001",
           "speaker": "bubi",
@@ -1820,7 +1805,6 @@
             }
           }
         },
-
         {
           "id": "d1b_react_perfect_001",
           "speaker": "bubi",
@@ -1911,7 +1895,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1b_react_good_001",
           "speaker": "bubi",
@@ -1972,7 +1955,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1b_react_normal_001",
           "speaker": "aili",
@@ -2032,7 +2014,6 @@
             }
           }
         },
-
         {
           "id": "d1b_react_bad_001",
           "speaker": "aili",
@@ -2092,7 +2073,6 @@
             }
           }
         },
-
         {
           "id": "d1b_after_001",
           "speaker": "aili",
@@ -2202,7 +2182,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d1b_after_nobubi_001",
           "speaker": "aili",
@@ -2272,7 +2251,6 @@
             }
           }
         },
-
         {
           "id": "d1end_001",
           "speaker": "system",
@@ -2295,30 +2273,40 @@
         {
           "id": "d1end_branch",
           "speaker": "system",
-          "type": "normal",
+          "type": "condition_branch",
           "text": "",
           "expression": null,
           "next": null,
-          "choices": [
-            {
-              "text": "부비 호감도 5 이상",
-              "next": "d1end_bubi_001",
-              "condition": {
-                "operator": "and",
-                "checks": [
-                  { "type": "affinity", "character": "bubi", "min_value": 5 }
-                ]
+          "choices": null,
+          "trigger": null,
+          "next_conditions": {
+            "character": "bubi",
+            "stat": "affinity",
+            "default": "d1end_normal_001",
+            "branches": [
+              {
+                "tier": "very_low",
+                "goto": "d1end_normal_001"
+              },
+              {
+                "tier": "low",
+                "goto": "d1end_bubi_001"
+              },
+              {
+                "tier": "mid",
+                "goto": "d1end_bubi_001"
+              },
+              {
+                "tier": "high",
+                "goto": "d1end_bubi_001"
+              },
+              {
+                "tier": "very_high",
+                "goto": "d1end_bubi_001"
               }
-            },
-            {
-              "text": "나머지",
-              "next": "d1end_normal_001",
-              "condition": null
-            }
-          ],
-          "trigger": null
+            ]
+          }
         },
-
         {
           "id": "d1end_bubi_001",
           "speaker": "chris",
@@ -2452,7 +2440,6 @@
             "data": {}
           }
         },
-
         {
           "id": "d1end_normal_001",
           "speaker": "chris",

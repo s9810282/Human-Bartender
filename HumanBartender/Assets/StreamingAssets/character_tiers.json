@@ -35,6 +35,12 @@
       { "tier": "high",      "min": 60, "max": 84 },
       { "tier": "very_high", "min": 85, "max": 9999 }
     ]
+  },
+  "bubi": {
+    "affinity": [
+      { "tier": "very_low",  "min": -9999, "max": 4 },
+      { "tier": "low",       "min": 5,     "max": 9999 }
+    ]
   }
 }
 }

@@ -11,7 +11,7 @@
 
         {
           "flow_id": "hyuksoo_day1_out",
-          "condition": { "type": "flag", "flag_id": "luna_leaving", "value": true },
+          "condition": { "type": "flag", "flag_id": "luna_leaving", "bValue": true },
           "dialogues": [
 
             {
@@ -123,7 +123,7 @@
 
         {
           "flow_id": "hyuksoo_day1_in",
-          "condition": { "type": "flag", "flag_id": "luna_returning", "value": true },
+          "condition": { "type": "flag", "flag_id": "luna_returning", "bValue": true },
           "dialogues": [
 
             {
