@@ -42,7 +42,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "saw_bubi_outside_day1" } }
+                { "type": "set_flag", "data": { "flag_id": "saw_bubi_outside_day1", "bValue": true } }
               ]
             }
 
