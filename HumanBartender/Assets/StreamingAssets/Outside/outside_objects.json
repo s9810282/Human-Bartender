@@ -382,47 +382,47 @@
       "interact_label": "보기",
       "dialogues": [
         {
-          "id": "parts_001",
+          "id": "poster_ht_001",
           "speaker": "luna",
           "type": "monologue",
           "text": "기계 부품 매입이라…대놓고 매수하려 하네",
-          "next": "parts_002",
+          "next": "poster_ht_002",
           "choices": null,
           "triggers": []
         },
         {
-          "id": "parts_002",
+          "id": "poster_ht_002",
           "speaker": "luna",
           "type": "monologue",
           "text": "\"상태 불문\".. 망가진 것도 괜찮다는건가.",
-          "next": "parts_003",
+          "next": "poster_ht_003",
           "choices": null,
           "triggers": []
         },
         {
-          "id": "parts_003",
+          "id": "poster_ht_003",
           "speaker": "luna",
           "type": "monologue",
           "text": "누군가에겐 생명줄이고, 누군가에겐 장례줄이겠네.",
-          "next": "parts_004",
+          "next": "poster_ht_004",
           "choices": null,
           "triggers": []
         },
         {
-          "id": "parts_004",
+          "id": "poster_ht_004",
           "speaker": "luna",
           "type": "monologue",
           "text": "불법이라는 것과 필요하다는 것이 공존하는 동네.",
-          "next": "parts_005",
+          "next": "poster_ht_005",
           "choices": null,
           "triggers": []
         },
         {
-          "id": "parts_005",
+          "id": "poster_ht_005",
           "speaker": "luna",
           "type": "monologue",
           "text": "고장 난 인간이 고장 난 부품으로 버티는 도시라..",
-          "next": "parts_001",
+          "next": "poster_ht_001",
           "choices": null,
           "triggers": []
         }
