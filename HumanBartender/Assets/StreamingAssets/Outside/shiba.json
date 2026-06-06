@@ -77,7 +77,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done" } }
+                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done", "bValue": true } }
               ]
             }
           ]
@@ -200,7 +200,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done" } }
+                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
               ]
             }
           ]
@@ -305,7 +305,7 @@
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done" } }
+                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
               ]
             }
           ]
