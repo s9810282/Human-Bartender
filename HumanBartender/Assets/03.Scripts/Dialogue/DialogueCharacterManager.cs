@@ -167,6 +167,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         if (!isSprite)
         {
+            slotData.portaitSpriteRenderer.gameObject.SetActive(false);
 
             var tasks = new UniTask[parts.Length];
             for (int i = 0; i < parts.Length; i++)
