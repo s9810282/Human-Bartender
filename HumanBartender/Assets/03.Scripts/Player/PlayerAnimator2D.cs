@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// 플레이어 애니메이션 전담 컴포넌트
@@ -42,5 +43,10 @@ public class PlayerAnimator2D : MonoBehaviour
     public void Handle(float value)
     {
         _anim.SetFloat(HashSpeed, Mathf.Abs(value));
+    }
+
+    public void Stop()
+    {
+        _anim.SetFloat(HashSpeed, 0);
     }
 }

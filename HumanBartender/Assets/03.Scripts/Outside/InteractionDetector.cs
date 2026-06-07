@@ -8,7 +8,9 @@ public class InteractionDetector : MonoBehaviour
     [Header("Event Channels")]
     [SerializeField] private InteractorEvent interactPressedChannel;
     [SerializeField] private InteractableEvent OnInteractedTargetChannel;
+    [Header("Event")]
     [SerializeField] private InteractableEvent OnTargetChanged;
+    [SerializeField] private VoidEvent PlayerStopEvent;
 
     [Header("References")]
     [SerializeField] private Transform origin;
@@ -159,6 +161,8 @@ public class InteractionDetector : MonoBehaviour
     private void HandleInteractInput(IInteractor interactor)
     {
         if (currentTarget == null || !currentTarget.IsAvaliable) return;
+
+        PlayerStopEvent?.Raise(new Void());
         currentTarget.Interact(interactor);
     }
 }
