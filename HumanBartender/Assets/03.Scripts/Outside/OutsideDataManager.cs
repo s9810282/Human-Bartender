@@ -13,7 +13,7 @@ public class OutsideDataManager : MonoBehaviour
 {
     [SerializeField] OutsideObjectDataSO objectData;
     [SerializeField] List<OutsideCharacterData> outsideCharacterDatas;
-
+    [SerializeField] OutsideRadioDataSO radioData;
 
     public void Load()
     {
@@ -21,6 +21,9 @@ public class OutsideDataManager : MonoBehaviour
             LoadGameData_StreamingAssets("Outside\\outside_objects.json");
 
         objectData.Cached();
+
+        radioData.radioData = JsonManager<RadioDataBase>.
+            LoadGameData_StreamingAssets("Outside\\elevator_radio.json");
 
         foreach (var item in outsideCharacterDatas)
         {

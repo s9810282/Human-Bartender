@@ -9,10 +9,13 @@ public interface IDataSwitcher
 
 public class DataLoadManager : MonoBehaviour, IDataSwitcher
 {
+    [Header("Test")]
+
     [SerializeField] bool isTest;
     [SerializeField] string testDayName;
     [SerializeField] string testCraftName;
 
+    [Header("Dialogue")]
     [SerializeField] List<string> dayFiles = new();
     [SerializeField] List<string> craftFiles = new();
 
@@ -44,6 +47,9 @@ public class DataLoadManager : MonoBehaviour, IDataSwitcher
     Dictionary<string, DayDatabBase> _dayCache = new();
     Dictionary<string, CraftDataBase> _craftCache = new();
 
+    [Header("Outside")]
+    [SerializeField] OutsideDataManager outsideDataManager;
+
     void Awake()
     {
         Logger.Log("Load Data");
@@ -69,6 +75,8 @@ public class DataLoadManager : MonoBehaviour, IDataSwitcher
         settlementDataSO.Cached();
         cocktailData.Cached();
         cutSceneData.Cached();
+
+        outsideDataManager.Load();
 
         return;
     }

@@ -27,7 +27,6 @@ public class InteractiveEntityManager : MonoBehaviour
     [SerializeField] EGameFlow testFlow = EGameFlow.CommuteIn;
 
     [Header("Data")]
-    [SerializeField] OutsideDataManager outsideDataManager;
     [SerializeField] protected OutsideObjectDataSO obejctData;
 
     [SerializeField] protected List<ObjectEntity> obejcts;
@@ -46,8 +45,6 @@ public class InteractiveEntityManager : MonoBehaviour
     //day 값 보고 검사 하기.
     void Awake()
     {
-        outsideDataManager.Load();
-
         if (isTest)
         {
             GameStateManager.Instance.CurrentDay = testDay;

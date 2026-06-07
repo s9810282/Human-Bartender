@@ -5,6 +5,15 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class DynamicSpeechBubble : MonoBehaviour
 {
+    public enum BubbleSizeMode
+    {
+        GrowPerCharacter, // 한 글자씩 박스가 늘어남 (기존 방식)
+        PreExpand         // 시작부터 최종 크기로 펼쳐 두고 그 안에서 타이핑만
+    }
+
+    [Header("Mode")]
+    public BubbleSizeMode sizeMode = BubbleSizeMode.GrowPerCharacter;
+
     [Header("References")]
     public TMP_Text textLabel;
     public TMP_Text nameLabel;
@@ -31,6 +40,7 @@ public class DynamicSpeechBubble : MonoBehaviour
     // ── 한 문장 단위로 미리 계산되는 캐시 ────────────────────────────
     string _fullText = "";
     float _targetTextW;     // 최종(가장 긴 줄) 텍스트 너비 (패딩 제외)
+    float _targetTextH;     // 최종 텍스트 높이 (패딩 제외)
     int _visibleCount;    // 전체 보이는 글자 수
     int _firstLineEnd;    // 첫 줄이 끝나는 '보이는 글자' 인덱스
     bool _overflow;        // 최대 높이 초과 → 오토사이즈 모드
@@ -77,12 +87,20 @@ public class DynamicSpeechBubble : MonoBehaviour
         return longest;
     }
 
+    /// <summary>현재 sizeMode 로 준비.</summary>
+    public void PrepareForText(string fullClean)
+    {
+        PrepareForText(fullClean, sizeMode);
+    }
+
     /// <summary>
     /// 타이핑 시작 전에 한 번 호출. fullClean = 색상 태그까지 적용되고
     /// 타이핑 딜레이 태그(&lt;123&gt;)는 제거된 최종 문자열.
+    /// mode 로 이번 문장의 크기 동작을 지정한다.
     /// </summary>
-    public void PrepareForText(string fullClean)
+    public void PrepareForText(string fullClean, BubbleSizeMode mode)
     {
+        sizeMode = mode;
         _ready = false;
         _fullText = fullClean ?? "";
         textLabel.margin = Vector4.zero;
@@ -132,8 +150,9 @@ public class DynamicSpeechBubble : MonoBehaviour
         for (int l = 0; l < info.lineCount; l++)
             _lineDescender[l] = info.lineInfo[l].descender;
 
-        // 3) 최대 높이 초과면 오토사이즈로 폴백
+        // 3) 최종 높이 / 최대 높이 초과 검사
         float fullH = (info.lineCount > 0) ? (_ascender0 - _lineDescender[info.lineCount - 1]) : 0f;
+        _targetTextH = Mathf.Clamp(fullH, minSize.y - PaddingV, MaxTextH);
         _overflow = fullH > MaxTextH;
         if (_overflow)
         {
@@ -142,14 +161,23 @@ public class DynamicSpeechBubble : MonoBehaviour
             textLabel.fontSizeMax = baseFontSize;
         }
 
-        // 4) 최소 크기에서 시작
+        // 4) 시작 크기 설정
         textLabel.maxVisibleCharacters = 0;
-        ApplySize(MinTextW, minSize.y - PaddingV);
         _ready = true;
+
+        if (sizeMode == BubbleSizeMode.PreExpand)
+        {
+            // 시작부터 최종 크기로 펼쳐 둔다. 이후 타이핑 동안 크기 변화 없음.
+            UpdateForVisible(0);
+        }
+        else
+        {
+            // 최소 크기에서 시작해서 한 글자씩 확장.
+            ApplySize(MinTextW, minSize.y - PaddingV);
+        }
     }
 
     // visibleCount 가 포함된 단어의 끝(배타적, '보이는 글자' 기준)
-    // 현재 타이핑 중인 단어 전체 폭을 박스가 보장하도록 해 줄밀림을 막는다.
     int WordEndVisible(int visibleCount)
     {
         int last = Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1);
@@ -165,33 +193,42 @@ public class DynamicSpeechBubble : MonoBehaviour
         if (!_ready) return;
         visibleCount = Mathf.Clamp(visibleCount, 0, _visibleCount);
 
+        // ── PreExpand: 항상 최종 크기로 고정 ──────────────────────────
+        if (sizeMode == BubbleSizeMode.PreExpand)
+        {
+            textLabel.margin = Vector4.zero;
+            if (_overflow) ApplySize(MaxTextW, MaxTextH);
+            else ApplySize(_targetTextW, _targetTextH);
+            return;
+        }
+
+        // ── GrowPerCharacter: 한 글자씩 확장 (기존 방식) ──────────────
         if (_overflow) { ApplySize(MaxTextW, MaxTextH); return; }
         if (visibleCount == 0) { ApplySize(MinTextW, minSize.y - PaddingV); return; }
 
         float widthW;
         if (visibleCount <= _firstLineEnd)
         {
-            // 1. 단어 단위(뭉텅이) 계산을 완전히 제거하고, 순수하게 '현재 글자'의 우측 좌표를 가져옵니다.
+            // 1. 순수하게 '현재 글자'의 우측 좌표를 가져온다.
             int idx = Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1);
             float charRightW = (_charRight[idx] - _originX) + widthSafetyMargin;
 
-            // 2. 첫째 줄 타이핑 진행률에 맞춰, '최종 너비(_targetTextW)'까지 여백을 늘려줍니다.
-            // visibleCount가 정수이므로, 스무스하게 늘어나는 게 아니라 타닥타닥 끊어지며 늘어납니다.
+            // 2. 첫째 줄 진행률에 맞춰 최종 너비까지 여백을 늘려준다.
             float progress = _firstLineEnd > 0 ? (float)visibleCount / _firstLineEnd : 1f;
             float toward = Mathf.Lerp(MinTextW, _targetTextW, progress);
 
-            // 3. 실제 텍스트 길이와 여백 확장 길이 중 더 큰 값을 적용합니다.
+            // 3. 둘 중 더 큰 값.
             widthW = Mathf.Max(charRightW, toward);
         }
         else
         {
-            // 4. 둘째 줄부터는 최종 너비로 단단하게 고정합니다. (2, 3번째 줄에서 늘어남 방지)
+            // 4. 둘째 줄부터는 최종 너비로 고정.
             widthW = _targetTextW;
         }
 
         widthW = Mathf.Clamp(widthW, MinTextW, _targetTextW);
 
-        // ── 높이 ── (최종 레이아웃의 줄 번호 기준 = 안정적, 흔들림 없음)
+        // ── 높이 ── (최종 레이아웃의 줄 번호 기준 = 안정적)
         int lastLine = _charLine[Mathf.Clamp(visibleCount - 1, 0, _visibleCount - 1)];
         lastLine = Mathf.Clamp(lastLine, 0, _lineDescender.Length - 1);
         float heightH = _ascender0 - _lineDescender[lastLine];
@@ -206,17 +243,13 @@ public class DynamicSpeechBubble : MonoBehaviour
             Mathf.Clamp(textW + PaddingH, minSize.x, maxSize.x),
             Mathf.Clamp(textH + PaddingV, minSize.y, maxSize.y));
 
-        if (bubble.sizeDelta == newSize) return;
-
+        // 박스가 최종 너비보다 좁을 때, 라벨 우측 마진을 음수로 줘서
+        // 라벨의 줄바꿈 기준 너비는 최종 너비로 유지 → 캡처한 글자 위치가 안 흔들림.
         float deficitW = _targetTextW - textW;
-        if (deficitW > 0)
-        {
-            textLabel.margin = new Vector4(0, 0, -deficitW, 0);
-        }
-        else
-        {
-            textLabel.margin = Vector4.zero;
-        }
+        if (deficitW > 0) textLabel.margin = new Vector4(0, 0, -deficitW, 0);
+        else textLabel.margin = Vector4.zero;
+
+        if (bubble.sizeDelta == newSize) return;
 
         bubble.sizeDelta = newSize;
         LayoutRebuilder.ForceRebuildLayoutImmediate(bubble);

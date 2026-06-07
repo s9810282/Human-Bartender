@@ -1,6 +1,10 @@
 using Cysharp.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using TMPro;
+using UnityEngine;
 
 public static class TMPTypingEffect
 {

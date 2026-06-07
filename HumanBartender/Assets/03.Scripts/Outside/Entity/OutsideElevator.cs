@@ -1,23 +1,31 @@
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 
 public class OutsideElevator : InteractiveEntity
 {
+    [Header("Radio")]
+    [SerializeField] OutsideElevatorRadio radio;
+
+    [Header("Event")]
     [SerializeField] Vector2Event externalDeltaEvent;
     [SerializeField] IntEvent changeCameraModeEvent;
-    
+
+    [Header("Stat")]
     [SerializeField] Transform topPoint;
     [SerializeField] Transform bottomPoint;
 
     [SerializeField] GameObject wallColider;
 
-    [SerializeField] float speed = 1f;
+    [SerializeField] float duration = 1f;
+
     [Tooltip("Camera Controller Duration이랑 맞추기")]
     [SerializeField] float delayDuration = 3f;
     [SerializeField] Ease ease;
+
 
     Transform targetPoint;
 
@@ -51,8 +59,9 @@ public class OutsideElevator : InteractiveEntity
 
         OnInteracted?.Raise(this);
 
-        transform.DOMove(targetPoint.position, speed)
-              .SetSpeedBased(true)
+        radio.Interact(null);
+
+        transform.DOMove(targetPoint.position, duration)
               .SetEase(ease)
               .OnComplete(() =>
               {
@@ -61,6 +70,8 @@ public class OutsideElevator : InteractiveEntity
                   player.Transform.SetParent(null, worldPositionStays: true);
                   changeCameraModeEvent?.Raise(0);
                   wallColider.gameObject.SetActive(false);
+
+                  radio.EndInteract();
 
                   StartCoroutine(DelayToChangeState(player));
               });
