@@ -83,6 +83,8 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
     // Update is called once per frame
     void Update()
     {
+        if (!isPlay) return;
+
         sturStrikeNode.Handle();
         nodeCreator.Handle();
     }
@@ -140,6 +142,8 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
     public void OnPressEvent()
     {
+        if (!isPlay) return;
+
         Logger.Log("Click Event");
         CategoryNode node = nodeCreator.GetNearestNode(sturStrikeNode.transform.position, judgeRange);
 
