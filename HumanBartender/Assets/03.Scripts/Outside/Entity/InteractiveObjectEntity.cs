@@ -51,5 +51,7 @@ public class InteractiveObjectEntity : InteractiveEntity
 
         curFlowIndex++;
         curFlowIndex %= flows.Count;
+
+        OnRefreshCondition?.Raise(new Void());
     }
 }

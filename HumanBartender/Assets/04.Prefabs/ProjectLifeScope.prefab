@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 432, y: 0}
-  m_SizeDelta: {x: 864, y: 541}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 960, y: 540}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8624117476157404277
 CanvasRenderer:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4613740da8813144db9570496cbf7391, type: 3}
+  m_Sprite: {fileID: 5267534180457010569, guid: 320aab9c688f01d4a996afd24df21dae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1541,11 +1541,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1364465144290170913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19.199999, y: -540}
-  m_SizeDelta: {x: 530, y: 376}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 960, y: 540}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4407955298313197900
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1567,14 +1567,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 196ab089355a69f4abdfc911c426e373, type: 3}
+  m_Sprite: {fileID: 5267534180457010569, guid: 320aab9c688f01d4a996afd24df21dae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4387,7 +4387,7 @@ GameObject:
   - component: {fileID: 7629708631997848735}
   - component: {fileID: 1182543933211446036}
   - component: {fileID: 4278224256057399545}
-  - component: {fileID: 4119310303734997587}
+  - component: {fileID: 4182086108249052578}
   m_Layer: 5
   m_Name: CutScene Canvas
   m_TagString: Untagged
@@ -4516,6 +4516,28 @@ MonoBehaviour:
   padding_Y: 0
   director: {fileID: 4278224256057399545}
   OnServeComplete: {fileID: 11400000, guid: 98412b12b0775c945a21c406f82a63fa, type: 2}
+  signalReceiver: {fileID: 4182086108249052578}
+  serveEndSignalRef:
+    m_AssetGUID: 78590a1aeff712145bb3f309a2a6472d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  OnServeTimelineComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1182543933211446036}
+        m_TargetAssemblyTypeName: CutSceneTimelineManager, Assembly-CSharp
+        m_MethodName: ServeAnimEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!320 &4278224256057399545
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -4525,7 +4547,7 @@ PlayableDirector:
   m_GameObject: {fileID: 2705091408427173801}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 1ec5c136b6d90bb4a9c0a2cde90d8764, type: 2}
+  m_PlayableAsset: {fileID: 0}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -4666,16 +4688,18 @@ PlayableDirector:
   - key: {fileID: 381406858656004607, guid: d1a18662b76cfd443b24d9370859da3f, type: 2}
     value: {fileID: 1182543933211446036}
   - key: {fileID: -4622627850341606890, guid: 3525917056fe9524aa9f5d21dfdfd31c, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1182543933211446036}
   - key: {fileID: -6958457211093368835, guid: 3525917056fe9524aa9f5d21dfdfd31c, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1182543933211446036}
   - key: {fileID: -3071665920189455895, guid: 3525917056fe9524aa9f5d21dfdfd31c, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1182543933211446036}
   - key: {fileID: -4542155416430154734, guid: 3525917056fe9524aa9f5d21dfdfd31c, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -6591746297933685751, guid: c2d76df140daeff4db2a12b813fddc51, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
---- !u!114 &4119310303734997587
+--- !u!114 &4182086108249052578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4689,7 +4713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: 78590a1aeff712145bb3f309a2a6472d, type: 2}
+    - {fileID: 11400000, guid: 1e96ea3bb2f1a79418ff670b24c7798d, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -4909,6 +4933,10 @@ MonoBehaviour:
     data: {fileID: 11400000, guid: 0af93deea26a383409dfdb2207af611d, type: 2}
   - id: Outside/shiba.json
     data: {fileID: 11400000, guid: 43b643060d5f22749bbb7e0051b2392c, type: 2}
+  - id: Outside/samhodeath.json
+    data: {fileID: 11400000, guid: 973a6f8a579ff3f498b835bb2c21fc13, type: 2}
+  - id: Outside/samho.json
+    data: {fileID: 11400000, guid: f5f7dc4a44934e84d9c088737a8cd0ce, type: 2}
   radioData: {fileID: 11400000, guid: d4b3ec65688c3cd48a38f72094fdca9e, type: 2}
 --- !u!1 &2951983427740711147
 GameObject:
@@ -9955,7 +9983,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6042453c10f531c42b94bb2119d734bc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13325,11 +13353,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1364465144290170913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 540}
-  m_SizeDelta: {x: 501, y: 321}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 960, y: 540}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3018623363549861525
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13351,14 +13379,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a10d72c54a170a742bfdaec2cd5803dd, type: 3}
+  m_Sprite: {fileID: 5267534180457010569, guid: 320aab9c688f01d4a996afd24df21dae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13736,7 +13764,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: isTest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: testCraftName

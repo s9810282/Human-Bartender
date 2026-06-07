@@ -9,7 +9,7 @@ using UnityEngine;
 public static class DynamicBubbleEffect
 {
     public static TextTagDataSO textTagData;
-    private static float defaultTypingDelay = 0.05f;
+    private static float defaultTypingDelay = 0.025f;
 
     public static string ApplyCustomTags(string raw)
     {

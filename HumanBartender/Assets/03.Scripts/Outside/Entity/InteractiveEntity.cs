@@ -10,7 +10,7 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
 
     [SerializeField] protected OutlineHighlight outlineHighlight;
     [SerializeField] protected InteractableEvent OnInteracted;
-
+    [SerializeField] protected VoidEvent OnRefreshCondition;
 
     public bool IsInteracting { get => isInteracting; set => isInteracting = value; }
     public bool IsAvaliable { get => isAvaliable; set => isAvaliable = value; }

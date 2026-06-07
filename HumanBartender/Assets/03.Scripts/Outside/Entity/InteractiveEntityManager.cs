@@ -19,12 +19,20 @@ public struct NPCEntity
     public InteractiveNPCEntity entity;
 }
 
+[System.Serializable]
+public struct TestFlag
+{
+    public string flag;
+    public bool bValue;
+}
+
 public class InteractiveEntityManager : MonoBehaviour
 {
     [Header("Test")]
     [SerializeField] bool isTest = false;
     [SerializeField] int testDay = 0;
     [SerializeField] EGameFlow testFlow = EGameFlow.CommuteIn;
+    [SerializeField] List<TestFlag> testFlags = new List<TestFlag>();
 
     [Header("Data")]
     [SerializeField] protected OutsideObjectDataSO obejctData;
@@ -39,6 +47,7 @@ public class InteractiveEntityManager : MonoBehaviour
     [SerializeField] OutsideElevator elevator;
 
 
+    [Inject] IPlayerDataWriter testPlayerWriter;
     [Inject] IPlayerDataReader playerData;
     [Inject] ISoundManager soundManager;
 
@@ -49,6 +58,11 @@ public class InteractiveEntityManager : MonoBehaviour
         {
             GameStateManager.Instance.CurrentDay = testDay;
             GameStateManager.Instance.GameFlow = testFlow;
+
+            foreach (var flag in testFlags)
+            {
+                testPlayerWriter.AddFlag(flag.flag, flag.bValue);
+            }
         }
     }
 
@@ -69,7 +83,11 @@ public class InteractiveEntityManager : MonoBehaviour
             player.transform.position = barEntrance.spawnPoint;
 
 
+        RefreshEntity(); 
+    }
 
+    public void RefreshEntity()
+    {
         //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
         foreach (var entity in obejcts)
         {
@@ -160,10 +178,9 @@ public class InteractiveEntityManager : MonoBehaviour
             {
                 entity.entity.IsAvaliable = false;
                 entity.entity.gameObject.SetActive(false);
-            }            
+            }
         }
     }
-
 
     public bool CheckCondition(OutsideCondition? checkType)
     {
@@ -191,7 +208,6 @@ public class InteractiveEntityManager : MonoBehaviour
 
         return false;
     }
-
     public bool CheckCondition(Condition? checkType)
     {
         if (checkType == null) return true;

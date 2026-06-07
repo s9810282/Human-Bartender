@@ -52,5 +52,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
 
         curFlowIndex++;
         curFlowIndex %= flows.Count;
+
+        OnRefreshCondition?.Raise(new Void());
     }
 }

@@ -1,8 +1,9 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Spine;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
@@ -57,6 +58,10 @@ public class CutSceneTimelineManager : MonoBehaviour
 
     private bool poolInitialized;
 
+    public SignalReceiver signalReceiver; // 인스펙터에서 할당
+    public AssetReferenceT<SignalAsset> serveEndSignalRef; // 인스펙터에서 ServeEnd 에셋 할당
+    public UnityEvent OnServeTimelineComplete;
+
     void Awake()
     {
         EnsurePoolInitialized();
@@ -67,6 +72,13 @@ public class CutSceneTimelineManager : MonoBehaviour
         cutSceneRoot.anchoredPosition = Vector2.zero;
 
         effectOverlay.gameObject.SetActive(false);
+
+    }
+
+    private async void Start()
+    {
+        SignalAsset trueSignal = await Addressables.LoadAssetAsync<SignalAsset>(serveEndSignalRef).Task;
+        signalReceiver.AddReaction(trueSignal, OnServeTimelineComplete);
     }
 
     void EnsurePoolInitialized()
@@ -127,6 +139,12 @@ public class CutSceneTimelineManager : MonoBehaviour
         if (director == null) return;
         cutSceneRoot.anchoredPosition = Vector2.zero;
         director.playableAsset = timeline;
+
+        foreach (var track in timeline.GetOutputTracks())
+        {
+            director.SetGenericBinding(track, this);
+        }
+
         director.time = 0;
         director.Play();
     }
