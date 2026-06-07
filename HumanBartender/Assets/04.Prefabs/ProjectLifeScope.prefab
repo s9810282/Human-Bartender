@@ -4713,7 +4713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: 1e96ea3bb2f1a79418ff670b24c7798d, type: 2}
+    - {fileID: 0}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -4938,6 +4938,7 @@ MonoBehaviour:
   - id: Outside/samho.json
     data: {fileID: 11400000, guid: f5f7dc4a44934e84d9c088737a8cd0ce, type: 2}
   radioData: {fileID: 11400000, guid: d4b3ec65688c3cd48a38f72094fdca9e, type: 2}
+  triggerCutSceneSO: {fileID: 11400000, guid: 8e32772d0c4065f409ee6fc7badc25a3, type: 2}
 --- !u!1 &2951983427740711147
 GameObject:
   m_ObjectHideFlags: 0
@@ -6038,7 +6039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2571443866503227025
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12957,7 +12958,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1971136976933421716
 RectTransform:
   m_ObjectHideFlags: 0
