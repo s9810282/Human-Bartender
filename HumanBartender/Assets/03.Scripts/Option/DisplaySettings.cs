@@ -28,7 +28,7 @@ public class DisplaySettings : IDisplaySettings, IInitializable
 
     public void Initialize()
     {
-        bool full = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        bool full = PlayerPrefs.GetInt("Windowed", 1) == 1;
         SetFullscreen(full);
     }
 
@@ -45,7 +45,7 @@ public class DisplaySettings : IDisplaySettings, IInitializable
             var s = _windowedSizes[i];
             Screen.SetResolution(s.x, s.y, FullScreenMode.Windowed);
         }
-        PlayerPrefs.SetInt("Fullscreen", on ? 1 : 0);
+        PlayerPrefs.SetInt("Windowed", on ? 1 : 0);
         PlayerPrefs.Save();
     }
 

@@ -59,7 +59,7 @@ public class UIDisplayOptions : MonoBehaviour
 
     private void SyncUIFromCurrentSettings()
     {
-        bool full = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        bool full = PlayerPrefs.GetInt("Windowed", 1) == 1;
         int winIndex = PlayerPrefs.GetInt("WinIndex", 0);
         int fillIndex = PlayerPrefs.GetInt("FillStretch", 1);
 
