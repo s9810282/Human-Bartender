@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 using UnityEngine;
 
 public class NodeEffect : PooledObject
 {
+    [SerializeField] float duration = 1f;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Vector3 effectfromSize;
     [SerializeField] Vector3 effectToSize;
@@ -20,8 +22,17 @@ public class NodeEffect : PooledObject
     }
     public void PlayEffect()
     {
-        sprite.transform.localScale = effectfromSize;
-        ActiveEffect().Forget();
+        //sprite.transform.localScale = effectfromSize;
+        //ActiveEffect().Forget();
+
+        ReturnEffect().Forget();
+    }
+
+    public async UniTask ReturnEffect()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(duration));
+        parentPool.Return(this.gameObject);
+        return;
     }
 
     public async UniTaskVoid ActiveEffect()

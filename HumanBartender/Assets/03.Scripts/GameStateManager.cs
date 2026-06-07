@@ -22,10 +22,10 @@ public enum EGameFlow
     Bar,
 
     [EnumMember(Value = "commute_in")]
-    Attendance,
+    CommuteIn,
 
     [EnumMember(Value = "commute_out")]
-    OffWork,
+    CommuteOut,
 
     Home,
 }
@@ -53,6 +53,7 @@ public class GameStateManager
     GameState gameState = GameState.Play;
     EGameFlow gameFlow = EGameFlow.Bar;
     bool isDialogInitStart = false;
+    bool isOutsideLoad = false;
     int currentDay = 0;
 
     #endregion
@@ -68,5 +69,7 @@ public class GameStateManager
     {
         gameFlow = EGameFlow.Bar;
         currentDay = 0;
+
+        isOutsideLoad = false;
     }
 }

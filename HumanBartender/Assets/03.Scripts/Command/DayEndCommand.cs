@@ -20,7 +20,7 @@ public class DayEndCommand : IDialogueCommand
 
     async UniTask<string> IDialogueCommand.ExecuteAsync(CancellationToken cancellationToken)
     {
-        GameStateManager.Instance.GameFlow = EGameFlow.Attendance;
+        GameStateManager.Instance.GameFlow = EGameFlow.CommuteOut;
         SceneTransitionManager.Instance.LoadScene("Outside");
         return "";
     }

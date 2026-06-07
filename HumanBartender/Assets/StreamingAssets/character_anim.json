@@ -41,8 +41,6 @@
           "sprite": "chris_fail"
         },
         "default": {
-          "type": "sprite",
-          "sprite": "chris_default",
           "eyes":        { "clip": "chris_eyes_default",        "loop": "always" },
           "eyebrows":    { "clip": "chris_eyebrows_default",    "loop": "always" },
           "upper_face":  { "clip": "chris_upper_face_default",  "loop": "always" },
@@ -69,9 +67,12 @@
           "upper_face":  null,
           "lower_face":  { "clip": "port_lower_face_joy",      "loop": "always_on_dialogue" },
           "body":        null,
-          "extra":       null
+          "extra":       { "clip": "port_extra_default",         "loop": "always" }
         },
         "event_surprise": {
+          "type": "sprite",
+          "sprite": "port_surprise",
+
           "eyes":        { "clip": "port_eyes_event_surprise",        "loop": "once" },
           "eyebrows":    { "clip": "port_eyebrows_event_surprise",    "loop": "once" },
           "upper_face":  { "clip": "port_upper_face_event_surprise",  "loop": "once" },
@@ -85,7 +86,7 @@
           "upper_face":  null,
           "lower_face":  { "clip": "port_lower_face_serious",  "loop": "always_on_dialogue" },
           "body":        null,
-          "extra":       null
+          "extra":       { "clip": "port_extra_default",         "loop": "always" }
         },
         "default": {
           "eyes":        { "clip": "port_eyes_default",        "loop": "always" },

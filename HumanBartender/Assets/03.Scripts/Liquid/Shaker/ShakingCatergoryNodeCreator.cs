@@ -25,8 +25,9 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     bool isStart = false;
     float curTargetNodeTime = 0f;
 
-    
-    List<CategoryNode> curActiveTargetNodes = new List<CategoryNode>();
+    [Header("Node")]
+    [SerializeField] List<CategoryNode> curActiveTargetNodes = new List<CategoryNode>();
+    [SerializeField] List<CategoryNode> staticActiveTargetNodes = new List<CategoryNode>();
 
     public void Init()
     {
@@ -55,6 +56,7 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
             if (Time.time - node.spawnTime >= node.lifeTime)
             {
                 curActiveTargetNodes.RemoveAt(i);
+                //Shaking의 경우 strikeNode가 이벤트 호출해서 재생성
                 //targetNodePool.Return(node.gameObject);
             }
         }
@@ -64,6 +66,9 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     {
         isStart = true;
 
+        for(int i =0; i < dots.Length; i++)
+            SpawnStaticNode(dots[i]);
+
         targetPostions = dots;
         targetColors = colors;
     }
@@ -72,19 +77,33 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
     {
         CategoryNode nearest = null;
         float minSqr = float.MaxValue;
+        float sqr;
+        bool isStatic = false;
 
         for (int i = 0; i < curActiveTargetNodes.Count; i++)
         {
-            float sqr = (curActiveTargetNodes[i].transform.position - pos).sqrMagnitude;
+            sqr = (curActiveTargetNodes[i].transform.position - pos).sqrMagnitude;
             if (sqr < minSqr)
             {
                 minSqr = sqr;
                 nearest = curActiveTargetNodes[i];
             }
         }
+        for (int i = 0; i < staticActiveTargetNodes.Count; i++)
+        {
+            sqr = (staticActiveTargetNodes[i].transform.position - pos).sqrMagnitude;
+            if (sqr < minSqr)
+            {
+                minSqr = sqr;
+                isStatic = true;
+                nearest = staticActiveTargetNodes[i];
+            }
+        }
 
         if (nearest != null && minSqr <= judgeRange * judgeRange)
-        {            
+        {
+            if (isStatic) return nearest;
+
             curActiveTargetNodes.Remove(nearest);
             targetNodePool.Return(nearest.gameObject);
             return nearest;
@@ -143,7 +162,22 @@ public class ShakingCatergoryNodeCreator : MonoBehaviour
 
         curActiveTargetNodes.Add(node);
     }
+    public void SpawnStaticNode(Vector3 a)
+    {
+        Vector3 pos = a;
 
+        CategoryNode node = targetNodePool.Get().GetComponent<CategoryNode>();
+
+        node.transform.position = pos;
+        node.spawnTime = Time.time;
+        node.lifeTime = nodeLifeTime;
+        node.Category = "target";
+
+        int colorIndex = Random.Range(0, targetColors.Length);
+        node.SetNodeColor(Color.red);
+
+        staticActiveTargetNodes.Add(node);
+    }
 
     public Vector3 GetSpawnPoint(Vector3 a, Vector3 b, float t)
     {

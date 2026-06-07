@@ -43,6 +43,8 @@ public class SettlementSection : MonoBehaviour
         foreach (var r in spawned) if (r != null) Destroy(r.gameObject);
         spawned.Clear();
 
+        if (lines == null) return;
+
         foreach (var line in lines)
         {
             var row = Instantiate(rowPrefab, rowParent);

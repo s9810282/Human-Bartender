@@ -62,6 +62,9 @@ public enum EConditionCheckType
 
     [EnumMember(Value = "flag")]
     Flag,
+
+    [EnumMember(Value = "and")]
+    And,
 }
 
 [JsonConverter(typeof(StringEnumConverter))]

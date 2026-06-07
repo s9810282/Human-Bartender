@@ -51,7 +51,6 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
     [SerializeField] int skillTierAmount = 0;
 
 
-
     [Header("Flag")]
     [SerializeField] Dictionary<string, bool> flagList = new();
 
@@ -126,6 +125,7 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
             characterTierDics[id].karamaAmount += val;
         }
     }
+
     public void SetCharacterAffinityAmount(string id, int val)
     {
         if (!characterTierDics.ContainsKey(id))
@@ -148,6 +148,7 @@ public class PlayerDataSO : ScriptableObject, IPlayerDataReader, IPlayerDataWrit
             characterTierDics[id].karamaAmount = val;
         }
     }
+
     public EAffinityTier GetCurCharacterAffinityTier(string id)
     {
         CharacterAffinityData data = characterTierDataSO.characterTiers.Characters[id];

@@ -8,6 +8,8 @@ using VContainer;
 
 public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 {
+    [SerializeField] bool isTest = false;
+
     [Header("Data")]
     [SerializeField] CraftStationData data;
     [SerializeField] CategoryColorData colorData;
@@ -51,9 +53,11 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
-
-        //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
-        //data.targetCraft_tolerance = 15;
+        if (isTest)
+        {
+            data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+            data.targetCraft_tolerance = 15;
+        }
 
         shakeLineCreator.CreateLine();
 

@@ -4,14 +4,13 @@ using System;
 
 public class SturStrikeNode : MonoBehaviour
 {
-    [SerializeField] BoolEvent OnChangeSeqIndex;
-
     [SerializeField] Vector3 center;
 
     [SerializeField] Ease ease = Ease.InOutQuad;
     [SerializeField] float curBpm = 60;
     [SerializeField] float curBeatsPerLap = 4f;
-    [SerializeField] float radius = 2f;
+    [SerializeField] float radiusX = 2.4f;
+    [SerializeField] float radiusY = 2.0f;
 
     double startDspTime;
     float beatDuration;
@@ -54,23 +53,25 @@ public class SturStrikeNode : MonoBehaviour
         laps = beats / curBeatsPerLap;     
         lapT = (float)(laps - Math.Floor(laps));
 
-        angle = lapT * Mathf.PI * 2f;    
-        offset = new Vector3(Mathf.Cos(-angle), Mathf.Sin(-angle), 0f) * radius;
+        angle = lapT * Mathf.PI * 2f;
+        offset = new Vector3(
+            Mathf.Cos(-angle) * radiusX,
+            Mathf.Sin(-angle) * radiusY,
+            0f
+        );
+        
         transform.position = center + offset;
     }
 
-    public void InitToStart(Vector3 centerPos, float bpm, float beatLap, float rad)
+    public void InitToStart(Vector3 centerPos, float bpm, float beatLap, float radX, float radY)
     {
         center = centerPos;
-
         curBpm = bpm;
         curBeatsPerLap = beatLap;
-
         beatDuration = 60f / bpm;
-        radius = rad;
-
+        radiusX = radX;
+        radiusY = radY;
         startDspTime = AudioSettings.dspTime + 0.1f;
-
         isStart = true;
     }
 }

@@ -28,16 +28,24 @@ public struct SelectionConfigData
 public struct OutsideCondition
 {
     [JsonProperty("type")] public EConditionCheckType Type { get; set; }
+    [JsonProperty("conditions")] public Condition[] Conditions { get; set; }
     [JsonProperty("flag_id")] public string FlagId { get; set; }
     [JsonProperty("character_id")] public string Character { get; set; }
     [JsonProperty("min")] public int Min { get; set; }
-    [JsonProperty("value")] public bool Value { get; set; }
+    [JsonProperty("bValue")] public bool BValue { get; set; }
+}
+
+public struct Condition
+{
+    [JsonProperty("type")] public EConditionCheckType Type { get; set; }
+    [JsonProperty("flag_id")] public string FlagId { get; set; }
+    [JsonProperty("character_id")] public string Character { get; set; }
+    [JsonProperty("min")] public int Min { get; set; }
+    [JsonProperty("bValue")] public bool BValue { get; set; }
 }
 
 
-
-
-[Serializable]
+    [Serializable]
 public struct FlowData
 {
     [JsonProperty("flow_id")] public string FlowId { get; set; }

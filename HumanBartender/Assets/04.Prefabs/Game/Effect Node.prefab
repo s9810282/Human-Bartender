@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7568708902296745642}
   - component: {fileID: 6309574510560077876}
+  - component: {fileID: 1614834485869604666}
   - component: {fileID: -621694892095624605}
   m_Layer: 0
   m_Name: Effect Node
@@ -119,7 +120,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.13, y: -0.02, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6866439089862388277}
@@ -174,7 +175,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 19
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 86c39fa25f08beb4798f14e6e3aed44d, type: 3}
+  m_Sprite: {fileID: 4043421060045426815, guid: af28f513c2b4bb4458d431f16e32f369, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,6 +185,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &1614834485869604666
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3983218708060719690}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0e43ecc66226664baac0c60b437f6ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-621694892095624605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12f2fcd36761fd4b8901a5469ed6f33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NodeEffect
+  duration: 0.5
   sprite: {fileID: 6309574510560077876}
   effectfromSize: {x: 0.5, y: 0.5, z: 0.5}
   effectToSize: {x: 1.2, y: 1.2, z: 0}

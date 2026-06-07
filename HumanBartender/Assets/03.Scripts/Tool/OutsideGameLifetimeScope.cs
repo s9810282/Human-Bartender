@@ -8,5 +8,6 @@ public class OutsideGameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<CameraControllerNew>()
         .As<ICameraControlNew>();
 
+        builder.RegisterComponentInHierarchy<InteractiveEntityManager>();
     }
 }

@@ -4,22 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public class SettlementData
-{
 
-    public int maintenanceCost;                 // 가게 유지비 (차감)
-    public Dictionary<string, int> salesQty;    // 판매 내역: 메뉴명 -> 수량
-    public Dictionary<string, int> tips;        // 팁 내역  : 메뉴명 -> 팁 금액
 
-    public SettlementData(int maintenanceCost,
-                          Dictionary<string, int> salesQty,
-                          Dictionary<string, int> tips)
-    {
-        this.maintenanceCost = maintenanceCost;
-        this.salesQty = salesQty ?? new Dictionary<string, int>();
-        this.tips = tips ?? new Dictionary<string, int>();
-    }
-}
 
 
 
@@ -33,6 +19,7 @@ public class SettlementUI : MonoBehaviour
     [SerializeField] private GameObject panelRoot;     // 패널 전체 (Show/Hide 대상)
     [SerializeField] private CanvasGroup panelGroup;   // 페이드인용 (선택)
     [SerializeField] private CocktailDataSO cocktailData;
+    [SerializeField] private PlayerSettlement settlementData;
 
     [Header("Header")]
     [SerializeField] private TMP_Text titleText;
@@ -52,6 +39,7 @@ public class SettlementUI : MonoBehaviour
 
     [Header("Confirm")]
     [SerializeField] private Button confirmButton;
+    [SerializeField] VoidEvent OnConfirmed;
 
     [Header("Format")]
     [SerializeField] private string currencySymbol = "$";
@@ -59,16 +47,13 @@ public class SettlementUI : MonoBehaviour
     [SerializeField] private Color positiveColor = new Color(0.16f, 0.87f, 0.54f); // 초록
     [SerializeField] private Color negativeColor = new Color(1f, 0.29f, 0.29f);    // 빨강
 
-    public event Action OnConfirmed;
-
     private void Awake()
     {
-        if (confirmButton != null) confirmButton.onClick.AddListener(HandleConfirm);
         if (panelRoot != null) panelRoot.SetActive(false);
     }
 
     /// <summary>데이터를 받아 패널을 채우고 표시한다.</summary>
-    public void Show(SettlementData data)
+    public void Show(PlayerSettlement data)
     {
         if (data == null) return;
 
@@ -133,15 +118,120 @@ public class SettlementUI : MonoBehaviour
         if (panelRoot != null) panelRoot.SetActive(true);
         if (panelGroup != null) StartCoroutine(FadeIn());
     }
+    public void Show()
+    {
+        PlayerSettlement data = settlementData;
+
+        if (data == null) return;
+        
+        if (titleText != null) titleText.text = title;
+        if (dateText != null) dateText.text = GetDateLabel();
+
+        if (data.salesQty == null)
+        {
+            ShowDefault(data);
+            return;
+        }
+
+        // 판매 라인 조립 (단가는 SO 에서 조회, 금액 = 단가 × 수량)
+        var salesLines = new List<SettlementLine>();
+        int salesTotal = 0;
+        foreach (var kv in data.salesQty)
+        {
+            int qty = kv.Value;
+            int unit = cocktailData != null ? cocktailData.allCocktails[kv.Key].Price : 0;
+            int amount = unit * qty;
+            salesTotal += amount;
+
+            string display = cocktailData != null ? cocktailData.allCocktails[kv.Key].Name : kv.Key;
+
+            Sprite icon = null; // cocktailData != null ? cocktailData.GetIcon(kv.Key) : null;
+            salesLines.Add(new SettlementLine(icon, display, qty, Money(amount)));
+        }
+
+        // 팁 라인 조립 (금액은 Dictionary 값 그대로, 수량 미표시)
+        var tipLines = new List<SettlementLine>();
+        int tipTotal = 0;
+        foreach (var kv in data.tips)
+        {
+            tipTotal += kv.Value;
+            string display = cocktailData != null ? cocktailData.allCocktails[kv.Key].Name : kv.Key;
+
+            Sprite icon = null; //cocktailData != null ? cocktailData.GetIcon(kv.Key) : null;
+            tipLines.Add(new SettlementLine(icon, display, 0, Money(kv.Value)));
+        }
+
+        int gross = salesTotal + tipTotal;
+        int final = gross + data.maintenanceCost;
+
+        if (salesSection != null) salesSection.Build("판매 내역", salesLines, Money(salesTotal));
+        if (tipSection != null) tipSection.Build("팁 내역", tipLines, Money(tipTotal));
+
+        // 계산 영역
+        if (grossText != null)
+        {
+            grossText.text = Money(gross);
+            grossText.color = positiveColor;
+        }
+        if (costText != null)
+        {
+            costText.text = "−" + Money(data.maintenanceCost);
+            costText.color = negativeColor;
+        }
+        if (costBadgeText != null)
+            costBadgeText.text = "고정 " + currencySymbol + data.maintenanceCost.ToString(numberFormat);
+
+        // 최종 수령액
+        if (finalText != null)
+        {
+            finalText.text = (final >= 0 ? "+" : "−") + Money(final);
+            finalText.color = final >= 0 ? positiveColor : negativeColor;
+        }
+
+        if (panelRoot != null) panelRoot.SetActive(true);
+        if (panelGroup != null) StartCoroutine(FadeIn());
+    }
+
+    public void ShowDefault(PlayerSettlement data)
+    {
+        int final = data.maintenanceCost;
+
+        if (salesSection != null) salesSection.Build("판매 내역", null, "0");
+        if (tipSection != null) tipSection.Build("팁 내역", null, "0");
+
+        if (grossText != null)
+        {
+            grossText.text = "0";
+            grossText.color = positiveColor;
+        }
+        if (costText != null)
+        {
+            costText.text = "−" + Money(data.maintenanceCost);
+            costText.color = negativeColor;
+        }
+        if (costBadgeText != null)
+            costBadgeText.text = "고정 " + currencySymbol + data.maintenanceCost.ToString(numberFormat);
+
+        // 최종 수령액
+        if (finalText != null)
+        {
+            finalText.text = (final >= 0 ? "+" : "−") + Money(final);
+            finalText.color = final >= 0 ? positiveColor : negativeColor;
+        }
+
+        if (panelRoot != null) panelRoot.SetActive(true);
+        if (panelGroup != null) StartCoroutine(FadeIn());
+    }
+
 
     public void Hide()
     {
         if (panelRoot != null) panelRoot.SetActive(false);
     }
 
-    private void HandleConfirm()
+    public void HandleConfirm()
     {
-        OnConfirmed?.Invoke();
+        OnConfirmed?.Raise(new Void());
         Hide();
     }
 

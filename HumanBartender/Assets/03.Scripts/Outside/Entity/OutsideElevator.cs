@@ -24,6 +24,12 @@ public class OutsideElevator : InteractiveEntity
     bool isMoving = false;
     bool isTop = false;
 
+    public void SetPosition(bool isTop)
+    {
+        this.isTop = isTop;
+        transform.position = isTop ? topPoint.transform.position : bottomPoint.transform.position;
+    }
+
     public override void Interact(IInteractor player)
     {
         if (isMoving) return;
@@ -54,6 +60,7 @@ public class OutsideElevator : InteractiveEntity
 
                   player.Transform.SetParent(null, worldPositionStays: true);
                   changeCameraModeEvent?.Raise(0);
+                  wallColider.gameObject.SetActive(false);
 
                   StartCoroutine(DelayToChangeState(player));
               });
@@ -66,7 +73,6 @@ public class OutsideElevator : InteractiveEntity
         isMoving = false;
         isInteracting = false;
         isTop = !isTop;
-        wallColider.gameObject.SetActive(false);
 
         OnFocusEnter();
         player.State = EInteractorState.None;

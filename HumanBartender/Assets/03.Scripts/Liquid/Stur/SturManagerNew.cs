@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SturManagerNew : MonoBehaviour, IMiniGameController 
 {
+    [SerializeField] bool isTest = false;
+
     [Header("Data")]
     [SerializeField] CraftStationData data;
     [SerializeField] CategoryColorData colorData;
@@ -20,7 +22,8 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
     [Header("UI")]
     [SerializeField] Image center;
-    [SerializeField] float radius = 2;
+    [SerializeField] float radiusX = 2.4f;
+    [SerializeField] float radiusY = 2.0f;
     [SerializeField] Camera canvasCamera;
     [SerializeField] Canvas gameCanvas;
     [SerializeField] Canvas buttonCanvas;
@@ -47,10 +50,12 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
-        
-        //data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
-       // data.targetCraft_tolerance = 15;
 
+        if (isTest)
+        {
+            data.targetCocktailData = cocktailDataSO.allCocktails[data.targetCocktailId];
+            data.targetCraft_tolerance = 15;
+        }
 
         colors = new Color[data.targetCocktailData.Keywords.Length];
         for (int i = 0; i < colors.Length; i++)
@@ -62,7 +67,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         }
 
 
-        circleLineCreator.BuildCircle(radius, GetCenterWorldPosition());
+        circleLineCreator.BuildCircle(radiusX, radiusY, GetCenterWorldPosition());
         nodeCreator.Init();
 
         totalJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 1.3f);
@@ -125,9 +130,9 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         Logger.Log("Start Game");
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
-        sturStrikeNode.InitToStart(GetCenterWorldPosition(), 60, 4, radius);
+        sturStrikeNode.InitToStart(GetCenterWorldPosition(), 60, 4, radiusX, radiusY);
         nodeCreator.InitToStart(
-            radius,
+            radiusX, radiusY,
             GetCenterWorldPosition(),
             colors);
     }

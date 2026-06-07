@@ -8,7 +8,10 @@ public class PlayerMovement2D : MonoBehaviour
 {
     [Header("이동")]
     [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float curSpeed = 6f;
+
+    [SerializeField] private float walkSpeed = 6f;
+    [SerializeField] private float runSpeed = 10f;
 
     [Header("충돌")]
     [SerializeField] private LayerMask groundLayer;
@@ -37,10 +40,14 @@ public class PlayerMovement2D : MonoBehaviour
     public void GetMoveInput(Vector2 value) => _moveInputX = value.x;
     public void HandleExternalDelta(Vector2 delta) => _externalDelta += delta;
 
+    public void SetSpeed(bool isRun)
+    {
+        curSpeed = isRun ? runSpeed : walkSpeed;
+    }
 
     public void Handle()
     {
-        _velocityX = _moveInputX * moveSpeed;
+        _velocityX = _moveInputX * curSpeed;
 
         MoveWithCollision();
         HandleFlip();
@@ -97,7 +104,7 @@ public class PlayerMovement2D : MonoBehaviour
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        spriteRenderer.flipX = !_isFacingRight;
+        spriteRenderer.flipX = _isFacingRight;
 
         return;
 

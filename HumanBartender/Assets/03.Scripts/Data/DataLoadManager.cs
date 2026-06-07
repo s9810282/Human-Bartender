@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IDataSwitcher
+{
+    void SwitchDay(string dayId, string craftId);
+}
 
-public class DataLoadManager : MonoBehaviour
+
+public class DataLoadManager : MonoBehaviour, IDataSwitcher
 {
     [SerializeField] bool isTest;
     [SerializeField] string testDayName;
     [SerializeField] string testCraftName;
+
+    [SerializeField] List<string> dayFiles = new();
+    [SerializeField] List<string> craftFiles = new();
 
     [SerializeField] DayDataSO dayData;
     [SerializeField] CraftDataSO craftData;
@@ -33,14 +41,20 @@ public class DataLoadManager : MonoBehaviour
     [SerializeField] string characterTierDataFileName = "character_tiers.json";
     [SerializeField] string skillTierDataFileName = "skill_tiers.json";
 
+    Dictionary<string, DayDatabBase> _dayCache = new();
+    Dictionary<string, CraftDataBase> _craftCache = new();
+
     void Awake()
     {
-        // 비동기로 바꾸기
-        dayData.dayData = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(
-            isTest ? testDayName : dayDataFileName);
+        Logger.Log("Load Data");
 
-        craftData.craftData = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(
-             isTest ? testCraftName : craftDataFileName);
+        foreach (var f in dayFiles)   // 알고 있는 파일 목록
+            _dayCache[f] = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(f);
+        foreach (var f in craftFiles)
+            _craftCache[f] = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(f);
+
+
+        SwitchDay(isTest ? testDayName : dayDataFileName, isTest ? testCraftName : craftDataFileName);
 
         cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(cocktailDataFileName);
         characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets(characterDataFileName);
@@ -52,23 +66,20 @@ public class DataLoadManager : MonoBehaviour
         characterTierDataSO.characterTiers  = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets(characterTierDataFileName);
         skillTierDataSO.skillTier           = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets(skillTierDataFileName);
 
-
+        settlementDataSO.Cached();
         cocktailData.Cached();
         cutSceneData.Cached();
 
         return;
-        
-        Debug.Log("<color=yellow>=== 데이터 세부 검증 시작 ===</color>");
-        VerifyCharacterData();
-        VerifyCharacterAnimConfig();
-        VerifyCocktailData();
-        VerifyIngredientData();
-        VerifyDayData();
-        VerifyCraftData();
-        VerifyCutSceneData();
-        Debug.Log("<color=yellow>=== 데이터 세부 검증 종료 ===</color>");
+    }
+    public void SwitchDay(string dayFile, string craftFile)
+    {
+        dayData.dayData = _dayCache[dayFile];
+        craftData.craftData = _craftCache[craftFile];
     }
 
+
+    #region Log
     private void VerifyCharacterData()
     {
         var chars = characterData?.characterData?.Characters;
@@ -180,4 +191,5 @@ public class DataLoadManager : MonoBehaviour
             Debug.Log($"  ㄴ 첫 컷신 ID: {firstScene.Id} | 타입: {firstScene.Type}개");
         }
     }
+    #endregion
 }

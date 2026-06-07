@@ -38,10 +38,10 @@ public class DialogueManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(!GameStateManager.Instance.IsDialogInitStart)
-            InitSystem();
+        InitSystem();
 
         GameStateManager.Instance.IsDialogInitStart = true;
+        GameStateManager.Instance.GameFlow = EGameFlow.Bar;
 
         soundManager.PlayBGM("BGM_bar_01", 1f, true);
     }
@@ -145,7 +145,7 @@ public class DialogueManager : MonoBehaviour
     {
         currentState = DialogueState.WaitingForTrigger; // 입력 잠금
         
-        Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
+        Debug.Log($"Dialogue [트리거 시작] 타입: {trigger.Value.Type}");
 
         string id = await sceneDirector.ExcuteTriggerAsync(trigger);
         
@@ -183,6 +183,12 @@ public class DialogueManager : MonoBehaviour
     {
         currentState = DialogueState.Idle;
         Debug.Log("대화 씬이 모두 종료되었습니다.");
+
+        if (GameStateManager.Instance.GameFlow == EGameFlow.Bar)
+        {
+            GameStateManager.Instance.GameFlow = EGameFlow.CommuteOut;
+            SceneTransitionManager.Instance.LoadScene("Outside");
+        }
     }
 
 

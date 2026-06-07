@@ -17,7 +17,8 @@ public class CircleNodeCreator : MonoBehaviour
 
     [SerializeField] float nodeLifeTime = 2f;
 
-    [SerializeField] float radius = 2f;
+    [SerializeField] float radiusX = 2f;
+    [SerializeField] float radiusY = 2f;
     [SerializeField] Vector3 centerPos;
 
     [SerializeField] Color[] targetColors;
@@ -40,11 +41,12 @@ public class CircleNodeCreator : MonoBehaviour
         targetNodePool.Init();
     }
 
-    public void InitToStart(float rad, Vector3 center, Color[] colors)
+    public void InitToStart(float radX, float radY, Vector3 center, Color[] colors)
     {
         isStart = true;
 
-        radius = rad;
+        radiusX = radX;
+        radiusY = radY;
         centerPos = center;
 
         targetColors = colors;
@@ -56,7 +58,7 @@ public class CircleNodeCreator : MonoBehaviour
 
         for (int i = 0; i < staticNodeCount; i++)
         {
-            int angle = Random.Range(angleStep * i + nodePadding, angleStep * (i+1) - nodePadding);
+            int angle = Random.Range(angleStep * i + nodePadding, angleStep * (i + 1) - nodePadding);
             Logger.Log(angle);
             staticAngle.Add(angle);
             SpawnStaticNode(angle);
@@ -66,7 +68,7 @@ public class CircleNodeCreator : MonoBehaviour
     public void Handle()
     {
         if (!isStart) return;
-        
+
         curTargetNodeTime += Time.deltaTime;
 
         if (curTargetNodeTime >= createTargetDelay * ratio)
@@ -74,7 +76,6 @@ public class CircleNodeCreator : MonoBehaviour
             curTargetNodeTime = 0f;
             SpawnRandomNode2();
         }
-
 
         for (int i = curActiveTargetNodes.Count - 1; i >= 0; i--)
         {
@@ -115,7 +116,6 @@ public class CircleNodeCreator : MonoBehaviour
             }
         }
 
-
         if (nearest != null && minSqr <= judgeRange * judgeRange)
         {
             if (isStatic) return nearest;
@@ -124,7 +124,6 @@ public class CircleNodeCreator : MonoBehaviour
             targetNodePool.Return(nearest.gameObject);
             return nearest;
         }
-
 
         return null;
     }
@@ -136,6 +135,7 @@ public class CircleNodeCreator : MonoBehaviour
         node.SetNodeColor(color);
         node.PlayEffect();
     }
+
     public void SpawnRandomNode()
     {
         int line = Random.Range(0, staticAngle.Count);
@@ -154,11 +154,13 @@ public class CircleNodeCreator : MonoBehaviour
         int angle = Random.Range(min, max + 1) % 360;
         SpawnNode(angle);
     }
+
     public void SpawnRandomNode2()
     {
         int angle = Random.Range(0, 360);
         SpawnNode(angle);
     }
+
     void SpawnNode(float t)
     {
         Vector3 pos = GetSpawnPoint(t);
@@ -195,7 +197,11 @@ public class CircleNodeCreator : MonoBehaviour
     public Vector3 GetSpawnPoint(float angle)
     {
         float rad = angle * Mathf.Deg2Rad;
-        Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(-rad), 0f) * radius;
+        Vector3 offset = new Vector3(
+            Mathf.Cos(rad) * radiusX,
+            Mathf.Sin(-rad) * radiusY,
+            0f
+        );
         return offset;
     }
 }

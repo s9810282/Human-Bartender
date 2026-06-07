@@ -20,6 +20,9 @@ public class UITest : MonoBehaviour
         playerDataAsset.AddMoney(500);
         playerDataAsset.AddMoney(500);
         playerDataAsset.AddMoney(500);
+
+
+
         //textView.StartType(
         //    new TypingData(
         //    "[테스트] 표정 전환angerasdaasdasdadadadadadadada\nasdasdadadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 

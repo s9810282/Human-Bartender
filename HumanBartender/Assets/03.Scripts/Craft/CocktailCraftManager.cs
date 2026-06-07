@@ -31,6 +31,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [Inject] ICutScenePlayer cutScenePlayer;
     [Inject] ICameraControl cameraZoom;
     [Inject] IObjectResolver resolver;
+    [Inject] ISettlementLog settlementLog;
 
     [Header("MiniGame Prefabs")]
     [SerializeField] private GameObject shakePrefab;
@@ -294,7 +295,11 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         if (resultReaction.Payment.Payprice)
         {
+            settlementLog.AddSalesQty(craftStation.targetCocktailId, 1);
             playerDataAsset.AddMoney(craftStation.targetCocktailData.Price);
+
+            settlementLog.AddTip
+                (craftStation.targetCocktailId, Mathf.RoundToInt(craftStation.targetCocktailData.Price * resultReaction.Payment.TipRate));
             playerDataAsset.AddMoney(
                 Mathf.RoundToInt(craftStation.targetCocktailData.Price * resultReaction.Payment.TipRate));
         }

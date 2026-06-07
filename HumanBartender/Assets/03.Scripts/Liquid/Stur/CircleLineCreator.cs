@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CircleLineCreator : MonoBehaviour
 {
     [Header("Path Line")]
     [SerializeField] private Color lineColor = new Color(0.3f, 0.3f, 0.3f, 0.6f);
-    [SerializeField] float radius = 2f;
+    [SerializeField] float radiusX = 2f;
+    [SerializeField] float radiusY = 2f;
     [SerializeField] int segments = 64;
     [SerializeField] float width = 0.05f;
     [SerializeField] Vector3 centerPos;
@@ -13,11 +13,11 @@ public class CircleLineCreator : MonoBehaviour
 
     [SerializeField] LineRenderer lr;
 
-
-    public void BuildCircle(float rad, Vector3 center)
+    public void BuildCircle(float radX, float radY, Vector3 center)
     {
         centerPos = center;
-        radius = rad;
+        radiusX = radX;
+        radiusY = radY;
 
         lr.transform.position = centerPos;
         lr.useWorldSpace = false;
@@ -28,13 +28,16 @@ public class CircleLineCreator : MonoBehaviour
         lr.endColor = lineColor;
         lr.startWidth = lr.endWidth = width;
         lr.positionCount = segments;
-        
+
         for (int i = 0; i < segments; i++)
         {
             float t = i / (float)segments;
             float angle = t * Mathf.PI * 2f;
-            lr.SetPosition(i, new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radius);
+            lr.SetPosition(i, new Vector3(
+                Mathf.Cos(angle) * radiusX,
+                Mathf.Sin(angle) * radiusY,
+                0f
+            ));
         }
     }
-
 }

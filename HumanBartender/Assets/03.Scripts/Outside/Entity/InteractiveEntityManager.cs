@@ -21,18 +21,27 @@ public struct NPCEntity
 
 public class InteractiveEntityManager : MonoBehaviour
 {
+    [Header("Test")]
     [SerializeField] bool isTest = false;
     [SerializeField] int testDay = 0;
-    [SerializeField] EGameFlow testFlow = EGameFlow.Attendance;
+    [SerializeField] EGameFlow testFlow = EGameFlow.CommuteIn;
 
+    [Header("Data")]
     [SerializeField] OutsideDataManager outsideDataManager;
-
     [SerializeField] protected OutsideObjectDataSO obejctData;
 
     [SerializeField] protected List<ObjectEntity> obejcts;
     [SerializeField] protected List<NPCEntity> npcs;
 
+    [Header("Player")]
+    [SerializeField] GameObject player;
+    [SerializeField] InteractEntrance barEntrance;
+    [SerializeField] InteractEntrance homeEntrance;
+    [SerializeField] OutsideElevator elevator;
+
+
     [Inject] IPlayerDataReader playerData;
+    [Inject] ISoundManager soundManager;
 
     //day 값 보고 검사 하기.
     void Awake()
@@ -48,6 +57,21 @@ public class InteractiveEntityManager : MonoBehaviour
 
     private void Start()
     {
+        Logger.Log("Entity Init");
+        soundManager.PlayBGM("BGM_outside");
+
+        barEntrance.IsAvaliable = GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn;
+        homeEntrance.IsAvaliable = GameStateManager.Instance.GameFlow == EGameFlow.CommuteOut;
+
+        
+        elevator.SetPosition(GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn);
+
+        if (GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn)
+            player.transform.position = homeEntrance.spawnPoint;
+        else
+            player.transform.position = barEntrance.spawnPoint;
+
+
 
         //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
         foreach (var entity in obejcts)
@@ -102,10 +126,31 @@ public class InteractiveEntityManager : MonoBehaviour
                     foreach (var item in days.FlowData)
                     {
                         if (item.Conditions == null) flowData.Add(item);
+                        else if (item.Conditions.Value.Conditions != null)
+                        {
+                            bool isCheck = true;
+                            foreach (var condition in item.Conditions.Value.Conditions)
+                            {
+                                if (CheckCondition(condition) == false)
+                                {
+                                    isCheck = false;
+                                    break;
+                                }
+                            }
+
+                            if (isCheck == false)
+                            {
+                                continue;
+                            }
+
+                            flowData.Add(item);
+                        }
                         else if (CheckCondition(item.Conditions)) flowData.Add(item);
                     }
                 }
             }
+
+            if (flowData.Count == 0) isSpawn = false;
 
             if (isSpawn)
             {
@@ -144,8 +189,34 @@ public class InteractiveEntityManager : MonoBehaviour
                 return playerData.HasEnoughMoney(checkType.Value.Min);
 
             case EConditionCheckType.Flag:
-                //추후 작업
+                return playerData.CheckFlag(checkType.Value.FlagId) == checkType.Value.BValue;
+        }
+
+        return false;
+    }
+
+    public bool CheckCondition(Condition? checkType)
+    {
+        if (checkType == null) return true;
+
+        switch (checkType.Value.Type)
+        {
+            case EConditionCheckType.None:
                 break;
+
+            case EConditionCheckType.Affinity:
+                int characterTier = playerData.GetCurCharacterAffinityValue(checkType.Value.Character);
+                int targettier = checkType.Value.Min;
+                return characterTier >= targettier;
+
+            case EConditionCheckType.Skill:
+                return playerData.GetSkillValue() >= checkType.Value.Min;
+
+            case EConditionCheckType.Money:
+                return playerData.HasEnoughMoney(checkType.Value.Min);
+
+            case EConditionCheckType.Flag:
+                return playerData.CheckFlag(checkType.Value.FlagId) == checkType.Value.BValue;
         }
 
         return false;
