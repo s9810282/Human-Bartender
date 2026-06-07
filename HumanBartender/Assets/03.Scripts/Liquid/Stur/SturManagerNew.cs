@@ -99,7 +99,8 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
     {
         bgmSource.Stop();
         data.craftingResult.isResult = true;
-        data.craftingResult.actionFailCount = successJudge;
+        data.craftingResult.actionFailCount = failJudge;
+        data.craftingResult.limitFailCount = limitFailJudge;
 
         if (tcs != null)
         {
