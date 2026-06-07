@@ -41,6 +41,7 @@
           "choices": [
             { "text": "칵테일 제작 테스트", "next": "dt_craft_001", "choice_effect": null },
             { "text": "캐릭터 테스트", "next": "dt_char_menu", "choice_effect": null },
+            { "text": "호감도 분기 테스트", "next": "dt_affinity_001", "choice_effect": null },
             { "text": "다음 →", "next": "dt_start_002", "choice_effect": null }
           ],
           "trigger": null
@@ -50,13 +51,13 @@
           "id": "dt_start_002",
           "speaker": "luna",
           "type": "normal",
-          "text": "[테스트] 테스트 항목을 선택하세요. (2/3)",
+          "text": "[테스트] 테스트 항목을 선택하세요. (2/2)",
           "expression": null,
           "next": null,
           "choices": [
-            { "text": "호감도 분기 테스트", "next": "dt_affinity_001", "choice_effect": null },
             { "text": "텍스트 태그 테스트", "next": "dt_tag_001", "choice_effect": null },
-            { "text": "다음 →", "next": "dt_start_003", "choice_effect": null }
+            { "text": "조건 선택지 테스트", "next": "dt_condition_001", "choice_effect": null },
+            { "text": "← 처음으로", "next": "dt_start", "choice_effect": null }
           ],
           "trigger": null
         },
@@ -84,7 +85,8 @@
           "next": null,
           "choices": [
             { "text": "포트 · 부비 테스트", "next": "dt_char_001", "choice_effect": null },
-            { "text": "아일리 · 삼호 테스트", "next": "dt_new_char_001", "choice_effect": null }
+            { "text": "아일리 · 삼호 테스트", "next": "dt_new_char_001", "choice_effect": null },
+            { "text": "크리스 테스트", "next": "dt_chris_001", "choice_effect": null }
           ],
           "trigger": null
         },
@@ -908,10 +910,81 @@
           "type": "monologue",
           "text": "[테스트] 양쪽 슬롯 동시 점유 확인.",
           "expression": null,
+          "next": "dt_nc_aili_expr_001",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_aili_expr_001",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "[테스트] 아일리 표정 전환 — default",
+          "expression": "default",
+          "next": "dt_nc_aili_expr_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_aili_expr_002",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "[테스트] 아일리 표정 전환 — success (sprite)",
+          "expression": "success",
+          "next": "dt_nc_aili_expr_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_aili_expr_003",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "[테스트] 아일리 표정 전환 — fail (sprite)",
+          "expression": "fail",
+          "next": "dt_nc_samho_expr_001",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_samho_expr_001",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "[테스트] 삼호 표정 전환 — default",
+          "expression": "default",
+          "next": "dt_nc_samho_expr_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_samho_expr_002",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "[테스트] 삼호 표정 전환 — success (sprite)",
+          "expression": "success",
+          "next": "dt_nc_samho_expr_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_samho_expr_003",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "[테스트] 삼호 표정 전환 — fail (sprite)",
+          "expression": "fail",
+          "next": "dt_nc_samho_expr_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_nc_samho_expr_004",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "[테스트] 삼호 표정 전환 — drunk (sprite)",
+          "expression": "drunk",
           "next": "dt_new_char_aili_exit",
           "choices": null,
           "trigger": null
         },
+
         {
           "id": "dt_new_char_aili_exit",
           "speaker": "system",
@@ -975,6 +1048,99 @@
           "speaker": "luna",
           "type": "monologue",
           "text": "[테스트] 신규 캐릭터 테스트 완료.",
+          "expression": null,
+          "next": null,
+          "choices": [
+            { "text": "처음으로 돌아가기", "next": "dt_start", "choice_effect": null },
+            { "text": "테스트 종료", "next": "dt_end", "choice_effect": null }
+          ],
+          "trigger": null
+        },
+
+
+        {
+          "id": "dt_chris_001",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 크리스 애니메이션 프리셋 테스트 시작.",
+          "expression": null,
+          "next": "dt_chris_enter",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_chris_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_chris_expr_001",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "chris",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 1.0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_chris_expr_001",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "[테스트] 크리스 표정 전환 — default",
+          "expression": "default",
+          "next": "dt_chris_expr_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_chris_expr_002",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "[테스트] 크리스 표정 전환 — success (sprite)",
+          "expression": "success",
+          "next": "dt_chris_expr_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_chris_expr_003",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "[테스트] 크리스 표정 전환 — fail (sprite)",
+          "expression": "fail",
+          "next": "dt_chris_exit",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "dt_chris_exit",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "dt_chris_end_choice",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "chris",
+              "slot": "right",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "dt_chris_end_choice",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "[테스트] 크리스 애니메이션 프리셋 테스트 완료.",
           "expression": null,
           "next": null,
           "choices": [

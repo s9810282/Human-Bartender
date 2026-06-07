@@ -6,6 +6,25 @@
       "customer": "chris",
       "dialogues": [
         {
+          "id": "d2s_chris_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d2ci_001",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "chris",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
           "id": "d2ci_001",
           "speaker": "chris",
           "type": "normal",

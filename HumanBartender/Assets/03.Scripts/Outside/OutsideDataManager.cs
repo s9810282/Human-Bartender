@@ -18,12 +18,12 @@ public class OutsideDataManager : MonoBehaviour
     public void Load()
     {
         objectData.outsideObjectData = JsonManager<OutsideObjectDataBase>.
-            LoadGameData_StreamingAssets("Outside\\outside_objects.json");
+            LoadGameData_StreamingAssets("Outside/outside_objects.json");
 
         objectData.Cached();
 
         radioData.radioData = JsonManager<RadioDataBase>.
-            LoadGameData_StreamingAssets("Outside\\elevator_radio.json");
+            LoadGameData_StreamingAssets("Outside/elevator_radio.json");
 
         foreach (var item in outsideCharacterDatas)
         {
