@@ -1,3 +1,4 @@
+using AutoGroupGenerator;
 using Spine;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ public struct NPCEntity
 }
 
 [System.Serializable]
+public struct TriggetEntity
+{
+    public string id;
+    public InteractiveTriggerEntity entity;
+}
+
+[System.Serializable]
 public struct TestFlag
 {
     public string flag;
@@ -36,9 +44,11 @@ public class InteractiveEntityManager : MonoBehaviour
 
     [Header("Data")]
     [SerializeField] protected OutsideObjectDataSO obejctData;
+    [SerializeField] protected OutsideTriggerCutSceneSO triggerData;
 
     [SerializeField] protected List<ObjectEntity> obejcts;
     [SerializeField] protected List<NPCEntity> npcs;
+    [SerializeField] protected List<TriggetEntity> triggers;
 
     [Header("Player")]
     [SerializeField] GameObject player;
@@ -50,9 +60,15 @@ public class InteractiveEntityManager : MonoBehaviour
     [Inject] IPlayerDataWriter testPlayerWriter;
     [Inject] IPlayerDataReader playerData;
     [Inject] ISoundManager soundManager;
+    [Inject] IObjectResolver resolver;
 
     //day 값 보고 검사 하기.
     void Awake()
+    {
+        
+    }
+
+    private void Start()
     {
         if (isTest)
         {
@@ -64,10 +80,7 @@ public class InteractiveEntityManager : MonoBehaviour
                 testPlayerWriter.AddFlag(flag.flag, flag.bValue);
             }
         }
-    }
 
-    private void Start()
-    {
         Logger.Log("Entity Init");
         soundManager.PlayBGM("BGM_outside");
 
@@ -85,6 +98,8 @@ public class InteractiveEntityManager : MonoBehaviour
 
         RefreshEntity(); 
     }
+
+
 
     public void RefreshEntity()
     {
@@ -165,20 +180,62 @@ public class InteractiveEntityManager : MonoBehaviour
                 }
             }
 
-            if (flowData.Count == 0) isSpawn = false;
+            entity.entity.gameObject.SetActive(isSpawn);
 
-            if (isSpawn)
+            if (flowData.Count > 0)
             {
                 entity.entity.IsAvaliable = true;
-                entity.entity.EntityLabel = entity.data.dayData.InteractData.Label;
+                entity.entity.EntityLabel = entity.data.dayData.InteractData.Value.Label;
                 entity.entity.InjectDialogue(flowData, targetSelection);
-                entity.entity.gameObject.SetActive(true);
             }
             else
             {
                 entity.entity.IsAvaliable = false;
-                entity.entity.gameObject.SetActive(false);
             }
+        }
+
+
+        foreach (var entity in triggers)
+        {
+            bool isSpawn = false;
+
+            CutSceneEventData data = triggerData.cutSceneEventDic[entity.id];
+
+            //날짜 및 출퇴근 시간이 맞지 않는 다면. false
+            if (data.Day != GameStateManager.Instance.CurrentDay) isSpawn = false;
+            else  if (data.timing != GameStateManager.Instance.GameFlow) isSpawn = false;
+
+
+            //조건이 없으면 true
+            else if (data.Conditions == null) isSpawn = true;
+            //조건이 and라면 conditions 계산.
+            else if (data.Conditions.Value.Type == EConditionCheckType.And)
+            {
+                bool isCheck = true;
+                foreach (var condition in data.Conditions.Value.Conditions)
+                {
+                    if (CheckCondition(condition) == false)
+                    {
+                        isCheck = false;
+                        break;
+                    }
+                }
+
+                if (isCheck == false) continue;
+            }
+
+            else if (CheckCondition(data.Conditions)) isSpawn = true;
+
+            if (resolver == null)
+            {
+                Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
+            }
+
+            resolver.Inject(entity.entity);
+
+            entity.entity.gameObject.SetActive(isSpawn);
+            entity.entity.SetId(data.CutSceneId);
+            entity.entity.IsAvaliable = isSpawn;
         }
     }
 

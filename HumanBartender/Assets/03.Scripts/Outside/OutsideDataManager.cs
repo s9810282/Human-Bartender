@@ -14,6 +14,7 @@ public class OutsideDataManager : MonoBehaviour
     [SerializeField] OutsideObjectDataSO objectData;
     [SerializeField] List<OutsideCharacterData> outsideCharacterDatas;
     [SerializeField] OutsideRadioDataSO radioData;
+    [SerializeField] OutsideTriggerCutSceneSO triggerCutSceneSO;
 
     public void Load()
     {
@@ -24,6 +25,11 @@ public class OutsideDataManager : MonoBehaviour
 
         radioData.radioData = JsonManager<RadioDataBase>.
             LoadGameData_StreamingAssets("Outside/elevator_radio.json");
+
+        triggerCutSceneSO.cutSceneEvent = JsonManager<CutSceneEventBase>.
+           LoadGameData_StreamingAssets("cutscene_events.json");
+
+        triggerCutSceneSO.Cached();
 
         foreach (var item in outsideCharacterDatas)
         {

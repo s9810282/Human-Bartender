@@ -15,11 +15,12 @@ public class Player : MonoBehaviour, IInteractor
     public EInteractorState State { get => state; set => state = value; }
 
 
-    EInteractorState state = EInteractorState.None;
+    [SerializeField] EInteractorState state = EInteractorState.None;
 
 
     public void Update()
     {
+        if (state == EInteractorState.Lock) return;
         if (state == EInteractorState.Interct) return;
 
         movement2D.Handle();
@@ -28,4 +29,12 @@ public class Player : MonoBehaviour, IInteractor
         if (state == EInteractorState.ForceMove) return;
         detector.Handle();
     }
+
+    public void Lock()
+    {
+        animator2D.Handle(0);
+        state = EInteractorState.Lock;
+    }
+
+    public void UnLock() => state = EInteractorState.None;
 }

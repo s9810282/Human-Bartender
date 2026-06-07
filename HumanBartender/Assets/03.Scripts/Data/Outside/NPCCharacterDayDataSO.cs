@@ -68,7 +68,7 @@ public struct NPCDayData
 public class NPCCharacterDay
 {
     [JsonProperty("character_id")] public string Id { get; set; }
-    [JsonProperty("interact")] public InteractData InteractData { get; set; }
+    [JsonProperty("interact")] public InteractData? InteractData { get; set; }
     [JsonProperty("days")] public NPCDayData[] Days { get; set; }
 }
 

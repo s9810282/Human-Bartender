@@ -5,6 +5,7 @@ public enum EInteractorState
     None,
     Interct,
     ForceMove,
+    Lock,
 }
 
 public interface IInteractor

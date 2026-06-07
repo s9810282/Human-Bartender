@@ -24,7 +24,6 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
             Logger.LogError($"Select Flow Data is Null");
 
         flows = data;
-        curFlowIndex = 0;
         selectionType = selection;
     }
 

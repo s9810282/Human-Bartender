@@ -135,8 +135,9 @@ public struct DialogueData
 
 public struct NextConditions
 {
+    [JsonProperty("stat")] public EConditionCheckType Stat { get; set; }
     [JsonProperty("character")] public string Character { get; set; }
-    [JsonProperty("stat")] public string Stat { get; set; }
+    [JsonProperty("min_amount")] public int MinAmount{ get; set; }
     [JsonProperty("default")] public string Default { get; set; }
     [JsonProperty("branches")] public BranchData[] Branches { get; set; }
 }

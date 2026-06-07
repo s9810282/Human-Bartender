@@ -184,17 +184,10 @@ public class DialogueRunner : MonoBehaviour
             else if (currentDialogue.Type == EDialogueType.ConditionBranch)
             {
                 NextConditions next = currentDialogue.Nextconditions.Value;
+                string nextid = CheckCondition(next);
+                DialogueEvent(nextid);
 
-                EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(next.Character);
-
-                foreach (var item in next.Branches)
-                {
-                    if (characterTier == item.Tier)
-                    {
-                        DialogueEvent(item.Goto);
-                        return;
-                    }
-                }
+                return;
             }
             else if (currentDialogue.Type == EDialogueType.ChoiceRoot)
             {
@@ -219,6 +212,42 @@ public class DialogueRunner : MonoBehaviour
             EndScene();
         }
     }
+
+    public string CheckCondition(NextConditions checkType)
+    {
+        switch (checkType.Stat)
+        {
+            case EConditionCheckType.None:
+                break;
+
+            case EConditionCheckType.Affinity:
+                EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(checkType.Character);
+
+                foreach (var item in checkType.Branches)
+                {
+                    if (item.Tier == characterTier) return item.Goto;
+                }
+
+                return checkType.Default;
+
+            case EConditionCheckType.Skill:
+                return checkType.Default;
+
+            case EConditionCheckType.Money:
+                if (PlayerData.HasEnoughMoney(checkType.MinAmount)) 
+                    return checkType.Branches[0].Goto;
+
+                return checkType.Default;
+
+            case EConditionCheckType.Flag:
+                //추후 작업
+                break;
+        }
+
+        return checkType.Default;
+    }
+
+
 
     private async UniTask ExecuteTriggerAsync(TriggerData? trigger, string fallbackNextId)
     {
@@ -245,7 +274,6 @@ public class DialogueRunner : MonoBehaviour
         else
             DialogueEvent(nextId);
     }
-
     private async UniTask ExecuteTriggersAsync(TriggerData[] triggers, string fallbackNextId)
     {
         currentState = DialogueState.WaitingForTrigger;

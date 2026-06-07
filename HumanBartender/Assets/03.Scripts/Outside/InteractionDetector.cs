@@ -139,7 +139,7 @@ public class InteractionDetector : MonoBehaviour
         if (!ReferenceEquals(best, currentTarget))
         {
             if (best != null && !best.IsAvaliable) return;
-
+            
             currentTarget?.OnFocusExit();
             currentTarget = best;
             currentTarget?.OnFocusEnter();

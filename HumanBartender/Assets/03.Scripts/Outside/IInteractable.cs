@@ -10,7 +10,6 @@ public interface IInteractable : IEntity
     bool IsAvaliable { get; }
     bool IsInteracting { get; set; }
 
-
     public void Interact(IInteractor player);
     public void OnFocusEnter();
     public void OnFocusExit();

@@ -16,8 +16,8 @@ public class InteractiveObjectEntity : InteractiveEntity
 
     protected bool isTalking = false;
 
-    int curFlowIndex = 0;
-    ESelectionType selectionType = ESelectionType.Random;
+    [SerializeField] int curFlowIndex = 0;
+    [SerializeField] ESelectionType selectionType = ESelectionType.Random;
 
     public void InjectDialogue(List<FlowData> data, ESelectionType selection)
     {
@@ -25,7 +25,6 @@ public class InteractiveObjectEntity : InteractiveEntity
             Logger.LogError($"Select Flow Data is Null");
 
         flows = data;
-        curFlowIndex = 0;
         selectionType = selection;
     }
 
