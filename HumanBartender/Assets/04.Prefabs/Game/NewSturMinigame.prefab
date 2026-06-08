@@ -497,6 +497,8 @@ MonoBehaviour:
   canvasCamera: {fileID: 0}
   gameCanvas: {fileID: 3727406880609196822}
   buttonCanvas: {fileID: 4895844974551382}
+  bpm: 60
+  beatCount: 2
   judgeRange: 0.25
   totalJudge: 0
   successJudge: 0
@@ -613,10 +615,11 @@ MonoBehaviour:
     initCount: 0
     parentTransform: {fileID: 1647468630150302469}
   ratio: 1
-  staticNodeCount: 4
+  staticNodeCount: 3
   angleStep: 0
   nodePadding: 20
   createTargetDelay: 2
+  createNodeCount: 3
   nodeLifeTime: 5
   radiusX: 2
   radiusY: 2
@@ -1395,7 +1398,7 @@ SpriteRenderer:
   m_SortingOrder: 20
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.5471425, a: 0.7372549}
+  m_Color: {r: 1, g: 0, b: 0.5490198, a: 0.7372549}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1419,7 +1422,7 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   ease: 7
   curBpm: 60
-  curBeatsPerLap: 4
+  curBeatsPerLap: 3.2
   radiusX: 2.4
   radiusY: 2
 --- !u!1 &6504274402698030616
@@ -1770,7 +1773,7 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   ease: 7
   curBpm: 60
-  curBeatsPerLap: 4
+  curBeatsPerLap: 3.2
   radiusX: 2.4
   radiusY: 2
 --- !u!1 &8842675787457973259

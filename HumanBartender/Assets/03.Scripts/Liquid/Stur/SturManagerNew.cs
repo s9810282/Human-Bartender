@@ -27,6 +27,9 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
     [SerializeField] Camera canvasCamera;
     [SerializeField] Canvas gameCanvas;
     [SerializeField] Canvas buttonCanvas;
+    [SerializeField] int bpm = 60;
+    [SerializeField] int beatCount = 4;
+
 
     [Header("Judge")]
     [SerializeField] float judgeRange = 1;
@@ -133,7 +136,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         Logger.Log("Start Game");
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
-        sturStrikeNode.InitToStart(GetCenterWorldPosition(), 60, 4, radiusX, radiusY);
+        sturStrikeNode.InitToStart(GetCenterWorldPosition(), bpm, beatCount, radiusX, radiusY);
         nodeCreator.InitToStart(
             radiusX, radiusY,
             GetCenterWorldPosition(),
