@@ -63,7 +63,7 @@
           "lower_face":  { "clip": "port_lower_face_anger",  "loop": "Special_on_dialogue" },
           "body":        { "clip": "port_body_anger",        "loop": "Special_on_dialogue" },
           "extra":       { "clip": "port_extra_anger",       "loop": "Special_on_dialogue" },
-          "etc":         { "clip": "port_etc_anger",         "loop": "Special_on_dialogue" }
+          "etc":         { "clip": "port_etc_default",         "loop": "Special_on_dialogue" }
         },
         "joy": {
           "eyes":        null,
@@ -84,7 +84,7 @@
           "lower_face":  { "clip": "port_lower_face_event_surprise",  "loop": "once" },
           "body":        { "clip": "port_body_event_surprise",        "loop": "once" },
           "extra":       { "clip": "port_extra_event_surprise",         "loop": "once" },
-          "etc":         { "clip": "port_etc_event_surprise",           "loop": "once" }
+          "etc":         { "clip": "port_etc_default",           "loop": "once" }
         },
         "serious": {
           "eyes":        { "clip": "port_eyes_serious",        "loop": "always" },

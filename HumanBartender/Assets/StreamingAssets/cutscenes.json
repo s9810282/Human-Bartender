@@ -105,21 +105,6 @@
     },
 
     {
-      "id": "day1_bubi_fetch",
-      "description": "부비 만남 컷씬",
-      "type": "timeline",
-      "blocking": true,
-      "asset": "Bubi_meet",
-      "position": "full",
-      "scale": 1.0,
-      "loop": false,
-      "enter": "fade_in",
-      "enter_duration": 1.0,
-      "exit": "fade_out",
-      "exit_duration": 1.0
-    },
-
-    {
       "id": "Finished_GinFizz",
       "description": "진피즈 완성 컷씬",
       "type": "timeline",
