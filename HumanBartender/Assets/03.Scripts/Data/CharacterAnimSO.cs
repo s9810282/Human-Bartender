@@ -16,6 +16,7 @@ public enum EAnimationPart
     Upper_Face = 4,
     Lower_Face = 5,
     Extra = 6,
+    Etc = 7,
     Sprite = 10,
 }
 
@@ -141,6 +142,7 @@ public class ExpressionAnimData
     [JsonProperty("lower_face")] public PartAnimData Lower_face { get; set; }
     [JsonProperty("body")] public PartAnimData Body { get; set; }
     [JsonProperty("extra")] public PartAnimData Extra { get; set; }
+    [JsonProperty("etc")] public PartAnimData Etc { get; set; }
 
     public bool TryGetPart(EAnimationPart partName, out PartAnimData data)
     {
@@ -152,6 +154,7 @@ public class ExpressionAnimData
             EAnimationPart.Lower_Face => Lower_face,
             EAnimationPart.Body => Body,
             EAnimationPart.Extra => Extra,
+            EAnimationPart.Etc => Etc,
             _ => null
         };
         return data != null;

@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Name: CutSceneBGClip
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneBGClip
   template:
-    bgPath: BG
+    bgPath: ServeBG
     bgOffset: {x: 0, y: 0}
     bgScale: 1
     bgPivot: {x: 0.5, y: 0.5}
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
   template:
     imagePath: Serve
-    spriteSheetPath: Serve_Unknown
+    spriteSheetPath: Serve/give_drink_failue-ezgif.com-gif-to-sprite-converter
     fps: 12
     loop: 0
     startFrame: 0
@@ -551,6 +551,7 @@ MonoBehaviour:
     anchor: 0
     offsetX: 0
     offsetY: 0
+    sortOrder: 0
     enterType: 2
     enterDuration: 0.3
     enterEase: 1

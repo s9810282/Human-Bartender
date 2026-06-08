@@ -214,7 +214,9 @@ public class CharacterPart : AnimationPart, IFade
 
         if (partName != EAnimationPart.Lower_Face)
         {
-            animator.speed = 0;
+            if (partName != EAnimationPart.Etc)
+                animator.speed = 0;
+
             return;
         }
 
