@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 42
+    m_Start: 57
     m_ClipIn: 0
     m_Asset: {fileID: 1654810282498832495}
     m_Duration: 0.5833333333333357
@@ -113,7 +113,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 42.583333333333336
+    m_Start: 57.583333333333336
     m_ClipIn: 0
     m_Asset: {fileID: -459931029456894438}
     m_Duration: 1.5
@@ -182,10 +182,79 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 47.083333333333336
+    m_Start: 61.833333333333336
     m_ClipIn: 0
     m_Asset: {fileID: 5445420219112263230}
-    m_Duration: 1.5
+    m_Duration: 3.1558090656374773
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -9165688668773406332}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  - m_Version: 1
+    m_Start: 59.083333333333336
+    m_ClipIn: 0
+    m_Asset: {fileID: -3770784987794887884}
+    m_Duration: 2.75
     m_TimeScale: 1
     m_ParentTrack: {fileID: -9165688668773406332}
     m_EaseInDuration: 0
@@ -252,7 +321,7 @@ MonoBehaviour:
     m_DisplayName: CutSceneSpriteAnimClip
   m_Markers:
     m_Objects: []
---- !u!114 &-9133062525726955822
+--- !u!114 &-9148873340829857620
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,24 +330,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 520bfd296cb9be64ab1f5d3931db6391, type: 3}
-  m_Name: CutSceneImageClip(Clone)(Clone)
-  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
   template:
-    imagePath: Lab\yuna_ani_normal
-    sheetPath: Lab\yuna_ani_shoot
-    frameIndex: 0
-    anchor: 0
-    offsetX: 0.9875
-    offsetY: -0.0385
-    enterType: 1
-    enterDuration: 0
-    enterEase: 36
-    enterSlideDistance: 1
-    exitType: 0
-    exitDuration: 0.3
-    exitEase: 0
-    exitSlideDistance: 1
+    imagePath: hound
+    spriteSheetPath: Lab\hound_punch_sheet
+    fps: 12
+    loop: 0
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 1
+    pivot: {x: 0.2, y: 0.7}
+    autoCompensate: 0
+--- !u!114 &-8938130833192919754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
+  m_Name: CutSceneRootMoveClip
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
+  rootTemplate:
+    isBGRoot: 1
+    direction: 1
+    moveRatio: 0.65
+    ease: 36
+    endMode: 0
 --- !u!114 &-8773117147559637488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,7 +383,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 28.833333333333332
+    m_Start: 34.791666666666664
     m_ClipIn: 0
     m_Asset: {fileID: -2270144981663445943}
     m_Duration: 1
@@ -369,8 +451,182 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneShakeClip
+  - m_Version: 1
+    m_Start: 35.916666666666664
+    m_ClipIn: 0
+    m_Asset: {fileID: 4383634714749535605}
+    m_Duration: 1
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -8773117147559637488}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneShakeClip
+  - m_Version: 1
+    m_Start: 37.12500000000001
+    m_ClipIn: 0
+    m_Asset: {fileID: 5703553626475194723}
+    m_Duration: 1
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -8773117147559637488}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneShakeClip
   m_Markers:
     m_Objects: []
+--- !u!114 &-8649247107109702075
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
+  m_Name: CutSceneRootMoveClip
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
+  rootTemplate:
+    isBGRoot: 1
+    direction: 1
+    moveRatio: 1
+    ease: 1
+    endMode: 0
+--- !u!114 &-8042210608018594679
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
+  m_Name: CutSceneRootMoveClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
+  rootTemplate:
+    isBGRoot: 1
+    direction: 1
+    moveRatio: 1
+    ease: 1
+    endMode: 0
 --- !u!114 &-8023240308478295695
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -381,7 +637,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c637cfc738dab4e986a36bfccd0852, type: 3}
-  m_Name: Cut Scene Resolution Track
+  m_Name: Resolution
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneResolutionTrack
   m_Version: 3
   m_AnimClip: {fileID: 0}
@@ -396,7 +652,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -5799507079687144799}
-    m_Duration: 70.45833333333333
+    m_Duration: 127.66666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -8023240308478295695}
     m_EaseInDuration: 0
@@ -485,10 +741,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 2.0833333333333313
+    m_Start: 7
     m_ClipIn: 0
     m_Asset: {fileID: -4236679640723777667}
-    m_Duration: 27.666666666666668
+    m_Duration: 28.125
     m_TimeScale: 1
     m_ParentTrack: {fileID: -7874369032153145750}
     m_EaseInDuration: 0
@@ -554,79 +810,79 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneImageClip
   - m_Version: 1
-    m_Start: 30.25
-    m_ClipIn: 0
-    m_Asset: {fileID: -833554624725154873}
-    m_Duration: 7.5
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -7874369032153145750}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CutSceneImageClip
-  - m_Version: 1
-    m_Start: 40.5
+    m_Start: 37.541666666666664
     m_ClipIn: 0
     m_Asset: {fileID: -2525481158735723172}
-    m_Duration: 29.95833333333333
+    m_Duration: 4.875
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -7874369032153145750}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneImageClip
+  - m_Version: 1
+    m_Start: 50.83333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: -151998112748368399}
+    m_Duration: 35.37500000000001
     m_TimeScale: 1
     m_ParentTrack: {fileID: -7874369032153145750}
     m_EaseInDuration: 0
@@ -713,7 +969,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.3, y: 0.2}
+    offset: {x: -0.3, y: 0.02}
     anchor: 0
     enterType: 1
     enterDuration: 0.2
@@ -744,28 +1000,6 @@ MonoBehaviour:
     overridePivot: 1
     pivot: {x: 0.367, y: 0.354}
     autoCompensate: 0
---- !u!114 &-7176141271812405956
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
-  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)(Clone)(Clone)
-  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
-  template:
-    imagePath: hound
-    spriteSheetPath: Lab\hound_room_grapr
-    fps: 12
-    loop: 0
-    startFrame: 0
-    endFrame: 0
-    overridePivot: 1
-    pivot: {x: 0, y: 0.5}
-    autoCompensate: 1
 --- !u!114 &-7032705017997500468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -785,7 +1019,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.2, y: 0.15}
+    offset: {x: -0.3, y: 0.06}
     anchor: 0
     enterType: 7
     enterDuration: 0.2
@@ -900,7 +1134,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneEffectClip
   - m_Version: 1
-    m_Start: 1.0499999999999998
+    m_Start: 1
     m_ClipIn: 0
     m_Asset: {fileID: -6843498142476941088}
     m_Duration: 1
@@ -985,6 +1219,56 @@ MonoBehaviour:
   template:
     effectType: 2
     intensity: 0.5
+--- !u!114 &-6317721160745912862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf12867bf5d32646806c6798543ce23, type: 3}
+  m_Name: CutSceneDialogueClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneDialogueClip
+  template:
+    text: '!!'
+    speakerName: "\uC5F0\uAD6C\uC6D0"
+    charsPerSecond: 30
+    typingDelay: 0.2
+    sizeScale: 0.5
+    targetImagePath: 
+    offset: {x: 0.3, y: 0}
+    anchor: 0
+    enterType: 7
+    enterDuration: 0.2
+    enterEase: 27
+    exitType: 7
+    exitDuration: 0.15
+    exitEase: 26
+    bubbleIndex: 0
+--- !u!114 &-6262319156726144274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: Smoke
+    spriteSheetPath: Lab\lab_effect-Sheet
+    fps: 6
+    loop: 0
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
+    autoCompensate: 1
 --- !u!114 &-6042835276047568619
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1004,7 +1288,7 @@ MonoBehaviour:
     loop: 0
     startFrame: 0
     endFrame: 0
-    overridePivot: 1
+    overridePivot: 0
     pivot: {x: 0.5, y: 0.5}
     autoCompensate: 0
 --- !u!114 &-5799507079687144799
@@ -1035,7 +1319,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8473321c534d03e46a2eb93f3f2a105d, type: 3}
-  m_Name: Cut Scene BG Track
+  m_Name: BG
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneBGTrack
   m_Version: 3
   m_AnimClip: {fileID: 0}
@@ -1047,10 +1331,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 0
+    m_Start: 1
     m_ClipIn: 0
     m_Asset: {fileID: -4593159324456466898}
-    m_Duration: 70.45833333333333
+    m_Duration: 126.66666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5582682955468319131}
     m_EaseInDuration: 0
@@ -1117,6 +1401,28 @@ MonoBehaviour:
     m_DisplayName: CutSceneBGClip
   m_Markers:
     m_Objects: []
+--- !u!114 &-5396391479438700679
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: hound
+    spriteSheetPath: Lab\hound_room_idle
+    fps: 12
+    loop: 1
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
+    autoCompensate: 1
 --- !u!114 &-4755102423476673297
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1130,9 +1436,10 @@ MonoBehaviour:
   m_Name: CutSceneRootMoveClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
   rootTemplate:
+    isBGRoot: 1
     direction: 1
-    moveRatio: 0.9
-    ease: 3
+    moveRatio: 1
+    ease: 17
     endMode: 0
 --- !u!114 &-4593159324456466898
 MonoBehaviour:
@@ -1147,8 +1454,8 @@ MonoBehaviour:
   m_Name: CutSceneBGClip
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneBGClip
   template:
-    bgPath: 
-    bgOffset: {x: 0, y: 0}
+    bgPath: Lab\LAB_BG_all
+    bgOffset: {x: 2.76, y: 0}
     bgScale: 1
     bgPivot: {x: 0.5, y: 0.5}
     fadeInDuration: 0.5
@@ -1176,10 +1483,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 4.9
+    m_Start: 12
     m_ClipIn: 0
     m_Asset: {fileID: -6042835276047568619}
-    m_Duration: 2.8332999999999995
+    m_Duration: 2.833333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1245,10 +1552,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 7.7333
+    m_Start: 14.833333333333332
     m_ClipIn: 0
     m_Asset: {fileID: 9169625938419000316}
-    m_Duration: 17.133366666666667
+    m_Duration: 16.91666666666669
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1314,10 +1621,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 24.866666666666667
+    m_Start: 31.75000000000002
     m_ClipIn: 0
     m_Asset: {fileID: -9180164099893207849}
-    m_Duration: 1.5
+    m_Duration: 0.6666666666666643
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1383,10 +1690,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 26.366666666666667
+    m_Start: 32.416666666666686
     m_ClipIn: 0
     m_Asset: {fileID: -7563998168574766105}
-    m_Duration: 1.1666666666666679
+    m_Duration: 1.1666666666666643
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1452,10 +1759,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 27.533333333333335
+    m_Start: 33.58333333333335
     m_ClipIn: 0
     m_Asset: {fileID: -3068757749694229099}
-    m_Duration: 1
+    m_Duration: 1.0833333333333215
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1521,10 +1828,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 30.25
+    m_Start: 37.541666666666664
     m_ClipIn: 0
     m_Asset: {fileID: -3416918936091068631}
-    m_Duration: 7.5
+    m_Duration: 3.5416666666666643
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1590,10 +1897,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 28.833333333333332
+    m_Start: 34.66666666666667
     m_ClipIn: 0
     m_Asset: {fileID: 8010446140434329932}
-    m_Duration: 0.9166666666666679
+    m_Duration: 0.4583333333333286
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1659,10 +1966,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 40.5
+    m_Start: 64.98914239897081
     m_ClipIn: 0
     m_Asset: {fileID: -4338615715275279940}
-    m_Duration: 8.083333333333336
+    m_Duration: 21.219190934362516
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1728,10 +2035,217 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 48.583333333333336
+    m_Start: 7
     m_ClipIn: 0
-    m_Asset: {fileID: -7176141271812405956}
+    m_Asset: {fileID: 8453644574912467731}
+    m_Duration: 4
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -4527149525053943110}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  - m_Version: 1
+    m_Start: 11
+    m_ClipIn: 0
+    m_Asset: {fileID: 3461119212087549971}
     m_Duration: 1
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -4527149525053943110}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  - m_Version: 1
+    m_Start: 50.83333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: -5396391479438700679}
+    m_Duration: 14.155809065637492
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -4527149525053943110}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  - m_Version: 1
+    m_Start: 41.08333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: -9148873340829857620}
+    m_Duration: 1.3333333333333357
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4527149525053943110}
     m_EaseInDuration: 0
@@ -1820,9 +2334,78 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 27.533333333333335
+    m_Start: 34.083333333333336
     m_ClipIn: 0
     m_Asset: {fileID: 4722499691342877681}
+    m_Duration: 0.5416666666666536
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -4492428746569047517}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneMoveClip
+  - m_Version: 1
+    m_Start: 34.666666666666664
+    m_ClipIn: 0
+    m_Asset: {fileID: 5631507048529216166}
     m_Duration: 0.45833333333333215
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4492428746569047517}
@@ -1904,13 +2487,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
   template:
     imagePath: hound
-    spriteSheetPath: Lab\hound_room_idle
+    spriteSheetPath: Lab\hound_room_grapr
     fps: 12
-    loop: 1
+    loop: 0
     startFrame: 0
     endFrame: 0
-    overridePivot: 0
-    pivot: {x: 0.5, y: 0.5}
+    overridePivot: 1
+    pivot: {x: 0, y: 0.5}
     autoCompensate: 1
 --- !u!114 &-4236679640723777667
 MonoBehaviour:
@@ -1926,19 +2509,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
   template:
     imagePath: hound
-    sheetPath: Lab\hound_ani_PULL
-    frameIndex: 1
+    sheetPath: Lab\hound_ani_IDLE
+    frameIndex: 0
     anchor: 0
     offsetX: -0.35
-    offsetY: 0
+    offsetY: -0.035
     enterType: 2
-    enterDuration: 1
+    enterDuration: 0.4
     enterEase: 1
     enterSlideDistance: 1
     exitType: 1
     exitDuration: 0.3
     exitEase: 0
     exitSlideDistance: 1
+--- !u!114 &-3770784987794887884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: Lab\yuna_ani_normal
+    spriteSheetPath: Lab\yuna_ani_reday_shoot
+    fps: 12
+    loop: 0
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 1
+    pivot: {x: 0.5, y: 0.76}
+    autoCompensate: 0
+--- !u!114 &-3716262470355313061
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: Smoke
+    spriteSheetPath: Lab\lab_effect-Sheet
+    fps: 6
+    loop: 0
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
+    autoCompensate: 1
 --- !u!114 &-3477905392394732113
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1960,7 +2587,7 @@ MonoBehaviour:
     endAnchor: 2
     endOffsetX: 0
     endOffsetY: 0
-    deltaX: -0.5125
+    deltaX: -0.49
     deltaY: 0
     moveEase: 1
 --- !u!114 &-3416918936091068631
@@ -1982,10 +2609,10 @@ MonoBehaviour:
     loop: 1
     startFrame: 0
     endFrame: 0
-    overridePivot: 0
+    overridePivot: 1
     pivot: {x: 0.5, y: 0.5}
     autoCompensate: 1
---- !u!114 &-3405439639121689256
+--- !u!114 &-3244240430259102147
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1994,14 +2621,158 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
-  m_Name: CutSceneRootMoveClip(Clone)(Clone)
-  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
-  rootTemplate:
-    direction: 3
-    moveRatio: 0.6
-    ease: 36
-    endMode: 0
+  m_Script: {fileID: 11500000, guid: e71265075e3b72045a2a91a3a882c912, type: 3}
+  m_Name: Cut Scene Sprite Anim Track (3)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 34.75
+    m_ClipIn: 0
+    m_Asset: {fileID: -6262319156726144274}
+    m_Duration: 1.9583333333333282
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -3244240430259102147}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  - m_Version: 1
+    m_Start: 49.541666666666664
+    m_ClipIn: 0
+    m_Asset: {fileID: -3716262470355313061}
+    m_Duration: 1.9999999999999996
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -3244240430259102147}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  m_Markers:
+    m_Objects: []
 --- !u!114 &-3068757749694229099
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2046,10 +2817,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 14.033333333333331
+    m_Start: 23.083333333333353
     m_ClipIn: 0
     m_Asset: {fileID: 7135676407941455069}
-    m_Duration: 3
+    m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: -2963675334616287534}
     m_EaseInDuration: 0
@@ -2115,10 +2886,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneMoveClip
   - m_Version: 1
-    m_Start: 42.416666666666664
+    m_Start: 57.416666666666664
     m_ClipIn: 0
     m_Asset: {fileID: -3477905392394732113}
-    m_Duration: 1.6666666666666714
+    m_Duration: 1.7916666666666714
     m_TimeScale: 1
     m_ParentTrack: {fileID: -2963675334616287534}
     m_EaseInDuration: 0
@@ -2224,9 +2995,9 @@ MonoBehaviour:
     sheetPath: Lab\hound_room_idle
     frameIndex: 1
     anchor: 0
-    offsetX: 0.8
+    offsetX: 1.1
     offsetY: 0
-    enterType: 2
+    enterType: 1
     enterDuration: 1
     enterEase: 1
     enterSlideDistance: 1
@@ -2254,6 +3025,24 @@ MonoBehaviour:
     fadeInDuration: 0.05
     fadeOutDuration: 0.2
     seed: 1
+--- !u!114 &-2043293350086496037
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
+  m_Name: CutSceneRootMoveClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
+  rootTemplate:
+    isBGRoot: 0
+    direction: 4
+    moveRatio: 0.2
+    ease: 36
+    endMode: 0
 --- !u!114 &-1463335236005004489
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2276,10 +3065,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 35.25
+    m_Start: 43
     m_ClipIn: 0
     m_Asset: {fileID: -709991727686607492}
-    m_Duration: 35.20833333333333
+    m_Duration: 56.95833333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: -1463335236005004489}
     m_EaseInDuration: 0
@@ -2346,34 +3135,7 @@ MonoBehaviour:
     m_DisplayName: CutSceneImageClip
   m_Markers:
     m_Objects: []
---- !u!114 &-833554624725154873
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 520bfd296cb9be64ab1f5d3931db6391, type: 3}
-  m_Name: CutSceneImageClip(Clone)(Clone)
-  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
-  template:
-    imagePath: hound
-    sheetPath: Lab\hound_room_idle
-    frameIndex: 1
-    anchor: 0
-    offsetX: 0.6
-    offsetY: 0
-    enterType: 2
-    enterDuration: 1
-    enterEase: 1
-    enterSlideDistance: 1
-    exitType: 1
-    exitDuration: 0.3
-    exitEase: 0
-    exitSlideDistance: 1
---- !u!114 &-805742288472545903
+--- !u!114 &-1426310876074340717
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2383,12 +3145,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
-  m_Name: CutSceneRootMoveClip
+  m_Name: CutSceneRootMoveClip(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
   rootTemplate:
-    direction: 4
-    moveRatio: 0.6
-    ease: 17
+    isBGRoot: 1
+    direction: 1
+    moveRatio: 1
+    ease: 1
     endMode: 0
 --- !u!114 &-709991727686607492
 MonoBehaviour:
@@ -2404,11 +3167,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
   template:
     imagePath: Luna
-    sheetPath: Lab\luna_crawl
+    sheetPath: Lab\luna_crawl_normal
     frameIndex: 0
     anchor: 0
-    offsetX: 1.59
-    offsetY: -0.115
+    offsetX: 2.1
+    offsetY: -0.05
     enterType: 1
     enterDuration: 0.3
     enterEase: 0
@@ -2437,7 +3200,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: 0, y: 0.2}
+    offset: {x: 0, y: -0.02}
     anchor: 0
     enterType: 1
     enterDuration: 0.2
@@ -2465,9 +3228,9 @@ MonoBehaviour:
     loop: 1
     startFrame: 0
     endFrame: 0
-    overridePivot: 0
-    pivot: {x: 0.5, y: 0.5}
-    autoCompensate: 1
+    overridePivot: 1
+    pivot: {x: 0.5, y: 0.76}
+    autoCompensate: 0
 --- !u!114 &-264513925514235571
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2487,7 +3250,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: 0.45, y: 0.2}
+    offset: {x: 0.45, y: 0.02}
     anchor: 0
     enterType: 1
     enterDuration: 0.2
@@ -2496,6 +3259,33 @@ MonoBehaviour:
     exitDuration: 0.15
     exitEase: 26
     bubbleIndex: 0
+--- !u!114 &-151998112748368399
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520bfd296cb9be64ab1f5d3931db6391, type: 3}
+  m_Name: CutSceneImageClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
+  template:
+    imagePath: hound
+    sheetPath: Lab\hound_room_idle
+    frameIndex: 1
+    anchor: 0
+    offsetX: 1.4
+    offsetY: 0.09
+    enterType: 1
+    enterDuration: 1
+    enterEase: 1
+    enterSlideDistance: 1
+    exitType: 1
+    exitDuration: 0.3
+    exitEase: 0
+    exitSlideDistance: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2516,6 +3306,8 @@ MonoBehaviour:
   - {fileID: -7874369032153145750}
   - {fileID: -4527149525053943110}
   - {fileID: -4492428746569047517}
+  - {fileID: 5682604633946119128}
+  - {fileID: -3244240430259102147}
   - {fileID: 8503670597610696674}
   - {fileID: -8773117147559637488}
   - {fileID: 510787011477935681}
@@ -2526,6 +3318,8 @@ MonoBehaviour:
   - {fileID: 5584514108350137087}
   - {fileID: -9165688668773406332}
   - {fileID: -1463335236005004489}
+  - {fileID: 3419881729344718005}
+  - {fileID: 7878717192115009471}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 24
@@ -2552,7 +3346,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.3, y: 0.2}
+    offset: {x: -0.3, y: 0.02}
     anchor: 0
     enterType: 1
     enterDuration: 0.2
@@ -2583,7 +3377,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 2.75
+    m_Start: 7
     m_ClipIn: 0
     m_Asset: {fileID: 464144324239210167}
     m_Duration: 3.541666666666667
@@ -2652,7 +3446,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 10.366666666666667
+    m_Start: 17.000000000000004
     m_ClipIn: 0
     m_Asset: {fileID: -7599017073298321658}
     m_Duration: 3.666666666666666
@@ -2721,7 +3515,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 20
+    m_Start: 27
     m_ClipIn: 0
     m_Asset: {fileID: -621294748871715739}
     m_Duration: 3.033333333333333
@@ -2790,7 +3584,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 32.25
+    m_Start: 39.08333333333333
     m_ClipIn: 0
     m_Asset: {fileID: -264513925514235571}
     m_Duration: 2
@@ -2859,7 +3653,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 44.375
+    m_Start: 60.1583333333333
     m_ClipIn: 0
     m_Asset: {fileID: 4572630084191408341}
     m_Duration: 2.5
@@ -2928,7 +3722,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 50.666666666666664
+    m_Start: 66.83333333333331
     m_ClipIn: 0
     m_Asset: {fileID: 4060478233637200710}
     m_Duration: 3
@@ -2997,7 +3791,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 57.083333333333336
+    m_Start: 73.25
     m_ClipIn: 0
     m_Asset: {fileID: 4028103722355873232}
     m_Duration: 3
@@ -3066,7 +3860,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 61
+    m_Start: 77.16666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 3865658925226678547}
     m_Duration: 3
@@ -3135,7 +3929,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
   - m_Version: 1
-    m_Start: 64
+    m_Start: 80.16666666666674
     m_ClipIn: 0
     m_Asset: {fileID: -7032705017997500468}
     m_Duration: 3
@@ -3203,8 +3997,99 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneDialogueClip
+  - m_Version: 1
+    m_Start: 52.58333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: -6317721160745912862}
+    m_Duration: 2.5
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 510787011477935681}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneDialogueClip
   m_Markers:
     m_Objects: []
+--- !u!114 &637147818443124650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: Luna
+    spriteSheetPath: Lab\luna_crawl
+    fps: 12
+    loop: 1
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
+    autoCompensate: 1
 --- !u!114 &658873615185747338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3222,8 +4107,8 @@ MonoBehaviour:
     sheetPath: 
     frameIndex: 0
     anchor: 0
-    offsetX: 1.5
-    offsetY: -0.0385
+    offsetX: 2
+    offsetY: 0.05
     enterType: 1
     enterDuration: 0
     enterEase: 0
@@ -3232,6 +4117,24 @@ MonoBehaviour:
     exitDuration: 0
     exitEase: 36
     exitSlideDistance: 1
+--- !u!114 &962515937168490746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c2bfe36e6cb34b884319b0f88b157, type: 3}
+  m_Name: CutSceneRootMoveClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
+  rootTemplate:
+    isBGRoot: 1
+    direction: 2
+    moveRatio: 0.65
+    ease: 1
+    endMode: 0
 --- !u!114 &1654810282498832495
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3289,14 +4192,14 @@ MonoBehaviour:
   m_Name: CutSceneDialogueClip
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneDialogueClip
   template:
-    text: "\uC5B4\uC774 \uD558\uC6B4\uB4DC~ \uC544\uC9C1 \uBA40\uC5C8\uC5B4?\n\uC774\uC81C
-      \uC2AC \uD1F4\uAC01\uD574\uC57C\uB3FC~~"
+    text: "                 \uC5B4\uC774 \uD558\uC6B4\uB4DC~ \uC544\uC9C1 \uBA40\uC5C8\uC5B4?\n                
+      \uC774\uC81C \uC2AC \uD1F4\uAC01\uD574\uC57C\uB3FC~~"
     speakerName: 
     charsPerSecond: 20
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.35, y: 0.3}
+    offset: {x: -0.43, y: 0.3}
     anchor: 0
     enterType: 7
     enterDuration: 0.2
@@ -3327,6 +4230,147 @@ MonoBehaviour:
     overridePivot: 1
     pivot: {x: 0.8, y: 0.66}
     autoCompensate: 0
+--- !u!114 &3332758073118716531
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520bfd296cb9be64ab1f5d3931db6391, type: 3}
+  m_Name: CutSceneImageClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
+  template:
+    imagePath: Smoke
+    sheetPath: Lab\lab_effect-Sheet
+    frameIndex: 0
+    anchor: 0
+    offsetX: 0
+    offsetY: 0
+    enterType: 1
+    enterDuration: 0.01
+    enterEase: 1
+    enterSlideDistance: 1
+    exitType: 1
+    exitDuration: 0.3
+    exitEase: 0
+    exitSlideDistance: 1
+--- !u!114 &3419881729344718005
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71265075e3b72045a2a91a3a882c912, type: 3}
+  m_Name: Cut Scene Sprite Anim Track (4)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 82.66666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: 637147818443124650}
+    m_Duration: 45
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 3419881729344718005}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneSpriteAnimClip
+  m_Markers:
+    m_Objects: []
+--- !u!114 &3461119212087549971
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: hound
+    spriteSheetPath: Lab\hound_ani_BITE
+    fps: 12
+    loop: 0
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
+    autoCompensate: 0
 --- !u!114 &3865658925226678547
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3346,7 +4390,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.2, y: 0.15}
+    offset: {x: -0.3, y: 0.06}
     anchor: 0
     enterType: 7
     enterDuration: 0.2
@@ -3401,7 +4445,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.35, y: 0.15}
+    offset: {x: -0.4, y: 0.08}
     anchor: 0
     enterType: 7
     enterDuration: 0.2
@@ -3451,7 +4495,7 @@ MonoBehaviour:
     typingDelay: 0.2
     sizeScale: 0.5
     targetImagePath: 
-    offset: {x: -0.2, y: 0.15}
+    offset: {x: -0.3, y: 0.06}
     anchor: 0
     enterType: 7
     enterDuration: 0.2
@@ -3460,6 +4504,26 @@ MonoBehaviour:
     exitDuration: 0.15
     exitEase: 26
     bubbleIndex: 0
+--- !u!114 &4383634714749535605
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15f81a25f948884e8eb3ad6b0d56549, type: 3}
+  m_Name: CutSceneShakeClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneShakeClip
+  template:
+    intensity: 30
+    frequency: 50
+    shakeX: 1
+    shakeY: 0
+    fadeInDuration: 0.05
+    fadeOutDuration: 0.2
+    seed: 1
 --- !u!114 &4563391148147594909
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3473,9 +4537,10 @@ MonoBehaviour:
   m_Name: CutSceneRootMoveClip(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneRootMoveClip
   rootTemplate:
+    isBGRoot: 1
     direction: 1
-    moveRatio: 0.25
-    ease: 3
+    moveRatio: 0.75
+    ease: 1
     endMode: 0
 --- !u!114 &4572630084191408341
 MonoBehaviour:
@@ -3526,8 +4591,8 @@ MonoBehaviour:
     endAnchor: 2
     endOffsetX: 0
     endOffsetY: 0
-    deltaX: 0
-    deltaY: 0.2
+    deltaX: 0.2
+    deltaY: 0.6
     moveEase: 17
 --- !u!114 &4861606086542988456
 MonoBehaviour:
@@ -3551,10 +4616,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 14.033333333333333
+    m_Start: 23.083333333333353
     m_ClipIn: 0
     m_Asset: {fileID: 3952349583687845694}
-    m_Duration: 15.466666666666667
+    m_Duration: 10.750000000000004
     m_TimeScale: 1
     m_ParentTrack: {fileID: 4861606086542988456}
     m_EaseInDuration: 0
@@ -3621,6 +4686,57 @@ MonoBehaviour:
     m_DisplayName: CutSceneImageClip
   m_Markers:
     m_Objects: []
+--- !u!114 &4873954939444531188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b63839a84b30e4dab6446d8e0af555, type: 3}
+  m_Name: CutSceneMoveClip
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneMoveClip
+  template:
+    imagePath: Luna
+    moveMode: 1
+    startAnchor: 1
+    startOffsetX: 0
+    startOffsetY: 0
+    endAnchor: 2
+    endOffsetX: 0
+    endOffsetY: 0
+    deltaX: 3
+    deltaY: 0
+    moveEase: 1
+--- !u!114 &5100271394143849747
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520bfd296cb9be64ab1f5d3931db6391, type: 3}
+  m_Name: CutSceneImageClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
+  template:
+    imagePath: Smoke
+    sheetPath: Lab\lab_effect-Sheet
+    frameIndex: 0
+    anchor: 0
+    offsetX: 1.3
+    offsetY: 0.04
+    enterType: 1
+    enterDuration: 0.01
+    enterEase: 1
+    enterSlideDistance: 1
+    exitType: 1
+    exitDuration: 0.3
+    exitEase: 0
+    exitSlideDistance: 1
 --- !u!114 &5425479514191278793
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3663,7 +4779,7 @@ MonoBehaviour:
     startFrame: 0
     endFrame: 0
     overridePivot: 0
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.76}
     autoCompensate: 1
 --- !u!114 &5584514108350137087
 MonoBehaviour:
@@ -3687,10 +4803,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 35.25
+    m_Start: 43
     m_ClipIn: 0
     m_Asset: {fileID: 658873615185747338}
-    m_Duration: 8.833333333333336
+    m_Duration: 21.989142398970813
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5584514108350137087}
     m_EaseInDuration: 0
@@ -3755,13 +4871,129 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneImageClip
+  m_Markers:
+    m_Objects: []
+--- !u!114 &5631507048529216166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b63839a84b30e4dab6446d8e0af555, type: 3}
+  m_Name: CutSceneMoveClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneMoveClip
+  template:
+    imagePath: hound
+    moveMode: 1
+    startAnchor: 1
+    startOffsetX: 0
+    startOffsetY: 0
+    endAnchor: 2
+    endOffsetX: 0
+    endOffsetY: 0
+    deltaX: 0
+    deltaY: -0.5
+    moveEase: 36
+--- !u!114 &5682604633946119128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841d1b15f21c7ba469f0ecd260af8a2c, type: 3}
+  m_Name: Cut Scene Image Track (4)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
   - m_Version: 1
-    m_Start: 44.083333333333336
+    m_Start: 34.75
     m_ClipIn: 0
-    m_Asset: {fileID: -9133062525726955822}
-    m_Duration: 4.5
+    m_Asset: {fileID: 3332758073118716531}
+    m_Duration: 1.9583333333333282
     m_TimeScale: 1
-    m_ParentTrack: {fileID: 5584514108350137087}
+    m_ParentTrack: {fileID: 5682604633946119128}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneImageClip
+  - m_Version: 1
+    m_Start: 49.541666666666664
+    m_ClipIn: 0
+    m_Asset: {fileID: 5100271394143849747}
+    m_Duration: 1.9999999999999996
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 5682604633946119128}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 0
@@ -3848,10 +5080,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 14.033333333333333
+    m_Start: 23.083333333333353
     m_ClipIn: 0
     m_Asset: {fileID: 2011454869503824229}
-    m_Duration: 2.9999999999999982
+    m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5683257733641361089}
     m_EaseInDuration: 0
@@ -3917,10 +5149,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 17.03333333333333
+    m_Start: 25.083333333333353
     m_ClipIn: 0
     m_Asset: {fileID: 3184888299413126535}
-    m_Duration: 9.333333333333336
+    m_Duration: 6.666666666666668
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5683257733641361089}
     m_EaseInDuration: 0
@@ -3986,7 +5218,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 26.366666666666667
+    m_Start: 31.75000000000002
     m_ClipIn: 0
     m_Asset: {fileID: 4058742705058894285}
     m_Duration: 0.5
@@ -4055,7 +5287,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 26.866666666666667
+    m_Start: 32.250000000000014
     m_ClipIn: 0
     m_Asset: {fileID: 5425479514191278793}
     m_Duration: 0.5
@@ -4124,10 +5356,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneSpriteAnimClip
   - m_Version: 1
-    m_Start: 27.366666666666667
+    m_Start: 32.750000000000014
     m_ClipIn: 0
     m_Asset: {fileID: -2595131788786036414}
-    m_Duration: 2.133333333333333
+    m_Duration: 1.0833333333333428
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5683257733641361089}
     m_EaseInDuration: 0
@@ -4194,6 +5426,26 @@ MonoBehaviour:
     m_DisplayName: CutSceneSpriteAnimClip
   m_Markers:
     m_Objects: []
+--- !u!114 &5703553626475194723
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15f81a25f948884e8eb3ad6b0d56549, type: 3}
+  m_Name: CutSceneShakeClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneShakeClip
+  template:
+    intensity: 30
+    frequency: 50
+    shakeX: 1
+    shakeY: 0
+    fadeInDuration: 0.05
+    fadeOutDuration: 0.2
+    seed: 1
 --- !u!114 &7058103677843806617
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4216,7 +5468,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 53.083333333333336
+    m_Start: 69.25
     m_ClipIn: 0
     m_Asset: {fileID: 3097145455133915577}
     m_Duration: 5
@@ -4303,13 +5555,105 @@ MonoBehaviour:
     moveMode: 0
     startAnchor: 0
     startOffsetX: 0.25
-    startOffsetY: 0
+    startOffsetY: -0.03
     endAnchor: 0
     endOffsetX: 0
-    endOffsetY: 0
+    endOffsetY: -0.03
     deltaX: 0
     deltaY: 0
     moveEase: 1
+--- !u!114 &7878717192115009471
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86fad91f0ae13104e983339193e24585, type: 3}
+  m_Name: Cut Scene Move Track (2)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneMoveTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 82.66666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: 4873954939444531188}
+    m_Duration: 45
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 7878717192115009471}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneMoveClip
+  m_Markers:
+    m_Objects: []
 --- !u!114 &8010446140434329932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4331,6 +5675,28 @@ MonoBehaviour:
     endFrame: 0
     overridePivot: 1
     pivot: {x: 0.367, y: 0.354}
+    autoCompensate: 0
+--- !u!114 &8453644574912467731
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dbd13932e7d49e48acca715b0c6d11b, type: 3}
+  m_Name: CutSceneSpriteAnimClip(Clone)(Clone)
+  m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
+  template:
+    imagePath: hound
+    spriteSheetPath: Lab\hound_ani_IDLE
+    fps: 12
+    loop: 1
+    startFrame: 0
+    endFrame: 0
+    overridePivot: 0
+    pivot: {x: 0.5, y: 0.5}
     autoCompensate: 0
 --- !u!114 &8503670597610696674
 MonoBehaviour:
@@ -4354,148 +5720,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 27.533333333333335
-    m_ClipIn: 0
-    m_Asset: {fileID: -805742288472545903}
-    m_Duration: 0.9166666666666679
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 8503670597610696674}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CutSceneRootMoveClip
-  - m_Version: 1
-    m_Start: 28.833333333333332
-    m_ClipIn: 0
-    m_Asset: {fileID: -3405439639121689256}
-    m_Duration: 0.9166666666666679
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: 8503670597610696674}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0
-    m_BlendOutDuration: 0
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: CutSceneRootMoveClip
-  - m_Version: 1
-    m_Start: 30.5
+    m_Start: 36.458333333333336
     m_ClipIn: 0
     m_Asset: {fileID: 4563391148147594909}
-    m_Duration: 1.5
+    m_Duration: 1.6666666666666714
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8503670597610696674}
     m_EaseInDuration: 0
@@ -4561,10 +5789,424 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: CutSceneRootMoveClip
   - m_Version: 1
-    m_Start: 35.25
+    m_Start: 41.62499999999999
     m_ClipIn: 0
     m_Asset: {fileID: -4755102423476673297}
-    m_Duration: 2.5
+    m_Duration: 0.5
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 1
+    m_ClipIn: 0
+    m_Asset: {fileID: -8938130833192919754}
+    m_Duration: 0.5
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 1.5833333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: 962515937168490746}
+    m_Duration: 3
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 1.5
+    m_ClipIn: 0
+    m_Asset: {fileID: -2043293350086496037}
+    m_Duration: 0.08333333333333333
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 82.66666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: -8649247107109702075}
+    m_Duration: 15
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 97.66666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: -8042210608018594679}
+    m_Duration: 15
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8503670597610696674}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: CutSceneRootMoveClip
+  - m_Version: 1
+    m_Start: 112.66666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: -1426310876074340717}
+    m_Duration: 15
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8503670597610696674}
     m_EaseInDuration: 0

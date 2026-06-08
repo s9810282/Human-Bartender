@@ -142,10 +142,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 94
-        height: 82
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 90
+        height: 62
+      alignment: 9
+      pivot: {x: 0.4, y: -0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -162,19 +162,19 @@ TextureImporter:
       name: yuna_ani_shoot_1
       rect:
         serializedVersion: 2
-        x: 94
+        x: 90
         y: 0
-        width: 94
-        height: 82
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 90
+        height: 62
+      alignment: 9
+      pivot: {x: 0.4, y: -0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9a681cb29029fd7b0800000000000000
+      spriteID: 33a3c4646249f794fb9508a63d563a70
       internalID: -5197274876875798871
       vertices: []
       indices: 
@@ -184,19 +184,19 @@ TextureImporter:
       name: yuna_ani_shoot_2
       rect:
         serializedVersion: 2
-        x: 188
+        x: 180
         y: 0
-        width: 94
-        height: 82
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 90
+        height: 62
+      alignment: 9
+      pivot: {x: 0.4, y: -0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f4af10939f867e5a0800000000000000
+      spriteID: 1af1dd804b18ea84d9edcb7e5d40d4a2
       internalID: -6492104918218704305
       vertices: []
       indices: 
@@ -206,19 +206,19 @@ TextureImporter:
       name: yuna_ani_shoot_3
       rect:
         serializedVersion: 2
-        x: 282
+        x: 270
         y: 0
-        width: 94
-        height: 82
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 90
+        height: 62
+      alignment: 9
+      pivot: {x: 0.4, y: -0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c11cc7c6573feb360800000000000000
+      spriteID: bb100574d1db84a42805ece1f3665d6d
       internalID: 7187449740986728732
       vertices: []
       indices: 
@@ -228,19 +228,19 @@ TextureImporter:
       name: yuna_ani_shoot_4
       rect:
         serializedVersion: 2
-        x: 376
+        x: 360
         y: 0
-        width: 94
-        height: 82
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 90
+        height: 62
+      alignment: 9
+      pivot: {x: 0.4, y: -0.04}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 83ef3407293a69730800000000000000
+      spriteID: b5ede7e355a9dfd498c39fe04b06a79b
       internalID: 4005568767936691768
       vertices: []
       indices: 
@@ -260,7 +260,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":94.0,"y":82.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":90.0,"y":62.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.4000000059604645,"y":-0.03999999910593033},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       yuna_ani_shoot_0: 7824863271464956176
       yuna_ani_shoot_1: -5197274876875798871
