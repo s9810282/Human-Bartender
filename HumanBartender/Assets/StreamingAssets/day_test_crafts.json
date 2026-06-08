@@ -2,8 +2,8 @@
   "craft_events": [
     {
       "id": "day_test_craft",
-      "order": "[테스트] 진피즈 또는 드라이 마티니",
-      "targetID" : "abc",
+      "order": "[테스트] 진피즈(쉐이킹) / 드라이 마티니(스터) / 깔루아 밀크(빌드)",
+      "targetID": "abc",
       "auto_open_recipe_ui": true,
       "tutorial": {
         "enabled": false,
@@ -28,63 +28,49 @@
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz", "dry_martini"],
             "require_craft_success": "perfect",
-            "description": "주문 칵테일 ID 일치 + 미니게임 완벽"
+            "description": "쉐이킹/스터 대상 칵테일 + 미니게임 완벽"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz", "dry_martini"],
             "require_craft_success": "normal",
-            "description": "주문 칵테일 ID 일치 + 미니게임 보통"
+            "description": "쉐이킹/스터 대상 칵테일 + 미니게임 보통"
           },
           {
             "result": "miss",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz", "dry_martini"],
             "require_craft_success": "fail",
-            "description": "주문 칵테일 ID 일치 + 미니게임 실패"
+            "description": "쉐이킹/스터 대상 칵테일 + 미니게임 실패"
           },
           {
-            "result": "normal_kw_perfect",
-            "match_type": "keyword",
-            "match_values": ["청량한"],
-            "require_craft_success": "perfect",
-            "description": "키워드 청량한 일치 + 미니게임 완벽"
-          },
-          {
-            "result": "normal_kw_normal",
-            "match_type": "keyword",
-            "match_values": ["청량한"],
-            "require_craft_success": "normal",
-            "description": "키워드 청량한 일치 + 미니게임 보통"
-          },
-          {
-            "result": "bad_kw_fail",
-            "match_type": "keyword",
-            "match_values": ["청량한"],
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
             "require_craft_success": "fail",
-            "description": "키워드 청량한 일치 + 미니게임 실패"
+            "description": "깔루아 밀크 빌드 완료 (빌드는 미니게임 없으므로 action_result가 항상 fail)"
           },
           {
             "result": "normal_nm_perfect",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "perfect",
-            "description": "불일치 + 미니게임 완벽"
+            "description": "다른 칵테일 + 미니게임 완벽"
           },
           {
             "result": "bad_nm_normal",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "normal",
-            "description": "불일치 + 미니게임 보통"
+            "description": "다른 칵테일 + 미니게임 보통"
           },
           {
             "result": "bad_nm_fail",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "fail",
-            "description": "불일치 + 미니게임 실패"
+            "description": "다른 칵테일 + 미니게임 실패 또는 빌드 오답"
           }
         ]
       },
@@ -116,33 +102,6 @@
           "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
-        "normal_kw_perfect": {
-          "verdict": "normal",
-          "dialogue_id": "dt_react_normal_kw_perfect",
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0,
-          "skill": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
-        },
-        "normal_kw_normal": {
-          "verdict": "normal",
-          "dialogue_id": "dt_react_normal_kw_normal",
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0,
-          "skill": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
-        },
-        "bad_kw_fail": {
-          "verdict": "bad",
-          "dialogue_id": "dt_react_bad_kw_fail",
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0,
-          "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
-        },
         "normal_nm_perfect": {
           "verdict": "normal",
           "dialogue_id": "dt_react_normal_nm_perfect",
@@ -154,7 +113,7 @@
         },
         "bad_nm_normal": {
           "verdict": "bad",
-          "dialogue_id": "dt_react_bad_nm_normal",
+          "dialogue_id": "dt_react_bad_nm_fail",
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
