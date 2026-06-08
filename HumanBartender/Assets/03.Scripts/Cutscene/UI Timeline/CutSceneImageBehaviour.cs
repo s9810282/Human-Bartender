@@ -23,6 +23,10 @@ public class CutSceneImageBehaviour : PlayableBehaviour
     public float offsetX;
     public float offsetY;
 
+    [Header("Layer")]
+    [Tooltip("렌더 순서. 값이 클수록 앞에 표시 (다른 이미지 위에 그려짐)")]
+    public int sortOrder = 0;
+
     [Header("Enter")]
     public EEneterPreset enterType = EEneterPreset.FadeIn;
     public float enterDuration = 0.3f;

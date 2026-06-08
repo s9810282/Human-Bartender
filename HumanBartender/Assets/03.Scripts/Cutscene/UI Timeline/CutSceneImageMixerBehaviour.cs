@@ -37,15 +37,15 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
                 Image img = manager.GetPooledImage();
                 if (img == null) continue;
 
-                // 스프라이트 로드: sheetPath가 있으면 시트에서 한 장, 없으면 단일 이미지
                 Sprite sprite = LoadSprite(behaviour);
                 if (sprite != null) img.sprite = sprite;
                 img.SetNativeSize();
 
-                // activeImages 등록 키 결정
                 string activeKey = GetActiveKey(behaviour);
 
                 manager.SetImagePosition(img, behaviour.anchor, behaviour.offsetX, behaviour.offsetY);
+                img.transform.SetSiblingIndex(behaviour.sortOrder);
+
                 behaviour.assignedImage = img;
                 manager.RegisterActive(activeKey, img);
 
@@ -67,7 +67,6 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
 
     public override void OnPlayableDestroy(Playable playable)
     {
-        // Timeline 정지 시 잔여 이미지 정리
         if (manager != null)
             manager.ResetImages();
     }
@@ -212,7 +211,6 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
                 break;
         }
 
-        // 풀에 반환
         manager.ReturnToPool(GetActiveKey(b), img);
         b.assignedImage = null;
     }
@@ -221,13 +219,8 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
     //  스프라이트 로드 헬퍼
     // ══════════════════════════════════════════════════════════════════
 
-    /// <summary>
-    /// sheetPath가 있으면 시트에서 frameIndex 번째 로드.
-    /// 없으면 Resources/Cutscenes/{imagePath}에서 단일 이미지 로드.
-    /// </summary>
     Sprite LoadSprite(CutSceneImageBehaviour b)
     {
-        // 시트에서 한 장
         if (!string.IsNullOrEmpty(b.sheetPath))
         {
             Sprite[] allSprites = Resources.LoadAll<Sprite>($"Cutscenes/{b.sheetPath}");
@@ -248,17 +241,12 @@ public class CutSceneImageMixerBehaviour : PlayableBehaviour
             return allSprites[idx];
         }
 
-        // 단일 이미지
         if (!string.IsNullOrEmpty(b.imagePath))
             return Resources.Load<Sprite>($"Cutscenes/{b.imagePath}");
 
         return null;
     }
 
-    /// <summary>
-    /// activeImages 키는 항상 imagePath.
-    /// 다른 트랙에서 참조할 때 imagePath만 맞추면 됨.
-    /// </summary>
     string GetActiveKey(CutSceneImageBehaviour b)
     {
         return b.imagePath;

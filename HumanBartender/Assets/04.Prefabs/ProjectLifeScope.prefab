@@ -4546,7 +4546,7 @@ PlayableDirector:
   m_GameObject: {fileID: 2705091408427173801}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 0}
+  m_PlayableAsset: {fileID: 11400000, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -4560,7 +4560,7 @@ PlayableDirector:
     value: {fileID: 1182543933211446036}
   - key: {fileID: 8201846359559791653, guid: 1ec5c136b6d90bb4a9c0a2cde90d8764, type: 2}
     value: {fileID: 1182543933211446036}
-  - key: {fileID: 7163471571545682924, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
+  - key: {fileID: 0}
     value: {fileID: 1182543933211446036}
   - key: {fileID: -6451502659142167226, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
     value: {fileID: 1182543933211446036}
@@ -4695,7 +4695,25 @@ PlayableDirector:
   - key: {fileID: -4542155416430154734, guid: 3525917056fe9524aa9f5d21dfdfd31c, type: 2}
     value: {fileID: 1182543933211446036}
   - key: {fileID: -6591746297933685751, guid: c2d76df140daeff4db2a12b813fddc51, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 4182086108249052578}
+  - key: {fileID: 2555990345122796436, guid: 8968decbf36fe554ca92dc1fa36b2651, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -5582682955468319131, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -8023240308478295695, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 4861606086542988456, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 8758797947550797119, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: -3747594321635384752, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 8469324741815023700, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 1253910302429683339, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
+  - key: {fileID: 4071063595183795834, guid: 22003067eb8064b4dbb6e705e72d1da0, type: 2}
+    value: {fileID: 1182543933211446036}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &4182086108249052578
@@ -9941,7 +9959,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1342, y: 542}
+  m_SizeDelta: {x: 481, y: 271}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6473335888457616945
 CanvasRenderer:
