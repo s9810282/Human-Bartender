@@ -6,7 +6,8 @@ using VContainer;
 public enum EOutsideCameraMode
 {
     Follow = 0,
-    Elevator = 1
+    Elevator = 1,
+    ElevatorReturn = 2,
 }
 
 [System.Serializable]

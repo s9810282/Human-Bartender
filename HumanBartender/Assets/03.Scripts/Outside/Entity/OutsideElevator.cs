@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,12 +8,18 @@ using UnityEngine.UIElements;
 
 public class OutsideElevator : InteractiveEntity
 {
+    [Header("Logo")]
+    [SerializeField] LogoFade logoEvent;
+    [SerializeField] bool isLogo = false;
+    [SerializeField] float logoFadeTiming = 0.2f;
+
     [Header("Radio")]
     [SerializeField] OutsideElevatorRadio radio;
 
     [Header("Event")]
     [SerializeField] Vector2Event externalDeltaEvent;
     [SerializeField] IntEvent changeCameraModeEvent;
+    [SerializeField] float cameraReturnTiming = 0.8f;
 
     [Header("Stat")]
     [SerializeField] Transform topPoint;
@@ -42,41 +49,63 @@ public class OutsideElevator : InteractiveEntity
     {
         if (isMoving) return;
 
+        // 1. 상태 및 플래그 설정
         isMoving = true;
         isInteracting = true;
 
         player.State = EInteractorState.ForceMove;
 
-        Vector3 oldPos = this.transform.position;
-        oldPos.y = player.Transform.position.y;
-        player.Transform.position = oldPos;
-        player.Transform.SetParent(transform, worldPositionStays: true);
+
+        Vector3 startPos = this.transform.position;
+        startPos.y = player.Transform.position.y;
+
+        player.Transform.position = startPos;
+        player.Transform.SetParent(this.transform, worldPositionStays: true);
+
 
         wallColider.gameObject.SetActive(true);
         targetPoint = isTop ? bottomPoint : topPoint;
 
+
         changeCameraModeEvent?.Raise(1);
-
         OnInteracted?.Raise(this);
-
         radio.Interact(null);
 
-        transform.DOMove(targetPoint.position, duration)
-              .SetEase(ease)
-              .OnComplete(() =>
-              {
-                  transform.position = targetPoint.position;
+        Sequence moveSeq = DOTween.Sequence();
 
-                  player.Transform.SetParent(null, worldPositionStays: true);
-                  changeCameraModeEvent?.Raise(0);
-                  wallColider.gameObject.SetActive(false);
+        moveSeq.Append(transform.DOMove(targetPoint.position, duration).SetEase(ease));
 
-                  radio.EndInteract();
+        if (!isLogo)
+        {
+            isLogo = true;
+            float logoEventTime = duration * logoFadeTiming;
+            moveSeq.InsertCallback(logoEventTime, () =>
+            {
+                logoEvent.ShowLogo();
+            });
+        }
 
-                  StartCoroutine(DelayToChangeState(player));
-              });
+        float cameraEventTiming = duration * cameraReturnTiming;
+        moveSeq.InsertCallback(cameraEventTiming, () =>
+        {
+            changeCameraModeEvent?.Raise(2);
+        });
+
+        moveSeq.OnComplete(() =>
+        {
+            // 최종 위치 보정
+            transform.position = targetPoint.position;
+
+            // 플레이어 종속 해제 및 상태 원복
+            player.Transform.SetParent(null, worldPositionStays: true);
+            wallColider.gameObject.SetActive(false);
+            changeCameraModeEvent?.Raise(0);
+
+            radio.EndInteract();
+
+            StartCoroutine(DelayToChangeState(player));
+        });
     }
-
     public IEnumerator DelayToChangeState(IInteractor player)
     {
         yield return new WaitForSeconds(delayDuration);
