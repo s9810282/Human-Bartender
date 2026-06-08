@@ -1,31 +1,34 @@
 fileFormatVersion: 2
-guid: 2340190540fe1904497bae8d5f498ab5
+guid: 30810a83afa8b65479ae25117c3959f9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1021725284170551312
-    second: samho-IDLE_Sheet - mask_0
+      213: 4072314344720324190
+    second: luna_v2-idle_Sheet_0
   - first:
-      213: -3769195751593035795
-    second: samho-IDLE_Sheet - mask_1
+      213: -4669386501977244436
+    second: luna_v2-idle_Sheet_1
   - first:
-      213: -7941713367436378077
-    second: samho-IDLE_Sheet - mask_2
+      213: -1904102774472441578
+    second: luna_v2-idle_Sheet_2
   - first:
-      213: -5492919047906889377
-    second: samho-IDLE_Sheet - mask_3
+      213: -7729201821592761328
+    second: luna_v2-idle_Sheet_3
   - first:
-      213: -6702175159581644901
-    second: samho-IDLE_Sheet - mask_4
+      213: 722060367969435527
+    second: luna_v2-idle_Sheet_4
   - first:
-      213: 7533990860321156184
-    second: samho-IDLE_Sheet - mask_5
+      213: -3657334725675383249
+    second: luna_v2-idle_Sheet_5
   - first:
-      213: -5355271843840396802
-    second: samho-IDLE_Sheet - mask_6
+      213: -1612583462065844550
+    second: luna_v2-idle_Sheet_6
   - first:
-      213: 7960610200278020419
-    second: samho-IDLE_Sheet - mask_7
+      213: 8170929800862620136
+    second: luna_v2-idle_Sheet_7
+  - first:
+      213: 4941428765165067886
+    second: luna_v2-idle_Sheet_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -134,177 +137,199 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_0
+      name: luna_v2-idle_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 010550d8bb5ed2e00800000000000000
-      internalID: 1021725284170551312
+      spriteID: e5658ca0254c38830800000000000000
+      internalID: 4072314344720324190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_1
+      name: luna_v2-idle_Sheet_1
       rect:
         serializedVersion: 2
-        x: 84
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 89
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: de7b2691f6021bbc0800000000000000
-      internalID: -3769195751593035795
+      spriteID: cec74a647b1033fb0800000000000000
+      internalID: -4669386501977244436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_2
+      name: luna_v2-idle_Sheet_2
       rect:
         serializedVersion: 2
-        x: 168
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 178
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 320cbf1f4cd59c190800000000000000
-      internalID: -7941713367436378077
+      spriteID: 6110cbf6d944395e0800000000000000
+      internalID: -1904102774472441578
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_3
+      name: luna_v2-idle_Sheet_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5178898a3b35c3b0800000000000000
-      internalID: -5492919047906889377
+      spriteID: 01c49a2f4eb5cb490800000000000000
+      internalID: -7729201821592761328
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_4
+      name: luna_v2-idle_Sheet_4
       rect:
         serializedVersion: 2
-        x: 84
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 89
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b9760b6b3371df2a0800000000000000
-      internalID: -6702175159581644901
+      spriteID: 78fb43b3416450a00800000000000000
+      internalID: 722060367969435527
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_5
+      name: luna_v2-idle_Sheet_5
       rect:
         serializedVersion: 2
-        x: 168
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 178
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 85c6b7a45cc1e8860800000000000000
-      internalID: 7533990860321156184
+      spriteID: f260b63c1798e3dc0800000000000000
+      internalID: -3657334725675383249
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_6
+      name: luna_v2-idle_Sheet_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ef1fd38a1a04ea5b0800000000000000
-      internalID: -5355271843840396802
+      spriteID: abe45e492e3fe99e0800000000000000
+      internalID: -1612583462065844550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_Sheet - mask_7
+      name: luna_v2-idle_Sheet_7
       rect:
         serializedVersion: 2
-        x: 84
+        x: 89
         y: 0
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3413ceeccc4c97e60800000000000000
-      internalID: 7960610200278020419
+      spriteID: 8e9d119cc59f46170800000000000000
+      internalID: 8170929800862620136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: luna_v2-idle_Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 0
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6e9f86f74b739440800000000000000
+      internalID: 4941428765165067886
       vertices: []
       indices: 
       edges: []
@@ -313,7 +338,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3b4f83653c994a54692def7c2a454597
+    spriteID: 7250f9788cc16a24187ff1675eaefe83
     internalID: 0
     vertices: []
     indices: 
@@ -323,16 +348,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":84.0,"y":81.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":89.0,"y":86.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.4000000059604645},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      samho-IDLE_Sheet - mask_0: 1021725284170551312
-      samho-IDLE_Sheet - mask_1: -3769195751593035795
-      samho-IDLE_Sheet - mask_2: -7941713367436378077
-      samho-IDLE_Sheet - mask_3: -5492919047906889377
-      samho-IDLE_Sheet - mask_4: -6702175159581644901
-      samho-IDLE_Sheet - mask_5: 7533990860321156184
-      samho-IDLE_Sheet - mask_6: -5355271843840396802
-      samho-IDLE_Sheet - mask_7: 7960610200278020419
+      luna_v2-idle_Sheet_0: 4072314344720324190
+      luna_v2-idle_Sheet_1: -4669386501977244436
+      luna_v2-idle_Sheet_2: -1904102774472441578
+      luna_v2-idle_Sheet_3: -7729201821592761328
+      luna_v2-idle_Sheet_4: 722060367969435527
+      luna_v2-idle_Sheet_5: -3657334725675383249
+      luna_v2-idle_Sheet_6: -1612583462065844550
+      luna_v2-idle_Sheet_7: 8170929800862620136
+      luna_v2-idle_Sheet_8: 4941428765165067886
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

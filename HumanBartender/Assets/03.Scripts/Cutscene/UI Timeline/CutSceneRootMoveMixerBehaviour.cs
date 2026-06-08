@@ -3,12 +3,9 @@ using UnityEngine.Playables;
 
 public class CutSceneRootMoveMixerBehaviour : PlayableBehaviour
 {
-    // Root와 BGRoot의 Hold 상태를 독립적으로 기억
-    private bool hasHeldRoot;
-    private Vector2 heldRootPos;
-
-    private bool hasHeldBGRoot;
-    private Vector2 heldBGRootPos;
+    // Hold 모드로 끝난 클립의 마지막 위치를 기억
+    private bool hasHeldPosition;
+    private Vector2 heldPosition;
 
     // 이전 프레임에서 활성이었던 클립 추적
     private int lastActiveIndex = -1;
@@ -16,15 +13,12 @@ public class CutSceneRootMoveMixerBehaviour : PlayableBehaviour
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         var manager = playerData as CutSceneTimelineManager;
-        if (manager == null) return;
+        if (manager == null || manager.CutSceneRoot == null) return;
 
         int inputCount = playable.GetInputCount();
         int currentActiveIndex = -1;
 
-        bool isRootAnimating = false;
-        bool isBGRootAnimating = false;
-
-        // 활성 클립 찾기 + manager 연결 및 애니메이션 상태 추적
+        // 활성 클립 찾기 + manager 연결
         for (int i = 0; i < inputCount; i++)
         {
             float weight = playable.GetInputWeight(i);
@@ -35,52 +29,39 @@ public class CutSceneRootMoveMixerBehaviour : PlayableBehaviour
             var inputPlayable = (ScriptPlayable<CutSceneRootMoveBehaviour>)playable.GetInput(i);
             var behaviour = inputPlayable.GetBehaviour();
             behaviour.manager = manager;
-
-            if (behaviour.isBGRoot) isBGRootAnimating = true;
-            else isRootAnimating = true;
         }
 
         // 클립이 방금 끝났는지 감지
         if (lastActiveIndex >= 0 && currentActiveIndex < 0)
         {
+            // 이전 활성 클립이 끝남
             var prevPlayable = (ScriptPlayable<CutSceneRootMoveBehaviour>)playable.GetInput(lastActiveIndex);
             var prevBehaviour = prevPlayable.GetBehaviour();
-            RectTransform prevTargetRect = prevBehaviour.GetTargetRect();
 
             switch (prevBehaviour.endMode)
             {
                 case ERootMoveEndMode.Hold:
-                    if (prevBehaviour.isBGRoot)
-                    {
-                        hasHeldBGRoot = true;
-                        heldBGRootPos = prevBehaviour.EndPos;
-                    }
-                    else
-                    {
-                        hasHeldRoot = true;
-                        heldRootPos = prevBehaviour.EndPos;
-                    }
+                    hasHeldPosition = true;
+                    heldPosition = prevBehaviour.EndPos;
                     break;
 
                 case ERootMoveEndMode.Return:
-                    if (prevBehaviour.isBGRoot) hasHeldBGRoot = false;
-                    else hasHeldRoot = false;
-
-                    if (prevTargetRect != null)
-                        prevTargetRect.anchoredPosition = prevBehaviour.StartPos;
+                    hasHeldPosition = false;
+                    manager.CutSceneRoot.anchoredPosition = prevBehaviour.StartPos;
                     break;
             }
         }
 
-        // 현재 클립에서 애니메이션 중이 아닌 Root들에 대해서만 Hold 상태 적용
-        if (!isRootAnimating && hasHeldRoot && manager.CutSceneRoot != null)
+        // 활성 클립이 바뀜 (새 클립 시작)
+        if (currentActiveIndex >= 0 && currentActiveIndex != lastActiveIndex)
         {
-            manager.CutSceneRoot.anchoredPosition = heldRootPos;
+            // 새 클립이 시작되면 held 상태 해제 (새 클립이 직접 제어)
         }
 
-        if (!isBGRootAnimating && hasHeldBGRoot && manager.CutSceneBGRoot != null)
+        // 활성 클립이 없고 Hold 상태면 위치 유지
+        if (currentActiveIndex < 0 && hasHeldPosition)
         {
-            manager.CutSceneBGRoot.anchoredPosition = heldBGRootPos;
+            manager.CutSceneRoot.anchoredPosition = heldPosition;
         }
 
         lastActiveIndex = currentActiveIndex;
@@ -88,8 +69,7 @@ public class CutSceneRootMoveMixerBehaviour : PlayableBehaviour
 
     public override void OnPlayableDestroy(Playable playable)
     {
-        hasHeldRoot = false;
-        hasHeldBGRoot = false;
+        hasHeldPosition = false;
         lastActiveIndex = -1;
     }
 }

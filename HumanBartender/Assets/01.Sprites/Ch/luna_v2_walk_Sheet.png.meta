@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 270d81aefe4a9604e8eb7fb74ad9bb2a
+guid: 7c60c177bf334f848b52880d40517421
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4281275500486602562
-    second: samho-IDLE_BLINK_Sheet_normal_0
+      213: -3659187382133240578
+    second: luna_v2_walk_Sheet_0
   - first:
-      213: 7827355814245877868
-    second: samho-IDLE_BLINK_Sheet_normal_1
+      213: 821799681672250051
+    second: luna_v2_walk_Sheet_1
   - first:
-      213: 2437054838734043170
-    second: samho-IDLE_BLINK_Sheet_normal_2
+      213: 7494267312073664600
+    second: luna_v2_walk_Sheet_2
   - first:
-      213: 7694713923973803474
-    second: samho-IDLE_BLINK_Sheet_normal_3
+      213: 3068908889164736588
+    second: luna_v2_walk_Sheet_3
   - first:
-      213: 8002346486452512704
-    second: samho-IDLE_BLINK_Sheet_normal_4
+      213: -7361496927524035391
+    second: luna_v2_walk_Sheet_4
   - first:
-      213: -4232096481263999433
-    second: samho-IDLE_BLINK_Sheet_normal_5
+      213: 1601091230256207178
+    second: luna_v2_walk_Sheet_5
   - first:
-      213: -1418603845496327062
-    second: samho-IDLE_BLINK_Sheet_normal_6
+      213: 6076432169077752495
+    second: luna_v2_walk_Sheet_6
   - first:
-      213: 5772119591615137687
-    second: samho-IDLE_BLINK_Sheet_normal_7
+      213: 5990608703920777177
+    second: luna_v2_walk_Sheet_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -134,177 +134,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_0
+      name: luna_v2_walk_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eb0d9ef8d9ad594c0800000000000000
-      internalID: -4281275500486602562
+      spriteID: efc4b519674f73dc0800000000000000
+      internalID: -3659187382133240578
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_1
+      name: luna_v2_walk_Sheet_1
       rect:
         serializedVersion: 2
-        x: 84
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 89
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c68c6b654aa50ac60800000000000000
-      internalID: 7827355814245877868
+      spriteID: 3c28a96d47e976b00800000000000000
+      internalID: 821799681672250051
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_2
+      name: luna_v2_walk_Sheet_2
       rect:
         serializedVersion: 2
-        x: 168
-        y: 162
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 178
+        y: 172
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 228b3e8b67822d120800000000000000
-      internalID: 2437054838734043170
+      spriteID: 858e8fbf96cf00860800000000000000
+      internalID: 7494267312073664600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_3
+      name: luna_v2_walk_Sheet_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2dde5b6ab8d19ca60800000000000000
-      internalID: 7694713923973803474
+      spriteID: c48e3baff54f69a20800000000000000
+      internalID: 3068908889164736588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_4
+      name: luna_v2_walk_Sheet_4
       rect:
         serializedVersion: 2
-        x: 84
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 89
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c7e89e2bbb0e0f60800000000000000
-      internalID: 8002346486452512704
+      spriteID: 1c4eccb1c85b6d990800000000000000
+      internalID: -7361496927524035391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_5
+      name: luna_v2_walk_Sheet_5
       rect:
         serializedVersion: 2
-        x: 168
-        y: 81
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 178
+        y: 86
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 73624134ca29445c0800000000000000
-      internalID: -4232096481263999433
+      spriteID: a451a60bdf7383610800000000000000
+      internalID: 1601091230256207178
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_6
+      name: luna_v2_walk_Sheet_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a643030915b105ce0800000000000000
-      internalID: -1418603845496327062
+      spriteID: fa2c2ab0dd2d35450800000000000000
+      internalID: 6076432169077752495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: samho-IDLE_BLINK_Sheet_normal_7
+      name: luna_v2_walk_Sheet_7
       rect:
         serializedVersion: 2
-        x: 84
+        x: 89
         y: 0
-        width: 84
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 89
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7970b43cf20ba1050800000000000000
-      internalID: 5772119591615137687
+      spriteID: 9d7af8960eae22350800000000000000
+      internalID: 5990608703920777177
       vertices: []
       indices: 
       edges: []
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: cbe618746d22e874ab45f82d9e0e8f7e
+    spriteID: 87ebbc8218799734ca6758719ab92ceb
     internalID: 0
     vertices: []
     indices: 
@@ -323,16 +323,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":84.0,"y":81.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":89.0,"y":86.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.4000000059604645},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      samho-IDLE_BLINK_Sheet_normal_0: -4281275500486602562
-      samho-IDLE_BLINK_Sheet_normal_1: 7827355814245877868
-      samho-IDLE_BLINK_Sheet_normal_2: 2437054838734043170
-      samho-IDLE_BLINK_Sheet_normal_3: 7694713923973803474
-      samho-IDLE_BLINK_Sheet_normal_4: 8002346486452512704
-      samho-IDLE_BLINK_Sheet_normal_5: -4232096481263999433
-      samho-IDLE_BLINK_Sheet_normal_6: -1418603845496327062
-      samho-IDLE_BLINK_Sheet_normal_7: 5772119591615137687
+      luna_v2_walk_Sheet_0: -3659187382133240578
+      luna_v2_walk_Sheet_1: 821799681672250051
+      luna_v2_walk_Sheet_2: 7494267312073664600
+      luna_v2_walk_Sheet_3: 3068908889164736588
+      luna_v2_walk_Sheet_4: -7361496927524035391
+      luna_v2_walk_Sheet_5: 1601091230256207178
+      luna_v2_walk_Sheet_6: 6076432169077752495
+      luna_v2_walk_Sheet_7: 5990608703920777177
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

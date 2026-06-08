@@ -100,14 +100,12 @@ public class CutSceneBGMixerBehaviour : PlayableBehaviour
         {
             bg.color = new Color(behaviour.tint.r, behaviour.tint.g, behaviour.tint.b, 0);
             bg.sprite = sprite;
-            bg.SetNativeSize();
             bg.gameObject.SetActive(true);
             await bg.DOFade(behaviour.tint.a, behaviour.fadeInDuration).ToUniTask();
         }
         else
         {
             bg.sprite = sprite;
-            bg.SetNativeSize();
             bg.color = behaviour.tint;
             bg.gameObject.SetActive(true);
         }

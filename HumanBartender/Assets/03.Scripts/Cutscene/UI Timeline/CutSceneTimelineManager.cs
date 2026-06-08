@@ -17,7 +17,6 @@ public class CutSceneTimelineManager : MonoBehaviour
 
     [Header("CutScene Root (패닝 대상)")]
     [SerializeField] RectTransform cutSceneRoot;
-    [SerializeField] RectTransform cutSceneBGRoot;
 
     [Header("Overlay / Images")]
     [SerializeField] Image          bgImage;
@@ -39,7 +38,6 @@ public class CutSceneTimelineManager : MonoBehaviour
 
     public RectTransform CanvasRect    => canvasRect;
     public RectTransform CutSceneRoot  => cutSceneRoot;
-    public RectTransform CutSceneBGRoot => cutSceneBGRoot;
     public CanvasScaler  CanvasScaler  => canvasScaler;
     public Image EffectOverlay => effectOverlay;
 
@@ -72,8 +70,6 @@ public class CutSceneTimelineManager : MonoBehaviour
             director.stopped += OnTimelineStopped;
 
         cutSceneRoot.anchoredPosition = Vector2.zero;
-
-        cutSceneBGRoot.anchoredPosition = Vector2.zero;
 
         effectOverlay.gameObject.SetActive(false);
 
@@ -142,8 +138,6 @@ public class CutSceneTimelineManager : MonoBehaviour
     {
         if (director == null) return;
         cutSceneRoot.anchoredPosition = Vector2.zero;
-        cutSceneBGRoot.anchoredPosition = Vector2.zero;
-
         director.playableAsset = timeline;
 
         foreach (var track in timeline.GetOutputTracks())
@@ -251,10 +245,6 @@ public class CutSceneTimelineManager : MonoBehaviour
         {
             cutSceneRoot.anchoredPosition = Vector2.zero;
         }
-        if (cutSceneBGRoot != null)
-        {
-            cutSceneBGRoot.anchoredPosition = Vector2.zero;
-        }
     }
     public Image BgImage => bgImage;
     public void SetBackground(string path)
@@ -304,7 +294,6 @@ public class CutSceneTimelineManager : MonoBehaviour
             bubble.GetComponent<RectTransform>().localScale = Vector3.one * 0.5f;
         }
     }
-
 
 
     // ══════════════════════════════════════════════════════════════════

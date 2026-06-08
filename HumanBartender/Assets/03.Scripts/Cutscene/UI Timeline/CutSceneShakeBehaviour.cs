@@ -59,7 +59,7 @@ public class CutSceneShakeBehaviour : PlayableBehaviour
         manager = playerData as CutSceneTimelineManager;
         if (manager == null || manager.CutSceneRoot == null) return;
 
-        RectTransform root = manager.CutSceneBGRoot;
+        RectTransform root = manager.CutSceneRoot;
 
         if (!initialized)
         {

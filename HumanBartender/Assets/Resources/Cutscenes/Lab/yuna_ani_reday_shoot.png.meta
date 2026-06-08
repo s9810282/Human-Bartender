@@ -146,15 +146,37 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
+      name: yuna_ani_reday_shoot_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 151
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325a6ddf02256faf0800000000000000
+      internalID: -363012418305612509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: yuna_ani_reday_shoot_1
       rect:
         serializedVersion: 2
-        x: 91
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 94
+        y: 151
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -168,44 +190,22 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: yuna_ani_reday_shoot_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 16faae889707778488f8255c9c01d1ee
-      internalID: -363012418305612509
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: yuna_ani_reday_shoot_2
       rect:
         serializedVersion: 2
-        x: 182
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 188
+        y: 151
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 5f240a8bff1c0a9409c08bd8de82a72b
+      spriteID: 3bce8ed3f70a2f0d0800000000000000
       internalID: -3390471101096596301
       vertices: []
       indices: 
@@ -215,19 +215,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_3
       rect:
         serializedVersion: 2
-        x: 273
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 282
+        y: 151
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ce0860c7f7e68b94bae5717fe41fc78a
+      spriteID: c5d1ad87b82c9d9f0800000000000000
       internalID: -443109184035480228
       vertices: []
       indices: 
@@ -237,19 +237,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_4
       rect:
         serializedVersion: 2
-        x: 364
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 76
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8b09c19dd6f4be644808880c097de8d7
+      spriteID: b48acc7cc9b8d8140800000000000000
       internalID: 4723585089664755787
       vertices: []
       indices: 
@@ -259,19 +259,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_5
       rect:
         serializedVersion: 2
-        x: 455
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 94
+        y: 76
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6f1fd7d518a33e747a2c8518b2da9c76
+      spriteID: 844d33f72023f1970800000000000000
       internalID: 8727749589172737096
       vertices: []
       indices: 
@@ -281,19 +281,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_6
       rect:
         serializedVersion: 2
-        x: 546
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 188
+        y: 76
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2256ddea21a50b142982c6f86508b063
+      spriteID: 6d48a952f3ec64cc0800000000000000
       internalID: -3727064870993361706
       vertices: []
       indices: 
@@ -303,19 +303,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_7
       rect:
         serializedVersion: 2
-        x: 637
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 282
+        y: 76
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 458efb3050a816547b147c45b44b5f52
+      spriteID: 4ee7df3a3fc5a4fe0800000000000000
       internalID: -1204047748870078748
       vertices: []
       indices: 
@@ -325,19 +325,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_8
       rect:
         serializedVersion: 2
-        x: 728
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 0
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: ecf3d8ad3226913418637222cafc237e
+      spriteID: 13bb0ea5ea8ba8fb0800000000000000
       internalID: -4644697006690747599
       vertices: []
       indices: 
@@ -347,19 +347,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_9
       rect:
         serializedVersion: 2
-        x: 819
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 94
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: dcf1b1f5e278f2249a9917bad5664e1c
+      spriteID: d5b031e85577eb080800000000000000
       internalID: -9169760581940212899
       vertices: []
       indices: 
@@ -369,19 +369,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_10
       rect:
         serializedVersion: 2
-        x: 910
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 188
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2260fbfd63d51af44b98bd7611dfc3df
+      spriteID: 3e80171ba9fbb88e0800000000000000
       internalID: -1690046564024645405
       vertices: []
       indices: 
@@ -391,19 +391,19 @@ TextureImporter:
       name: yuna_ani_reday_shoot_11
       rect:
         serializedVersion: 2
-        x: 1001
-        y: 0
-        width: 91
-        height: 62
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 282
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 5dcd8a5da814c9f45a5054a9f5e5a5a6
+      spriteID: 0a14df9ade4f9e910800000000000000
       internalID: 1867292822118154656
       vertices: []
       indices: 
@@ -423,7 +423,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":12.0,"y":1.0},"gridSpriteSize":{"x":91.0,"y":62.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":3.0},"gridSpriteSize":{"x":94.0,"y":75.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       yuna_ani_reday_shoot_0: -363012418305612509
       yuna_ani_reday_shoot_1: 597504927944739594
