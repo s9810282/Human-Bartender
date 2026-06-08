@@ -53,6 +53,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
+        Logger.Log(data.targetCocktailData);
 
         if (isTest)
         {
@@ -60,9 +61,11 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
             data.targetCraft_tolerance = 15;
         }
 
+        Logger.Log(data.targetCocktailData.Keywords.Length);
         colors = new Color[data.targetCocktailData.Keywords.Length];
         for (int i = 0; i < colors.Length; i++)
         {
+            Logger.Log(data.targetCocktailData.Keywords[i]);
             int n = colorData.categorys.
                 FindIndex(a => a.Contains(data.targetCocktailData.Keywords[i]));
 
