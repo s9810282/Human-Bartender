@@ -13,4 +13,5 @@ public interface IInteractor
     GameObject GameObject { get; }   
     Transform Transform { get; }     
     EInteractorState State { get; set; }
+    void InteractorEvent();
 }

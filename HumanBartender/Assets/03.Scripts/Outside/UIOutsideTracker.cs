@@ -41,7 +41,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
             return;
         }
 
-        UpdateButtonPosition();
+        UpdatePosition();
     }
 
     public void StopTracking()
@@ -55,7 +55,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
         trackedTarget = target;
     }
 
-    public void UpdateButtonPosition()
+    public void UpdatePosition()
     {
         Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Position);
         

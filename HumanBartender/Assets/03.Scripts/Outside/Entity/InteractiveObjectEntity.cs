@@ -8,7 +8,7 @@ public class InteractiveObjectEntity : InteractiveEntity
     //고민해보기
     //data는 so같은 형태로 변경 필요
     //Runner 및 Presenter DI로 받아야함 동적 생성 이유.
-    
+
     [SerializeField] protected string object_Id;
     [SerializeField] protected List<FlowData> flows;
     [SerializeField] protected DialogueRunner runner;
@@ -37,6 +37,7 @@ public class InteractiveObjectEntity : InteractiveEntity
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
 
+        player.InteractorEvent();
 
         if (selectionType == ESelectionType.Conditional)
             curFlowIndex = 0;

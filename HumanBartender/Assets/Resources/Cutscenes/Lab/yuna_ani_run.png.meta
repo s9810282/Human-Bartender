@@ -132,9 +132,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 96
-        height: 104
+        y: 77
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: yuna_ani_run_1
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 96
-        height: 104
+        x: 95
+        y: 77
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: yuna_ani_run_2
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 96
-        height: 104
+        x: 190
+        y: 77
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: yuna_ani_run_3
       rect:
         serializedVersion: 2
-        x: 288
+        x: 0
         y: 0
-        width: 96
-        height: 104
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: yuna_ani_run_4
       rect:
         serializedVersion: 2
-        x: 384
+        x: 95
         y: 0
-        width: 96
-        height: 104
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: yuna_ani_run_5
       rect:
         serializedVersion: 2
-        x: 480
+        x: 190
         y: 0
-        width: 96
-        height: 104
+        width: 95
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: bebc78e424910bb4fb4d066e7b27cb7d
     internalID: 0
     vertices: []
     indices: 
@@ -273,7 +273,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":104.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":2.0},"gridSpriteSize":{"x":95.0,"y":77.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       yuna_ani_run_0: 6127827103433965313
       yuna_ani_run_1: -6754559606573568158

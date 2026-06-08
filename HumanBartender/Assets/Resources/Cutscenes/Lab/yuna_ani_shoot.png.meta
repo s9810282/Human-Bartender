@@ -17,6 +17,18 @@ TextureImporter:
   - first:
       213: 4005568767936691768
     second: yuna_ani_shoot_4
+  - first:
+      213: -3355477019012198112
+    second: yuna_ani_shoot_5
+  - first:
+      213: 1380814313068540765
+    second: yuna_ani_shoot_6
+  - first:
+      213: 4011134450796348251
+    second: yuna_ani_shoot_7
+  - first:
+      213: 1106255666422179088
+    second: yuna_ani_shoot_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -130,8 +142,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 104
+        width: 94
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +162,10 @@ TextureImporter:
       name: yuna_ani_shoot_1
       rect:
         serializedVersion: 2
-        x: 96
+        x: 94
         y: 0
-        width: 96
-        height: 104
+        width: 94
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +184,10 @@ TextureImporter:
       name: yuna_ani_shoot_2
       rect:
         serializedVersion: 2
-        x: 192
+        x: 188
         y: 0
-        width: 96
-        height: 104
+        width: 94
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +206,10 @@ TextureImporter:
       name: yuna_ani_shoot_3
       rect:
         serializedVersion: 2
-        x: 288
+        x: 282
         y: 0
-        width: 96
-        height: 104
+        width: 94
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +228,10 @@ TextureImporter:
       name: yuna_ani_shoot_4
       rect:
         serializedVersion: 2
-        x: 384
+        x: 376
         y: 0
-        width: 96
-        height: 104
+        width: 94
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 507d4adf96d97b443af684ea9e78b28c
     internalID: 0
     vertices: []
     indices: 
@@ -248,7 +260,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":104.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":1.0},"gridSpriteSize":{"x":94.0,"y":82.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       yuna_ani_shoot_0: 7824863271464956176
       yuna_ani_shoot_1: -5197274876875798871

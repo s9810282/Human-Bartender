@@ -39,6 +39,8 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
 
+        player.InteractorEvent();
+
         if (selectionType == ESelectionType.Conditional)
             curFlowIndex = 0;
 

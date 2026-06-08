@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7a8ff5467a8bbf64dbe38fc737ebc9d1
+guid: 40bdf2e669540924eb4bb2e6260e145e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7210291142491645953
-    second: make_kalua_milk 3_0
+      213: -6198944473565621380
+    second: butten_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: make_kalua_milk 3_0
+      name: butten_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 965
-        height: 601
+        width: 15
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff7d3ac5866efeb90800000000000000
-      internalID: -7210291142491645953
+      spriteID: c7310ce38dce8f9a0800000000000000
+      internalID: -6198944473565621380
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      make_kalua_milk 3_0: -7210291142491645953
+      butten_0: -6198944473565621380
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
