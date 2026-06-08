@@ -7,6 +7,8 @@ public interface  IOutsideTimeliner
 {
     public void PlayTimelineCutScene(string id);
     public void PlayTimelineCutScene(TimelineAsset timeline);
+
+    public void InitHandler(List<CutsceneLine> lines);
 }
 
 [System.Serializable]
@@ -20,9 +22,9 @@ public class OutsideTimeline
 
 public class OustideTimelineManager : MonoBehaviour, IOutsideTimeliner
 {
-
     [Header("Timeline")]
     [SerializeField] PlayableDirector director;
+    [SerializeField] CutsceneDialogueHandler handler;
     [SerializeField] private List<OutsideTimeline> timelineList = new();
 
     private Dictionary<string, OutsideTimeline> _timelines;
@@ -60,5 +62,10 @@ public class OustideTimelineManager : MonoBehaviour, IOutsideTimeliner
         director.playableAsset = timeline;
         director.time = 0;
         director.Play();
+    }
+
+    public void InitHandler(List<CutsceneLine> lines)
+    {
+        handler.Init(lines);
     }
 }

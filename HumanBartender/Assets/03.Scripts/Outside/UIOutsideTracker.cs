@@ -43,6 +43,12 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
 
         UpdateButtonPosition();
     }
+
+    public void StopTracking()
+    {
+        trackedTarget = null;
+        target.gameObject.SetActive(false);
+    }
     public void SetTrackedTarget(IInteractable target)
     {
         trackedTarget = target;
