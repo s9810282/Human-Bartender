@@ -14,7 +14,7 @@ public class CircleNodeCreator : MonoBehaviour
     [SerializeField] int angleStep;
     [SerializeField] int nodePadding = 10;
     [SerializeField] float createTargetDelay;
-
+    [SerializeField] int createNodeCount = 2;
     [SerializeField] float nodeLifeTime = 2f;
 
     [SerializeField] float radiusX = 2f;
@@ -157,8 +157,11 @@ public class CircleNodeCreator : MonoBehaviour
 
     public void SpawnRandomNode2()
     {
-        int angle = Random.Range(0, 360);
-        SpawnNode(angle);
+        for (int i = 0; i < createNodeCount; i++)
+        {
+            int angle = Random.Range(0, 360);
+            SpawnNode(angle);
+        }
     }
 
     void SpawnNode(float t)
