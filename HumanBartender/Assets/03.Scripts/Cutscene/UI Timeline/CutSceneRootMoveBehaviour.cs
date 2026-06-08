@@ -13,16 +13,18 @@ public enum ERootMoveEndMode
 }
 
 /// <summary>
-/// 클립 구간 동안 cutSceneRoot를 패닝.
+/// 클립 구간 동안 타겟 Root를 패닝.
 ///
 /// Hold:   클립 끝나도 위치 유지 → 다음 RootMove 클립이 거기서 이어갈 수 있음
 /// Return: 클립 끝나면 시작 위치로 복귀
-///
-/// 시작 위치는 항상 현재 Root 위치 기준이므로 Hold 클립 뒤에 이어 붙이면 자연스럽게 연결됨.
 /// </summary>
 [Serializable]
 public class CutSceneRootMoveBehaviour : PlayableBehaviour
 {
+    [Header("대상 설정")]
+    [Tooltip("체크 시 BGRoot를 이동시키며, 해제 시 기본 Root를 이동시킵니다.")]
+    public bool isBGRoot = false;
+
     [Header("패닝")]
     public ECutSceneCameraMoveType direction = ECutSceneCameraMoveType.Right;
     [Range(0.05f, 1.0f)] public float moveRatio = 0.15f;
@@ -40,7 +42,14 @@ public class CutSceneRootMoveBehaviour : PlayableBehaviour
 
     // Mixer에서 접근
     internal Vector2 StartPos => startPos;
-    internal Vector2 EndPos   => endPos;
+    internal Vector2 EndPos => endPos;
+
+    // 타겟 렉트트랜스폼을 동적으로 반환하는 헬퍼
+    internal RectTransform GetTargetRect()
+    {
+        if (manager == null) return null;
+        return isBGRoot ? manager.CutSceneBGRoot : manager.CutSceneRoot;
+    }
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
     {
@@ -50,7 +59,10 @@ public class CutSceneRootMoveBehaviour : PlayableBehaviour
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         manager = playerData as CutSceneTimelineManager;
-        if (manager == null || manager.CutSceneRoot == null) return;
+        if (manager == null) return;
+
+        RectTransform targetRect = GetTargetRect();
+        if (targetRect == null) return;
 
         if (!initialized)
         {
@@ -58,16 +70,16 @@ public class CutSceneRootMoveBehaviour : PlayableBehaviour
             float w = manager.CanvasRect.rect.width;
             float h = manager.CanvasRect.rect.height;
 
-            // 현재 Root 위치에서 시작 (이전 클립이 Hold로 남긴 위치 이어받기)
-            startPos = manager.CutSceneRoot.anchoredPosition;
+            // 현재 선택된 Root 위치에서 시작
+            startPos = targetRect.anchoredPosition;
 
             Vector2 delta = direction switch
             {
                 ECutSceneCameraMoveType.Right => new Vector2(-w * moveRatio, 0),
-                ECutSceneCameraMoveType.Left  => new Vector2( w * moveRatio, 0),
-                ECutSceneCameraMoveType.Up    => new Vector2(0, -h * moveRatio),
-                ECutSceneCameraMoveType.Down  => new Vector2(0,  h * moveRatio),
-                _                            => Vector2.zero,
+                ECutSceneCameraMoveType.Left => new Vector2(w * moveRatio, 0),
+                ECutSceneCameraMoveType.Up => new Vector2(0, -h * moveRatio),
+                ECutSceneCameraMoveType.Down => new Vector2(0, h * moveRatio),
+                _ => Vector2.zero,
             };
 
             endPos = startPos + delta;
@@ -78,11 +90,11 @@ public class CutSceneRootMoveBehaviour : PlayableBehaviour
 
         float easedTime = DOVirtual.EasedValue(0f, 1f, normalizedTime, ease);
 
-        manager.CutSceneRoot.anchoredPosition = Vector2.Lerp(startPos, endPos, easedTime);
+        targetRect.anchoredPosition = Vector2.Lerp(startPos, endPos, easedTime);
     }
 
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
-        // 종료 처리는 Mixer에서 담당 (endMode에 따라 Hold/Return)
+        // 종료 처리는 Mixer에서 담당
     }
 }

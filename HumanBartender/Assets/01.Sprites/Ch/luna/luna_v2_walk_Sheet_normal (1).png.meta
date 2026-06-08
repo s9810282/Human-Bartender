@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 51551ef1dcccb1d4585f6b027af0cf12
+guid: 0d27240cf6e9024439c63396d171d46a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6094300136696540256
-    second: luna_v2-run_Sheet_0
+      213: 1755631764271358550
+    second: luna_v2_walk_Sheet_normal (1)_0
   - first:
-      213: -1336151205472153855
-    second: luna_v2-run_Sheet_1
+      213: -3746538253139507834
+    second: luna_v2_walk_Sheet_normal (1)_1
   - first:
-      213: 5205867704519527042
-    second: luna_v2-run_Sheet_2
+      213: -4625711914095486685
+    second: luna_v2_walk_Sheet_normal (1)_2
   - first:
-      213: -7678583294502647117
-    second: luna_v2-run_Sheet_3
+      213: -8029693564633063875
+    second: luna_v2_walk_Sheet_normal (1)_3
   - first:
-      213: -3602467007217346776
-    second: luna_v2-run_Sheet_4
+      213: -6194109862653486681
+    second: luna_v2_walk_Sheet_normal (1)_4
   - first:
-      213: 2245489632676374963
-    second: luna_v2-run_Sheet_5
+      213: 274669962334013820
+    second: luna_v2_walk_Sheet_normal (1)_5
   - first:
-      213: 939898127336832888
-    second: luna_v2-run_Sheet_6
+      213: 7571004592537576662
+    second: luna_v2_walk_Sheet_normal (1)_6
   - first:
-      213: 1388125623247869577
-    second: luna_v2-run_Sheet_7
+      213: 7098966920592286776
+    second: luna_v2_walk_Sheet_normal (1)_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -134,177 +134,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_0
+      name: luna_v2_walk_Sheet_normal (1)_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 172
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 38
+        y: 178
+        width: 21
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a3969d8052bc6ba0800000000000000
-      internalID: -6094300136696540256
+      spriteID: 65269c1b9c14d5810800000000000000
+      internalID: 1755631764271358550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_1
+      name: luna_v2_walk_Sheet_normal (1)_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 172
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 127
+        y: 178
+        width: 19
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10f4f9fce89057de0800000000000000
-      internalID: -1336151205472153855
+      spriteID: 685053c0f4f910cc0800000000000000
+      internalID: -3746538253139507834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_2
+      name: luna_v2_walk_Sheet_normal (1)_2
       rect:
         serializedVersion: 2
-        x: 178
-        y: 172
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 212
+        y: 178
+        width: 23
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 28a809b6815fe3840800000000000000
-      internalID: 5205867704519527042
+      spriteID: 329db0fa58b2ecfb0800000000000000
+      internalID: -4625711914095486685
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_3
+      name: luna_v2_walk_Sheet_normal (1)_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 86
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 36
+        y: 92
+        width: 22
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3bacbe03d21307590800000000000000
-      internalID: -7678583294502647117
+      spriteID: d3e5ec00f3cc09090800000000000000
+      internalID: -8029693564633063875
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_4
+      name: luna_v2_walk_Sheet_normal (1)_4
       rect:
         serializedVersion: 2
-        x: 89
-        y: 86
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 127
+        y: 92
+        width: 21
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 827deb7f757710ec0800000000000000
-      internalID: -3602467007217346776
+      spriteID: 7a99bc0d5e91a0aa0800000000000000
+      internalID: -6194109862653486681
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_5
+      name: luna_v2_walk_Sheet_normal (1)_5
       rect:
         serializedVersion: 2
-        x: 178
-        y: 86
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 216
+        y: 92
+        width: 19
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3b96f7e7ce4992f10800000000000000
-      internalID: 2245489632676374963
+      spriteID: c79836f10e2dfc300800000000000000
+      internalID: 274669962334013820
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_6
+      name: luna_v2_walk_Sheet_normal (1)_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 35
+        y: 6
+        width: 22
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 87f77f4fd503b0d00800000000000000
-      internalID: 939898127336832888
+      spriteID: 6d4ad03609c911960800000000000000
+      internalID: 7571004592537576662
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: luna_v2-run_Sheet_7
+      name: luna_v2_walk_Sheet_normal (1)_7
       rect:
         serializedVersion: 2
-        x: 89
-        y: 0
-        width: 89
-        height: 86
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+        x: 126
+        y: 6
+        width: 21
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9869e4556ec934310800000000000000
-      internalID: 1388125623247869577
+      spriteID: 834e6266dc8948260800000000000000
+      internalID: 7098966920592286776
       vertices: []
       indices: 
       edges: []
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 7b2164d87a9689e47b22bcaa8e4185f9
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -321,18 +321,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":89.0,"y":86.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.4000000059604645},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      luna_v2-run_Sheet_0: -6094300136696540256
-      luna_v2-run_Sheet_1: -1336151205472153855
-      luna_v2-run_Sheet_2: 5205867704519527042
-      luna_v2-run_Sheet_3: -7678583294502647117
-      luna_v2-run_Sheet_4: -3602467007217346776
-      luna_v2-run_Sheet_5: 2245489632676374963
-      luna_v2-run_Sheet_6: 939898127336832888
-      luna_v2-run_Sheet_7: 1388125623247869577
+      luna_v2_walk_Sheet_normal (1)_0: 1755631764271358550
+      luna_v2_walk_Sheet_normal (1)_1: -3746538253139507834
+      luna_v2_walk_Sheet_normal (1)_2: -4625711914095486685
+      luna_v2_walk_Sheet_normal (1)_3: -8029693564633063875
+      luna_v2_walk_Sheet_normal (1)_4: -6194109862653486681
+      luna_v2_walk_Sheet_normal (1)_5: 274669962334013820
+      luna_v2_walk_Sheet_normal (1)_6: 7571004592537576662
+      luna_v2_walk_Sheet_normal (1)_7: 7098966920592286776
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
