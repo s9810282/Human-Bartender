@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: 4281995988527254997b96a7e91e7e5a
+guid: d85ed6398656e45488a7bba4b1aa2067
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6422282206550719825
-    second: "\uCD08\uADFC\uACBD_0"
+      213: -1269626069423866919
+    second: "\uCD08\uADFC\uACBD 1_0"
   - first:
-      213: 427196557850927011
-    second: "\uCD08\uADFC\uACBD_1"
+      213: 4992079064811714558
+    second: "\uCD08\uADFC\uACBD 1_1"
   - first:
-      213: -8973353498788392193
-    second: "\uCD08\uADFC\uACBD_2"
+      213: 356110533600337015
+    second: "\uCD08\uADFC\uACBD 1_2"
   - first:
-      213: -413078136659698288
-    second: "\uCD08\uADFC\uACBD_3"
+      213: 888690211337611893
+    second: "\uCD08\uADFC\uACBD 1_3"
   - first:
-      213: -7439426052420269047
-    second: "\uCD08\uADFC\uACBD_4"
-  - first:
-      213: -1527865110308987073
-    second: "\uCD08\uADFC\uACBD_5"
+      213: -7172368783716084265
+    second: "\uCD08\uADFC\uACBD 1_4"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -61,11 +58,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 7
-  spritePivot: {x: 0.5, y: 0}
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -87,10 +84,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,7 +125,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_0"
+      name: "\uCD08\uADFC\uACBD 1_0"
       rect:
         serializedVersion: 2
         x: 0
@@ -136,21 +133,21 @@ TextureImporter:
         width: 474
         height: 323
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa28b3f1c587fd6a0800000000000000
-      internalID: -6422282206550719825
+      spriteID: 9db3a6e01d1616ee0800000000000000
+      internalID: -1269626069423866919
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_1"
+      name: "\uCD08\uADFC\uACBD 1_1"
       rect:
         serializedVersion: 2
         x: 522
@@ -158,43 +155,21 @@ TextureImporter:
         width: 55
         height: 54
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3af59f78105bde500800000000000000
-      internalID: 427196557850927011
+      spriteID: ef734c4d57d674540800000000000000
+      internalID: 4992079064811714558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_2"
-      rect:
-        serializedVersion: 2
-        x: 881
-        y: 0
-        width: 141
-        height: 90
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ff295b4298e387380800000000000000
-      internalID: -8973353498788392193
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_3"
+      name: "\uCD08\uADFC\uACBD 1_2"
       rect:
         serializedVersion: 2
         x: 1340
@@ -202,21 +177,21 @@ TextureImporter:
         width: 100
         height: 248
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 09d1bef8f93744af0800000000000000
-      internalID: -413078136659698288
+      spriteID: 77cd500c4a821f400800000000000000
+      internalID: 356110533600337015
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_4"
+      name: "\uCD08\uADFC\uACBD 1_3"
       rect:
         serializedVersion: 2
         x: 1700
@@ -224,21 +199,21 @@ TextureImporter:
         width: 81
         height: 57
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90c04bccb69d1c890800000000000000
-      internalID: -7439426052420269047
+      spriteID: 57a252ae903455c00800000000000000
+      internalID: 888690211337611893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_5"
+      name: "\uCD08\uADFC\uACBD 1_4"
       rect:
         serializedVersion: 2
         x: 2080
@@ -246,81 +221,15 @@ TextureImporter:
         width: 432
         height: 248
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3fd153f6ceebcae0800000000000000
-      internalID: -1527865110308987073
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_6"
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2512
-        height: 323
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3cf6d65eb7dae5247b8b96b691c604fe
-      internalID: -1044989306
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_7"
-      rect:
-        serializedVersion: 2
-        x: 190
-        y: 0
-        width: 2322
-        height: 323
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 38b4a62757ed39c4e81412b45896e0f3
-      internalID: -830348847
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: "\uCD08\uADFC\uACBD_8"
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2512
-        height: 323
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fba4121254c964b4d8514a7bb39d2880
-      internalID: -70941076
+      spriteID: 7d590809790a67c90800000000000000
+      internalID: -7172368783716084265
       vertices: []
       indices: 
       edges: []
@@ -339,15 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uCD08\uADFC\uACBD_0": -6422282206550719825
-      "\uCD08\uADFC\uACBD_1": 427196557850927011
-      "\uCD08\uADFC\uACBD_2": -8973353498788392193
-      "\uCD08\uADFC\uACBD_3": -413078136659698288
-      "\uCD08\uADFC\uACBD_4": -7439426052420269047
-      "\uCD08\uADFC\uACBD_5": -1527865110308987073
-      "\uCD08\uADFC\uACBD_6": -1044989306
-      "\uCD08\uADFC\uACBD_7": -830348847
-      "\uCD08\uADFC\uACBD_8": -70941076
+      "\uCD08\uADFC\uACBD 1_0": -1269626069423866919
+      "\uCD08\uADFC\uACBD 1_1": 4992079064811714558
+      "\uCD08\uADFC\uACBD 1_2": 356110533600337015
+      "\uCD08\uADFC\uACBD 1_3": 888690211337611893
+      "\uCD08\uADFC\uACBD 1_4": -7172368783716084265
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
