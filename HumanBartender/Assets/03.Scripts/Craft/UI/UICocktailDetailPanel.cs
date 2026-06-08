@@ -17,8 +17,13 @@ public class UICocktailDetailPanel : MonoBehaviour
 {
     [SerializeField] RectTransform body;
     [SerializeField] Image cocktailImage;
+
     [SerializeField] TextMeshProUGUI[] categoryText;
+    [SerializeField] Image[] categoryBG;
+    [SerializeField] Image[] categorySelectBG;
+
     [SerializeField] TextMeshProUGUI cocktailFlavorText;
+    [SerializeField] CategoryColorData colorData;
 
     [SerializeField] CategoryGauge[] categoryGauges;
 
@@ -55,6 +60,12 @@ public class UICocktailDetailPanel : MonoBehaviour
         {
             categoryText[i].gameObject.SetActive(true);
             categoryText[i].text = data.Keywords[i];
+
+            int n = colorData.categorys.
+               FindIndex(a => a.Contains(data.Keywords[i]));
+
+            categoryBG[i].color = colorData.colors[n];
+            categorySelectBG[i].color = colorData.colors[n];
         }
     }
     public void SetSummary()
