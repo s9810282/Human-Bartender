@@ -152,12 +152,12 @@ TextureImporter:
       name: hound_ani_IDLE_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 217
-        width: 67
-        height: 82
+        x: 0
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -174,12 +174,12 @@ TextureImporter:
       name: hound_ani_IDLE_1
       rect:
         serializedVersion: 2
-        x: 169
-        y: 217
-        width: 67
-        height: 82
+        x: 144
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -196,12 +196,12 @@ TextureImporter:
       name: hound_ani_IDLE_2
       rect:
         serializedVersion: 2
-        x: 313
-        y: 217
-        width: 67
-        height: 82
+        x: 288
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: hound_ani_IDLE_3
       rect:
         serializedVersion: 2
-        x: 457
-        y: 217
-        width: 67
-        height: 83
+        x: 432
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -240,12 +240,12 @@ TextureImporter:
       name: hound_ani_IDLE_4
       rect:
         serializedVersion: 2
-        x: 601
-        y: 217
-        width: 67
-        height: 83
+        x: 576
+        y: 210
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -262,12 +262,12 @@ TextureImporter:
       name: hound_ani_IDLE_5
       rect:
         serializedVersion: 2
-        x: 25
-        y: 112
-        width: 67
-        height: 83
+        x: 0
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -284,12 +284,12 @@ TextureImporter:
       name: hound_ani_IDLE_6
       rect:
         serializedVersion: 2
-        x: 169
-        y: 112
-        width: 70
-        height: 83
+        x: 144
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -306,12 +306,12 @@ TextureImporter:
       name: hound_ani_IDLE_7
       rect:
         serializedVersion: 2
-        x: 313
-        y: 112
-        width: 69
-        height: 85
+        x: 288
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -328,12 +328,12 @@ TextureImporter:
       name: hound_ani_IDLE_8
       rect:
         serializedVersion: 2
-        x: 374
-        y: 182
-        width: 18
-        height: 7
+        x: 432
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -350,12 +350,12 @@ TextureImporter:
       name: hound_ani_IDLE_9
       rect:
         serializedVersion: 2
-        x: 457
-        y: 112
-        width: 81
-        height: 85
+        x: 576
+        y: 105
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -372,12 +372,12 @@ TextureImporter:
       name: hound_ani_IDLE_10
       rect:
         serializedVersion: 2
-        x: 601
-        y: 112
-        width: 82
-        height: 85
+        x: 0
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -394,12 +394,12 @@ TextureImporter:
       name: hound_ani_IDLE_11
       rect:
         serializedVersion: 2
-        x: 25
-        y: 7
-        width: 82
-        height: 81
+        x: 144
+        y: 0
+        width: 144
+        height: 105
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -408,28 +408,6 @@ TextureImporter:
       bones: []
       spriteID: 2e07f72aee7021c40800000000000000
       internalID: 5481452417973186786
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hound_ani_IDLE_12
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 7
-        width: 67
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1cf1db93c481af580800000000000000
-      internalID: -8792688606822195263
       vertices: []
       indices: 
       edges: []
@@ -446,13 +424,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":3.0},"gridSpriteSize":{"x":144.0,"y":105.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       hound_ani_IDLE_0: 5023779097100188709
       hound_ani_IDLE_1: -6111030712798560394
       hound_ani_IDLE_10: 6381291452296251021
       hound_ani_IDLE_11: 5481452417973186786
-      hound_ani_IDLE_12: -8792688606822195263
       hound_ani_IDLE_2: -4103394290483110827
       hound_ani_IDLE_3: -1602495646425836211
       hound_ani_IDLE_4: -2605949011268231454

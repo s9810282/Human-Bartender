@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: d6a8d5babd7d625409b61cc1108114a5
+guid: 30f8acb5207f35b45be3290c5126f5a9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3068170432321077760
-    second: hound_ani_BITE_0
+      213: -363012418305612509
+    second: yuna_ani_reday_shoot_0
   - first:
-      213: 3127654198781918630
-    second: hound_ani_BITE_1
+      213: 597504927944739594
+    second: yuna_ani_reday_shoot_1
   - first:
-      213: 3807182012978761198
-    second: hound_ani_BITE_2
+      213: -3390471101096596301
+    second: yuna_ani_reday_shoot_2
   - first:
-      213: 4090293099216879798
-    second: hound_ani_BITE_3
+      213: -443109184035480228
+    second: yuna_ani_reday_shoot_3
   - first:
-      213: 3092453607424123920
-    second: hound_ani_BITE_4
+      213: 4723585089664755787
+    second: yuna_ani_reday_shoot_4
   - first:
-      213: 1905520686327512085
-    second: hound_ani_BITE_5
+      213: 8727749589172737096
+    second: yuna_ani_reday_shoot_5
   - first:
-      213: 6154394574484371741
-    second: hound_ani_BITE_6
+      213: -3727064870993361706
+    second: yuna_ani_reday_shoot_6
   - first:
-      213: 5606309563625318150
-    second: hound_ani_BITE_7
+      213: -1204047748870078748
+    second: yuna_ani_reday_shoot_7
   - first:
-      213: -9100840708184981494
-    second: hound_ani_BITE_8
+      213: -4644697006690747599
+    second: yuna_ani_reday_shoot_8
   - first:
-      213: 7530164086841964533
-    second: hound_ani_BITE_9
+      213: -9169760581940212899
+    second: yuna_ani_reday_shoot_9
   - first:
-      213: 322153475435958597
-    second: hound_ani_BITE_10
+      213: -1690046564024645405
+    second: yuna_ani_reday_shoot_10
   - first:
-      213: -96781434615155983
-    second: hound_ani_BITE_11
+      213: 1867292822118154656
+    second: yuna_ani_reday_shoot_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -146,13 +146,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hound_ani_BITE_0
+      name: yuna_ani_reday_shoot_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 210
-        width: 144
-        height: 105
+        y: 151
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 002cad890c4549a20800000000000000
-      internalID: 3068170432321077760
+      spriteID: 325a6ddf02256faf0800000000000000
+      internalID: -363012418305612509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_1
+      name: yuna_ani_reday_shoot_1
       rect:
         serializedVersion: 2
-        x: 144
-        y: 210
-        width: 144
-        height: 105
+        x: 94
+        y: 151
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6adb7aa3ce8a76b20800000000000000
-      internalID: 3127654198781918630
+      spriteID: a0b01b5f093ca4800800000000000000
+      internalID: 597504927944739594
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_2
+      name: yuna_ani_reday_shoot_2
       rect:
         serializedVersion: 2
-        x: 288
-        y: 210
-        width: 144
-        height: 105
+        x: 188
+        y: 151
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +205,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eed0bd69ed3d5d430800000000000000
-      internalID: 3807182012978761198
+      spriteID: 3bce8ed3f70a2f0d0800000000000000
+      internalID: -3390471101096596301
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_3
+      name: yuna_ani_reday_shoot_3
       rect:
         serializedVersion: 2
-        x: 432
-        y: 210
-        width: 144
-        height: 105
+        x: 282
+        y: 151
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,42 +227,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b0cd0607e3a3c830800000000000000
-      internalID: 4090293099216879798
+      spriteID: c5d1ad87b82c9d9f0800000000000000
+      internalID: -443109184035480228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_4
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 210
-        width: 144
-        height: 105
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 014e3e2eb2a9aea20800000000000000
-      internalID: 3092453607424123920
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hound_ani_BITE_5
+      name: yuna_ani_reday_shoot_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 105
-        width: 144
-        height: 105
+        y: 76
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +249,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51cb5b4e7f4c17a10800000000000000
-      internalID: 1905520686327512085
+      spriteID: b48acc7cc9b8d8140800000000000000
+      internalID: 4723585089664755787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_6
+      name: yuna_ani_reday_shoot_5
       rect:
         serializedVersion: 2
-        x: 144
-        y: 105
-        width: 144
-        height: 105
+        x: 94
+        y: 76
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -293,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d197bb3124dc86550800000000000000
-      internalID: 6154394574484371741
+      spriteID: 844d33f72023f1970800000000000000
+      internalID: 8727749589172737096
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_7
+      name: yuna_ani_reday_shoot_6
       rect:
         serializedVersion: 2
-        x: 288
-        y: 105
-        width: 144
-        height: 105
+        x: 188
+        y: 76
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,20 +293,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60723c838dc9dcd40800000000000000
-      internalID: 5606309563625318150
+      spriteID: 6d48a952f3ec64cc0800000000000000
+      internalID: -3727064870993361706
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_8
+      name: yuna_ani_reday_shoot_7
       rect:
         serializedVersion: 2
-        x: 432
-        y: 105
-        width: 144
-        height: 105
+        x: 282
+        y: 76
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -337,42 +315,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a00483f189153b180800000000000000
-      internalID: -9100840708184981494
+      spriteID: 4ee7df3a3fc5a4fe0800000000000000
+      internalID: -1204047748870078748
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_9
-      rect:
-        serializedVersion: 2
-        x: 576
-        y: 105
-        width: 144
-        height: 105
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5f77e982754808860800000000000000
-      internalID: 7530164086841964533
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hound_ani_BITE_10
+      name: yuna_ani_reday_shoot_8
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 144
-        height: 105
+        y: 1
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,20 +337,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 541948a01e4887400800000000000000
-      internalID: 322153475435958597
+      spriteID: 13bb0ea5ea8ba8fb0800000000000000
+      internalID: -4644697006690747599
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hound_ani_BITE_11
+      name: yuna_ani_reday_shoot_9
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
-        width: 144
-        height: 105
+        x: 94
+        y: 1
+        width: 94
+        height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -403,8 +359,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1f239e84cc928aef0800000000000000
-      internalID: -96781434615155983
+      spriteID: d5b031e85577eb080800000000000000
+      internalID: -9169760581940212899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_reday_shoot_10
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e80171ba9fbb88e0800000000000000
+      internalID: -1690046564024645405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: yuna_ani_reday_shoot_11
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 1
+        width: 94
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a14df9ade4f9e910800000000000000
+      internalID: 1867292822118154656
       vertices: []
       indices: 
       edges: []
@@ -413,7 +413,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 9eaf73423e2246a4d86a27e04bc28e08
     internalID: 0
     vertices: []
     indices: 
@@ -423,20 +423,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":3.0},"gridSpriteSize":{"x":144.0,"y":105.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":3.0},"gridSpriteSize":{"x":94.0,"y":75.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      hound_ani_BITE_0: 3068170432321077760
-      hound_ani_BITE_1: 3127654198781918630
-      hound_ani_BITE_10: 322153475435958597
-      hound_ani_BITE_11: -96781434615155983
-      hound_ani_BITE_2: 3807182012978761198
-      hound_ani_BITE_3: 4090293099216879798
-      hound_ani_BITE_4: 3092453607424123920
-      hound_ani_BITE_5: 1905520686327512085
-      hound_ani_BITE_6: 6154394574484371741
-      hound_ani_BITE_7: 5606309563625318150
-      hound_ani_BITE_8: -9100840708184981494
-      hound_ani_BITE_9: 7530164086841964533
+      yuna_ani_reday_shoot_0: -363012418305612509
+      yuna_ani_reday_shoot_1: 597504927944739594
+      yuna_ani_reday_shoot_10: -1690046564024645405
+      yuna_ani_reday_shoot_11: 1867292822118154656
+      yuna_ani_reday_shoot_2: -3390471101096596301
+      yuna_ani_reday_shoot_3: -443109184035480228
+      yuna_ani_reday_shoot_4: 4723585089664755787
+      yuna_ani_reday_shoot_5: 8727749589172737096
+      yuna_ani_reday_shoot_6: -3727064870993361706
+      yuna_ani_reday_shoot_7: -1204047748870078748
+      yuna_ani_reday_shoot_8: -4644697006690747599
+      yuna_ani_reday_shoot_9: -9169760581940212899
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
