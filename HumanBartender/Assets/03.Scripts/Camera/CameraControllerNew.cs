@@ -49,8 +49,8 @@ public class CameraControllerNew : MonoBehaviour, ICameraControlNew
     {
         if (cameraAnchor == null || target == null) return;
 
-        cameraAnchor.SetParent(target, worldPositionStays: false);
-        cameraAnchor.localPosition = localOffset;
+        cameraAnchor.SetParent(target, worldPositionStays: true);
+        //cameraAnchor.localPosition = localOffset;
     }
     public void Unfollow()
     {
@@ -168,7 +168,7 @@ public class CameraControllerNew : MonoBehaviour, ICameraControlNew
 
         await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
 
-        ApplyResolutionImmediate(to);
+        //ApplyResolutionImmediate(to);
     }
     #endregion
 

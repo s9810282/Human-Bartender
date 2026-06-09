@@ -5851,7 +5851,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     cameraTarget: {fileID: 49123263}
     cameraParent: {fileID: 398070675}
-    cameraOffset: {x: 0, y: 0.7, z: 0}
+    cameraOffset: {x: 0, y: 0, z: 0}
     isFirstChangeParent: 0
     offsetDuration: 2
     resolutionDuration: 2
@@ -5983,7 +5983,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     cameraTarget: {fileID: 49123263}
     cameraParent: {fileID: 1582674271}
-    cameraOffset: {x: 0, y: 0.7, z: 0}
+    cameraOffset: {x: 0, y: 0, z: 0}
     isFirstChangeParent: 0
     offsetDuration: 6
     resolutionDuration: 6
@@ -13307,7 +13307,7 @@ MonoBehaviour:
   m_RefResolutionX: 480
   m_RefResolutionY: 270
   m_CropFrame: 4
-  m_GridSnapping: 1
+  m_GridSnapping: 0
   m_FilterMode: 1
   m_UpscaleRT: 0
   m_PixelSnapping: 0

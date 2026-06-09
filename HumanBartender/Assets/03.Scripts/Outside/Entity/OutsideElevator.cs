@@ -74,9 +74,9 @@ public class OutsideElevator : InteractiveEntity
 
         moveSeq.Append(transform.DOMove(targetPoint.position, duration).SetEase(ease));
 
-        if (!GameStateManager.Instance.IsDialogInitStart)
+        if (!GameStateManager.Instance.IsOutsideLogo)
         {
-            GameStateManager.Instance.IsDialogInitStart = true;
+            GameStateManager.Instance.IsOutsideLogo = true;
             float logoEventTime = duration * logoFadeTiming;
             moveSeq.InsertCallback(logoEventTime, () =>
             {
