@@ -87,7 +87,8 @@ public class OutsideElevator : InteractiveEntity
         float cameraEventTiming = duration * cameraReturnTiming;
         moveSeq.InsertCallback(cameraEventTiming, () =>
         {
-            changeCameraModeEvent?.Raise(2);
+            changeCameraModeEvent?.Raise(0);
+            //changeCameraModeEvent?.Raise(2);
         });
 
         moveSeq.OnComplete(() =>
@@ -98,7 +99,7 @@ public class OutsideElevator : InteractiveEntity
             // 플레이어 종속 해제 및 상태 원복
             player.Transform.SetParent(null, worldPositionStays: true);
             wallColider.gameObject.SetActive(false);
-            changeCameraModeEvent?.Raise(0);
+            //changeCameraModeEvent?.Raise(0);
 
             radio.EndInteract();
 

@@ -29,7 +29,7 @@ public class OutsideCameraOption
     public ECameraZoomType targetResolution;
 }
 
-public class OutsideCamera : MonoBehaviour
+public class OutsideCamera : MonoBehaviour                 
 {
     [Header("CameraOption")]
     [SerializeField] OutsideCameraOption[] cameraOptions;

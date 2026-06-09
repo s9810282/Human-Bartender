@@ -51,7 +51,6 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
     }
     public void SetTrackedTarget(IInteractable target)
     {
-        Logger.Log($"{name} : SetTracked Target");
         trackedTarget = target;
     }
 

@@ -61,7 +61,7 @@ public class DialogueRunner : MonoBehaviour
             externalToken, this.GetCancellationTokenOnDestroy());
 
         try
-        {
+        { 
             DialogueEvent(firstId);
             await completionSource.Task.AttachExternalCancellation(runnerCts.Token);
         }
@@ -189,7 +189,7 @@ public class DialogueRunner : MonoBehaviour
 
                 return;
             }
-            else if (currentDialogue.Type == EDialogueType.ChoiceRoot)
+            else if (currentDialogue.Type == EDialogueType.ChoiceRoot || currentDialogue.Type == EDialogueType.Choice)
             {
                 if (currentDialogue.Choices != null && currentDialogue.Choices.Length > 0)
                 {

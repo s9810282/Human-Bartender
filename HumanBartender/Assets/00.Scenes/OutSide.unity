@@ -438,7 +438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &77859800
 Transform:
   m_ObjectHideFlags: 0
@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -740,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &110281613
 Transform:
   m_ObjectHideFlags: 0
@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1112,7 +1112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &160223562
 Transform:
   m_ObjectHideFlags: 0
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: 6631364814835171302, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3059,7 +3059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &398070674
 SpriteRenderer:
   serializedVersion: 2
@@ -4175,7 +4175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &479924402
 Transform:
   m_ObjectHideFlags: 0
@@ -5684,7 +5684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &698998115
 Transform:
   m_ObjectHideFlags: 0
@@ -5721,7 +5721,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -7049840017285555301, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -5853,8 +5853,8 @@ MonoBehaviour:
     cameraParent: {fileID: 398070675}
     cameraOffset: {x: 0, y: 0, z: 0}
     isFirstChangeParent: 0
-    offsetDuration: 1
-    resolutionDuration: 1
+    offsetDuration: 2
+    resolutionDuration: 2
     isChangeResolution: 1
     targetResolution: 3
   - cameraMode: 1
@@ -6080,7 +6080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &732391257
 Transform:
   m_ObjectHideFlags: 0
@@ -6117,7 +6117,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -6209,9 +6209,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1317052560}
   - {fileID: 1531018296}
-  - {fileID: 1815944429}
   - {fileID: 896252731}
   - {fileID: 650398496}
   - {fileID: 1583803103}
@@ -6230,10 +6228,10 @@ Transform:
   - {fileID: 77859800}
   - {fileID: 1329383782}
   - {fileID: 1826329210}
-  - {fileID: 1022969378}
   - {fileID: 698998115}
   - {fileID: 160223562}
   - {fileID: 1846916240}
+  - {fileID: 1022969378}
   - {fileID: 1314665153}
   - {fileID: 1089910864}
   - {fileID: 1430865599}
@@ -9355,7 +9353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1022969378
 Transform:
   m_ObjectHideFlags: 0
@@ -12027,7 +12025,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1199482600}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: ddfec10e5fe3435479c23aa97afe78ad, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: e2806b9e2f6a96c49a8f1b6e4df3183d, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -12079,6 +12077,8 @@ PlayableDirector:
     value: {fileID: 1199482605}
   - key: {fileID: 710841688383679546, guid: ddfec10e5fe3435479c23aa97afe78ad, type: 2}
     value: {fileID: 398070688}
+  - key: {fileID: -4832330761123044769, guid: ddfec10e5fe3435479c23aa97afe78ad, type: 2}
+    value: {fileID: 2030078816}
   m_ExposedReferences:
     m_References:
     - ec98e5133171ad44998455a35bd55c24: {fileID: 1896614173}
@@ -13284,7 +13284,7 @@ Transform:
   m_GameObject: {fileID: 1305537442}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.031996444, y: -0.0846262, z: -11}
+  m_LocalPosition: {x: 0.0319954, y: -0.0846262, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13365,7 +13365,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305537442}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -13632,13 +13632,13 @@ Transform:
   m_GameObject: {fileID: 1317052559}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.465, y: -0.045, z: 2}
+  m_LocalPosition: {x: -0.28500032, y: 1.045, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2046130702}
   - {fileID: 1592945110}
-  m_Father: {fileID: 754981091}
+  m_Father: {fileID: 2103127583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1317052561
 MonoBehaviour:
@@ -13962,7 +13962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1329383782
 Transform:
   m_ObjectHideFlags: 0
@@ -13999,7 +13999,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -15357,7 +15357,7 @@ MonoBehaviour:
   testDay: 2
   testFlow: 2
   testFlags:
-  - flag: samho_death_route
+  - flag: samho_refused_drink
     bValue: 1
   - flag: shiba_d2_in_rev1_done
     bValue: 1
@@ -15954,6 +15954,7 @@ Transform:
   - {fileID: 1089424764}
   - {fileID: 242015104}
   - {fileID: 1896417810}
+  - {fileID: 2103127583}
   m_Father: {fileID: 779475677}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1582674272
@@ -15982,7 +15983,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dc4c490dd4202f0428eb2218251c9bc0, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16040,7 +16041,7 @@ MonoBehaviour:
   radio: {fileID: 1095731500}
   externalDeltaEvent: {fileID: 11400000, guid: 51c8cf233ebed154e85a539870de4908, type: 2}
   changeCameraModeEvent: {fileID: 11400000, guid: c32ef6e22cbbca14aa31c164c86fdf23, type: 2}
-  cameraReturnTiming: 0.6
+  cameraReturnTiming: 0.8
   topPoint: {fileID: 890129396}
   bottomPoint: {fileID: 1516074089}
   wallColider: {fileID: 1896417809}
@@ -17970,13 +17971,13 @@ Transform:
   m_GameObject: {fileID: 1815944428}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: -0.265, z: 2}
+  m_LocalPosition: {x: 0.17999983, y: 0.82500017, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1304383404}
   - {fileID: 157669551}
-  m_Father: {fileID: 754981091}
+  m_Father: {fileID: 2103127583}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1815944430
 MonoBehaviour:
@@ -18046,7 +18047,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1826329210
 Transform:
   m_ObjectHideFlags: 0
@@ -18083,7 +18084,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -18299,7 +18300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1846916240
 Transform:
   m_ObjectHideFlags: 0
@@ -18336,7 +18337,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -19999,7 +20000,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1992282239
 Transform:
   m_ObjectHideFlags: 0
@@ -20036,7 +20037,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -20614,7 +20615,7 @@ Transform:
   m_GameObject: {fileID: 2030078809}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.042, y: -0.7, z: -1}
+  m_LocalPosition: {x: -5.99, y: -0.7, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21261,6 +21262,39 @@ MonoBehaviour:
   - {x: -0.8290827, y: -0.38432652, z: 0}
   - {x: -0.21435916, y: -0.18217534, z: 0}
   - {x: -0.36683214, y: 0.46833575, z: 0}
+--- !u!1 &2103127582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103127583}
+  m_Layer: 10
+  m_Name: Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103127583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103127582}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1317052560}
+  - {fileID: 1815944429}
+  m_Father: {fileID: 1582674271}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2109122727
 GameObject:
   m_ObjectHideFlags: 0
@@ -21277,7 +21311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2109122728
 Transform:
   m_ObjectHideFlags: 0
@@ -21314,7 +21348,7 @@ MonoBehaviour:
   m_Intensity: 0.52
   m_LightVolumeIntensity: 2
   m_LightVolumeEnabled: 1
-  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348190b6ab7c5a6acf0
+  m_ApplyToSortingLayers: 00000000a59bd729d98a48e0dd9a13ab2922f849037f3348c5a6acf0
   m_LightCookieSprite: {fileID: -9121657096808500750, guid: 63535cdc5d79cd843a1e9439404f556c, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
