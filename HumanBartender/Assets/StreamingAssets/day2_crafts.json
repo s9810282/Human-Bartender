@@ -2,7 +2,7 @@
   "craft_events": [
     {
       "id": "day2_samho_order1",
-      "order": "처음 마셔보는 술",
+      "order": "너의 추천에 맡길게.",
       "targetID": "samho",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -38,7 +38,7 @@
             "description": "코스모폴리탄 제공 + 보통"
           },
           {
-            "result": "bad",
+            "result": "good",
             "match_type": "cocktail_id",
             "match_values": ["cosmopolitan"],
             "require_craft_success": "fail",
@@ -46,45 +46,24 @@
           },
           {
             "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "상큼한", "부드러운", "청량한"],
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "perfect",
-            "description": "키워드에 부합한 술 제공 + 완벽"
+            "description": "다른 모든 술 + 완벽"
           },
           {
             "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "상큼한", "부드러운", "청량한"],
-            "require_craft_success": "normal",
-            "description": "키워드에 부합한 술 제공 + 보통"
-          },
-          {
-            "result": "bad_nm_fail",
-            "match_type": "keyword",
-            "match_values": ["달콤한", "상큼한", "부드러운", "청량한"],
-            "require_craft_success": "fail",
-            "description": "키워드에 부합한 술 제공 + 실패"
-          },
-          {
-            "result": "miss",
-            "match_type": "any",
-            "match_values": [],
-            "require_craft_success": "perfect",
-            "description": "나머지 모든 판정 (완벽)"
-          },
-          {
-            "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "normal",
-            "description": "나머지 모든 판정 (보통)"
+            "description": "다른 모든 술 + 보통"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "fail",
-            "description": "나머지 모든 판정 (실패)"
+            "description": "다른 모든 술 + 실패"
           }
         ]
       },
@@ -107,36 +86,27 @@
           "skill": 2,
           "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
-        "bad": {
-          "verdict": "bad",
-          "dialogue_id": "d2sm1_react_cosmo_bad_001",
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0,
-          "skill": 0,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
-        },
         "normal": {
-          "verdict": "good",
+          "verdict": "normal",
           "dialogue_id": "d2sm1_react_kw_good_001",
           "cutscene_id": null,
-          "affinity": 5,
-          "karma": 0,
-          "skill": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
-        },
-        "bad_nm_fail": {
-          "verdict": "bad",
-          "dialogue_id": "d2sm1_react_kw_bad_001",
-          "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
-          "skill": 0,
+          "skill": 1,
           "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "miss": {
           "verdict": "miss",
           "dialogue_id": "d2sm1_react_miss_001",
+          "cutscene_id": null,
+          "affinity": 5,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": true, "tip_rate": 0.1 }
+        },
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d2sm1_react_cosmo_bad_001",
           "cutscene_id": null,
           "affinity": -3,
           "karma": 0,
@@ -148,7 +118,7 @@
 
     {
       "id": "day2_samho_order2",
-      "order": "화끈한 술",
+      "order": "드라이 마티니",
       "targetID": "samho",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -171,45 +141,45 @@
         "rules": [
           {
             "result": "perfect",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
             "require_craft_success": "perfect",
-            "description": "주문 의도에 정확히 맞는 술 제공 + 완벽함"
+            "description": "드라이 마티니 제공 + 완벽함"
+          },
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
+            "require_craft_success": "normal",
+            "description": "드라이 마티니 제공 + 보통"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
-            "require_craft_success": "normal",
-            "description": "주문 의도에 맞는 술 제공 + 보통"
-          },
-          {
-            "result": "bad",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
             "require_craft_success": "fail",
-            "description": "주문 의도에 맞는 술 제공 + 실패"
+            "description": "드라이 마티니 제공 + 실패"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "perfect",
-            "description": "주문 의도와 다른 술 제공 (완벽)"
+            "description": "다른 술 + 완벽 → 다시 만들기"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "normal",
-            "description": "주문 의도와 다른 술 제공 (보통)"
+            "description": "다른 술 + 보통 → 다시 만들기"
           },
           {
             "result": "bad_nm_fail",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "fail",
-            "description": "이상한 쓰레기 술 제조"
+            "description": "알 수 없는 쓰레기 술 → 다시 만들기"
           }
         ]
       },
@@ -220,27 +190,17 @@
           "cutscene_id": null,
           "affinity": 5,
           "karma": 0,
-          "skill": 3,
+          "skill": 2,
           "intoxication": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.2 }
+          "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
         "good": {
           "verdict": "good",
           "dialogue_id": "d2sm2_react_good_001",
           "cutscene_id": null,
-          "affinity": 3,
+          "affinity": 2,
           "karma": 0,
-          "skill": 2,
-          "intoxication": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
-        },
-        "bad": {
-          "verdict": "bad",
-          "dialogue_id": "d2sm2_react_bad_001",
-          "cutscene_id": null,
-          "affinity": 0,
-          "karma": 0,
-          "skill": 0,
+          "skill": 1,
           "intoxication": 1,
           "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
@@ -258,7 +218,7 @@
           "verdict": "bad",
           "dialogue_id": "d2sm2_react_badgb_001",
           "cutscene_id": null,
-          "affinity": -3,
+          "affinity": 0,
           "karma": 0,
           "skill": 0,
           "intoxication": 0,
@@ -269,7 +229,7 @@
 
     {
       "id": "day2_aili_order1",
-      "order": "시원한 술",
+      "order": "레몬이 들어간 시원한 술",
       "targetID": "aili",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -292,45 +252,45 @@
         "rules": [
           {
             "result": "perfect",
-            "match_type": "keyword",
-            "match_values": ["청량한", "상큼한"],
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz"],
             "require_craft_success": "perfect",
-            "description": "주문 의도에 정확히 맞는 술 제공 + 완벽함"
+            "description": "진피즈 제공 + 완벽함"
+          },
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz"],
+            "require_craft_success": "normal",
+            "description": "진피즈 제공 + 보통"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["청량한", "상큼한"],
-            "require_craft_success": "normal",
-            "description": "주문 의도에 맞는 술 제공 + 보통"
-          },
-          {
-            "result": "bad",
-            "match_type": "keyword",
-            "match_values": ["청량한", "상큼한"],
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz"],
             "require_craft_success": "fail",
-            "description": "주문 의도에 맞는 술 제공 + 실패"
+            "description": "진피즈 제공 + 실패"
           },
           {
-            "result": "miss",
+            "result": "normal",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "perfect",
-            "description": "주문 의도와 다른 술 제공 (완벽)"
+            "description": "다른 술 + 완벽"
+          },
+          {
+            "result": "normal",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "normal",
+            "description": "다른 술 + 보통"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
-            "require_craft_success": "normal",
-            "description": "주문 의도와 다른 술 제공 (보통)"
-          },
-          {
-            "result": "bad_nm_fail",
-            "match_type": "any",
-            "match_values": [],
             "require_craft_success": "fail",
-            "description": "이상한 쓰레기 술 제조"
+            "description": "다른 술 + 실패"
           }
         ]
       },
@@ -346,20 +306,20 @@
         },
         "good": {
           "verdict": "good",
-          "dialogue_id": "d2ai_react_good_001",
+          "dialogue_id": "d2ai_react_bad_001",
           "cutscene_id": null,
           "affinity": 3,
           "karma": 0,
           "skill": 2,
           "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
-        "bad": {
-          "verdict": "bad",
-          "dialogue_id": "d2ai_react_bad_001",
+        "normal": {
+          "verdict": "normal",
+          "dialogue_id": "d2ai_react_miss_001",
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
-          "skill": 0,
+          "skill": 1,
           "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
         "miss": {
@@ -369,9 +329,9 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
         },
-        "bad_nm_fail": {
+        "bad": {
           "verdict": "bad",
           "dialogue_id": "d2ai_react_badgb_001",
           "cutscene_id": null,
@@ -385,7 +345,7 @@
 
     {
       "id": "day2_samho_order3",
-      "order": "마지막 한 잔",
+      "order": "마지막 한 잔 (드라이 마티니)",
       "targetID": "samho",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -408,45 +368,45 @@
         "rules": [
           {
             "result": "perfect",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
             "require_craft_success": "perfect",
-            "description": "주문 의도에 정확히 맞는 술 제공 + 완벽함 → 삼호 사망 루트"
+            "description": "드라이 마티니 제공 + 완벽함 → 삼호 만취 퇴장"
+          },
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
+            "require_craft_success": "normal",
+            "description": "드라이 마티니 제공 + 보통 → 삼호 만취 퇴장"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
-            "require_craft_success": "normal",
-            "description": "주문 의도에 맞는 술 제공 + 보통 → 삼호 사망 루트"
-          },
-          {
-            "result": "bad",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식", "고급스러운"],
+            "match_type": "cocktail_id",
+            "match_values": ["dry_martini"],
             "require_craft_success": "fail",
-            "description": "주문 의도에 맞는 술 제공 + 실패 → 삼호 사망 루트"
+            "description": "드라이 마티니 제공 + 실패 → 삼호 만취 퇴장"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "perfect",
-            "description": "주문 의도와 다른 술 제공 (완벽) → 삼호 사망 루트"
+            "description": "다른 술 + 완벽 → 다시 만들기"
           },
           {
             "result": "miss",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "normal",
-            "description": "주문 의도와 다른 술 제공 (보통) → 삼호 사망 루트"
+            "description": "다른 술 + 보통 → 다시 만들기"
           },
           {
             "result": "bad_nm_fail",
             "match_type": "any",
             "match_values": [],
             "require_craft_success": "fail",
-            "description": "이상한 쓰레기 술 제조 → 삼호 사망 루트"
+            "description": "알 수 없는 쓰레기 술 → 다시 만들기"
           }
         ]
       },
@@ -463,19 +423,9 @@
         },
         "good": {
           "verdict": "good",
-          "dialogue_id": "d2sm3_react_good_001",
+          "dialogue_id": "d2sm3_react_perfect_001",
           "cutscene_id": null,
-          "affinity": 3,
-          "karma": 0,
-          "skill": 1,
-          "intoxication": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
-        },
-        "bad": {
-          "verdict": "bad",
-          "dialogue_id": "d2sm3_react_bad_001",
-          "cutscene_id": null,
-          "affinity": 0,
+          "affinity": 2,
           "karma": 0,
           "skill": 0,
           "intoxication": 2,
@@ -495,7 +445,7 @@
           "verdict": "bad",
           "dialogue_id": "d2sm3_react_badgb_001",
           "cutscene_id": null,
-          "affinity": -3,
+          "affinity": 0,
           "karma": 0,
           "skill": 0,
           "intoxication": 0,

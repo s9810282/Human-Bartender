@@ -28,21 +28,21 @@
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz"],
             "require_craft_success": "perfect",
-            "description": "드라이 마티니 + 미니게임 완벽"
+            "description": "진피즈 + 미니게임 완벽"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz"],
             "require_craft_success": "normal",
-            "description": "드라이 마티니 + 미니게임 보통"
+            "description": "진피즈 + 미니게임 보통"
           },
           {
             "result": "normal",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz"],
             "require_craft_success": "fail",
-            "description": "드라이 마티니 + 미니게임 실패"
+            "description": "진피즈 + 미니게임 실패"
           },
           {
             "result": "miss",
@@ -262,7 +262,7 @@
     },
     {
       "id": "day1_bubi_order1",
-      "order": "냐옹",
+      "order": "먀옹",
       "targetID": "bubi",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -298,7 +298,7 @@
             "description": "깔루아 밀크 + 미니게임 보통"
           },
           {
-            "result": "normal",
+            "result": "good",
             "match_type": "cocktail_id",
             "match_values": ["kahlua_milk"],
             "require_craft_success": "fail",
@@ -346,16 +346,16 @@
           "skill": 2,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
-        "normal": {
-          "verdict": "normal",
-          "dialogue_id": "d1b_react_normal_001",
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d1b_react_bad_001",
           "cutscene_id": null,
-          "affinity": 0,
+          "affinity": -2,
           "karma": 0,
           "skill": 0,
           "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
-        "bad": {
+        "bad_nm_fail": {
           "verdict": "bad",
           "dialogue_id": "d1b_react_bad_001",
           "cutscene_id": null,
