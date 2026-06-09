@@ -6,19 +6,6 @@
       "customer": "chris",
       "dialogues": [
         {
-          "id": "d0c_intro_cutscene",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
-          "next": "d0c_chris_enter",
-          "choices": null,
-          "trigger": {
-            "type": "start_cutscene",
-            "data": { "cutscene_id": "Intro_lab" }
-          }
-        },
-        {
           "id": "d0c_chris_enter",
           "speaker": "system",
           "type": "system",
