@@ -81,6 +81,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             popupObj.gameObject.SetActive(false);
             ingredientPanel.OnCategoryContents(0);
             craftObject.gameObject.SetActive(true);
+            craftStation.ResetCraftStation();
         }
 
         if (craftEventData.Order != null)
@@ -404,7 +405,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         CocktailData cocktail = craftStation.targetCocktailData;
 
         //제작법이 build 이거나 액션 횟수가 목표횟수 범위 내라면 제작 성공.
-        bool CheckBuild = (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build");
+        if (craftStation.craftingResult.selectMethod == "build" && cocktail.Method == "build")
+            return "perfect";
         
         Logger.Log(craftStation.craftingResult.actionFailCount);
         Logger.Log(craftStation.targetCraft_tolerance);

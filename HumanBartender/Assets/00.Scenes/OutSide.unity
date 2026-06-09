@@ -3059,7 +3059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &398070674
 SpriteRenderer:
   serializedVersion: 2
@@ -6592,7 +6592,7 @@ MonoBehaviour:
   isAvaliable: 0
   isInteracting: 0
   label: 
-  buttonOffset: {x: 0, y: 200}
+  buttonOffset: {x: -50, y: 200}
   outlineHighlight: {fileID: 792484000}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -11163,7 +11163,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.18389797, y: -0.057365894}
+  m_Offset: {x: 0.18389797, y: -0.032316208}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -11173,7 +11173,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 28.367796, y: 16.11473}
+  m_Size: {x: 28.367796, y: 16.064629}
   m_EdgeRadius: 0
 --- !u!1 &1135728410
 GameObject:
@@ -13284,7 +13284,7 @@ Transform:
   m_GameObject: {fileID: 1305537442}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0319954, y: -0.13473588, z: -11}
+  m_LocalPosition: {x: 0.031996444, y: -0.0846262, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13365,7 +13365,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305537442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -16036,7 +16036,6 @@ MonoBehaviour:
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
   logoEvent: {fileID: 94831492}
-  isLogo: 0
   logoFadeTiming: 0.425
   radio: {fileID: 1095731500}
   externalDeltaEvent: {fileID: 11400000, guid: 51c8cf233ebed154e85a539870de4908, type: 2}

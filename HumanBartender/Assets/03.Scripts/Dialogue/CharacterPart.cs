@@ -215,7 +215,13 @@ public class CharacterPart : AnimationPart, IFade
         if (partName != EAnimationPart.Lower_Face)
         {
             if (partName != EAnimationPart.Etc)
+            {
+                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+                animator.Play(stateInfo.fullPathHash, 0, 0f);
+                animator.Update(0f);
                 animator.speed = 0;
+            }
 
             return;
         }

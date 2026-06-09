@@ -203,6 +203,7 @@ MonoBehaviour:
     anchor: 0
     offsetX: -0.031
     offsetY: -0.3385
+    sortOrder: 0
     enterType: 2
     enterDuration: 0.3
     enterEase: 0
@@ -482,10 +483,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 0
+    m_Start: 1.0499999999999998
     m_ClipIn: 0
     m_Asset: {fileID: -4593159324456466898}
-    m_Duration: 14.466666666666665
+    m_Duration: 13.416666666666657
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5582682955468319131}
     m_EaseInDuration: 0
@@ -565,8 +566,8 @@ MonoBehaviour:
   m_Name: CutSceneBGClip
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneBGClip
   template:
-    bgPath: PortHouse
-    bgOffset: {x: 0, y: 0}
+    bgPath: NewPortHouse
+    bgOffset: {x: 0.03, y: -0.01}
     bgScale: 1
     bgPivot: {x: 0.5, y: 0.5}
     fadeInDuration: 0.5
@@ -821,6 +822,7 @@ MonoBehaviour:
     anchor: 0
     offsetX: 0.22
     offsetY: -0.34
+    sortOrder: 0
     enterType: 2
     enterDuration: 1
     enterEase: 0

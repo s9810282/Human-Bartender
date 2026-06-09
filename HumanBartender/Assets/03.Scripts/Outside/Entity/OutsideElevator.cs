@@ -10,7 +10,6 @@ public class OutsideElevator : InteractiveEntity
 {
     [Header("Logo")]
     [SerializeField] LogoFade logoEvent;
-    [SerializeField] bool isLogo = false;
     [SerializeField] float logoFadeTiming = 0.2f;
 
     [Header("Radio")]
@@ -75,9 +74,9 @@ public class OutsideElevator : InteractiveEntity
 
         moveSeq.Append(transform.DOMove(targetPoint.position, duration).SetEase(ease));
 
-        if (!isLogo)
+        if (!GameStateManager.Instance.IsDialogInitStart)
         {
-            isLogo = true;
+            GameStateManager.Instance.IsDialogInitStart = true;
             float logoEventTime = duration * logoFadeTiming;
             moveSeq.InsertCallback(logoEventTime, () =>
             {

@@ -54,6 +54,7 @@ public class GameStateManager
     EGameFlow gameFlow = EGameFlow.Bar;
     bool isDialogInitStart = false;
     bool isOutsideLoad = false;
+    bool isOutsideLogo = false;
     int currentDay = 0;
 
     #endregion
@@ -63,13 +64,17 @@ public class GameStateManager
     public EGameFlow GameFlow { get => gameFlow; set => gameFlow = value; }
     public bool IsDialogInitStart { get => isDialogInitStart; set => isDialogInitStart = value; }
     public int CurrentDay { get => currentDay; set => currentDay = value; }
+    public bool IsOutsideLogo { get => isOutsideLogo; set => isOutsideLogo = value; }
     #endregion
 
     private void Init()
     {
+        gameState = GameState.Play;
         gameFlow = EGameFlow.Bar;
         currentDay = 0;
 
         isOutsideLoad = false;
+        isOutsideLogo = false;
+        isDialogInitStart = false;
     }
 }
