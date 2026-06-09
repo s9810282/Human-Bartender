@@ -39,19 +39,21 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         InitSystem();
-
-        GameStateManager.Instance.IsDialogInitStart = true;
-        GameStateManager.Instance.GameFlow = EGameFlow.Bar;
-
-        soundManager.PlayBGM("BGM_bar_01", 1f, true);
     }
 
     /// <summary>
     ///  최초 게임 플레이 씬 진입 시 호출하여 게임을 시작 함. 
     ///  캐릭터 데이터를 dic로 변환하여 보관 후 0번 인덱스 = 가장 처음 씬으로 작업.
     /// </summary>
-    public void InitSystem()
+    public async void InitSystem()
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+
+        GameStateManager.Instance.IsDialogInitStart = true;
+        GameStateManager.Instance.GameFlow = EGameFlow.Bar;
+
+        soundManager.PlayBGM("BGM_bar_01", 1f, true);
+
         if (dayScripteData.dayData.Scenes.Length > 0)
         {
             LoadScene(dayScripteData.dayData.Scenes[0]);
