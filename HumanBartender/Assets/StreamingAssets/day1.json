@@ -2409,6 +2409,21 @@
           }
         },
         {
+          "id": "d1b_react_bad_000",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1b_react_bad_001",
+          "choices": null,
+          "trigger": {
+            "type": "start_cutscene",
+            "data": {
+              "cutscene_id": "day1_bubi_drink_reaction"
+            }
+          }
+        },
+        {
           "id": "d1b_react_bad_001",
           "speaker": "aili",
           "type": "normal",
