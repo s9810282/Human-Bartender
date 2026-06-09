@@ -3682,7 +3682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 6668428908291027393}
-  fadeDuration: 1
+  fadeDuration: 2
 --- !u!1 &2353482050980181505
 GameObject:
   m_ObjectHideFlags: 0
@@ -13516,7 +13516,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 200
   m_TargetDisplay: 0
 --- !u!114 &5451226336231532650
 MonoBehaviour:
