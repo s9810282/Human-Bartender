@@ -1,74 +1,368 @@
 {
   "craft_events": [
     {
-      "id": "day1_customer1_order1",
-
+      "id": "day1_port_order1",
+      "order": "진피즈, 정석대로",
+      "targetID": "port",
       "auto_open_recipe_ui": true,
-
       "tutorial": {
-        "enabled": true,
-        "steps": [
-          { "type": "highlight", "target": "recipe_tab_name", "text": "이름 탭에서 '진피즈'를 찾아보세요." }
-        ]
+        "enabled": false,
+        "steps": []
       },
-
-      "craft_enter_cutscenes": {
-        "shake": "day1_craft_enter_shake",
-        "stir": "day1_craft_enter_stir",
-        "build": "day1_build_complete",
-        "serve_cutscene": "day1_serve_default"
+      "cutscenes": {
+        "craft_enter": {
+          "shake": null,
+          "stir": null,
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "failed": null
+        }
       },
-
-
       "evaluation": {
+        "craft_tolerance": 12,
         "rules": [
           {
-            "grade": "S",
+            "result": "perfect",
             "match_type": "cocktail_id",
             "match_values": ["gin_fizz"],
-            "description": "정확히 진피즈를 주문대로 만듦"
+            "require_craft_success": "perfect",
+            "description": "진피즈 + 미니게임 완벽"
           },
           {
-            "grade": "A",
+            "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["tom_collins", "mojito"],
-            "description": "상큼한 계열의 비슷한 칵테일"
+            "match_values": ["gin_fizz"],
+            "require_craft_success": "normal",
+            "description": "진피즈 + 미니게임 보통"
           },
           {
-            "grade": "B",
-            "match_type": "keyword",
-            "match_values": ["상큼한"],
-            "description": "상큼한 키워드가 달린 모든 칵테일"
+            "result": "normal",
+            "match_type": "cocktail_id",
+            "match_values": ["gin_fizz"],
+            "require_craft_success": "fail",
+            "description": "진피즈 + 미니게임 실패"
+          },
+          {
+            "result": "miss",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "perfect",
+            "description": "다른 칵테일 + 미니게임 완벽"
+          },
+          {
+            "result": "miss",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "normal",
+            "description": "다른 칵테일 + 미니게임 보통"
+          },
+          {
+            "result": "miss",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "fail",
+            "description": "다른 칵테일 + 미니게임 실패"
           }
-        ],
-        "default_grade": "C",
-        "craft_penalty": true
+        ]
       },
-
       "reactions": {
-        "S": {
-          "dialogue_id": "d1c1_react_S_001",
-          "cutscene_id": "day1_serve_perfect",
-          "affinity": 3,
-          "karma": -1
-        },
-        "A": {
-          "dialogue_id": "d1c1_react_A_001",
+        "perfect": {
+          "verdict": "perfect",
+          "dialogue_id": "d1p_react_perfect_001",
           "cutscene_id": null,
-          "affinity": 1,
-          "karma": 0
+          "affinity": 5,
+          "karma": 0,
+          "skill": 3,
+          "payment": { "pay_price": true, "tip_rate": 0.1 }
         },
-        "B": {
-          "dialogue_id": "d1c1_react_BC_001",
+        "good": {
+          "verdict": "good",
+          "dialogue_id": "d1p_react_good_001",
+          "cutscene_id": null,
+          "affinity": 2,
+          "karma": 0,
+          "skill": 2,
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
+        },
+        "normal": {
+          "verdict": "normal",
+          "dialogue_id": "d1p_react_good_001",
+          "cutscene_id": null,
+          "affinity": 2,
+          "karma": 0,
+          "skill": 1,
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
+        },
+        "miss": {
+          "verdict": "miss",
+          "dialogue_id": "d1p_react_miss_001",
           "cutscene_id": null,
           "affinity": 0,
-          "karma": 0
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         },
-        "C": {
-          "dialogue_id": "d1c1_react_BC_001",
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d1p_react_bad_001",
           "cutscene_id": null,
           "affinity": -2,
-          "karma": 1
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad_nm_fail": {
+          "verdict": "miss",
+          "dialogue_id": "d1p_react_miss_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        }
+      }
+    },
+    {
+      "id": "day1_aili_order1",
+      "order": "나 같은 섹시한 레이디한테 어울리는 술",
+      "targetID": "aili",
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": false,
+        "steps": []
+      },
+      "cutscenes": {
+        "craft_enter": {
+          "shake": null,
+          "stir": null,
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "failed": null
+        }
+      },
+      "evaluation": {
+        "craft_tolerance": 12,
+        "rules": [
+          {
+            "result": "perfect",
+            "match_type": "keyword",
+            "match_values": ["상큼한", "달콤한"],
+            "require_craft_success": "perfect",
+            "description": "달콤/상큼 키워드 + 미니게임 완벽"
+          },
+          {
+            "result": "good",
+            "match_type": "keyword",
+            "match_values": ["상큼한", "달콤한"],
+            "require_craft_success": "normal",
+            "description": "달콤/상큼 키워드 + 미니게임 보통"
+          },
+          {
+            "result": "good",
+            "match_type": "keyword",
+            "match_values": ["상큼한", "달콤한"],
+            "require_craft_success": "fail",
+            "description": "달콤/상큼 키워드 + 미니게임 실패"
+          },
+          {
+            "result": "good",
+            "match_type": "keyword",
+            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "require_craft_success": "perfect",
+            "description": "무난한 키워드 + 미니게임 완벽"
+          },
+          {
+            "result": "normal",
+            "match_type": "keyword",
+            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "require_craft_success": "normal",
+            "description": "무난한 키워드 + 미니게임 보통"
+          },
+          {
+            "result": "normal",
+            "match_type": "keyword",
+            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "require_craft_success": "fail",
+            "description": "무난한 키워드 + 미니게임 실패"
+          },
+          {
+            "result": "normal",
+            "match_type": "keyword",
+            "match_values": ["씁쓸한", "스모키", "클래식"],
+            "require_craft_success": "perfect",
+            "description": "어울리지 않는 키워드 + 미니게임 완벽"
+          },
+          {
+            "result": "normal",
+            "match_type": "keyword",
+            "match_values": ["씁쓸한", "스모키", "클래식"],
+            "require_craft_success": "normal",
+            "description": "어울리지 않는 키워드 + 미니게임 보통"
+          },
+          {
+            "result": "normal",
+            "match_type": "keyword",
+            "match_values": ["씁쓸한", "스모키", "클래식"],
+            "require_craft_success": "fail",
+            "description": "어울리지 않는 키워드 + 미니게임 실패"
+          }
+        ]
+      },
+      "reactions": {
+        "perfect": {
+          "verdict": "perfect",
+          "dialogue_id": "d1a_react_perfect_001",
+          "cutscene_id": null,
+          "affinity": 5,
+          "karma": 0,
+          "skill": 3,
+          "payment": { "pay_price": true, "tip_rate": 0.1 }
+        },
+        "good": {
+          "verdict": "good",
+          "dialogue_id": "d1a_react_good_001",
+          "cutscene_id": null,
+          "affinity": 2,
+          "karma": 0,
+          "skill": 2,
+          "payment": { "pay_price": true, "tip_rate": 0.0 }
+        },
+        "normal": {
+          "verdict": "normal",
+          "dialogue_id": "d1a_react_normal_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d1a_react_bad_001",
+          "cutscene_id": null,
+          "affinity": -2,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad_nm_fail": {
+          "verdict": "normal",
+          "dialogue_id": "d1a_react_normal_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        }
+      }
+    },
+    {
+      "id": "day1_bubi_order1",
+      "order": "먀옹",
+      "targetID": "bubi",
+      "auto_open_recipe_ui": true,
+      "tutorial": {
+        "enabled": false,
+        "steps": []
+      },
+      "cutscenes": {
+        "craft_enter": {
+          "shake": null,
+          "stir": null,
+          "build": null
+        },
+        "finish": {
+          "default": "day1_finish_default",
+          "failed": null
+        }
+      },
+      "evaluation": {
+        "craft_tolerance": 12,
+        "rules": [
+          {
+            "result": "perfect",
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
+            "require_craft_success": "perfect",
+            "description": "깔루아 밀크 + 미니게임 완벽"
+          },
+          {
+            "result": "good",
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
+            "require_craft_success": "normal",
+            "description": "깔루아 밀크 + 미니게임 보통"
+          },
+          {
+            "result": "good",
+            "match_type": "cocktail_id",
+            "match_values": ["kahlua_milk"],
+            "require_craft_success": "fail",
+            "description": "깔루아 밀크 + 미니게임 실패"
+          },
+          {
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "perfect",
+            "description": "다른 칵테일"
+          },
+          {
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "normal",
+            "description": "다른 칵테일"
+          },
+          {
+            "result": "bad",
+            "match_type": "any",
+            "match_values": [],
+            "require_craft_success": "fail",
+            "description": "다른 칵테일"
+          }
+        ]
+      },
+      "reactions": {
+        "perfect": {
+          "verdict": "perfect",
+          "dialogue_id": "d1b_react_perfect_001",
+          "cutscene_id": null,
+          "affinity": 5,
+          "karma": 0,
+          "skill": 3,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "good": {
+          "verdict": "good",
+          "dialogue_id": "d1b_react_good_001",
+          "cutscene_id": null,
+          "affinity": 2,
+          "karma": 0,
+          "skill": 2,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d1b_react_bad_000",
+          "cutscene_id": null,
+          "affinity": -2,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
+        },
+        "bad_nm_fail": {
+          "verdict": "bad",
+          "dialogue_id": "d1b_react_bad_000",
+          "cutscene_id": null,
+          "affinity": -2,
+          "karma": 0,
+          "skill": 0,
+          "payment": { "pay_price": false, "tip_rate": 0.0 }
         }
       }
     }

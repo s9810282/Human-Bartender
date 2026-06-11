@@ -1,3 +1,8 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,6 +15,20 @@ public enum GameState
     MiniGame,
 }
 
+[Serializable]
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EGameFlow
+{
+    Bar,
+
+    [EnumMember(Value = "commute_in")]
+    CommuteIn,
+
+    [EnumMember(Value = "commute_out")]
+    CommuteOut,
+
+    Home,
+}
 
 public class GameStateManager
 {
@@ -21,7 +40,7 @@ public class GameStateManager
             if (instance == null)
             {
                 instance = new GameStateManager();
-                instance.gameState = GameState.None;
+                instance.Init();
             }
             return instance;
         }
@@ -32,13 +51,30 @@ public class GameStateManager
     #region Field
 
     GameState gameState = GameState.Play;
-    bool isStart = false;
+    EGameFlow gameFlow = EGameFlow.Bar;
+    bool isDialogInitStart = false;
+    bool isOutsideLoad = false;
+    bool isOutsideLogo = false;
+    int currentDay = 0;
 
     #endregion
 
     #region Property
     public GameState CurrentGameState { get => gameState; set => gameState = value; }
-    public bool IsStart { get => isStart; set => isStart = value; }
-
+    public EGameFlow GameFlow { get => gameFlow; set => gameFlow = value; }
+    public bool IsDialogInitStart { get => isDialogInitStart; set => isDialogInitStart = value; }
+    public int CurrentDay { get => currentDay; set => currentDay = value; }
+    public bool IsOutsideLogo { get => isOutsideLogo; set => isOutsideLogo = value; }
     #endregion
+
+    private void Init()
+    {
+        gameState = GameState.Play;
+        gameFlow = EGameFlow.Bar;
+        currentDay = 0;
+
+        isOutsideLoad = false;
+        isOutsideLogo = false;
+        isDialogInitStart = false;
+    }
 }

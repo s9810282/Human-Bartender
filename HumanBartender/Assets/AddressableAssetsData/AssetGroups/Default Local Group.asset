@@ -1,0 +1,658 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 3acaff50e08c3a44596ad98b696b3409
+  m_SerializeEntries:
+  - m_GUID: 002f70282b36a6f4e8df89f6d480d6fd
+    m_Address: port_lower_face_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01e0a12283c5e8d4fac599a15331810d
+    m_Address: chris_eyebrows_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 02d6d272f39848c4e8a53c90d9e5c036
+    m_Address: port_body_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 05d50ea16d0944e45b05e3a9ceae7cd2
+    m_Address: chris_upper_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0668da64d631f6a4d92ce7aac44c5d53
+    m_Address: Intro_lab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0679a32c7b4f47649a1489ff5a4c454d
+    m_Address: port_extra_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08091ea61cc01f14298313c2b79b0340
+    m_Address: port_eyebrows_serious_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 095b0bf546efa994991447e930b1a23f
+    m_Address: port_eyebrows_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d634b1dcb937a1419b138442f78967b
+    m_Address: port_eyebrows_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e0d9d647a54f1045816453c7e582e67
+    m_Address: port_lower_face_serious_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f585e18149a82e448c220267b74515e
+    m_Address: chris_upper_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1184fd2afa3c5654595724a215334bb1
+    m_Address: samho_success
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12a7595d466eefb46950adf6f09f6d58
+    m_Address: bubi_lower_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13d150bd412935547bb68d8866f9cf9b
+    m_Address: day1_finish_gin_fizz
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1721b85dbe423894384ddbbc59c4d2d2
+    m_Address: chris_body_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 178122369af4def4ea0d092e9500ee5d
+    m_Address: port_upper_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 192e30eb9c6303142ba7dae61d7d8e22
+    m_Address: port_lower_face_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19361afc6bd56074dbcf6c568a0cd4cc
+    m_Address: port_body_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1cbaf6b0b939b14458196669baeccc49
+    m_Address: samho_body_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ec5c136b6d90bb4a9c0a2cde90d8764
+    m_Address: Finished_GinFizz
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22003067eb8064b4dbb6e705e72d1da0
+    m_Address: day1_bubi_drink_reaction
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22331f66bfcc5584e91158170ac75e05
+    m_Address: bubi_upper_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2605336798f4bf942ae1902221c954ce
+    m_Address: bubi_body_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26748c0c62d23234f94fd1c688070cc5
+    m_Address: bubi_eyes_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2acd69be2439a3240bc641cc685643bf
+    m_Address: default_mouth_annoyingR_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c6c6924d9f4fc54c86373c4c36dea45
+    m_Address: port_eyes_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c9925b7d64140f408032dafdb7f2e49
+    m_Address: aili_upper_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cc34af79e9335e43bcefc48f59d29cb
+    m_Address: FindLuna
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f7b25bf78e29d747aad3ed1e7c3f49c
+    m_Address: port_eyebrows_serious_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 303951546af65674bb585e85624b6ba5
+    m_Address: aili_body_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 311bacbf98653e443895654535dceadf
+    m_Address: port_upper_face_joy_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31328df9808d36848a4ce4f996e40b3b
+    m_Address: Serve_GinFizz
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 353da80d46fd9554f81edac51dae6f04
+    m_Address: aili_lower_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 379e4bc1a276d4343be6397a45fbb527
+    m_Address: port_body_serious_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3876807876b2eac4dad28ab32f4bbc7b
+    m_Address: Finished_Cosmopolitan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39f683717eb0786438342ef989c12a1c
+    m_Address: Assets/08.AddressableResource/angry.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3af3ef06b67d5514481d098b57513e7c
+    m_Address: port_eyes_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3db51687750313c43a601acacd8d7655
+    m_Address: samho_eyebrows_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f4f35473a4672541bb2e448ee2fe80c
+    m_Address: aili_fail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f5a43835b3c0b04689e05e76d1c5c9b
+    m_Address: port_eyes_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43aec6363d7268d4d8ea56c98fed8e8a
+    m_Address: port_lower_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44f4d068daecc2b45bf9c6fe56293ae6
+    m_Address: port_upper_face_serious_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 450113f0ca92eab48994ec812d501bb1
+    m_Address: port_upper_face_serious_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 47ae496fac73cfa43b373d4d66b45c8d
+    m_Address: default_eyes_annoyingR_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 498e8671a9df3984d90b16f41b3d107d
+    m_Address: port_lower_face_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a5b389573014ec4b97344f281505b62
+    m_Address: port_eyebrows_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4db9e76ebc72b784495f5ce27956ce94
+    m_Address: samho_lower_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5083a33af8f7eb845ab59a9afed35ac5
+    m_Address: port_eyes_joy_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50fe7576745511c4681eef118313ed17
+    m_Address: port_upper_face_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51322a3f17f876640b574499d7fce2bc
+    m_Address: port_etc_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 516ba4bc44278b14686eef334e89e4fa
+    m_Address: port_upper_face_event_surprise_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56eff4fc9b111974e93fbac4cef6f6a0
+    m_Address: Assets/08.AddressableResource/Aniamtations/luna_walk3-Sheet.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a0a797714313a84aa113980c1b161cc
+    m_Address: port_eyebrows_joy_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60a544bc026ef7a4b804b41ee3364d4a
+    m_Address: chris_lower_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60ebf3b749cbe184fa62d0567f7ef56c
+    m_Address: Serve_DryMartini
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6645335e8c737034fb5063963fedf0df
+    m_Address: aili_body_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66caa87736a562c459128d660e4bcf11
+    m_Address: Finished_KahluaMilk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69f4a662261638744aa71a95bd5dc541
+    m_Address: port_body_joy_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6df8337bb56b29545901705025aa0a2d
+    m_Address: port_eyes_serious_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7141fc0dbfa2e9744b0a079577a26c28
+    m_Address: port_eyes_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71b7a8e3e116cf84baf7e8977f7f9a00
+    m_Address: default_body_annoyingB_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72b01af70f60a6e4dad9937435572eaf
+    m_Address: chris_eyes_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7375c70f739b21245b9d28b486059010
+    m_Address: samho_upper_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75d32c1add754604e99b2975dd6f8628
+    m_Address: port_lower_face_joy_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 776b81e0b1e43054aa621f461a885aa3
+    m_Address: aili_eyes_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78590a1aeff712145bb3f309a2a6472d
+    m_Address: ServeSignal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c0bb1b86f834404b828297e216531e1
+    m_Address: anim_serve_kahlua_milk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7fcceb858a16a8d44818cb18c48f38c9
+    m_Address: aili_lower_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82a5e5e0829929142b1e62e619392722
+    m_Address: chris_success
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88b088995f405ef45b0069502b7a3a39
+    m_Address: port_lower_face_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 890d0ad70085abb42816d09d4f764f72
+    m_Address: chris_eyebrows_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8968decbf36fe554ca92dc1fa36b2651
+    m_Address: day1_bubi_fetch
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 899f169fee7879c4caedc69bcd18f263
+    m_Address: aili_eyebrows_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90189c4d7ae4cf94cac5390176cf6cdf
+    m_Address: port_body_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91236dbbc784bb44c8fec90c568d382c
+    m_Address: port_extra_default_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91bfa048669cf244dac4d3c99ce6c3ed
+    m_Address: chris_body_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 927663465cdc0cf49989260f252f3678
+    m_Address: samho_drunk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9465ece1bc07a5e468f66f55da8c7a9f
+    m_Address: port_eyebrows_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 949c780f26af4eb49a0ac428720de290
+    m_Address: samho_eyes_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98ab1b48e5495b0419e9678e2382d658
+    m_Address: default_eyes_annoyingB_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98b38356bee5a4d44959578c376da6a1
+    m_Address: anim_serve_failed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a45335b62fa61e4cbae3e4e47f389bf
+    m_Address: chris_eyes_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b4eaee1430607648a8187ebf04f58ec
+    m_Address: port_lower_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c589612d4c898a4a992481370ea313c
+    m_Address: day1_finish_kahlua_milk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e2d695a9101e9e4f9bca3ee3615d1a4
+    m_Address: port_upper_face_joy_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e89a2b4516f2714cbcbdf99e8fee595
+    m_Address: port_eyebrows_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f4c575735405d34bad7437e87d6eda3
+    m_Address: port_eyebrows_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1e19f6c88c209a4b8fb88e692fdc8d7
+    m_Address: samho_body_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3faffd315c027449b0234a3eeb3e35e
+    m_Address: port_extra_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a85641a8b58d4d1459299ab7dfdb1fa8
+    m_Address: samho_lower_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a953a2293590e204ca3416817c78f428
+    m_Address: Serve_Cosmopolitan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b17fa27eeaff41b46ae1f1d72f9644b6
+    m_Address: bubi_lower_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4b5fc1a60d541042a8d1a3b4b045168
+    m_Address: port_body_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8c26e19651ccd1458f08f4df3d87b55
+    m_Address: port_eyes_anger_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: befd2c52b5cd09941a6cfdc526b034c8
+    m_Address: port_eyebrows_joy_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2d76df140daeff4db2a12b813fddc51
+    m_Address: Serve_Unknown
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c46e0f4c65358084aa303f58fed5b3b0
+    m_Address: bubi_body_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c84b84357cd90bd4895dc1ac71f18f55
+    m_Address: samho_eyebrows_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9215ac42b879cc4bb95b604303fca5d
+    m_Address: port_surprise
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c93c5a07601a73c40ab66419cbdbb253
+    m_Address: bubi_upper_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc3e7a9ea603e72498aa43e2f4fe043a
+    m_Address: samho_fail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1280ea6b5f76044aaffc3d00648fef0
+    m_Address: chris_fail
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1a18662b76cfd443b24d9370859da3f
+    m_Address: Finished_DryMartini
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1da0914b8f5bbf4f972665d0f91ab1f
+    m_Address: aili_eyes_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1df302fc90650c49806a8f1f542ca83
+    m_Address: port_lower_face_serious_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2872a3a7447fd04b8bb13e91c986d14
+    m_Address: port_eyes_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d836a82d0d3a24543ac17c04eede56f4
+    m_Address: samho_eyes_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de0713ddb8bec5842864cb0d7a79f00f
+    m_Address: samho_upper_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: deb6220ebd7df7a489b80700d18cd223
+    m_Address: port_upper_face_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dec5067c15191d04db87c1dfe176434a
+    m_Address: port_body_joy_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df85b43159f745d4296d50a835a8853d
+    m_Address: default_mouth_annoyingB_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e37431e9c3d28914c8c53130132330bf
+    m_Address: port_upper_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6aa6fd13b22974469f645aec2561cdd
+    m_Address: port_eyes_serious_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8ab891b6165a384e8b3fd073c9ada15
+    m_Address: port_lower_face_joy_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea55853df0ba5564aae019b0fcf0bd4c
+    m_Address: aili_success
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecf6615bba2eece44af1e7ef4cdc1929
+    m_Address: anim_serve_gin_fizz
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed21e8d9ece658c4e895d72ee34a0688
+    m_Address: port_eyes_joy_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1d883508a4e5e1498fbbbc10cc62bd3
+    m_Address: aili_eyebrows_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f404c4106b7467e44991a79f74ce5a05
+    m_Address: port_body_anger_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7515b48420f62b40a6ae5144d7c7926
+    m_Address: port_body_serious_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f78bdcb7b792bb147a3e3afadab90d19
+    m_Address: default_body_annoyingR_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f80519d9ad9f4b641904662381ed4c2a
+    m_Address: bubi_eyes_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9fee003c92f57647a16563517544701
+    m_Address: Serve_KahluaMilk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fbe8cdd193f0e154f9ebbba6a0f75e91
+    m_Address: port_upper_face_anger_Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd7e74167a387fe4ea82c190f4559d24
+    m_Address: aili_upper_face_default_Dialogue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd9d1205843d67a47bc130d0546bba46
+    m_Address: chris_lower_face_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe7aa8b7d3eb2d9419aa884d46d26202
+    m_Address: port_body_default_Loop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: cb2426f7302f3674093ac212f3692ef6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a13c3433af5726740bf56df687e9e0ab, type: 2}
+    - {fileID: 11400000, guid: 6d5a43a8aa0633b418e0b7c11f4e9ba0, type: 2}

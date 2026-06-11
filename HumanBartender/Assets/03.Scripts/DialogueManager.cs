@@ -1,11 +1,7 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
 using VContainer;
 
 
@@ -24,10 +20,10 @@ public enum DialogueState
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] DayDataSO dayScripteData;
-    
-    [Inject] IObjectResolver resolver;
-
     [SerializeField] DialogueSceneDirector sceneDirector;
+
+    [Inject] IPlayerDataReader PlayerData;
+    [Inject] ISoundManager soundManager;
 
     #region Data Field
 
@@ -42,24 +38,22 @@ public class DialogueManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(!GameStateManager.Instance.IsStart)
-            InitSystem();
-
-        GameStateManager.Instance.IsStart = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        InitSystem();
     }
 
     /// <summary>
     ///  최초 게임 플레이 씬 진입 시 호출하여 게임을 시작 함. 
     ///  캐릭터 데이터를 dic로 변환하여 보관 후 0번 인덱스 = 가장 처음 씬으로 작업.
     /// </summary>
-    public void InitSystem()
+    public async void InitSystem()
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+
+        GameStateManager.Instance.IsDialogInitStart = true;
+        GameStateManager.Instance.GameFlow = EGameFlow.Bar;
+
+        soundManager.PlayBGM("BGM_bar_01", 1f, true);
+
         if (dayScripteData.dayData.Scenes.Length > 0)
         {
             LoadScene(dayScripteData.dayData.Scenes[0]);
@@ -92,6 +86,12 @@ public class DialogueManager : MonoBehaviour
 
     public void DialogueEvent(string id)
     {
+        if (id == null)
+        {
+            EndScene();
+            return;
+        }
+
         PlayDialogue(id).Forget();
     }
 
@@ -108,16 +108,29 @@ public class DialogueManager : MonoBehaviour
 
         currentDialogue = currentDialogueDB[dialogueId];
 
-        // type이 system일 때 처리
-        if (currentDialogue.Type == "system")
+        if (currentDialogue.Type == EDialogueType.System)
         {
             sceneDirector.ShowSystemAction();
 
-            if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type)) 
-                ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
+            if (currentDialogue.Trigger != null) 
+                await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
 
-            await sceneDirector.ShowDialogueAsync(currentDialogue);
             return;
+        }
+        else if (currentDialogue.Type == EDialogueType.ConditionBranch)
+        {
+            NextConditions? next = currentDialogue.Nextconditions;
+
+            EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(next.Value.Character);
+            
+            foreach(var item in next.Value.Branches)
+            {
+                if (characterTier == item.Tier)
+                {
+                    DialogueEvent(item.Goto);
+                    return;
+                }
+            }
         }
 
         currentState = DialogueState.Typing;
@@ -130,11 +143,11 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    public async UniTask ExecuteTriggerAsync(TriggerData? trigger)
+    public async UniTask ExecuteTriggerAsync(TriggerData? trigger, string ids)
     {
         currentState = DialogueState.WaitingForTrigger; // 입력 잠금
         
-        Debug.Log($"[트리거 시작] 타입: {trigger.Value.Type}");
+        Debug.Log($"Dialogue [트리거 시작] 타입: {trigger.Value.Type}");
 
         string id = await sceneDirector.ExcuteTriggerAsync(trigger);
         
@@ -151,8 +164,6 @@ public class DialogueManager : MonoBehaviour
         return;
     }
 
-
- 
 
     #region Choice
     
@@ -174,6 +185,12 @@ public class DialogueManager : MonoBehaviour
     {
         currentState = DialogueState.Idle;
         Debug.Log("대화 씬이 모두 종료되었습니다.");
+
+        if (GameStateManager.Instance.GameFlow == EGameFlow.Bar)
+        {
+            GameStateManager.Instance.GameFlow = EGameFlow.CommuteOut;
+            SceneTransitionManager.Instance.LoadScene("Outside");
+        }
     }
 
 
@@ -194,8 +211,8 @@ public class DialogueManager : MonoBehaviour
             }
             else if (currentDialogue.Trigger != null)
             {
-                if (!string.IsNullOrEmpty(currentDialogue.Trigger.Value.Type))
-                    ExecuteTriggerAsync(currentDialogue.Trigger).Forget();
+                if (currentDialogue.Trigger.Value.Type != ETriggetType.None)
+                    ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
             else if (!string.IsNullOrEmpty(currentDialogue.Next))
             {

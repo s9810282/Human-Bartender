@@ -1,15 +1,16 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
 public class StartCraftCommand : IDialogueCommand
 {
-    [Inject] private CocktailCraftManager craftMgr;
+    [Inject] private ICocktailCraft craftMgr;
     
-
     private string craft_event_id;
-    private CraftEventData craftData;
+    
 
 
     public StartCraftCommand(TriggerDetailData data)
@@ -22,12 +23,9 @@ public class StartCraftCommand : IDialogueCommand
 
     public bool IsSystemSwitch { get; set; }
 
-    public async UniTask<string> ExecuteAsync()
+    public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        craftData = craftMgr.GetCraftDataByID(craft_event_id);
-        string nextId = await craftMgr.StartCraftAsync(craftData);
-        await UniTask.Yield();
-
+        string nextId = await craftMgr.StartCraftAsync(craft_event_id);
         return nextId;
     }
 }

@@ -9,15 +9,15 @@
     "right_panel":    { "anchor": "right",  "width": 0.5,  "height": 1.0,  "offset_x": 0.0,  "offset_y": 0.0  },
     "left_focus":     { "anchor": "left",   "width": 0.6,  "height": 0.8,  "offset_x": -0.1, "offset_y": 0.0  },
     "right_focus":    { "anchor": "right",  "width": 0.6,  "height": 0.8,  "offset_x": 0.1,  "offset_y": 0.0  },
-    "top_left":       { "anchor": "top_left",    "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": -0.05 },
-    "top_right":      { "anchor": "top_right",   "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": -0.05 },
+    "top_left":       { "anchor": "top_left",     "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": -0.05 },
+    "top_right":      { "anchor": "top_right",    "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": -0.05 },
     "bottom_left":    { "anchor": "bottom_left",  "width": 0.35, "height": 0.35, "offset_x": 0.05,  "offset_y": 0.05  },
     "bottom_right":   { "anchor": "bottom_right", "width": 0.35, "height": 0.35, "offset_x": -0.05, "offset_y": 0.05  }
   },
 
   "layout_presets": {
     "single": {
-      "description": "풀스크린 이미지 1장",
+      "description": "풀스크린 1장",
       "slots": [
         { "position": "center", "width_override": 1.0, "height_override": 1.0 }
       ]
@@ -40,9 +40,9 @@
     "main_left_sub_right": {
       "description": "왼쪽 큰 컷 + 오른쪽 작은 컷 2개",
       "slots": [
-        { "anchor": "left",   "width": 0.6, "height": 1.0, "offset_x": 0.0,  "offset_y": 0.0  },
-        { "anchor": "right",  "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": 0.25 },
-        { "anchor": "right",  "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": -0.25 }
+        { "anchor": "left",  "width": 0.6, "height": 1.0, "offset_x": 0.0,  "offset_y": 0.0  },
+        { "anchor": "right", "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": 0.25 },
+        { "anchor": "right", "width": 0.4, "height": 0.5, "offset_x": 0.0,  "offset_y": -0.25}
       ]
     },
     "stack_vertical": {
@@ -52,332 +52,365 @@
         { "anchor": "center", "width": 1.0, "height": 0.5, "offset_x": 0.0, "offset_y": -0.25 }
       ]
     },
-    "focus_with_bg": {
-      "description": "배경 블러 + 가운데 포커스",
+    "dim_focus": {
+      "description": "어두운 배경 + 가운데 포커스",
       "slots": [
-        { "position": "full", "effect": "blur" },
+        { "position": "full", "dim": 0.7 },
         { "position": "center" }
       ]
     }
   },
 
-  "enter_presets": {
-    "cut":          { "description": "즉시 표시 (전환 없음)",       "duration_default": 0.0 },
-    "fade_in":      { "description": "투명 → 불투명",              "duration_default": 0.4 },
-    "slide_left":   { "description": "오른쪽에서 왼쪽으로 슬라이드", "duration_default": 0.3 },
-    "slide_right":  { "description": "왼쪽에서 오른쪽으로 슬라이드", "duration_default": 0.3 },
-    "slide_up":     { "description": "아래에서 위로 슬라이드",       "duration_default": 0.3 },
-    "slide_down":   { "description": "위에서 아래로 슬라이드",       "duration_default": 0.3 },
-    "zoom_in":      { "description": "작은 상태에서 확대 등장",      "duration_default": 0.4 },
-    "zoom_out":     { "description": "큰 상태에서 축소 등장",        "duration_default": 0.4 }
-  },
-
-  "effect_presets": {
-    "fade_in":       { "description": "검은 화면 → 밝아짐" },
-    "fade_out":      { "description": "화면 → 어두워짐" },
-    "flash_white":   { "description": "순간 하얀 플래시" },
-    "screen_shake":  { "description": "화면 흔들림 (intensity = 픽셀)" },
-    "zoom_pulse":    { "description": "살짝 확대 후 복귀" },
-    "vignette":      { "description": "가장자리 어두워짐" },
-    "chromatic":     { "description": "색수차 (RGB 분리) — 글리치/기억 왜곡" }
+  "comic_presets": {
+    "enter_presets": {
+      "fade_in":     { "type": "fade",    "duration": 0.3 },
+      "slide_left":  { "type": "slide",   "from": "left",   "duration": 0.4 },
+      "slide_right": { "type": "slide",   "from": "right",  "duration": 0.4 },
+      "slide_up":    { "type": "slide",   "from": "bottom", "duration": 0.4 },
+      "pop_in":      { "type": "scale",   "from": 0.5,      "duration": 0.25 },
+      "instant":     { "type": "instant" }
+    },
+    "exit_presets": {
+      "fade_out":    { "type": "fade",    "duration": 0.3 },
+      "slide_left":  { "type": "slide",   "to": "left",     "duration": 0.4 },
+      "slide_right": { "type": "slide",   "to": "right",    "duration": 0.4 },
+      "pop_out":     { "type": "scale",   "to": 0.0,        "duration": 0.2 },
+      "instant":     { "type": "instant" }
+    },
+    "effect_presets": {
+      "flash_white":  { "type": "flash",   "color": "white", "duration": 0.15 },
+      "flash_black":  { "type": "flash",   "color": "black", "duration": 0.2  },
+      "shake_light":  { "type": "shake",   "intensity": 3,   "duration": 0.4  },
+      "shake_heavy":  { "type": "shake",   "intensity": 8,   "duration": 0.6  },
+      "zoom_in":      { "type": "zoom",    "scale": 1.1,     "duration": 0.3  },
+      "vignette":     { "type": "vignette","intensity": 0.6,  "duration": 0.5  }
+    }
   },
 
   "cutscenes": [
 
     {
-      "id": "day1_craft_enter_shake",
-      "description": "재료 투입 완료 → 쉐이킹 미니게임 진입 전환",
-      "type": "transition",
+      "id": "Intro_lab",
+      "description": "인트로 랩 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.4,
-          "action": "show_image",
-          "image": "cut_shaker_ready",
-          "position": "center",
-          "enter": "zoom_in",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 0.6,
-          "action": "play_sfx",
-          "sfx": "SFX_shaker_close"
-        },
-        {
-          "time": 1.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        }
-      ]
+      "asset": "Intro lab",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
     },
 
     {
-      "id": "day1_craft_enter_stir",
-      "description": "재료 투입 완료 → 스터 미니게임 진입 전환",
-      "type": "transition",
+      "id": "Finished_GinFizz",
+      "description": "진피즈 완성 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.4,
-          "action": "show_image",
-          "image": "cut_mixing_glass_ready",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 1.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        }
-      ]
+      "asset": "Finished_Ginfizz",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
     },
 
     {
-      "id": "day1_serve_default",
-      "description": "일반 완성 → 잔에 담고 가니쉬 올리고 손님에게 미는 연출",
-      "type": "comic",
+      "id": "Finished_DryMartini",
+      "description": "드라이 마티니 완성 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_image",
-          "image": "cut_pour_glass",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.2,
-          "action": "hide_image",
-          "image": "cut_pour_glass",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 1.4,
-          "action": "show_image",
-          "image": "cut_garnish",
-          "position": "center",
-          "enter": "slide_up",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 1.5,
-          "action": "play_sfx",
-          "sfx": "SFX_garnish_place"
-        },
-        {
-          "time": 2.2,
-          "action": "hide_image",
-          "image": "cut_garnish",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 2.4,
-          "action": "show_image",
-          "image": "cut_serve_slide",
-          "position": "center",
-          "enter": "slide_left",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 2.5,
-          "action": "play_sfx",
-          "sfx": "SFX_glass_slide"
-        },
-        {
-          "time": 3.5,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.5
-        }
-      ]
+      "asset": "Finished_DryMartini",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
     },
 
     {
-      "id": "day1_serve_perfect",
-      "description": "S급 판정 시 특별 서빙 연출 — 만화 컷씬 2분할",
-      "type": "comic",
+      "id": "Finished_Cosmopolitan",
+      "description": "코스모폴리탄 완성 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_in",
-          "duration": 0.3
-        },
-        {
-          "time": 0.3,
-          "action": "show_image",
-          "image": "cut_perfect_pour",
-          "position": "center",
-          "enter": "zoom_in",
-          "enter_duration": 0.5
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour_perfect"
-        },
-        {
-          "time": 0.8,
-          "action": "effect",
-          "effect_type": "zoom_pulse",
-          "intensity": 1.05,
-          "duration": 0.3
-        },
-        {
-          "time": 1.5,
-          "action": "hide_image",
-          "image": "cut_perfect_pour",
-          "exit": "fade_out",
-          "exit_duration": 0.2
-        },
-        {
-          "time": 1.7,
-          "action": "show_layout",
-          "layout": "split_2",
-          "images": ["cut_perfect_glass_closeup", "cut_perfect_customer_reaction"],
-          "enter": "slide_left",
-          "enter_duration": 0.4
-        },
-        {
-          "time": 2.0,
-          "action": "play_sfx",
-          "sfx": "SFX_glass_slide"
-        },
-        {
-          "time": 3.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.5
-        }
-      ]
+      "asset": "Finished_Cosmopolitan",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
     },
 
     {
-      "id": "day1_chris_memory_flash",
-      "description": "대화 중 크리스 과거 암시 — 글리치 플래시백",
-      "type": "comic",
+      "id": "Finished_Godfather",
+      "description": "갓파더 완성 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "flash_white",
-          "duration": 0.1
-        },
-        {
-          "time": 0.1,
-          "action": "show_image",
-          "image": "cut_flashback_bar_old",
-          "position": "full",
-          "enter": "cut",
-          "enter_duration": 0
-        },
-        {
-          "time": 0.1,
-          "action": "effect",
-          "effect_type": "chromatic",
-          "intensity": 5,
-          "duration": 1.5
-        },
-        {
-          "time": 0.3,
-          "action": "effect",
-          "effect_type": "screen_shake",
-          "intensity": 2,
-          "duration": 0.5
-        },
-        {
-          "time": 1.6,
-          "action": "effect",
-          "effect_type": "flash_white",
-          "duration": 0.1
-        },
-        {
-          "time": 1.7,
-          "action": "hide_image",
-          "image": "cut_flashback_bar_old",
-          "exit": "cut",
-          "exit_duration": 0
-        }
-      ]
+      "asset": "Finished_Godfather",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
     },
 
     {
-      "id": "day1_build_complete",
-      "description": "빌드 제조법 — 재료 투입 후 바로 완성 전환 (미니게임 없음)",
-      "type": "transition",
+      "id": "Finished_Mojito",
+      "description": "모히또 완성 컷씬",
+      "type": "timeline",
       "blocking": true,
-      "background": "black",
-      "steps": [
-        {
-          "time": 0.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.3
-        },
-        {
-          "time": 0.4,
-          "action": "show_image",
-          "image": "cut_build_pour",
-          "position": "center",
-          "enter": "fade_in",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 0.5,
-          "action": "play_sfx",
-          "sfx": "SFX_pour"
-        },
-        {
-          "time": 1.2,
-          "action": "show_image",
-          "image": "cut_build_complete",
-          "position": "center",
-          "enter": "slide_up",
-          "enter_duration": 0.3
-        },
-        {
-          "time": 2.0,
-          "action": "effect",
-          "effect_type": "fade_out",
-          "duration": 0.4
-        }
-      ]
+      "asset": "Finished_Mojito",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Finished_KahluaMilk",
+      "description": "깔루아 밀크 완성 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "Finished_kalua",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "day1_finish_default",
+      "description": "기본 칵테일 완성 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "cutscene_finish_default",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 0
+    },
+
+    {
+      "id": "Serve_Unknown",
+      "description": "알수없는 칵테일 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_failed",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_GinFizz",
+      "description": "진 피즈 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_gin_fizz",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_DryMartini",
+      "description": "드라이 마티니 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_dry_martini",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_Cosmopolitan",
+      "description": "코스모폴리탄 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_cosmopolitan",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_Godfather",
+      "description": "갓파더 제공 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "anim_serve_godfather",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_Mojito",
+      "description": "모히또 제공 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "anim_serve_mojito",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "Serve_KahluaMilk",
+      "description": "깔루아 밀크 제공 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "anim_serve_kahlua_milk",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+    {
+      "id": "day1_react_perfect",
+      "description": "S급 판정 리액션 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "cutscene_react_perfect",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "day1_bubi_fetch",
+      "description": "루나가 바 밖으로 나가 부비를 줍줍해서 머리 위에 얹고 돌아오는 스프라이트 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_get_bubi_outside",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "day1_bubi_drink_reaction",
+      "description": "부비가 깔루아밀크를 평가하고 루나 얼굴을 할퀴는 컷씬",
+      "type": "sprite",
+      "blocking": true,
+      "asset": "cutscene_bubi_drink_reaction",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "elevator_opening",
+      "description": "0일차 엘리베이터 오프닝 컷씬 (루나가 처음 출근하는 연출)",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_elevator_opening",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_first_meet",
+      "description": "2일차 출근길 삼호 첫 만남 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_first_meet",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_death",
+      "description": "2일차 퇴근길 삼호 사망 분기 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_death",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
+    },
+
+    {
+      "id": "samho_survived",
+      "description": "2일차 퇴근길 삼호 생존 분기 컷씬",
+      "type": "timeline",
+      "blocking": true,
+      "asset": "cutscene_samho_survived",
+      "position": "full",
+      "scale": 1.0,
+      "loop": false,
+      "enter": "fade_in",
+      "enter_duration": 1.0,
+      "exit": "fade_out",
+      "exit_duration": 1.0
     }
+
   ]
 }

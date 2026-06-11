@@ -11,12 +11,13 @@ public class DialogueSceneDirector : MonoBehaviour
 
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private UIDialogueTextView typer;
-    [SerializeField] private UIDialogueChoice choiceManager;
+    [SerializeField] private UIDialogueChoiceView choiceManager;
     [SerializeField] private DialogueCharacterManager characterManager;
     [SerializeField] private DialogueBackgroundManager backgroundManager;
     [SerializeField] private DialogueTriggerManager triggerManager;
 
 
+    const string PLAYER_ID = "luna";
 
     private Dictionary<string, CharacterData> characterDB = new Dictionary<string, CharacterData>();
 
@@ -47,22 +48,34 @@ public class DialogueSceneDirector : MonoBehaviour
     }
     public async UniTask ShowDialogueAsync(DialogueData dialogueData)
     {
+        //여기서 텍스트 및 사이즈가 이미 초기화 된 상태여야함
+
+        typer.ClearText();
         dialoguePanel.SetActive(true);
+
+        Color nameColor = Color.white;
 
         if (characterDB.TryGetValue(dialogueData.Speaker, out CharacterData speakerData))
         {
-            if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out Color color))
-                typer.SetNameColor(color);
-            
-            typer.SetNameText(speakerData.DisplayName);
+            if (ColorUtility.TryParseHtmlString(speakerData.NameColor, out nameColor))
 
             if (!string.IsNullOrEmpty(dialogueData.Expression))
-                characterManager.SetCharacter(dialogueData.Speaker, dialogueData.Expression);
-            else
-                characterManager.OffCharacter();
+            {
+                await characterManager.SetCharacterAsync(dialogueData.Speaker, dialogueData.Expression);
+            }
         }
 
-        await typer.StartType(new TypingData(dialogueData.Text));
+        characterManager?.OnDialogueStart(dialogueData.Speaker);
+        
+        await typer.StartType(new TypingData
+            (dialogueData.Text, 
+            speakerData.DisplayName, 
+            characterManager.GetCharacterPosition(dialogueData.Speaker), 
+            nameColor, 
+            dialogueData.Speaker == PLAYER_ID));
+
+        
+        characterManager?.OnDialogueEnd(dialogueData.Speaker);
     }
 
     public void ShowChoices(ChoiceData[] choices, Action<ChoiceData> onChoiceSelected)
@@ -72,13 +85,15 @@ public class DialogueSceneDirector : MonoBehaviour
     public void SkipTyping()
     {
         typer.OnScreenClick();
+        characterManager.OnDialogueEnd();
     }
 
     public async UniTask<string> ExcuteTriggerAsync(TriggerData? trigger)
     {
-        characterManager.OffCharacter();
-        string id = await triggerManager.ExecuteTriggerAsync(trigger);
+        typer.ClearText();
 
+        string id = await triggerManager.ExecuteTriggerAsync(trigger);
+        
         return id;
     }
 

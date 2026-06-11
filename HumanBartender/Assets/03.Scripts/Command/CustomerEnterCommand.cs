@@ -1,21 +1,30 @@
-using System.Collections;
-using UnityEngine;
-using Newtonsoft.Json.Linq;
 using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
+using System.Threading;
+using VContainer;
 
 public class CustomerEnterCommand : IDialogueCommand
 {
-    private string characterId;
-    private string sfx;
-    private string animation;
+    [Inject] ICameraControl cameraZoom;
+    [Inject] ICharacterSetter characterSetter;
+    [Inject] IDialogueFader characterFader;
 
-    
+    private string characterId;
+    private string slot;
+    private string enterEffect;
+    private float enterDuration = 0.3f;
+    private string sfx_mode;
+
+    CancellationTokenSource cts = new();
+
+
+
     public CustomerEnterCommand(TriggerDetailData data)
     {
         characterId = data.CharacterId;
-        sfx = data.Sfx;
-        animation = data.Animation;
+        slot = data.Slot;
+        enterEffect = data.EnterEffect;
+        enterDuration = data.EnterDuration.Value;
+        sfx_mode = data.SfxMode;
 
         IsSystemSwitch = false;
     }
@@ -23,15 +32,38 @@ public class CustomerEnterCommand : IDialogueCommand
     public bool IsSystemSwitch { get; set; }
 
 
-    public async UniTask<string> ExecuteAsync()
+    public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        Debug.Log($"[효과음 재생: {sfx}]");
-        Debug.Log($"{characterId} 캐릭터가 {animation} 상태로 입장합니다.");
+        ESlotType slotType = slot == "left" ? ESlotType.Left : 
+            slot == "right" ? ESlotType.Right : ESlotType.Middle;
 
+        Logger.Log($"{characterId} : {slot}");
+        await characterSetter.SetCharacterAsync(characterId, "default", slotType);
+        int c = characterSetter.GetCharacterCount();
 
-        await UniTask.Delay(System.TimeSpan.FromSeconds(1f));
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new CancellationTokenSource();
 
-        Debug.Log("입장 연출 완료.");
+        var token = CancellationTokenSource
+         .CreateLinkedTokenSource(cts.Token)
+         .Token;
+
+        if (c == 1)
+        {
+            cameraZoom.CameraZoom(ECameraZoomType.Sub, enterDuration);
+            cameraZoom.CameraMove(slotType, enterDuration);
+        }
+        else
+        {
+            cameraZoom.CameraZoom(ECameraZoomType.Base, enterDuration);
+            cameraZoom.CameraMove(ESlotType.Middle, enterDuration);
+        }
+
+        characterFader.FadeInAsync(slotType, token).Forget();
+
+        await UniTask.WaitForSeconds(enterDuration);
+
         return "";
     }
 }

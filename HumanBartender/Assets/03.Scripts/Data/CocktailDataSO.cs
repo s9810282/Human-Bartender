@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 [Serializable]
 public struct RecipeIngredient
 {
     [JsonProperty("ingredient")] public string Ingredient { get; set; }
     [JsonProperty("count")] public int Count { get; set; }
+    [JsonProperty("display_name")] public string DisplayName { get; set; }
 }
 
 [Serializable]
@@ -17,12 +19,16 @@ public struct CocktailData
     [JsonProperty("id")] public string Id { get; set; }
     [JsonProperty("name")] public string Name { get; set; }
     [JsonProperty("name_en")] public string NameEn { get; set; }
+    [JsonProperty("price")] public int Price { get; set; }
     [JsonProperty("recipe")] public RecipeIngredient[] Recipe { get; set; }
     [JsonProperty("method")] public string Method { get; set; }
-    [JsonProperty("target_count")] public int TargetCount { get; set; }
+    [JsonProperty("process")] public string Process { get; set; }
     [JsonProperty("keywords")] public string[] Keywords { get; set; }
     [JsonProperty("baseIngredient")] public string BaseIngredient { get; set; }
     [JsonProperty("flavor_text")] public string FlavorText { get; set; }
+    [JsonProperty("finish_animation")] public string Finish_animation { get; set; }
+    [JsonProperty("serve_animation")] public string Serve_animation { get; set; }
+    [JsonProperty("serve_sfx")] public string Serve_sfx { get; set; }
 }
 
 [CreateAssetMenu(fileName = "New CocktailData", menuName = "Data/CockTailData")]
@@ -30,7 +36,7 @@ public class CocktailDataSO : ScriptableObject
 {
     public CocktailDataBase cocktailData;
 
-    public CocktailData[] allCocktails;
+    public Dictionary<string, CocktailData> allCocktails = new();
     public CocktailData[] cachedSortedByName;
     public Dictionary<string, CocktailData[]> cachedByInitialConsonant;
     public Dictionary<string, CocktailData[]> cachedByTaste;
@@ -45,9 +51,9 @@ public class CocktailDataSO : ScriptableObject
 
     public void Cached()
     {
-        allCocktails = cocktailData?.Cocktails;
+        allCocktails = cocktailData?.Cocktails.ToDictionary(c => c.Id);
 
-        if (allCocktails == null || allCocktails.Length == 0) return;
+        if (allCocktails == null || allCocktails.Count == 0) return;
 
         cachedSortedByName = SortByName();
         cachedByInitialConsonant = GroupByInitial();
@@ -59,31 +65,38 @@ public class CocktailDataSO : ScriptableObject
 
     public CocktailData[] SortByName()
     {
-        return allCocktails.OrderBy(c => c.Name).ToArray();
+        return allCocktails.OrderBy(c => c.Key)
+            .Select(c => c.Value)
+            .ToArray();
     }
 
     public Dictionary<string, CocktailData[]> GroupByInitial()
     {
-        return allCocktails
+        return allCocktails.Values
             .GroupBy(c => GetInitialConsonant(c.Name))
-            .ToDictionary(g => g.Key, g => g.OrderBy(c => c.Name).ToArray());
+            .ToDictionary
+            (
+                g => g.Key, 
+                g => g.OrderBy(c => c.Name).ToArray()
+            );
     }
 
     public Dictionary<string, CocktailData[]> GroupByTaste()
     {
-        return allCocktails.GroupBy(c => c.Keywords != null && c.Keywords.Length > 0 ? c.Keywords[0] : "기타")
+        return allCocktails.Values
+            .GroupBy(c => c.Keywords != null && c.Keywords.Length > 0 ? c.Keywords[0] : "기타")
                            .ToDictionary(g => g.Key, g => g.ToArray());
     }
 
     public Dictionary<string, CocktailData[]> GroupByBase()
     {
-        return allCocktails.GroupBy(c => c.BaseIngredient)
+        return allCocktails.Values.GroupBy(c => c.BaseIngredient)
                            .ToDictionary(g => g.Key, g => g.ToArray());
     }
 
     public Dictionary<string, CocktailData[]> GroupByMethod()
     {
-        return allCocktails.GroupBy(c => c.Method)
+        return allCocktails.Values.GroupBy(c => c.Method)
                            .ToDictionary(g => g.Key, g => g.ToArray());
     }
 
@@ -93,18 +106,18 @@ public class CocktailDataSO : ScriptableObject
 
         foreach (var cocktail in allCocktails)
         {
-            if (cocktail.Keywords == null) continue;
+            if (cocktail.Value.Keywords == null) continue;
 
             for (int i = 1; i <= 2; i++)
             {
-                if (cocktail.Keywords.Length > i)
+                if (cocktail.Value.Keywords.Length > i)
                 {
-                    string styleKey = cocktail.Keywords[i];
+                    string styleKey = cocktail.Value.Keywords[i];
                     if (!styleDict.ContainsKey(styleKey))
                     {
                         styleDict[styleKey] = new List<CocktailData>();
                     }
-                    styleDict[styleKey].Add(cocktail);
+                    styleDict[styleKey].Add(cocktail.Value);
                 }
             }
         }
@@ -130,10 +143,66 @@ public class CocktailDataSO : ScriptableObject
         }
         return "기타";
     }
+
+    public CocktailData GetCocktailDataByID()
+    {
+        return default;
+    }
+
+    public IEnumerable<CocktailData> GetCocktailDatasByIngredient(string ingredient)
+    {
+        List<CocktailData> result = new List<CocktailData>();
+
+        foreach (var cocktail in allCocktails)
+        {
+            foreach (var item in cocktail.Value.Recipe)
+            {
+                if (string.Equals(item.Ingredient, ingredient, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(cocktail.Value);
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+    public IEnumerable<CocktailData> GetCocktailDatasByIngredient(string ingredient, IEnumerable<CocktailData> datas)
+    {
+        List<CocktailData> result = new List<CocktailData>();
+
+        foreach (var cocktail in datas)
+        {
+            foreach (var item in cocktail.Recipe)
+            {
+                if (string.Equals(item.Ingredient, ingredient, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(cocktail);
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public List<CocktailData> GetCocktailDatasByKeword(string keword)
+    {
+        List<CocktailData> result = new List<CocktailData>();
+
+        foreach (var cocktail in allCocktails)
+        {
+            if(cocktail.Value.Keywords.Contains(keword))
+                result.Add(cocktail.Value);
+        }
+
+        return result;
+    }
 }
 
 [Serializable]
 public class CocktailDataBase
 {
     [JsonProperty("cocktails")] public CocktailData[] Cocktails { get; set; }
+    [JsonProperty("unknown_cocktail")] public CocktailData unknown_Cocktails { get; set; }
 }

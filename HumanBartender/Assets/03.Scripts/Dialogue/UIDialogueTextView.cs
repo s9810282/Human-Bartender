@@ -1,42 +1,54 @@
 using Cysharp.Threading.Tasks;
-using NUnit.Framework.Constraints;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 [System.Serializable]
 public class TypingData
 {
+    public string speaker = "";
+    public Vector3 speakerPos;
     public string str;
+    public Color32 nameColor;
+    public bool isLunaSpeak = false;
 
     public TypingData()
     {
     }
 
-    public TypingData(string str)
+    public TypingData(string str, string speaker, Vector3 speakerPos, Color32 nameColor, bool isLunaSpeak)
     {
+        this.speaker = speaker;
+        this.speakerPos = speakerPos;
         this.str = str;
+        this.nameColor = nameColor;
+        this.isLunaSpeak = isLunaSpeak;
     }
 }
 
 
 public class UIDialogueTextView : MonoBehaviour
 {
+    [Header("Data")]
+    [SerializeField] TextTagDataSO textTagData;
+
     [Header("UI Components")]
-    public GameObject dialoguePanel;      // 대화창 전체 패널
-    public TextMeshProUGUI nameTMPText;      // 이름 텍스트
-    public TextMeshProUGUI dialogueTMPText;  // 대사 텍스트
+    public DynamicSpeechBubble lunaSpeechBubble;
+    public DynamicSpeechBubble customerSpeechBubble;
+    public RectTransform canvasRect;
 
-    public Text nameText;
-    public Text dialogueText;
+    [Header("Slot")]
+    [SerializeField] Vector2 baseOffset;
+    [SerializeField] Vector2 subOffset;
 
-    
+
+
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
 
@@ -47,6 +59,7 @@ public class UIDialogueTextView : MonoBehaviour
         curTypingData = new TypingData();
     }
 
+    DynamicSpeechBubble targetBubble;
 
 
     public async UniTask StartType(TypingData data)
@@ -57,21 +70,48 @@ public class UIDialogueTextView : MonoBehaviour
             return;
         }
 
-        dialogueText.fontStyle = FontStyle.Normal;
-        dialogueTMPText.fontStyle = FontStyles.Normal;
-
         curTypingData = data;
-        await TypeSentence(curTypingData.str);
+
+
+        targetBubble = data.isLunaSpeak ? lunaSpeechBubble : customerSpeechBubble;
+
+        if (!data.isLunaSpeak)
+            SetBubblePosition(data.speakerPos);
+
+        await TypeSentenceTMP(curTypingData);
     }
-    public void SetNameColor(Color32 color)
+
+    public void SetBubblePosition(Vector3 characterTransform)
     {
-        nameText.color = color;
-        nameTMPText.color = color;
+        Vector2 screenPoint = Camera.main.WorldToScreenPoint(characterTransform + (Vector3)subOffset);
+
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out localPoint);
+
+        localPoint.x = Mathf.RoundToInt(localPoint.x);
+        localPoint.y = Mathf.RoundToInt(localPoint.y);
+        targetBubble.bubble.localPosition = localPoint;
     }
-    public void SetNameText(string str)
+
+
+
+    public void ClearText()
     {
-        nameText.text = str;
-        nameTMPText.text = str;
+        if (lunaSpeechBubble != null && lunaSpeechBubble.textLabel != null)
+        {
+            lunaSpeechBubble.textLabel.enableAutoSizing = false;
+            lunaSpeechBubble.textLabel.text = "";
+            lunaSpeechBubble.textLabel.fontSize = lunaSpeechBubble.baseFontSize;
+            lunaSpeechBubble.gameObject.SetActive(false);
+        }
+
+        if (customerSpeechBubble != null && customerSpeechBubble.textLabel != null)
+        {
+            customerSpeechBubble.textLabel.enableAutoSizing = false;
+            customerSpeechBubble.textLabel.text = "";
+            customerSpeechBubble.textLabel.fontSize = customerSpeechBubble.baseFontSize;
+            customerSpeechBubble.gameObject.SetActive(false);
+        }
     }
 
     public void OnScreenClick()
@@ -94,19 +134,25 @@ public class UIDialogueTextView : MonoBehaviour
         }
     }
 
-    public async UniTask TypeSentenceTMP(string rawSentence)
+    public async UniTask TypeSentenceTMP(TypingData data)
     {
+        string rawSentence = data.str;
         if (!(rawSentence.Length > 0)) return;
 
-        StopTyping();
+        targetBubble.gameObject.SetActive(true);
+        targetBubble.nameLabel.text = data.speaker;
+        targetBubble.nameLabel.color = data.nameColor;
 
+        StopTyping();
         typingCts = new CancellationTokenSource();
         CancellationToken token = typingCts.Token;
 
-        string cleanSentence = rawSentence;
+        string processed = ApplyCustomTags(rawSentence);
+
+        string cleanSentence = processed;
         Dictionary<int, float> delayDict = new Dictionary<int, float>();
         Regex tagRegex = new Regex(@"<(\d+)>");
-        MatchCollection matches = tagRegex.Matches(rawSentence);
+        MatchCollection matches = tagRegex.Matches(processed);
 
         int offset = 0;
         foreach (Match match in matches)
@@ -114,101 +160,82 @@ public class UIDialogueTextView : MonoBehaviour
             int delayMs = int.Parse(match.Groups[1].Value);
             int targetIndex = match.Index - offset;
             delayDict[targetIndex] = delayMs / 1000f;
-
             cleanSentence = cleanSentence.Remove(targetIndex, match.Length);
             offset += match.Length;
         }
 
-        dialogueTMPText.text = cleanSentence;
-        dialogueTMPText.maxVisibleCharacters = 0;
-        dialogueTMPText.ForceMeshUpdate();
-        int totalVisibleChars = dialogueTMPText.textInfo.characterCount;
+
+        
+        if (targetBubble != null)
+        {
+            targetBubble.PrepareForText(cleanSentence);
+        }
+
+        targetBubble.textLabel.maxVisibleCharacters = 0;
+        int totalVisibleChars = targetBubble.TotalVisibleCharacters;
+
 
         try
         {
             for (int i = 0; i <= totalVisibleChars; i++)
             {
-                dialogueTMPText.maxVisibleCharacters = i;
+                targetBubble.textLabel.maxVisibleCharacters = i;
+                targetBubble.UpdateForVisible(i);
 
                 if (delayDict.ContainsKey(i))
-                {
                     await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
-                }
 
                 if (i < totalVisibleChars)
-                {
                     await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
-                }
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Debug.Log("타이핑이 스킵되었습니다!");
-            dialogueTMPText.maxVisibleCharacters = dialogueTMPText.textInfo.characterCount;
+            targetBubble.textLabel.maxVisibleCharacters = totalVisibleChars;
+            targetBubble.UpdateForVisible(totalVisibleChars);
         }
 
         CompleteTyping();
     }
 
 
-    #region Legacy Text
-    private string currentCleanText = "";
-    public async UniTask TypeSentence(string rawSentence)
+    string ApplyCustomTags(string raw)
     {
-        if (rawSentence == null) return;
-        if (!(rawSentence.Length > 0)) return;
+        if (textTagData == null || textTagData.textTagData?.TextTags == null)
+            return raw;
 
-        StopTyping();
+        string result = raw;
 
-        typingCts = new CancellationTokenSource();
-        CancellationToken token = typingCts.Token;
-
-        string cleanSentence = rawSentence;
-        Dictionary<int, float> delayDict = new Dictionary<int, float>();
-        Regex tagRegex = new Regex(@"<(\d+)>");
-        MatchCollection matches = tagRegex.Matches(rawSentence);
-
-        int offset = 0;
-        foreach (Match match in matches)
+        foreach (var pair in textTagData.textTagData.TextTags)
         {
-            int delayMs = int.Parse(match.Groups[1].Value);
-            int targetIndex = match.Index - offset;
-            delayDict[targetIndex] = delayMs / 1000f;
+            string key = pair.Key;
+            string color = pair.Value.Color;
+            if (string.IsNullOrEmpty(color)) continue;
 
-            cleanSentence = cleanSentence.Remove(targetIndex, match.Length);
-            offset += match.Length;
+            // # 보장
+            if (!color.StartsWith("#")) color = "#" + color;
+
+            // <key>...</key> 매칭 (내용은 비탐욕적으로)
+            string pattern = $@"<{Regex.Escape(key)}>(.*?)</{Regex.Escape(key)}>";
+            string replacement = $"<color={color}>$1</color>";
+
+            result = Regex.Replace(result, pattern, replacement);
         }
 
-        currentCleanText = cleanSentence;
-
-        dialogueText.text = "";
-        int totalChars = cleanSentence.Length;
-
-        try
-        {
-            for (int i = 0; i <= totalChars; i++)
-            {
-                dialogueText.text = cleanSentence.Substring(0, i);
-
-                if (delayDict.ContainsKey(i))
-                {
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(delayDict[i]), cancellationToken: token);
-                }
-
-                if (i < totalChars)
-                {
-                    await UniTask.Delay(System.TimeSpan.FromSeconds(defaultTypingDelay), cancellationToken: token);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("타이핑이 스킵되었습니다!");
-            dialogueText.text = cleanSentence;    
-        }
-
-        CompleteTyping();
+        return result;
     }
+    string GetVisibleSubstring(string fullText, int visibleCharCount)
+    {
+        if (visibleCharCount <= 0) return "";
+        if (visibleCharCount >= targetBubble.textLabel.textInfo.characterCount)
+            return fullText;
 
-    #endregion
+        var charInfo = targetBubble.textLabel.textInfo.characterInfo[visibleCharCount - 1];
+        int endIndex = charInfo.index + 1;
+
+        if (endIndex < fullText.Length && fullText[endIndex] == '\n')
+            endIndex++;
+
+        return fullText.Substring(0, endIndex);
+    }
 }

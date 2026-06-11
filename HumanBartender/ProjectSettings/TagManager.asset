@@ -10,16 +10,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - CupTriggers
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Background
+  - Render
+  - Floor
+  - Interactable
+  - InteractableWithPP
+  - Lighting
+  - Effect
   - 
   - 
   - 
@@ -42,6 +42,39 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Sky
+    uniqueID: 3762850521
+    locked: 0
+  - name: BackgroundFar
+    uniqueID: 701995941
+    locked: 0
+  - name: BackgroundMid
+    uniqueID: 1240998441
+    locked: 0
+  - name: CityLight
+    uniqueID: 3307105667
+    locked: 0
+  - name: Foreground
+    uniqueID: 2870188765
+    locked: 0
+  - name: Floorground
+    uniqueID: 4037846725
+    locked: 0
+  - name: ForeNoneLightground
+    uniqueID: 3077180185
+    locked: 0
+  - name: ForeLightground
+    uniqueID: 1211334403
+    locked: 0
+  - name: Character
+    uniqueID: 1950817317
+    locked: 0
+  - name: ForeFore
+    uniqueID: 3031165737
+    locked: 0
+  - name: Effect
+    uniqueID: 3576253499
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,17 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ObjectPool
 {
-    private GameObject prefab;
-    private Queue<GameObject> pool = new Queue<GameObject>();
-    private Transform parentTransform;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] int initCount = 10;
+    [SerializeField] private Stack<GameObject> pool = new Stack<GameObject>();
+    [SerializeField] private Transform parentTransform;
 
     public ObjectPool(GameObject prefab, int initialSize, Transform parent)
     {
         this.prefab = prefab;
         this.parentTransform = parent;
         for (int i = 0; i < initialSize; i++)
+        {
+            CreateAndReturn();
+        }
+    }
+
+    public void Init()
+    {
+        pool = new Stack<GameObject>();
+
+        for (int i = 0; i < initCount; i++)
         {
             CreateAndReturn();
         }
@@ -24,7 +36,7 @@ public class ObjectPool
             CreateAndReturn();
         }
 
-        GameObject obj = pool.Dequeue();
+        GameObject obj = pool.Pop();
         obj.SetActive(true);
         return obj;
     }
@@ -32,7 +44,7 @@ public class ObjectPool
     public void Return(GameObject obj)
     {
         obj.SetActive(false);
-        pool.Enqueue(obj);
+        pool.Push(obj);
     }
 
     private void CreateAndReturn()
@@ -40,6 +52,6 @@ public class ObjectPool
         GameObject newObj = Object.Instantiate(prefab, parentTransform);
         newObj.GetComponent<PooledObject>()?.SetPool(this);
         newObj.SetActive(false);
-        pool.Enqueue(newObj);
+        pool.Push(newObj);
     }
 }

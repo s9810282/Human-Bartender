@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class JsonManager<T>
 {
@@ -48,5 +50,22 @@ public static class JsonManager<T>
             Debug.LogError("파일을 찾을 수 없습니다: " + filePath);
             return default(T);
         }
+    }
+
+    // JsonManager에 비동기 버전 추가
+    public static async UniTask<T> LoadAsync<T>(string fileName)
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, fileName);
+
+        using var req = UnityWebRequest.Get("file://" + path);
+
+        await req.SendWebRequest();
+        if (req.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError($"로드 실패: {fileName} / {req.error}");
+            return default;
+        }
+
+        return JsonConvert.DeserializeObject<T>(req.downloadHandler.text);
     }
 }

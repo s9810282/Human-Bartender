@@ -1,7 +1,5 @@
-using LiquidSimulation;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,7 +25,9 @@ public class ETCEntry
 }
 
 
-
+/// <summary>
+/// 추후 스크립트 방식에 대해 검토,
+/// </summary>
 public class IngredientLibrary : MonoBehaviour
 {
     [SerializeField] List<LiquidEntry> liquidEntries = new();
