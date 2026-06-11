@@ -52,33 +52,36 @@ public class DataLoadManager : MonoBehaviour, IDataSwitcher
 
     void Awake()
     {
+        LoadData();
+        return;
+    }
+    public async void LoadData()
+    {
         Logger.Log("Load Data");
 
         foreach (var f in dayFiles)   // 알고 있는 파일 목록
-            _dayCache[f] = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(f);
+            _dayCache[f] = await JsonManager<DayDatabBase>.LoadAsync<DayDatabBase>(f);
         foreach (var f in craftFiles)
-            _craftCache[f] = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(f);
+            _craftCache[f] = await JsonManager<CraftDataBase>.LoadAsync<CraftDataBase>(f);
 
 
         SwitchDay(isTest ? testDayName : dayDataFileName, isTest ? testCraftName : craftDataFileName);
 
-        cocktailData.cocktailData           = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(cocktailDataFileName);
-        characterData.characterData         = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets(characterDataFileName);
-        characterAnimConfig.animConfig      = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets(characterAnimConfigFileName);
-        ingredientDataSO.ingredientData     = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets(ingredientDataFileName);
-        cutSceneData.cutSceneData           = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets(cutSceneDataFileName);
-        settlementDataSO.settlementData     = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets(settlementDataFileName);
-        textTagDataSO.textTagData           = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets(textTagDataFileName);
-        characterTierDataSO.characterTiers  = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets(characterTierDataFileName);
-        skillTierDataSO.skillTier           = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets(skillTierDataFileName);
+        cocktailData.cocktailData = await JsonManager<CocktailDataBase>.LoadAsync<CocktailDataBase>(cocktailDataFileName);
+        characterData.characterData = await JsonManager<CharacterDataBase>.LoadAsync<CharacterDataBase>(characterDataFileName);
+        characterAnimConfig.animConfig = await JsonManager<CharacterAnimBase>.LoadAsync<CharacterAnimBase>(characterAnimConfigFileName);
+        ingredientDataSO.ingredientData = await JsonManager<IngredientDataBase>.LoadAsync<IngredientDataBase>(ingredientDataFileName);
+        cutSceneData.cutSceneData = await JsonManager<CutSceneDataBase>.LoadAsync<CutSceneDataBase>(cutSceneDataFileName);
+        settlementDataSO.settlementData = await JsonManager<SettlementDataBase>.LoadAsync<SettlementDataBase>(settlementDataFileName);
+        textTagDataSO.textTagData = await JsonManager<TextTagDataBase>.LoadAsync<TextTagDataBase>(textTagDataFileName);
+        characterTierDataSO.characterTiers = await JsonManager<CharacterTierDataBase>.LoadAsync<CharacterTierDataBase>(characterTierDataFileName);
+        skillTierDataSO.skillTier = await JsonManager<SkillTierDataBase>.LoadAsync<SkillTierDataBase>(skillTierDataFileName);
 
         settlementDataSO.Cached();
         cocktailData.Cached();
         cutSceneData.Cached();
 
         outsideDataManager.Load();
-
-        return;
     }
     public void SwitchDay(string dayFile, string craftFile)
     {
