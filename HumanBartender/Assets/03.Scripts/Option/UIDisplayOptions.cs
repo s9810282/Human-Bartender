@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ public class UIDisplayOptions : MonoBehaviour
 {
     [Header("Screen UI References")]
     [SerializeField] private GameObject optionUI;
-    [SerializeField] private Toggle fullscreenToggle;
+    [FormerlySerializedAs("fullscreenToggle")]
+    [SerializeField] private Toggle windowedToggle;   // ON = 창모드
     [SerializeField] private TMP_Dropdown windowSizeDropdown;
 
     [Header("Sound UI References")]
@@ -37,22 +39,18 @@ public class UIDisplayOptions : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isOnOption = !isOnOption;
             optionUI.gameObject.SetActive(isOnOption);
         }
-        else if(Input.GetKeyDown(KeyCode.O))
-        {
-            SceneTransitionManager.Instance.LoadScene("OutSide");
-        }
     }
 
-    
+
     private void BuildDropdownOptions()
     {
         windowSizeDropdown.ClearOptions();
-        
+
         var labels = new List<string>();
         foreach (var s in _display.WindowedSizes)
             labels.Add($"{s.x} x {s.y}");
@@ -62,27 +60,29 @@ public class UIDisplayOptions : MonoBehaviour
 
     private void SyncUIFromCurrentSettings()
     {
-        bool full = PlayerPrefs.GetInt("Windowed", 1) == 1;
+        // 기본값 전체화면(1) → 창모드 토글은 off
+        bool fullscreen = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        bool windowed = !fullscreen;
         int winIndex = PlayerPrefs.GetInt("WinIndex", 0);
-        int fillIndex = PlayerPrefs.GetInt("FillStretch", 1);
 
-        fullscreenToggle.SetIsOnWithoutNotify(full);
+        windowedToggle.SetIsOnWithoutNotify(windowed);
         windowSizeDropdown.SetValueWithoutNotify(Mathf.Clamp(winIndex, 0, _display.WindowedSizes.Length - 1));
-        windowSizeDropdown.interactable = !full;
+        windowSizeDropdown.interactable = windowed;   // 창모드일 때만 크기 선택
     }
 
-    public void OnFullscreenToggled(bool isOn)
+    // 창모드 토글 OnValueChanged 에 연결
+    public void OnWindowedToggled(bool windowedOn)
     {
-        windowSizeDropdown.interactable = !isOn;
+        windowSizeDropdown.interactable = windowedOn;
     }
 
     public void OnApplyClicked()
     {
-        bool full = fullscreenToggle.isOn;
+        bool windowed = windowedToggle.isOn;
         int winIndex = windowSizeDropdown.value;
 
         _display.SetWindowedSize(winIndex);
-        _display.SetFullscreen(full);
+        _display.SetFullscreen(!windowed);   // 토글 ON(창모드) = 전체화면 아님
     }
 
     public void OnBgmSliderChanged(float value01) => _sound.SetBGMVolume(value01);
