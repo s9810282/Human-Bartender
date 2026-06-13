@@ -18,12 +18,14 @@ public class UIDisplayOptions : MonoBehaviour
     [Inject] private IDisplaySettings _display;
     [Inject] private ISoundManager _sound;
 
+    bool isOnOption = false;
+
     private void Start()
     {
         BuildDropdownOptions();
         SyncUIFromCurrentSettings();
 
-      
+        isOnOption = false;
     }
 
     private void OnEnable()
@@ -37,7 +39,8 @@ public class UIDisplayOptions : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            optionUI.gameObject.SetActive(true);
+            isOnOption = !isOnOption;
+            optionUI.gameObject.SetActive(isOnOption);
         }
         else if(Input.GetKeyDown(KeyCode.O))
         {
