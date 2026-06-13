@@ -20,6 +20,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
     [SerializeField] protected ETrackerType Type;
     [SerializeField] protected RectTransform target;
     [SerializeField] protected Camera cam;
+    [SerializeField] protected float referenceOrthoSize = 1.35f;
 
     protected IInteractable trackedTarget;
 
@@ -65,6 +66,9 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
     {
         Vector2 offset =
             Type == ETrackerType.InteractButton ? trackedTarget.ButtonOffset : trackedTarget.TextOffset;
+
+        if (cam.orthographic)
+            offset *= referenceOrthoSize / cam.orthographicSize;
 
         Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Position);
         

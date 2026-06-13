@@ -1852,6 +1852,43 @@ MonoBehaviour:
   - {x: -0.77731323, y: 0.4615081, z: 0}
   - {x: -0.2367382, y: 0.46307766, z: 0}
   - {x: -0.2370739, y: 0.47329348, z: 0}
+--- !u!1 &210951130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210951131}
+  m_Layer: 5
+  m_Name: Dialogue hideObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &210951131
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210951130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2101170863855710394}
+  - {fileID: 1033034589}
+  m_Father: {fileID: 883580417}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &222938300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5505,6 +5542,7 @@ MonoBehaviour:
   Type: 1
   target: {fileID: 1033034589}
   cam: {fileID: 1305537444}
+  referenceOrthoSize: 1.35
 --- !u!1 &677257345
 GameObject:
   m_ObjectHideFlags: 0
@@ -7587,7 +7625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 883580417}
   m_Layer: 5
-  m_Name: DialogueObj
+  m_Name: DialogueBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7605,8 +7643,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2101170863855710394}
-  - {fileID: 1033034589}
+  - {fileID: 210951131}
   - {fileID: 3244794200136141880}
   m_Father: {fileID: 1978158279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8861,7 +8898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9353bfbf1ea200f438ade9d944fe4502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutsideDialoguePresenter
-  dialoguePanel: {fileID: 883580416}
+  dialoguePanel: {fileID: 210951130}
   typer: {fileID: 804521287}
   triggerManager: {fileID: 2138728361}
   choiceManager: {fileID: 1631891296}
@@ -9300,6 +9337,7 @@ MonoBehaviour:
   Type: 0
   target: {fileID: 388391616}
   cam: {fileID: 1305537444}
+  referenceOrthoSize: 1.35
   interactText: {fileID: 261458430}
 --- !u!1 &1021899252
 GameObject:
@@ -9549,11 +9587,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 883580417}
+    m_TransformParent: {fileID: 210951131}
     m_Modifications:
     - target: {fileID: 149224191856262428, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233258303438677200, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
+      propertyPath: sizeMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2233258303438677200, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: maxSize.x
@@ -9657,15 +9699,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -10676,7 +10718,7 @@ MonoBehaviour:
   isInteracting: 1
   label: 
   buttonOffset: {x: -30, y: 150}
-  textOffset: {x: 0, y: 0}
+  textOffset: {x: -30, y: 400}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
   OnRefreshCondition: {fileID: 0}
@@ -10684,6 +10726,7 @@ MonoBehaviour:
   OnTrackedText: {fileID: 11400000, guid: a81864fb3a86f6a48ad00b64b6b1cb5a, type: 2}
   radioData: {fileID: 11400000, guid: d4b3ec65688c3cd48a38f72094fdca9e, type: 2}
   bubble: {fileID: 2233258303643274071}
+  isTalking: 0
 --- !u!1 &1101108919
 GameObject:
   m_ObjectHideFlags: 0
@@ -12021,6 +12064,7 @@ MonoBehaviour:
   Type: 1
   target: {fileID: 2101170863855710394}
   cam: {fileID: 1305537444}
+  referenceOrthoSize: 1.35
 --- !u!1 &1199482600
 GameObject:
   m_ObjectHideFlags: 0
@@ -14897,6 +14941,7 @@ MonoBehaviour:
   Type: 1
   target: {fileID: 3244794200136141880}
   cam: {fileID: 1305537444}
+  referenceOrthoSize: 1.35
 --- !u!1 &1393611667
 GameObject:
   m_ObjectHideFlags: 0
@@ -15399,8 +15444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractiveEntityManager
   isTest: 0
-  testDay: 2
-  testFlow: 2
+  testDay: 1
+  testFlow: 1
   testFlags:
   - flag: samho_refused_drink
     bValue: 1
@@ -21545,10 +21590,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1478680162}
   - {fileID: 1209957502}
   - {fileID: 1021899253}
   - {fileID: 980302853}
-  - {fileID: 1478680162}
   - {fileID: 1199482601}
   - {fileID: 720587698}
   - {fileID: 899888471}
@@ -21688,11 +21733,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 883580417}
+    m_TransformParent: {fileID: 210951131}
     m_Modifications:
     - target: {fileID: 149224191856262428, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233258303438677200, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
+      propertyPath: sizeMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2233258303438677200, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: maxSize.x
@@ -21796,15 +21845,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3244794200870544319, guid: 894f115616d2c6a4ea84dd51c9d0b45d, type: 3}
       propertyPath: m_AnchoredPosition.x

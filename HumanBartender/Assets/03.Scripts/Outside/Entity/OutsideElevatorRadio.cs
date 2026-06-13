@@ -17,7 +17,7 @@ public class OutsideElevatorRadio : InteractiveEntity
     [SerializeField] protected OutsideRadioDataSO radioData;
     [SerializeField] private DynamicSpeechBubble bubble;
 
-    protected bool isTalking = false;
+    [SerializeField] protected bool isTalking = false;
     private CancellationTokenSource _playCts;
 
     public override void Interact(IInteractor player)
@@ -40,6 +40,8 @@ public class OutsideElevatorRadio : InteractiveEntity
         }
         if (!found) return;
 
+
+        Logger.Log("Start Radio");
         DynamicBubbleEffect.textTagData = textTagData;
 
         _playCts?.Cancel();
@@ -79,13 +81,14 @@ public class OutsideElevatorRadio : InteractiveEntity
         {
             foreach (var item in data.Dialogues)
             {
+                
                 token.ThrowIfCancellationRequested();
 
                 await UniTask.Delay(TimeSpan.FromSeconds(item.Delay),
                                     cancellationToken: token);
 
                 bubble.gameObject.SetActive(true);
-
+                Logger.Log("Play Radio");
                 await DynamicBubbleEffect.TypeSentenceTMP(
                     new TypingData(
                         item.Text,
