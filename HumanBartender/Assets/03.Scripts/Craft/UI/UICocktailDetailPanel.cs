@@ -36,7 +36,7 @@ public class UICocktailDetailPanel : MonoBehaviour
     private bool isExpanded;
     private Coroutine anim;
 
-    private void Start()
+    public void Init()
     {
         isExpanded = startExpanded;
         gameObject.SetActive(startExpanded);
