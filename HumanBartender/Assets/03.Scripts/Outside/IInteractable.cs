@@ -5,7 +5,8 @@ using UnityEngine;
 public interface IInteractable : IEntity
 {
     int Priority { get; }
-    Vector2 Offset { get; }
+    Vector2 ButtonOffset { get; }
+    Vector2 TextOffset { get; }
     string Label { get; }
     bool IsAvaliable { get; }
     bool IsInteracting { get; set; }

@@ -276,6 +276,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 18732689}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -3305,6 +3306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractHandler
   interactor: {fileID: 398070682}
   interactPressedEvent: {fileID: 11400000, guid: 40be41cab298b2242a9cf7f4d3240be4, type: 2}
+  runnerAdvanceInputEvent: {fileID: 11400000, guid: 14d86cde082a37f4d81c25c4a2ad3072, type: 2}
   onMoveEvent: {fileID: 11400000, guid: fc97bd69b8ee16f41a00475f3045d577, type: 2}
   setSpeedEvent: {fileID: 11400000, guid: 1e63d36ed34ea3d4e9d3fb80e3e58e08, type: 2}
 --- !u!114 &398070684
@@ -5500,6 +5502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiOutsideTextview
   OnTrackedText: {fileID: 11400000, guid: 0a8a580166a7f8f4fa27a43498c6eb71, type: 2}
+  Type: 1
   target: {fileID: 1033034589}
   cam: {fileID: 1305537444}
 --- !u!1 &677257345
@@ -6590,7 +6593,8 @@ MonoBehaviour:
   isAvaliable: 0
   isInteracting: 0
   label: 
-  buttonOffset: {x: -50, y: 200}
+  buttonOffset: {x: 0, y: 120}
+  textOffset: {x: -130, y: 120}
   outlineHighlight: {fileID: 792484000}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -7390,6 +7394,7 @@ MonoBehaviour:
   isInteracting: 0
   label: "\uD1F4\uADFC"
   buttonOffset: {x: 0, y: 0}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 868482188}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 0}
@@ -8098,6 +8103,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 0}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
   OnRefreshCondition: {fileID: 0}
@@ -8310,6 +8316,7 @@ MonoBehaviour:
   isInteracting: 0
   label: "\uCD9C\uADFC"
   buttonOffset: {x: 0, y: 0}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 917009657}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 0}
@@ -9290,6 +9297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIInteractableButton
   OnTrackedText: {fileID: 11400000, guid: 040e6b61ee8ef44429c208ef1d5bff07, type: 2}
+  Type: 0
   target: {fileID: 388391616}
   cam: {fileID: 1305537444}
   interactText: {fileID: 261458430}
@@ -9303,6 +9311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1021899253}
   - component: {fileID: 1021899254}
+  - component: {fileID: 1021899255}
   m_Layer: 0
   m_Name: Dialogue Runner
   m_TagString: Untagged
@@ -9337,6 +9346,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80d1c2286970e740a06346263c3c5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueRunner
+--- !u!114 &1021899255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021899252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f71681fe4dcf549b49589478533061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoidEventListener
+  channel: {fileID: 11400000, guid: 14d86cde082a37f4d81c25c4a2ad3072, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1021899254}
+        m_TargetAssemblyTypeName: DialogueRunner, Assembly-CSharp
+        m_MethodName: OnAdvanceInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1022969377
 GameObject:
   m_ObjectHideFlags: 0
@@ -10167,6 +10204,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 0}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -10638,6 +10676,7 @@ MonoBehaviour:
   isInteracting: 1
   label: 
   buttonOffset: {x: -30, y: 150}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
   OnRefreshCondition: {fileID: 0}
@@ -11979,6 +12018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiOutsideTextview
   OnTrackedText: {fileID: 11400000, guid: f64caa3491ac9204ba22d90ff80eb1fb, type: 2}
+  Type: 1
   target: {fileID: 2101170863855710394}
   cam: {fileID: 1305537444}
 --- !u!1 &1199482600
@@ -12265,6 +12305,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 1209062154}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -12955,6 +12996,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 1286119214}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -14097,6 +14139,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 250}
+  textOffset: {x: 0, y: 250}
   outlineHighlight: {fileID: 1331420473}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -14444,6 +14487,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 1366513158}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -14850,6 +14894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiOutsideTextview
   OnTrackedText: {fileID: 11400000, guid: a81864fb3a86f6a48ad00b64b6b1cb5a, type: 2}
+  Type: 1
   target: {fileID: 3244794200136141880}
   cam: {fileID: 1305537444}
 --- !u!1 &1393611667
@@ -16033,6 +16078,7 @@ MonoBehaviour:
   isInteracting: 0
   label: "\uD0D1\uC2B9"
   buttonOffset: {x: 0, y: 600}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 1582674274}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -16479,6 +16525,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 1617999575}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -17196,6 +17243,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 200}
+  textOffset: {x: 0, y: 200}
   outlineHighlight: {fileID: 1699909093}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -19365,6 +19413,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 0}
+  textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -19974,8 +20023,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 388391616}
-  - {fileID: 643165758}
   - {fileID: 883580417}
+  - {fileID: 643165758}
   - {fileID: 1655909913}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20472,6 +20521,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 0, y: 150}
+  textOffset: {x: 0, y: 150}
   outlineHighlight: {fileID: 2030078810}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
@@ -21030,6 +21080,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   buttonOffset: {x: 70, y: 150}
+  textOffset: {x: 70, y: 150}
   outlineHighlight: {fileID: 2074752858}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}

@@ -1,5 +1,11 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+
+
+public enum ETrackerType
+{
+    InteractButton,
+    TextBubble,
+}
 
 public interface UITracker
 {
@@ -11,6 +17,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
 {
     [SerializeField] protected InteractableEvent OnTrackedText;
 
+    [SerializeField] protected ETrackerType Type;
     [SerializeField] protected RectTransform target;
     [SerializeField] protected Camera cam;
 
@@ -56,10 +63,13 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
 
     public void UpdatePosition()
     {
+        Vector2 offset =
+            Type == ETrackerType.InteractButton ? trackedTarget.ButtonOffset : trackedTarget.TextOffset;
+
         Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Position);
         
-        screenPos.x += trackedTarget.Offset.x;
-        screenPos.y += trackedTarget.Offset.y;
+        screenPos.x += offset.x;
+        screenPos.y += offset.y;
         screenPos.z = 10f;
 
         target.position = screenPos;

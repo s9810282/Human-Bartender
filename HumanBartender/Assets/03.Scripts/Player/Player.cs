@@ -28,7 +28,8 @@ public class Player : MonoBehaviour, IInteractor, IInteractable
 
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;
-    Vector2 IInteractable.Offset => buttonOffset;
+    Vector2 IInteractable.ButtonOffset => buttonOffset;
+    Vector2 IInteractable.TextOffset => buttonOffset;
     bool IInteractable.IsAvaliable => isAvaliable;
 
     public Vector3 Position => transform.position;
