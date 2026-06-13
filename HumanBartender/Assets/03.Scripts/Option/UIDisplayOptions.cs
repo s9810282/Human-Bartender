@@ -46,6 +46,11 @@ public class UIDisplayOptions : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 
     private void BuildDropdownOptions()
     {
