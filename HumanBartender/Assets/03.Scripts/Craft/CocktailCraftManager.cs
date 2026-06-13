@@ -44,8 +44,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] UIIngredientPanel ingredientPanel;
 
     [SerializeField] TextMeshProUGUI orderText;
-    [SerializeField] GameObject popupObj;
-    [SerializeField] TextMeshProUGUI popupText;
+    [SerializeField] GameObject noneIngrediantPopup;
+    [SerializeField] GameObject playMethodPopup;
     
 
     [SerializeField] CraftEventData curCraftEventData;
@@ -78,7 +78,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
         if (craftEventData.AutoOpenRecipeUi)
         {
-            popupObj.gameObject.SetActive(false);
+            playMethodPopup.gameObject.SetActive(false);
+            noneIngrediantPopup.gameObject.SetActive(false);
             ingredientPanel.OnCategoryContents(0);
             craftObject.gameObject.SetActive(true);
             craftStation.ResetCraftStation();
@@ -143,11 +144,11 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     {
         if (craftStation.ingredientDatas.Count == 0)
         {
-            popupText.text = "재료를 선택하지 않았습니다.";
+            noneIngrediantPopup.gameObject.SetActive(true);
         }
         else
         {
-            popupText.text = GetMethodtoKOR(method) + "를 진행하시겠습니까";
+            playMethodPopup.gameObject.SetActive(true);
             curSelectMethod = method;
         }
     }
