@@ -21,28 +21,61 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["cosmopolitan"],
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "perfect",
             "description": "코스모폴리탄 제공 + 완벽함"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["cosmopolitan"],
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "normal",
             "description": "코스모폴리탄 제공 + 보통"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["cosmopolitan"],
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "fail",
             "description": "코스모폴리탄 제공 + 실패"
+          },
+          {
+            "result": "miss",
+            "match_type": "cocktail_id",
+            "match_values": [
+              "kahlua_milk"
+            ],
+            "require_craft_success": "perfect",
+            "description": "깔루아 밀크 → 추천에 맞지 않음 (완벽)"
+          },
+          {
+            "result": "miss",
+            "match_type": "cocktail_id",
+            "match_values": [
+              "kahlua_milk"
+            ],
+            "require_craft_success": "normal",
+            "description": "깔루아 밀크 → 추천에 맞지 않음 (보통)"
+          },
+          {
+            "result": "miss",
+            "match_type": "cocktail_id",
+            "match_values": [
+              "kahlua_milk"
+            ],
+            "require_craft_success": "fail",
+            "description": "깔루아 밀크 → 추천에 맞지 않음 (실패)"
           },
           {
             "result": "normal",
@@ -75,7 +108,10 @@
           "affinity": 10,
           "karma": 0,
           "skill": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.2 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.2
+          }
         },
         "good": {
           "verdict": "good",
@@ -84,7 +120,10 @@
           "affinity": 5,
           "karma": 0,
           "skill": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.1
+          }
         },
         "normal": {
           "verdict": "normal",
@@ -93,16 +132,22 @@
           "affinity": 0,
           "karma": 0,
           "skill": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "miss": {
           "verdict": "miss",
           "dialogue_id": "d2sm1_react_miss_001",
           "cutscene_id": null,
-          "affinity": 5,
+          "affinity": -1,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad": {
           "verdict": "bad",
@@ -111,14 +156,16 @@
           "affinity": -3,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     },
-
     {
       "id": "day2_samho_order2",
-      "order": "드라이 마티니",
+      "order": "드라이 마티니 한 잔.",
       "targetID": "samho",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -137,26 +184,32 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "perfect",
             "description": "드라이 마티니 제공 + 완벽함"
           },
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "normal",
             "description": "드라이 마티니 제공 + 보통"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "fail",
             "description": "드라이 마티니 제공 + 실패"
           },
@@ -192,7 +245,10 @@
           "karma": 0,
           "skill": 2,
           "intoxication": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.1
+          }
         },
         "good": {
           "verdict": "good",
@@ -202,7 +258,10 @@
           "karma": 0,
           "skill": 1,
           "intoxication": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "miss": {
           "verdict": "miss",
@@ -212,7 +271,23 @@
           "karma": 0,
           "skill": 0,
           "intoxication": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
+        },
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d2sm2_react_badgb_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "intoxication": 0,
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad_nm_fail": {
           "verdict": "bad",
@@ -222,14 +297,16 @@
           "karma": 0,
           "skill": 0,
           "intoxication": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     },
-
     {
       "id": "day2_aili_order1",
-      "order": "레몬이 들어간 시원한 술",
+      "order": "레몬이 들어간 시원한 걸로 한 .",
       "targetID": "aili",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -248,26 +325,32 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "perfect",
             "description": "진피즈 제공 + 완벽함"
           },
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "normal",
             "description": "진피즈 제공 + 보통"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "fail",
             "description": "진피즈 제공 + 실패"
           },
@@ -302,25 +385,34 @@
           "affinity": 5,
           "karma": 0,
           "skill": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.2 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.2
+          }
         },
         "good": {
           "verdict": "good",
-          "dialogue_id": "d2ai_react_bad_001",
+          "dialogue_id": "d2ai_react_good_001",
           "cutscene_id": null,
           "affinity": 3,
           "karma": 0,
           "skill": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.1
+          }
         },
         "normal": {
           "verdict": "normal",
-          "dialogue_id": "d2ai_react_miss_001",
+          "dialogue_id": "d2ai_react_normal_001",
           "cutscene_id": null,
           "affinity": 0,
           "karma": 0,
           "skill": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "miss": {
           "verdict": "miss",
@@ -329,7 +421,10 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "bad": {
           "verdict": "bad",
@@ -338,14 +433,16 @@
           "affinity": -3,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     },
-
     {
       "id": "day2_samho_order3",
-      "order": "마지막 한 잔 (드라이 마티니)",
+      "order": "드라이 마티니 한 잔 더.",
       "targetID": "samho",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -364,26 +461,32 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "perfect",
             "description": "드라이 마티니 제공 + 완벽함 → 삼호 만취 퇴장"
           },
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "normal",
             "description": "드라이 마티니 제공 + 보통 → 삼호 만취 퇴장"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["dry_martini"],
+            "match_values": [
+              "dry_martini"
+            ],
             "require_craft_success": "fail",
             "description": "드라이 마티니 제공 + 실패 → 삼호 만취 퇴장"
           },
@@ -419,17 +522,23 @@
           "karma": 0,
           "skill": 1,
           "intoxication": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.2 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.2
+          }
         },
         "good": {
           "verdict": "good",
-          "dialogue_id": "d2sm3_react_perfect_001",
+          "dialogue_id": "d2sm3_react_good_001",
           "cutscene_id": null,
           "affinity": 2,
           "karma": 0,
           "skill": 0,
           "intoxication": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "miss": {
           "verdict": "miss",
@@ -439,7 +548,23 @@
           "karma": 0,
           "skill": 0,
           "intoxication": 1,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
+        },
+        "bad": {
+          "verdict": "bad",
+          "dialogue_id": "d2sm3_react_badgb_001",
+          "cutscene_id": null,
+          "affinity": 0,
+          "karma": 0,
+          "skill": 0,
+          "intoxication": 0,
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad_nm_fail": {
           "verdict": "bad",
@@ -449,7 +574,10 @@
           "karma": 0,
           "skill": 0,
           "intoxication": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     }

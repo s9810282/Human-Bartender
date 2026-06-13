@@ -2,7 +2,7 @@
   "craft_events": [
     {
       "id": "day1_port_order1",
-      "order": "진피즈, 정석대로",
+      "order": "진피즈, 정석대로.",
       "targetID": "port",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -21,26 +21,32 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "perfect",
             "description": "진피즈 + 미니게임 완벽"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "normal",
             "description": "진피즈 + 미니게임 보통"
           },
           {
             "result": "normal",
             "match_type": "cocktail_id",
-            "match_values": ["gin_fizz"],
+            "match_values": [
+              "gin_fizz"
+            ],
             "require_craft_success": "fail",
             "description": "진피즈 + 미니게임 실패"
           },
@@ -75,7 +81,10 @@
           "affinity": 5,
           "karma": 0,
           "skill": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.1
+          }
         },
         "good": {
           "verdict": "good",
@@ -84,16 +93,22 @@
           "affinity": 2,
           "karma": 0,
           "skill": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "normal": {
           "verdict": "normal",
-          "dialogue_id": "d1p_react_good_001",
+          "dialogue_id": "d1p_react_normal_001",
           "cutscene_id": null,
           "affinity": 2,
           "karma": 0,
           "skill": 1,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "miss": {
           "verdict": "miss",
@@ -102,7 +117,10 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad": {
           "verdict": "bad",
@@ -111,7 +129,10 @@
           "affinity": -2,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad_nm_fail": {
           "verdict": "miss",
@@ -120,13 +141,16 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     },
     {
       "id": "day1_aili_order1",
-      "order": "나 같은 섹시한 레이디한테 어울리는 술",
+      "order": "섹시한 레이디한테 어울리는 술 한 잔..",
       "targetID": "aili",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -145,70 +169,55 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "달콤한"],
+            "match_type": "cocktail_id",
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "perfect",
-            "description": "달콤/상큼 키워드 + 미니게임 완벽"
+            "description": "코스모폴리탄 + 미니게임 완벽"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "달콤한"],
+            "match_type": "cocktail_id",
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "normal",
-            "description": "달콤/상큼 키워드 + 미니게임 보통"
+            "description": "코스모폴리탄 + 미니게임 보통"
           },
           {
             "result": "good",
-            "match_type": "keyword",
-            "match_values": ["상큼한", "달콤한"],
+            "match_type": "cocktail_id",
+            "match_values": [
+              "cosmopolitan"
+            ],
             "require_craft_success": "fail",
-            "description": "달콤/상큼 키워드 + 미니게임 실패"
+            "description": "코스모폴리탄 + 미니게임 실패"
           },
           {
-            "result": "good",
-            "match_type": "keyword",
-            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "result": "normal",
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "perfect",
-            "description": "무난한 키워드 + 미니게임 완벽"
+            "description": "다른 칵테일 + 미니게임 완벽"
           },
           {
             "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "normal",
-            "description": "무난한 키워드 + 미니게임 보통"
+            "description": "다른 칵테일 + 미니게임 보통"
           },
           {
             "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["부드러운", "고급스러운", "청량한"],
+            "match_type": "any",
+            "match_values": [],
             "require_craft_success": "fail",
-            "description": "무난한 키워드 + 미니게임 실패"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식"],
-            "require_craft_success": "perfect",
-            "description": "어울리지 않는 키워드 + 미니게임 완벽"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식"],
-            "require_craft_success": "normal",
-            "description": "어울리지 않는 키워드 + 미니게임 보통"
-          },
-          {
-            "result": "normal",
-            "match_type": "keyword",
-            "match_values": ["씁쓸한", "스모키", "클래식"],
-            "require_craft_success": "fail",
-            "description": "어울리지 않는 키워드 + 미니게임 실패"
+            "description": "다른 칵테일 + 미니게임 실패"
           }
         ]
       },
@@ -220,7 +229,10 @@
           "affinity": 5,
           "karma": 0,
           "skill": 3,
-          "payment": { "pay_price": true, "tip_rate": 0.1 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0.1
+          }
         },
         "good": {
           "verdict": "good",
@@ -229,7 +241,10 @@
           "affinity": 2,
           "karma": 0,
           "skill": 2,
-          "payment": { "pay_price": true, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": true,
+            "tip_rate": 0
+          }
         },
         "normal": {
           "verdict": "normal",
@@ -238,7 +253,10 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad": {
           "verdict": "bad",
@@ -247,7 +265,10 @@
           "affinity": -2,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad_nm_fail": {
           "verdict": "normal",
@@ -256,13 +277,16 @@
           "affinity": 0,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     },
     {
       "id": "day1_bubi_order1",
-      "order": "먀옹",
+      "order": "(고양이가 술을 마실 수 있었나?)",
       "targetID": "bubi",
       "auto_open_recipe_ui": true,
       "tutorial": {
@@ -281,26 +305,32 @@
         }
       },
       "evaluation": {
-        "craft_tolerance": 12,
+        "craft_tolerance": 14,
         "rules": [
           {
             "result": "perfect",
             "match_type": "cocktail_id",
-            "match_values": ["kahlua_milk"],
+            "match_values": [
+              "kahlua_milk"
+            ],
             "require_craft_success": "perfect",
             "description": "깔루아 밀크 + 미니게임 완벽"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["kahlua_milk"],
+            "match_values": [
+              "kahlua_milk"
+            ],
             "require_craft_success": "normal",
             "description": "깔루아 밀크 + 미니게임 보통"
           },
           {
             "result": "good",
             "match_type": "cocktail_id",
-            "match_values": ["kahlua_milk"],
+            "match_values": [
+              "kahlua_milk"
+            ],
             "require_craft_success": "fail",
             "description": "깔루아 밀크 + 미니게임 실패"
           },
@@ -335,7 +365,10 @@
           "affinity": 5,
           "karma": 0,
           "skill": 3,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "good": {
           "verdict": "good",
@@ -344,7 +377,10 @@
           "affinity": 2,
           "karma": 0,
           "skill": 2,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad": {
           "verdict": "bad",
@@ -353,7 +389,10 @@
           "affinity": -2,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         },
         "bad_nm_fail": {
           "verdict": "bad",
@@ -362,7 +401,10 @@
           "affinity": -2,
           "karma": 0,
           "skill": 0,
-          "payment": { "pay_price": false, "tip_rate": 0.0 }
+          "payment": {
+            "pay_price": false,
+            "tip_rate": 0
+          }
         }
       }
     }

@@ -6,12 +6,12 @@
       "customer": "chris",
       "dialogues": [
         {
-          "id": "d2s_chris_enter",
+          "id": "day2_intro_x1",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2ci_001",
+          "next": "day2_intro_x2",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -25,122 +25,122 @@
           }
         },
         {
-          "id": "d2ci_001",
+          "id": "day2_intro_x2",
           "speaker": "chris",
           "type": "normal",
           "text": "왔네. 오는 길에 별일 없었지?",
           "expression": "default",
-          "next": "d2ci_002",
+          "next": "day2_intro_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_002",
+          "id": "day2_intro_x3",
           "speaker": "luna",
           "type": "normal",
           "text": "전에 말했던 동물 귀가 달린 사람을 마주쳤습니다.",
           "expression": null,
-          "next": "d2ci_003",
+          "next": "day2_intro_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_003",
+          "id": "day2_intro_x4",
           "speaker": "chris",
           "type": "normal",
           "text": "흠… 마주쳐서 뭐 했는데?",
           "expression": "default",
-          "next": "d2ci_004",
+          "next": "day2_intro_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_004",
+          "id": "day2_intro_x5",
           "speaker": "luna",
           "type": "normal",
           "text": "몇 번 대화하더니 저보곤 제정신이 아닌 놈 같다고 했습니다.",
           "expression": null,
-          "next": "d2ci_005",
+          "next": "day2_intro_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005",
+          "id": "day2_intro_x6",
           "speaker": "chris",
           "type": "normal",
           "text": "하하, 그렇게 보일 순 있겠네.\n이 동네 사람치고도 넌 특이하니까.",
           "expression": "default",
-          "next": "d2ci_005b",
+          "next": "day2_intro_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005b",
+          "id": "day2_intro_x7",
           "speaker": "luna",
           "type": "normal",
           "text": "눈에 띄면 안 좋은 거 아닌가요?",
           "expression": null,
-          "next": "d2ci_005c",
+          "next": "day2_intro_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005c",
+          "id": "day2_intro_x8",
           "speaker": "chris",
           "type": "normal",
           "text": "이 동네까지 코라테크가 올 일은 없지만…\n뭐 조심해서 나쁠 건 없지. 너무 눈에 띄지는 마.",
           "expression": "default",
-          "next": "d2ci_005d",
+          "next": "day2_intro_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005d",
+          "id": "day2_intro_x9",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 알겠습니다.",
           "expression": null,
-          "next": "d2ci_005e",
+          "next": "day2_intro_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005e",
+          "id": "day2_intro_x10",
           "speaker": "chris",
           "type": "normal",
           "text": "좋아. 오늘은 내가 잠시 밖에 나갔다 올 거야.\n그동안 바 좀 잘 보고 있어.",
           "expression": "default",
-          "next": "d2ci_005f",
+          "next": "day2_intro_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005f",
+          "id": "day2_intro_x11",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 보스.",
           "expression": null,
-          "next": "d2ci_005g",
+          "next": "day2_intro_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_005g",
+          "id": "day2_intro_x12",
           "speaker": "chris",
           "type": "normal",
           "text": "그래, 부탁한다.",
           "expression": "default",
-          "next": "d2ci_chris_exit",
+          "next": "day2_intro_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_chris_exit",
+          "id": "day2_intro_x13",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2ci_006",
+          "next": "day2_intro_x14",
           "choices": null,
           "trigger": {
             "type": "customer_exit",
@@ -154,32 +154,32 @@
           }
         },
         {
-          "id": "d2ci_006",
+          "id": "day2_intro_x14",
           "speaker": "luna",
           "type": "monologue",
           "text": "음… 친구라…",
           "expression": null,
-          "next": "d2ci_006b",
+          "next": "day2_intro_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_006b",
+          "id": "day2_intro_x15",
           "speaker": "luna",
           "type": "monologue",
           "text": "친구는 어떤 걸 뜻하는 건지 모르겠네.\n다시 만나면 물어봐야겠다.",
           "expression": null,
-          "next": "d2ci_samho_enter",
+          "next": "day2_intro_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ci_samho_enter",
+          "id": "day2_intro_x16",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_001",
+          "next": "day2_intro_x17",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -192,129 +192,128 @@
             }
           }
         },
-
         {
-          "id": "d2sm_001",
+          "id": "day2_intro_x17",
           "speaker": "samho",
           "type": "normal",
           "text": "안녕, 나 왔어.",
           "expression": "default",
-          "next": "d2sm_002",
+          "next": "day2_intro_x18",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_002",
+          "id": "day2_intro_x18",
           "speaker": "luna",
           "type": "monologue",
           "text": "(바로 만나버렸네.)",
           "expression": null,
-          "next": "d2sm_003",
+          "next": "day2_intro_x19",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_003",
+          "id": "day2_intro_x19",
           "speaker": "luna",
           "type": "normal",
           "text": "진짜 오셨네요.",
           "expression": null,
-          "next": "d2sm_004",
+          "next": "day2_intro_x20",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_004",
+          "id": "day2_intro_x20",
           "speaker": "samho",
           "type": "normal",
           "text": "그럼 내가 온다고 했잖아.\n아무도 없는 걸 보니 내가 첫 손님인가 보네.",
           "expression": "default",
-          "next": "d2sm_005",
+          "next": "day2_intro_x21",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_005",
+          "id": "day2_intro_x21",
           "speaker": "luna",
           "type": "normal",
           "text": "주문부터 하실 겁니까?",
           "expression": null,
-          "next": "d2sm_006",
+          "next": "day2_intro_x22",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_006",
+          "id": "day2_intro_x22",
           "speaker": "samho",
           "type": "normal",
           "text": "…크흠, 사실 내가 술집에서 술을 마셔 보는 건\n이번이 처음이란 말이지.",
           "expression": "default",
-          "next": "d2sm_007",
+          "next": "day2_intro_x23",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_007",
+          "id": "day2_intro_x23",
           "speaker": "luna",
           "type": "normal",
           "text": "제가 경험자로서 말해 주자면, 술은 안 마시는 게 낫습니다.",
           "expression": null,
-          "next": "d2sm_008",
+          "next": "day2_intro_x24",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_008",
+          "id": "day2_intro_x24",
           "speaker": "samho",
           "type": "normal",
           "text": "뭐래. 나보다 어려 보이는 게. 어디서 선배인 척하려고.",
           "expression": "default",
-          "next": "d2sm_008b",
+          "next": "day2_intro_x25",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_008b",
+          "id": "day2_intro_x25",
           "speaker": "samho",
           "type": "normal",
           "text": "그래도 이왕 여기까지 왔는데 한 번 마셔 봐야지.",
           "expression": "default",
-          "next": "d2sm_009",
+          "next": "day2_intro_x26",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_009",
+          "id": "day2_intro_x26",
           "speaker": "luna",
           "type": "normal",
           "text": "그럼 어떤 걸 원하시나요?",
           "expression": null,
-          "next": "d2sm_010",
+          "next": "day2_intro_x27",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_010",
+          "id": "day2_intro_x27",
           "speaker": "samho",
           "type": "normal",
           "text": "네가 추천하는 걸로 하나 만들어 줘.",
           "expression": "default",
-          "next": "d2sm_011",
+          "next": "day2_intro_x28",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_011",
+          "id": "day2_intro_x28",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 주문 받았습니다.",
           "expression": null,
-          "next": "d2sm_craft1_trigger",
+          "next": "day2_intro_x29",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_craft1_trigger",
+          "id": "day2_intro_x29",
           "speaker": "luna",
           "type": "monologue",
           "text": "(처음 마셔보는 술……)",
@@ -328,7 +327,6 @@
             }
           }
         },
-
         {
           "id": "d2sm1_react_cosmo_perfect_001",
           "speaker": "samho",
@@ -379,7 +377,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm1_react_cosmo_good_001",
           "speaker": "samho",
@@ -430,7 +427,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm1_react_cosmo_bad_001",
           "speaker": "samho",
@@ -491,7 +487,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm1_react_kw_good_001",
           "speaker": "samho",
@@ -562,8 +557,6 @@
           "choices": null,
           "trigger": null
         },
-
-
         {
           "id": "d2sm1_react_miss_001",
           "speaker": "samho",
@@ -644,209 +637,208 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm_after1_001",
           "speaker": "samho",
           "type": "normal",
           "text": "그래도 생각했던 것보다 나쁜 곳은 아닌 것 같네.",
           "expression": "default",
-          "next": "d2sm_after1_002",
+          "next": "d2sm_after1_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_002",
+          "id": "d2sm_after1_001_x1",
           "speaker": "luna",
           "type": "normal",
           "text": "술을 마셔본 적이 없는데 이곳을 온 이유가 있나요?",
           "expression": null,
-          "next": "d2sm_after1_003",
+          "next": "d2sm_after1_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_003",
+          "id": "d2sm_after1_001_x2",
           "speaker": "samho",
           "type": "normal",
           "text": "나이 먹은 변태 늙다리들이나 가는 곳인 줄 알았는데.\n너처럼 순하고 어린 애가 일하는 곳이면 한 번쯤 가 볼까 해서.",
           "expression": "default",
-          "next": "d2sm_after1_004",
+          "next": "d2sm_after1_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_004",
+          "id": "d2sm_after1_001_x3",
           "speaker": "luna",
           "type": "normal",
           "text": "원래 바는 변태들이 가는 곳입니까?",
           "expression": null,
-          "next": "d2sm_after1_005",
+          "next": "d2sm_after1_001_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_005",
+          "id": "d2sm_after1_001_x4",
           "speaker": "samho",
           "type": "normal",
           "text": "이 동네에 있는 대부분 술집은 싹 다 매춘업소야.\n술을 즐기는 게 아니라 성욕 해소하러 가는 곳이지.",
           "expression": "default",
-          "next": "d2sm_after1_006",
+          "next": "d2sm_after1_001_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_006",
+          "id": "d2sm_after1_001_x5",
           "speaker": "samho",
           "type": "normal",
           "text": "그래도 뭐… 이 가게는 확실히 다른 거 같긴 하네.",
           "expression": "default",
-          "next": "d2sm_after1_007",
+          "next": "d2sm_after1_001_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_007",
+          "id": "d2sm_after1_001_x6",
           "speaker": "luna",
           "type": "normal",
           "text": "다행이네요. 그런 곳에서 일하는 건\n저한텐 어려울 것 같습니다.",
           "expression": null,
-          "next": "d2sm_after1_008",
+          "next": "d2sm_after1_001_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_008",
+          "id": "d2sm_after1_001_x7",
           "speaker": "samho",
           "type": "normal",
           "text": "당연하지. 이 동네가 쓰레기들만 모여 있는 곳이긴 하지만\n여긴 그래도 나름 괜찮은 곳이라고 들었어. 이곳 마스터도 말이야.",
           "expression": "default",
-          "next": "d2sm_after1_009",
+          "next": "d2sm_after1_001_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_009",
+          "id": "d2sm_after1_001_x8",
           "speaker": "luna",
           "type": "normal",
           "text": "나쁜 사람은 아닌 것 같습니다.",
           "expression": null,
-          "next": "d2sm_after1_010",
+          "next": "d2sm_after1_001_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_010",
+          "id": "d2sm_after1_001_x9",
           "speaker": "samho",
           "type": "normal",
           "text": "나중에 혹시라도 너한테 못되게 굴면 말해.\n내가 특별히 우리 애니멀 갱으로 올 수 있게 해 줄 테니.",
           "expression": "default",
-          "next": "d2sm_after1_011",
+          "next": "d2sm_after1_001_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_011",
+          "id": "d2sm_after1_001_x10",
           "speaker": "luna",
           "type": "normal",
           "text": "그곳에 들어가면 행복해지나요?",
           "expression": null,
-          "next": "d2sm_after1_012",
+          "next": "d2sm_after1_001_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_012",
+          "id": "d2sm_after1_001_x11",
           "speaker": "samho",
           "type": "normal",
           "text": "행복? …행복해지는 건 잘 모르겠지만.\n다른 갱에 비해서 가족 같고 잘 챙겨 주는 곳이라서.",
           "expression": "default",
-          "next": "d2sm_after1_013",
+          "next": "d2sm_after1_001_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_013",
+          "id": "d2sm_after1_001_x12",
           "speaker": "luna",
           "type": "normal",
           "text": "가족 같다는 게 뭔가요?",
           "expression": null,
-          "next": "d2sm_after1_014",
+          "next": "d2sm_after1_001_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_014",
+          "id": "d2sm_after1_001_x13",
           "speaker": "samho",
           "type": "normal",
           "text": "자꾸 어려운 질문을 하네… 말하는 거 보니 너도 고아 출신이구나?",
           "expression": "default",
-          "next": "d2sm_after1_015",
+          "next": "d2sm_after1_001_x14",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_015",
+          "id": "d2sm_after1_001_x14",
           "speaker": "samho",
           "type": "normal",
           "text": "우리 갱단원들도 대부분 갈 곳 없는 고아 출신들이야.\n진짜 가족이란 건 잘 모르겠지만.",
           "expression": "default",
-          "next": "d2sm_after1_016",
+          "next": "d2sm_after1_001_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_016",
+          "id": "d2sm_after1_001_x15",
           "speaker": "samho",
           "type": "normal",
           "text": "서로 힘들 때 챙겨주고 같이 밥 먹으면 그게 가족이겠지.",
           "expression": "default",
-          "next": "d2sm_after1_017",
+          "next": "d2sm_after1_001_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_017",
+          "id": "d2sm_after1_001_x16",
           "speaker": "luna",
           "type": "monologue",
           "text": "(서로 챙겨주고 밥 먹는 것…)",
           "expression": null,
-          "next": "d2sm_after1_018",
+          "next": "d2sm_after1_001_x17",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_018",
+          "id": "d2sm_after1_001_x17",
           "speaker": "luna",
           "type": "normal",
           "text": "아직 잘 모르겠지만 대충 이해는 한 것 같습니다.",
           "expression": null,
-          "next": "d2sm_after1_019",
+          "next": "d2sm_after1_001_x18",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_019",
+          "id": "d2sm_after1_001_x18",
           "speaker": "samho",
           "type": "normal",
           "text": "그래? 다행이네.",
           "expression": "default",
-          "next": "d2sm_after1_020",
+          "next": "d2sm_after1_001_x19",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_020",
+          "id": "d2sm_after1_001_x19",
           "speaker": "luna",
           "type": "normal",
           "text": "그러면 친구는 무엇인가요?",
           "expression": null,
-          "next": "d2sm_after1_021",
+          "next": "d2sm_after1_001_x20",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after1_021",
+          "id": "d2sm_after1_001_x20",
           "speaker": "samho",
           "type": "normal",
           "text": "…흠, 내가 생각하기엔 친구라는 건",
@@ -855,7 +847,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm2_react_perfect_001",
           "speaker": "luna",
@@ -946,7 +937,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm2_react_good_001",
           "speaker": "luna",
@@ -1007,7 +997,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm2_react_miss_001",
           "speaker": "samho",
@@ -1034,11 +1023,10 @@
           "type": "normal",
           "text": "그래. 마티니로 다시 만들어 줘.",
           "expression": "default",
-          "next": "d2sm_after2_001",
+          "next": "d2sm2_retry",
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm2_react_badgb_001",
           "speaker": "samho",
@@ -1075,193 +1063,207 @@
           "type": "normal",
           "text": "죄송합니다. 실패한 칵테일입니다. 다시 만들어 드리겠습니다.",
           "expression": null,
-          "next": "d2sm_after2_001",
+          "next": "d2sm2_retry",
           "choices": null,
           "trigger": null
         },
-
+        {
+          "id": "d2sm2_retry",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(드라이 마티니, 다시 만들어 보자……)",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "start_craft",
+            "data": {
+              "craft_event_id": "day2_samho_order2"
+            }
+          }
+        },
         {
           "id": "d2sm_after2_001",
           "speaker": "luna",
           "type": "normal",
           "text": "보스가 굉장히 마티니를 좋아하나 보네요.",
           "expression": null,
-          "next": "d2sm_after2_002",
+          "next": "d2sm_after2_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_002",
+          "id": "d2sm_after2_001_x1",
           "speaker": "samho",
           "type": "normal",
           "text": "우리 보스 본 적 없어? 항상 이곳으로 술을 마시러 온다고 들었는데.",
           "expression": "default",
-          "next": "d2sm_after2_003",
+          "next": "d2sm_after2_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_003",
+          "id": "d2sm_after2_001_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "일을 시작한 지 2일밖에 되지 않아 아직 손님을 많이 보진 못했습니다.",
           "expression": null,
-          "next": "d2sm_after2_004",
+          "next": "d2sm_after2_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_004",
+          "id": "d2sm_after2_001_x3",
           "speaker": "samho",
           "type": "normal",
           "text": "아하, 그렇구나. 그래도 2일밖에 안 되었는데\n생각보다 잘 만드네.",
           "expression": "default",
-          "next": "d2sm_after2_005",
+          "next": "d2sm_after2_001_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_005",
+          "id": "d2sm_after2_001_x4",
           "speaker": "luna",
           "type": "normal",
           "text": "그쪽 보스는 어떤 사람인가요?",
           "expression": null,
-          "next": "d2sm_after2_006",
+          "next": "d2sm_after2_001_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_006",
+          "id": "d2sm_after2_001_x5",
           "speaker": "samho",
           "type": "normal",
           "text": "우리 보스는 항상 무뚝뚝하고 까칠하지만\n그래도 우리를 많이 챙겨 주고 보살펴 주지.",
           "expression": "default",
-          "next": "d2sm_after2_007",
+          "next": "d2sm_after2_001_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_007",
+          "id": "d2sm_after2_001_x6",
           "speaker": "luna",
           "type": "normal",
           "text": "저희 보스랑 비슷한 것 같네요.",
           "expression": null,
-          "next": "d2sm_after2_008",
+          "next": "d2sm_after2_001_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_008",
+          "id": "d2sm_after2_001_x7",
           "speaker": "samho",
           "type": "normal",
           "text": "그치? 역시 사람은 끼리끼리 논다니까?",
           "expression": "default",
-          "next": "d2sm_after2_009",
+          "next": "d2sm_after2_001_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_009",
+          "id": "d2sm_after2_001_x8",
           "speaker": "luna",
           "type": "monologue",
           "text": "(끼리끼리는 무슨 단어지?)",
           "expression": null,
-          "next": "d2sm_after2_010",
+          "next": "d2sm_after2_001_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_010",
+          "id": "d2sm_after2_001_x9",
           "speaker": "samho",
           "type": "normal",
           "text": "그나저나 루나, 꽃이라는 거 본 적 있어?",
           "expression": "default",
-          "next": "d2sm_after2_011",
+          "next": "d2sm_after2_001_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_011",
+          "id": "d2sm_after2_001_x10",
           "speaker": "luna",
           "type": "normal",
           "text": "꽃이요? 사진으로 몇 번 본 적 있습니다.",
           "expression": null,
-          "next": "d2sm_after2_012",
+          "next": "d2sm_after2_001_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_012",
+          "id": "d2sm_after2_001_x11",
           "speaker": "samho",
           "type": "normal",
           "text": "내가 전에 우연히 뒷골목에서 노란색 꽃을 봤는데.\n사진으로 본 거랑 엄청 달라. 냄새도 신기하고.",
           "expression": "default",
-          "next": "d2sm_after2_013",
+          "next": "d2sm_after2_001_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_013",
+          "id": "d2sm_after2_001_x12",
           "speaker": "luna",
           "type": "normal",
           "text": "오호… 흥미롭네요.",
           "expression": null,
-          "next": "d2sm_after2_014",
+          "next": "d2sm_after2_001_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_014",
+          "id": "d2sm_after2_001_x13",
           "speaker": "samho",
           "type": "normal",
           "text": "그치? 좋아. 오늘 네가 나한테 술도 많이 줬으니까\n이따가 내가 가져올게.",
           "expression": "default",
-          "next": "d2sm_after2_015",
+          "next": "d2sm_after2_001_x14",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_015",
+          "id": "d2sm_after2_001_x14",
           "speaker": "luna",
           "type": "normal",
           "text": "그걸 가져올 수 있나요?",
           "expression": null,
-          "next": "d2sm_after2_016",
+          "next": "d2sm_after2_001_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_016",
+          "id": "d2sm_after2_001_x15",
           "speaker": "samho",
           "type": "normal",
           "text": "예전에 우리 보스가 꽃은 가운데 초록색 부분만 안 건드리면\n살아 있을 수 있다고 했어.",
           "expression": "default",
-          "next": "d2sm_after2_017",
+          "next": "d2sm_after2_001_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_017",
+          "id": "d2sm_after2_001_x16",
           "speaker": "luna",
           "type": "normal",
           "text": "그렇다면 저도 한 번 보고 싶습니다.",
           "expression": null,
-          "next": "d2sm_after2_018",
+          "next": "d2sm_after2_001_x17",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_018",
+          "id": "d2sm_after2_001_x17",
           "speaker": "samho",
           "type": "normal",
           "text": "좋아. 그러면 나한테 술 한 잔만 더 만들어줘\n공짜로.",
           "expression": "default",
-          "next": "d2sm_after2_choice1",
+          "next": "d2sm_after2_001_x18",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_choice1",
+          "id": "d2sm_after2_001_x18",
           "speaker": "luna",
           "type": "normal",
           "text": "……",
@@ -1287,32 +1289,32 @@
           "type": "normal",
           "text": "지금 더 마시면 취할 수도 있습니다.",
           "expression": null,
-          "next": "d2sm_after2_warn_002",
+          "next": "d2sm_after2_warn_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_warn_002",
+          "id": "d2sm_after2_warn_001_x1",
           "speaker": "samho",
           "type": "normal",
           "text": "에이, 이거 가지고 뭘 취해. 아직 2잔밖에 안 마셨어.",
           "expression": "default",
-          "next": "d2sm_after2_warn_003",
+          "next": "d2sm_after2_warn_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_warn_003",
+          "id": "d2sm_after2_warn_001_x2",
           "speaker": "samho",
           "type": "normal",
           "text": "한 잔 더 마시는 정도는 괜찮아.\n꽃 보고 싶다며, 루나. 줄 거지?",
           "expression": "default",
-          "next": "d2sm_after2_choice2",
+          "next": "d2sm_after2_warn_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after2_choice2",
+          "id": "d2sm_after2_warn_001_x3",
           "speaker": "luna",
           "type": "normal",
           "text": "……",
@@ -1332,14 +1334,13 @@
           ],
           "trigger": null
         },
-
         {
           "id": "d2ai_enter",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2ai_001",
+          "next": "d2ai_enter_x1",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -1352,249 +1353,248 @@
             }
           }
         },
-
         {
-          "id": "d2ai_001",
+          "id": "d2ai_enter_x1",
           "speaker": "aili",
           "type": "normal",
           "text": "안녕, 예쁜이!! 나 왔어.",
           "expression": "default",
-          "next": "d2ai_002",
+          "next": "d2ai_enter_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_002",
+          "id": "d2ai_enter_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "어서 오세요, 아일리.",
           "expression": null,
-          "next": "d2ai_003",
+          "next": "d2ai_enter_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_003",
+          "id": "d2ai_enter_x3",
           "speaker": "aili",
           "type": "normal",
           "text": "처음 보는 손님이네.\n넌 누구야?",
           "expression": "default",
-          "next": "d2ai_004",
+          "next": "d2ai_enter_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_004",
+          "id": "d2ai_enter_x4",
           "speaker": "samho",
           "type": "normal",
           "text": "…안녕?",
           "expression": "default",
-          "next": "d2ai_005",
+          "next": "d2ai_enter_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_005",
+          "id": "d2ai_enter_x5",
           "speaker": "aili",
           "type": "normal",
           "text": "…너 이 새끼 전에 나한테 임플란트 수술 받고\n돈 안 주고 도망간 놈이지.",
           "expression": "default",
-          "next": "d2ai_006",
+          "next": "d2ai_enter_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_006",
+          "id": "d2ai_enter_x6",
           "speaker": "samho",
           "type": "normal",
           "text": "뭐? 증거 있어?",
           "expression": "default",
-          "next": "d2ai_007",
+          "next": "d2ai_enter_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_007",
+          "id": "d2ai_enter_x7",
           "speaker": "aili",
           "type": "normal",
           "text": "뭔 말 같지도 않는 증거 타령이야 네 팔에 달린 강화 외골격 장갑 팔\n내가 달아 준 거잖아, 이 개자식아.",
           "expression": "default",
-          "next": "d2ai_008",
+          "next": "d2ai_enter_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_008",
+          "id": "d2ai_enter_x8",
           "speaker": "samho",
           "type": "normal",
           "text": "……",
           "expression": "default",
-          "next": "d2ai_009",
+          "next": "d2ai_enter_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_009",
+          "id": "d2ai_enter_x9",
           "speaker": "aili",
           "type": "normal",
           "text": "그거 줄 돈은 없으면서 한가롭게 술 쳐마실 돈은 있나 보네.",
           "expression": "default",
-          "next": "d2ai_010",
+          "next": "d2ai_enter_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_010",
+          "id": "d2ai_enter_x10",
           "speaker": "luna",
           "type": "normal",
           "text": "아일리, 혹시 지금 상태가 화가 난 상태인가요?",
           "expression": null,
-          "next": "d2ai_011",
+          "next": "d2ai_enter_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_011",
+          "id": "d2ai_enter_x11",
           "speaker": "aili",
           "type": "normal",
           "text": "맞아, 루나. 난 이런 돈도 안 내고 도망가는 새끼들을 보면\n하나하나 분해하고 싶을 정도로 화가 나.",
           "expression": "default",
-          "next": "d2ai_012",
+          "next": "d2ai_enter_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_012",
+          "id": "d2ai_enter_x12",
           "speaker": "samho",
           "type": "normal",
           "text": "…미안…",
           "expression": "default",
-          "next": "d2ai_013",
+          "next": "d2ai_enter_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013",
+          "id": "d2ai_enter_x13",
           "speaker": "aili",
           "type": "normal",
           "text": "그래도 개념은 있나 보네. 다른 놈들은 잘못이라고 생각도 안 하지.\n물론 사과하면 끝날 일도 아니지만 말이야.",
           "expression": "default",
-          "next": "d2ai_013b",
+          "next": "d2ai_enter_x14",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013b",
+          "id": "d2ai_enter_x14",
           "speaker": "samho",
           "type": "normal",
           "text": "…나도 사정이 있어서 그래. 내 동생 중에 한 명이\n마가로프 갱들한테 납치당했었단 말이야.",
           "expression": "default",
-          "next": "d2ai_013c",
+          "next": "d2ai_enter_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013c",
+          "id": "d2ai_enter_x15",
           "speaker": "aili",
           "type": "normal",
           "text": "그래서 그거 하나 달고 그 중장갑 기계들 환장한 변태 새끼들\n소굴에서 동생 구하러 간 거야?",
           "expression": "default",
-          "next": "d2ai_013d",
+          "next": "d2ai_enter_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013d",
+          "id": "d2ai_enter_x16",
           "speaker": "samho",
           "type": "normal",
           "text": "…맞아.",
           "expression": "default",
-          "next": "d2ai_013e",
+          "next": "d2ai_enter_x17",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013e",
+          "id": "d2ai_enter_x17",
           "speaker": "aili",
           "type": "normal",
           "text": "하… 살아 있는 게 신기하네…",
           "expression": "default",
-          "next": "d2ai_013f",
+          "next": "d2ai_enter_x18",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013f",
+          "id": "d2ai_enter_x18",
           "speaker": "samho",
           "type": "normal",
           "text": "돈은 곧 줄게. 이번에 의뢰비도 새로 들어온단 말이야.",
           "expression": "default",
-          "next": "d2ai_013g",
+          "next": "d2ai_enter_x19",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013g",
+          "id": "d2ai_enter_x19",
           "speaker": "aili",
           "type": "normal",
           "text": "그래. 이번에도 도망가면 내가 사지를 친절하게 하나씩\n뜯어 줄게.",
           "expression": "default",
-          "next": "d2ai_013h",
+          "next": "d2ai_enter_x20",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013h",
+          "id": "d2ai_enter_x20",
           "speaker": "samho",
           "type": "normal",
           "text": "크흠… 걱정 마. 이번엔 확실하게 줄게.",
           "expression": "default",
-          "next": "d2ai_013i",
+          "next": "d2ai_enter_x21",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013i",
+          "id": "d2ai_enter_x21",
           "speaker": "luna",
           "type": "normal",
           "text": "그래도 원만한 합의가 된 것 같네요.",
           "expression": null,
-          "next": "d2ai_013j",
+          "next": "d2ai_enter_x22",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013j",
+          "id": "d2ai_enter_x22",
           "speaker": "aili",
           "type": "normal",
           "text": "이 친구가 약속을 지킨다면 말이지.",
           "expression": "default",
-          "next": "d2ai_013k",
+          "next": "d2ai_enter_x23",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_013k",
+          "id": "d2ai_enter_x23",
           "speaker": "aili",
           "type": "normal",
           "text": "후… 루나, 주문할게. 레몬이 들어간\n시원한 걸로 하나 부탁해.",
           "expression": "default",
-          "next": "d2ai_014",
+          "next": "d2ai_enter_x24",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_014",
+          "id": "d2ai_enter_x24",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 주문 받았습니다.",
           "expression": null,
-          "next": "d2ai_craft_trigger",
+          "next": "d2ai_enter_x25",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2ai_craft_trigger",
+          "id": "d2ai_enter_x25",
           "speaker": "luna",
           "type": "monologue",
           "text": "(레몬이 들어간 시원한 술……)",
@@ -1608,7 +1608,6 @@
             }
           }
         },
-
         {
           "id": "d2ai_react_perfect_001",
           "speaker": "aili",
@@ -1679,7 +1678,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2ai_react_good_001",
           "speaker": "aili",
@@ -1740,7 +1738,56 @@
           "choices": null,
           "trigger": null
         },
-
+        {
+          "id": "d2ai_react_normal_001",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "흠.",
+          "expression": "default",
+          "next": "d2ai_react_normal_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2ai_react_normal_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "마음에 안 드시나요?",
+          "expression": null,
+          "next": "d2ai_react_normal_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2ai_react_normal_003",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "안 드는 건 아니야. 근데 내가 시킨 거랑은 좀 다른 느낌이지.",
+          "expression": "default",
+          "next": "d2ai_react_normal_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2ai_react_normal_004",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "주문 의도와 다르게 해석한 것 같습니다.",
+          "expression": null,
+          "next": "d2ai_react_normal_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2ai_react_normal_005",
+          "speaker": "aili",
+          "type": "normal",
+          "text": "뭐, 잘 만든 술이긴 해. 다음엔 좀 더 시원하게 가 봐.",
+          "expression": "default",
+          "next": "d2sm_after3_001",
+          "choices": null,
+          "trigger": null
+        },
         {
           "id": "d2ai_react_bad_001",
           "speaker": "aili",
@@ -1811,7 +1858,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2ai_react_miss_001",
           "speaker": "aili",
@@ -1862,7 +1908,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2ai_react_badgb_001",
           "speaker": "aili",
@@ -1933,104 +1978,103 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm_after3_001",
           "speaker": "aili",
           "type": "normal",
           "text": "후… 그래도 좀 낫네.",
           "expression": "default",
-          "next": "d2sm_after3_002",
+          "next": "d2sm_after3_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_002",
+          "id": "d2sm_after3_001_x1",
           "speaker": "aili",
           "type": "normal",
           "text": "그럼 먼저 가 볼게.",
           "expression": "default",
-          "next": "d2sm_after3_003",
+          "next": "d2sm_after3_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_003",
+          "id": "d2sm_after3_001_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "오늘은 되게 빨리 가시네요.",
           "expression": null,
-          "next": "d2sm_after3_004",
+          "next": "d2sm_after3_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_004",
+          "id": "d2sm_after3_001_x3",
           "speaker": "aili",
           "type": "normal",
           "text": "일 시작하기 전에 잠깐 한 잔하려고 들른 거야.",
           "expression": "default",
-          "next": "d2sm_after3_005",
+          "next": "d2sm_after3_001_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_005",
+          "id": "d2sm_after3_001_x4",
           "speaker": "samho",
           "type": "normal",
           "text": "잠깐 술 마시고 수술해도 되는 거야?",
           "expression": "default",
-          "next": "d2sm_after3_006",
+          "next": "d2sm_after3_001_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_006",
+          "id": "d2sm_after3_001_x5",
           "speaker": "aili",
           "type": "normal",
           "text": "어쩌라고 내 마음이야.",
           "expression": "default",
-          "next": "d2sm_after3_007",
+          "next": "d2sm_after3_001_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_007",
+          "id": "d2sm_after3_001_x6",
           "speaker": "samho",
           "type": "normal",
           "text": "……",
           "expression": "default",
-          "next": "d2sm_after3_008",
+          "next": "d2sm_after3_001_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_008",
+          "id": "d2sm_after3_001_x7",
           "speaker": "aili",
           "type": "normal",
           "text": "아무튼 갈게. 루나, 내일 봐.",
           "expression": "default",
-          "next": "d2sm_after3_009",
+          "next": "d2sm_after3_001_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_009",
+          "id": "d2sm_after3_001_x8",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 안녕히 가세요.",
           "expression": null,
-          "next": "d2sm_after3_aili_exit",
+          "next": "d2sm_after3_001_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_aili_exit",
+          "id": "d2sm_after3_001_x9",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_after3_010",
+          "next": "d2sm_after3_001_x10",
           "choices": null,
           "trigger": {
             "type": "customer_exit",
@@ -2044,137 +2088,137 @@
           }
         },
         {
-          "id": "d2sm_after3_010",
+          "id": "d2sm_after3_001_x10",
           "speaker": "samho",
           "type": "normal",
           "text": "…저 미친 여자가 왜 너한테는 잘해 주는 거야?",
           "expression": "default",
-          "next": "d2sm_after3_011",
+          "next": "d2sm_after3_001_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_011",
+          "id": "d2sm_after3_001_x11",
           "speaker": "luna",
           "type": "normal",
           "text": "잘 모르겠습니다. 아일리가 미친 여자인가요?",
           "expression": null,
-          "next": "d2sm_after3_012",
+          "next": "d2sm_after3_001_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_012",
+          "id": "d2sm_after3_001_x12",
           "speaker": "samho",
           "type": "normal",
           "text": "저 자식, 전에 자기가 수술하던 놈이 갑자기 돈을 못 주겠다고 하니까\n그 자리에서 그 사람 팔다리 임플란트를 하나씩 강제로 떼어 버렸다니까?",
           "expression": "default",
-          "next": "d2sm_after3_013",
+          "next": "d2sm_after3_001_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_013",
+          "id": "d2sm_after3_001_x13",
           "speaker": "samho",
           "type": "normal",
           "text": "그놈은 결국 거리에서 기어 다니면서 도움을 요청하다가 자기 친구한테 업혀 갔었지.",
           "expression": "default",
-          "next": "d2sm_after3_014",
+          "next": "d2sm_after3_001_x14",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_014",
+          "id": "d2sm_after3_001_x14",
           "speaker": "luna",
           "type": "normal",
           "text": "삼호는 그런 사람한테 돈을 주지 않은 거였네요.",
           "expression": null,
-          "next": "d2sm_after3_015",
+          "next": "d2sm_after3_001_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_015",
+          "id": "d2sm_after3_001_x15",
           "speaker": "samho",
           "type": "normal",
           "text": "말했잖아. 나도 사정 때문에 어쩔 수 없었다고…\n살아남으려면 어쩔 수 없다니까.",
           "expression": "default",
-          "next": "d2sm_after3_016",
+          "next": "d2sm_after3_001_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_016",
+          "id": "d2sm_after3_001_x16",
           "speaker": "luna",
           "type": "normal",
           "text": "저도 죽은 것보단 살아 있는 게 더 좋습니다.",
           "expression": null,
-          "next": "d2sm_after3_017",
+          "next": "d2sm_after3_001_x17",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_017",
+          "id": "d2sm_after3_001_x17",
           "speaker": "samho",
           "type": "normal",
           "text": "그치. 살아 있는 게 좋은 거야.\n그런 의미로 한 잔 더 부탁해.",
           "expression": "default",
-          "next": "d2sm_after3_018",
+          "next": "d2sm_after3_001_x18",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_018",
+          "id": "d2sm_after3_001_x18",
           "speaker": "luna",
           "type": "normal",
           "text": "이번엔 어떤 걸로 주문하시겠나요?",
           "expression": null,
-          "next": "d2sm_after3_019",
+          "next": "d2sm_after3_001_x19",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_019",
+          "id": "d2sm_after3_001_x19",
           "speaker": "samho",
           "type": "normal",
           "text": "이번엔 그 뭐냐 마체테?",
           "expression": "default",
-          "next": "d2sm_after3_020",
+          "next": "d2sm_after3_001_x20",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_020",
+          "id": "d2sm_after3_001_x20",
           "speaker": "luna",
           "type": "normal",
           "text": "마티니를 말하시는 겁니까?",
           "expression": null,
-          "next": "d2sm_after3_021",
+          "next": "d2sm_after3_001_x21",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_021",
+          "id": "d2sm_after3_001_x21",
           "speaker": "samho",
           "type": "normal",
           "text": "그래. 그거 보스가 항상 마시는 거라던데\n나도 한 번 마셔 보고 싶어.",
           "expression": "default",
-          "next": "d2sm_after3_022",
+          "next": "d2sm_after3_001_x22",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_after3_022",
+          "id": "d2sm_after3_001_x22",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 주문 받았습니다.",
           "expression": null,
-          "next": "d2sm_craft2_trigger",
+          "next": "d2sm_after3_001_x23",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_craft2_trigger",
+          "id": "d2sm_after3_001_x23",
           "speaker": "luna",
           "type": "monologue",
           "text": "(드라이 마티니……)",
@@ -2188,59 +2232,58 @@
             }
           }
         },
-
         {
           "id": "d2sm_give_001",
           "speaker": "luna",
           "type": "normal",
           "text": "알겠습니다. 드리도록 하죠.",
           "expression": null,
-          "next": "d2sm_give_002",
+          "next": "d2sm_give_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_002",
+          "id": "d2sm_give_001_x1",
           "speaker": "samho",
           "type": "normal",
           "text": "그래, 그거야, 루나.",
           "expression": "default",
-          "next": "d2sm_give_003",
+          "next": "d2sm_give_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_003",
+          "id": "d2sm_give_001_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "주문은 어떤 걸로 하시나요?",
           "expression": null,
-          "next": "d2sm_give_004",
+          "next": "d2sm_give_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_004",
+          "id": "d2sm_give_001_x3",
           "speaker": "samho",
           "type": "normal",
           "text": "아까 줬던 걸로 마티니였나?",
           "expression": "default",
-          "next": "d2sm_give_005",
+          "next": "d2sm_give_001_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_005",
+          "id": "d2sm_give_001_x4",
           "speaker": "luna",
           "type": "normal",
           "text": "드디어 기억하시네요.",
           "expression": null,
-          "next": "d2sm_give_craft_trigger",
+          "next": "d2sm_give_001_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_craft_trigger",
+          "id": "d2sm_give_001_x5",
           "speaker": "luna",
           "type": "monologue",
           "text": "(마지막 마티니……)",
@@ -2254,7 +2297,6 @@
             }
           }
         },
-
         {
           "id": "d2sm3_react_perfect_001",
           "speaker": "samho",
@@ -2305,7 +2347,56 @@
           "choices": null,
           "trigger": null
         },
-
+        {
+          "id": "d2sm3_react_good_001",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "오… 이거 마티니… 맞지?",
+          "expression": "drunk",
+          "next": "d2sm3_react_good_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2sm3_react_good_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네, 드라이 마티니입니다.",
+          "expression": null,
+          "next": "d2sm3_react_good_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2sm3_react_good_003",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "처음 마셨던 거보단 좀 어설픈 느낌인데…\n그래도 마티니는 마티니야.",
+          "expression": "drunk",
+          "next": "d2sm3_react_good_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2sm3_react_good_004",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "만족하셨다면 다행입니다.",
+          "expression": null,
+          "next": "d2sm3_react_good_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d2sm3_react_good_005",
+          "speaker": "samho",
+          "type": "normal",
+          "text": "좋아, 좋아. 꽃 가지고 다시 올게.\n기다려, 루나아.",
+          "expression": "drunk",
+          "next": "d2sm_give_samho_exit",
+          "choices": null,
+          "trigger": null
+        },
         {
           "id": "d2sm3_react_miss_001",
           "speaker": "samho",
@@ -2332,11 +2423,10 @@
           "type": "normal",
           "text": "그래. 마티니로 다시 만들어 줘.",
           "expression": "drunk",
-          "next": "d2sm_give_samho_exit",
+          "next": "d2sm3_retry",
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm3_react_badgb_001",
           "speaker": "samho",
@@ -2373,18 +2463,32 @@
           "type": "normal",
           "text": "죄송합니다. 다시 만들어 드리겠습니다.",
           "expression": null,
-          "next": "d2sm_give_samho_exit",
+          "next": "d2sm3_retry",
           "choices": null,
           "trigger": null
         },
-
+        {
+          "id": "d2sm3_retry",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(마지막 마티니, 다시……)",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "start_craft",
+            "data": {
+              "craft_event_id": "day2_samho_order3"
+            }
+          }
+        },
         {
           "id": "d2sm_give_samho_exit",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_give_flag",
+          "next": "d2sm_give_samho_exit_x1",
           "choices": null,
           "trigger": {
             "type": "customer_exit",
@@ -2398,12 +2502,12 @@
           }
         },
         {
-          "id": "d2sm_give_flag",
+          "id": "d2sm_give_samho_exit_x1",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_give_post_001",
+          "next": "d2sm_give_samho_exit_x2",
           "choices": null,
           "trigger": {
             "type": "set_flag",
@@ -2414,17 +2518,17 @@
           }
         },
         {
-          "id": "d2sm_give_post_001",
+          "id": "d2sm_give_samho_exit_x2",
           "speaker": "luna",
           "type": "monologue",
           "text": "…(괜찮은 거 맞겠지?)",
           "expression": null,
-          "next": "d2sm_give_post_002",
+          "next": "d2sm_give_samho_exit_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_give_post_002",
+          "id": "d2sm_give_samho_exit_x3",
           "speaker": "luna",
           "type": "monologue",
           "text": "결국 친구에 대한 건 못 들었네.",
@@ -2433,124 +2537,123 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2sm_refuse_001",
           "speaker": "luna",
           "type": "normal",
           "text": "……",
           "expression": null,
-          "next": "d2sm_refuse_002",
+          "next": "d2sm_refuse_001_x1",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_002",
+          "id": "d2sm_refuse_001_x1",
           "speaker": "samho",
           "type": "normal",
           "text": "에이, 알았어. 알았어.\n어쩔 수 없지.",
           "expression": "default",
-          "next": "d2sm_refuse_003",
+          "next": "d2sm_refuse_001_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_003",
+          "id": "d2sm_refuse_001_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "괜찮으신 건가요?",
           "expression": null,
-          "next": "d2sm_refuse_004",
+          "next": "d2sm_refuse_001_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_004",
+          "id": "d2sm_refuse_001_x3",
           "speaker": "samho",
           "type": "normal",
           "text": "너한테 억지로 강요할 수는 없지.\n네 말 듣고 보니까 조금 어지러운 것 같기도 하고.",
           "expression": "default",
-          "next": "d2sm_refuse_005",
+          "next": "d2sm_refuse_001_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_005",
+          "id": "d2sm_refuse_001_x4",
           "speaker": "luna",
           "type": "normal",
           "text": "술을 많이 마시면 위험하다고 들었습니다.",
           "expression": null,
-          "next": "d2sm_refuse_006",
+          "next": "d2sm_refuse_001_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_006",
+          "id": "d2sm_refuse_001_x5",
           "speaker": "samho",
           "type": "normal",
           "text": "그래. 오늘은 뭐 이 정도만 마시지 뭐.",
           "expression": "default",
-          "next": "d2sm_refuse_007",
+          "next": "d2sm_refuse_001_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_007",
+          "id": "d2sm_refuse_001_x6",
           "speaker": "samho",
           "type": "normal",
           "text": "오늘 즐거웠어, 루나.\n내일 꽃 보여 줄 테니 기대해.",
           "expression": "default",
-          "next": "d2sm_refuse_008",
+          "next": "d2sm_refuse_001_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_008",
+          "id": "d2sm_refuse_001_x7",
           "speaker": "luna",
           "type": "normal",
           "text": "그냥 보여 주시는 건가요?",
           "expression": null,
-          "next": "d2sm_refuse_009",
+          "next": "d2sm_refuse_001_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_009",
+          "id": "d2sm_refuse_001_x8",
           "speaker": "samho",
           "type": "normal",
           "text": "그냥 공짜로 술 마시려고 말해 본 거야.\n친구 사이인데 그 정도는 해 줘야지.",
           "expression": "default",
-          "next": "d2sm_refuse_010",
+          "next": "d2sm_refuse_001_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_010",
+          "id": "d2sm_refuse_001_x9",
           "speaker": "luna",
           "type": "normal",
           "text": "친구…?",
           "expression": null,
-          "next": "d2sm_refuse_011",
+          "next": "d2sm_refuse_001_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_011",
+          "id": "d2sm_refuse_001_x10",
           "speaker": "samho",
           "type": "normal",
           "text": "내일 보자, 루나.",
           "expression": "default",
-          "next": "d2sm_refuse_samho_exit",
+          "next": "d2sm_refuse_001_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2sm_refuse_samho_exit",
+          "id": "d2sm_refuse_001_x11",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_refuse_flag",
+          "next": "d2sm_refuse_001_x12",
           "choices": null,
           "trigger": {
             "type": "customer_exit",
@@ -2564,12 +2667,12 @@
           }
         },
         {
-          "id": "d2sm_refuse_flag",
+          "id": "d2sm_refuse_001_x12",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2sm_refuse_post_001",
+          "next": "d2sm_refuse_001_x13",
           "choices": null,
           "trigger": {
             "type": "set_flag",
@@ -2580,7 +2683,7 @@
           }
         },
         {
-          "id": "d2sm_refuse_post_001",
+          "id": "d2sm_refuse_001_x13",
           "speaker": "luna",
           "type": "monologue",
           "text": "결국 친구에 대한 건 못 들었네.",
@@ -2589,14 +2692,13 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2end_chris_enter",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2end_001",
+          "next": "d2end_chris_enter_x1",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -2610,157 +2712,157 @@
           }
         },
         {
-          "id": "d2end_001",
+          "id": "d2end_chris_enter_x1",
           "speaker": "chris",
           "type": "normal",
           "text": "오늘따라 바깥이 소란스럽네.\n무슨 일 없었지, 루나?",
           "expression": "default",
-          "next": "d2end_002",
+          "next": "d2end_chris_enter_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_002",
+          "id": "d2end_chris_enter_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 별일 없었습니다.\n그런데, 음…",
           "expression": null,
-          "next": "d2end_003",
+          "next": "d2end_chris_enter_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_003",
+          "id": "d2end_chris_enter_x3",
           "speaker": "chris",
           "type": "normal",
           "text": "왜 무슨 일 있었어?",
           "expression": "default",
-          "next": "d2end_004",
+          "next": "d2end_chris_enter_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_004",
+          "id": "d2end_chris_enter_x4",
           "speaker": "luna",
           "type": "normal",
           "text": "방금 어떤 손님이 술을 여러 번 마셨는데, 굉장히 취한 상태로 보였습니다.",
           "expression": null,
-          "next": "d2end_005",
+          "next": "d2end_chris_enter_x5",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_005",
+          "id": "d2end_chris_enter_x5",
           "speaker": "chris",
           "type": "normal",
           "text": "…그 사람 혹시 붉은색 팔이랑 동물 귀 달린 여자야?",
           "expression": "default",
-          "next": "d2end_006",
+          "next": "d2end_chris_enter_x6",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_006",
+          "id": "d2end_chris_enter_x6",
           "speaker": "luna",
           "type": "normal",
           "text": "정확합니다.",
           "expression": null,
-          "next": "d2end_007",
+          "next": "d2end_chris_enter_x7",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_007",
+          "id": "d2end_chris_enter_x7",
           "speaker": "chris",
           "type": "normal",
           "text": "오다가 웬 만취한 사람이 뛰어다니길래\n뭔가 했더니…",
           "expression": "default",
-          "next": "d2end_008",
+          "next": "d2end_chris_enter_x8",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_008",
+          "id": "d2end_chris_enter_x8",
           "speaker": "chris",
           "type": "normal",
           "text": "…루나, 손님들 중에 술을 마시다 자기 상태를 잘 모르는 경우가 있어서\n손님이 취한 것 같은데 계속 술을 시키면, 네가 자제할 수 있게 도와줘야 해.",
           "expression": "default",
-          "next": "d2end_009",
+          "next": "d2end_chris_enter_x9",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_009",
+          "id": "d2end_chris_enter_x9",
           "speaker": "luna",
           "type": "normal",
           "text": "그렇다면 제가 실수를 저지른 것 같습니다.",
           "expression": null,
-          "next": "d2end_010",
+          "next": "d2end_chris_enter_x10",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_010",
+          "id": "d2end_chris_enter_x10",
           "speaker": "chris",
           "type": "normal",
           "text": "뭐, 지나간 건 어쩔 수 없지. 이제라도 배웠으니 됐어.",
           "expression": "default",
-          "next": "d2end_011",
+          "next": "d2end_chris_enter_x11",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_011",
+          "id": "d2end_chris_enter_x11",
           "speaker": "luna",
           "type": "normal",
           "text": "생각보다 손님에 대해 신경을 많이 써야 하는 것 같습니다.",
           "expression": null,
-          "next": "d2end_012",
+          "next": "d2end_chris_enter_x12",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_012",
+          "id": "d2end_chris_enter_x12",
           "speaker": "chris",
           "type": "normal",
           "text": "뭐, 그런 일이긴 하지.",
           "expression": "default",
-          "next": "d2end_013",
+          "next": "d2end_chris_enter_x13",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_013",
+          "id": "d2end_chris_enter_x13",
           "speaker": "chris",
           "type": "normal",
           "text": "아무튼 오늘 고생 많았어, 루나.\n들어가서 쉬어.",
           "expression": "default",
-          "next": "d2end_014",
+          "next": "d2end_chris_enter_x14",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_014",
+          "id": "d2end_chris_enter_x14",
           "speaker": "luna",
           "type": "normal",
           "text": "아까 나간 손님이 다시 온다고 해서 기다려야 할 것 같습니다.",
           "expression": null,
-          "next": "d2end_015",
+          "next": "d2end_chris_enter_x15",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_015",
+          "id": "d2end_chris_enter_x15",
           "speaker": "chris",
           "type": "normal",
           "text": "음… 괜찮으면 밖에서 기다리는 거 어때?\n오늘 오는 손님이 나랑 둘이 해야 할 이야기가 있어서 말이야.",
           "expression": "default",
-          "next": "d2end_016",
+          "next": "d2end_chris_enter_x16",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_016",
+          "id": "d2end_chris_enter_x16",
           "speaker": "luna",
           "type": "normal",
           "text": "알겠습니다.",
@@ -2769,14 +2871,13 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2end_chris_enter_refuse",
           "speaker": "system",
           "type": "system",
           "text": "",
           "expression": null,
-          "next": "d2end_refuse_001",
+          "next": "d2end_chris_enter_refuse_x1",
           "choices": null,
           "trigger": {
             "type": "customer_enter",
@@ -2790,37 +2891,37 @@
           }
         },
         {
-          "id": "d2end_refuse_001",
+          "id": "d2end_chris_enter_refuse_x1",
           "speaker": "chris",
           "type": "normal",
           "text": "루나, 별일 없었지?",
           "expression": "default",
-          "next": "d2end_refuse_002",
+          "next": "d2end_chris_enter_refuse_x2",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_refuse_002",
+          "id": "d2end_chris_enter_refuse_x2",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 이상 없었습니다.",
           "expression": null,
-          "next": "d2end_refuse_003",
+          "next": "d2end_chris_enter_refuse_x3",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_refuse_003",
+          "id": "d2end_chris_enter_refuse_x3",
           "speaker": "chris",
           "type": "normal",
           "text": "좋아. 오늘 고생했어.\n먼저 퇴근해.",
           "expression": "default",
-          "next": "d2end_refuse_004",
+          "next": "d2end_chris_enter_refuse_x4",
           "choices": null,
           "trigger": null
         },
         {
-          "id": "d2end_refuse_004",
+          "id": "d2end_chris_enter_refuse_x4",
           "speaker": "luna",
           "type": "normal",
           "text": "네, 알겠습니다.",
@@ -2829,7 +2930,6 @@
           "choices": null,
           "trigger": null
         },
-
         {
           "id": "d2end_finish",
           "speaker": "system",

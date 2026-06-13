@@ -1105,9 +1105,22 @@
           "type": "normal",
           "text": "네, 보스.",
           "expression": null,
-          "next": null,
+          "next": "d0c_end_001_x26",
           "choices": null,
           "trigger": null
+        },
+        {
+          "id": "d0c_end_001_x26",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "day_end",
+            "data": {}
+          }
         }
       ]
     }
