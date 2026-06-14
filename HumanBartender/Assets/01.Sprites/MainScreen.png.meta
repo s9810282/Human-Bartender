@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 56ca8979fd9182d489b1b9d84de74a36
+guid: 0b009599290d5e448a382a3f2be1fe43
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5923974337343745467
-    second: textbox_L_under_0
+      213: -5569261578014389789
+    second: "\uBA54\uC778\uD654\uBA74_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -72,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 512
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: textbox_L_under_0
+      name: "\uBA54\uC778\uD654\uBA74_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 28
-        height: 18
+        width: 1280
+        height: 720
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bbd67e3f54f263250800000000000000
-      internalID: 5923974337343745467
+      spriteID: 3e9883d1a1206b2b0800000000000000
+      internalID: -5569261578014389789
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      textbox_L_under_0: 5923974337343745467
+      "\uBA54\uC778\uD654\uBA74_0": -5569261578014389789
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
