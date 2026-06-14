@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a88ea3d84d177ba4295c967da896e898
+guid: 91d3e1ac92dd59d4783ea337cc095ee2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6762800067303374293
-    second: "\uCEA1\uCC98_0"
+      213: -3415009407934333397
+    second: item_back_v2_03_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uCEA1\uCC98_0"
+      name: item_back_v2_03_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1590
-        height: 894
+        width: 79
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5ddfa9294da4add50800000000000000
-      internalID: 6762800067303374293
+      spriteID: b2ef47779037b90d0800000000000000
+      internalID: -3415009407934333397
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uCEA1\uCC98_0": 6762800067303374293
+      item_back_v2_03_0: -3415009407934333397
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

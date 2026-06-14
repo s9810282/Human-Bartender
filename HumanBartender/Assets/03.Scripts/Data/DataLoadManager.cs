@@ -55,7 +55,37 @@ public class DataLoadManager : MonoBehaviour, IDataSwitcher
         LoadData();
         return;
     }
-    public async void LoadData()
+    public void LoadData()
+    {
+        Logger.Log("Load Data");
+
+        foreach (var f in dayFiles)   // 알고 있는 파일 목록
+            _dayCache[f] = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(f);
+        foreach (var f in craftFiles)
+            _craftCache[f] = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(f);
+
+
+        SwitchDay(isTest ? testDayName : dayDataFileName, isTest ? testCraftName : craftDataFileName);
+
+        cocktailData.cocktailData = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(cocktailDataFileName);
+        characterData.characterData = JsonManager<CharacterDataBase>.LoadGameData_StreamingAssets(characterDataFileName);
+        characterAnimConfig.animConfig = JsonManager<CharacterAnimBase>.LoadGameData_StreamingAssets(characterAnimConfigFileName);
+        ingredientDataSO.ingredientData = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets(ingredientDataFileName);
+        cutSceneData.cutSceneData = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets(cutSceneDataFileName);
+        settlementDataSO.settlementData = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets(settlementDataFileName);
+        textTagDataSO.textTagData = JsonManager<TextTagDataBase>.LoadGameData_StreamingAssets(textTagDataFileName);
+        characterTierDataSO.characterTiers = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets(characterTierDataFileName);
+        skillTierDataSO.skillTier = JsonManager<SkillTierDataBase>.LoadGameData_StreamingAssets(skillTierDataFileName);
+
+        settlementDataSO.Cached();
+        cocktailData.Cached();
+        cutSceneData.Cached();
+
+        outsideDataManager.Load();
+
+        Logger.Log("Load end");
+    }
+    public async void LoadDataAsync()
     {
         Logger.Log("Load Data");
 
@@ -82,6 +112,8 @@ public class DataLoadManager : MonoBehaviour, IDataSwitcher
         cutSceneData.Cached();
 
         outsideDataManager.Load();
+
+        Logger.Log("Load end");
     }
     public void SwitchDay(string dayFile, string craftFile)
     {
