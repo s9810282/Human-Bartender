@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: b7ecdb31a581b0b4aa3b1916c2550328
+guid: f645ff8188c8d0f4684ac1eccf367c21
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 616050971111698804
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_0"
+      213: 6584235785234107596
+    second: B_Fore_Building_1 1_0
   - first:
-      213: 7359654471573779056
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_1"
+      213: -6144954228664573428
+    second: B_Fore_Building_1 1_1
   - first:
-      213: -266407299210259758
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_2"
+      213: 2677555766756942320
+    second: B_Fore_Building_1 1_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -102,30 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_0"
+      name: B_Fore_Building_1 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 415
-        height: 290
+        height: 289
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 471b5a02817ac8800800000000000000
-      internalID: 616050971111698804
+      spriteID: ccc4b48df87ef5b50800000000000000
+      internalID: 6584235785234107596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_1"
+      name: B_Fore_Building_1 1_1
       rect:
         serializedVersion: 2
         x: 435
         y: 0
         width: 310
-        height: 263
+        height: 262
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07235cfafbeb22660800000000000000
-      internalID: 7359654471573779056
+      spriteID: c02e967bfacb8baa0800000000000000
+      internalID: -6144954228664573428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_2"
+      name: B_Fore_Building_1 1_2
       rect:
         serializedVersion: 2
         x: 732
         y: 0
         width: 528
-        height: 309
+        height: 308
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2d2500d09f78d4cf0800000000000000
-      internalID: -266407299210259758
+      spriteID: 0f1a8d798c6982520800000000000000
+      internalID: 2677555766756942320
       vertices: []
       indices: 
       edges: []
@@ -198,9 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_0": 616050971111698804
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_1": 7359654471573779056
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C 1_2": -266407299210259758
+      B_Fore_Building_1 1_0: 6584235785234107596
+      B_Fore_Building_1 1_1: -6144954228664573428
+      B_Fore_Building_1 1_2: 2677555766756942320
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

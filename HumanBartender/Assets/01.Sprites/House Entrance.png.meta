@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0c9ba7dbf1e98214196066a8481fa513
+guid: e64a704a7519fc144af21d788c92f966
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9214900963548318284
-    second: "B\uB77C\uC774\uD2B8 2_0"
+      213: -1017377844380570997
+    second: House Entrance_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +49,7 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B\uB77C\uC774\uD2B8 2_0"
+      name: House Entrance_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 25
+        width: 61
+        height: 113
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4ac3bc8a97e1ef70800000000000000
-      internalID: 9214900963548318284
+      spriteID: b8ae757ad3c81e1f0800000000000000
+      internalID: -1017377844380570997
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B\uB77C\uC774\uD2B8 2_0": 9214900963548318284
+      House Entrance_0: -1017377844380570997
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

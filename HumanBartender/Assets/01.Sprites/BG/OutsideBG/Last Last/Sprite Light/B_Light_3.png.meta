@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: da9bd2527c49c2344b66edbd5ef4290f
+guid: 5ec82c3c40d713c4297961e00e965080
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5612091234315597593
-    second: "C\uAD6C\uC5ED \uC911\uACBD 3_0"
+      213: 3608190157330228409
+    second: B_Light_3_0
   - first:
-      213: -5812714824948634548
-    second: "C\uAD6C\uC5ED \uC911\uACBD 3_1"
+      213: 7169883628813941514
+    second: B_Light_3_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 64
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -99,30 +99,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "C\uAD6C\uC5ED \uC911\uACBD 3_0"
+      name: B_Light_3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 450
-        height: 1620
+        width: 37
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +118,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e8098ba1c8dd12b0800000000000000
-      internalID: -5612091234315597593
+      spriteID: 9b4aab1c4ddd21230800000000000000
+      internalID: 3608190157330228409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "C\uAD6C\uC5ED \uC911\uACBD 3_1"
+      name: B_Light_3_1
       rect:
         serializedVersion: 2
-        x: 502
-        y: 0
-        width: 270
-        height: 1359
+        x: 18
+        y: 11
+        width: 20
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c4c2a4ee9a6155fa0800000000000000
-      internalID: -5812714824948634548
+      spriteID: a0bf7583c2b808360800000000000000
+      internalID: 7169883628813941514
       vertices: []
       indices: 
       edges: []
@@ -173,8 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "C\uAD6C\uC5ED \uC911\uACBD 3_0": -5612091234315597593
-      "C\uAD6C\uC5ED \uC911\uACBD 3_1": -5812714824948634548
+      B_Light_3_0: 3608190157330228409
+      B_Light_3_1: 7169883628813941514
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

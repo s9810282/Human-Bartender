@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5b25af775e3ae094d9b8c0da9da279b8
+guid: 8e3b3a89a4d89d7418a4e71290bd0152
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1872156739220600765
-    second: "B\uAD6C\uC5ED \uADFC\uACBD \uAC00\uB85C\uB4F1_0"
+      213: 7296733174994333427
+    second: B_Fore_StandLight_1 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC00\uB85C\uB4F1_0"
+      name: B_Fore_StandLight_1 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 98
-        height: 182
+        height: 183
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db7f81d92ac3bf910800000000000000
-      internalID: 1872156739220600765
+      spriteID: 3fe6854b924334560800000000000000
+      internalID: 7296733174994333427
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "B\uAD6C\uC5ED \uADFC\uACBD \uAC00\uB85C\uB4F1_0": 1872156739220600765
+      B_Fore_StandLight_1 1_0: 7296733174994333427
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
