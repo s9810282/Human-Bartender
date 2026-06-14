@@ -692,7 +692,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
     - target: {fileID: 772632315790225463, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1210526396636069146, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_text
@@ -704,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
     - target: {fileID: 1210526396636069146, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_hasFontAssetChanged
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_Pivot.x
@@ -732,11 +732,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -837,6 +837,14 @@ PrefabInstance:
     - target: {fileID: 8885226018701176427, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: sizeMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885226018701176427, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: minSize.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885226018701176427, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
+      propertyPath: minSize.y
+      value: 65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3531,11 +3539,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 2101170864369400019, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3588,10 +3596,6 @@ PrefabInstance:
     - target: {fileID: 5200217793143798702, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
       propertyPath: m_Name
       value: Luna Dialogue TextBox
-      objectReference: {fileID: 0}
-    - target: {fileID: 8885226018701176427, guid: 74e38f0051304c748af9fbfc338925c0, type: 3}
-      propertyPath: sizeMode
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
