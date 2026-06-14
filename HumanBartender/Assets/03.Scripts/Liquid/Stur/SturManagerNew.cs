@@ -53,7 +53,6 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         gameCanvas.worldCamera = canvasCamera;
         buttonCanvas.worldCamera = canvasCamera;
 
-        Logger.Log(data.targetCocktailData);
 
         if (isTest)
         {
@@ -61,7 +60,6 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
             data.targetCraft_tolerance = 15;
         }
 
-        Logger.Log(data.targetCocktailData.Keywords.Length);
         colors = new Color[data.targetCocktailData.Keywords.Length];
         for (int i = 0; i < colors.Length; i++)
         {
@@ -74,7 +72,12 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
 
         circleLineCreator.BuildCircle(radiusX, radiusY, GetCenterWorldPosition());
-        nodeCreator.Init();
+        nodeCreator.Init(
+            radiusX, radiusY,
+            GetCenterWorldPosition(),
+            colors);
+
+        sturStrikeNode.transform.position = GetSpawnPoint(0);
 
         totalJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 1.3f);
         successJudge = 0;
@@ -140,10 +143,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
         sturStrikeNode.InitToStart(GetCenterWorldPosition(), bpm, beatCount, radiusX, radiusY);
-        nodeCreator.InitToStart(
-            radiusX, radiusY,
-            GetCenterWorldPosition(),
-            colors);
+        nodeCreator.InitToStart();
     }
 
     public void OnPressEvent()
@@ -198,5 +198,15 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
 
         return worldPos;
+    }
+    public Vector3 GetSpawnPoint(float angle)
+    {
+        float rad = angle * Mathf.Deg2Rad;
+        Vector3 offset = new Vector3(
+            Mathf.Cos(rad) * radiusX,
+            Mathf.Sin(-rad) * radiusY,
+            0f
+        );
+        return offset;
     }
 }
