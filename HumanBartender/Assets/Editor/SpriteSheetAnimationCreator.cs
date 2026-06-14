@@ -249,6 +249,11 @@ public class SpriteSheetAnimationCreator : EditorWindow
         importer.filterMode = FilterMode.Point;
         importer.textureCompression = TextureImporterCompression.Uncompressed;
 
+        TextureImporterSettings settings = new TextureImporterSettings();
+        importer.ReadTextureSettings(settings);
+        settings.spriteMeshType = SpriteMeshType.FullRect;
+        importer.SetTextureSettings(settings);
+
         importer.SaveAndReimport(); // API 활성화를 위해 1차 저장
 
         // 모던 API 사용 (SpriteDataProvider)
