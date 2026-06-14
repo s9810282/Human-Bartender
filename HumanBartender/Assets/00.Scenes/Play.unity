@@ -2253,7 +2253,7 @@ MonoBehaviour:
   m_RefResolutionX: 1280
   m_RefResolutionY: 720
   m_CropFrame: 4
-  m_GridSnapping: 2
+  m_GridSnapping: 1
   m_FilterMode: 0
   m_UpscaleRT: 0
   m_PixelSnapping: 0
@@ -3660,6 +3660,7 @@ MonoBehaviour:
   orderText: {fileID: 206715387}
   noneIngrediantPopup: {fileID: 1662887887}
   playMethodPopup: {fileID: 1862285105717275559}
+  playMethodPopupText: {fileID: 1862285105717275560}
 --- !u!4 &1601650328
 Transform:
   m_ObjectHideFlags: 0
@@ -4997,10 +4998,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1601650327}
-    - target: {fileID: 4209608323175396119, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8331203590790798876, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5095,6 +5092,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4037620567757497166, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
   m_PrefabInstance: {fileID: 1862285105717275558}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1862285105717275560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3607349478048562702, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
+  m_PrefabInstance: {fileID: 1862285105717275558}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

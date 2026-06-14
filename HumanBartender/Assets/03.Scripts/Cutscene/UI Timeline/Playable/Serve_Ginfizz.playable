@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneSpriteAnimClip
   template:
     imagePath: Serve
-    spriteSheetPath: Serve/give_drink_drymartini-ezgif.com-gif-to-sprite-converter
+    spriteSheetPath: Serve/give_drink_gin_fizz-ezgif.com-gif-to-sprite-converter
     fps: 12
     loop: 0
     startFrame: 0
@@ -546,11 +546,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutSceneImageClip
   template:
     imagePath: Serve
-    sheetPath: Serve/give_drink_drymartini-ezgif.com-gif-to-sprite-converter
+    sheetPath: Serve/give_drink_gin_fizz-ezgif.com-gif-to-sprite-converter
     frameIndex: 0
     anchor: 0
     offsetX: 0
     offsetY: 0
+    sortOrder: 0
     enterType: 2
     enterDuration: 0.3
     enterEase: 1

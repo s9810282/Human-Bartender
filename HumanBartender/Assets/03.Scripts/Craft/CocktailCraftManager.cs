@@ -46,7 +46,8 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     [SerializeField] TextMeshProUGUI orderText;
     [SerializeField] GameObject noneIngrediantPopup;
     [SerializeField] GameObject playMethodPopup;
-    
+    [SerializeField] TextMeshProUGUI playMethodPopupText;
+
 
     [SerializeField] CraftEventData curCraftEventData;
     
@@ -148,6 +149,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         }
         else
         {
+            playMethodPopupText.text = GetMethodtoKOR(method) + "를 진행하시겠습니까?";
             playMethodPopup.gameObject.SetActive(true);
             curSelectMethod = method;
         }
