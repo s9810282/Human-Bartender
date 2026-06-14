@@ -19,6 +19,7 @@ MonoBehaviour:
     anchor: 0
     offsetX: 0.45
     offsetY: 0
+    sortOrder: 0
     enterType: 2
     enterDuration: 0.5
     enterEase: 0
@@ -150,6 +151,7 @@ MonoBehaviour:
   m_Name: CutSceneRootMoveClip
   m_EditorClassIdentifier: 
   rootTemplate:
+    isBGRoot: 0
     direction: 1
     moveRatio: 0.3
     ease: 1
@@ -383,6 +385,7 @@ MonoBehaviour:
     anchor: 5
     offsetX: 0
     offsetY: 0
+    sortOrder: 0
     enterType: 6
     enterDuration: 0.5
     enterEase: 0
@@ -451,8 +454,9 @@ MonoBehaviour:
     sheetPath: 
     frameIndex: 0
     anchor: 7
-    offsetX: 0.02
+    offsetX: 0
     offsetY: 0
+    sortOrder: 0
     enterType: 5
     enterDuration: 0.5
     enterEase: 0
