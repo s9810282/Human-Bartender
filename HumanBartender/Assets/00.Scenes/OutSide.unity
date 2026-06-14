@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 11317596}
   - component: {fileID: 11317597}
   m_Layer: 0
-  m_Name: "C\uAD6C\uC5ED \uC911\uACBD 2"
+  m_Name: C_Middle_Building_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 86088167}
   - component: {fileID: 86088168}
   m_Layer: 6
-  m_Name: "C\uAD6C\uC5ED \uC911\uACBD 2 \uC624\uBE0C\uC81D\uD2B81"
+  m_Name: C_Middle_Object_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -987,7 +987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 130767618}
   m_Layer: 0
-  m_Name: "\uBE5B\uC904\uAE30"
+  m_Name: Up Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 161762517}
   - component: {fileID: 161762518}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (2)"
+  m_Name: CityUpLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2614,7 +2614,7 @@ GameObject:
   - component: {fileID: 350656399}
   - component: {fileID: 350656400}
   m_Layer: 10
-  m_Name: "\uC5D8\uB9AC\uBCA0\uC774\uD130 \uC55E\uCABD \uBD84\uB9AC"
+  m_Name: Elevator Fore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2692,7 +2692,7 @@ SpriteRenderer:
   m_Size: {x: 1.15, y: 1.04}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &358266421
 GameObject:
@@ -2705,7 +2705,7 @@ GameObject:
   - component: {fileID: 358266422}
   - component: {fileID: 358266423}
   m_Layer: 6
-  m_Name: "2\uCE35 \uBC14\uB2E5"
+  m_Name: 2F Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3790,7 +3790,7 @@ GameObject:
   - component: {fileID: 416125198}
   - component: {fileID: 416125199}
   m_Layer: 0
-  m_Name: "A\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82"
+  m_Name: A_Obect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3881,7 +3881,7 @@ GameObject:
   - component: {fileID: 423587316}
   - component: {fileID: 423587317}
   m_Layer: 6
-  m_Name: "1\uCE35 \uC67C\uCABD \uBBF8\uC815 \uADFC\uACBD \uAC74\uBB3C"
+  m_Name: 1F Left Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4118,7 +4118,7 @@ GameObject:
   - component: {fileID: 466114102}
   - component: {fileID: 466114103}
   m_Layer: 6
-  m_Name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC00\uB85C\uB4F1"
+  m_Name: B_Fore_StandLight_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4462,7 +4462,7 @@ GameObject:
   - component: {fileID: 545197854}
   - component: {fileID: 545197855}
   m_Layer: 6
-  m_Name: "\uC5D8\uB9AC\uBCA0\uC774\uD130 \uC9C0\uC9C0\uB300"
+  m_Name: Elevator Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4540,7 +4540,7 @@ SpriteRenderer:
   m_Size: {x: 0.84, y: 12.45}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &552836709
 GameObject:
@@ -5293,7 +5293,7 @@ GameObject:
   - component: {fileID: 647539756}
   - component: {fileID: 647539757}
   m_Layer: 6
-  m_Name: "A \uAD6C\uC5ED \uCD08\uADFC\uACBD"
+  m_Name: A_ForeFore_Object_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5629,7 +5629,7 @@ GameObject:
   - component: {fileID: 692369227}
   - component: {fileID: 692369228}
   m_Layer: 6
-  m_Name: "C\uAD6C\uC5ED \uC911\uACBD 3"
+  m_Name: C_Middle_Building_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6976,7 +6976,7 @@ GameObject:
   - component: {fileID: 805534197}
   - component: {fileID: 805534198}
   m_Layer: 6
-  m_Name: "A\uAD6C\uC5ED \uC911\uACBD 1"
+  m_Name: A_Middle_Building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7449,7 +7449,7 @@ GameObject:
   - component: {fileID: 872018024}
   - component: {fileID: 872018025}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (3)"
+  m_Name: CityLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8770,7 +8770,7 @@ GameObject:
   - component: {fileID: 974909250}
   - component: {fileID: 974909251}
   m_Layer: 6
-  m_Name: "1\uCE35 \uBC14\uB2E5"
+  m_Name: 1F Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8912,7 +8912,7 @@ GameObject:
   - component: {fileID: 980668471}
   - component: {fileID: 980668472}
   m_Layer: 0
-  m_Name: "B\uAD6C\uC5ED \uADFC\uACBD \uC624\uBE0C\uC81D\uD2B82 (1)"
+  m_Name: B_Obects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9123,7 +9123,7 @@ GameObject:
   - component: {fileID: 1008935153}
   - component: {fileID: 1008935154}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (4)"
+  m_Name: CityUpLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9860,7 +9860,7 @@ GameObject:
   - component: {fileID: 1041447591}
   - component: {fileID: 1041447592}
   m_Layer: 6
-  m_Name: "B\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C"
+  m_Name: B_Fore_Building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10419,7 +10419,7 @@ GameObject:
   - component: {fileID: 1089424764}
   - component: {fileID: 1089424765}
   m_Layer: 10
-  m_Name: "\uC5D8\uB9AC\uBCA0\uC774\uD130 \uBB38"
+  m_Name: Elevator Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10497,7 +10497,7 @@ SpriteRenderer:
   m_Size: {x: 0.2, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!1 &1089910863
 GameObject:
@@ -11265,7 +11265,7 @@ GameObject:
   - component: {fileID: 1135728411}
   - component: {fileID: 1135728412}
   m_Layer: 6
-  m_Name: "C\uAD6C\uC5ED \uC911\uACBD 2 \uC624\uBE0C\uC81D\uD2B82"
+  m_Name: C_Middle_Object_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11622,7 +11622,7 @@ GameObject:
   - component: {fileID: 1151976386}
   - component: {fileID: 1151976387}
   m_Layer: 6
-  m_Name: "A\uAD6C\uC5ED \uADFC\uACBD \uAC74\uBB3C"
+  m_Name: A_Fore_Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12510,7 +12510,7 @@ GameObject:
   - component: {fileID: 1228587063}
   - component: {fileID: 1228587064}
   m_Layer: 0
-  m_Name: "C \uC6D0\uACBD 2"
+  m_Name: C_Back_Building_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12601,7 +12601,7 @@ GameObject:
   - component: {fileID: 1245340164}
   - component: {fileID: 1245340165}
   m_Layer: 6
-  m_Name: "\uD39C\uC2A4"
+  m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12809,7 +12809,7 @@ GameObject:
   - component: {fileID: 1268683208}
   - component: {fileID: 1268683209}
   m_Layer: 6
-  m_Name: "\uCD08\uADFC\uACBD"
+  m_Name: B_ForeFore_Object_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13951,7 +13951,7 @@ GameObject:
   - component: {fileID: 1319968554}
   - component: {fileID: 1319968555}
   m_Layer: 6
-  m_Name: "C\uAD6C\uC5ED \uC911\uACBD 1"
+  m_Name: C_Middle_Building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14309,7 +14309,7 @@ GameObject:
   - component: {fileID: 1337494586}
   - component: {fileID: 1337494587}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (5)"
+  m_Name: CityUpLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15317,7 +15317,7 @@ GameObject:
   - component: {fileID: 1454036148}
   - component: {fileID: 1454036149}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (1)"
+  m_Name: CityUpLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16019,7 +16019,7 @@ GameObject:
   - component: {fileID: 1582674274}
   - component: {fileID: 1582674275}
   m_Layer: 10
-  m_Name: "\uC5D8\uB9AC\uBCA0\uC774\uD130 \uBCF8\uCCB4"
+  m_Name: Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16103,7 +16103,7 @@ SpriteRenderer:
   m_Size: {x: 1.15, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!114 &1582674273
 MonoBehaviour:
@@ -16785,7 +16785,7 @@ GameObject:
   - component: {fileID: 1640816512}
   - component: {fileID: 1640816513}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3 (3)"
+  m_Name: CityUpLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19383,7 +19383,7 @@ GameObject:
   - component: {fileID: 1913906406}
   - component: {fileID: 1913906405}
   m_Layer: 6
-  m_Name: "\uC2DC\uD2F0\uB77C\uC774\uD2B8 3"
+  m_Name: 'CityLight '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20082,7 +20082,7 @@ GameObject:
   - component: {fileID: 2013009710}
   - component: {fileID: 2013009711}
   m_Layer: 6
-  m_Name: "C \uC6D0\uACBD"
+  m_Name: C_Back_Building_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20173,7 +20173,7 @@ GameObject:
   - component: {fileID: 2013520637}
   - component: {fileID: 2013520638}
   m_Layer: 6
-  m_Name: "A\uAD6C\uC5ED \uC911\uACBD 2"
+  m_Name: A_Middle_Building_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
