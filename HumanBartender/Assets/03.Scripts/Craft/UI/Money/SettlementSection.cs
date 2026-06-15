@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class SettlementSection : MonoBehaviour
@@ -13,7 +12,11 @@ public class SettlementSection : MonoBehaviour
     [Header("Header")]
     [SerializeField] private TMP_Text labelText;     
     [SerializeField] private TMP_Text totalText;    
-    [SerializeField] private TMP_Text toggleText;   
+    [SerializeField] private TMP_Text toggleText;
+    [SerializeField] private Image toggleImage;
+    [SerializeField] private Sprite togglePlusSprite;
+    [SerializeField] private Sprite toggleMinusSprite;
+
     [SerializeField] private RectTransform headerRect;
 
     [Header("Body")]
@@ -77,7 +80,9 @@ public class SettlementSection : MonoBehaviour
         
         if (toggleText != null) toggleText.text = isopen ? "−" : "+";
 
-        if(isOpen)
+        toggleImage.sprite = isopen ? toggleMinusSprite : togglePlusSprite;
+
+        if (isOpen)
             bodyRect.gameObject.SetActive(isopen);
 
         float start = isopen ? 0 : spawned.Count * bodyHeight;
