@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,6 +36,7 @@ public class SettlementSection : MonoBehaviour
 
     private Coroutine anim;
 
+
     public void Build(string label, IEnumerable<SettlementLine> lines, string totalStr)
     {
         if (labelText != null) labelText.text = label;
@@ -42,12 +44,16 @@ public class SettlementSection : MonoBehaviour
 
         foreach (var r in spawned) if (r != null) Destroy(r.gameObject);
         spawned.Clear();
+        bodyRect.sizeDelta = new Vector2(bodyRect.sizeDelta.x, 0f);
 
         if (lines == null) return;
 
         foreach (var line in lines)
         {
             var row = Instantiate(rowPrefab, rowParent);
+
+            bodyRect.sizeDelta += new Vector2(0, 30f);
+
             row.Set(line);
             spawned.Add(row);
         }
@@ -71,15 +77,20 @@ public class SettlementSection : MonoBehaviour
         
         if (toggleText != null) toggleText.text = isopen ? "−" : "+";
 
-        bodyRect.gameObject.SetActive(isopen);
+        if(isOpen)
+            bodyRect.gameObject.SetActive(isopen);
 
-        float target = isopen ? headerHeight + spawned.Count * bodyHeight + padding : headerHeight;
-        anim = StartCoroutine(AnimationHeight(sectionRect, target, 0.5f));
+        float start = isopen ? 0 : spawned.Count * bodyHeight;
+        float target = isopen ? spawned.Count * bodyHeight : 0;
+
+        //float target = isopen ? headerHeight + spawned.Count * bodyHeight + padding : headerHeight;
+
+        anim = StartCoroutine(AnimationHeight(bodyRect, start, target, 0.5f));
     }
 
-    public IEnumerator AnimationHeight(RectTransform rect, float target, float duration)
+    public IEnumerator AnimationHeight(RectTransform rect, float start, float target, float duration)
     {
-        float start = rect.sizeDelta.y;
+        
         float t = 0f;
 
         while (t < duration)
@@ -97,5 +108,8 @@ public class SettlementSection : MonoBehaviour
         Vector2 end = rect.sizeDelta;
         end.y = target;
         rect.sizeDelta = end;
+
+        if (!isOpen)
+            bodyRect.gameObject.SetActive(isOpen);
     }
 }

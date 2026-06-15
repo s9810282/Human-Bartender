@@ -823,6 +823,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &613077393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613077395}
+  - component: {fileID: 613077394}
+  m_Layer: 0
+  m_Name: LifeTimeScope
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &613077394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613077393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2c62ac3bcd44fb9e09835581422057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: VContainer::VContainer.Unity.LifetimeScope
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects:
+  - {fileID: 1811782415}
+--- !u!4 &613077395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613077393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.17917, y: 0.01872, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &632931554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,7 +2333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1811782416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2301,6 +2350,7 @@ MonoBehaviour:
   textView: {fileID: 1811782418}
   currency: {fileID: 0}
   settlement: {fileID: 0}
+  showSettleMent: {fileID: 11400000, guid: 346b8f58b38d03549bf1022f14637c40, type: 2}
 --- !u!4 &1811782417
 Transform:
   m_ObjectHideFlags: 0
@@ -2334,6 +2384,7 @@ MonoBehaviour:
   canvasRect: {fileID: 562793721}
   baseOffset: {x: 0, y: 0}
   subOffset: {x: 0, y: 0}
+  defaultTypingDelay: 0.05
 --- !u!1 &1931732897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2700,3 +2751,4 @@ SceneRoots:
   - {fileID: 644780519}
   - {fileID: 562793721}
   - {fileID: 1811782417}
+  - {fileID: 613077395}
