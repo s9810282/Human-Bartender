@@ -59,7 +59,7 @@ public class UIDialogueTextView : MonoBehaviour
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
 
-    private float defaultTypingDelay = 0.05f;
+    [SerializeField] private float defaultTypingDelay = 0.05f;
 
     void Start()
     {
