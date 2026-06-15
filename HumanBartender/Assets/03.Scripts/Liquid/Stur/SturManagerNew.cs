@@ -77,7 +77,9 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
             GetCenterWorldPosition(),
             colors);
 
-        sturStrikeNode.transform.position = GetSpawnPoint(0);
+
+        sturStrikeNode.Init(GetCenterWorldPosition(), bpm, beatCount, radiusX, radiusY);
+
 
         totalJudge = Mathf.RoundToInt(data.targetCraft_tolerance * 1.3f);
         successJudge = 0;
@@ -142,7 +144,7 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
         Logger.Log("Start Game");
 
         bgmSource.PlayScheduled(AudioSettings.dspTime + 0.1f);
-        sturStrikeNode.InitToStart(GetCenterWorldPosition(), bpm, beatCount, radiusX, radiusY);
+        sturStrikeNode.InitToStart();
         nodeCreator.InitToStart();
     }
 
@@ -198,15 +200,5 @@ public class SturManagerNew : MonoBehaviour, IMiniGameController
 
 
         return worldPos;
-    }
-    public Vector3 GetSpawnPoint(float angle)
-    {
-        float rad = angle * Mathf.Deg2Rad;
-        Vector3 offset = new Vector3(
-            Mathf.Cos(rad) * radiusX,
-            Mathf.Sin(-rad) * radiusY,
-            0f
-        );
-        return offset;
     }
 }
