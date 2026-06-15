@@ -701,6 +701,114 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &509824938314626489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407652557431037952}
+  - component: {fileID: 7047596221368466385}
+  - component: {fileID: 4266516427623008656}
+  m_Layer: 0
+  m_Name: skeletonGraphic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1407652557431037952
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509824938314626489}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2366362166523076582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7047596221368466385
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509824938314626489}
+  m_CullTransparentMesh: 0
+--- !u!114 &4266516427623008656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509824938314626489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: spine-unity::Spine.Unity.SkeletonGraphic
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  skeletonDataAsset: {fileID: 0}
+  additiveMaterial: {fileID: 2100000, guid: 2e8245019faeb8c43b75f9ca3ac8ee34, type: 2}
+  multiplyMaterial: {fileID: 2100000, guid: e74a1f8978a7da348a721508d0d58834, type: 2}
+  screenMaterial: {fileID: 2100000, guid: bab24c479f34eec45be6ea8595891569, type: 2}
+  m_SkeletonColor: {r: 1, g: 1, b: 1, a: 1}
+  initialSkinName: 
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: 
+  startingLoop: 0
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 0
+  referenceSize: {x: 100, y: 100}
+  pivotOffset: {x: 0, y: 0}
+  referenceScale: 1
+  layoutScale: 1
+  rectTransformSize: {x: 100, y: 100}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  updateSeparatorPartScale: 0
+  disableMeshAssignmentOnOverride: 1
+  physicsPositionInheritanceFactor: {x: 1, y: 1}
+  physicsRotationInheritanceFactor: 1
+  physicsMovementRelativeTo: {fileID: 0}
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      tintBlack: 0
+      canvasGroupCompatible: 0
+      pmaVertexColors: 1
+      addNormals: 0
+      calculateTangents: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
 --- !u!1 &511972348273320724
 GameObject:
   m_ObjectHideFlags: 0
@@ -3270,7 +3378,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3758,6 +3866,51 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!1 &2305573576532697054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219905586247375787}
+  - component: {fileID: 1038708682161135722}
+  m_Layer: 0
+  m_Name: SpinAnim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219905586247375787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305573576532697054}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1795640377346553486}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1038708682161135722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305573576532697054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d63134e54c2a6e4daf77cf1c7fa065d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpineAnimationManager
+  skeletonGraphic: {fileID: 4266516427623008656}
 --- !u!1 &2338409282959639668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,7 +4385,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4533,6 +4686,7 @@ RectTransform:
   - {fileID: 6366743727895070913}
   - {fileID: 7367511968665896930}
   - {fileID: 5953353140922922637}
+  - {fileID: 1407652557431037952}
   m_Father: {fileID: 8996201954025937108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6411,7 +6565,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1.03, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8996201954025937108}
+  m_Father: {fileID: 1795640377346553486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7751749045872520318
 SpriteRenderer:
@@ -7413,7 +7567,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8379,7 +8533,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8516,7 +8670,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9215,7 +9369,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9971,6 +10125,73 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6992517938040842936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1795640377346553486}
+  - component: {fileID: 5528882152444420899}
+  m_Layer: 0
+  m_Name: CutSceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1795640377346553486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992517938040842936}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8618959918038971516}
+  - {fileID: 1219905586247375787}
+  m_Father: {fileID: 8996201954025937108}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5528882152444420899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992517938040842936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb05468e2a26fd41bdedcab8aa608b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
+  spriteAnimationManager:
+    partName: 10
+    partCurAnim: 
+    animator: {fileID: 5852505851014542260}
+    spriteRenderer: {fileID: 7751749045872520318}
+    baseController: {fileID: 9100000, guid: 7a99b78cd3499ac4abfeeb755f990b96, type: 2}
+  spineAnimationManager: {fileID: 1038708682161135722}
+  timelineManager: {fileID: 1182543933211446036}
+  cutSceneCanvas: {fileID: 3433658920043195082}
+  canvasRect: {fileID: 2366362166523076582}
+  effectOverlay: {fileID: 551943493231934737}
+  images:
+  - {fileID: 7154123595063067577}
+  - {fileID: 2481778558413542188}
+  - {fileID: 2122609984659523877}
+  - {fileID: 6964052920670553976}
+  - {fileID: 3255429360802719399}
+  - {fileID: 5807815451679188689}
+  padding_X: 96
+  padding_Y: 54
 --- !u!1 &7000513450921886416
 GameObject:
   m_ObjectHideFlags: 0
@@ -10121,7 +10342,6 @@ GameObject:
   - component: {fileID: 8996201954025937108}
   - component: {fileID: 6267841711113335578}
   - component: {fileID: 5272795090787751557}
-  - component: {fileID: 8093817222815499488}
   - component: {fileID: 7549114144235039453}
   m_Layer: 0
   m_Name: ProjectLifeScope
@@ -10146,7 +10366,7 @@ Transform:
   - {fileID: 2366362166523076582}
   - {fileID: 7770504282681740549}
   - {fileID: 1522864359059516539}
-  - {fileID: 8618959918038971516}
+  - {fileID: 1795640377346553486}
   - {fileID: 4187587428315885078}
   - {fileID: 5787401488623093922}
   - {fileID: 5628384796373844579}
@@ -10188,39 +10408,6 @@ MonoBehaviour:
   ganishEntries: []
   eTCEntries: []
   testData: {fileID: 11400000, guid: f1a6519940450a3489b2181e8f218a4b, type: 2}
---- !u!114 &8093817222815499488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7091543009631301304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bb05468e2a26fd41bdedcab8aa608b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
-  spriteAnimationManager:
-    partName: 10
-    partCurAnim: 
-    animator: {fileID: 5852505851014542260}
-    spriteRenderer: {fileID: 7751749045872520318}
-    baseController: {fileID: 9100000, guid: 7a99b78cd3499ac4abfeeb755f990b96, type: 2}
-  spineAnimationManager: {fileID: 0}
-  timelineManager: {fileID: 1182543933211446036}
-  cutSceneCanvas: {fileID: 3433658920043195082}
-  canvasRect: {fileID: 2366362166523076582}
-  effectOverlay: {fileID: 551943493231934737}
-  images:
-  - {fileID: 7154123595063067577}
-  - {fileID: 2481778558413542188}
-  - {fileID: 2122609984659523877}
-  - {fileID: 6964052920670553976}
-  - {fileID: 3255429360802719399}
-  - {fileID: 5807815451679188689}
-  padding_X: 96
-  padding_Y: 54
 --- !u!81 &7549114144235039453
 AudioListener:
   m_ObjectHideFlags: 0
@@ -10636,7 +10823,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11124,7 +11311,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11950,7 +12137,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12189,7 +12376,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12545,7 +12732,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -13963,7 +14150,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294835671
-  m_fontColor: {r: 0.84313726, g: 0.99215686, b: 0.99215686, a: 1}
+  m_fontColor: {r: 0.6392157, g: 0.9254902, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
