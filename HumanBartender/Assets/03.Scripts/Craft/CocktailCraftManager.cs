@@ -209,7 +209,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             cutScenePlayer.ClearCutScene();
         }
 
-        cameraTcs.TrySetResult();
+        //cameraTcs.TrySetResult();
         await miniGameInitTcs.Task;
 
         if (resolver != null)
