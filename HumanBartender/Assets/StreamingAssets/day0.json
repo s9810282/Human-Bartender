@@ -1,10 +1,26 @@
 {
   "day": 0,
   "scenes": [
+    
     {
       "scene_id": "day0_chris",
       "customer": "chris",
       "dialogues": [
+        {
+          "id": "start",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "day0_chris_x1",
+          "choices": null,
+          "trigger": {
+            "type": "start_cutscene",
+            "data": {
+              "cutscene_id": "Intro_lab_Sprite"
+            }
+          }
+        },
         {
           "id": "day0_chris_x1",
           "speaker": "system",

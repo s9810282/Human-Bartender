@@ -64,6 +64,11 @@ public class OustideTimelineManager : MonoBehaviour, IOutsideTimeliner
         director.Play();
     }
 
+    public void OnTriggerEnding()
+    {
+        SceneTransitionManager.Instance.LoadScene("TempEnding");
+    }
+
     public void InitHandler(List<CutsceneLine> lines)
     {
         handler.Init(lines);

@@ -210,7 +210,9 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             spriteAnimationManager.ActiveSelf(true);
             spriteAnimationManager.SetClip(ANIM_SLOT, handle);
             spriteAnimationManager.PlayAnimation(ANIM_SLOT, token);
+            await PlayEffectAsync(EEffectType.FadeOut, 1f);
             await UniTask.WaitForSeconds(handle.Value.Result.length);
+            await PlayEffectAsync(EEffectType.FadeOut, 1f);
         }
         else
         {
