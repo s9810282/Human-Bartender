@@ -190,11 +190,11 @@
           "etc":         null
         },
         "anger": {
-          "eyes":        { "clip": "default_eyes_anger",        "loop": "always" },
-          "eyebrows":    { "clip": "default_eyebrows_anger",    "loop": "always" },
-          "upper_face":  { "clip": "default_upper_face_anger",  "loop": "always" },
-          "lower_face":  { "clip": "default_lower_face_anger",  "loop": "always_on_dialogue" },
-          "body":        { "clip": "default_body_anger",        "loop": "once" },
+          "eyes":        { "clip": "default_eyes_anger",        "loop": "Special_on_dialogue" },
+          "eyebrows":    { "clip": "default_eyebrows_anger",    "loop": "Special_on_dialogue" },
+          "upper_face":  { "clip": "default_upper_face_anger",  "loop": "Special_on_dialogue" },
+          "lower_face":  { "clip": "default_lower_face_anger",  "loop": "Special_on_dialogue" },
+          "body":        { "clip": "default_body_anger",        "loop": "Special_on_dialogue" },
           "extra":       null,
           "etc":         null
         },
