@@ -5,7 +5,7 @@ using VContainer.Unity;
 public interface IDisplaySettings
 {
     Vector2Int[] WindowedSizes { get; }
-    void SetFullscreen(bool on);
+    void SetFullscreen(bool fullscreen);
     void SetWindowedSize(int index);
     void SetFillMode(bool stretchToFill);
 
@@ -28,13 +28,14 @@ public class DisplaySettings : IDisplaySettings, IInitializable
 
     public void Initialize()
     {
-        bool full = PlayerPrefs.GetInt("Windowed", 1) == 1;
-        SetFullscreen(full);
+        // 기본값: 전체화면 (키가 없으면 1 = 전체화면)
+        bool fullscreen = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        SetFullscreen(fullscreen);
     }
 
-    public void SetFullscreen(bool on)
+    public void SetFullscreen(bool fullscreen)
     {
-        if (on)
+        if (fullscreen)
         {
             var r = Screen.currentResolution;
             Screen.SetResolution(r.width, r.height, FullScreenMode.FullScreenWindow);
@@ -45,7 +46,7 @@ public class DisplaySettings : IDisplaySettings, IInitializable
             var s = _windowedSizes[i];
             Screen.SetResolution(s.x, s.y, FullScreenMode.Windowed);
         }
-        PlayerPrefs.SetInt("Windowed", on ? 1 : 0);
+        PlayerPrefs.SetInt("Fullscreen", fullscreen ? 1 : 0);
         PlayerPrefs.Save();
     }
 
@@ -84,7 +85,7 @@ public class DisplaySettings : IDisplaySettings, IInitializable
     private void ApplyFillToActive()
     {
         if (_activePPC == null) return;
-        bool stretch = PlayerPrefs.GetInt("FillStretch", 1) == 1;
+        bool stretch = PlayerPrefs.GetInt("FillStretch", 1) == 1;   // 기본 StretchFill
         _activePPC.cropFrame = stretch
             ? PixelPerfectCamera.CropFrame.StretchFill
             : PixelPerfectCamera.CropFrame.Windowbox;

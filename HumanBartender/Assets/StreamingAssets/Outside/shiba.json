@@ -4,612 +4,837 @@
     "label": "대화"
   },
   "days": [
-
     {
       "day": 1,
       "route": "commute_in",
       "spawn_condition": null,
-      "selection": { "type": "conditional" },
+      "selection": {
+        "type": "conditional"
+      },
       "flows": [
-
         {
           "flow_id": "first_encounter",
-          "condition": { "type": "flag", "flag_id": "shiba_flow1_done", "bValue": false },
+          "condition": {
+            "type": "flag",
+            "flag_id": "shiba_flow1_done",
+            "bValue": false
+          },
           "dialogues": [
             {
-              "id": "shiba_in_d1_first_001",
+              "id": "first_encounter_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "…",
-              "next": "shiba_in_d1_first_002",
+              "next": "first_encounter_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_002",
+              "id": "first_encounter_x2",
               "speaker": "shiba",
               "type": "normal",
-              "text": "뭘 봐?",
-              "next": "shiba_in_d1_first_003",
+              "text": "뭘 봐? 시바.",
+              "next": "first_encounter_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_003",
+              "id": "first_encounter_x3",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "안녕하세요.",
+              "next": "first_encounter_x4",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "first_encounter_x4",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "하. 이 동네에서 인사하고\n돌아다니는 놈이 있네.",
+              "next": "first_encounter_x5",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "first_encounter_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "혹시 인간입니까?",
-              "next": "shiba_in_d1_first_004",
+              "next": "first_encounter_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_004",
+              "id": "first_encounter_x6",
               "speaker": "shiba",
               "type": "normal",
               "text": "뭐래, 너 머리 나쁘냐?",
-              "next": "shiba_in_d1_first_005",
+              "next": "first_encounter_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_005",
+              "id": "first_encounter_x7",
               "speaker": "luna",
               "type": "normal",
-              "text": "인간처럼 보이진 않는데요.",
-              "next": "shiba_in_d1_first_006",
+              "text": "육안으로 봤을 때 강아지로 판단됩니다.",
+              "next": "first_encounter_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_006",
+              "id": "first_encounter_x8",
               "speaker": "shiba",
               "type": "normal",
-              "text": "사람을 얼굴로 판단하지 말라고. 못생긴 놈 같으니.",
-              "next": "shiba_in_d1_first_007",
+              "text": "사람을 얼굴로 판단하지 말라고.\n못생긴 놈 같으니.",
+              "next": "first_encounter_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_007",
+              "id": "first_encounter_x9",
               "speaker": "luna",
               "type": "normal",
-              "text": "…",
-              "next": "shiba_in_d1_first_008",
+              "text": "…그럼 사람이 맞는 건가요?",
+              "next": "first_encounter_x10",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_008",
+              "id": "first_encounter_x10",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "아니?",
+              "next": "first_encounter_x11",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "first_encounter_x11",
               "speaker": "shiba",
               "type": "normal",
               "text": "딱 보면 시바잖아, 시바.",
-              "next": "shiba_in_d1_first_009",
+              "next": "first_encounter_x12",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_009",
+              "id": "first_encounter_x12",
               "speaker": "luna",
               "type": "normal",
-              "text": "아하… 네.",
-              "next": "shiba_in_d1_first_end",
+              "text": "아하… 확인했습니다.",
+              "next": "first_encounter_x13",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_first_end",
+              "id": "first_encounter_x13",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_flow1_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_flow1_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "poster_confrontation",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_flow1_done",        "bValue": true  },
-              { "type": "flag", "flag_id": "read_poster_shiba_wanted", "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_poster_done",        "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_flow1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "read_poster_shiba_wanted",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_poster_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_in_d1_poster_001",
+              "id": "poster_confrontation_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "혹시 저 벽의 포스터…",
-              "next": "shiba_in_d1_poster_002",
+              "next": "poster_confrontation_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_poster_002",
+              "id": "poster_confrontation_x2",
               "speaker": "shiba",
               "type": "normal",
               "text": "뭐, 저거?",
-              "next": "shiba_in_d1_poster_003",
+              "next": "poster_confrontation_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_poster_003",
+              "id": "poster_confrontation_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "세상에 시바견이 얼마나 많은데 저게 나일 것 같아?",
-              "next": "shiba_in_d1_poster_004",
+              "next": "poster_confrontation_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_poster_004",
+              "id": "poster_confrontation_x4",
               "speaker": "shiba",
               "type": "normal",
               "text": "이상한 소리 하지 말고 꺼져, 시바.",
-              "next": "shiba_in_d1_poster_005",
+              "next": "poster_confrontation_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_poster_005",
+              "id": "poster_confrontation_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "…네.",
-              "next": "shiba_in_d1_poster_end",
+              "next": "poster_confrontation_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_poster_end",
+              "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_1",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_flow1_done",       "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_d1_in_rev1_done",  "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_flow1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_d1_in_rev1_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_in_d1_rev1_001",
+              "id": "revisit_1_x1",
               "speaker": "shiba",
               "type": "normal",
               "text": "아, 자꾸 왜 알짱거려, 시바.",
-              "next": "shiba_in_d1_rev1_002",
+              "next": "revisit_1_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_002",
+              "id": "revisit_1_x2",
               "speaker": "luna",
               "type": "normal",
-              "text": "주변에 말할 곳이 여기밖에 없어서…",
-              "next": "shiba_in_d1_rev1_003",
+              "text": "주변에 말할 곳이 여기밖에 없습니다.",
+              "next": "revisit_1_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_003",
+              "id": "revisit_1_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "쯧. 친구도 없나 보네. 그래 보이긴 해.",
-              "next": "shiba_in_d1_rev1_004",
+              "next": "revisit_1_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_004",
+              "id": "revisit_1_x4",
               "speaker": "luna",
               "type": "normal",
-              "text": "….",
-              "next": "shiba_in_d1_rev1_005",
+              "text": "…",
+              "next": "revisit_1_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_005",
+              "id": "revisit_1_x5",
               "speaker": "shiba",
               "type": "normal",
               "text": "너 저기 언노운 바에서 일하는 놈이지?",
-              "next": "shiba_in_d1_rev1_006",
+              "next": "revisit_1_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_006",
+              "id": "revisit_1_x6",
               "speaker": "luna",
               "type": "normal",
               "text": "어떻게 아셨습니까?",
-              "next": "shiba_in_d1_rev1_007",
+              "next": "revisit_1_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_007",
+              "id": "revisit_1_x7",
               "speaker": "shiba",
               "type": "normal",
               "text": "난 모르는 게 없어.\n시바견은 위대하기 때문이지, 시바.",
-              "next": "shiba_in_d1_rev1_008",
+              "next": "revisit_1_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_008",
+              "id": "revisit_1_x8",
               "speaker": "luna",
               "type": "normal",
               "text": "시바견은 위대하군요.",
-              "next": "shiba_in_d1_rev1_009",
+              "next": "revisit_1_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_009",
+              "id": "revisit_1_x9",
               "speaker": "shiba",
               "type": "normal",
-              "text": "그래, 시바.",
-              "next": "shiba_in_d1_rev1_end",
+              "text": "그래. 그러니 나중에 매상 좀 올려 줘.",
+              "next": "revisit_1_x10",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d1_rev1_end",
+              "id": "revisit_1_x10",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "여긴 뭘 파는 곳이죠?",
+              "next": "revisit_1_x11",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x11",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "술 파는 곳이야.",
+              "next": "revisit_1_x12",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x12",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "지금은 살 수 없는 것처럼 보이는데요.",
+              "next": "revisit_1_x13",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x13",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "손님 받을 기분이 아니야 나중에 다시 오도록.",
+              "next": "revisit_1_x14",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x14",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "후.. 내가 5년만 젊었어도 이런 촌동네로 안 오는건데.",
+              "next": "revisit_1_x15",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x15",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "…",
+              "next": "revisit_1_x16",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_1_x16",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_d1_in_rev1_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_in_rev1_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         }
-
       ]
     },
-
     {
       "day": 1,
       "route": "commute_out",
       "spawn_condition": null,
-      "selection": { "type": "conditional" },
+      "selection": {
+        "type": "conditional"
+      },
       "flows": [
-
         {
           "flow_id": "poster_confrontation",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_flow1_done",        "bValue": true  },
-              { "type": "flag", "flag_id": "read_poster_shiba_wanted", "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_poster_done",        "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_flow1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "read_poster_shiba_wanted",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_poster_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_out_d1_poster_001",
+              "id": "poster_confrontation_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "혹시 저 벽의 포스터…",
-              "next": "shiba_out_d1_poster_002",
+              "next": "poster_confrontation_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_poster_002",
+              "id": "poster_confrontation_x2",
               "speaker": "shiba",
               "type": "normal",
               "text": "뭐, 저거?",
-              "next": "shiba_out_d1_poster_003",
+              "next": "poster_confrontation_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_poster_003",
+              "id": "poster_confrontation_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "세상에 시바견이 얼마나 많은데 저게 나일 것 같아?",
-              "next": "shiba_out_d1_poster_004",
+              "next": "poster_confrontation_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_poster_004",
+              "id": "poster_confrontation_x4",
               "speaker": "shiba",
               "type": "normal",
               "text": "이상한 소리 하지 말고 꺼져, 시바.",
-              "next": "shiba_out_d1_poster_005",
+              "next": "poster_confrontation_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_poster_005",
+              "id": "poster_confrontation_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "…네.",
-              "next": "shiba_out_d1_poster_end",
+              "next": "poster_confrontation_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_poster_end",
+              "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_bubi",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_d1_in_rev1_done",   "bValue": true  },
-              { "type": "flag", "flag_id": "bubi_affinity_high",       "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_d1_out_bubi_done",   "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_d1_in_rev1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "bubi_affinity_high",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_d1_out_bubi_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_out_d1_bubi_001",
+              "id": "revisit_bubi_x1",
               "speaker": "shiba",
               "type": "normal",
               "text": "또 왔네, 시바.",
-              "next": "shiba_out_d1_bubi_002",
+              "next": "revisit_bubi_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_002",
+              "id": "revisit_bubi_x2",
               "speaker": "luna",
               "type": "normal",
               "text": "안녕하세요.",
-              "next": "shiba_out_d1_bubi_003",
+              "next": "revisit_bubi_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_003",
+              "id": "revisit_bubi_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "생각보다 실력이 있나 봐?",
-              "next": "shiba_out_d1_bubi_004",
+              "next": "revisit_bubi_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_004",
+              "id": "revisit_bubi_x4",
               "speaker": "luna",
               "type": "normal",
               "text": "네?",
-              "next": "shiba_out_d1_bubi_005",
+              "next": "revisit_bubi_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_005",
+              "id": "revisit_bubi_x5",
               "speaker": "shiba",
               "type": "normal",
               "text": "부비가 네가 만든 게 생각보다 나쁘지 않았다던데.",
-              "next": "shiba_out_d1_bubi_006",
+              "next": "revisit_bubi_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_006",
+              "id": "revisit_bubi_x6",
               "speaker": "luna",
               "type": "normal",
               "text": "부비랑 친하셨나요?",
-              "next": "shiba_out_d1_bubi_007",
+              "next": "revisit_bubi_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_007",
+              "id": "revisit_bubi_x7",
               "speaker": "shiba",
               "type": "normal",
               "text": "한때 부비와 내가 이 뒷골목을 제패했던 적이 있어.",
-              "next": "shiba_out_d1_bubi_008",
+              "next": "revisit_bubi_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_008",
+              "id": "revisit_bubi_x8",
               "speaker": "shiba",
               "type": "normal",
-              "text": "거지 같은 패러사이트 새끼들도 감히 우리 상대가 되지 못했었어, 시바.",
-              "next": "shiba_out_d1_bubi_009",
+              "text": "지금 여기서 제일 유명한 붉은 혜성도 내 상대가 되지 못했지.",
+              "next": "revisit_bubi_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_009",
+              "id": "revisit_bubi_x9",
               "speaker": "luna",
               "type": "normal",
               "text": "아… 네…",
-              "next": "shiba_out_d1_bubi_end",
+              "next": "revisit_bubi_x10",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bubi_end",
+              "id": "revisit_bubi_x10",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "못 믿나 보네.",
+              "next": "revisit_bubi_x11",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x11",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "그렇게 강하다기에는 당신의 신체적 조건이 너무 부족합니다.",
+              "next": "revisit_bubi_x12",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x12",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "지금 나 팔다리 짧다고 무시하는 거냐, 시바?",
+              "next": "revisit_bubi_x13",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x13",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "그렇게 볼 수 있습니다.",
+              "next": "revisit_bubi_x14",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x14",
+              "speaker": "shiba",
+              "type": "normal",
+              "text": "후… 조만간 보여 주지. B구역의 악몽을.",
+              "next": "revisit_bubi_x15",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x15",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "(계속 헛소리를 하는 걸 보니 이 개가 맞는 것 같은데.)",
+              "next": "revisit_bubi_x16",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "revisit_bubi_x16",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_d1_out_bubi_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_out_bubi_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_bar",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_d1_in_rev1_done",  "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_d1_out_bar_done",  "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_d1_in_rev1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_d1_out_bar_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_out_d1_bar_001",
+              "id": "revisit_bar_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "그런데 여기는 바인 건가요?",
-              "next": "shiba_out_d1_bar_002",
+              "next": "revisit_bar_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_002",
+              "id": "revisit_bar_x2",
               "speaker": "shiba",
               "type": "normal",
               "text": "당연한 거 아니야?",
-              "next": "shiba_out_d1_bar_003",
+              "next": "revisit_bar_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_003",
+              "id": "revisit_bar_x3",
               "speaker": "luna",
               "type": "normal",
               "text": "그런데 왜 이름이 시바ㄹ—",
-              "next": "shiba_out_d1_bar_004",
+              "next": "revisit_bar_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_004",
+              "id": "revisit_bar_x4",
               "speaker": "shiba",
               "type": "normal",
               "text": "어허! 이 간판 이름을 육성으로 말하면 안 돼.",
-              "next": "shiba_out_d1_bar_005",
+              "next": "revisit_bar_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_005",
+              "id": "revisit_bar_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "왜죠?",
-              "next": "shiba_out_d1_bar_006",
+              "next": "revisit_bar_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_006",
+              "id": "revisit_bar_x6",
               "speaker": "shiba",
               "type": "normal",
-              "text": "이 게임은 전체이용가를 지향하는 게임이기 때문이지, 시바.",
-              "next": "shiba_out_d1_bar_007",
+              "text": "이 게임은 전체 이용가를 지향하는 게임이기 때문이지, 시바.",
+              "next": "revisit_bar_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_007",
+              "id": "revisit_bar_x7",
               "speaker": "luna",
               "type": "normal",
-              "text": "…..?",
-              "next": "shiba_out_d1_bar_end",
+              "text": "…?",
+              "next": "revisit_bar_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_bar_end",
+              "id": "revisit_bar_x8",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_d1_out_bar_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_out_bar_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_repeat",
-          "condition": { "type": "flag", "flag_id": "shiba_d1_out_bar_done", "bValue": true },
+          "condition": {
+            "type": "flag",
+            "flag_id": "shiba_d1_out_bar_done",
+            "bValue": true
+          },
           "dialogues": [
             {
-              "id": "shiba_out_d1_rep_001",
+              "id": "revisit_repeat_x1",
               "speaker": "shiba",
               "type": "normal",
               "text": "이제 좀 가, 시바.",
-              "next": "shiba_out_d1_rep_002",
+              "next": "revisit_repeat_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_rep_002",
+              "id": "revisit_repeat_x2",
               "speaker": "luna",
               "type": "normal",
               "text": "왜죠?",
-              "next": "shiba_out_d1_rep_003",
+              "next": "revisit_repeat_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_rep_003",
+              "id": "revisit_repeat_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "이제 더 대화할 대사 데이터도 없단 말이야.",
-              "next": "shiba_out_d1_rep_004",
+              "next": "revisit_repeat_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_rep_004",
+              "id": "revisit_repeat_x4",
               "speaker": "luna",
               "type": "normal",
               "text": "…?",
-              "next": "shiba_out_d1_rep_005",
+              "next": "revisit_repeat_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_rep_005",
+              "id": "revisit_repeat_x5",
               "speaker": "shiba",
               "type": "normal",
               "text": "불만 있으면 이런 정신 나간 게임을 기획한 PD한테 가서 따져, 시바.",
-              "next": "shiba_out_d1_rep_end",
+              "next": "revisit_repeat_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_out_d1_rep_end",
+              "id": "revisit_repeat_x6",
               "speaker": "system",
               "type": "system",
               "text": "",
@@ -619,393 +844,439 @@
             }
           ]
         }
-
       ]
     },
-
     {
       "day": 2,
       "route": "commute_in",
       "spawn_condition": null,
-      "selection": { "type": "conditional" },
+      "selection": {
+        "type": "conditional"
+      },
       "flows": [
-
         {
           "flow_id": "poster_confrontation",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_flow1_done",        "bValue": true  },
-              { "type": "flag", "flag_id": "read_poster_shiba_wanted", "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_poster_done",        "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_flow1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "read_poster_shiba_wanted",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_poster_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_in_d2_poster_001",
+              "id": "poster_confrontation_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "혹시 저 벽의 포스터…",
-              "next": "shiba_in_d2_poster_002",
+              "next": "poster_confrontation_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_poster_002",
+              "id": "poster_confrontation_x2",
               "speaker": "shiba",
               "type": "normal",
               "text": "뭐, 저거?",
-              "next": "shiba_in_d2_poster_003",
+              "next": "poster_confrontation_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_poster_003",
+              "id": "poster_confrontation_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "세상에 시바견이 얼마나 많은데 저게 나일 것 같아?",
-              "next": "shiba_in_d2_poster_004",
+              "next": "poster_confrontation_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_poster_004",
+              "id": "poster_confrontation_x4",
               "speaker": "shiba",
               "type": "normal",
               "text": "이상한 소리 하지 말고 꺼져, 시바.",
-              "next": "shiba_in_d2_poster_005",
+              "next": "poster_confrontation_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_poster_005",
+              "id": "poster_confrontation_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "…네.",
-              "next": "shiba_in_d2_poster_end",
+              "next": "poster_confrontation_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_poster_end",
+              "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_poster_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_smell",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_flow1_done",       "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_d2_in_rev1_done",  "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_flow1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_d2_in_rev1_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_in_d2_smell_001",
+              "id": "revisit_smell_x1",
               "speaker": "luna",
               "type": "normal",
               "text": "안녕하세요.",
-              "next": "shiba_in_d2_smell_002",
+              "next": "revisit_smell_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_002",
+              "id": "revisit_smell_x2",
               "speaker": "shiba",
               "type": "normal",
               "text": "…킁킁. 어디서 개 냄새가 나는데.",
-              "next": "shiba_in_d2_smell_003",
+              "next": "revisit_smell_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_003",
+              "id": "revisit_smell_x3",
               "speaker": "luna",
               "type": "monologue",
               "text": "(본인도 개 아닌가?)",
-              "next": "shiba_in_d2_smell_004",
+              "next": "revisit_smell_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_004",
+              "id": "revisit_smell_x4",
               "speaker": "shiba",
               "type": "normal",
               "text": "이상한 생각 하지 마라, 시바.",
-              "next": "shiba_in_d2_smell_005",
+              "next": "revisit_smell_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_005",
+              "id": "revisit_smell_x5",
               "speaker": "luna",
               "type": "normal",
               "text": "어떻게 아셨죠?",
-              "next": "shiba_in_d2_smell_006",
+              "next": "revisit_smell_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_006",
+              "id": "revisit_smell_x6",
               "speaker": "shiba",
               "type": "normal",
               "text": "내가 말했지. 난 모르는 게 없다고.",
-              "next": "shiba_in_d2_smell_007",
+              "next": "revisit_smell_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_007",
+              "id": "revisit_smell_x7",
               "speaker": "luna",
               "type": "normal",
-              "text": "솔직히 정신적으로 광증을 보이는 개인 줄 알았습니다.",
-              "next": "shiba_in_d2_smell_008",
+              "text": "솔직히 광증을 앓는 개인 줄 알았습니다.",
+              "next": "revisit_smell_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_008",
+              "id": "revisit_smell_x8",
               "speaker": "shiba",
               "type": "normal",
               "text": "광증을 앓는 시바견. 그것이 나다.",
-              "next": "shiba_in_d2_smell_009",
+              "next": "revisit_smell_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_009",
+              "id": "revisit_smell_x9",
               "speaker": "luna",
               "type": "normal",
               "text": "…",
-              "next": "shiba_in_d2_smell_010",
+              "next": "revisit_smell_x10",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_010",
+              "id": "revisit_smell_x10",
               "speaker": "shiba",
               "type": "normal",
               "text": "뭐. 왜. 시바.",
-              "next": "shiba_in_d2_smell_end",
+              "next": "revisit_smell_x11",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_smell_end",
+              "id": "revisit_smell_x11",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_d2_in_rev1_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d2_in_rev1_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_thesis",
           "condition": {
             "type": "and",
             "conditions": [
-              { "type": "flag", "flag_id": "shiba_d2_in_rev1_done", "bValue": true  },
-              { "type": "flag", "flag_id": "shiba_d2_in_rev2_done", "bValue": false }
+              {
+                "type": "flag",
+                "flag_id": "shiba_d2_in_rev1_done",
+                "bValue": true
+              },
+              {
+                "type": "flag",
+                "flag_id": "shiba_d2_in_rev2_done",
+                "bValue": false
+              }
             ]
           },
           "dialogues": [
             {
-              "id": "shiba_in_d2_thesis_001",
+              "id": "revisit_thesis_x1",
               "speaker": "shiba",
               "type": "normal",
               "text": "혹시 졸업 작품에 대해 알고 있나?",
-              "next": "shiba_in_d2_thesis_002",
+              "next": "revisit_thesis_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_002",
+              "id": "revisit_thesis_x2",
               "speaker": "luna",
               "type": "normal",
               "text": "그게 뭐죠?",
-              "next": "shiba_in_d2_thesis_003",
+              "next": "revisit_thesis_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_003",
+              "id": "revisit_thesis_x3",
               "speaker": "shiba",
               "type": "normal",
-              "text": "과거에는 말이야… 어떤 산에 몇백 명의 학생들을 가둬 두고 게임만 만들게 시켰다더군.",
-              "next": "shiba_in_d2_thesis_004",
+              "text": "과거에는 말이야… 어떤 산에 수백 명의 학생을 가둬 두고 게임만 만들게 시켰다더군.",
+              "next": "revisit_thesis_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_004",
+              "id": "revisit_thesis_x4",
               "speaker": "shiba",
               "type": "normal",
-              "text": "정말 잔인하게도 그 학생들은 갇혀 있으면서도 자신이 자유롭다고 생각하는 거야.",
-              "next": "shiba_in_d2_thesis_005",
+              "text": "정말 잔인하게도 그 학생들은 갇혀 있으면서도 자신이 자유롭다고 생각한 거야.",
+              "next": "revisit_thesis_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_005",
+              "id": "revisit_thesis_x5",
               "speaker": "shiba",
               "type": "normal",
-              "text": "그 학생들은 모두 허리와 목, 손목, 발목 등 신체의 온갖 부위가 망가지고 나서야 졸업했다더군.",
-              "next": "shiba_in_d2_thesis_006",
+              "text": "그 학생들은 모두 허리와 목, 손목, 발목 등 온갖 신체 부위가 망가지고 나서야 졸업했다더군.",
+              "next": "revisit_thesis_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_006",
+              "id": "revisit_thesis_x6",
               "speaker": "luna",
               "type": "monologue",
               "text": "(또 이상한 소리를 하네.)",
-              "next": "shiba_in_d2_thesis_007",
+              "next": "revisit_thesis_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_007",
+              "id": "revisit_thesis_x7",
               "speaker": "shiba",
               "type": "normal",
               "text": "너, 내 말 안 믿지? 시바.",
-              "next": "shiba_in_d2_thesis_008",
+              "next": "revisit_thesis_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_008",
+              "id": "revisit_thesis_x8",
               "speaker": "luna",
               "type": "normal",
               "text": "그게 말이 되는 소리인가요? 어떻게 학생들을 가둬요?",
-              "next": "shiba_in_d2_thesis_009",
+              "next": "revisit_thesis_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_009",
+              "id": "revisit_thesis_x9",
               "speaker": "shiba",
               "type": "normal",
-              "text": "못 믿겠으면 믿지 마, 시바. 너 말고 화면 너머에 있는 사람은 믿을걸?",
-              "next": "shiba_in_d2_thesis_010",
+              "text": "못 믿겠으면 믿지 마, 시바. 누군가는 믿겠지.",
+              "next": "revisit_thesis_x10",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_010",
+              "id": "revisit_thesis_x10",
               "speaker": "luna",
               "type": "normal",
-              "text": "?",
-              "next": "shiba_in_d2_thesis_end",
+              "text": "...?",
+              "next": "revisit_thesis_x11",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_thesis_end",
+              "id": "revisit_thesis_x11",
               "speaker": "system",
               "type": "system",
               "text": "",
               "next": null,
               "choices": null,
               "triggers": [
-                { "type": "set_flag", "data": { "flag_id": "shiba_d2_in_rev2_done", "bValue": true } }
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d2_in_rev2_done",
+                    "bValue": true
+                  }
+                }
               ]
             }
           ]
         },
-
         {
           "flow_id": "revisit_repeat",
-          "condition": { "type": "flag", "flag_id": "shiba_d2_in_rev2_done", "bValue": true },
+          "condition": {
+            "type": "flag",
+            "flag_id": "shiba_d2_in_rev2_done",
+            "bValue": true
+          },
           "dialogues": [
             {
-              "id": "shiba_in_d2_rep_001",
+              "id": "revisit_repeat_x1",
               "speaker": "shiba",
               "type": "normal",
               "text": "이제 끝이야.",
-              "next": "shiba_in_d2_rep_002",
+              "next": "revisit_repeat_x2",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_002",
+              "id": "revisit_repeat_x2",
               "speaker": "luna",
               "type": "normal",
               "text": "네?",
-              "next": "shiba_in_d2_rep_003",
+              "next": "revisit_repeat_x3",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_003",
+              "id": "revisit_repeat_x3",
               "speaker": "shiba",
               "type": "normal",
               "text": "이제 더 이상 못 보겠네.",
-              "next": "shiba_in_d2_rep_004",
+              "next": "revisit_repeat_x4",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_004",
+              "id": "revisit_repeat_x4",
               "speaker": "luna",
               "type": "normal",
               "text": "어디로 가시나요?",
-              "next": "shiba_in_d2_rep_005",
+              "next": "revisit_repeat_x5",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_005",
+              "id": "revisit_repeat_x5",
               "speaker": "shiba",
               "type": "normal",
               "text": "이야기에 집중해야 하는 시기가 다가와서 말이야.",
-              "next": "shiba_in_d2_rep_006",
+              "next": "revisit_repeat_x6",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_006",
+              "id": "revisit_repeat_x6",
               "speaker": "shiba",
               "type": "normal",
-              "text": "조연은 잠깐 자리를 비워 줘야지.",
-              "next": "shiba_in_d2_rep_007",
+              "text": "내 역할을 지키러 가야지.",
+              "next": "revisit_repeat_x7",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_007",
+              "id": "revisit_repeat_x7",
               "speaker": "luna",
               "type": "normal",
               "text": "나중에 또 봐요. 이야기해서 흥미로웠습니다.",
-              "next": "shiba_in_d2_rep_008",
+              "next": "revisit_repeat_x8",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_008",
+              "id": "revisit_repeat_x8",
               "speaker": "shiba",
               "type": "normal",
               "text": "그래. 다음에 보자고, 시바.",
-              "next": "shiba_in_d2_rep_end",
+              "next": "revisit_repeat_x9",
               "choices": null,
               "triggers": []
             },
             {
-              "id": "shiba_in_d2_rep_end",
+              "id": "revisit_repeat_x9",
               "speaker": "system",
               "type": "system",
               "text": "",
@@ -1015,9 +1286,7 @@
             }
           ]
         }
-
       ]
     }
-
   ]
 }

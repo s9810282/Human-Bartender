@@ -2,6 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public enum EBubbleArrowType
+{
+    Left,
+    Center,
+    Right
+}
+
 [RequireComponent(typeof(RectTransform))]
 public class DynamicSpeechBubble : MonoBehaviour
 {
@@ -18,6 +26,10 @@ public class DynamicSpeechBubble : MonoBehaviour
     public TMP_Text textLabel;
     public TMP_Text nameLabel;
     public RectTransform bubble;
+    public GameObject centerArrow;
+    public GameObject leftArrow;
+    public GameObject rightArrow;
+
 
     [Header("Size Limits")]
     public Vector2 minSize = new Vector2(80, 40);

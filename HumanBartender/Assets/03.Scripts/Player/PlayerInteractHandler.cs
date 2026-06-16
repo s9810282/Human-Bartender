@@ -9,12 +9,14 @@ public class PlayerInteractHandler : MonoBehaviour
 
     [Header("Event")]
     [SerializeField] private InteractorEvent interactPressedEvent;
+    [SerializeField] private VoidEvent runnerAdvanceInputEvent;
     [SerializeField] private Vector2Event onMoveEvent;
     [SerializeField] private BoolEvent setSpeedEvent;
 
 
     public void OnInteract(InputValue value)
     {
+        runnerAdvanceInputEvent?.Raise(new Void());
         interactPressedEvent?.Raise(interactor);
     }
     public void OnMove(InputValue value)

@@ -7,6 +7,7 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     [SerializeField] protected bool isInteracting;
     [SerializeField] private string label;
     [SerializeField] protected Vector2 buttonOffset;
+    [SerializeField] protected Vector2 textOffset;
 
     [SerializeField] protected OutlineHighlight outlineHighlight;
     [SerializeField] protected InteractableEvent OnInteracted;
@@ -19,7 +20,8 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
 
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;
-    Vector2 IInteractable.Offset => buttonOffset;
+    Vector2 IInteractable.ButtonOffset => buttonOffset;
+    Vector2 IInteractable.TextOffset => textOffset;
     bool IInteractable.IsAvaliable => isAvaliable;
 
     

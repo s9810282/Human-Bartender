@@ -19,13 +19,15 @@ public class UIIngredientPanel : MonoBehaviour
     [SerializeField] IngredientDataSO ingredientDataSO;
     [SerializeField] CraftStationData craftLiquidData;
 
-    [Header("UICocktail Ingredient Panel")]
+    [Header("UICocktail Contents")]
     [SerializeField] Transform baseParent;
     [SerializeField] Transform liqueurParent;
     [SerializeField] Transform garnishParent;
     [SerializeField] Transform etcParent;
     [Space(20f)]
+    [Header("UICocktail Category")]
     [SerializeField] CategoryButtons[] categories;
+    [SerializeField] Sprite[] tapSprites;
     [SerializeField] RectTransform selectUI;
     [SerializeField] TextMeshProUGUI selectUIText;
     [SerializeField] Toggle iceToggle;

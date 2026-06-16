@@ -31,7 +31,7 @@ public class CircleNodeCreator : MonoBehaviour
     [SerializeField] List<CategoryNode> staticActiveTargetNodes = new List<CategoryNode>();
     [SerializeField] List<int> staticAngle = new List<int>();
 
-    public void Init()
+    public void Init(float radX, float radY, Vector3 center, Color[] colors)
     {
         curActiveTargetNodes = new();
         staticActiveTargetNodes = new();
@@ -39,17 +39,17 @@ public class CircleNodeCreator : MonoBehaviour
 
         effectPool.Init();
         targetNodePool.Init();
-    }
-
-    public void InitToStart(float radX, float radY, Vector3 center, Color[] colors)
-    {
-        isStart = true;
 
         radiusX = radX;
         radiusY = radY;
         centerPos = center;
 
         targetColors = colors;
+    }
+
+    public void InitToStart()
+    {
+        isStart = true;
         angleStep = 360 / staticNodeCount;
 
         SpawnStaticNode(270);

@@ -241,7 +241,8 @@ public class SettlementUI : MonoBehaviour
     private static string GetDateLabel()
     {
         var d = DateTime.Now;
-        return $"{d.Year}.{d.Month}.{d.Day} 퇴근";
+        //return $"{d.Year}.{d.Month}.{d.Day} 퇴근";
+        return GameStateManager.Instance.CurrentDay + "일차";
     }
 
     private IEnumerator FadeIn()

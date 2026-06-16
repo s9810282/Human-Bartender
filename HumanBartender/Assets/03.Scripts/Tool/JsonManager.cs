@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Networking;
 
 public static class JsonManager<T>
@@ -67,5 +69,23 @@ public static class JsonManager<T>
         }
 
         return JsonConvert.DeserializeObject<T>(req.downloadHandler.text);
+    }
+
+    public static async UniTask<T> LoadDataAsync<T>(string addressableKey)
+    {
+        var handle = Addressables.LoadAssetAsync<TextAsset>(addressableKey);
+        TextAsset textAsset = await handle.ToUniTask();
+
+        if (textAsset == null)
+        {
+            Debug.LogError($"어드레서블 로드 실패: {addressableKey}");
+            return default;
+        }
+
+        T data = JsonConvert.DeserializeObject<T>(textAsset.text);
+
+        Addressables.Release(handle);
+
+        return data;
     }
 }

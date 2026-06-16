@@ -17,12 +17,19 @@ public class TypingData
     public string str;
     public Color32 nameColor;
     public bool isLunaSpeak = false;
+    public EBubbleArrowType eBubbleArrowType = EBubbleArrowType.Center;
 
     public TypingData()
     {
     }
 
-    public TypingData(string str, string speaker, Vector3 speakerPos, Color32 nameColor, bool isLunaSpeak)
+    public TypingData(
+        string str, 
+        string speaker, 
+        Vector3 speakerPos, 
+        Color32 nameColor, 
+        bool isLunaSpeak,
+        EBubbleArrowType eBubbleArrowType = EBubbleArrowType.Center)
     {
         this.speaker = speaker;
         this.speakerPos = speakerPos;
@@ -52,7 +59,7 @@ public class UIDialogueTextView : MonoBehaviour
     private TypingData curTypingData;
     private CancellationTokenSource typingCts;
 
-    private float defaultTypingDelay = 0.05f;
+    [SerializeField] private float defaultTypingDelay = 0.05f;
 
     void Start()
     {

@@ -33,6 +33,9 @@ public class ProjectLifetimeScope : LifetimeScope
         builder.Register<DisplaySettings>(Lifetime.Singleton)
             .AsImplementedInterfaces();
 
+        builder.Register<DialogueHistory>(Lifetime.Singleton);
+        builder.RegisterComponentInHierarchy<DialogueHistoryView>();
+
         builder.RegisterComponentInHierarchy<DataLoadManager>()
             .As<IDataSwitcher>();
     }

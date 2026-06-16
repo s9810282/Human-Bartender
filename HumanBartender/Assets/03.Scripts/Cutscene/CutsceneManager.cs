@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Spine.Unity;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -90,6 +91,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
 
         spriteAnimationManager.Initialize();
+        spineAnimationManager.Initialize();
     }
 
     public void OnContinueTimeline()
@@ -104,6 +106,9 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
         ResetImages();
         spriteAnimationManager.ActiveSelf(false);
         spriteAnimationManager.SetInactive();
+
+        spineAnimationManager.SetInactive();
+        spineAnimationManager.ActiveSelf(false);
 
         curEffect = EEffectType.None;
     }
@@ -139,6 +144,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
                 break;
 
             case CutsceneType.Spine:
+                await PlaySpineAnimationCutScene(cutScene, token, tcs);
                 break;
 
             case CutsceneType.Comic:
@@ -204,7 +210,9 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             spriteAnimationManager.ActiveSelf(true);
             spriteAnimationManager.SetClip(ANIM_SLOT, handle);
             spriteAnimationManager.PlayAnimation(ANIM_SLOT, token);
+            await PlayEffectAsync(EEffectType.FadeOut, 1f);
             await UniTask.WaitForSeconds(handle.Value.Result.length);
+            await PlayEffectAsync(EEffectType.FadeOut, 1f);
         }
         else
         {
@@ -216,6 +224,41 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 
         ResourceLoader.ReleaseHandle<AnimationClip>(ref handle);
     }
+
+
+    /// <summary>
+    /// Spine 컷씬 재생.
+    /// data.Id 로 SkeletonDataAsset 을 로드 → SkeletonGraphic 에 주입 → 첫 애니메이션 재생 후 완료 대기.
+    /// 추후 처리 예정: position, loop, 특정 애니메이션 이름 지정(blocking 등).
+    /// </summary>
+    private async UniTask PlaySpineAnimationCutScene(
+        SpriteCutscene data,
+        CancellationToken token,
+        UniTaskCompletionSource tcs = null)
+    {
+        var handle = await ResourceLoader.TryLoadAsync<SkeletonDataAsset>(data.Id, token);
+
+        if (handle.HasValue && spineAnimationManager.SetSkeletonData(handle.Value.Result))
+        {
+            spineAnimationManager.ActiveSelf(true);
+
+            // 데이터에 별도 애니메이션 키가 생기면 이 부분을 교체 (예: data.AnimationName)
+            string animName = spineAnimationManager.GetFirstAnimationName();
+
+            await spineAnimationManager.PlayAnimation(animName, loop: false, token);
+        }
+        else
+        {
+            Logger.LogWarning($"{data.Id} is Not Exist or Load Failed (Spine)");
+            await UniTask.WaitForSeconds(1f);
+        }
+
+        if (tcs != null)
+            tcs.TrySetResult();
+
+        ResourceLoader.ReleaseHandle<SkeletonDataAsset>(ref handle);
+    }
+
 
 
     private async UniTask PlayComicCutSceneAsync(
@@ -237,6 +280,7 @@ public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
             tcs.TrySetResult();
         
     }
+
 
 
     public async UniTask PlayEffectAsync(EEffectType type, float duration, float intensity = 0f)

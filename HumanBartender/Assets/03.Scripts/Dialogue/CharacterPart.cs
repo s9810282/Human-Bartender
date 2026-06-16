@@ -218,7 +218,7 @@ public class CharacterPart : AnimationPart, IFade
             {
                 AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-                animator.Play(stateInfo.fullPathHash, 0, 0f);
+                animator.Play("Loop", 0, 0f);
                 animator.Update(0f);
                 animator.speed = 0;
             }

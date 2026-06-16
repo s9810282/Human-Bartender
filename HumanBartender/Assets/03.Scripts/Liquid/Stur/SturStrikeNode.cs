@@ -49,8 +49,13 @@ public class SturStrikeNode : MonoBehaviour
         elapsed = audioTime + dspDelta;
         if (elapsed < 0) return;
 
+        UpdatePosition();
+    }
+
+    public void UpdatePosition()
+    {
         beats = elapsed / beatDuration;
-        laps = beats / curBeatsPerLap;     
+        laps = beats / curBeatsPerLap;
         lapT = (float)(laps - Math.Floor(laps));
 
         angle = lapT * Mathf.PI * 2f;
@@ -59,11 +64,11 @@ public class SturStrikeNode : MonoBehaviour
             Mathf.Sin(-angle) * radiusY,
             0f
         );
-        
+
         transform.position = center + offset;
     }
 
-    public void InitToStart(Vector3 centerPos, float bpm, float beatLap, float radX, float radY)
+    public void Init(Vector3 centerPos, float bpm, float beatLap, float radX, float radY)
     {
         center = centerPos;
         curBpm = bpm;
@@ -71,6 +76,12 @@ public class SturStrikeNode : MonoBehaviour
         beatDuration = 60f / bpm;
         radiusX = radX;
         radiusY = radY;
+
+        UpdatePosition();
+    }
+
+    public void InitToStart()
+    {
         startDspTime = AudioSettings.dspTime + 0.1f;
         isStart = true;
     }

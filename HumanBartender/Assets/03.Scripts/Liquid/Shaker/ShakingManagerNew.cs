@@ -73,6 +73,8 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController
         }
 
 
+        shakingStrikeNode.transform.position = dotPositions[0];
+
         Color[] colors = new Color[data.targetCocktailData.Keywords.Length];
         for(int i = 0; i < colors.Length; i++)
         {

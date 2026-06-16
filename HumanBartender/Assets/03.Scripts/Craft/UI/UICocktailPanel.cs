@@ -43,6 +43,8 @@ public class UICocktailPanel : MonoBehaviour
         filteredData = allCocktailData.ToList();
         cocktailSprites = new Dictionary<string, Sprite>();
 
+        cocktailDetailPanel.Init();
+
         for (int i = 0; i < cocktailSlots.Length; i++)
         {
             cocktailSlots[i].OnClick += OnDetailTab;

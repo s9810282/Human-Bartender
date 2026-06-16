@@ -5,11 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public struct CategoryGauge
+public struct IngrediantGauge
 {
     public GameObject gaugeObj;
     public TextMeshProUGUI category;
     public GameObject[] gaugeBars;
+}
+
+[System.Serializable]
+public struct CategoryToggle
+{
+    public GameObject toggleObj;
+    public TextMeshProUGUI categoryText;
+    public Image categoryBG;
+    public Image categorySelectBG;
 }
 
 
@@ -18,14 +27,11 @@ public class UICocktailDetailPanel : MonoBehaviour
     [SerializeField] RectTransform body;
     [SerializeField] Image cocktailImage;
 
-    [SerializeField] TextMeshProUGUI[] categoryText;
-    [SerializeField] Image[] categoryBG;
-    [SerializeField] Image[] categorySelectBG;
-
     [SerializeField] TextMeshProUGUI cocktailFlavorText;
     [SerializeField] CategoryColorData colorData;
 
-    [SerializeField] CategoryGauge[] categoryGauges;
+    [SerializeField] IngrediantGauge[] ingrediantGauges;
+    [SerializeField] CategoryToggle[] categoryToggles;
 
     [SerializeField] private float expandedHeight = 300f;
     [SerializeField] private float duration = 0.25f;
@@ -36,7 +42,7 @@ public class UICocktailDetailPanel : MonoBehaviour
     private bool isExpanded;
     private Coroutine anim;
 
-    private void Start()
+    public void Init()
     {
         isExpanded = startExpanded;
         gameObject.SetActive(startExpanded);
@@ -53,25 +59,22 @@ public class UICocktailDetailPanel : MonoBehaviour
     }
     public void SetCategorys()
     {
-        for (int i = 0; i < categoryText.Length; i++)
+        for (int i = 0; i < categoryToggles.Length; i++)
         {
-            categoryText[i].gameObject.SetActive(false);
-            categoryBG[i].gameObject.SetActive(false);
-            categorySelectBG[i].gameObject.SetActive(false);
+            categoryToggles[i].toggleObj.gameObject.SetActive(false);
         }
 
         for (int i = 0; i < data.Keywords.Length; i++)
         {
-            categoryText[i].gameObject.SetActive(true);
-            categoryBG[i].gameObject.SetActive(true);
-            categorySelectBG[i].gameObject.SetActive(true);
-            categoryText[i].text = data.Keywords[i];
+            categoryToggles[i].toggleObj.gameObject.SetActive(true);
+
+            categoryToggles[i].categoryText.text = data.Keywords[i];
 
             int n = colorData.categorys.
                FindIndex(a => a.Contains(data.Keywords[i]));
 
-            categoryBG[i].color = colorData.colors[n];
-            categorySelectBG[i].color = colorData.colors[n];
+            categoryToggles[i].categoryBG.color = colorData.colors[n];
+            categoryToggles[i].categorySelectBG.color = colorData.colors[n];
         }
     }
     public void SetSummary()
@@ -80,23 +83,23 @@ public class UICocktailDetailPanel : MonoBehaviour
     }
     public void SetIngrediantGauge()
     {
-        foreach (var item in categoryGauges)
+        foreach (var item in ingrediantGauges)
             item.gaugeObj.gameObject.SetActive(false);
 
         for (int i = 0; i < data.Recipe.Length; i++)
         {
             if (i >= 5) return;
 
-            foreach (var item in categoryGauges[i].gaugeBars)
+            foreach (var item in ingrediantGauges[i].gaugeBars)
                 item.gameObject.SetActive(false);
 
-            categoryGauges[i].gaugeObj.gameObject.SetActive(true);
-            categoryGauges[i].category.text = data.Recipe[i].DisplayName;
+            ingrediantGauges[i].gaugeObj.gameObject.SetActive(true);
+            ingrediantGauges[i].category.text = data.Recipe[i].DisplayName;
 
             
             for (int j = 0; j < data.Recipe[i].Count; j++)
             {
-                categoryGauges[i].gaugeBars[j].gameObject.SetActive(true);
+                ingrediantGauges[i].gaugeBars[j].gameObject.SetActive(true);
             }
         }
     }
