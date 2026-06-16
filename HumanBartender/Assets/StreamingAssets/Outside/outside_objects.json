@@ -25,7 +25,7 @@
               "id": "poster_hw_flow_1_x2",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>요구 조건: 갱단의 습격에도 살아남을 수 있는 사람</world>",
+              "text": "<world>요구 조건: 갱단의 습격에도</world>\n<world>살아남을 수 있는 분</world>",
               "next": "poster_hw_flow_1_x3",
               "choices": null,
               "triggers": []
@@ -34,7 +34,7 @@
               "id": "poster_hw_flow_1_x3",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>시급: 500원</world>",
+              "text": "<world>시급: 103000원</world>",
               "next": "poster_hw_flow_1_x4",
               "choices": null,
               "triggers": []
@@ -77,7 +77,7 @@
               "id": "poster_shiba_flow_1_x2",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>특징: 항상 헛소리와 개소리를 늘어놓으며,</world>",
+              "text": "<world>특징: 항상 헛소리와</world>\n<world>개소리를 늘어놓으며,</world>",
               "next": "poster_shiba_flow_1_x3",
               "choices": null,
               "triggers": []
@@ -86,7 +86,7 @@
               "id": "poster_shiba_flow_1_x3",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>주변 사람들의 정신을 혼란스럽게 만듭니다.</world>",
+              "text": "<world>주변 사람들의 정신을</world>\n<world>혼란스럽게 만듭니다.</world>",
               "next": "poster_shiba_flow_1_x4",
               "choices": null,
               "triggers": []
@@ -144,6 +144,15 @@
             },
             {
               "id": "vending_machine_flow_x2",
+              "speaker": "luna",
+              "type": "normal",
+              "text": "(무언가를 살 수 있는 것 같다.)",
+              "next": "vending_machine_flow_x3",
+              "choices": null,
+              "triggers": []
+            },
+            {
+              "id": "vending_machine_flow_x3",
               "speaker": "system",
               "type": "choice",
               "text": "",
@@ -199,7 +208,7 @@
               "id": "vm_poor",
               "speaker": "luna",
               "type": "monologue",
-              "text": "(100원이 많이 비싼 건가?)",
+              "text": "(살 돈이 모자른 것 같아.)",
               "next": "vm_end",
               "choices": null,
               "triggers": []
@@ -233,7 +242,7 @@
               "id": "exp_r_flow_1_x1",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>인공 신경망 분석 임상시험 참가자 모집</world>",
+              "text": "<world>인공 신경망 분석</world>\n<world>임상시험 참가자 모집</world>",
               "next": "exp_r_flow_1_x2",
               "choices": null,
               "triggers": []
@@ -242,7 +251,7 @@
               "id": "exp_r_flow_1_x2",
               "speaker": "object",
               "type": "normal",
-              "text": "<world>주관: ㈜코라AI</world>",
+              "text": "<world>주관: (주)코라테크AI</world>",
               "next": "exp_r_flow_1_x3",
               "choices": null,
               "triggers": []
@@ -251,7 +260,7 @@
               "id": "exp_r_flow_1_x3",
               "speaker": "luna",
               "type": "monologue",
-              "text": "음… 설마.",
+              "text": "…설마.",
               "next": null,
               "choices": null,
               "triggers": []

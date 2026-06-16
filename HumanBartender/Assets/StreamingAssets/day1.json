@@ -28,7 +28,7 @@
           "id": "day1_start_x2",
           "speaker": "chris",
           "type": "normal",
-          "text": "좋아. 그럼 부탁할게.",
+          "text": "좋아. 그럼 부탁한다.",
           "expression": "default",
           "next": "day1_start_x3",
           "choices": null,
@@ -88,7 +88,7 @@
           "id": "day1_start_x8",
           "speaker": "chris",
           "type": "normal",
-          "text": "언제?",
+          "text": "..너가?",
           "expression": "default",
           "next": "day1_start_x9",
           "choices": null,
@@ -108,7 +108,7 @@
           "id": "day1_start_x10",
           "speaker": "chris",
           "type": "normal",
-          "text": "…무슨 이유인지 물어보진 않을게.",
+          "text": "…무슨 이유인지 물어보진 않겠다.",
           "expression": "default",
           "next": "day1_start_x11",
           "choices": null,
@@ -128,7 +128,7 @@
           "id": "day1_start_x12",
           "speaker": "chris",
           "type": "normal",
-          "text": "좋아. 그럼 자정 전까지만 부탁할게.\n그 이후엔 나랑 교대할 거야.",
+          "text": "좋아. 그럼 자정 전까지만 부탁해.\n그 이후엔 나랑 교대할 거야.",
           "expression": "default",
           "next": "day1_start_x13",
           "choices": null,
@@ -178,7 +178,7 @@
           "id": "day1_start_x17",
           "speaker": "chris",
           "type": "normal",
-          "text": "…너 오늘 첫 출근이야. 앓는 소리는 짬 차면 해.",
+          "text": "너 오늘 첫 출근이야. 앓는 소리는 짬 차면 해.",
           "expression": "default",
           "next": "day1_start_x18",
           "choices": null,
@@ -376,7 +376,7 @@
           "id": "day1_start_x35",
           "speaker": "luna",
           "type": "normal",
-          "text": "그러면 주문을 부탁드립니다.",
+          "text": "확인했습니다. 혹시 옆에 있는 로봇은 무슨 로봇입니까?",
           "expression": null,
           "next": "day1_start_x36",
           "choices": null,
@@ -386,7 +386,7 @@
           "id": "day1_start_x36",
           "speaker": "port",
           "type": "normal",
-          "text": "흠… 기다려 봐.",
+          "text": "뭐?",
           "expression": "default",
           "next": "day1_start_x37",
           "choices": null,
@@ -394,20 +394,20 @@
         },
         {
           "id": "day1_start_x37",
-          "speaker": "luna",
+          "speaker": "port",
           "type": "normal",
-          "text": "아쉽지만 '기다려 봐'라는 술은 없습니다.",
-          "expression": null,
+          "text": "ㅁ..뭐야! 니미랄!!!",
+          "expression": "event_surprise",
           "next": "day1_start_x38",
           "choices": null,
           "trigger": null
         },
         {
           "id": "day1_start_x38",
-          "speaker": "port",
+          "speaker": "luna",
           "type": "normal",
-          "text": "야 이 또라이야 자꾸 그럴래?",
-          "expression": "default",
+          "text": "키우는 게 아니였군요.",
+          "expression": null,
           "next": "day1_start_x39",
           "choices": null,
           "trigger": null
@@ -416,7 +416,7 @@
           "id": "day1_start_x39",
           "speaker": "port",
           "type": "normal",
-          "text": "크리스 이 자식은 대체 뭘 가르친 거야?",
+          "text": "흠.. 아까 폐기물 매립 구역에서 붙은 놈인가보군..",
           "expression": "default",
           "next": "day1_start_x40",
           "choices": null,
@@ -424,40 +424,40 @@
         },
         {
           "id": "day1_start_x40",
-          "speaker": "luna",
+          "speaker": "port",
           "type": "normal",
-          "text": "보스가 나머지는 일하면서 배우라고 했습니다.",
-          "expression": null,
+          "text": "이 놈도 이따 가서 한번 손 봐야겠어.",
+          "expression": "default",
           "next": "day1_start_x41",
           "choices": null,
           "trigger": null
         },
         {
           "id": "day1_start_x41",
-          "speaker": "port",
+          "speaker": "luna",
           "type": "normal",
-          "text": "어쩐지 나보고 오늘 일찍 끝내고 오라더니…\n이 썩을 놈이 날 교육 자료로 써?",
-          "expression": "default",
+          "text": "아재 주문을 부탁드립니다.",
+          "expression": null,
           "next": "day1_start_x42",
           "choices": null,
           "trigger": null
         },
         {
           "id": "day1_start_x42",
-          "speaker": "luna",
+          "speaker": "port",
           "type": "normal",
-          "text": "교육 자료로 쓰기엔 많이 노후된 걸로 보입니다.",
-          "expression": null,
+          "text": "흠… 기다려 봐.",
+          "expression": "default",
           "next": "day1_start_x43",
           "choices": null,
           "trigger": null
         },
         {
           "id": "day1_start_x43",
-          "speaker": "port",
+          "speaker": "luna",
           "type": "normal",
-          "text": "……",
-          "expression": "default",
+          "text": "아쉽지만 '기다려 봐'라는 술은 없습니다.",
+          "expression": null,
           "next": "day1_start_x44",
           "choices": null,
           "trigger": null
@@ -466,7 +466,7 @@
           "id": "day1_start_x44",
           "speaker": "port",
           "type": "normal",
-          "text": "……일단 <world>진피즈</world> 한 잔 줘.\n정석대로.",
+          "text": "야 이 또라이야 자꾸 그럴래?",
           "expression": "default",
           "next": "day1_start_x45",
           "choices": null,
@@ -474,10 +474,10 @@
         },
         {
           "id": "day1_start_x45",
-          "speaker": "luna",
+          "speaker": "port",
           "type": "normal",
-          "text": "네, 손님.",
-          "expression": null,
+          "text": "크리스 이 자식은 대체 뭘 가르친 거야?",
+          "expression": "default",
           "next": "day1_start_x46",
           "choices": null,
           "trigger": null
@@ -485,8 +485,68 @@
         {
           "id": "day1_start_x46",
           "speaker": "luna",
+          "type": "normal",
+          "text": "보스가 나머지는 일하면서 배우라고 했습니다.",
+          "expression": null,
+          "next": "day1_start_x47",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x47",
+          "speaker": "port",
+          "type": "normal",
+          "text": "어쩐지 나보고 오늘 일찍 끝내고 오라더니…\n이 썩을 놈이 날 교육 자료로 써?",
+          "expression": "default",
+          "next": "day1_start_x48",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x48",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "교육 자료로 쓰기엔 많이 노후된 걸로 보입니다.",
+          "expression": null,
+          "next": "day1_start_x49",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x49",
+          "speaker": "port",
+          "type": "normal",
+          "text": "……",
+          "expression": "default",
+          "next": "day1_start_x50",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x50",
+          "speaker": "port",
+          "type": "normal",
+          "text": "……일단 <name>진피즈</name> 한 잔 줘. 정석대로.",
+          "expression": "default",
+          "next": "day1_start_x51",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x51",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네, 손님.",
+          "expression": null,
+          "next": "day1_start_x52",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "day1_start_x52",
+          "speaker": "luna",
           "type": "monologue",
-          "text": "(<진피즈> 한 잔. 정석대로.)",
+          "text": "(<name>진피즈</name> 한 잔. 정석대로.)",
           "expression": null,
           "next": null,
           "choices": null,
@@ -542,7 +602,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "아니. 그건 아니지만. 애송이가 만든 거라고 믿기지 않는군.",
-          "expression": "default",
+          "expression": "joy",
           "next": "d1p_react_perfect_006",
           "choices": null,
           "trigger": null
@@ -562,7 +622,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "…아직 손님 응대는 개판이지만.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001",
           "choices": null,
           "trigger": null
@@ -572,7 +632,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "흠…",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_good_002",
           "choices": null,
           "trigger": null
@@ -592,7 +652,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "생각보다 나쁘지않네.",
-          "expression": "default",
+          "expression": "joy",
           "next": "d1p_react_good_004",
           "choices": null,
           "trigger": null
@@ -612,7 +672,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "이제 막 시작한 애송이한테 이 정도면 칭찬이지.",
-          "expression": "default",
+          "expression": "joy",
           "next": "d1p_after_001",
           "choices": null,
           "trigger": null
@@ -622,7 +682,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "흐음.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_normal_002",
           "choices": null,
           "trigger": null
@@ -642,7 +702,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "진피즈긴 한데… 뭔가 어설퍼.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_normal_004",
           "choices": null,
           "trigger": null
@@ -662,7 +722,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "마시는 데 지장은 없어. 다음엔 좀 더 정성 들여.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001",
           "choices": null,
           "trigger": null
@@ -692,7 +752,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "얼마나 자신있으면 시키지도 않은 술을 주는 거지?",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_miss_003",
           "choices": null,
           "trigger": null
@@ -712,7 +772,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "나 말고도 다른 손님한테 이러면 곤란할 텐데.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_miss_004",
           "choices": null,
           "trigger": null
@@ -732,7 +792,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "됐어. 그냥 마실 테니 다음부턴 실수하지 마.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_miss_005b",
           "choices": null,
           "trigger": null
@@ -742,7 +802,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "하지만 내가 주문한 것도 아닌 걸 줬으니.\n돈은 못 내, 알았지?",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_react_miss_006",
           "choices": null,
           "trigger": null
@@ -877,7 +937,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "마시면 인생을 다시 생각하게 되는 맛이었지.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001_x3",
           "choices": null,
           "trigger": null
@@ -897,7 +957,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "아니. 대체 어쩌다 내가 휘발유 맛이 나는 술을 마시고 있는\n인생을 살게 되었는지 생각한 거야.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001_x5",
           "choices": null,
           "trigger": null
@@ -917,7 +977,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "처음보단 나아졌지만 여전히 쓰레기지.\n무슨 수로 지금까지 버틴 건지 참……",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001_x7",
           "choices": null,
           "trigger": null
@@ -937,7 +997,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "뭐? 이 썩을 놈이 이 가게가 어떤 곳인 줄 알고 문을 닫아.",
-          "expression": "default",
+          "expression": "anger",
           "next": "d1p_after_001_x9",
           "choices": null,
           "trigger": null
@@ -957,7 +1017,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "원래 이 바의 주인은 조니라는 친구였지.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001_x11",
           "choices": null,
           "trigger": null
@@ -967,7 +1027,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "조니가 있었으면 언노운이 이렇게 되진 않았을 텐데.",
-          "expression": "default",
+          "expression": "serious",
           "next": "d1p_after_001_x12",
           "choices": null,
           "trigger": null
@@ -1167,7 +1227,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "내가 부탁이라고 했잖아. 나도 어찌 보면 생명의 은인인데,\n이 정도는 해 줄 수 있지?",
-          "expression": "default",
+          "expression": "joy",
           "next": "d1p_after_001_x32",
           "choices": null,
           "trigger": null
@@ -1187,7 +1247,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "…내가 아주 골치 아픈 놈을 고쳐놨군.\n알겠으니까 부탁하지.",
-          "expression": "joy",
+          "expression": "serious",
           "next": "d1p_after_001_x34",
           "choices": null,
           "trigger": null
@@ -1291,7 +1351,7 @@
           "speaker": "port",
           "type": "normal",
           "text": "맞아. 그럼 먼저 일어난다.\n잘 부탁할게.",
-          "expression": "default",
+          "expression": "joy",
           "next": "d1p_after_001_x43",
           "choices": null,
           "trigger": null
@@ -1568,7 +1628,7 @@
           "id": "d1p_after_001_x68",
           "speaker": "aili",
           "type": "normal",
-          "text": "맞아. 나름 이 동네에서 악명을 떨치는 고양이니까 놀러 오면 잘 대접해주라고.",
+          "text": "맞아. 나름 이 동네에서 악명을 떨치는 고양이니까 \n놀러 오면 잘 대접해주라고.",
           "expression": "default",
           "next": "d1p_after_001_x69",
           "choices": null,
@@ -1608,7 +1668,7 @@
           "id": "d1p_after_001_x72",
           "speaker": "aili",
           "type": "normal",
-          "text": "난 날 내려다 보는 사람이 있으면 면상에 총알을 박아주고 싶은 병이있어.",
+          "text": "난 날 내려다 보는 사람이 있으면 \n면상에 총알을 박아주고 싶은 병이있어.",
           "expression": "default",
           "next": "d1p_after_001_x73",
           "choices": null,
@@ -1639,7 +1699,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "아무튼 내가 의자에 앉으면 다른 사람들이 건방지게 날 깔본단 말이야.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1p_after_001_x76",
           "choices": null,
           "trigger": null
@@ -1659,7 +1719,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "맞아 이 박스 덕분에 건방진 크리스가 아직 총에 맞지 않는거야.\n어떻게 보면 이 박스가 사람 하나 살려준 셈이지.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1p_after_001_x78",
           "choices": null,
           "trigger": null
@@ -1749,7 +1809,7 @@
           "id": "d1a_q_001_x3",
           "speaker": "aili",
           "type": "normal",
-          "text": "옛날에 KCPD 새끼들이 내 업장에 들이닥쳐서 영업정지 때리기 전까진 자주 있었지.",
+          "text": "옛날에 KCPD 새끼들이 내 업장에 들이닥쳐서\n영업정지 때리기 전까진 자주 있었지.",
           "expression": "default",
           "next": "d1a_q_001_x4",
           "choices": null,
@@ -1809,7 +1869,7 @@
           "id": "d1a_q_001_x9",
           "speaker": "aili",
           "type": "normal",
-          "text": "쯧. 재미없게 하긴.\n온다고 하면 크리스가 나한테 잔소리할 걸 생각하니 귀찮긴 하겠다.",
+          "text": "쯧. 재미없게 하긴.온다고 하면 크리스가 \n나한테 잔소리할 걸 생각하니 귀찮긴 하겠다.",
           "expression": "default",
           "next": "d1a_q_001_x10",
           "choices": null,
@@ -1839,7 +1899,7 @@
           "id": "d1a_craft_001_x1",
           "speaker": "luna",
           "type": "monologue",
-          "text": "(자칭 <섹시한 레이디>에게 술 한 잔……)",
+          "text": "(자칭 <name>섹시한 레이디</name>에게 술 한 잔……)",
           "expression": null,
           "next": null,
           "choices": null,
@@ -1855,7 +1915,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "……뭐지?",
-          "expression": "default",
+          "expression": "success",
           "next": "d1a_react_perfect_002",
           "choices": null,
           "trigger": null
@@ -1875,7 +1935,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "존나 맛있어.\n왜 맛있지?",
-          "expression": "default",
+          "expression": "success",
           "next": "d1a_react_perfect_004",
           "choices": null,
           "trigger": null
@@ -2025,7 +2085,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "오. 괜찮은데?",
-          "expression": "default",
+          "expression": "success",
           "next": "d1a_react_good_002",
           "choices": null,
           "trigger": null
@@ -2045,7 +2105,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "완전 내 취향까지는 아닌데.\n그래도 초보자가 즉석에서 만든 것치곤 꽤 좋아.",
-          "expression": "default",
+          "expression": "success",
           "next": "d1a_react_good_004",
           "choices": null,
           "trigger": null
@@ -2065,7 +2125,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "응. 실패는 아니야.\n크리스 첫 술보단 이미 수십 배 낫다.",
-          "expression": "default",
+          "expression": "success",
           "next": "d1a_react_good_006",
           "choices": null,
           "trigger": null
@@ -2115,7 +2175,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "맛이 없다기보단.\n나한테 어울리는 술은 아닌 것 같네.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1a_react_normal_004",
           "choices": null,
           "trigger": null
@@ -2135,7 +2195,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "그걸 너무 진지하게 분석하지 마.\n그냥 느낌으로 가는 거야, 느낌.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1a_react_normal_006",
           "choices": null,
           "trigger": null
@@ -2165,7 +2225,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "……이쁜아.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1a_react_bad_002",
           "choices": null,
           "trigger": null
@@ -2195,7 +2255,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "하지만 다음번에도 이렇게 만들어주면 나도 화낼 거라고.",
-          "expression": "default",
+          "expression": "fail",
           "next": "d1a_react_bad_005",
           "choices": null,
           "trigger": null
@@ -2320,7 +2380,7 @@
           "speaker": "aili",
           "type": "normal",
           "text": "좋아하는 것 같은데?",
-          "expression": "default",
+          "expression": "success",
           "next": "d1b_react_perfect_004",
           "choices": null,
           "trigger": null
@@ -2478,6 +2538,25 @@
         },
         {
           "id": "d1b_react_bad_001",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d1b_react_bad_001_x1",
+          "choices": null,
+          "trigger": {
+            "type": "customer_exit",
+            "data": {
+              "character_id": "bubi",
+              "slot": "left",
+              "exit_effect": "fade_out",
+              "exit_duration": 0.5,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "d1b_react_bad_001_x1",
           "speaker": "aili",
           "type": "normal",
           "text": "별로였나 본데.",
@@ -2512,28 +2591,9 @@
           "type": "normal",
           "text": "음… 기억하겠습니다.",
           "expression": null,
-          "next": "d1b_react_bad_exit",
-          "choices": null,
-          "trigger": null
-        },
-        {
-          "id": "d1b_react_bad_exit",
-          "speaker": "system",
-          "type": "system",
-          "text": "",
-          "expression": null,
           "next": "d1b_after_nobubi_001",
           "choices": null,
-          "trigger": {
-            "type": "customer_exit",
-            "data": {
-              "character_id": "bubi",
-              "slot": "left",
-              "exit_effect": "fade_out",
-              "exit_duration": 0.5,
-              "sfx_mode": "default_only"
-            }
-          }
+          "trigger": null
         },
         {
           "id": "d1b_after_001",

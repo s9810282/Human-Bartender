@@ -51,7 +51,7 @@
               "id": "first_encounter_x4",
               "speaker": "shiba",
               "type": "normal",
-              "text": "하. 이 동네에서 인사하고 돌아다니는 놈이 있네.",
+              "text": "하. 이 동네에서 인사하고\n돌아다니는 놈이 있네.",
               "next": "first_encounter_x5",
               "choices": null,
               "triggers": []
@@ -87,7 +87,7 @@
               "id": "first_encounter_x8",
               "speaker": "shiba",
               "type": "normal",
-              "text": "사람을 얼굴로 판단하지 말라고. 못생긴 놈 같으니.",
+              "text": "사람을 얼굴로 판단하지 말라고.\n못생긴 놈 같으니.",
               "next": "first_encounter_x9",
               "choices": null,
               "triggers": []
@@ -132,10 +132,18 @@
               "id": "first_encounter_x13",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_flow1_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_flow1_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -211,10 +219,18 @@
               "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_poster_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -375,10 +391,18 @@
               "id": "revisit_1_x16",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_d1_in_rev1_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_in_rev1_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         }
@@ -464,10 +488,18 @@
               "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_poster_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -633,10 +665,18 @@
               "id": "revisit_bubi_x16",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_d1_out_bubi_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_out_bubi_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -725,10 +765,18 @@
               "id": "revisit_bar_x8",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_d1_out_bar_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d1_out_bar_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -878,10 +926,18 @@
               "id": "poster_confrontation_x6",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_poster_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_poster_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -997,10 +1053,18 @@
               "id": "revisit_smell_x11",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_d2_in_rev1_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d2_in_rev1_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
@@ -1116,10 +1180,18 @@
               "id": "revisit_thesis_x11",
               "speaker": "system",
               "type": "system",
-              "text": "@set_flag flag_id=shiba_d2_in_rev2_done; bValue=true",
+              "text": "",
               "next": null,
               "choices": null,
-              "triggers": []
+              "triggers": [
+                {
+                  "type": "set_flag",
+                  "data": {
+                    "flag_id": "shiba_d2_in_rev2_done",
+                    "bValue": true
+                  }
+                }
+              ]
             }
           ]
         },
