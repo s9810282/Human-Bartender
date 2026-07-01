@@ -4,6 +4,10 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 엘리베이터 탑승 중 재생되는 라디오 대사. 현재 날짜/게임 흐름에 맞는 RadioData를 찾아 말풍선으로
+/// 순차 타이핑 출력하며, EndInteract 또는 파괴 시 재생을 취소한다.
+/// </summary>
 public class OutsideElevatorRadio : InteractiveEntity
 {
     [Header("Data")]
@@ -20,6 +24,7 @@ public class OutsideElevatorRadio : InteractiveEntity
     [SerializeField] protected bool isTalking = false;
     private CancellationTokenSource _playCts;
 
+    /// <summary>현재 날짜/게임 흐름에 맞는 라디오 데이터를 찾아 재생을 시작한다 (OutsideElevator.Interact에서 함께 호출됨).</summary>
     public override void Interact(IInteractor player)
     {
         if (isTalking) return;
@@ -52,13 +57,15 @@ public class OutsideElevatorRadio : InteractiveEntity
         PlayRadio(targetRadioData, _playCts.Token).Forget();
     }
 
+    /// <summary>엘리베이터 도착 등으로 라디오 재생을 강제 종료하고 말풍선을 숨긴다.</summary>
     public void EndInteract()
     {
-        StopPlayback(); 
+        StopPlayback();
         OnTrackedText?.Raise(null);
         if (bubble != null) bubble.gameObject.SetActive(false);
     }
 
+    /// <summary>진행 중인 재생을 취소한다.</summary>
     private void StopPlayback()
     {
         isTalking = false;
@@ -70,6 +77,7 @@ public class OutsideElevatorRadio : InteractiveEntity
         }
     }
 
+    /// <summary>라디오 대사 목록을 각 항목의 지연 시간(Delay) 후 순차적으로 말풍선에 타이핑 출력한다.</summary>
     public async UniTask PlayRadio(RadioData data, CancellationToken token)
     {
         if (data.Dialogues == null) return;

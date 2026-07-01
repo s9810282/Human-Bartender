@@ -9,6 +9,7 @@ using UnityEngine.Rendering.Universal;
 using VContainer;
 
 
+/// <summary>슬롯 타입(Left/Right/Middle 등)별로 카메라가 이동할 목표 Transform을 매핑하는 데이터.</summary>
 [System.Serializable]
 public class CameraPostion
 {
@@ -16,6 +17,7 @@ public class CameraPostion
     public Transform pos;
 }
 
+/// <summary>카메라 줌(해상도) 프리셋 종류.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ECameraZoomType
 {
@@ -31,6 +33,11 @@ public enum ECameraZoomType
 
 /// <summary>
 /// 추후 공용으로 사용할 항목과 실내 전용 구분하기
+///
+/// (인수인계 메모) Pixel Perfect Camera의 참조 해상도를 바꿔 줌 연출을 구현하고,
+/// 슬롯 위치(CameraPostion) 간 카메라 이동을 처리하는 실내(Bar) 씬용 카메라 컨트롤러.
+/// 카메라 앵커를 따라가는 방식이 아닌 카메라 자체 Transform을 직접 보간하는 구버전 방식이며,
+/// CameraControllerNew가 Cinemachine 기반의 후속 구현체로 보인다.
 /// </summary>
 
 public class CameraController : MonoBehaviour, ICameraControl
@@ -57,6 +64,7 @@ public class CameraController : MonoBehaviour, ICameraControl
 
     IDisplaySettings _display;
 
+    /// <summary>VContainer DI로 디스플레이 설정 서비스를 주입받는다.</summary>
     [Inject]
     public void Construct(IDisplaySettings display)
     {
@@ -66,6 +74,7 @@ public class CameraController : MonoBehaviour, ICameraControl
 
     private bool isAtTarget = false;
 
+    /// <summary>이 카메라를 활성 카메라로 등록하고 슬롯 위치 딕셔너리를 구성한다.</summary>
     void Start()
     {
         _display.RegisterActiveCamera(pixelPerfectCamera);
@@ -73,7 +82,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         _slotMap = new Dictionary<ESlotType, CameraPostion>(movePositions.Length);
         foreach (var slot in movePositions)
         {
-            _slotMap[slot.slotType] = slot;            
+            _slotMap[slot.slotType] = slot;
         }
     }
 
@@ -82,6 +91,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         _display.UnregisterActiveCamera(pixelPerfectCamera);
     }
 
+    /// <summary>해상도를 즉시 target으로 바꾼 뒤, tcs가 완료될 때까지 기다렸다가 원래 해상도로 되돌린다.</summary>
     public async void ActionZoomAndBack(ECameraZoomType zoomType = ECameraZoomType.Base,  UniTaskCompletionSource tcs = null)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
@@ -97,6 +107,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         return;
     }
 
+    /// <summary>해상도를 즉시 target으로 바꾼다 (전환 애니메이션 없음).</summary>
     public void ActionZoom(ECameraZoomType zoomType = ECameraZoomType.Base)
     {
         Vector2Int curResolution = new Vector2Int(pixelPerfectCamera.refResolutionX, pixelPerfectCamera.refResolutionY);
@@ -106,6 +117,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         ApplyResolutionImmediate(target);
     }
 
+    /// <summary>dur초 동안 해상도를 target으로 서서히 전환한다.</summary>
     public void CameraZoom(ECameraZoomType zoomType = ECameraZoomType.Base, float dur = 1f)
     {
         Vector2Int target = zoomType == ECameraZoomType.Base ? baseResolution :
@@ -115,6 +127,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         TransitionResolution(target).Forget();
     }
 
+    /// <summary>지정된 슬롯 위치로 dur초 동안 카메라를 이동시킨다.</summary>
     public void CameraMove(ESlotType slot, float dur = 1f)
     {
         Vector3 targetPos = _slotMap[slot].pos.transform.position;
@@ -122,6 +135,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         TransitionPosition(targetPos).Forget();
     }
 
+    /// <summary>지정된 월드 좌표로 dur초 동안 카메라를 이동시킨다.</summary>
     public void CameraMove(Vector3 pos, float dur = 1)
     {
         Vector3 targetPos = pos;
@@ -129,6 +143,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         TransitionPosition(targetPos).Forget();
     }
 
+    /// <summary>Pixel Perfect Camera의 참조 해상도를 즉시 적용한다.</summary>
     public void ApplyResolutionImmediate(Vector2Int res)
     {
         pixelPerfectCamera.refResolutionX = res.x;
@@ -136,11 +151,13 @@ public class CameraController : MonoBehaviour, ICameraControl
         pixelPerfectCamera.enabled = true;
 
     }
+    /// <summary>카메라 위치를 즉시 적용한다.</summary>
     public void ApplyPositionImmediate(Vector3 pos)
     {
         mainCamera.transform.position = pos;
     }
 
+    /// <summary>ease 커브를 사용해 transitionDuration 동안 카메라 위치를 targetPos로 보간 이동시킨다.</summary>
     public async UniTaskVoid TransitionPosition(Vector3 targetPos)
     {
         Vector3 fromPosition = mainCamera.transform.position;
@@ -160,6 +177,7 @@ public class CameraController : MonoBehaviour, ICameraControl
 
         return;
     }
+    /// <summary>ease 커브를 사용해 transitionDuration 동안 orthographicSize를 보간해 해상도 전환 연출을 만든다.</summary>
     public async UniTaskVoid TransitionResolution(Vector2Int to)
     {
         float fromSize = mainCamera.orthographicSize;
@@ -181,6 +199,7 @@ public class CameraController : MonoBehaviour, ICameraControl
         return;
     }
 
+    /// <summary>참조 해상도(res)를 픽셀당 유닛(PPU) 기준 직교 카메라 크기(orthographicSize)로 환산한다.</summary>
     private float ResToOrthoSize(Vector2Int res)
     {
         return res.y / (2f * pixelPerfectCamera.assetsPPU);

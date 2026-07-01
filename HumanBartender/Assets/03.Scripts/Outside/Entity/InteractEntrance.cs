@@ -1,5 +1,6 @@
 using UnityEngine;
 
+/// <summary>바(Bar)/집 등 씬 경계에 위치한 출입구. 현재 게임 흐름(GameFlow)이 지정된 값과 일치할 때만 씬 전환을 허용한다.</summary>
 public class InteractEntrance : InteractiveEntity
 {
     [Space(20f)]

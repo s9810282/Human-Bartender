@@ -17,6 +17,7 @@ public struct SettlementLine
 }
 
 
+/// <summary>정산 아코디언 안의 한 줄(아이콘/이름/수량/금액)을 표시하는 UI 컴포넌트.</summary>
 public class SettlementRow : MonoBehaviour
 {
     [SerializeField] private RectTransform rowRect;
@@ -26,6 +27,7 @@ public class SettlementRow : MonoBehaviour
     [SerializeField] private TMP_Text qtyText;  // "×3" (선택)
     [SerializeField] private TMP_Text valueText;
 
+    /// <summary>한 줄의 데이터를 UI에 반영한다. 아이콘/수량은 값이 없으면 오브젝트 자체를 숨긴다.</summary>
     public void Set(SettlementLine line)
     {
         rowRect.sizeDelta = new Vector2(rectSize.x, rectSize.y);

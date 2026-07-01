@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+/// <summary>
+/// 정산 UI의 아코디언 한 섹션(예: 판매 내역, 팁 내역). 헤더 클릭 시 펼침/접힘 애니메이션으로
+/// 바디 영역의 높이를 보간하며, 내부에 SettlementRow들을 생성해 채운다.
+/// </summary>
 public class SettlementSection : MonoBehaviour
 {
     [SerializeField] RectTransform sectionRect;
@@ -40,6 +44,7 @@ public class SettlementSection : MonoBehaviour
     private Coroutine anim;
 
 
+    /// <summary>기존에 생성된 행들을 모두 지우고, lines에 맞춰 SettlementRow를 새로 생성해 채운다.</summary>
     public void Build(string label, IEnumerable<SettlementLine> lines, string totalStr)
     {
         if (labelText != null) labelText.text = label;
@@ -62,6 +67,7 @@ public class SettlementSection : MonoBehaviour
         }
     }
 
+    /// <summary>현재 열림/닫힘 상태를 반전시킨다.</summary>
     public void Toggle()
     {
         if (isOpen) Close();
@@ -72,6 +78,7 @@ public class SettlementSection : MonoBehaviour
     public void Close() => SetOpen(false);
     public bool IsOpen => isOpen;
 
+    /// <summary>섹션을 열거나 닫으며, 토글 아이콘/텍스트를 갱신하고 바디 높이 애니메이션을 시작한다.</summary>
     public void SetOpen(bool isopen)
     {
         if (anim != null) { StopCoroutine(anim); anim = null; }
@@ -93,6 +100,7 @@ public class SettlementSection : MonoBehaviour
         anim = StartCoroutine(AnimationHeight(bodyRect, start, target, 0.5f));
     }
 
+    /// <summary>rect의 sizeDelta.y를 start에서 target까지 duration초 동안 ease-in-out으로 보간한다.</summary>
     public IEnumerator AnimationHeight(RectTransform rect, float start, float target, float duration)
     {
         

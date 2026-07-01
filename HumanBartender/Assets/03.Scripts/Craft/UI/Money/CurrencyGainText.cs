@@ -32,6 +32,7 @@ public class CurrencyGainText : MonoBehaviour
         group = GetComponent<CanvasGroup>();
     }
 
+    /// <summary>팝업을 시작 위치에서 목표 위치로 이동시키며 재생한다.</summary>
     /// <param name="onMerge">메인 텍스트와 겹치는 순간 호출 (값 반영 콜백)</param>
     public void Play(int amount, string suffix, Vector2 startPos, Vector2 targetPos, Action onMerge)
     {
@@ -48,6 +49,7 @@ public class CurrencyGainText : MonoBehaviour
         StartCoroutine(Routine(startPos, targetPos, onMerge));
     }
 
+    /// <summary>이동 -> 겹침 판정 시 값 반영 콜백 호출 -> 페이드아웃 후 자기 자신을 파괴하는 순서로 진행되는 코루틴.</summary>
     private IEnumerator Routine(Vector2 startPos, Vector2 targetPos, Action onMerge)
     {
         // 1) 도착점으로 이동

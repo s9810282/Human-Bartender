@@ -6,11 +6,18 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// 말풍선 텍스트 타이핑 연출 유틸리티. UIDialogueTextView에도 거의 동일한 로직(ApplyCustomTags/TypeSentenceTMP)이
+/// 중복 구현되어 있어 함께 참고할 것.
+/// </summary>
 public static class DynamicBubbleEffect
 {
     public static TextTagDataSO textTagData;
     private static float defaultTypingDelay = 0.025f;
 
+    /// <summary>
+    /// TextTagDataSO에 등록된 커스텀 태그(&lt;key&gt;...&lt;/key&gt;)를 TMP의 &lt;color&gt; 태그로 치환한다.
+    /// </summary>
     public static string ApplyCustomTags(string raw)
     {
         if (textTagData == null || textTagData.textTagData?.TextTags == null)
@@ -36,6 +43,10 @@ public static class DynamicBubbleEffect
 
         return result;
     }
+    /// <summary>
+    /// 말풍선(targetBubble)에 한 글자씩 순차 표시(타이핑 효과)한다.
+    /// 문장 안의 "&lt;숫자&gt;" 태그는 해당 위치에서 지정 시간(ms)만큼 추가 딜레이를 주는 용도로 파싱되어 제거된다.
+    /// </summary>
     public async static UniTask TypeSentenceTMP
         (
         TypingData data,

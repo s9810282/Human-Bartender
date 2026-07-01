@@ -52,7 +52,11 @@ public class SettlementUI : MonoBehaviour
         if (panelRoot != null) panelRoot.SetActive(false);
     }
 
-    /// <summary>데이터를 받아 패널을 채우고 표시한다.</summary>
+    /// <summary>
+    /// 데이터를 받아 패널을 채우고 표시한다. 최종 수령액 = 총수입(gross) - 유지비.
+    /// (인수인계 메모) 아래 인자 없는 Show()와 조립 로직이 거의 동일하게 중복되어 있으나,
+    /// 그쪽은 final = gross + data.maintenanceCost 로 부호가 달라 결과가 어긋날 수 있으니 확인 필요.
+    /// </summary>
     public void Show(PlayerSettlement data)
     {
         if (data == null) return;
@@ -118,6 +122,10 @@ public class SettlementUI : MonoBehaviour
         if (panelRoot != null) panelRoot.SetActive(true);
         if (panelGroup != null) StartCoroutine(FadeIn());
     }
+    /// <summary>
+    /// 인스펙터에 지정된 settlementData를 사용해 패널을 표시하는 오버로드 (버튼 OnClick 등에서 인자 없이 호출하기 위함).
+    /// 판매 데이터가 없으면 ShowDefault로 대체. 최종 수령액 계산식이 Show(data)와 다르니 주의(위 메모 참고).
+    /// </summary>
     public void Show()
     {
         PlayerSettlement data = settlementData;
@@ -192,6 +200,7 @@ public class SettlementUI : MonoBehaviour
         if (panelGroup != null) StartCoroutine(FadeIn());
     }
 
+    /// <summary>판매 데이터가 없을 때(0건) 사용하는 기본 표시. 유지비만 반영해 최종 수령액을 계산한다.</summary>
     public void ShowDefault(PlayerSettlement data)
     {
         int final = data.maintenanceCost;
@@ -224,11 +233,13 @@ public class SettlementUI : MonoBehaviour
     }
 
 
+    /// <summary>패널을 숨긴다.</summary>
     public void Hide()
     {
         if (panelRoot != null) panelRoot.SetActive(false);
     }
 
+    /// <summary>확인 버튼 클릭 시 확정 이벤트를 발생시키고 패널을 닫는다.</summary>
     public void HandleConfirm()
     {
         OnConfirmed?.Raise(new Void());
@@ -238,6 +249,7 @@ public class SettlementUI : MonoBehaviour
     /// <summary>int 금액 -> "$1,234" 형식 (절댓값 기준).</summary>
     private string Money(int v) => currencySymbol + Mathf.Abs(v).ToString(numberFormat);
 
+    /// <summary>현재 게임 일차를 "N일차" 형식으로 반환한다.</summary>
     private static string GetDateLabel()
     {
         var d = DateTime.Now;
@@ -245,6 +257,7 @@ public class SettlementUI : MonoBehaviour
         return GameStateManager.Instance.CurrentDay + "일차";
     }
 
+    /// <summary>패널을 0.3초 동안 알파 0에서 1로 페이드인한다.</summary>
     private IEnumerator FadeIn()
     {
         panelGroup.alpha = 0f;

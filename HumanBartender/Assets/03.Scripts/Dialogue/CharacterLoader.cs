@@ -3,6 +3,11 @@ using System.Net;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// 대화 씬에서 캐릭터 파츠(애니메이션/스프라이트/초상화)의 리소스 로드를 담당하는 클래스.
+/// CharacterPart 데이터에 맞는 애니메이션 -> 스프라이트 -> 초상화 순으로 로드를 시도하고,
+/// 전부 실패하면 파츠를 비활성화한다.
+/// </summary>
 public class CharacterLoader
 {
     private const string SLOT_INTRO = "Intro";
@@ -80,6 +85,11 @@ public class CharacterLoader
             slot.portaitSpriteRenderer.sprite = null;
     }
 
+    /// <summary>
+    /// 파츠의 Loop/Intro/Dialogue 애니메이션 클립을 로드하여 오버라이드 컨트롤러에 적용한다.
+    /// Loop 클립 로드에 성공한 경우에만 true를 반환하며, Intro/Dialogue 클립이 없으면 Loop 클립으로 대체한다.
+    /// </summary>
+    /// <returns>Loop 클립 로드 성공 여부</returns>
     public async UniTask<bool> LoadAnimAsync(
         SlotCharacterPart slot,
         CharacterPart part,
@@ -139,6 +149,10 @@ public class CharacterLoader
         return false;
     }
 
+    /// <summary>
+    /// 파츠의 단일 스프라이트를 로드하여 적용한다. 애니메이션 로드가 실패했을 때의 대체 경로로 사용된다.
+    /// </summary>
+    /// <returns>스프라이트 로드 및 적용 성공 여부</returns>
     public async UniTask<bool> LoadSpriteAsync(
        SlotCharacterPart slot,
         CharacterPart part,
@@ -165,6 +179,11 @@ public class CharacterLoader
     }
 
 
+    /// <summary>
+    /// PartAnimData 기반으로 초상화(Portrait) 스프라이트를 로드한다.
+    /// 애니메이션/스프라이트 파츠 로드가 모두 실패했을 때 Body 파츠에 한해 시도되는 최종 대체 경로.
+    /// </summary>
+    /// <returns>초상화 스프라이트 로드 성공 여부</returns>
     public async UniTask<bool> LoadPortaitSpriteAsync(
          SlotCharacterPart slot,
         PartAnimData data,
@@ -189,6 +208,11 @@ public class CharacterLoader
     }
 
 
+    /// <summary>
+    /// 경로 문자열(dataPath)을 직접 받아 초상화 스프라이트를 로드하는 오버로드.
+    /// 대사 씬 외 UI(초상화 전용 표시 등)에서 직접 경로를 지정할 때 사용.
+    /// </summary>
+    /// <returns>초상화 스프라이트 로드 성공 여부</returns>
     public async UniTask<bool> LoadPortaitSpriteAsync(
         SlotCharacterPart slot,
         string dataPath,

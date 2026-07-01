@@ -8,6 +8,7 @@ using VContainer;
 
 
 
+/// <summary>쉐이커/스터/빌드 등 각 제조 미니게임 프리팹이 구현해야 하는 공통 제어 인터페이스.</summary>
 public interface IMiniGameController
 {
     public void InitGame(UniTaskCompletionSource tcs);
@@ -18,6 +19,11 @@ public interface IMiniGameController
 }
 
 
+/// <summary>
+/// 칵테일 제조 플로우 전체를 관장하는 매니저.
+/// 재료 선택 -> 제조 방식(쉐이크/스터/빌드) 선택 -> 미니게임 진행 -> 결과 판정(Evaluate) -> 보상 지급 -> 초기화
+/// 순서로 흐름을 진행하며, 중간중간 컷씬/카메라 줌/이펙트 연출을 트리거한다.
+/// </summary>
 public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 {
     [SerializeField] PlayerDataSO playerDataAsset;
@@ -66,6 +72,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     /// <summary>
     /// Command 에서 호출 되는 함수
+    ///
+    /// (인수인계 메모) 제조 이벤트를 id로 조회해 UI(주문 텍스트, 레시피 패널, 튜토리얼)를 초기화하고,
+    /// 플레이어가 CraftServe()를 호출해 결과를 확정할 때까지 대기한다(mainCraftingTcs).
+    /// 반환값은 결과에 따른 다음 대사 id.
     /// </summary>
     /// <param name="craftEventData"></param>
     public async UniTask<string> StartCraftAsync(string id)
@@ -109,6 +119,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         return await mainCraftingTcs.Task;
     }
 
+    /// <summary>튜토리얼 스텝 하나를 실행한다. 현재 "highlight" 타입만 로그로 확인 중이며 실제 하이라이트 UI는 미구현.</summary>
     public void TutorialStep(TutorialStepData data)
     {
         switch (data.Type)
@@ -141,6 +152,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         _ => null,
     };
 
+    /// <summary>제조 방식 버튼 클릭 처리. 재료가 없으면 경고 팝업, 있으면 확인 팝업을 띄운다.</summary>
     public void OnClickMethod(string method)
     {
         if (craftStation.ingredientDatas.Count == 0)
@@ -154,6 +166,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             curSelectMethod = method;
         }
     }
+    /// <summary>제조 방식 확인 시 현재 재료 조합에 맞는 칵테일을 미리 계산해두고 미니게임을 시작한다.</summary>
     public void StartMethod()
     {
         if (craftStation.ingredientDatas.Count == 0) return;
@@ -168,6 +181,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
 
     //아래 두 함수는 컷씬 구조 정립 후 다시 정리하기
+    /// <summary>
+    /// 미니게임 진입 플로우: 페이드 인 -> 카메라 줌 -> (있다면) 진입 컷씬 재생 -> 미니게임 프리팹 생성/DI 주입/InitGame ->
+    /// 미니게임 종료 대기 -> EndCraft로 마무리. style은 "shake"/"stir"/"build".
+    /// </summary>
     private async UniTaskVoid StartMiniGameAsync(string style, GameObject prefab)
     {
         UniTaskCompletionSource miniGameEndTcs = new UniTaskCompletionSource();
@@ -222,6 +239,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     }
 
 
+    /// <summary>
+    /// 미니게임 종료 후 완성/실패 컷씬과 서빙 컷씬을 순서대로 재생한다.
+    /// 매칭된 칵테일이 없으면(unknown) 실패 컷씬, 있으면 칵테일별 완성 애니메이션을 재생.
+    /// </summary>
     public async UniTask EndCraft()
     {
         GameStateManager.Instance.CurrentGameState = GameState.Play;
@@ -261,6 +282,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     }
 
+    /// <summary>서빙 컷씬(타임라인 시그널) 종료 콜백. 대사창을 다시 열고 미니게임의 다음 버튼을 노출한다.</summary>
     public void OnCutSceneEnd(Void v)
     {
         dialogueCanvas.gameObject.SetActive(true);
@@ -269,6 +291,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
 
     //아래 2개 버튼에 들어가야하는 함수.
+    /// <summary>
+    /// 서빙 버튼 클릭 시 최종 판정을 실행(Evaluate)하고, 결과 리액션(컷씬/대사/보상)을 적용한다.
+    /// 보상 지급(스킬/호감도/카르마/재화) 후 StartCraftAsync의 대기를 완료시키고 제조 상태를 초기화한다.
+    /// </summary>
     public async void CraftServe()
     {
         cutScenePlayer.OnContinueTimeline();
@@ -322,12 +348,13 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
         ResetCraft();
     }
 
+    /// <summary>재시도 버튼 콜백 (현재 미구현).</summary>
     public void CraftRetry()
     {
 
     }
 
-
+    /// <summary>진행 중인 컷씬을 정리하고 미니게임 오브젝트를 파괴한다.</summary>
     public void ResetCraftObj()
     {
         cutScenePlayer.ClearCutScene();
@@ -336,6 +363,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             Destroy(miniGameObj);
     }
 
+    /// <summary>제조 상태 전체(스테이션 데이터, 패널 필터/선택, 미니게임 참조)를 다음 제조를 위해 초기화한다.</summary>
     public void ResetCraft()
     {
         ResetCraftObj();
@@ -351,6 +379,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     }
 
 
+    /// <summary>
+    /// 현재 스테이션에 담긴 재료 조합과 정확히 일치하는(개수·종류 모두 동일) 레시피를 찾는다.
+    /// 일치하는 칵테일이 없으면 unknown_Cocktails를 반환한다.
+    /// </summary>
     public CocktailData GetMatchingCocktails()
     {
         int inputIngredientCount = craftStation.ingredientDatas.Count;
@@ -389,6 +421,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
     }
 
 
+    /// <summary>실패 횟수 비율(currentValue/maxValue)을 백분율로 환산해 Perfect/Normal/Failed 등급을 매긴다.</summary>
     public EResultType GetResultType(float currentValue, float maxValue)
     {
         // 백분율 계산 (0 ~ 100)
@@ -401,6 +434,10 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
             _ => EResultType.Failed
         };
     }
+    /// <summary>
+    /// 최종 제조 결과를 판정한다. build 방식은 재료만 맞으면 무조건 perfect, 그 외에는 미니게임 실패 횟수로
+    /// 등급을 계산한 뒤 이벤트에 정의된 규칙(Rules)을 순서대로 검사해 첫 매칭 결과를 반환한다.
+    /// </summary>
     public string Evaluate()
     {
         if (craftStation.targetCocktailData.Id == "unknown") return "bad";

@@ -40,11 +40,13 @@ public class PlayerAnimator2D : MonoBehaviour
     
     */
     
+    /// <summary>이동 속도(value)의 절댓값을 Speed 파라미터에 반영해 걷기/달리기 애니메이션 블렌드를 갱신한다.</summary>
     public void Handle(float value)
     {
         _anim.SetFloat(HashSpeed, Mathf.Abs(value));
     }
 
+    /// <summary>Speed를 0으로 만들어 정지 애니메이션으로 되돌린다.</summary>
     public void Stop()
     {
         _anim.SetFloat(HashSpeed, 0);

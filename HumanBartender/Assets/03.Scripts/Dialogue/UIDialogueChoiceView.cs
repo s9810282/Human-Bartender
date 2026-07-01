@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>선택지 표시에 필요한 데이터와 선택 시 호출할 콜백을 묶은 컨테이너.</summary>
 [System.Serializable]
 public class ChoiceSelectData
 {
@@ -23,6 +24,9 @@ public class ChoiceSelectData
 
 
 
+/// <summary>
+/// 선택지 UI 패널들을 관리한다. 각 선택지의 조건(호감도/스킬/재화/플래그)을 검사해 조건 미충족 시 숨긴다.
+/// </summary>
 public class UIDialogueChoiceView : MonoBehaviour
 {
     [SerializeField] PlayerDataSO playerDataAsset;
@@ -45,6 +49,9 @@ public class UIDialogueChoiceView : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 선택지 패널들을 초기화하고, 조건을 만족하는 선택지만 텍스트를 채워 활성화한 뒤 클릭 콜백을 등록한다.
+    /// </summary>
     public void ShowChoice(ChoiceSelectData data)
     {
         Debug.Log("선택지 UI 표시 중...");
@@ -79,6 +86,7 @@ public class UIDialogueChoiceView : MonoBehaviour
         }
     }
 
+    /// <summary>선택지 노출 조건 하나를 검사한다 (호감도 등급/스킬 등급/보유 재화/플래그).</summary>
     public bool CheckCondition(ChoiceConditionCheck checkType)
     {
         switch (checkType.Type)
@@ -106,6 +114,7 @@ public class UIDialogueChoiceView : MonoBehaviour
         return false;
     }
 
+    /// <summary>선택된 항목의 콜백은 이미 리스너에서 처리되었으므로, 여기서는 패널을 닫고 초기화만 한다.</summary>
     public void ChoiceSelect(int num)
     {
         ChoiceData choiceData = curChoiceData[num];

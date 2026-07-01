@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
+/// <summary>
+/// 상단 재화(현금) 표시 패널. 재화 증감 시 CurrencyGainText 팝업을 생성해 메인 텍스트 쪽으로 날아가게 하고,
+/// 도착(병합) 시점에 실제 금액을 반영하며 텍스트에 펀치 효과를 준다.
+/// </summary>
 public class UICashPanel : MonoBehaviour
 {
     [Header("Main Display")]
@@ -85,6 +89,7 @@ public class UICashPanel : MonoBehaviour
 
     public int CurrentAmount => currentAmount;
 
+    /// <summary>현재 보유량(currentAmount)을 텍스트에 반영한다.</summary>
     private void Refresh()
     {
         if (amountText != null)
@@ -93,6 +98,7 @@ public class UICashPanel : MonoBehaviour
 
     // ─────────────────────────────── Cash Line ───────────────────────────────
 
+    /// <summary>재화 변동 표시줄(cashLine)을 켜고, 예정된 숨김 타이머가 있으면 취소한다.</summary>
     private void ShowCashLine()
     {
         // 진행 중인 숨김 타이머가 있으면 취소 (연속 호출 시 깜빡임 방지)
@@ -106,6 +112,7 @@ public class UICashPanel : MonoBehaviour
             cashLine.SetActive(true);
     }
 
+    /// <summary>lineHideDelay초 후 cashLine을 숨기는 코루틴을 예약한다.</summary>
     private void ScheduleHideCashLine()
     {
         if (hideLineRoutine != null) StopCoroutine(hideLineRoutine);
@@ -124,6 +131,7 @@ public class UICashPanel : MonoBehaviour
 
     // ─────────────────────────────── Punch ───────────────────────────────
 
+    /// <summary>금액 텍스트에 확대/축소 펀치 효과를 재생한다.</summary>
     private void Punch()
     {
         if (amountText == null) return;
@@ -131,6 +139,7 @@ public class UICashPanel : MonoBehaviour
         punchRoutine = StartCoroutine(PunchCo(amountText.rectTransform));
     }
 
+    /// <summary>rt를 punchScale까지 키웠다가 원래 크기로 되돌리는 펀치 애니메이션 코루틴.</summary>
     private IEnumerator PunchCo(RectTransform rt)
     {
         Vector3 baseScale = Vector3.one;
@@ -143,6 +152,7 @@ public class UICashPanel : MonoBehaviour
         punchRoutine = null;
     }
 
+    /// <summary>월드 좌표를 area(RectTransform) 기준 로컬 좌표로 변환한다 (스크린 좌표를 경유).</summary>
     private static Vector2 WorldToLocal(RectTransform area, Vector3 world, Camera cam)
     {
         Vector2 screen = RectTransformUtility.WorldToScreenPoint(cam, world);

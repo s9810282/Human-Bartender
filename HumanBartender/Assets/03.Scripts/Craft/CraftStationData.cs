@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>진행 중인 제조(미니게임)의 결과 상태를 담는 데이터.</summary>
 public class CraftingResult
 {
     public bool isResult = false;
@@ -10,6 +11,7 @@ public class CraftingResult
     public Color32 mixedColor = Color.white;
 }
 
+/// <summary>스테이션에 담긴 재료 하나와 그 투입량(value)을 나타낸다.</summary>
 public class CraftIngrediantData
 {
     public IngredientData data = default;
@@ -22,6 +24,10 @@ public class CraftIngrediantData
     }
 }
 
+/// <summary>
+/// 현재 제조대(Craft Station)에 담긴 재료 구성과 진행 상태를 보관하는 ScriptableObject.
+/// 여러 매니저(CocktailCraftManager, UI 패널 등)가 공유하는 런타임 상태 저장소로 사용된다.
+/// </summary>
 [CreateAssetMenu(fileName = "CraftLiquidData", menuName = "Scriptable Objects/CraftLiquidData")]
 public class CraftStationData : ScriptableObject
 {
@@ -33,6 +39,10 @@ public class CraftStationData : ScriptableObject
     
     public CraftingResult craftingResult = new();
 
+    /// <summary>
+    /// 재료를 추가/제거한다. 신규 재료면 amount가 0 이하일 때 무시하고, 기존 재료면 누적하며
+    /// 누적값이 0 이하가 되면 목록에서 제거한다.
+    /// </summary>
     public void AddIngrediant(IngredientData data, int amount)
     {
         if (!ingredientDatas.ContainsKey(data.Id))
@@ -51,11 +61,13 @@ public class CraftStationData : ScriptableObject
         }
     }
 
+    /// <summary>담긴 재료를 모두 비운다.</summary>
     public void ResetIngrediant()
     {
         ingredientDatas.Clear();
     }
 
+    /// <summary>재료, 목표 칵테일, 제조 결과를 모두 초기 상태로 되돌린다.</summary>
     public void ResetCraftStation()
     {
         ResetIngrediant();

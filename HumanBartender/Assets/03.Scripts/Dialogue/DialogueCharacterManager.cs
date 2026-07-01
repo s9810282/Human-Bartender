@@ -5,6 +5,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+/// <summary>캐릭터가 배치될 수 있는 화면 슬롯 위치.</summary>
 public enum ESlotType
 {
     /* Inside */
@@ -19,6 +20,10 @@ public enum ESlotType
 }
 
 
+/// <summary>
+/// 슬롯 하나가 가진 캐릭터 파츠 배열, 현재 로드된 리소스 핸들, 취소 토큰 등을 담는 컨테이너.
+/// spriteHandles/animHandles는 현재 표시 중인 핸들, ~RemoveHandles는 교체 과정에서 해제 대기 중인 이전 핸들이다.
+/// </summary>
 [System.Serializable]
 public class SlotCharacterPart
 {
@@ -40,6 +45,11 @@ public class SlotCharacterPart
 }
 
 
+/// <summary>
+/// 대화 씬에 등장하는 모든 캐릭터 슬롯을 관리한다.
+/// 슬롯별 캐릭터 배치/교체(SetCharacterAsync), 대사 시작/종료 애니메이션 트리거, 페이드 인/아웃,
+/// 그리고 리소스 핸들 수명 관리(로드/해제)를 담당하는 핵심 매니저.
+/// </summary>
 public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialogueFader
 {
     [Header("DATA")]
@@ -59,6 +69,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     private const string SLOT_DIALOGUE = "Dialogue";
 
 
+    /// <summary>슬롯 배열을 타입별 딕셔너리로 인덱싱하고, 각 파츠의 AnimatorOverrideController를 초기화한다.</summary>
     private void Awake()
     {
         _slotMap = new Dictionary<ESlotType, SlotCharacterPart>(slotParts.Length);
@@ -72,6 +83,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>현재 캐릭터가 배치되어 있는 슬롯 수를 센다.</summary>
     public int GetCharacterCount()
     {
         int n = 0;
@@ -83,6 +95,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         return n;
     }
+    /// <summary>지정된 characterId가 배치된 슬롯의 월드 좌표를 반환한다. 없으면 Vector3.zero.</summary>
     public Vector3 GetCharacterPosition(string characterId)
     {
         for (int i = 0; i < slotParts.Length; i++)
@@ -110,6 +123,11 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     /// <param name="characterId"></param>
     /// <param name="expression"></param>
     /// <returns></returns>
+    /// <summary>
+    /// 캐릭터를 지정 슬롯(또는 이미 배치된 슬롯)에 표시한다. 동일 캐릭터/표정이면 스킵하고,
+    /// 표정이 스프라이트 전용이면 초상화만 로드, 아니면 각 파츠를 비동기로 병렬 로드 후 Intro 애니메이션을 재생한다.
+    /// 로드 중 취소되면 새로 받은 핸들만 정리하고, 예외 발생 시 현재 핸들을 정리한다.
+    /// </summary>
     public async UniTask SetCharacterAsync(string characterId, string expression, ESlotType slotType = ESlotType.None)
     {
         ESlotType slot = ESlotType.None;
@@ -216,12 +234,14 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
 
 
+    /// <summary>슬롯 타입으로 지정된 캐릭터의 모든 파츠에 대사 시작 애니메이션을 트리거한다.</summary>
     public void OnDialogueStart(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
         foreach (var part in slotData.parts)
             part.OnDialogueStart();
     }
+    /// <summary>화자 이름(speaker)으로 슬롯을 찾아 대사 시작 애니메이션을 트리거한다.</summary>
     public void OnDialogueStart(string speaker)
     {
         foreach (var slot in slotParts)
@@ -234,12 +254,14 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>슬롯 타입으로 지정된 캐릭터의 모든 파츠에 대사 종료 애니메이션을 트리거한다.</summary>
     public void OnDialogueEnd(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
         foreach (var part in slotData.parts)
             part.OnDialogueEnd();
     }
+    /// <summary>화자 이름(speaker)으로 슬롯을 찾아 대사 종료 애니메이션을 트리거한다.</summary>
     public void OnDialogueEnd(string speaker)
     {
         foreach (var slot in slotParts)
@@ -251,6 +273,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
             }
         }
     }
+    /// <summary>모든 슬롯의 모든 파츠에 대사 종료 애니메이션을 트리거한다.</summary>
     public void OnDialogueEnd()
     {
         foreach (var slot in slotParts)
@@ -261,6 +284,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>슬롯을 비우고(캐릭터명/표정 초기화, 파츠 비활성화) 해당 슬롯의 리소스 핸들을 모두 해제한다.</summary>
     public void ResetCharacter(ESlotType slot)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) return;
@@ -277,6 +301,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         ReleaseCurrentHandles(slotData);
         ReleaseRemoveHandles(slotData);
     }
+    /// <summary>모든 슬롯을 초기화한다.</summary>
     public void ResetCharacter()
     {
         foreach (var slot in slotParts)
@@ -285,7 +310,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
-
+    /// <summary>지정 슬롯의 모든 파츠를 동시에 페이드 인 시킨다.</summary>
     public async UniTask FadeInAsync(ESlotType slot, CancellationToken token)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
@@ -301,6 +326,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
         await UniTask.WhenAll(tasks);
     }
+    /// <summary>지정 슬롯의 모든 파츠를 동시에 페이드 아웃 시킨다.</summary>
     public async UniTask FadeOutAsync(ESlotType slot, CancellationToken token)
     {
         if (!_slotMap.TryGetValue(slot, out var slotData)) //Slot 존재 여부
@@ -320,6 +346,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
 
 
 
+    /// <summary>현재 사용 중인 핸들 스택을 remove 스택으로 옮긴다. 새 리소스 로드 중 이전 리소스를 유지하기 위함.</summary>
     private void MoveCurrentHandlesToRemove(SlotCharacterPart slot)
     {
         while (slot.spriteHandles.Count > 0)
@@ -330,6 +357,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
     }
 
     
+    /// <summary>새 리소스 로드가 끝난 뒤, 더 이상 필요 없는 이전(remove) 핸들들을 해제한다.</summary>
     private void ReleaseRemoveHandles(SlotCharacterPart slot)
     {
         while (slot.spriteRemoveHandles.Count > 0)
@@ -345,6 +373,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>로드 실패/취소 시 새로 받은(현재) 핸들들을 해제한다.</summary>
     private void ReleaseCurrentHandles(SlotCharacterPart slot)
     {
         while (slot.spriteHandles.Count > 0)
@@ -360,6 +389,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>모든 슬롯의 리소스 핸들을 해제하고 각 파츠의 오버라이드 컨트롤러를 파괴한다.</summary>
     public void ReleaseAll()
     {
         foreach (var slot in slotParts)
@@ -371,6 +401,7 @@ public class DialogueCharacterManager : MonoBehaviour, ICharacterSetter, IDialog
         }
     }
 
+    /// <summary>파괴 시 모든 리소스와 취소 토큰을 정리한다.</summary>
     private void OnDestroy()
     {
         ReleaseAll();

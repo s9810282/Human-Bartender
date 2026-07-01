@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
+/// <summary>말풍선 타이핑에 필요한 데이터(대사 내용, 화자, 위치, 색상 등)를 담는 컨테이너.</summary>
 [System.Serializable]
 public class TypingData
 {
@@ -40,6 +41,10 @@ public class TypingData
 }
 
 
+/// <summary>
+/// 루나(플레이어)/손님 말풍선 두 개를 관리하며 텍스트 타이핑 연출을 담당한다.
+/// DynamicBubbleEffect와 태그 파싱·타이핑 로직이 거의 동일하게 중복 구현되어 있으니 함께 참고할 것.
+/// </summary>
 public class UIDialogueTextView : MonoBehaviour
 {
     [Header("Data")]
@@ -69,6 +74,9 @@ public class UIDialogueTextView : MonoBehaviour
     DynamicSpeechBubble targetBubble;
 
 
+    /// <summary>
+    /// 화자에 맞는 말풍선(루나/손님)을 선택하고, 손님 발화면 캐릭터 위치에 맞춰 말풍선 위치를 조정한 뒤 타이핑을 시작한다.
+    /// </summary>
     public async UniTask StartType(TypingData data)
     {
         if (data == null)
@@ -88,6 +96,7 @@ public class UIDialogueTextView : MonoBehaviour
         await TypeSentenceTMP(curTypingData);
     }
 
+    /// <summary>캐릭터의 월드 좌표를 화면 좌표로 변환해 말풍선 위치를 캐릭터 머리 위(subOffset)로 맞춘다.</summary>
     public void SetBubblePosition(Vector3 characterTransform)
     {
         Vector2 screenPoint = Camera.main.WorldToScreenPoint(characterTransform + (Vector3)subOffset);
@@ -102,6 +111,7 @@ public class UIDialogueTextView : MonoBehaviour
 
 
 
+    /// <summary>두 말풍선의 텍스트와 폰트 크기를 초기화하고 비활성화한다.</summary>
     public void ClearText()
     {
         if (lunaSpeechBubble != null && lunaSpeechBubble.textLabel != null)
@@ -121,16 +131,19 @@ public class UIDialogueTextView : MonoBehaviour
         }
     }
 
+    /// <summary>화면 클릭 시 타이핑을 중단(스킵)한다.</summary>
     public void OnScreenClick()
     {
         StopTyping();
     }
 
+    /// <summary>타이핑 완료 후 현재 타이핑 데이터 참조를 정리한다.</summary>
     public void CompleteTyping()
     {
         curTypingData = null;
     }
 
+    /// <summary>진행 중인 타이핑 코루틴을 취소한다.</summary>
     public void StopTyping()
     {
         if (typingCts != null)
@@ -141,6 +154,10 @@ public class UIDialogueTextView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 말풍선에 한 글자씩 순차 표시(타이핑 효과)한다. 문장 안의 "&lt;숫자&gt;" 태그는 해당 위치에서
+    /// 지정 시간(ms)만큼 추가 딜레이를 주는 용도로 파싱되어 제거된다. DynamicBubbleEffect.TypeSentenceTMP와 로직이 동일.
+    /// </summary>
     public async UniTask TypeSentenceTMP(TypingData data)
     {
         string rawSentence = data.str;
@@ -206,6 +223,7 @@ public class UIDialogueTextView : MonoBehaviour
     }
 
 
+    /// <summary>TextTagDataSO에 등록된 커스텀 태그(&lt;key&gt;...&lt;/key&gt;)를 TMP의 &lt;color&gt; 태그로 치환한다.</summary>
     string ApplyCustomTags(string raw)
     {
         if (textTagData == null || textTagData.textTagData?.TextTags == null)
@@ -231,6 +249,7 @@ public class UIDialogueTextView : MonoBehaviour
 
         return result;
     }
+    /// <summary>표시 중인 글자 수(visibleCharCount)까지의 부분 문자열을 잘라 반환한다. (현재 미사용)</summary>
     string GetVisibleSubstring(string fullText, int visibleCharCount)
     {
         if (visibleCharCount <= 0) return "";

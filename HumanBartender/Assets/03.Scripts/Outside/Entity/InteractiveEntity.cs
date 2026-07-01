@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// 상호작용 가능한 엔티티의 공통 베이스. IInteractable/ITrackedble 구현(우선순위, 라벨, 오프셋)과
+/// 포커스 진입/이탈 시 아웃라인 하이라이트 처리를 담당하며, 실제 상호작용 동작은 하위 클래스가 구현한다.
+/// </summary>
 public abstract class InteractiveEntity : OutsideEntity, IInteractable
 {
     [SerializeField] protected int priority;
@@ -26,13 +30,16 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
 
     
 
+    /// <summary>실제 상호작용 동작. 대사 시작, 오브젝트 사용 등 하위 클래스에서 구현.</summary>
     public abstract void Interact(IInteractor player);
 
+    /// <summary>상호작용 중이 아닐 때, 포커스를 받으면 아웃라인을 켠다.</summary>
     public virtual void OnFocusEnter()
     {
         if(!isInteracting && outlineHighlight != null)
             outlineHighlight.SetHighlight(true);
     }
+    /// <summary>포커스를 잃으면 아웃라인을 끈다.</summary>
     public virtual void OnFocusExit()
     {
         if(outlineHighlight != null)

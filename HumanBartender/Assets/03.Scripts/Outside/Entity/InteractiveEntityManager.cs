@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
+/// <summary>데이터 id와 씬에 배치된 오브젝트 엔티티를 짝짓는 항목.</summary>
 [System.Serializable]
 public struct ObjectEntity
 {
@@ -10,6 +11,7 @@ public struct ObjectEntity
     public InteractiveObjectEntity entity;
 }
 
+/// <summary>데이터 id, 일자별 데이터 SO, 씬에 배치된 NPC 엔티티를 짝짓는 항목.</summary>
 [System.Serializable]
 public struct NPCEntity
 {
@@ -18,6 +20,7 @@ public struct NPCEntity
     public InteractiveNPCEntity entity;
 }
 
+/// <summary>데이터 id와 씬에 배치된 트리거(컷씬) 엔티티를 짝짓는 항목.</summary>
 [System.Serializable]
 public struct TriggetEntity
 {
@@ -25,6 +28,7 @@ public struct TriggetEntity
     public InteractiveTriggerEntity entity;
 }
 
+/// <summary>테스트 모드에서 강제로 세팅할 플래그 값.</summary>
 [System.Serializable]
 public struct TestFlag
 {
@@ -32,6 +36,10 @@ public struct TestFlag
     public bool bValue;
 }
 
+/// <summary>
+/// 실외 씬의 모든 상호작용 엔티티(오브젝트/NPC/트리거)를 현재 날짜·게임 흐름·조건에 맞춰
+/// 스폰 여부와 표시 가능한 대사(FlowData)를 매 씬 진입 시 갱신하는 총괄 매니저.
+/// </summary>
 public class InteractiveEntityManager : MonoBehaviour
 {
     [Header("Test")]
@@ -66,6 +74,10 @@ public class InteractiveEntityManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// (테스트 모드면 날짜/흐름/플래그를 강제 세팅 후) BGM 재생, 출입구 활성화, 엘리베이터 위치,
+    /// 플레이어 스폰 위치를 현재 GameFlow에 맞춰 초기화하고 엔티티 상태를 갱신한다.
+    /// </summary>
     private void Start()
     {
         if (isTest)
@@ -99,6 +111,10 @@ public class InteractiveEntityManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// 오브젝트/NPC/트리거 세 종류의 엔티티 각각에 대해 스폰 여부(활성화)와 조건에 맞는 대사(FlowData)를 재계산해 주입한다.
+    /// 씬 진입 시, 또는 대화/조건 변경 이벤트(OnRefreshCondition) 발생 시 호출된다.
+    /// </summary>
     public void RefreshEntity()
     {
         //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
@@ -237,6 +253,10 @@ public class InteractiveEntityManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// OutsideCondition(오브젝트/NPC 스폰 조건용) 하나를 검사한다. null이면 항상 통과.
+    /// 아래 Condition 오버로드와 조건 검사 로직이 동일하게 중복 구현되어 있으니 함께 참고할 것.
+    /// </summary>
     public bool CheckCondition(OutsideCondition? checkType)
     {
         if (checkType == null) return true;
@@ -263,6 +283,7 @@ public class InteractiveEntityManager : MonoBehaviour
 
         return false;
     }
+    /// <summary>Condition(대사 FlowData 조건용) 하나를 검사한다. null이면 항상 통과.</summary>
     public bool CheckCondition(Condition? checkType)
     {
         if (checkType == null) return true;

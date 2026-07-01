@@ -6,6 +6,10 @@ using UnityEngine.UIElements;
 
 
 
+/// <summary>
+/// 실외 씬의 엘리베이터. 상호작용 시 플레이어를 엘리베이터에 종속시켜 함께 이동시키고,
+/// 카메라 모드 전환, 로고 페이드, 라디오 재생/종료 연출을 동기화한다.
+/// </summary>
 public class OutsideElevator : InteractiveEntity
 {
     [Header("Logo")]
@@ -38,12 +42,17 @@ public class OutsideElevator : InteractiveEntity
     bool isMoving = false;
     bool isTop = false;
 
+    /// <summary>씬 진입 시 엘리베이터를 상단/하단 고정 위치로 즉시 배치한다.</summary>
     public void SetPosition(bool isTop)
     {
         this.isTop = isTop;
         transform.position = isTop ? topPoint.transform.position : bottomPoint.transform.position;
     }
 
+    /// <summary>
+    /// 엘리베이터 탑승 연출: 플레이어를 강제 이동 상태로 잠그고 엘리베이터의 자식으로 붙여 함께 이동시키며,
+    /// 이동 중 카메라 모드 전환/로고 표시/라디오 시작 콜백을 타이밍에 맞춰 DOTween 시퀀스에 끼워 넣는다.
+    /// </summary>
     public override void Interact(IInteractor player)
     {
         if (isMoving) return;
@@ -106,6 +115,7 @@ public class OutsideElevator : InteractiveEntity
             StartCoroutine(DelayToChangeState(player));
         });
     }
+    /// <summary>도착 후 delayDuration만큼 대기했다가 이동/상호작용 상태를 풀고 플레이어 조작을 되돌려준다.</summary>
     public IEnumerator DelayToChangeState(IInteractor player)
     {
         yield return new WaitForSeconds(delayDuration);
