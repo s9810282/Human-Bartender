@@ -6988,6 +6988,7 @@ MonoBehaviour:
   canvasRect: {fileID: 1978158279}
   baseOffset: {x: 0, y: 0}
   subOffset: {x: 0, y: 0}
+  defaultTypingDelay: 0.05
 --- !u!1 &805534196
 GameObject:
   m_ObjectHideFlags: 0
@@ -8848,7 +8849,7 @@ SpriteRenderer:
   m_Size: {x: 28.8, y: 16.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!4 &944276663
 Transform:
@@ -10540,6 +10541,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 4294967295
       isLunaSpeak: 0
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 2030078811}
     delay: 1
   - data:
@@ -10550,6 +10552,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 4294967295
       isLunaSpeak: 0
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 2030078811}
     delay: 1
   - data:
@@ -10560,6 +10563,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 4294967295
       isLunaSpeak: 1
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 0}
     delay: 1
 --- !u!61 &1074330139
@@ -12502,6 +12506,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 16777215
       isLunaSpeak: 0
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 2030078811}
     delay: 0
   - data:
@@ -12512,6 +12517,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 16777215
       isLunaSpeak: 0
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 2030078811}
     delay: 0
   - data:
@@ -12522,6 +12528,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 16777215
       isLunaSpeak: 1
+      eBubbleArrowType: 1
     npcSpeaker: {fileID: 0}
     delay: 0
 --- !u!114 &1199482605
@@ -14383,7 +14390,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8eec8e95798820d40b81aadd99aa66d9, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22903,6 +22910,9 @@ MonoBehaviour:
   textLabel: {fileID: 3845182583585402238}
   nameLabel: {fileID: 166157740}
   bubble: {fileID: 3244794200136141880}
+  centerArrow: {fileID: 0}
+  leftArrow: {fileID: 0}
+  rightArrow: {fileID: 0}
   minSize: {x: 60, y: 30}
   maxSize: {x: 200, y: 60}
   paddingLeft: 20

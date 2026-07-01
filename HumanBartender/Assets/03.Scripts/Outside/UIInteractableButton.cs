@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class UIInteractableButton : UIOutsideTracker
 {
+    [SerializeField] InteractableEvent OnInteractbleEvent;
     [SerializeField] TMP_Text interactText;
 
     public override void OnEnable()
     {
         base.OnEnable();
 
-        if (OnTrackedText != null)
-            OnTrackedText.OnRaised += OnVisibleInteractButton;
+        if (OnInteractbleEvent != null)
+            OnInteractbleEvent.OnRaised += OnVisibleInteractButton;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
 
-        if (OnTrackedText != null)
-            OnTrackedText.OnRaised -= OnVisibleInteractButton;
+        if (OnInteractbleEvent != null)
+            OnInteractbleEvent.OnRaised -= OnVisibleInteractButton;
     }
 
     public override void LateUpdate()
@@ -32,9 +33,11 @@ public class UIInteractableButton : UIOutsideTracker
         if (interactable == null)
         {
             target.gameObject.SetActive(false);
+            trackedTarget = null;
             return;
         }
 
+        SetTrackedTarget(interactable);
         interactText.text = interactable.Label;
         target.gameObject.SetActive(true);
     }

@@ -8,10 +8,9 @@ public enum EInteractorState
     Lock,
 }
 
-public interface IInteractor
-{
-    GameObject GameObject { get; }   
-    Transform Transform { get; }     
+public interface IInteractor : IEntity, ITrackedble
+{ 
     EInteractorState State { get; set; }
     void InteractorEvent();
 }
+

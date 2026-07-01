@@ -9,32 +9,32 @@ public enum ETrackerType
 
 public interface UITracker
 {
-    void SetTrackedTarget(IInteractable target);
+    void SetTrackedTarget(ITrackedble target);
 }
 
 
 public class UIOutsideTracker : MonoBehaviour, UITracker
 {
-    [SerializeField] protected InteractableEvent OnTrackedText;
+    [SerializeField] protected ITrackedbleEvent OnTracked;
 
     [SerializeField] protected ETrackerType Type;
     [SerializeField] protected RectTransform target;
     [SerializeField] protected Camera cam;
     [SerializeField] protected float referenceOrthoSize = 1.35f;
 
-    protected IInteractable trackedTarget;
+    protected ITrackedble trackedTarget;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void OnEnable()
     {
-        if(OnTrackedText != null)
-            OnTrackedText.OnRaised += SetTrackedTarget;
+        if(OnTracked != null)
+            OnTracked.OnRaised += SetTrackedTarget;
     }
 
     public virtual void OnDisable()
     {
-        if (OnTrackedText != null)
-            OnTrackedText.OnRaised -= SetTrackedTarget;
+        if (OnTracked != null)
+            OnTracked.OnRaised -= SetTrackedTarget;
     }
 
 
@@ -57,7 +57,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
         trackedTarget = null;
         target.gameObject.SetActive(false);
     }
-    public void SetTrackedTarget(IInteractable target)
+    public void SetTrackedTarget(ITrackedble target)
     {
         trackedTarget = target;
     }
@@ -70,7 +70,7 @@ public class UIOutsideTracker : MonoBehaviour, UITracker
         if (cam.orthographic)
             offset *= referenceOrthoSize / cam.orthographicSize;
 
-        Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Position);
+        Vector3 screenPos = cam.WorldToScreenPoint(trackedTarget.Transform.position);
         
         screenPos.x += offset.x;
         screenPos.y += offset.y;

@@ -12,8 +12,6 @@ public class ProjectLifetimeScope : LifetimeScope
         playerData.Init();
         playerSettlementData.Init();
 
-        builder.RegisterComponentInHierarchy<IngredientLibrary>();
-
         builder.RegisterComponentInHierarchy<CutSceneManager>()
        .AsSelf()
        .As<IEffectPlayer>()

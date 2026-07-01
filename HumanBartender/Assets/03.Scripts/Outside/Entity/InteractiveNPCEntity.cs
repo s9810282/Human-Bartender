@@ -3,11 +3,8 @@ using UnityEngine;
 
 public abstract class InteractiveNPCEntity : InteractiveEntity
 {
-    [SerializeField] protected InteractableEvent OnTrackedText;
+    [SerializeField] protected ITrackedbleEvent OnTrackedText;
 
-    //고민해보기
-    //data는 so같은 형태로 변경 필요
-    //Runner 및 Presenter DI로 받아야함 동적 생성 이유.
     [SerializeField] protected List<FlowData> flows;
     [SerializeField] protected DialogueRunner runner;
     [SerializeField] protected OutsideDialoguePresenter presenter;
@@ -33,8 +30,6 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         isTalking = true;
         isInteracting = true;
         player.State = EInteractorState.Interct;
-
-        ///dialogueData.dayData.InteractData.Label;
 
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);

@@ -10341,7 +10341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8996201954025937108}
   - component: {fileID: 6267841711113335578}
-  - component: {fileID: 5272795090787751557}
   - component: {fileID: 7549114144235039453}
   m_Layer: 0
   m_Name: ProjectLifeScope
@@ -10392,22 +10391,6 @@ MonoBehaviour:
   - {fileID: 1565532217464079988}
   playerData: {fileID: 11400000, guid: 2fd3768d3d1393647a7e88b72e79c9e0, type: 2}
   playerSettlementData: {fileID: 11400000, guid: d7bfd6084898ec64eb9a4bc456e17683, type: 2}
---- !u!114 &5272795090787751557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7091543009631301304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a54f7225b06344db35dabb6202e26b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liquidEntries: []
-  ganishEntries: []
-  eTCEntries: []
-  testData: {fileID: 11400000, guid: f1a6519940450a3489b2181e8f218a4b, type: 2}
 --- !u!81 &7549114144235039453
 AudioListener:
   m_ObjectHideFlags: 0

@@ -20,9 +20,9 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
 
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;
-    Vector2 IInteractable.ButtonOffset => buttonOffset;
-    Vector2 IInteractable.TextOffset => textOffset;
-    bool IInteractable.IsAvaliable => isAvaliable;
+    Vector2 ITrackedble.ButtonOffset => buttonOffset;
+    Vector2 ITrackedble.TextOffset => textOffset;
+    bool ITrackedble.IsAvaliable => isAvaliable;
 
     
 

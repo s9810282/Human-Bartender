@@ -2,11 +2,13 @@ using UnityEngine;
 
 public interface IEntity
 {
-    Vector3 Position { get; }
+    Transform Transform { get;}
+    GameObject GameObject { get; }
 }
 
 public abstract class OutsideEntity : MonoBehaviour, IEntity
 {
 
-    public Vector3 Position => transform.position;
+    public Transform Transform { get => transform;}
+    public GameObject GameObject => this.gameObject;
 }

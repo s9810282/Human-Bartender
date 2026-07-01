@@ -8,6 +8,7 @@ public class InteractionDetector : MonoBehaviour
     [Header("Event Channels")]
     [SerializeField] private InteractorEvent interactPressedChannel;
     [SerializeField] private InteractableEvent OnInteractedTargetChannel;
+
     [Header("Event")]
     [SerializeField] private InteractableEvent OnTargetChanged;
     [SerializeField] private VoidEvent PlayerStopEvent;
@@ -122,7 +123,7 @@ public class InteractionDetector : MonoBehaviour
 
         foreach (var c in currentFrameCandidates)
         {
-            Vector2 toTarget = (Vector2)c.Position - originPos;
+            Vector2 toTarget = (Vector2)c.Transform.position - originPos;
             float distance = toTarget.magnitude;
 
             float score = distance;
@@ -139,7 +140,7 @@ public class InteractionDetector : MonoBehaviour
         if (!ReferenceEquals(best, currentTarget))
         {
             if (best != null && !best.IsAvaliable) return;
-            
+
             currentTarget?.OnFocusExit();
             currentTarget = best;
             currentTarget?.OnFocusEnter();
@@ -155,6 +156,7 @@ public class InteractionDetector : MonoBehaviour
     {
         target?.OnFocusExit();
         currentTarget = null;
+
         OnTargetChanged?.Raise(currentTarget);
     }
 

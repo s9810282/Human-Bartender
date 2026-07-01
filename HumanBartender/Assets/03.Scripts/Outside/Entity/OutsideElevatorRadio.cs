@@ -8,7 +8,7 @@ public class OutsideElevatorRadio : InteractiveEntity
 {
     [Header("Data")]
     [SerializeField] TextTagDataSO textTagData;
-    [SerializeField] protected InteractableEvent OnTrackedText;
+    [SerializeField] protected ITrackedbleEvent OnTrackedText;
 
     //고민해보기
     //data는 so같은 형태로 변경 필요
@@ -29,6 +29,7 @@ public class OutsideElevatorRadio : InteractiveEntity
 
         RadioData targetRadioData = default;
         bool found = false;
+
         foreach (var item in radioData.radioData.radioDatas)
         {
             if (item.Days != curday) continue;
@@ -41,7 +42,6 @@ public class OutsideElevatorRadio : InteractiveEntity
         if (!found) return;
 
 
-        Logger.Log("Start Radio");
         DynamicBubbleEffect.textTagData = textTagData;
 
         _playCts?.Cancel();
@@ -88,7 +88,7 @@ public class OutsideElevatorRadio : InteractiveEntity
                                     cancellationToken: token);
 
                 bubble.gameObject.SetActive(true);
-                Logger.Log("Play Radio");
+                
                 await DynamicBubbleEffect.TypeSentenceTMP(
                     new TypingData(
                         item.Text,
