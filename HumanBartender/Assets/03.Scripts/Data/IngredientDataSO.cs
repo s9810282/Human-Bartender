@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Newtonsoft.Json;
 
+/// <summary>재료 데이터 배열을 보유하는 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "IngrediantDataSO", menuName = "Scriptable Objects/IngrediantDataSO")]
 public class IngredientDataSO : ScriptableObject
 {

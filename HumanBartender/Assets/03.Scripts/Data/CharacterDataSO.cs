@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Newtonsoft.Json;
 
+/// <summary>캐릭터 한 명의 기본 정보(id, 표시 이름, 이름 색상, 표정 목록, 플레이어 여부)를 담는 구조체.</summary>
 [Serializable]
 public struct CharacterData
 {
@@ -12,6 +13,7 @@ public struct CharacterData
     [JsonProperty("is_player")] public bool IsPlayer { get; set; }
 }
 
+/// <summary>CharacterDataBase를 보유하는 ScriptableObject 래퍼.</summary>
 [CreateAssetMenu(fileName = "New CharacterDataBase", menuName = "Data/CharacterDataBase")]
 public class CharacterDataSO : ScriptableObject
 {

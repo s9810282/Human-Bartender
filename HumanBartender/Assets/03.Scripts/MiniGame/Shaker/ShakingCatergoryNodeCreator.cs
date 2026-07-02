@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// 쉐이킹 미니게임에서 경로 위에 목표 노드를 스폰/관리하는 컴포넌트.
+/// NodePatternData에 따라 패턴 노드를 스폰하고, StrikeNode가 이벤트를 발생시키면 새 패턴으로 교체한다.
+/// </summary>
 public class ShakingCatergoryNodeCreator : MonoBehaviour
 {
     [SerializeField] NodePatternData nodePatternData;

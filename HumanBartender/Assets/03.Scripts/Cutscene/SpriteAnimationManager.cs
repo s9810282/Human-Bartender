@@ -7,6 +7,10 @@ using UnityEngine;
 
 
 [Serializable]
+/// <summary>
+/// AnimationPart를 상속받아 스프라이트 애니메이션 클립을 Animator로 재생하는 컴포넌트.
+/// ApplySprite()로 단일 스프라이트 표시, PlayAnimation()으로 애니메이션 클립을 재생한다.
+/// </summary>
 public class SpriteAnimationManager : AnimationPart
 {
     public override void ApplySprite(Sprite sprite)

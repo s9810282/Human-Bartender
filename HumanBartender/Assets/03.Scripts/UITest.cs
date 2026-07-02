@@ -1,6 +1,10 @@
 using UnityEngine;
 using VContainer;
 
+/// <summary>
+/// 정산 및 재화 UI를 테스트하는 임시 컴포넌트.
+/// Start()에서 테스트용 돈/판매 데이터를 세팅하고 정산 이벤트를 발생시킨다.
+/// </summary>
 public class UITest : MonoBehaviour
 {
     [SerializeField] PlayerDataSO playerDataAsset;

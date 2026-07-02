@@ -6,6 +6,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Networking;
 
+/// <summary>
+/// JSON 데이터를 저장/로드하는 제네릭 정적 유틸리티.
+/// StreamingAssets 동기 로드, PersistentDataPath 저장/로드, UnityWebRequest 비동기 로드,
+/// Addressables 비동기 로드를 지원한다.
+/// </summary>
 public static class JsonManager<T>
 {
     public static bool SaveGame(T data, string saveFileName)

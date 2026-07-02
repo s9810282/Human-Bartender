@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum HistoryKind { Dialogue, Choice, System }
 
-// 화면에 보여준 한 줄의 기록
+/// <summary>히스토리에 저장되는 한 줄의 기록. 대화·선택지·시스템 메시지를 공용으로 표현한다.</summary>
 public class HistoryRecord
 {
     public HistoryKind kind;
@@ -20,8 +20,10 @@ public class HistoryRecord
     public int chosen = -1;
 }
 
-// 진행하면서 보여준 내용을 누적. VContainer 싱글톤으로 등록해서
-// DialogueManager / DialogueHistoryView 에 주입한다.
+/// <summary>
+/// 진행하면서 보여준 대화·선택지를 누적하는 히스토리 저장소.
+/// VContainer 싱글톤으로 등록되어 DialogueManager·DialogueHistoryView에 주입된다.
+/// </summary>
 public class DialogueHistory
 {
     readonly List<HistoryRecord> _records = new List<HistoryRecord>();

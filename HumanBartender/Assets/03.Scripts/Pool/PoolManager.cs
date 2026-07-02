@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 이름 기반으로 UI 프리팹 오브젝트 풀을 관리하는 매니저.
+/// Awake 시 uiPrefabs 목록으로 ObjectPool을 초기화하고, GetUI/ReturnUI로 오브젝트를 대여/반납한다.
+/// </summary>
 public class PoolManager : MonoBehaviour
 {
     [System.Serializable]

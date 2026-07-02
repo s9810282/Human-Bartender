@@ -3,6 +3,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 [System.Serializable]
+/// <summary>SpriteRevealBehaviour를 Timeline 클립으로 생성하는 PlayableAsset.</summary>
 public class SpriteRevealClip : PlayableAsset, ITimelineClipAsset
 {
     public SpriteRevealBehaviour template = new SpriteRevealBehaviour();

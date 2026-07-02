@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-// 히스토리 오버레이 패널. ScrollRect 안에 기록을 프리팹으로 찍어준다.
-// HUD의 '대화 기록' 버튼 onClick → Open() 연결.
+/// <summary>
+/// 히스토리 오버레이 패널. DialogueHistory의 기록을 ScrollRect 안에 프리팹으로 나열한다.
+/// HUD의 '대화 기록' 버튼 onClick에 Open()을 연결해 사용한다.
+/// </summary>
 public class DialogueHistoryView : MonoBehaviour
 {
     [Header("UI")]

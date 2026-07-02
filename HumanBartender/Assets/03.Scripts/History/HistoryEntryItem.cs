@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 대화 / 시스템 한 줄. 화자 이름은 캐릭터 NameColor를 그대로 사용.
+/// <summary>히스토리의 대화·시스템 한 줄 항목 UI. 화자 이름에 캐릭터 NameColor를 그대로 적용한다.</summary>
 public class HistoryEntryItem : MonoBehaviour
 {
     [SerializeField] TMP_Text speakerText;

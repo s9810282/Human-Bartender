@@ -1,5 +1,6 @@
 using UnityEngine.Playables;
 
+/// <summary>Effect 트랙 믹서. 활성 클립의 이펙트 타입을 CutSceneTimelineManager의 오버레이에 적용한다.</summary>
 public class CutSceneEffectMixerBehaviour : PlayableBehaviour
 {
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)

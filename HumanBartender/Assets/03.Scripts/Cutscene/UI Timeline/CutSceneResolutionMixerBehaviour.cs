@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
+/// <summary>Resolution 트랙 믹서. 활성 클립의 해상도 설정을 읽어 CutSceneTimelineManager의 CanvasScaler에 적용한다.</summary>
 public class CutSceneResolutionMixerBehaviour : PlayableBehaviour
 {
     private CutSceneTimelineManager manager;

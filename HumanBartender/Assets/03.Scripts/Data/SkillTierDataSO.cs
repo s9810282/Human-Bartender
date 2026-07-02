@@ -5,6 +5,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+/// <summary>바텐더 숙련도 등급을 나타내는 열거형.</summary>
 [Serializable]
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ESkillTier
@@ -33,6 +34,7 @@ public class SkillTierDataBase
 
 
 
+/// <summary>숙련도 등급별 범위(min/max) 데이터를 보유하는 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "New SkillTierDataSO", menuName = "Data/SkillTierDataSO")]
 public class SkillTierDataSO : ScriptableObject
 {

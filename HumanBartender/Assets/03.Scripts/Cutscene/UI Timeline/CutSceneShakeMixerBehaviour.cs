@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>Shake 트랙 믹서. 활성 클립의 흔들기 파라미터를 읽어 CutSceneTimelineManager의 루트에 DOTween Shake를 적용한다.</summary>
 public class CutSceneShakeMixerBehaviour : PlayableBehaviour
 {
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)

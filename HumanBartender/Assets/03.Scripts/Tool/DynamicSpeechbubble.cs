@@ -11,6 +11,12 @@ public enum EBubbleArrowType
 }
 
 [RequireComponent(typeof(RectTransform))]
+/// <summary>
+/// 텍스트 타이핑에 맞춰 말풍선 크기를 동적으로 조절하는 컴포넌트.
+/// GrowPerCharacter 모드: 글자가 늘어날수록 박스가 확장.
+/// PreExpand 모드: 시작부터 최종 크기로 펼치고 안에서 타이핑만 진행.
+/// PrepareForText()로 문장 준비, UpdateForVisible()을 매 타이핑 스텝마다 호출한다.
+/// </summary>
 public class DynamicSpeechBubble : MonoBehaviour
 {
     public enum BubbleSizeMode

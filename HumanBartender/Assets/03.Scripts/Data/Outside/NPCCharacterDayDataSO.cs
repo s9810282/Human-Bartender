@@ -4,6 +4,7 @@ using System;
 using System.Runtime.Serialization;
 using UnityEngine;
 
+/// <summary>NPC 대사 흐름 선택 방식을 나타내는 열거형(순차/조건부/랜덤).</summary>
 [Serializable]
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ESelectionType
@@ -72,6 +73,7 @@ public class NPCCharacterDay
     [JsonProperty("days")] public NPCDayData[] Days { get; set; }
 }
 
+/// <summary>NPC 한 명의 일차별 대화 흐름 데이터를 보유하는 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "NPCCharacterDayData", menuName = "Scriptable Objects/NPCCharacterDayData")]
 public class NPCCharacterDayDataSO : ScriptableObject
 {

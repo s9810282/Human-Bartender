@@ -28,6 +28,7 @@ public class RadioDataBase
 }
 
 
+/// <summary>엘리베이터 라디오 대사 데이터를 보유하는 ScriptableObject. 일차 및 GameFlow별 라디오 대사 배열로 구성된다.</summary>
 [CreateAssetMenu(fileName = "OutsideRadioData", menuName = "Scriptable Objects/OutsideRadioData")]
 public class OutsideRadioDataSO : ScriptableObject
 {

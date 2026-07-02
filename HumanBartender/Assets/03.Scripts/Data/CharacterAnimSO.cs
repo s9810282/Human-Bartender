@@ -8,6 +8,7 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 
+/// <summary>캐릭터 표정 애니메이션의 파트(부위)를 구분하는 열거형.</summary>
 public enum EAnimationPart
 {
     Eyes = 1,
@@ -20,6 +21,7 @@ public enum EAnimationPart
     Sprite = 10,
 }
 
+/// <summary>애니메이션 파트의 재생 반복 모드를 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EAnimLoopMode
 {
@@ -41,7 +43,11 @@ public enum EAnimLoopMode
 
 
 
-// ── ScriptableObject ──────────────────────────────────────────────────────
+/// <summary>
+/// 캐릭터 표정 애니메이션 설정 데이터를 보유하는 ScriptableObject.
+/// characterId + expression + EAnimationPart 조합으로 PartAnimData를 조회한다.
+/// expression이 없으면 "default"로 폴백한다.
+/// </summary>
 [CreateAssetMenu(fileName = "New CharacterAnimConfigBase", menuName = "Data/CharacterAnimConfigBase")]
 public class CharacterAnimSO : ScriptableObject
 {

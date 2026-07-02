@@ -4,7 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SturManagerNew : MonoBehaviour, IMiniGameController 
+/// <summary>
+/// 스터링 미니게임의 메인 매니저. IMiniGameController를 구현한다.
+/// BPM 동기화된 SturStrikeNode가 원형 경로를 공전하며, 플레이어 클릭에 따라 판정한다.
+/// 총 판정 수 또는 실패 한계 초과 시 CompleteMade()를 호출해 결과를 반환한다.
+/// </summary>
+public class SturManagerNew : MonoBehaviour, IMiniGameController
 {
     [SerializeField] bool isTest = false;
 

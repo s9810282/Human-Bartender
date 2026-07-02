@@ -4,6 +4,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 [Serializable]
+/// <summary>배경 이미지 전환을 정의하는 Timeline 클립 에셋. CutSceneBGBehaviour 인스턴스를 생성한다.</summary>
 public class CutSceneBGClip : PlayableAsset, ITimelineClipAsset
 {
     public CutSceneBGBehaviour template = new();

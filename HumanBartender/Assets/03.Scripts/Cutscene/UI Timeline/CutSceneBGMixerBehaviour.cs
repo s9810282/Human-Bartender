@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
+/// <summary>BG 트랙 믹서. 활성 클립에서 배경 이미지 경로를 읽어 CutSceneTimelineManager에 적용한다.</summary>
 public class CutSceneBGMixerBehaviour : PlayableBehaviour
 {
     private CutSceneTimelineManager manager;

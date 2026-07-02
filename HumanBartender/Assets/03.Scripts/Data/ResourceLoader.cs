@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+/// <summary>
+/// Unity Addressables를 통해 에셋을 비동기 로드하는 정적 유틸리티.
+/// TryLoadAsync: 주소 존재 확인 후 로드, 실패 시 핸들 자동 릴리즈.
+/// ExistsInAddressables: 키 존재 여부만 확인.
+/// ReleaseHandle: 핸들 안전 릴리즈.
+/// </summary>
 public static class ResourceLoader
 {
     /// <summary>

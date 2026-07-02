@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Scrollbar))]
 [DefaultExecutionOrder(100)]
+/// <summary>
+/// Scrollbar 핸들을 value 위치 기반으로 배치하고 크기를 네이티브 스프라이트 크기로 고정하는 컴포넌트.
+/// Awake 시 HandleDragHandler를 핸들에 자동 부착하여 점프 없는 드래그를 지원한다.
+/// </summary>
 public class PositionBasedScrollbar : MonoBehaviour
 {
     Scrollbar sb;

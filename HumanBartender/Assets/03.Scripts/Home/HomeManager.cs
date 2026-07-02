@@ -1,6 +1,10 @@
 using UnityEngine;
 using VContainer;
 
+/// <summary>
+/// Home 씬 매니저. 정산 비용을 계산하여 정산 UI를 표시하고,
+/// 플레이어가 확인하면 일차를 올리고 데이터를 교체한 뒤 Outside 씬으로 전환한다.
+/// </summary>
 public class HomeManager : MonoBehaviour
 {
     [SerializeField] SettlementDataSO settlementData;

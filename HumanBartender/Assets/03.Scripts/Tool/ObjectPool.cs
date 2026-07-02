@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+/// <summary>
+/// Stack 기반 제네릭 GameObject 오브젝트 풀.
+/// Get()으로 오브젝트를 대여하고 Return()으로 반납한다. 풀이 비면 자동으로 새 오브젝트를 생성한다.
+/// </summary>
 public class ObjectPool
 {
     [SerializeField] private GameObject prefab;

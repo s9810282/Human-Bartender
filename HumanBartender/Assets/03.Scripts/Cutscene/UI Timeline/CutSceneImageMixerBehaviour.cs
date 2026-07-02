@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
+/// <summary>Image 트랙 믹서. 활성 클립의 이미지 데이터를 읽어 CutSceneTimelineManager의 이미지 풀을 통해 표시한다.</summary>
 public class CutSceneImageMixerBehaviour : PlayableBehaviour
 {
     // Mixer가 Track에서 받아오는 바인딩

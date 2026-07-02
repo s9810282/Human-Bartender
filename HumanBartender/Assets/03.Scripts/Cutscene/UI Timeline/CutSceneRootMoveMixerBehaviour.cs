@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>RootMove 트랙 믹서. 활성 클립의 이동 데이터를 읽어 CutSceneRoot·BGRoot의 앵커 위치를 제어한다.</summary>
 public class CutSceneRootMoveMixerBehaviour : PlayableBehaviour
 {
     // Root와 BGRoot의 Hold 상태를 독립적으로 기억

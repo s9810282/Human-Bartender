@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using VContainer;
 
+/// <summary>
+/// 컷씬 재생 커맨드.
+/// 페이드인 → BGM 일시정지 → 카메라 줌 → 컷씬 재생 → BGM 재개 순으로 처리한다.
+/// </summary>
 public class StartCutSceneCommand : IDialogueCommand
 {
    

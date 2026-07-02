@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
 
+/// <summary>Dialogue 트랙 믹서. 활성 클립에서 대사 데이터를 읽어 CutSceneTimelineManager의 대사 버블에 표시한다.</summary>
 public class CutSceneDialogueMixerBehaviour : PlayableBehaviour
 {
     private CutSceneTimelineManager manager;

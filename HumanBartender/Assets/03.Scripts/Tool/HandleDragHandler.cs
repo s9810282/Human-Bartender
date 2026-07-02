@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Scrollbar 핸들 드래그 시 클릭 위치에서 점프 없이 자연스럽게 이동하도록 오프셋을 보정하는 핸들러.
+/// PositionBasedScrollbar가 핸들에 자동으로 부착한다.
+/// </summary>
 public class HandleDragHandler : MonoBehaviour,
     IPointerDownHandler, IInitializePotentialDragHandler, IDragHandler
 {

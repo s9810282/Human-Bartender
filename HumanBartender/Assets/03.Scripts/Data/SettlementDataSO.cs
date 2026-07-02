@@ -33,6 +33,7 @@ public class SettlementDataBase
     [JsonProperty("daily_settlements")] public DailySettlementData[] DailySettlements { get; set; }
 }
 
+/// <summary>일별 정산 지출 항목 데이터를 보유하는 ScriptableObject. Cached() 호출 시 day 키 딕셔너리 생성.</summary>
 [CreateAssetMenu(fileName = "New SettlementDataSO", menuName = "Data/SettlementDataSO")]
 public class SettlementDataSO : ScriptableObject
 {

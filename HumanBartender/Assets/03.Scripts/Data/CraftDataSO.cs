@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
 
+/// <summary>칵테일 평가 룰의 매칭 방식을 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EMatchType
 {
@@ -24,6 +25,7 @@ public enum EMatchType
 }
 
 
+/// <summary>칵테일 제조 반응 판정 등급을 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EVerdictType
 {
@@ -45,6 +47,7 @@ public enum EVerdictType
     Miss,
 }
 
+/// <summary>미니게임 제조 성공 여부를 나타내는 열거형(완벽/보통/실패).</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EResultType
 {
@@ -141,6 +144,7 @@ public struct PaymentData
     [JsonProperty("tip_rate")] public float TipRate { get; set; }
 }
 
+/// <summary>제조 이벤트 데이터 배열을 보유하는 ScriptableObject. id로 CraftEventData를 조회할 수 있다.</summary>
 [CreateAssetMenu(fileName = "CraftDataBase", menuName = "Data/CraftDataBase")]
 public class CraftDataSO : ScriptableObject
 {

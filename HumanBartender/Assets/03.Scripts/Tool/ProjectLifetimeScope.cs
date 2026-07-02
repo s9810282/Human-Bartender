@@ -2,6 +2,11 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
+/// <summary>
+/// 프로젝트 전역 VContainer 루트 스코프.
+/// CutSceneManager, PlayerData, SoundManager, DisplaySettings, DialogueHistory, DataLoadManager 등
+/// 모든 씬에서 공유되는 싱글톤들을 등록한다.
+/// </summary>
 public class ProjectLifetimeScope : LifetimeScope
 {
     [SerializeField] PlayerDataSO playerData;

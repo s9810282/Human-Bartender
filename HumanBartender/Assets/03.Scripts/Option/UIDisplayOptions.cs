@@ -5,6 +5,10 @@ using TMPro;
 using System.Collections.Generic;
 using VContainer;
 
+/// <summary>
+/// 화면 옵션(창모드 토글, 해상도 드롭다운) 및 사운드 옵션(BGM/SE 슬라이더) UI 컴포넌트.
+/// Esc 키로 옵션 패널 토글, Apply 버튼으로 설정을 적용한다.
+/// </summary>
 public class UIDisplayOptions : MonoBehaviour
 {
     [Header("Screen UI References")]

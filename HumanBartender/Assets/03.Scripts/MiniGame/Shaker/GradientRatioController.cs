@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
+/// <summary>
+/// 미니게임 결과 게이지 UI. 성공(녹색)/대기(흰색)/실패(빨강) 비율을 셰이더 머티리얼 프로퍼티로 전달한다.
+/// UpdateValues()를 호출하면 _LeftBoundary, _RightBoundary, _Smoothness가 즉시 반영된다.
+/// </summary>
 public class GradientRatioController : MonoBehaviour
 {
     [SerializeField] Image targetImage;

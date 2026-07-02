@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// 스터링 미니게임에서 타원형 경로를 LineRenderer로 생성하는 컴포넌트.
+/// BuildCircle()을 호출하면 지정한 반지름/중심 위치로 원형 라인을 구성한다.
+/// </summary>
 public class CircleLineCreator : MonoBehaviour
 {
     [Header("Path Line")]

@@ -8,6 +8,10 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
+/// <summary>
+/// UI 컷씬 Timeline의 중앙 바인딩 대상. 배경·이미지 풀·이펙트 오버레이·대사 버블 등 모든 트랙이
+/// 이 컴포넌트를 통해 씬 오브젝트를 참조하고 제어한다.
+/// </summary>
 public class CutSceneTimelineManager : MonoBehaviour
 {
     [Header("Canvas")]

@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using VContainer;
 
+/// <summary>
+/// 캐릭터 퇴장 연출 커맨드.
+/// 지정 슬롯의 캐릭터를 페이드 아웃 후 제거하고, 남은 캐릭터 수에 따라 카메라를 재조정한다.
+/// </summary>
 public class CustomerExitCommand : IDialogueCommand
 {
     [Inject] ICameraControl cameraZoom;

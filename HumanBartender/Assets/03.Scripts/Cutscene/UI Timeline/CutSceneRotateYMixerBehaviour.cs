@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>RotateY 트랙 믹서. 활성 클립의 Y축 회전 각도를 읽어 CutSceneTimelineManager의 대상 오브젝트에 적용한다.</summary>
 public class CutSceneRotateYMixerBehaviour : PlayableBehaviour
 {
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)

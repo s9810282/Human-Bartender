@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
+/// <summary>
+/// 쉐이킹 미니게임의 메인 매니저. IMiniGameController를 구현한다.
+/// BPM 동기화된 StrikeNode가 경로를 이동하며, 플레이어 클릭 타이밍에 따라 성공/실패 판정을 낸다.
+/// 총 판정 수 또는 실패 한계 초과 시 CompleteMade()를 호출해 결과를 반환한다.
+/// </summary>
 public class ShakingManagerNew : MonoBehaviour, IMiniGameController
 {
     [SerializeField] bool isTest = false;

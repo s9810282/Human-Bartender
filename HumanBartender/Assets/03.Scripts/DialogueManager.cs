@@ -5,18 +5,23 @@ using UnityEngine;
 using VContainer;
 
 
+/// <summary>
+/// 대화 시스템의 현재 처리 단계를 나타내는 열거형.
+/// </summary>
 public enum DialogueState
 {
-    Idle,
-    WaitingForTrigger,
-    Typing,
-    WaitingForInput,
-    WaitingForChoice,
-    CompleteTrigger,
+    Idle,               // 대기 상태
+    WaitingForTrigger,  // 트리거 실행 중 (입력 잠금)
+    Typing,             // 텍스트 타이핑 중
+    WaitingForInput,    // 플레이어 클릭 대기
+    WaitingForChoice,   // 선택지 선택 대기
+    CompleteTrigger,    // 트리거 완료
 }
 
-
-
+/// <summary>
+/// 대화 씬의 흐름을 제어하는 핵심 매니저.
+/// DialogueState에 따라 씬 로드, 대화 재생, 트리거 실행, 선택지 표시, 화면 클릭 처리를 담당한다.
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] DayDataSO dayScripteData;

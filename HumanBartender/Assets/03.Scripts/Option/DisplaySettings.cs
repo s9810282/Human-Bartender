@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using VContainer.Unity;
 
+/// <summary>화면 설정(전체화면/창모드 크기/채우기 방식, PixelPerfectCamera 등록)을 관리하는 인터페이스.</summary>
 public interface IDisplaySettings
 {
     Vector2Int[] WindowedSizes { get; }
@@ -13,6 +14,10 @@ public interface IDisplaySettings
     void UnregisterActiveCamera(PixelPerfectCamera ppc);
 }
 
+/// <summary>
+/// 화면 설정(전체화면/창 해상도/PixelPerfectCamera 채우기 방식)을 관리하는 VContainer 싱글톤.
+/// 설정값은 PlayerPrefs에 저장되어 씬 간 유지된다.
+/// </summary>
 public class DisplaySettings : IDisplaySettings, IInitializable
 {
     private static readonly Vector2Int[] _windowedSizes =

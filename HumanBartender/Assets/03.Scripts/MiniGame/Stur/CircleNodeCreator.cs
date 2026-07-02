@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// 스터링 미니게임에서 원형 경로 위에 목표 노드를 스폰/관리하는 컴포넌트.
+/// 일정 시간마다 랜덤 위치에 새 노드를 생성하고, 수명이 다한 노드는 자동으로 풀에 반납한다.
+/// </summary>
 public class CircleNodeCreator : MonoBehaviour
 {
     [SerializeField] ObjectPool targetNodePool;

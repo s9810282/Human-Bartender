@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// ENABLE_LOGS 심볼이 정의된 빌드에서만 동작하는 조건부 디버그 로거.
+/// 릴리즈 빌드에서는 메서드 호출 자체가 컴파일러에 의해 제거된다.
+/// </summary>
 public static class Logger
 {
     [System.Diagnostics.Conditional("ENABLE_LOGS")]

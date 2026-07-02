@@ -1,6 +1,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+/// <summary>
+/// SpriteRenderer의 MaterialPropertyBlock을 이용해 아웃라인 하이라이트를 부드럽게 페이드하는 컴포넌트.
+/// SetHighlight(true/false)로 켜고 끄며, fadeSpeed에 따라 _OutlineIntensity 값이 보간된다.
+/// </summary>
 public class OutlineHighlight : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _renderer;

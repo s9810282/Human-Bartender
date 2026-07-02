@@ -1,6 +1,10 @@
 using VContainer;
 using VContainer.Unity;
 
+/// <summary>
+/// 인게임(Bar) 씬 전용 VContainer 스코프.
+/// CocktailCraftManager, CameraController, DialogueCharacterManager를 인터페이스로 등록한다.
+/// </summary>
 public class InGameLifetimeScope : LifetimeScope
 {
     private CutSceneManager _cutSceneManager;

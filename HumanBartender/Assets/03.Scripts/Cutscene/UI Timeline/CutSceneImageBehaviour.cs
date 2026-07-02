@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 using UnityEngine.UI;
 
 [Serializable]
+/// <summary>이미지 오브젝트의 등장·위치·크기·페이드를 정의하는 PlayableBehaviour.</summary>
 public class CutSceneImageBehaviour : PlayableBehaviour
 {
     // ── 데이터 (인스펙터에서 설정) ────────────────────────────────────

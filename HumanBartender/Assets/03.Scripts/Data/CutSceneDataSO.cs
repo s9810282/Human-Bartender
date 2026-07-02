@@ -223,6 +223,10 @@ public struct Comicscene
 
 }
 
+/// <summary>
+/// 컷씬 전체 데이터(위치 프리셋, 레이아웃 프리셋, 코믹 프리셋, 스프라이트 컷씬)를 보유하는 ScriptableObject.
+/// Cached() 호출 시 id 기반 조회용 딕셔너리를 생성한다.
+/// </summary>
 [CreateAssetMenu(fileName = "CutSceneDataSO", menuName = "Data/CutSceneDataSO")]
 public class CutSceneDataSO : ScriptableObject
 {

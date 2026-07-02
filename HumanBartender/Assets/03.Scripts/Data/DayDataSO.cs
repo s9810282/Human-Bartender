@@ -4,6 +4,7 @@ using System;
 using System.Runtime.Serialization;
 using UnityEngine;
 
+/// <summary>대화 라인의 유형을 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EDialogueType
 {
@@ -28,6 +29,7 @@ public enum EDialogueType
     ConditionBranch,
 }
 
+/// <summary>컷씬 재생 방식을 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ECutSceneType
 {
@@ -67,6 +69,7 @@ public enum EConditionCheckType
     And,
 }
 
+/// <summary>대화 트리거의 실행 유형을 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ETriggetType
 {
@@ -228,6 +231,7 @@ public class DayDatabBase
     [JsonProperty("scenes")] public SceneData[] Scenes { get; set; }
 }
 
+/// <summary>하루치 씬/대화/트리거 데이터를 보유하는 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "DayDataSO", menuName = "Data/DayDataSO")]
 public class DayDataSO : ScriptableObject
 {

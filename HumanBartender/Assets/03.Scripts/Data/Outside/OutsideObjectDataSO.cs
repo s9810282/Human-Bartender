@@ -23,6 +23,10 @@ public class OutsideObjectDataBase
 }
 
 
+/// <summary>
+/// Outside 씬 상호작용 오브젝트 데이터를 보유하는 ScriptableObject.
+/// Cached() 호출 시 objectId 기반 딕셔너리를 생성한다.
+/// </summary>
 [CreateAssetMenu(fileName = "New OutsideObjectDataSO", menuName = "Data/OutsideObjectDataSO")]
 public class OutsideObjectDataSO : ScriptableObject
 {

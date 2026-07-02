@@ -5,6 +5,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+/// <summary>캐릭터 호감도 등급을 나타내는 열거형. JSON에서 snake_case로 직렬화된다.</summary>
 [Serializable]
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EAffinityTier
@@ -34,6 +35,7 @@ public class CharacterTierDataBase
     [JsonProperty("characters")] public Dictionary<string, CharacterAffinityData> Characters { get; set; }
 }
 
+/// <summary>캐릭터별 호감도 등급 범위 데이터를 보유하는 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "New CharacterTierDataSO", menuName = "Data/CharacterTierDataSO")]
 public class CharacterTierDataSO : ScriptableObject
 {

@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 using UnityEngine.UI;
 
 [Serializable]
+/// <summary>화면 이펙트(페이드 인/아웃 등) 한 구간의 타입과 파라미터를 정의하는 PlayableBehaviour.</summary>
 public class CutSceneEffectBehaviour : PlayableBehaviour
 {
     public EEffectType effectType = EEffectType.FadeIn;

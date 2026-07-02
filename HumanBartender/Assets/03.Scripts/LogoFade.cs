@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// 씬 전환 시 로고를 페이드 인/아웃하며 이동시키는 연출 컴포넌트.
+/// ShowLogo() 호출 시 페이드 → 로고 이동 → 유지 → 페이드 아웃 순서로 비동기 처리된다.
+/// </summary>
 public class LogoFade : MonoBehaviour
 {
     [SerializeField] CanvasGroup logoGroup;

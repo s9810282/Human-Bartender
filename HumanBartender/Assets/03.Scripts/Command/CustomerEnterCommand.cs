@@ -2,6 +2,11 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using VContainer;
 
+/// <summary>
+/// 캐릭터 등장 연출 커맨드.
+/// 지정된 슬롯에 캐릭터를 배치하고 카메라 줌/이동 후 페이드 인을 수행한다.
+/// 캐릭터 수가 1명이면 서브 줌으로 해당 슬롯에 집중하고, 2명 이상이면 기본 줌으로 중앙을 바라본다.
+/// </summary>
 public class CustomerEnterCommand : IDialogueCommand
 {
     [Inject] ICameraControl cameraZoom;

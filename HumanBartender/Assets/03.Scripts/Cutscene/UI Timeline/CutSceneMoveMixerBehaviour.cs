@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>Move 트랙 믹서. 활성 클립의 이동 데이터를 읽어 CutSceneTimelineManager의 오브젝트를 이동시킨다.</summary>
 public class CutSceneMoveMixerBehaviour : PlayableBehaviour
 {
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)

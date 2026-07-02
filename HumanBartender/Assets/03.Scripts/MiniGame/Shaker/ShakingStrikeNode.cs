@@ -2,6 +2,10 @@ using DG.Tweening;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// 쉐이킹 미니게임의 타격 노드. DSP 타임 기반으로 BPM에 맞춰 경로 상의 점들 사이를 왕복 이동한다.
+/// 시퀀스 인덱스가 변경될 때 OnChangeSeqIndex 이벤트를 발생시켜 노드 스폰 타이밍을 알린다.
+/// </summary>
 public class ShakingStrikeNode : MonoBehaviour
 {
     [SerializeField] BoolEvent OnChangeSeqIndex;

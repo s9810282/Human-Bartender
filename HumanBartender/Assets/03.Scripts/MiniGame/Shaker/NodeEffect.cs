@@ -3,6 +3,9 @@ using DG.Tweening;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// 노드 타격 시 표시되는 이펙트 오브젝트. 풀에서 꺼내진 후 duration 초 후 자동으로 반납된다.
+/// </summary>
 public class NodeEffect : PooledObject
 {
     [SerializeField] float duration = 1f;

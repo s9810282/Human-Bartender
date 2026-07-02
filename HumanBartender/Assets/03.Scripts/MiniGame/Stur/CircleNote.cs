@@ -5,6 +5,10 @@ public enum NoteState { Idle, Active, Holding }
 public enum Judgement { Perfect, Good, Miss }
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+/// <summary>
+/// 원형 경로 위에 호(arc) 형태로 렌더링되는 노트 메시 컴포넌트.
+/// BuildArcMesh()로 동적 메시를 생성하며, 양 끝이 뾰족하게 테이퍼 처리된다.
+/// </summary>
 public class CircleNote : PooledObject
 {
     [SerializeField] Material noteMaterial;

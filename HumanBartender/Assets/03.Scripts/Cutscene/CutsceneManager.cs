@@ -16,6 +16,7 @@ using VContainer;
 
 
 
+/// <summary>화면 이펙트 유형을 나타내는 열거형. IEffectPlayer.PlayEffectAsync()에서 사용된다.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EEffectType
 {
@@ -42,6 +43,11 @@ public enum EEffectType
 
 
 
+/// <summary>
+/// 컷씬 재생과 화면 이펙트를 담당하는 메인 매니저. IEffectPlayer와 ICutScenePlayer를 구현한다.
+/// Sprite/Spine/Comic/Timeline 컷씬 타입을 처리하며, FadeIn/FadeOut/FlashWhite/ScreenShake 등
+/// 다양한 화면 이펙트를 effectOverlay Image와 DOTween으로 수행한다.
+/// </summary>
 public class CutSceneManager : MonoBehaviour, IEffectPlayer, ICutScenePlayer
 {
     [SerializeField] CutSceneDataSO data;

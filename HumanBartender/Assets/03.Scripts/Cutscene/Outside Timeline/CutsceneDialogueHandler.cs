@@ -14,6 +14,11 @@ public struct CutsceneLine
 }
 
 
+/// <summary>
+/// Timeline Signal에서 호출되어 대사 라인을 순서대로 재생하는 핸들러.
+/// PlayNextLine(): 대사 재생 후 Timeline 계속 진행.
+/// PlayNextLinePause(): 대사 완료 전까지 Timeline을 일시 정지하고 완료 후 재개.
+/// </summary>
 public class CutsceneDialogueHandler : MonoBehaviour
 {
     [SerializeField] PlayableDirector director;

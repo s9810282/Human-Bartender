@@ -104,6 +104,7 @@ public struct TestCutSceneStep
 }
 
 
+/// <summary>컷씬 스텝 목록과 카메라 동작을 인스펙터에서 설정하는 테스트용 ScriptableObject.</summary>
 [CreateAssetMenu(fileName = "TestCutScene", menuName = "Scriptable Objects/TestCutScene")]
 public class TestCutScene : ScriptableObject
 {

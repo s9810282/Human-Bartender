@@ -2,6 +2,10 @@ using DG.Tweening;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// 스터링 미니게임의 타격 노드. DSP 타임 기반으로 BPM에 맞춰 타원형 경로를 공전한다.
+/// Perlin 노이즈 없이 순수 삼각함수(cos/sin)로 위치를 계산하므로 스크러빙에도 일관된 결과를 낸다.
+/// </summary>
 public class SturStrikeNode : MonoBehaviour
 {
     [SerializeField] Vector3 center;

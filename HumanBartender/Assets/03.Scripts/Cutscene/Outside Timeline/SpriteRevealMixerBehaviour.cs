@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>
+/// SpriteReveal 트랙의 믹서. 활성 클립들의 _Progress 값을 블렌딩하여 SpriteRenderer에 적용한다.
+/// 클립이 없는 구간은 머티리얼 기본값으로 보간한다.
+/// </summary>
 public class SpriteRevealMixerBehaviour : PlayableBehaviour
 {
     static readonly int ProgressId = Shader.PropertyToID("_Progress");

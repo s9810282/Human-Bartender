@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+/// <summary>
+/// 쉐이킹 미니게임에서 점들을 연결하는 LineRenderer 경로를 생성하는 컴포넌트.
+/// CreateLine()으로 초기화하고 SetLinePosition()으로 각 점의 위치를 설정한다.
+/// </summary>
 public class ShakeLineCreator : MonoBehaviour
 {
     [Header("Path Line")]

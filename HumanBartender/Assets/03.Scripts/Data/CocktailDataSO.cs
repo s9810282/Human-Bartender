@@ -31,6 +31,10 @@ public struct CocktailData
     [JsonProperty("serve_sfx")] public string Serve_sfx { get; set; }
 }
 
+/// <summary>
+/// 칵테일 데이터를 보유하고 다양한 기준(이름순, 초성, 맛, 베이스, 기법, 스타일)으로
+/// 캐시 딕셔너리를 구축하는 ScriptableObject. Cached() 호출 후 사용 가능.
+/// </summary>
 [CreateAssetMenu(fileName = "New CocktailData", menuName = "Data/CockTailData")]
 public class CocktailDataSO : ScriptableObject
 {

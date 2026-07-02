@@ -3,6 +3,10 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// DontDestroyOnLoad 싱글톤으로 씬 간 페이드 인/아웃 전환을 관리하는 매니저.
+/// LoadScene/UnLoadScene 호출 시 자동으로 페이드 아웃 → 씬 전환 → 페이드 인을 수행한다.
+/// </summary>
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager Instance { get; private set; }

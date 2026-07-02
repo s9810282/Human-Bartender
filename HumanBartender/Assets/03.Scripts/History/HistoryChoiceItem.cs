@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-// 선택지 기록. 고른 항목은 강조, 나머지는 취소선 + 흐리게.
+/// <summary>히스토리의 선택지 기록 항목 UI. 선택한 항목은 강조, 나머지는 취소선으로 표시한다.</summary>
 public class HistoryChoiceItem : MonoBehaviour
 {
     [SerializeField] TMP_Text headerText;       // "선택지"

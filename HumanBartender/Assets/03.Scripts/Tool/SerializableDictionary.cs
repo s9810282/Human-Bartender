@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+/// <summary>
+/// Unity 인스펙터에서 직렬화할 수 있는 제네릭 딕셔너리.
+/// 내부적으로 keys/values 두 리스트로 분리하여 직렬화하고,
+/// OnAfterDeserialize에서 다시 딕셔너리로 복원한다.
+/// </summary>
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField]
