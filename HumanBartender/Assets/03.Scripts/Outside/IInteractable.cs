@@ -1,14 +1,3 @@
-using UnityEngine;
-
-/// <summary>UI(버튼/텍스트)로 화면에 추적 표시될 수 있는 대상이 구현하는 인터페이스.</summary>
-public interface ITrackedble : IEntity
-{
-    Vector2 ButtonOffset { get; }
-    Vector2 TextOffset { get; }
-    bool IsAvaliable { get; }
-}
-
-
 /// <summary>
 /// Unity측에서 IEntity가 2번 상속되는 등의 일을 알아서 처리해줌.
 /// 사실 IEntity를 뺴도되지만 좀 더 직관적으로 보게 하기 위함.

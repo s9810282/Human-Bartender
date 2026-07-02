@@ -9,16 +9,6 @@ using UnityEngine.UIElements;
 
 
 /// <summary>
-/// 캐릭터 파츠 애니메이션 재생 정책 인터페이스 (대사 시작/종료, 일반 재생 시점에 호출됨).
-/// </summary>
-public interface IPlaybackPolicy
-{
-    void OnPlay(AnimationPart animPart);
-    void OnDialogueStart(AnimationPart animPart);
-    void OnDialogueEnd(AnimationPart animPart);
-}
-
-/// <summary>
 /// 항상 재생 상태를 유지하는 기본 정책. 현재는 아무 동작도 하지 않는 빈 구현체.
 /// </summary>
 public class AlwaysPlayback : IPlaybackPolicy

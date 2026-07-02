@@ -1,12 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>현재 플레이 중인 일차/제조 데이터를 교체하는 인터페이스.</summary>
-public interface IDataSwitcher
-{
-    void SwitchDay(string dayId, string craftId);
-}
-
 /// <summary>
 /// Awake 시점에 StreamingAssets에서 모든 JSON 게임 데이터를 로드하여
 /// 각 ScriptableObject에 주입하는 매니저. IDataSwitcher로 일차/제조 데이터를 교체할 수 있다.
