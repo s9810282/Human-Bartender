@@ -1,9 +1,34 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+
+
+/// <summary>슬롯 타입(Left/Right/Middle 등)별로 카메라가 이동할 목표 Transform을 매핑하는 데이터.</summary>
+[System.Serializable]
+public class CameraPostion
+{
+    public ESlotType slotType = ESlotType.Middle;
+    public Transform pos;
+}
+
+/// <summary>카메라 줌(해상도) 프리셋 종류.</summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ECameraZoomType
+{
+    None = 0,
+    [EnumMember(Value = "base")]
+    Base,
+    [EnumMember(Value = "sub")]
+    Sub,
+    [EnumMember(Value = "outside")]
+    OutSide,
+}
 
 
 /// <summary>

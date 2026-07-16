@@ -9,7 +9,8 @@ using VContainer;
 /// </summary>
 public class CustomerEnterCommand : IDialogueCommand
 {
-    [Inject] ICameraControl cameraZoom;
+    [Inject] ICameraControlNew cameraZoom;
+    [Inject] ISlotCamera slotCamera;
     [Inject] ICharacterSetter characterSetter;
     [Inject] IDialogueFader characterFader;
 
@@ -56,13 +57,13 @@ public class CustomerEnterCommand : IDialogueCommand
 
         if (c == 1)
         {
-            cameraZoom.CameraZoom(ECameraZoomType.Sub, enterDuration);
-            cameraZoom.CameraMove(slotType, enterDuration);
+            cameraZoom.TransitionCameraZoom(ECameraZoomType.Sub, enterDuration);
+            slotCamera.MoveToSlot(slotType, enterDuration);
         }
         else
         {
-            cameraZoom.CameraZoom(ECameraZoomType.Base, enterDuration);
-            cameraZoom.CameraMove(ESlotType.Middle, enterDuration);
+            cameraZoom.TransitionCameraZoom(ECameraZoomType.Base, enterDuration);
+            slotCamera.MoveToSlot(ESlotType.Middle, enterDuration);
         }
 
         characterFader.FadeInAsync(slotType, token).Forget();

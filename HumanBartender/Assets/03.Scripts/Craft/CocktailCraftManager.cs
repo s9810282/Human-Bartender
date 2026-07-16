@@ -22,7 +22,7 @@ public class CocktailCraftManager : MonoBehaviour, ICocktailCraft
 
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
-    [Inject] ICameraControl cameraZoom;
+    [Inject] ICameraControlNew cameraZoom;
     [Inject] IObjectResolver resolver;
     [Inject] ISettlementLog settlementLog;
 

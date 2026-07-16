@@ -14,7 +14,7 @@ public class StartCutSceneCommand : IDialogueCommand
    
     [Inject] IEffectPlayer effectPlayer;
     [Inject] ICutScenePlayer cutScenePlayer;
-    [Inject] ICameraControl cameraZoom;
+    [Inject] ICameraControlNew cameraZoom;
     [Inject] ISoundManager soundManager;
 
     private string anim;
