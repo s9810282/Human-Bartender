@@ -16,7 +16,8 @@
           "trigger": {
             "type": "start_cutscene",
             "data": {
-              "cutscene_id": "Intro_lab_Sprite"
+              "cutscene_id": "Intro_lab_Sprite",
+              "camera_type" : "outside"
             }
           }
         },

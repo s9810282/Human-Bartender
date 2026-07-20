@@ -37,23 +37,32 @@ public class StartCutSceneCommand : IDialogueCommand
 
     public async UniTask<string> ExecuteAsync(CancellationToken cancellationToken)
     {
-        await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
-        soundManager.PauseBGM();
+        GameStateManager.Instance.CurrentGameState = GameState.Effect;
 
-        //카메라 사이즈 넣어야함
-        ECameraZoomType zoomType = cameraType;
-        cameraZoom.ActionZoomAndBack(zoomType, cameraTcs);
+        try
+        {
+            await effectPlayer.PlayEffectAsync(EEffectType.FadeIn, 1f);
+            soundManager.PauseBGM();
 
-        //추후 type 값 추가.
-        await cutScenePlayer.PlayCutScene(anim);
-        await UniTask.WaitForSeconds(1f);
+            //카메라 사이즈 넣어야함
+            ECameraZoomType zoomType = cameraType;
+            cameraZoom.ActionZoomAndBack(zoomType, cameraTcs);
 
-        cutScenePlayer.ClearCutScene();
+            //추후 type 값 추가.
+            await cutScenePlayer.PlayCutScene(anim);
+            await UniTask.WaitForSeconds(1f);
 
-        soundManager.ResumeBGM();
+            cutScenePlayer.ClearCutScene();
 
-        if (cameraTcs != null)
-            cameraTcs.TrySetResult();
+            soundManager.ResumeBGM();
+
+            if (cameraTcs != null)
+                cameraTcs.TrySetResult();
+        }
+        finally
+        {
+            GameStateManager.Instance.CurrentGameState = GameState.Play;
+        }
 
         return "";
     }

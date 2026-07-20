@@ -24,6 +24,10 @@ public class InGameLifetimeScope : LifetimeScope
             .As<ICharacterSetter>()
             .As<IDialogueFader>();
 
+        builder.RegisterComponentInHierarchy<DialogueRunner>();
+        builder.RegisterComponentInHierarchy<DialogueTriggerManager>();
+        builder.RegisterComponentInHierarchy<VisualNovelFlow>();
+
         //builder.RegisterBuildCallback(container =>
         //{
         //    _cutSceneManager = FindAnyObjectByType<CutSceneManager>();

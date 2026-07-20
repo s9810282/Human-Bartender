@@ -5,6 +5,16 @@ using System.Threading;
 using UnityEngine;
 using VContainer;
 
+public enum DialogueState
+{
+    Idle,
+    WaitingForTrigger,
+    Typing,
+    WaitingForInput,
+    WaitingForChoice,
+    CompleteTrigger,
+}
+
 
 
 /// <summary>

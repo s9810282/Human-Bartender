@@ -1432,9 +1432,9 @@ GameObject:
   m_Component:
   - component: {fileID: 511417365}
   - component: {fileID: 511417366}
-  - component: {fileID: 511417367}
+  - component: {fileID: 511417368}
   m_Layer: 0
-  m_Name: DialogueManager
+  m_Name: DialogueRunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1464,13 +1464,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 511417364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb617463e26c794ebb457242da2403a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayScripteData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
-  sceneDirector: {fileID: 787133313}
-  currentState: 0
---- !u!114 &511417367
+  m_Script: {fileID: 11500000, guid: f80d1c2286970e740a06346263c3c5cf, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &511417368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1479,25 +1476,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 511417364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fec81eb0c228b83408ae14e0d8b48ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  channel: {fileID: 11400000, guid: 5f3c879dee00b5c4d989b0ec4091cb0b, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 511417366}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
-        m_MethodName: DialogueEvent
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  m_Script: {fileID: 11500000, guid: 385ce29ac8957f44098502814dfcbb8e, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
+  runner: {fileID: 511417366}
+  presenter: {fileID: 787133313}
 --- !u!1 &570011802 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2155617270991145833, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
@@ -3679,8 +3663,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 511417366}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
-        m_MethodName: OnScreenClicked
+        m_TargetAssemblyTypeName: DialogueRunner, Assembly-CSharp
+        m_MethodName: OnAdvanceInput
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4990,7 +4974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab7bf9cc8a33e241ae158c7c3f38430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 511417366}
+  dialogueRunner: {fileID: 511417366}
   playCamera: {fileID: 1519905931}
 --- !u!1 &2003524366
 GameObject:

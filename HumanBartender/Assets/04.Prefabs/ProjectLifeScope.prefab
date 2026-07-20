@@ -6562,7 +6562,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.03, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1795640377346553486}
@@ -14296,7 +14296,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: isTest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2212174254953623971, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: testDayName

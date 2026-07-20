@@ -169,7 +169,8 @@ public class CameraControllerNew : MonoBehaviour, ICameraControlNew
     }
     /// <summary>
     /// Pixel Perfect Camera를 잠시 끄고 Cinemachine Lens의 OrthographicSize를 duration 동안 보간해
-    /// 부드러운 줌 연출을 만든 뒤, 목표 크기로 고정한다. (해상도 자체는 재적용하지 않음 - 주석 처리된 원복 코드 참고)
+    /// 부드러운 줌 연출을 만든 뒤, 목표 크기로 고정한다. 전환이 끝나면 PPC의 참조 해상도를 to로 동기화하고
+    /// 다시 켠다(Lens 크기는 재계산하지 않아 스냅 없이 자연스럽게 이어진다).
     /// </summary>
     private async UniTaskVoid TransitionResolution(Vector2Int to, float duration, AnimationCurve curve)
     {
@@ -211,7 +212,13 @@ public class CameraControllerNew : MonoBehaviour, ICameraControlNew
 
         await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, token);
 
-        //ApplyResolutionImmediate(to);
+        // 보간으로 이미 도달한 OrthographicSize는 유지한 채 PPC 참조 해상도만 to로 동기화하고 다시 켠다
+        // (SyncLensToPPC를 호출하면 Lens 크기가 재계산되어 화면이 튈 수 있으므로 호출하지 않음)
+        pixelPerfectCamera.refResolutionX = to.x;
+        pixelPerfectCamera.refResolutionY = to.y;
+        pixelPerfectCamera.enabled = true;
+
+        InvalidateConfinerCache();
     }
     #endregion
 

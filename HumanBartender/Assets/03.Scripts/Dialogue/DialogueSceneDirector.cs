@@ -2,14 +2,14 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
 /// 대화 씬의 실제 UI(텍스트/선택지/캐릭터/배경) 연출을 담당하는 컴포넌트.
-/// 현재 DialogueManager(레거시)가 직접 참조해서 호출하는 구조이며, IDialoguePresenter와 메서드 구성이
-/// 유사하지만 시그니처가 달라(ShowDialogueAsync에 CancellationToken 없음 등) 인터페이스를 구현하지는 않는다.
+/// DialogueRunner가 IDialoguePresenter로 호출하는 Play(Bar) 씬 전용 구현체.
 /// </summary>
-public class DialogueSceneDirector : MonoBehaviour
+public class DialogueSceneDirector : MonoBehaviour, IDialoguePresenter
 {
     [Header("SO Data")]
     [SerializeField] CharacterDataSO characterData;
@@ -56,7 +56,7 @@ public class DialogueSceneDirector : MonoBehaviour
     /// 대사창을 열고 화자 이름 색상/캐릭터 표정을 반영한 뒤, 타이핑 애니메이션으로 텍스트를 출력한다.
     /// 표정이 지정된 경우 캐릭터 매니저에 캐릭터 교체를 요청한다.
     /// </summary>
-    public async UniTask ShowDialogueAsync(DialogueData dialogueData)
+    public async UniTask ShowDialogueAsync(DialogueData dialogueData, CancellationToken token)
     {
         //여기서 텍스트 및 사이즈가 이미 초기화 된 상태여야함
 
@@ -101,7 +101,7 @@ public class DialogueSceneDirector : MonoBehaviour
     }
 
     /// <summary>트리거(연출/미니게임 등) 실행을 트리거 매니저에 위임하고 다음 대사 id를 반환받는다.</summary>
-    public async UniTask<string> ExcuteTriggerAsync(TriggerData? trigger)
+    public async UniTask<string> ExecuteTriggerAsync(TriggerData? trigger)
     {
         typer.ClearText();
 
@@ -114,5 +114,11 @@ public class DialogueSceneDirector : MonoBehaviour
     public void HideDialogue()
     {
         dialoguePanel.SetActive(false);
+    }
+
+    /// <summary>씬 종료 시 텍스트를 정리한다.</summary>
+    public void EndScene()
+    {
+        typer.ClearText();
     }
 }
