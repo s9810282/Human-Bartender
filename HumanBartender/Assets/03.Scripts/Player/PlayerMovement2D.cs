@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 
 [RequireComponent(typeof(BoxCollider2D))]
-[RequireComponent(typeof(PlayerInput))]
 /// <summary>
 /// 2D 캐릭터 컨트롤러 물리 이동체. Rigidbody 없이 BoxCast 기반 자체 충돌 처리로 이동을 구현한다
 /// (좌우 이동은 입력, 상하는 외부 델타(HandleExternalDelta)로만 발생 — 별도 중력/점프 없음).

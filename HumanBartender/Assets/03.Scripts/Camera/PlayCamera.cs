@@ -23,7 +23,10 @@ public class PlayCamera : MonoBehaviour, ISlotCamera
     [SerializeField] private SlotCameraOption[] slotOptions;
     [SerializeField] private AnimationCurve ease = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+    private static readonly ESlotType[] SlotOrder = { ESlotType.Left, ESlotType.Middle, ESlotType.Right };
+
     private Dictionary<ESlotType, SlotCameraOption> _slotMap;
+    private int _currentSlotIndex = 1; // Middle
 
     private void Start()
     {
@@ -40,5 +43,15 @@ public class PlayCamera : MonoBehaviour, ISlotCamera
         var opt = _slotMap[slot];
         cameraZoom.FollowTarget(opt.cameraParent);
         cameraZoom.TransitionFollowOffset(opt.cameraOffset, dur, ease);
+
+        int idx = System.Array.IndexOf(SlotOrder, slot);
+        if (idx >= 0) _currentSlotIndex = idx;
+    }
+
+    /// <summary>현재 슬롯 기준으로 한 칸 옆(step: -1=왼쪽, +1=오른쪽) 슬롯으로 이동시킨다.</summary>
+    public void MoveAdjacent(int step, float dur = 1f)
+    {
+        _currentSlotIndex = Mathf.Clamp(_currentSlotIndex + step, 0, SlotOrder.Length - 1);
+        MoveToSlot(SlotOrder[_currentSlotIndex], dur);
     }
 }

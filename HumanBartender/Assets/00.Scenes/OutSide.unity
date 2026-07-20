@@ -3087,10 +3087,8 @@ GameObject:
   - component: {fileID: 398070677}
   - component: {fileID: 398070680}
   - component: {fileID: 398070681}
-  - component: {fileID: 398070683}
   - component: {fileID: 398070682}
   - component: {fileID: 398070679}
-  - component: {fileID: 398070678}
   - component: {fileID: 398070684}
   - component: {fileID: 398070685}
   - component: {fileID: 398070686}
@@ -3201,36 +3199,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &398070678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398070673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: c3efcb279f404d54f8d6761470840e96, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!61 &398070679
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3331,23 +3299,6 @@ MonoBehaviour:
   OnTrackedText: {fileID: 11400000, guid: c2ec13b3066df1f42bb0d70d99550d51, type: 2}
   isAvaliable: 1
   buttonOffset: {x: 0, y: 175}
---- !u!114 &398070683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398070673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e0d0dc670ea694bb9dbe10a2015f4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractHandler
-  interactor: {fileID: 398070682}
-  interactPressedEvent: {fileID: 11400000, guid: 40be41cab298b2242a9cf7f4d3240be4, type: 2}
-  runnerAdvanceInputEvent: {fileID: 11400000, guid: 14d86cde082a37f4d81c25c4a2ad3072, type: 2}
-  onMoveEvent: {fileID: 11400000, guid: fc97bd69b8ee16f41a00475f3045d577, type: 2}
-  setSpeedEvent: {fileID: 11400000, guid: 1e63d36ed34ea3d4e9d3fb80e3e58e08, type: 2}
 --- !u!114 &398070684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3505,6 +3456,86 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &400630329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400630330}
+  - component: {fileID: 400630331}
+  - component: {fileID: 400630332}
+  m_Layer: 0
+  m_Name: InputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400630330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400630329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.20675, y: -0.52913, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &400630331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400630329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e0d0dc670ea694bb9dbe10a2015f4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractHandler
+  interactor: {fileID: 398070682}
+  interactPressedEvent: {fileID: 11400000, guid: 40be41cab298b2242a9cf7f4d3240be4, type: 2}
+  runnerAdvanceInputEvent: {fileID: 11400000, guid: 14d86cde082a37f4d81c25c4a2ad3072, type: 2}
+  onMoveEvent: {fileID: 11400000, guid: fc97bd69b8ee16f41a00475f3045d577, type: 2}
+  setSpeedEvent: {fileID: 11400000, guid: 1e63d36ed34ea3d4e9d3fb80e3e58e08, type: 2}
+--- !u!114 &400630332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400630329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: c3efcb279f404d54f8d6761470840e96, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Outside
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &403588715
 GameObject:
   m_ObjectHideFlags: 0
@@ -23204,4 +23235,5 @@ SceneRoots:
   - {fileID: 1978158279}
   - {fileID: 266533463}
   - {fileID: 2126279182}
+  - {fileID: 400630330}
   - {fileID: 637079066}
