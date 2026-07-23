@@ -41,5 +41,10 @@ public class ProjectLifetimeScope : LifetimeScope
 
         builder.RegisterComponentInHierarchy<DataLoadManager>()
             .As<IDataSwitcher>();
+
+        // 신규 데이터 로더. DataLoadManager와 당분간 공존하며, IAsyncStartable로 등록되어
+        // 컨테이너 빌드 시점에 StartAsync가 호출된다.
+        builder.RegisterComponentInHierarchy<NewDataLoadManager>()
+            .AsImplementedInterfaces();
     }
 }

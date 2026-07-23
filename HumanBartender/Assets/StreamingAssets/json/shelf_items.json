@@ -1,0 +1,722 @@
+[
+  {
+    "id": "gin",
+    "kind": "ingredient",
+    "name": {
+      "ko": "진",
+      "en": "Gin"
+    },
+    "category": "base",
+    "color": "230,235,240",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "주니퍼베리 향의 증류주. 칵테일의 기본기.",
+      "en": "A juniper-scented spirit. The foundation of cocktails."
+    }
+  },
+  {
+    "id": "beer",
+    "kind": "ingredient",
+    "name": {
+      "ko": "맥주",
+      "en": "Beer"
+    },
+    "category": "wine_beer",
+    "color": "202,162,4",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "차갑게. 그게 전부이자 진리.",
+      "en": "Serve it cold. That's the whole truth."
+    }
+  },
+  {
+    "id": "red_wine",
+    "kind": "ingredient",
+    "name": {
+      "ko": "레드와인",
+      "en": "Red Wine"
+    },
+    "category": "wine_beer",
+    "color": "98,15,11",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "잔에 따르는 순간부터 분위기가 달라진다.",
+      "en": "The mood changes the moment it hits the glass."
+    }
+  },
+  {
+    "id": "champagne",
+    "kind": "ingredient",
+    "name": {
+      "ko": "샴페인",
+      "en": "Champagne"
+    },
+    "category": "wine_beer",
+    "color": "255,245,225",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "축하할 일이 없어도 축하하게 만드는 술.",
+      "en": "Makes you celebrate even with nothing to celebrate."
+    }
+  },
+  {
+    "id": "tonic_water",
+    "kind": "ingredient",
+    "name": {
+      "ko": "토닉워터",
+      "en": "Tonic Water"
+    },
+    "category": "mixer",
+    "color": "245,250,255",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "씁쓸한 탄산. 진의 가장 오랜 친구.",
+      "en": "Bitter fizz. Gin's oldest friend."
+    }
+  },
+  {
+    "id": "soda_water",
+    "kind": "ingredient",
+    "name": {
+      "ko": "소다수",
+      "en": "Soda Water"
+    },
+    "category": "mixer",
+    "color": "245,250,255",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "아무 맛도 없어서 무엇이든 될 수 있다.",
+      "en": "Tastes like nothing, so it can become anything."
+    }
+  },
+  {
+    "id": "lemon",
+    "kind": "ingredient",
+    "name": {
+      "ko": "레몬",
+      "en": "Lemon"
+    },
+    "category": "fruit",
+    "color": "",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": 20,
+    "desc": {
+      "ko": "스퀴즈용. 새콤함의 표준.",
+      "en": "For squeezing. The standard of sour."
+    }
+  },
+  {
+    "id": "sugar",
+    "kind": "ingredient",
+    "name": {
+      "ko": "설탕",
+      "en": "Sugar"
+    },
+    "category": "powder",
+    "color": "",
+    "sprite": null,
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": 10,
+    "desc": {
+      "ko": "파우더용. 1티스푼의 위로.",
+      "en": "For powder. One teaspoon of comfort."
+    }
+  },
+  {
+    "id": "tequila",
+    "kind": "ingredient",
+    "name": {
+      "ko": "데킬라",
+      "en": "Tequila"
+    },
+    "category": "base",
+    "color": "240,235,220",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "아가베의 태양을 병에 담은 것.",
+      "en": "The agave sun, bottled."
+    }
+  },
+  {
+    "id": "vodka",
+    "kind": "ingredient",
+    "name": {
+      "ko": "보드카",
+      "en": "Vodka"
+    },
+    "category": "base",
+    "color": "240,245,250",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "무색무취. 그래서 어디에나 스며든다.",
+      "en": "Colorless and odorless — that's how it blends in anywhere."
+    }
+  },
+  {
+    "id": "rum",
+    "kind": "ingredient",
+    "name": {
+      "ko": "럼",
+      "en": "Rum"
+    },
+    "category": "base",
+    "color": "180,120,60",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "사탕수수와 항해의 술.",
+      "en": "The spirit of sugarcane and long voyages."
+    }
+  },
+  {
+    "id": "orange_juice",
+    "kind": "ingredient",
+    "name": {
+      "ko": "오렌지주스",
+      "en": "Orange Juice"
+    },
+    "category": "juice",
+    "color": "253,180,60",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "아침의 맛. 새벽의 바에서는 위장약.",
+      "en": "The taste of morning. At a bar past midnight, it's medicine."
+    }
+  },
+  {
+    "id": "ginger_ale",
+    "kind": "ingredient",
+    "name": {
+      "ko": "진저에일",
+      "en": "Ginger Ale"
+    },
+    "category": "mixer",
+    "color": "230,200,120",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "알싸한 생강 탄산.",
+      "en": "Spicy ginger fizz."
+    }
+  },
+  {
+    "id": "cola",
+    "kind": "ingredient",
+    "name": {
+      "ko": "콜라",
+      "en": "Cola"
+    },
+    "category": "mixer",
+    "color": "60,30,20",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "무엇을 섞어도 콜라 맛이 이긴다. 그게 무기다.",
+      "en": "Mix in anything — cola wins. That's its weapon."
+    }
+  },
+  {
+    "id": "lime",
+    "kind": "ingredient",
+    "name": {
+      "ko": "라임",
+      "en": "Lime"
+    },
+    "category": "fruit",
+    "color": "",
+    "sprite": null,
+    "unlock_day": 3,
+    "unlock_when": null,
+    "shop_price": 20,
+    "desc": {
+      "ko": "스퀴즈용. 레몬보다 한 톤 낮은 산미.",
+      "en": "For squeezing. One tone lower than lemon."
+    }
+  },
+  {
+    "id": "whiskey",
+    "kind": "ingredient",
+    "name": {
+      "ko": "위스키",
+      "en": "Whiskey"
+    },
+    "category": "base",
+    "color": "190,120,40",
+    "sprite": null,
+    "unlock_day": 4,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "오크통에서 잠들었다 깨어난 시간.",
+      "en": "Time that slept in an oak barrel and woke up."
+    }
+  },
+  {
+    "id": "dry_vermouth",
+    "kind": "ingredient",
+    "name": {
+      "ko": "드라이 버무스",
+      "en": "Dry Vermouth"
+    },
+    "category": "liqueur",
+    "color": "220,220,190",
+    "sprite": null,
+    "unlock_day": 4,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "마티니를 마티니로 만드는 한 방울.",
+      "en": "The one drop that makes a martini a martini."
+    }
+  },
+  {
+    "id": "grenadine",
+    "kind": "ingredient",
+    "name": {
+      "ko": "그레나딘",
+      "en": "Grenadine"
+    },
+    "category": "syrup",
+    "color": "180,30,50",
+    "sprite": null,
+    "unlock_day": 4,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "석류빛 붉은 시럽. 노을 담당.",
+      "en": "Pomegranate-red syrup. In charge of sunsets."
+    }
+  },
+  {
+    "id": "sour_mix",
+    "kind": "ingredient",
+    "name": {
+      "ko": "사워믹스",
+      "en": "Sour Mix"
+    },
+    "category": "mixer",
+    "color": "230,220,160",
+    "sprite": null,
+    "unlock_day": 4,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "새콤한 필업 베이스.",
+      "en": "A tangy fill-up base."
+    }
+  },
+  {
+    "id": "cointreau",
+    "kind": "ingredient",
+    "name": {
+      "ko": "쿠앵트로",
+      "en": "Cointreau"
+    },
+    "category": "liqueur",
+    "color": "235,200,140",
+    "sprite": null,
+    "unlock_day": 5,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "오렌지 리큐르의 귀족.",
+      "en": "The aristocrat of orange liqueurs."
+    }
+  },
+  {
+    "id": "cranberry_juice",
+    "kind": "ingredient",
+    "name": {
+      "ko": "크랜베리주스",
+      "en": "Cranberry Juice"
+    },
+    "category": "juice",
+    "color": "170,30,60",
+    "sprite": null,
+    "unlock_day": 5,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "붉고 떫고 세련된 맛.",
+      "en": "Red, tart, and sophisticated."
+    }
+  },
+  {
+    "id": "triple_sec",
+    "kind": "ingredient",
+    "name": {
+      "ko": "트리플섹",
+      "en": "Triple Sec"
+    },
+    "category": "liqueur",
+    "color": "235,225,200",
+    "sprite": null,
+    "unlock_day": 6,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "오렌지 리큐르의 실용주의자.",
+      "en": "The pragmatist of orange liqueurs."
+    }
+  },
+  {
+    "id": "kahlua",
+    "kind": "ingredient",
+    "name": {
+      "ko": "칼루아",
+      "en": "Kahlua"
+    },
+    "category": "liqueur",
+    "color": "60,35,25",
+    "sprite": null,
+    "unlock_day": 6,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "커피를 술로 번역한 것.",
+      "en": "Coffee, translated into liquor."
+    }
+  },
+  {
+    "id": "milk",
+    "kind": "ingredient",
+    "name": {
+      "ko": "우유",
+      "en": "Milk"
+    },
+    "category": "dairy",
+    "color": "245,245,240",
+    "sprite": null,
+    "unlock_day": 6,
+    "unlock_when": null,
+    "shop_price": 15,
+    "desc": {
+      "ko": "고양이와 초보 손님의 선택.",
+      "en": "The choice of cats and cautious customers."
+    }
+  },
+  {
+    "id": "honey_syrup",
+    "kind": "ingredient",
+    "name": {
+      "ko": "벌꿀 원액",
+      "en": "Raw Honey"
+    },
+    "category": "syrup",
+    "color": "235,180,60",
+    "sprite": null,
+    "unlock_day": 99,
+    "unlock_when": "flag.q_samho_honey_done",
+    "shop_price": null,
+    "desc": {
+      "ko": "삼호의 창고에서 나온 진짜 꿀. 요즘 세상엔 금값이다.",
+      "en": "Real honey from Samho's warehouse. Worth its weight in gold these days."
+    }
+  },
+  {
+    "id": "mug",
+    "kind": "glass",
+    "name": {
+      "ko": "맥주잔",
+      "en": "Beer Mug"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_mug",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "생맥주·뮬 담당의 묵직한 잔.",
+      "en": "A heavy glass for draft beer and mules."
+    }
+  },
+  {
+    "id": "wine",
+    "kind": "glass",
+    "name": {
+      "ko": "와인잔",
+      "en": "Wine Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_wine",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "다리가 긴 잔. 향을 가둔다.",
+      "en": "A long-stemmed glass that holds the aroma."
+    }
+  },
+  {
+    "id": "flute",
+    "kind": "glass",
+    "name": {
+      "ko": "플루트잔",
+      "en": "Flute Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_flute",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "기포가 오래 살아있는 좁고 긴 잔.",
+      "en": "Narrow and tall — the bubbles live longer."
+    }
+  },
+  {
+    "id": "highball",
+    "kind": "glass",
+    "name": {
+      "ko": "하이볼잔",
+      "en": "Highball Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_highball",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "탄산 롱드링크의 표준.",
+      "en": "The standard for fizzy long drinks."
+    }
+  },
+  {
+    "id": "collins",
+    "kind": "glass",
+    "name": {
+      "ko": "콜린스잔",
+      "en": "Collins Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_collins",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "하이볼보다 조금 더 길고 늘씬한 잔.",
+      "en": "A touch taller and slimmer than a highball."
+    }
+  },
+  {
+    "id": "rocks",
+    "kind": "glass",
+    "name": {
+      "ko": "온더락잔",
+      "en": "Rocks Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_rocks",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "낮고 두꺼운 잔. 얼음과 독주의 자리.",
+      "en": "Low and thick. A seat for ice and strong spirits."
+    }
+  },
+  {
+    "id": "cocktail",
+    "kind": "glass",
+    "name": {
+      "ko": "칵테일잔",
+      "en": "Cocktail Glass"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "glass_cocktail",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "역삼각형의 그 잔. 격식의 상징.",
+      "en": "The inverted triangle. A symbol of formality."
+    }
+  },
+  {
+    "id": "shaker",
+    "kind": "tool",
+    "name": {
+      "ko": "셰이커",
+      "en": "Shaker"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "tool_shaker",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "셰이킹 기믹용.",
+      "en": "For the shaking gimmick."
+    }
+  },
+  {
+    "id": "mixing_glass",
+    "kind": "tool",
+    "name": {
+      "ko": "믹싱 글라스 & 바 스푼",
+      "en": "Mixing Glass & Bar Spoon"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "tool_mixing",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "스터 기믹용 — 잔에 붓기 전 여기서 젓는다.",
+      "en": "For the stirring gimmick — stir here before pouring."
+    }
+  },
+  {
+    "id": "opener",
+    "kind": "tool",
+    "name": {
+      "ko": "따개",
+      "en": "Opener"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "tool_opener",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "병뚜껑도 코르크도 이걸로 — 병따기·코르크 따기 기믹용.",
+      "en": "Caps and corks alike — for the cap-pop and cork-twist gimmicks."
+    }
+  },
+  {
+    "id": "lime_wedge",
+    "kind": "garnish",
+    "name": {
+      "ko": "라임 웨지",
+      "en": "Lime Wedge"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "gn_lime",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "라임 조각 장식.",
+      "en": "A lime garnish."
+    }
+  },
+  {
+    "id": "lemon_slice",
+    "kind": "garnish",
+    "name": {
+      "ko": "레몬 슬라이스",
+      "en": "Lemon Slice"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "gn_lemon",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "레몬 슬라이스 장식.",
+      "en": "A lemon slice garnish."
+    }
+  },
+  {
+    "id": "olive",
+    "kind": "garnish",
+    "name": {
+      "ko": "올리브",
+      "en": "Olive"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "gn_olive",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "마티니의 완성.",
+      "en": "What completes a martini."
+    }
+  },
+  {
+    "id": "cherry",
+    "kind": "garnish",
+    "name": {
+      "ko": "체리",
+      "en": "Cherry"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "gn_cherry",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "사워 칵테일의 마침표.",
+      "en": "The period at the end of a sour."
+    }
+  },
+  {
+    "id": "orange_slice",
+    "kind": "garnish",
+    "name": {
+      "ko": "오렌지 슬라이스",
+      "en": "Orange Slice"
+    },
+    "category": null,
+    "color": "",
+    "sprite": "gn_orange",
+    "unlock_day": 1,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "선라이즈의 태양.",
+      "en": "The sun of a sunrise."
+    }
+  }
+]

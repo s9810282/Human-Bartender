@@ -1,0 +1,38 @@
+[
+  {
+    "order_id": "d4_samho_dilemma",
+    "seq": 1,
+    "when": "cocktail.abv >= 20",
+    "verdict": "fulfill",
+    "effects": "flag.samho_drunk = true",
+    "react": "",
+    "note": "[day4 가안] 독한 술 → 취함 → 사망 루트"
+  },
+  {
+    "order_id": "d4_samho_dilemma",
+    "seq": 2,
+    "when": "cocktail.abv <= 5 && grade >= good",
+    "verdict": "care",
+    "effects": "flag.samho_calmed = true; affinity.samho += 2",
+    "react": "",
+    "note": "[day4 가안] 배려 정답"
+  },
+  {
+    "order_id": "d4_samho_dilemma",
+    "seq": 3,
+    "when": "cocktail.abv <= 5",
+    "verdict": "partial",
+    "effects": "",
+    "react": "",
+    "note": "[day4 가안]"
+  },
+  {
+    "order_id": "d4_samho_dilemma",
+    "seq": 4,
+    "when": "",
+    "verdict": "miss",
+    "effects": "",
+    "react": "",
+    "note": "[day4 가안] default"
+  }
+]

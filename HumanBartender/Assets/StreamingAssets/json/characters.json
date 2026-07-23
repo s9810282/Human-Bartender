@@ -1,0 +1,339 @@
+[
+  {
+    "id": "luna",
+    "name": {
+      "ko": "루나",
+      "en": "Luna"
+    },
+    "name_color": "#5e9fe1",
+    "role": "player",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": "luna_body",
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "chris",
+    "name": {
+      "ko": "크리스",
+      "en": "Chris"
+    },
+    "name_color": "#8b5e2f",
+    "role": "master",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default",
+      "success",
+      "fail"
+    ],
+    "base_body": "chris_body",
+    "enter_sfx": "SFX_chris_enter",
+    "exit_sfx": "SFX_chris_exit"
+  },
+  {
+    "id": "aili",
+    "name": {
+      "ko": "아일리",
+      "en": "Aili"
+    },
+    "name_color": "#fcfe57",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default",
+      "success",
+      "fail",
+      "joy"
+    ],
+    "base_body": "aili_body",
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "port",
+    "name": {
+      "ko": "포트",
+      "en": "Port"
+    },
+    "name_color": "#3c3cca",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default",
+      "anger",
+      "joy",
+      "serious"
+    ],
+    "base_body": "port_body",
+    "enter_sfx": "SFX_port_enter",
+    "exit_sfx": "SFX_port_exit"
+  },
+  {
+    "id": "tom",
+    "name": {
+      "ko": "톰 거너",
+      "en": "Tom Gunner"
+    },
+    "name_color": "#7a4a2b",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default",
+      "serious"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "samho",
+    "name": {
+      "ko": "삼호",
+      "en": "Samho"
+    },
+    "name_color": "#ea3a3a",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": "samho",
+    "expressions": [
+      "default",
+      "success",
+      "fail",
+      "drunk"
+    ],
+    "base_body": "samho_body",
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "bubi",
+    "name": {
+      "ko": "부비",
+      "en": "Bubi"
+    },
+    "name_color": "#fdd48e",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": "bubi_body",
+    "enter_sfx": "SFX_cat_meow",
+    "exit_sfx": null
+  },
+  {
+    "id": "haru",
+    "name": {
+      "ko": "송하루",
+      "en": "Song Haru"
+    },
+    "name_color": "#9fd08f",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": "haru",
+    "expressions": [
+      "default",
+      "sad"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "sunha",
+    "name": {
+      "ko": "유선하",
+      "en": "Yu Sunha"
+    },
+    "name_color": "#c58bd6",
+    "role": "guest_multi",
+    "affinity": true,
+    "alive_flag": null,
+    "expressions": [
+      "default",
+      "serious"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "hina",
+    "name": {
+      "ko": "히나",
+      "en": "Hina"
+    },
+    "name_color": "#f2a0b5",
+    "role": "guest_twice",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "shiba",
+    "name": {
+      "ko": "시바",
+      "en": "Shiba"
+    },
+    "name_color": "#d9c58a",
+    "role": "guest_twice",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "rios",
+    "name": {
+      "ko": "리오스",
+      "en": "Rios"
+    },
+    "name_color": "#b03060",
+    "role": "guest_once",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "volts",
+    "name": {
+      "ko": "볼츠",
+      "en": "Volts"
+    },
+    "name_color": "#708090",
+    "role": "guest_once",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "yuna",
+    "name": {
+      "ko": "유나",
+      "en": "Yuna"
+    },
+    "name_color": "#a8d8ff",
+    "role": "cutscene",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "soldier",
+    "name": {
+      "ko": "경비병",
+      "en": "Guard"
+    },
+    "name_color": "#888888",
+    "role": "cutscene",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "vendor",
+    "name": {
+      "ko": "완",
+      "en": "Wan"
+    },
+    "name_color": "#cccccc",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "board",
+    "name": {
+      "ko": "전광판",
+      "en": "News Board"
+    },
+    "name_color": "#66d9ff",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "radio",
+    "name": {
+      "ko": "라디오",
+      "en": "Radio"
+    },
+    "name_color": "#9ad0a0",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "sign",
+    "name": {
+      "ko": "표기",
+      "en": "Sign"
+    },
+    "name_color": "#9aa2b5",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  }
+]

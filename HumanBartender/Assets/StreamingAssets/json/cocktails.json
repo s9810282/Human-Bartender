@@ -1,0 +1,809 @@
+[
+  {
+    "id": "gin_tonic",
+    "name": {
+      "ko": "진토닉",
+      "en": "Gin & Tonic"
+    },
+    "price": 180,
+    "abv": 8.0,
+    "glass": "highball",
+    "mix": "build",
+    "prep": null,
+    "fill": "tonic_water",
+    "garnish": "lime_wedge",
+    "color": "255,255,255",
+    "tags": [
+      "상큼한",
+      "청량한",
+      "클래식"
+    ],
+    "flavor": {
+      "ko": "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.",
+      "en": "Gin and tonic. The simplest, and therefore the most honest."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 1.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 2,
+    "tier": 1,
+    "unlock_day": 1,
+    "scoring_items": 6,
+    "time_limit_sec": 36
+  },
+  {
+    "id": "gin_fizz",
+    "name": {
+      "ko": "진피즈",
+      "en": "Gin Fizz"
+    },
+    "price": 220,
+    "abv": 8.0,
+    "glass": "highball",
+    "mix": "shake",
+    "prep": null,
+    "fill": "soda_water",
+    "garnish": "lemon_slice",
+    "color": "255,255,255",
+    "tags": [
+      "상큼한",
+      "클래식",
+      "청량한"
+    ],
+    "flavor": {
+      "ko": "진과 레몬, 그리고 '피즈' 하는 탄산 소리.",
+      "en": "Gin, lemon, and that 'fizz' of carbonation."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 0.5,
+        "unit": "oz"
+      },
+      {
+        "action": "powder",
+        "ingredient": "sugar",
+        "qty": 1,
+        "unit": "tsp"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 1,
+    "scoring_items": 8,
+    "time_limit_sec": 52
+  },
+  {
+    "id": "draft_beer",
+    "name": {
+      "ko": "생맥주",
+      "en": "Draft Beer"
+    },
+    "price": 100,
+    "abv": 4.5,
+    "glass": "mug",
+    "mix": "none",
+    "prep": null,
+    "fill": null,
+    "garnish": null,
+    "color": "202,162,4",
+    "tags": [
+      "청량한",
+      "가벼운"
+    ],
+    "flavor": {
+      "ko": "따르는 각도가 맛의 절반이다.",
+      "en": "The pouring angle is half the taste."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "beer",
+        "qty": 14,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 1,
+    "tier": 1,
+    "unlock_day": 1,
+    "scoring_items": 4,
+    "time_limit_sec": 28
+  },
+  {
+    "id": "bottle_beer",
+    "name": {
+      "ko": "병맥주",
+      "en": "Bottled Beer"
+    },
+    "price": 90,
+    "abv": 4.5,
+    "glass": null,
+    "mix": "none",
+    "prep": "cap",
+    "fill": null,
+    "garnish": null,
+    "color": "202,162,4",
+    "tags": [
+      "청량한",
+      "가벼운"
+    ],
+    "flavor": {
+      "ko": "병째로. 뚜껑 따는 소리가 안주다.",
+      "en": "Straight from the bottle. The pop of the cap is the appetizer."
+    },
+    "unlock_when": null,
+    "recipe": [],
+    "gimmick_count": 1,
+    "tier": 1,
+    "unlock_day": 1,
+    "scoring_items": 4,
+    "time_limit_sec": 28
+  },
+  {
+    "id": "red_wine",
+    "name": {
+      "ko": "레드와인",
+      "en": "Red Wine"
+    },
+    "price": 220,
+    "abv": 13.0,
+    "glass": "wine",
+    "mix": "none",
+    "prep": "cork",
+    "fill": null,
+    "garnish": null,
+    "color": "98,15,11",
+    "tags": [
+      "묵직한",
+      "클래식"
+    ],
+    "flavor": {
+      "ko": "말이 필요 없는 잔. 코르크는 조심스럽게.",
+      "en": "A glass that needs no words. Mind the cork."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "red_wine",
+        "qty": 8,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 2,
+    "tier": 1,
+    "unlock_day": 1,
+    "scoring_items": 5,
+    "time_limit_sec": 36
+  },
+  {
+    "id": "champagne",
+    "name": {
+      "ko": "샴페인",
+      "en": "Champagne"
+    },
+    "price": 350,
+    "abv": 12.0,
+    "glass": "flute",
+    "mix": "none",
+    "prep": "cork",
+    "fill": null,
+    "garnish": null,
+    "color": "255,245,225",
+    "tags": [
+      "화사한",
+      "달콤한"
+    ],
+    "flavor": {
+      "ko": "기포가 올라오는 동안은 누구나 주인공.",
+      "en": "While the bubbles rise, everyone's the main character."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "champagne",
+        "qty": 8,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 2,
+    "tier": 1,
+    "unlock_day": 1,
+    "scoring_items": 5,
+    "time_limit_sec": 36
+  },
+  {
+    "id": "screwdriver",
+    "name": {
+      "ko": "스크류드라이버",
+      "en": "Screwdriver"
+    },
+    "price": 190,
+    "abv": 12.0,
+    "glass": "highball",
+    "mix": "build",
+    "prep": null,
+    "fill": null,
+    "garnish": null,
+    "color": "236,223,95",
+    "tags": [
+      "달콤한",
+      "부드러운"
+    ],
+    "flavor": {
+      "ko": "보드카와 오렌지주스. 이름은 공구, 맛은 과일.",
+      "en": "Vodka and orange juice. Named after a tool, tastes like fruit."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "orange_juice",
+        "qty": 6,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 3,
+    "tier": 2,
+    "unlock_day": 3,
+    "scoring_items": 6,
+    "time_limit_sec": 44
+  },
+  {
+    "id": "moscow_mule",
+    "name": {
+      "ko": "모스코뮬",
+      "en": "Moscow Mule"
+    },
+    "price": 210,
+    "abv": 10.0,
+    "glass": "mug",
+    "mix": "build",
+    "prep": null,
+    "fill": "ginger_ale",
+    "garnish": "lime_wedge",
+    "color": "215,163,2",
+    "tags": [
+      "청량한",
+      "알싸한"
+    ],
+    "flavor": {
+      "ko": "생강의 알싸함이 노새의 뒷발차기 같다고 해서 뮬.",
+      "en": "The ginger kick they say feels like a mule's hind leg."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lime",
+        "qty": 0.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 3,
+    "tier": 2,
+    "unlock_day": 3,
+    "scoring_items": 7,
+    "time_limit_sec": 44
+  },
+  {
+    "id": "tequila_sunrise",
+    "name": {
+      "ko": "데킬라 선라이즈",
+      "en": "Tequila Sunrise"
+    },
+    "price": 200,
+    "abv": 12.0,
+    "glass": "collins",
+    "mix": "build",
+    "prep": null,
+    "fill": null,
+    "garnish": "orange_slice",
+    "color": "253,161,48",
+    "tags": [
+      "달콤한",
+      "화사한"
+    ],
+    "flavor": {
+      "ko": "잔 속에서 해가 뜬다. 새벽의 바에서 제일 잘 팔리는 아침.",
+      "en": "A sunrise inside a glass. The best-selling morning at a late-night bar."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "tequila",
+        "qty": 1,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "orange_juice",
+        "qty": 6,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 3,
+    "tier": 2,
+    "unlock_day": 3,
+    "scoring_items": 6,
+    "time_limit_sec": 44
+  },
+  {
+    "id": "long_island",
+    "name": {
+      "ko": "롱아일랜드 아이스티",
+      "en": "Long Island Iced Tea"
+    },
+    "price": 380,
+    "abv": 22.0,
+    "glass": "collins",
+    "mix": "build",
+    "prep": null,
+    "fill": "cola",
+    "garnish": "lemon_slice",
+    "color": "214,122,13",
+    "tags": [
+      "독한",
+      "달콤한"
+    ],
+    "flavor": {
+      "ko": "홍차는 한 방울도 안 들어간다. 그게 함정이다.",
+      "en": "Not a drop of tea in it. That's the trap."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 1,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": 1,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "rum",
+        "qty": 1,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "tequila",
+        "qty": 1,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 0.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 6,
+    "tier": 5,
+    "unlock_day": 3,
+    "scoring_items": 10,
+    "time_limit_sec": 68
+  },
+  {
+    "id": "whiskey_sour",
+    "name": {
+      "ko": "위스키 사워",
+      "en": "Whiskey Sour"
+    },
+    "price": 240,
+    "abv": 15.0,
+    "glass": "rocks",
+    "mix": "shake",
+    "prep": null,
+    "fill": "sour_mix",
+    "garnish": "cherry",
+    "color": "243,208,144",
+    "tags": [
+      "새콤한",
+      "묵직한"
+    ],
+    "flavor": {
+      "ko": "위스키의 무게에 레몬의 균형.",
+      "en": "The weight of whiskey, balanced by lemon."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "whiskey",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 0.5,
+        "unit": "oz"
+      },
+      {
+        "action": "powder",
+        "ingredient": "sugar",
+        "qty": 1,
+        "unit": "tsp"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 4,
+    "scoring_items": 8,
+    "time_limit_sec": 52
+  },
+  {
+    "id": "dry_martini",
+    "name": {
+      "ko": "드라이 마티니",
+      "en": "Dry Martini"
+    },
+    "price": 300,
+    "abv": 30.0,
+    "glass": "cocktail",
+    "mix": "stir",
+    "prep": null,
+    "fill": null,
+    "garnish": "olive",
+    "color": "230,229,201",
+    "tags": [
+      "씁쓸한",
+      "클래식",
+      "독한"
+    ],
+    "flavor": {
+      "ko": "젓지 말고 흔들어서, 라고 말하는 손님을 조심할 것.",
+      "en": "Beware the customer who says 'shaken, not stirred.'"
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 6,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "dry_vermouth",
+        "qty": 1.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 3,
+    "tier": 2,
+    "unlock_day": 4,
+    "scoring_items": 6,
+    "time_limit_sec": 44
+  },
+  {
+    "id": "bacardi",
+    "name": {
+      "ko": "바카디",
+      "en": "Bacardi"
+    },
+    "price": 230,
+    "abv": 20.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "fill": null,
+    "garnish": null,
+    "color": "219,96,89",
+    "tags": [
+      "새콤한",
+      "클래식"
+    ],
+    "flavor": {
+      "ko": "럼과 그레나딘과 라임. 이름을 건 칵테일.",
+      "en": "Rum, grenadine, lime. A cocktail that bears the name."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "rum",
+        "qty": 4.5,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "grenadine",
+        "qty": 0.75,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lime",
+        "qty": 1.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 4,
+    "scoring_items": 7,
+    "time_limit_sec": 52
+  },
+  {
+    "id": "cosmopolitan",
+    "name": {
+      "ko": "코스모폴리탄",
+      "en": "Cosmopolitan"
+    },
+    "price": 250,
+    "abv": 20.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "fill": null,
+    "garnish": "lemon_slice",
+    "color": "219,109,92",
+    "tags": [
+      "상큼한",
+      "부드러운"
+    ],
+    "flavor": {
+      "ko": "도시적인 붉은 빛. 유행은 지나가도 맛은 남는다.",
+      "en": "Urban red. Trends pass; the taste stays."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": 4,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "cointreau",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "cranberry_juice",
+        "qty": 3,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lime",
+        "qty": 1.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 5,
+    "tier": 4,
+    "unlock_day": 5,
+    "scoring_items": 8,
+    "time_limit_sec": 60
+  },
+  {
+    "id": "margarita",
+    "name": {
+      "ko": "마가리타",
+      "en": "Margarita"
+    },
+    "price": 260,
+    "abv": 25.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "fill": null,
+    "garnish": "lime_wedge",
+    "color": "210,218,109",
+    "tags": [
+      "새콤한",
+      "독한"
+    ],
+    "flavor": {
+      "ko": "데킬라의 태양과 레몬의 번개.",
+      "en": "Tequila's sun and lemon's lightning."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "tequila",
+        "qty": 3.5,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "triple_sec",
+        "qty": 2,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 1.5,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 6,
+    "scoring_items": 7,
+    "time_limit_sec": 52
+  },
+  {
+    "id": "white_lady",
+    "name": {
+      "ko": "화이트레이디",
+      "en": "White Lady"
+    },
+    "price": 270,
+    "abv": 25.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "fill": null,
+    "garnish": null,
+    "color": "247,241,214",
+    "tags": [
+      "상큼한",
+      "우아한"
+    ],
+    "flavor": {
+      "ko": "새하얀 드레스처럼 우아하고, 도수는 우아하지 않다.",
+      "en": "Elegant as a white dress. The proof is not elegant."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 40,
+        "unit": "ml"
+      },
+      {
+        "action": "pour",
+        "ingredient": "triple_sec",
+        "qty": 30,
+        "unit": "ml"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 20,
+        "unit": "ml"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 6,
+    "scoring_items": 7,
+    "time_limit_sec": 52
+  },
+  {
+    "id": "kahlua_milk",
+    "name": {
+      "ko": "깔루아 밀크",
+      "en": "Kahlua Milk"
+    },
+    "price": 150,
+    "abv": 7.0,
+    "glass": "rocks",
+    "mix": "build",
+    "prep": null,
+    "fill": null,
+    "garnish": null,
+    "color": "159,162,119",
+    "tags": [
+      "달콤한",
+      "부드러운"
+    ],
+    "flavor": {
+      "ko": "커피와 우유와 약간의 알코올. 고양이도 탐내는 맛.",
+      "en": "Coffee, milk, a little alcohol. Even cats covet it."
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "kahlua",
+        "qty": 1.5,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "milk",
+        "qty": 0.75,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 3,
+    "tier": 2,
+    "unlock_day": 6,
+    "scoring_items": 6,
+    "time_limit_sec": 44
+  },
+  {
+    "id": "bees_knees",
+    "name": {
+      "ko": "비즈 니즈",
+      "en": "Bee's Knees"
+    },
+    "price": 260,
+    "abv": 20.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "fill": null,
+    "garnish": "lemon_slice",
+    "color": "240,200,90",
+    "tags": [
+      "달콤한",
+      "클래식",
+      "비밀"
+    ],
+    "flavor": {
+      "ko": "금주법 시대, 싸구려 진의 향을 진짜 꿀로 감추던 밀주 칵테일. '최고'라는 뜻의 은어.",
+      "en": "A Prohibition-era bootleg cocktail — real honey to mask cheap gin. Slang for 'the best.'"
+    },
+    "unlock_when": null,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": 2,
+        "unit": "oz"
+      },
+      {
+        "action": "pour",
+        "ingredient": "honey_syrup",
+        "qty": 0.75,
+        "unit": "oz"
+      },
+      {
+        "action": "squeeze",
+        "ingredient": "lemon",
+        "qty": 0.75,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 4,
+    "tier": 3,
+    "unlock_day": 99,
+    "scoring_items": 7,
+    "time_limit_sec": 52
+  }
+]
