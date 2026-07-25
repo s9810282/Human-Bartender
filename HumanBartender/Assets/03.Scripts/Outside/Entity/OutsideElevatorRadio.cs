@@ -46,9 +46,6 @@ public class OutsideElevatorRadio : InteractiveEntity
         }
         if (!found) return;
 
-
-        DynamicBubbleEffect.textTagData = textTagData;
-
         _playCts?.Cancel();
         _playCts?.Dispose();
         _playCts = CancellationTokenSource.CreateLinkedTokenSource(
@@ -97,7 +94,7 @@ public class OutsideElevatorRadio : InteractiveEntity
 
                 bubble.gameObject.SetActive(true);
                 
-                await DynamicBubbleEffect.TypeSentenceTMP(
+                await DialogueTypingService.TypeSentenceTMP(
                     new TypingData(
                         item.Text,
                         null,
@@ -106,7 +103,8 @@ public class OutsideElevatorRadio : InteractiveEntity
                         true
                     ),
                     bubble,
-                    token); 
+                    textTagData,
+                    token: token);
             }
         }
         catch (OperationCanceledException)
