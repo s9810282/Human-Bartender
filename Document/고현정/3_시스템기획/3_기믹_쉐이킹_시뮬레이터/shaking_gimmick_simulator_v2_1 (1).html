@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쉐이킹 기믹 시뮬레이터</title>
+<style>
+  :root{
+    --bg:#08090d;
+    --panel:#111319;
+    --panel-2:#171a22;
+    --line:#262b38;
+    --blue:#0a4bf5;
+    --blue-soft:#3d6bff;
+    --gold:#f2c14e;
+    --text:#e9ebf2;
+    --text-dim:#8890a4;
+    --good:#38d47a;
+    --bad:#ff5c6c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:24px 16px 60px;
+  }
+  .app{width:100%;max-width:760px;}
+  h1{font-size:19px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em;}
+  .sub{color:var(--text-dim);font-size:13px;margin:0 0 20px;}
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .panel-title{
+    font-size:12px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin:0 0 12px;
+  }
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .row + .row{margin-top:12px;}
+
+  input[type=number]{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    border-radius:8px;
+    padding:8px 10px;
+    font-size:13px;
+    font-family:inherit;
+  }
+  .chip-group{display:flex;gap:6px;flex-wrap:wrap;}
+  .chip{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:13px;
+    cursor:pointer;
+    user-select:none;
+    transition:all .15s;
+  }
+  .chip.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .chip:hover{border-color:var(--blue-soft);}
+
+  .slider-label{font-size:13px;color:var(--text-dim);min-width:96px;}
+  input[type=range]{flex:1;accent-color:var(--blue);}
+  .slider-value{font-size:13px;color:var(--gold);min-width:52px;text-align:right;font-variant-numeric:tabular-nums;}
+
+  /* ---- stage ---- */
+  .stage{
+    position:relative;
+    background:#000;
+    border:1px solid var(--line);
+    border-radius:14px;
+    height:440px;
+    overflow:hidden;
+    user-select:none;
+  }
+  .hud{
+    position:absolute; top:14px; left:16px; right:16px;
+    display:flex; justify-content:space-between;
+    font-size:13px; color:var(--text-dim);
+    font-variant-numeric:tabular-nums;
+    pointer-events:none;
+    z-index:5;
+  }
+  .step-label{
+    position:absolute; top:44px; left:0; right:0;
+    text-align:center; font-weight:700; font-size:15px; color:var(--text);
+    pointer-events:none;
+    z-index:5;
+  }
+  .step-sub{
+    position:absolute; top:70px; left:0; right:0;
+    text-align:center; font-size:12px; color:var(--text-dim);
+    pointer-events:none;
+    z-index:5;
+  }
+
+  .track-guides{
+    position:absolute; top:0; bottom:70px; left:0; right:0;
+    display:none;
+  }
+  .zone-line{
+    position:absolute; top:0; bottom:0; width:2px;
+    background:repeating-linear-gradient(to bottom, var(--blue-soft) 0 8px, transparent 8px 16px);
+    opacity:.55;
+  }
+  .zone-label{
+    position:absolute; bottom:8px; font-size:11px; color:var(--blue-soft); transform:translateX(-50%);
+  }
+
+  .play-area{
+    position:absolute; left:0; right:0; top:110px; bottom:120px;
+  }
+
+  .scoop{
+    position:absolute; right:70px; top:50%;
+    width:70px; height:100px;
+    transform:translateY(-50%);
+    cursor:grab;
+    touch-action:none;
+    z-index:4;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));
+  }
+  .scoop.dragging{cursor:grabbing;}
+  .scoop svg{width:100%;height:100%;display:block;}
+  .scoop.hidden{display:none;}
+
+  .icecube{
+    position:absolute; width:14px; height:14px;
+    background:#bcd4ff; border:1px solid #6f8fd6; border-radius:3px;
+    z-index:3;
+    opacity:0;
+  }
+
+  .shaker{
+    position:absolute; left:50%; top:50%;
+    width:86px; height:150px;
+    transform:translate(-50%,-50%);
+    cursor:default;
+    touch-action:none;
+    z-index:2;
+    filter:drop-shadow(0 6px 18px rgba(0,0,0,.6));
+    transition:transform .5s ease;
+  }
+  .shaker.grabbable{cursor:grab;}
+  .shaker.dragging{cursor:grabbing;}
+  .shaker-cap{
+    position:absolute; left:0; top:0; width:100%; height:25%;
+    transform-origin:bottom center;
+    transition:transform .4s ease;
+    z-index:2;
+  }
+  .shaker-cap.open{
+    transform:translateY(-16px) rotate(-12deg);
+  }
+  .shaker-cap svg, .shaker-body svg{width:100%;height:100%;display:block;overflow:visible;}
+  .shaker-body{
+    position:absolute; left:0; top:23%; width:100%; height:77%;
+    z-index:1;
+  }
+
+  .progress-wrap{
+    position:absolute; left:16px; right:16px; bottom:16px;
+    display:flex; align-items:center; gap:10px;
+    opacity:0; pointer-events:none;
+    transition:opacity .2s;
+  }
+  .progress-wrap.show{opacity:1;pointer-events:auto;}
+  .progress-track{
+    flex:1; height:10px; border-radius:6px;
+    background:var(--panel-2); border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--blue),var(--blue-soft));
+    transition:width .12s ease;
+  }
+  .progress-count{
+    font-size:13px; color:var(--text); min-width:64px; text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .ok-flash{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:64px; font-weight:800; letter-spacing:0.02em;
+    color:var(--gold);
+    text-shadow:0 0 24px rgba(242,193,78,.6);
+    opacity:0; pointer-events:none;
+    z-index:6;
+  }
+  .ok-flash.show{animation:okBlink 900ms ease-in-out infinite;}
+  @keyframes okBlink{
+    0%,100%{opacity:0;} 50%{opacity:1;}
+  }
+
+  .next-btn{
+    position:absolute; right:16px; bottom:16px;
+    background:var(--panel-2);
+    border:1px solid var(--blue-soft);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:13px; font-weight:600;
+    cursor:pointer;
+    z-index:7;
+    transition:background .15s, opacity .2s;
+    opacity:0; pointer-events:none;
+  }
+  .next-btn.show{opacity:1;pointer-events:auto;}
+  .next-btn:hover{background:var(--blue);border-color:var(--blue);}
+  .next-btn:active{transform:translateY(1px);}
+
+  .result-overlay{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:6px;
+    background:rgba(8,9,13,.96);
+    z-index:9;
+  }
+  .result-grade{font-size:15px;color:var(--text-dim);}
+  .result-score{font-size:44px;font-weight:800;margin:6px 0 2px;}
+  .result-score.good{color:var(--good);}
+  .result-score.bad{color:var(--bad);}
+  .result-detail{font-size:13px;color:var(--text-dim);margin-bottom:16px;text-align:center;line-height:1.7;}
+  .result-detail b{color:var(--text);}
+  .retry-btn{
+    background:var(--blue); border:none; color:#fff;
+    padding:10px 22px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+
+  .debug{
+    margin-top:16px; font-size:12px; color:var(--text-dim);
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .debug b{color:var(--text);}
+
+  .footnote{font-size:12px;color:var(--text-dim);margin-top:18px;line-height:1.7;}
+  .footnote code{background:var(--panel-2);padding:1px 6px;border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>🍸 쉐이킹 기믹 시뮬레이터</h1>
+  <p class="sub">쉐이킹 기믹 기획서 v0.4.0 기준 — 얼음 삽 잡기부터 왕복 흔들기까지 전체 흐름을 그대로 재생. 왕복 판정 기준값(도달 거리)을 조작감 보면서 튜닝하는 용도.</p>
+
+  <div class="panel">
+    <p class="panel-title">목표 횟수</p>
+    <div class="row">
+      <div class="chip-group" id="targetChips">
+        <div class="chip" data-target="7">T3 · 7회</div>
+        <div class="chip active" data-target="10">T4/T5 · 10회</div>
+      </div>
+      <input type="number" id="customTarget" min="1" max="30" placeholder="직접 입력" style="width:90px;">
+    </div>
+    <p class="panel-title" style="margin-top:16px;">도달 판정 거리 (튜닝용, 트랙 폭 대비 %)</p>
+    <div class="row">
+      <span class="slider-label">도달 임계값</span>
+      <input type="range" id="thresholdSlider" min="10" max="90" value="45" step="1">
+      <span class="slider-value" id="thresholdValue">45%</span>
+    </div>
+    <div class="row" style="margin-top:4px;">
+      <span class="slider-label">허용 오차(±)</span>
+      <input type="range" id="toleranceSlider" min="0" max="3" value="2" step="1">
+      <span class="slider-value" id="toleranceValue">2회</span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="hud">
+      <span>SHAKE SIM</span>
+      <span id="hudTimer">0.0s</span>
+    </div>
+    <div class="step-label" id="stepLabel">① 얼음 삽을 잡으세요</div>
+    <div class="step-sub" id="stepSub">삽을 드래그해서 셰이커 쪽으로 가져다 대세요</div>
+
+    <div class="track-guides" id="trackGuides"></div>
+
+    <div class="play-area" id="playArea">
+      <div class="scoop" id="scoop">
+        <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="10,55 90,55 70,10 30,10" fill="#aeb4c2" stroke="#3a3f4d" stroke-width="2"/>
+          <rect x="45" y="55" width="10" height="75" fill="#7d8494" stroke="#3a3f4d" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="shaker" id="shaker">
+        <div class="shaker-cap open" id="shakerCap">
+          <svg viewBox="0 0 100 42" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="30,0 70,0 84,42 16,42" fill="#c7cbd6" stroke="#3a3f4d" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="shaker-body">
+          <svg viewBox="0 0 100 128" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="16,2 84,2 78,126 22,126" fill="#f4f5f8" stroke="#3a3f4d" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="ok-flash" id="okFlash">O.K</div>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-count" id="progressCount">0 / 10</div>
+    </div>
+
+    <button class="next-btn" id="nextBtn">다음으로 →</button>
+
+    <div class="result-overlay" id="resultOverlay" style="display:none;">
+      <div class="result-grade">쉐이킹 결과</div>
+      <div class="result-score" id="resultScore">0.00</div>
+      <div class="result-detail" id="resultDetail"></div>
+      <button class="retry-btn" id="retryBtn">처음부터 다시</button>
+    </div>
+  </div>
+
+  <div class="debug" id="debugPanel">
+    <span>현재 위치 dx: <b id="dbgDx">0</b>px</span>
+    <span>현재 존: <b id="dbgZone">-</b></span>
+    <span>임계 거리: <b id="dbgThreshPx">-</b>px</span>
+    <span>드래그 상태: <b id="dbgDragging">대기</b></span>
+  </div>
+
+  <p class="footnote">
+    도달 판정 거리 슬라이더로 "좌/우로 얼마나 벗어나야 왕복 1회로 인정할지" 감을 잡아보고, 편했던 값을 기획서 §4 열린 이슈에 반영하면 돼.
+    점수 계산은 <code>max(0, 1 - max(0, |목표-실제| - 허용오차) / 목표)</code> 그대로 적용.
+  </p>
+</div>
+
+<script>
+(function(){
+  const shaker = document.getElementById('shaker');
+  const shakerCap = document.getElementById('shakerCap');
+  const scoop = document.getElementById('scoop');
+  const playArea = document.getElementById('playArea');
+  const trackGuides = document.getElementById('trackGuides');
+  const okFlash = document.getElementById('okFlash');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+  const progressWrap = document.getElementById('progressWrap');
+  const nextBtn = document.getElementById('nextBtn');
+  const resultOverlay = document.getElementById('resultOverlay');
+  const resultScore = document.getElementById('resultScore');
+  const resultDetail = document.getElementById('resultDetail');
+  const retryBtn = document.getElementById('retryBtn');
+  const hudTimer = document.getElementById('hudTimer');
+  const stepLabel = document.getElementById('stepLabel');
+  const stepSub = document.getElementById('stepSub');
+
+  const targetChips = document.querySelectorAll('#targetChips .chip');
+  const customTargetInput = document.getElementById('customTarget');
+  const thresholdSlider = document.getElementById('thresholdSlider');
+  const thresholdValue = document.getElementById('thresholdValue');
+  const toleranceSlider = document.getElementById('toleranceSlider');
+  const toleranceValue = document.getElementById('toleranceValue');
+
+  const dbgDx = document.getElementById('dbgDx');
+  const dbgZone = document.getElementById('dbgZone');
+  const dbgThreshPx = document.getElementById('dbgThreshPx');
+  const dbgDragging = document.getElementById('dbgDragging');
+
+  let target = 10;
+  let thresholdPct = 45;
+  let tolerance = 2;
+
+  let count = 0;
+  let startSide = null;   // 처음 닿은 쪽 (왕복의 기준점)
+  let currentSide = null; // 가장 최근에 닿은 쪽
+  let dragging = false;
+  let maxOffset = 0;
+  let timerStart = null;
+  let timerHandle = null;
+  let phase = 'grab'; // grab -> pour -> close -> tip -> shake -> result
+
+  function setTarget(t){
+    target = t;
+    progressCount.textContent = `0 / ${target}`;
+  }
+  targetChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      targetChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      customTargetInput.value = '';
+      setTarget(parseInt(chip.dataset.target, 10));
+    });
+  });
+  customTargetInput.addEventListener('input', () => {
+    const v = parseInt(customTargetInput.value, 10);
+    if (v > 0){
+      targetChips.forEach(c => c.classList.remove('active'));
+      setTarget(v);
+    }
+  });
+  thresholdSlider.addEventListener('input', () => {
+    thresholdPct = parseInt(thresholdSlider.value, 10);
+    thresholdValue.textContent = thresholdPct + '%';
+    updateGuides();
+  });
+  toleranceSlider.addEventListener('input', () => {
+    tolerance = parseInt(toleranceSlider.value, 10);
+    toleranceValue.textContent = tolerance + '회';
+  });
+
+  function updateGuides(){
+    trackGuides.innerHTML = '';
+    const rect = playArea.getBoundingClientRect();
+    const half = rect.width / 2;
+    maxOffset = half - 43;
+    const threshPx = maxOffset * (thresholdPct/100);
+    dbgThreshPx.textContent = threshPx.toFixed(0);
+    const midX = rect.width/2;
+    [ -threshPx, threshPx ].forEach(off => {
+      const line = document.createElement('div');
+      line.className = 'zone-line';
+      line.style.left = (midX + off) + 'px';
+      trackGuides.appendChild(line);
+      const label = document.createElement('div');
+      label.className = 'zone-label';
+      label.style.left = (midX + off) + 'px';
+      label.textContent = off < 0 ? 'LEFT' : 'RIGHT';
+      trackGuides.appendChild(label);
+    });
+  }
+  window.addEventListener('resize', updateGuides);
+
+  function resetAll(){
+    phase = 'grab';
+    count = 0; lastSide = null;
+    okFlash.classList.remove('show');
+    progressWrap.classList.remove('show');
+    nextBtn.classList.remove('show');
+    trackGuides.style.display = 'none';
+    resultOverlay.style.display = 'none';
+
+    scoop.classList.remove('hidden');
+    scoop.style.transition = 'none';
+    scoop.style.left = 'auto';
+    scoop.style.right = '70px';
+    scoop.style.top = '50%';
+    scoop.style.transform = 'translateY(-50%)';
+    void scoop.offsetWidth;
+    scoop.style.transition = 'left .35s ease, right .35s ease, top .35s ease';
+
+    shaker.classList.remove('grabbable','dragging');
+    shaker.style.transition = 'none';
+    shaker.style.transform = 'translate(-50%,-50%) rotate(0deg)';
+    void shaker.offsetWidth;
+    shaker.style.transition = 'transform .5s ease';
+
+    shakerCap.classList.add('open');
+
+    document.querySelectorAll('.icecube').forEach(el => el.remove());
+
+    stepLabel.textContent = '① 얼음 삽을 잡으세요';
+    stepSub.textContent = '삽을 드래그해서 셰이커 쪽으로 가져다 대세요';
+
+    hudTimer.textContent = '0.0s';
+    clearInterval(timerHandle);
+
+    updateGuides();
+  }
+
+  // ---- ① / ② scoop drag ----
+  let scoopDrag = null;
+  scoop.addEventListener('pointerdown', (e) => {
+    if (phase !== 'grab') return;
+    const rect = scoop.getBoundingClientRect();
+    scoopDrag = { offX: e.clientX - rect.left, offY: e.clientY - rect.top };
+    scoop.classList.add('dragging');
+    scoop.style.transition = 'none';
+    scoop.style.right = 'auto';
+    scoop.setPointerCapture(e.pointerId);
+    stepSub.textContent = '셰이커 위로 가져다 놓으세요';
+  });
+  scoop.addEventListener('pointermove', (e) => {
+    if (!scoopDrag || phase !== 'grab') return;
+    const stageRect = playArea.getBoundingClientRect();
+    let x = e.clientX - stageRect.left - scoopDrag.offX;
+    let y = e.clientY - stageRect.top - scoopDrag.offY;
+    scoop.style.left = x + 'px';
+    scoop.style.top = y + 'px';
+    scoop.style.transform = 'none';
+  });
+  function scoopEnd(e){
+    if (!scoopDrag) return;
+    scoopDrag = null;
+    scoop.classList.remove('dragging');
+    scoop.style.transition = 'left .35s ease, right .35s ease, top .35s ease';
+
+    const scoopRect = scoop.getBoundingClientRect();
+    const shakerRect = shaker.getBoundingClientRect();
+    const sx = scoopRect.left + scoopRect.width/2;
+    const sy = scoopRect.top + scoopRect.height/2;
+    const kx = shakerRect.left + shakerRect.width/2;
+    const ky = shakerRect.top + shakerRect.height/2;
+    const dist = Math.hypot(sx-kx, sy-ky);
+
+    if (dist < 90){
+      playAreaPour();
+    } else {
+      scoop.style.left = 'auto';
+      scoop.style.right = '70px';
+      scoop.style.top = '50%';
+      scoop.style.transform = 'translateY(-50%)';
+    }
+  }
+  scoop.addEventListener('pointerup', scoopEnd);
+  scoop.addEventListener('pointercancel', scoopEnd);
+
+  // ---- ③ pour (auto) ----
+  function playAreaPour(){
+    phase = 'pour';
+    stepLabel.textContent = '③ 얼음이 셰이커로 들어갑니다';
+    stepSub.textContent = '';
+    const stageRect = playArea.getBoundingClientRect();
+    const scoopRect = scoop.getBoundingClientRect();
+    const shakerRect = shaker.getBoundingClientRect();
+    const startX = scoopRect.left + scoopRect.width/2 - stageRect.left;
+    const startY = scoopRect.top + scoopRect.height/2 - stageRect.top;
+    const endX = shakerRect.left + shakerRect.width/2 - stageRect.left;
+    const endY = shakerRect.top + 30 - stageRect.top;
+
+    for (let i=0;i<6;i++){
+      const cube = document.createElement('div');
+      cube.className = 'icecube';
+      cube.style.left = (startX - 7 + (Math.random()*16-8)) + 'px';
+      cube.style.top = (startY - 7) + 'px';
+      cube.style.transition = 'left .5s ease, top .5s ease, opacity .5s ease';
+      playArea.appendChild(cube);
+      setTimeout(() => {
+        cube.style.opacity = '1';
+        cube.style.left = (endX - 7 + (Math.random()*20-10)) + 'px';
+        cube.style.top = (endY - 7) + 'px';
+      }, 30 + i*60);
+      setTimeout(() => { cube.style.opacity = '0'; }, 550 + i*60);
+      setTimeout(() => { cube.remove(); }, 900 + i*60);
+    }
+    scoop.classList.add('hidden');
+    setTimeout(playAreaClose, 900);
+  }
+
+  // ---- ④ close lid (auto) ----
+  function playAreaClose(){
+    phase = 'close';
+    stepLabel.textContent = '④ 뚜껑이 닫히고 눕혀집니다';
+    shakerCap.classList.remove('open');
+    setTimeout(playAreaTip, 500);
+  }
+
+  function playAreaTip(){
+    phase = 'tip';
+    shaker.style.transform = 'translate(-50%,-50%) rotate(90deg)';
+    setTimeout(startShakePhase, 550);
+  }
+
+  // ---- ⑤ shake phase ----
+  function startShakePhase(){
+    phase = 'shake';
+    stepLabel.textContent = '⑤ 셰이커를 누르고 좌우로 흔드세요';
+    stepSub.textContent = '';
+    count = 0; startSide = null; currentSide = null;
+    shaker.style.transition = 'none';
+    shaker.style.transform = 'translate(-50%,-50%) rotate(90deg)';
+    void shaker.offsetWidth;
+    shaker.style.transition = 'transform .1s ease';
+    shaker.classList.add('grabbable');
+    progressFill.style.width = '0%';
+    progressCount.textContent = `0 / ${target}`;
+    progressWrap.classList.add('show');
+    nextBtn.classList.add('show');
+    trackGuides.style.display = 'block';
+    okFlash.classList.remove('show');
+    timerStart = performance.now();
+    clearInterval(timerHandle);
+    timerHandle = setInterval(() => {
+      hudTimer.textContent = ((performance.now() - timerStart)/1000).toFixed(1) + 's';
+    }, 100);
+    updateGuides();
+  }
+
+  shaker.addEventListener('pointerdown', (e) => {
+    if (phase !== 'shake') return;
+    dragging = true;
+    shaker.classList.add('dragging');
+    dbgDragging.textContent = '드래그 중';
+    shaker.setPointerCapture(e.pointerId);
+  });
+  shaker.addEventListener('pointermove', (e) => {
+    if (!dragging || phase !== 'shake') return;
+    const wrapRect = playArea.getBoundingClientRect();
+    const midX = wrapRect.left + wrapRect.width/2;
+    let dx = e.clientX - midX;
+    dx = Math.max(-maxOffset, Math.min(maxOffset, dx));
+    shaker.style.transform = `translate(calc(-50% + ${dx}px), -50%) rotate(90deg)`;
+    dbgDx.textContent = dx.toFixed(0);
+
+    const threshPx = maxOffset * (thresholdPct/100);
+    let side = null;
+    if (dx <= -threshPx) side = 'L';
+    else if (dx >= threshPx) side = 'R';
+    dbgZone.textContent = side || '중립';
+
+    if (side && side !== currentSide){
+      if (startSide === null){
+        startSide = side; // 첫 도달은 기준점만 설정, 카운트하지 않음
+      } else if (side === startSide){
+        // 반대쪽까지 갔다가 원래 쪽으로 복귀 = 왕복 1회
+        count++;
+        progressFill.style.width = Math.min(100,(count/target)*100) + '%';
+        progressCount.textContent = `${count} / ${target}`;
+        if (count >= target){
+          okFlash.classList.add('show');
+        }
+      }
+      currentSide = side;
+    }
+  });
+  function endDrag(){
+    if (!dragging) return;
+    dragging = false;
+    shaker.classList.remove('dragging');
+    dbgDragging.textContent = '대기';
+  }
+  shaker.addEventListener('pointerup', endDrag);
+  shaker.addEventListener('pointercancel', endDrag);
+
+  nextBtn.addEventListener('click', () => {
+    if (phase !== 'shake') return;
+    clearInterval(timerHandle);
+    phase = 'result';
+    const err = Math.max(0, Math.abs(target - count) - tolerance);
+    const score = Math.max(0, 1 - err/target);
+    resultScore.textContent = score.toFixed(2);
+    resultScore.className = 'result-score ' + (score >= 0.8 ? 'good' : score < 0.5 ? 'bad' : '');
+    resultDetail.innerHTML = `목표 <b>${target}회</b> · 실제 <b>${count}회</b> · 허용오차 ±${tolerance}회<br>score = max(0, 1 - max(0, |${target}-${count}| - ${tolerance}) / ${target})`;
+    resultOverlay.style.display = 'flex';
+  });
+  retryBtn.addEventListener('click', resetAll);
+
+  setTarget(10);
+  thresholdValue.textContent = thresholdPct + '%';
+  toleranceValue.textContent = tolerance + '회';
+  setTimeout(resetAll, 50);
+})();
+</script>
+</body>
+</html>

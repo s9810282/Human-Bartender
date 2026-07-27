@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>따르기 기믹 시뮬레이터</title>
+<style>
+  :root{
+    --bg:#08090d;
+    --panel:#111319;
+    --panel-2:#171a22;
+    --line:#262b38;
+    --blue:#0a4bf5;
+    --blue-soft:#3d6bff;
+    --gold:#f2c14e;
+    --text:#e9ebf2;
+    --text-dim:#8890a4;
+    --good:#38d47a;
+    --bad:#ff5c6c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:24px 16px 60px;
+  }
+  .app{width:100%;max-width:760px;}
+  h1{font-size:19px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em;}
+  .sub{color:var(--text-dim);font-size:13px;margin:0 0 20px;}
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .panel-title{
+    font-size:12px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin:0 0 12px;
+  }
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .row + .row{margin-top:12px;}
+
+  select, input[type=number]{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    border-radius:8px;
+    padding:8px 10px;
+    font-size:13px;
+    font-family:inherit;
+  }
+  select{min-width:180px;}
+
+  .slider-label{font-size:13px;color:var(--text-dim);min-width:110px;}
+  input[type=range]{flex:1;accent-color:var(--blue);}
+  .slider-value{font-size:13px;color:var(--gold);min-width:60px;text-align:right;font-variant-numeric:tabular-nums;}
+
+  .stage{
+    position:relative;
+    background:#000;
+    border:1px solid var(--line);
+    border-radius:14px;
+    height:440px;
+    overflow:hidden;
+    user-select:none;
+  }
+  .hud{
+    position:absolute; top:14px; left:16px; right:16px;
+    display:flex; justify-content:space-between;
+    font-size:13px; color:var(--text-dim);
+    font-variant-numeric:tabular-nums;
+    pointer-events:none;
+    z-index:5;
+  }
+  .hud b{color:var(--gold);font-weight:700;}
+  .ing-label{
+    position:absolute; top:44px; left:0; right:0;
+    text-align:center; font-weight:700; font-size:15px;
+    pointer-events:none;
+    z-index:5;
+  }
+
+  .stream-svg{position:absolute; inset:0; z-index:2; pointer-events:none;}
+  .ripple{
+    animation: rippleAnim 480ms ease-out forwards;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes rippleAnim{
+    0%{ opacity:.75; transform:scale(0.3); }
+    100%{ opacity:0; transform:scale(1.8); }
+  }
+
+  .bottle{
+    position:absolute;
+    width:45px; height:170px;
+    top:50%;
+    transform:translateY(-50%) rotate(0deg);
+    transform-origin:50% 50%;
+    cursor:grab;
+    touch-action:none;
+    z-index:3;
+    filter:drop-shadow(0 6px 16px rgba(0,0,0,.55));
+  }
+  .bottle.dragging{cursor:grabbing;}
+  .bottle img{width:100%;height:100%;display:block;image-rendering:pixelated;pointer-events:none;}
+
+  .end-marker{
+    position:absolute; bottom:70px; left:50%;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--blue-soft);
+    transform:translateX(-50%);
+    opacity:.5;
+    z-index:2;
+  }
+
+  .ok-flash{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:64px; font-weight:800; letter-spacing:0.02em;
+    color:var(--gold);
+    text-shadow:0 0 24px rgba(242,193,78,.6);
+    opacity:0; pointer-events:none;
+    z-index:6;
+  }
+  .ok-flash.show{animation:okBlink 900ms ease-in-out infinite;}
+  @keyframes okBlink{0%,100%{opacity:0;} 50%{opacity:1;}}
+
+  .next-btn{
+    position:absolute; right:16px; bottom:16px;
+    background:var(--panel-2);
+    border:1px solid var(--blue-soft);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:13px; font-weight:600;
+    cursor:pointer;
+    z-index:7;
+    transition:background .15s;
+  }
+  .next-btn:hover{background:var(--blue);border-color:var(--blue);}
+  .next-btn:active{transform:translateY(1px);}
+
+  .result-overlay{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:6px;
+    background:rgba(8,9,13,.96);
+    z-index:9;
+  }
+  .result-score{font-size:44px;font-weight:800;margin:6px 0 2px;}
+  .result-score.good{color:var(--good);}
+  .result-score.bad{color:var(--bad);}
+  .result-detail{font-size:13px;color:var(--text-dim);margin-bottom:16px;text-align:center;line-height:1.7;}
+  .result-detail b{color:var(--text);}
+  .retry-btn{
+    background:var(--blue); border:none; color:#fff;
+    padding:10px 22px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+
+  .debug{
+    margin-top:16px; font-size:12px; color:var(--text-dim);
+    display:flex; gap:18px; flex-wrap:wrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .debug b{color:var(--text);}
+
+  .footnote{font-size:12px;color:var(--text-dim);margin-top:18px;line-height:1.7;}
+  .footnote code{background:var(--panel-2);padding:1px 6px;border-radius:4px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>🍾 따르기 기믹 시뮬레이터</h1>
+  <p class="sub">따르기 기믹 기획서 v0.4.0 기준 — 클릭 유지 시간 n초, 초당 유량을 조작감 보면서 튜닝하는 용도.</p>
+
+  <div class="panel">
+    <p class="panel-title">재료/베이스 선택 (색상 팔레트)</p>
+    <div class="row">
+      <select id="ingredientSelect"></select>
+      <span class="slider-label" style="min-width:auto;">목표량</span>
+      <input type="number" id="targetOz" value="1.5" min="0.25" step="0.25" style="width:80px;">
+      <span class="slider-label" style="min-width:auto;">oz</span>
+    </div>
+    <p class="panel-title" style="margin-top:16px;">누적 유지 시간 n (초)</p>
+    <div class="row">
+      <span class="slider-label">n 값</span>
+      <input type="range" id="nSlider" min="3" max="40" value="5" step="1">
+      <span class="slider-value" id="nValue">1.5s</span>
+    </div>
+    <div class="row" style="margin-top:4px;">
+      <span class="slider-label">초당 유량</span>
+      <input type="range" id="rateSlider" min="2" max="30" value="10" step="1">
+      <span class="slider-value" id="rateValue">1.0oz/s</span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="hud">
+      <span id="hudOz">0.00 / 1.50 oz</span>
+      <span id="hudProgress">기울기 0%</span>
+    </div>
+    <div class="ing-label" id="ingLabel">Smirnoff</div>
+
+    <svg class="stream-svg" id="streamSvg" width="100%" height="100%">
+      <path id="streamPath" d="" fill="none" stroke-width="8" stroke-linecap="round" opacity="0"/>
+      <path id="streamHighlight" d="" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0"/>
+      <g id="ripples"></g>
+    </svg>
+
+    <div class="end-marker"></div>
+
+    <div class="bottle" id="bottle">
+      <img src="data:image/png;base64,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" alt="bottle" draggable="false">
+    </div>
+
+    <div class="ok-flash" id="okFlash">O.K</div>
+    <button class="next-btn" id="nextBtn">다음으로 →</button>
+
+    <div class="result-overlay" id="resultOverlay" style="display:none;">
+      <div style="font-size:15px;color:var(--text-dim);">따르기 결과</div>
+      <div class="result-score" id="resultScore">0.00</div>
+      <div class="result-detail" id="resultDetail"></div>
+      <button class="retry-btn" id="retryBtn">처음부터 다시</button>
+    </div>
+  </div>
+
+  <div class="debug" id="debugPanel">
+    <span>기울기 진행도: <b id="dbgProgress">0%</b></span>
+    <span>기울기 각도: <b id="dbgAngle">0°</b></span>
+    <span>병 입구 좌표: <b id="dbgMouth">-</b></span>
+    <span>상태: <b id="dbgState">대기</b></span>
+  </div>
+
+  <p class="footnote">
+    n초 슬라이더로 "얼마나 눌러야 기울기가 고정되는지", 유량 슬라이더로 "초당 몇 oz가 차오르는지"를 바꿔가며 감을 잡아보고,
+    편했던 값을 기획서 §1.3·§1.4에 반영하면 돼. 손을 떼면 그 시점 기울기에서 멈추고(리셋 안 됨), 다시 누르면 이어서 진행돼.
+  </p>
+</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const bottle = document.getElementById('bottle');
+  const streamPath = document.getElementById('streamPath');
+  const streamHighlight = document.getElementById('streamHighlight');
+  const ripplesGroup = document.getElementById('ripples');
+  const okFlash = document.getElementById('okFlash');
+  const nextBtn = document.getElementById('nextBtn');
+  const resultOverlay = document.getElementById('resultOverlay');
+  const resultScore = document.getElementById('resultScore');
+  const resultDetail = document.getElementById('resultDetail');
+  const retryBtn = document.getElementById('retryBtn');
+  const hudOz = document.getElementById('hudOz');
+  const hudProgress = document.getElementById('hudProgress');
+  const ingLabel = document.getElementById('ingLabel');
+  const ingredientSelect = document.getElementById('ingredientSelect');
+  const targetOzInput = document.getElementById('targetOz');
+  const nSlider = document.getElementById('nSlider');
+  const nValue = document.getElementById('nValue');
+  const rateSlider = document.getElementById('rateSlider');
+  const rateValue = document.getElementById('rateValue');
+  const dbgProgress = document.getElementById('dbgProgress');
+  const dbgAngle = document.getElementById('dbgAngle');
+  const dbgMouth = document.getElementById('dbgMouth');
+  const dbgState = document.getElementById('dbgState');
+
+  const INGREDIENTS = [
+    ['진','#E6EBF0'],['보드카','#F0F5FA'],['데킬라','#F0EBDC'],['럼','#B4783C'],['위스키','#BE7828'],
+    ['드라이 버무스','#DCDCBE'],['쿠앵트로','#EBC88C'],['트리플섹','#EBE1C8'],['칼루아','#3C2319'],
+    ['그레나딘','#B41E32'],['레드와인','#620F0B'],['샴페인','#FFF5E1'],['오렌지주스','#FDB43C'],
+    ['크랜베리주스','#AA1E3C'],['우유','#F5F5F0'],['아마레토','#CD8232'],['브랜디','#B05F28'],
+    ['캄파리','#C8192D'],['멜론리큐르','#96D246'],['말리부','#F5F8FA'],['바나나리큐르','#F0CD3C'],
+    ['파인애플주스','#FAE164'],['크림','#FAF8EE'],['블루큐라소','#288CD7'],['코코넛우유','#F8F6E8'],
+    ['그린페퍼민트','#37AF69'],['화이트카카오','#F5F5EE'],['피치브랜디','#E69150'],['에스프레소/커피','#372016']
+  ];
+  INGREDIENTS.forEach(([name,color]) => {
+    const opt = document.createElement('option');
+    opt.value = color; opt.textContent = name;
+    ingredientSelect.appendChild(opt);
+  });
+  ingredientSelect.selectedIndex = 0;
+
+  let n = 1.5;          // 누적 유지 시간(초)
+  let rate = 1.0;        // 초당 유량(oz/sec)
+  let target = 1.5;
+  let progress = 0;      // 0~1
+  let holding = false;
+  let ozPoured = 0;
+  let finished = false;
+  let okShown = false;
+
+  const MAX_ANGLE = -75; // deg, bottle top swings left/down
+  let lastT = null;
+
+  let streamColor = '#E6EBF0';
+  function updateColor(){
+    streamColor = ingredientSelect.value;
+    ingLabel.textContent = ingredientSelect.options[ingredientSelect.selectedIndex].textContent;
+    streamPath.setAttribute('stroke', streamColor);
+  }
+  ingredientSelect.addEventListener('change', updateColor);
+
+  targetOzInput.addEventListener('input', () => {
+    const v = parseFloat(targetOzInput.value);
+    if (v > 0) { target = v; updateHud(); }
+  });
+  nSlider.addEventListener('input', () => {
+    n = nSlider.value / 10;
+    nValue.textContent = n.toFixed(1) + 's';
+  });
+  rateSlider.addEventListener('input', () => {
+    rate = rateSlider.value / 10;
+    rateValue.textContent = rate.toFixed(1) + 'oz/s';
+  });
+
+  function updateHud(){
+    hudOz.innerHTML = `${ozPoured.toFixed(2)} / ${target.toFixed(2)} oz`;
+    hudProgress.textContent = `기울기 ${Math.round(progress*100)}%`;
+  }
+
+  const MOUTH_LOCAL_X = 0;
+  const MOUTH_LOCAL_Y = -78; // mouth offset from bottle center, unrotated
+
+  function positionBottle(){
+    const stageRect = stage.getBoundingClientRect();
+    const rad = MAX_ANGLE * Math.PI/180;
+    // rx of mouth relative to bottle center when fully tilted (MAX_ANGLE)
+    const rxAtMax = MOUTH_LOCAL_X*Math.cos(rad) - MOUTH_LOCAL_Y*Math.sin(rad);
+    const endX = stageRect.width/2;
+    // choose bottle center x so that mouth.x lands exactly on endX once fully tilted
+    const centerX = endX - rxAtMax;
+    bottle.style.left = (centerX - 22.5) + 'px'; // 22.5 = half bottle width (45px)
+    bottle.style.right = 'auto';
+  }
+  window.addEventListener('resize', positionBottle);
+
+  function bottleCenter(){
+    const stageRect = stage.getBoundingClientRect();
+    const bottleRect = bottle.getBoundingClientRect(); // includes current rotation, but width/height unaffected
+    // recompute static center from the left we set (rotation doesn't change layout box position)
+    const leftPx = parseFloat(bottle.style.left || '0');
+    const cx = leftPx + 22.5;
+    const cy = stageRect.height * 0.5;
+    return { cx, cy };
+  }
+
+  function computeMouthWorld(angleDeg){
+    const { cx, cy } = bottleCenter();
+    // local mouth offset from bottle center (unrotated): near top-center of bottle graphic
+    const localX = 0;
+    const localY = -78; // half height ~85, mouth near top edge
+    const rad = angleDeg * Math.PI/180;
+    const rx = localX*Math.cos(rad) - localY*Math.sin(rad);
+    const ry = localX*Math.sin(rad) + localY*Math.cos(rad);
+    return { x: cx + rx, y: cy + ry };
+  }
+
+  let pourStartTime = null;
+  let lastRippleTime = 0;
+
+  function buildWavyPoints(mouth, end, timeSec, growFraction){
+    const N = 14;
+    const ctrlX = (mouth.x + end.x)/2;
+    const ctrlY = Math.min(mouth.y, end.y) + Math.max(20, (end.y - mouth.y)*0.35);
+    const visibleCount = Math.max(1, Math.round(N * growFraction));
+    const pts = [];
+    for (let i=0; i<=visibleCount; i++){
+      const s = i/N;
+      const x = (1-s)*(1-s)*mouth.x + 2*(1-s)*s*ctrlX + s*s*end.x;
+      const y = (1-s)*(1-s)*mouth.y + 2*(1-s)*s*ctrlY + s*s*end.y;
+      const dx = 2*(1-s)*(ctrlX-mouth.x) + 2*s*(end.x-ctrlX);
+      const dy = 2*(1-s)*(ctrlY-mouth.y) + 2*s*(end.y-ctrlY);
+      const len = Math.hypot(dx,dy) || 1;
+      const nx = -dy/len, ny = dx/len;
+      const envelope = Math.sin(Math.min(1,s)*Math.PI); // less wobble right at mouth/landing
+      const wobble = 3.2 * envelope * Math.sin(s*11 - timeSec*7.5);
+      pts.push({ x: x + nx*wobble, y: y + ny*wobble });
+    }
+    return pts;
+  }
+
+  function pointsToPath(pts){
+    if (pts.length < 2) return '';
+    let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+    for (let i=1; i<pts.length; i++){
+      const mx = (pts[i-1].x + pts[i].x)/2;
+      const my = (pts[i-1].y + pts[i].y)/2;
+      d += ` Q ${pts[i-1].x.toFixed(1)} ${pts[i-1].y.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}`;
+    }
+    const last = pts[pts.length-1];
+    d += ` L ${last.x.toFixed(1)} ${last.y.toFixed(1)}`;
+    return d;
+  }
+
+  function spawnRipple(x, y){
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 9);
+    c.setAttribute('fill', streamColor);
+    c.setAttribute('class', 'ripple');
+    ripplesGroup.appendChild(c);
+    setTimeout(() => c.remove(), 500);
+  }
+
+  function renderStream(mouth, end, timeSec, pouring){
+    if (pouring){
+      if (pourStartTime === null) pourStartTime = performance.now();
+      const growFraction = Math.min(1, (performance.now() - pourStartTime) / 180);
+      const pts = buildWavyPoints(mouth, end, timeSec, growFraction);
+      const d = pointsToPath(pts);
+      streamPath.setAttribute('d', d);
+      streamPath.style.opacity = '0.92';
+      streamHighlight.setAttribute('d', d);
+      streamHighlight.style.opacity = '0.35';
+
+      if (growFraction >= 1 && performance.now() - lastRippleTime > 140){
+        lastRippleTime = performance.now();
+        spawnRipple(end.x + (Math.random()*10-5), end.y);
+      }
+    } else {
+      pourStartTime = null;
+      streamPath.style.opacity = '0';
+      streamHighlight.style.opacity = '0';
+    }
+  }
+
+  function render(t){
+    const angle = MAX_ANGLE * progress;
+    bottle.style.transform = `translateY(-50%) rotate(${angle}deg)`;
+
+    const stageRect = stage.getBoundingClientRect();
+    const mouth = computeMouthWorld(angle);
+    const endX = stageRect.width/2;
+    const endY = stageRect.height - 70;
+
+    const pouring = progress >= 1 && holding;
+    renderStream(mouth, {x:endX, y:endY}, (t||0)/1000, pouring);
+
+    dbgProgress.textContent = Math.round(progress*100) + '%';
+    dbgAngle.textContent = angle.toFixed(1) + '°';
+    dbgMouth.textContent = `${mouth.x.toFixed(0)}, ${mouth.y.toFixed(0)}`;
+    dbgState.textContent = finished ? '종료' : (pouring ? '따르는 중' : (holding ? '기울이는 중' : (progress > 0 ? '되돌아가는 중' : '대기')));
+  }
+
+  function tick(t){
+    if (lastT === null) lastT = t;
+    const dt = Math.min(0.05, (t - lastT)/1000);
+    lastT = t;
+
+    if (!finished){
+      if (holding){
+        progress = Math.min(1, progress + dt/n);
+      } else {
+        progress = Math.max(0, progress - dt/n);
+      }
+      if (progress >= 1 && holding){
+        ozPoured += rate * dt;
+        if (!okShown && ozPoured >= target){
+          okShown = true;
+          okFlash.classList.add('show');
+        }
+      }
+      updateHud();
+    }
+    render(t);
+    requestAnimationFrame(tick);
+  }
+
+  bottle.addEventListener('pointerdown', (e) => {
+    if (finished) return;
+    holding = true;
+    bottle.classList.add('dragging');
+    bottle.setPointerCapture(e.pointerId);
+  });
+  function releaseHold(){
+    holding = false;
+    bottle.classList.remove('dragging');
+  }
+  bottle.addEventListener('pointerup', releaseHold);
+  bottle.addEventListener('pointercancel', releaseHold);
+
+  nextBtn.addEventListener('click', () => {
+    if (finished) return;
+    finished = true;
+    holding = false;
+    const score = Math.max(0, 1 - Math.abs(target - ozPoured)/target);
+    resultScore.textContent = score.toFixed(2);
+    resultScore.className = 'result-score ' + (score >= 0.8 ? 'good' : score < 0.5 ? 'bad' : '');
+    resultDetail.innerHTML = `목표 <b>${target.toFixed(2)}oz</b> · 실제 <b>${ozPoured.toFixed(2)}oz</b><br>score = max(0, 1 - |${target.toFixed(2)}-${ozPoured.toFixed(2)}| / ${target.toFixed(2)})`;
+    resultOverlay.style.display = 'flex';
+  });
+
+  retryBtn.addEventListener('click', () => {
+    progress = 0; ozPoured = 0; holding = false; finished = false; okShown = false;
+    pourStartTime = null; lastRippleTime = 0;
+    ripplesGroup.innerHTML = '';
+    okFlash.classList.remove('show');
+    resultOverlay.style.display = 'none';
+    updateHud();
+  });
+
+  updateColor();
+  n = nSlider.value/10; nValue.textContent = n.toFixed(1)+'s';
+  rate = rateSlider.value/10; rateValue.textContent = rate.toFixed(1)+'oz/s';
+  target = parseFloat(targetOzInput.value);
+  updateHud();
+  positionBottle();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
