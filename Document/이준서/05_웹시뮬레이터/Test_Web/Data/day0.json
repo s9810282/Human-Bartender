@@ -1,0 +1,797 @@
+{
+  "day": 0,
+  "scenes": [
+    {
+      "scene_id": "day0_chris",
+      "customer": "chris",
+      "dialogues": [
+        {
+          "id": "d0c_intro_cutscene",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d0c_chris_enter",
+          "choices": null,
+          "trigger": {
+            "type": "start_cutscene",
+            "data": { "cutscene_id": "Intro_lab" }
+          }
+        },
+        {
+          "id": "d0c_chris_enter",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": "d0c_001",
+          "choices": null,
+          "trigger": {
+            "type": "customer_enter",
+            "data": {
+              "character_id": "chris",
+              "slot": "right",
+              "enter_effect": "silhouette_reveal",
+              "enter_duration": 0,
+              "sfx_mode": "default_only"
+            }
+          }
+        },
+        {
+          "id": "d0c_001",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "루나.",
+          "expression": "default",
+          "next": "d0c_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네?",
+          "expression": null,
+          "next": "d0c_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_003",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "갑자기 아무 반응도 없길래.",
+          "expression": "default",
+          "next": "d0c_003b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_003b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "방금 내가 뭐라 했는지 듣긴 한 거야?",
+          "expression": "default",
+          "next": "d0c_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_004",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "무슨 말이요?",
+          "expression": null,
+          "next": "d0c_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_005",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "후… 역시 딴생각을…",
+          "expression": "default",
+          "next": "d0c_005b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_005b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "집중 좀 해줘. 이제 무를 수도 없다고.",
+          "expression": "default",
+          "next": "d0c_006",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_006",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "걱정하지 마세요. 오늘 알려주신 것들은\n다 학습했습니다.",
+          "expression": null,
+          "next": "d0c_007",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_007",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그럼 오늘 배웠던 내용을 다시 짚어보자. 괜찮지?",
+          "expression": "default",
+          "next": "d0c_008",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_008",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네. 문제없습니다.",
+          "expression": null,
+          "next": "d0c_009",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_009",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "네가 드라이 마티니 하나만 제대로 만들면 더 확인은 안 할 테니,\n지루해도 딴생각하지 말고 참고 그냥 해.",
+          "expression": "default",
+          "next": "d0c_010",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_010",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(건조한 마티니라… 축축한 마티니는 어떤 맛이려나.)",
+          "expression": null,
+          "next": "d0c_011",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_011",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "또 딴생각하지.",
+          "expression": "default",
+          "next": "d0c_012",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_012",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "아니요. 바로 시작하죠.",
+          "expression": null,
+          "next": "d0c_013",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_013",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래. 먼저 손님이 술을 주문한 걸 확인하고\n레시피 DB에 접속해서 주문에 맞는 레시피를 찾아.",
+          "expression": "default",
+          "next": "d0c_014",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_014",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "거기에 맛이나 종류를 기준으로 필터링하는 기능이 있으니까\n그걸 활용하면 찾는 게 수월할 거야.",
+          "expression": "default",
+          "next": "d0c_015",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_015",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "레시피를 선택하면 옆에 표시가 되니까,\n보면서 재료를 원하는 양만큼 넣으면 돼.",
+          "expression": "default",
+          "next": "d0c_016",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_016",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "……",
+          "expression": null,
+          "next": "d0c_017",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_017",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "재료 넣고 아까 배운 제조 방법인 <world>쉐이킹</world>, <world>스터</world>, <world>빌드</world>\n이 세 가지 중 하나를 선택해서 재료를 섞어준 뒤 마무리.",
+          "expression": "default",
+          "next": "d0c_017b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_017b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "다 끝나면 제공하기 버튼을 눌러 손님에게 전해주면 돼.",
+          "expression": "default",
+          "next": "d0c_018",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_018",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "크리스. 이미 숙지한 내용이라 더 이상 반복 학습은\n무의미할 것 같습니다.",
+          "expression": null,
+          "next": "d0c_019",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_019",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래? 그럼 한번 만들어봐.",
+          "expression": "default",
+          "next": "d0c_020",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_020",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(<world>드라이 마티니</world> 한 잔… 흔들지 말고, 저어서.)",
+          "expression": null,
+          "next": "d0c_021",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_021",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "start_craft",
+            "data": { "craft_event_id": "day0_chris_order1" }
+          }
+        },
+
+        {
+          "id": "d0c_react_perfect_001",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "어떤가요?",
+          "expression": null,
+          "next": "d0c_react_perfect_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_perfect_002",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "…생각보다 재능 있는 것 같네.",
+          "expression": "default",
+          "next": "d0c_react_perfect_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_perfect_003",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "이제 무의미한 반복 학습에서 벗어날 수 있는 건가요?",
+          "expression": null,
+          "next": "d0c_react_perfect_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_perfect_004",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래. 술 만드는 건 이제 끝이야.",
+          "expression": "default",
+          "next": "d0c_end_001",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "d0c_react_good_001",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "어떤가요?",
+          "expression": null,
+          "next": "d0c_react_good_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_002",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "음… 재료는 다 잘 들어간 것 같은데.",
+          "expression": "default",
+          "next": "d0c_react_good_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_003",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "맛이 없나 보네요.",
+          "expression": null,
+          "next": "d0c_react_good_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_004",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그 정도는 아니고.",
+          "expression": "default",
+          "next": "d0c_react_good_004b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_004b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "좀 괴팍한 손님이 이걸 마시면 잔을 집어 던지는 정도?",
+          "expression": "default",
+          "next": "d0c_react_good_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_005",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "그 정도면 심각한 문제를 가진 맛인 것 같은데요.",
+          "expression": null,
+          "next": "d0c_react_good_006",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_006",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "농담이야. 처음 치고는 괜찮았어.\n아직 개선의 여지는 있지만.",
+          "expression": "default",
+          "next": "d0c_react_good_007",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_007",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "아직 그런 농담은 이해하지 못하겠습니다.",
+          "expression": null,
+          "next": "d0c_react_good_008",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_008",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "여기서 생활하다 보면 익숙해질 거야.",
+          "expression": "default",
+          "next": "d0c_react_good_008b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_good_008b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래도 이 정도면 술 만드는 거에 대해선 알려줄 건 없을 것 같네.",
+          "expression": "default",
+          "next": "d0c_end_001",
+          "choices": null,
+          "trigger": null
+        },
+
+        {
+          "id": "d0c_react_normal_001",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "이건 내가 말한 술이 아닌데.",
+          "expression": "default",
+          "next": "d0c_react_normal_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_normal_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "레시피를 다른 걸로 찾은 것 같네요.",
+          "expression": null,
+          "next": "d0c_react_normal_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_normal_003",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "이런 식이면 곤란해, 루나.\n제대로 만들어.",
+          "expression": "default",
+          "next": "d0c_react_normal_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_normal_004",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네, 알겠습니다.",
+          "expression": null,
+          "next": "d0c_react_normal_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_normal_005",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(<world>드라이 마티니</world> 한 잔이야… 제대로 확인해보자.)",
+          "expression": null,
+          "next": "d0c_react_normal_006",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_normal_006",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "start_craft",
+            "data": { "craft_event_id": "day0_chris_order1" }
+          }
+        },
+
+        {
+          "id": "d0c_react_bad_001",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "……",
+          "expression": "default",
+          "next": "d0c_react_bad_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_002",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "어떤가요?",
+          "expression": null,
+          "next": "d0c_react_bad_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_003",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "루나.",
+          "expression": "default",
+          "next": "d0c_react_bad_003b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_003b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "뭐가 문제지? 아까부터 자꾸 집중도 안 하고.",
+          "expression": "default",
+          "next": "d0c_react_bad_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_004",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "죄송합니다.",
+          "expression": null,
+          "next": "d0c_react_bad_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_005",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "이런 식으로 장난치면 곤란해, 루나.",
+          "expression": "default",
+          "next": "d0c_react_bad_005b",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_005b",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "이런 건 가게에서 쓰는 재료들을 의미 없이 <world>낭비</world>하는 거야.",
+          "expression": "default",
+          "next": "d0c_react_bad_006",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_006",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "명심하겠습니다.",
+          "expression": null,
+          "next": "d0c_react_bad_007",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_007",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래. 이번에 만드는 건 제대로 만들어.",
+          "expression": "default",
+          "next": "d0c_react_bad_008",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_008",
+          "speaker": "luna",
+          "type": "monologue",
+          "text": "(<world>드라이 마티니</world> 한 잔이야… 제대로 확인해보자.)",
+          "expression": null,
+          "next": "d0c_react_bad_009",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_react_bad_009",
+          "speaker": "system",
+          "type": "system",
+          "text": "",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": {
+            "type": "start_craft",
+            "data": { "craft_event_id": "day0_chris_order1" }
+          }
+        },
+
+        {
+          "id": "d0c_end_001",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "아직 배워야 될 게 또 남았나요?",
+          "expression": null,
+          "next": "d0c_end_002",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_002",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "우리 가게 바텐더의 마음가짐이라든가,\n손님 대하는 자세 같은 것들도 알려줘야 하지만…",
+          "expression": "default",
+          "next": "d0c_end_003",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_003",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "아까 거리에서 봤던 동물 귀랑 꼬리를 달고 있는 사람들이랑\n공놀이하는 것이 더 흥미로울 것 같습니다.",
+          "expression": null,
+          "next": "d0c_end_004",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_004",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "…그래. 오늘은 이 정도면 충분하겠지.\n나머지는 일하면서 배우자.",
+          "expression": "default",
+          "next": "d0c_end_005",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_005",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "크리스도 동물처럼 생긴 사람들과 노는 게\n더 흥미롭다고 생각하는군요.",
+          "expression": null,
+          "next": "d0c_end_006",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_006",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그놈들, 동물 좋아하는 바보들처럼 보여도 <world>갱단원</world>들이야.\n너무 가까이하진 마.",
+          "expression": "default",
+          "next": "d0c_end_007",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_007",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "지능이 평균보다 낮지만 착한 친구들과는 가까이 지내지 말라는\n부모님의 가르침 같습니다.",
+          "expression": null,
+          "next": "d0c_end_008",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_008",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "어디서 그런 비유를 들었는지는 잘 모르겠지만,\n그런 거 아니야.",
+          "expression": "default",
+          "next": "d0c_end_009",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_009",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그리고 이제 밖에서는 크리스 말고 보스라고 불러.",
+          "expression": "default",
+          "next": "d0c_end_010",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_010",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "이유가 있나요?",
+          "expression": null,
+          "next": "d0c_end_011",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_011",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "우리 가게 전통이야.\n나도 그랬어.",
+          "expression": "default",
+          "next": "d0c_end_012",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_012",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "알겠습니다, 보스.",
+          "expression": null,
+          "next": "d0c_end_013",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_013",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "좋아. 오늘은 이걸로 끝이니까 먼저 집으로 가.",
+          "expression": "default",
+          "next": "d0c_end_014",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_014",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "보스는 같이 안 가는 겁니까?",
+          "expression": null,
+          "next": "d0c_end_015",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_015",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래.\n중요한 <world>손님</world>이 있어서.",
+          "expression": "default",
+          "next": "d0c_end_016",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_016",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "앞으로도 교대 근무로 할 거니까 출퇴근을 같이 하진 못할 거야.",
+          "expression": "default",
+          "next": "d0c_end_017",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_017",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "알겠습니다.",
+          "expression": null,
+          "next": "d0c_end_018",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_018",
+          "speaker": "chris",
+          "type": "normal",
+          "text": "그래.\n딴 길로 새지 말고 가서 쉬고 있어.",
+          "expression": "default",
+          "next": "d0c_end_019",
+          "choices": null,
+          "trigger": null
+        },
+        {
+          "id": "d0c_end_019",
+          "speaker": "luna",
+          "type": "normal",
+          "text": "네, 보스.",
+          "expression": null,
+          "next": null,
+          "choices": null,
+          "trigger": null
+        }
+      ]
+    }
+  ]
+}

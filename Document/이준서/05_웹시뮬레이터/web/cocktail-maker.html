@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>칵테일 조립 바 · 프로토타입</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EDF0F6; --panel:#FFFFFF; --ink:#1F2430; --sub:#6B7280;
+    --accent:#5B5BD6; --accent-soft:#EDEDFB; --line:#E3E6EE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--ink); min-height:100vh; padding:20px;
+  }
+  .wrap{max-width:1060px; margin:0 auto;}
+  header{display:flex; align-items:baseline; gap:12px; margin:6px 4px 18px;}
+  h1{font-family:'Jua',sans-serif; font-size:30px; font-weight:400; letter-spacing:-0.5px;}
+  h1 .dot{color:var(--accent);}
+  header p{color:var(--sub); font-size:13px;}
+  .layout{display:grid; grid-template-columns:400px 1fr; gap:18px; align-items:start;}
+
+  .preview{
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    padding:18px; position:sticky; top:20px;
+  }
+  .stage{
+    border-radius:14px; overflow:hidden; position:relative;
+    background:
+      linear-gradient(45deg,#F3F5FA 25%,transparent 25%,transparent 75%,#F3F5FA 75%),
+      linear-gradient(45deg,#F3F5FA 25%,#FFFFFF 25%,#FFFFFF 75%,#F3F5FA 75%);
+    background-size:24px 24px; background-position:0 0,12px 12px;
+    border:1px solid var(--line);
+  }
+  .stage svg{display:block; width:100%; height:auto;}
+  .stage .tag{
+    position:absolute; top:10px; left:10px; font-size:11px; color:var(--sub);
+    background:rgba(255,255,255,.85); border:1px solid var(--line);
+    padding:3px 8px; border-radius:20px; max-width:calc(100% - 20px);
+  }
+  .btns{display:flex; gap:8px; margin-top:14px;}
+  button{font-family:inherit; cursor:pointer;}
+  .btn{flex:1; border:none; border-radius:12px; padding:12px 0; font-size:14px; font-weight:700;}
+  .btn-random{background:var(--accent); color:#fff;}
+  .btn-random:hover{background:#4A4AC4;}
+  .btn-dl{background:var(--accent-soft); color:var(--accent);}
+  .btn-dl:hover{background:#E0E0F8;}
+  .hint{margin-top:10px; font-size:12px; color:var(--sub); line-height:1.5;}
+
+  .parts{display:flex; flex-direction:column; gap:14px;}
+  section{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px;}
+  .sec-head{display:flex; align-items:center; gap:8px; margin-bottom:10px;}
+  .sec-head b{font-family:'Jua',sans-serif; font-weight:400; font-size:17px;}
+  .sec-head span{font-size:12px; color:var(--sub);}
+  .thumbs{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;}
+  .thumb{
+    flex:0 0 auto; width:86px; border:2px solid var(--line); border-radius:12px;
+    background:#FAFBFD; padding:4px 4px 2px; text-align:center; transition:border-color .12s;
+  }
+  .thumb:hover{border-color:#B9BCE8;}
+  .thumb.on{border-color:var(--accent); background:var(--accent-soft);}
+  .thumb svg{width:100%; height:auto; display:block;}
+  .thumb em{font-style:normal; font-size:11px; color:var(--sub); display:block; padding:2px 0 4px;}
+  .thumb.on em{color:var(--accent); font-weight:700;}
+
+  .swatches{display:flex; gap:8px; flex-wrap:wrap;}
+  .sw{
+    width:38px; height:38px; border-radius:50%; border:3px solid #fff;
+    outline:2px solid var(--line); transition:transform .1s; position:relative;
+  }
+  .sw:hover{transform:scale(1.1);}
+  .sw.on{outline:3px solid var(--accent);}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    .preview{position:static;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>칵테일 조립 바<span class="dot">.</span></h1>
+    <p>2D 칵테일 파츠 조합 프로토타입 — 그래픽 작업 참고용</p>
+  </header>
+
+  <div class="layout">
+    <div class="preview">
+      <div class="stage">
+        <span class="tag" id="comboTag"></span>
+        <div id="mainCk"></div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-random" onclick="randomize()">🎲 랜덤 조합</button>
+        <button class="btn btn-dl" onclick="downloadPNG()">PNG 저장</button>
+        <button class="btn btn-dl" onclick="downloadSVG()">SVG 저장</button>
+      </div>
+      <p class="hint">레이어 순서: 내용물 → 얼음 → 유리잔 → 림 디테일 → 가니쉬. 배경은 투명으로 내보내집니다.</p>
+    </div>
+
+    <div class="parts" id="partsPanel"></div>
+  </div>
+</div>
+
+<script>
+/* ================= 내용물 색 프리셋 ================= */
+const LIQUID_COLORS = [
+  {c:'#E0453A', n:'레드'},   {c:'#F2762E', n:'오렌지'}, {c:'#F7C93C', n:'옐로우'},
+  {c:'#8FCB4F', n:'라임'},   {c:'#3AB795', n:'민트'},   {c:'#3B82D6', n:'블루'},
+  {c:'#7C5CD6', n:'퍼플'},   {c:'#F27BA6', n:'핑크'},   {c:'#C97A2B', n:'앰버'},
+  {c:'#7B3F2A', n:'브라운'}, {c:'#F5E9D0', n:'크림'},   {c:'#DDEBF2', n:'클리어'},
+];
+
+function lighten(hex, amt){
+  const n = parseInt(hex.slice(1),16);
+  let r=(n>>16)&255, g=(n>>8)&255, b=n&255;
+  r=Math.round(r+(255-r)*amt); g=Math.round(g+(255-g)*amt); b=Math.round(b+(255-b)*amt);
+  return `rgb(${r},${g},${b})`;
+}
+
+/* ================= 유리잔 정의 =================
+   좌표계 400x460. rim = 잔 테두리(림 디테일/가니쉬 기준선), surface = 액체 표면 */
+const GLASS_STROKE = 'stroke="#A0B6CC" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
+const GLASS_FILL   = 'fill="rgba(208,228,244,.18)"';
+
+const GLASSES = [
+  {
+    name:'마티니 잔',
+    rim:{xL:118, xR:282, y:138}, surface:{cy:150, rx:70, ry:5}, ice:{cy:185, s:.75},
+    liquid:g=>`<path d="M130 150 L200 246 L270 150 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <ellipse cx="200" cy="346" rx="52" ry="9" fill="rgba(208,228,244,.35)" ${GLASS_STROKE}/>
+      <line x1="200" y1="252" x2="200" y2="340" ${GLASS_STROKE}/>
+      <path d="M118 138 L200 252 L282 138 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <line x1="146" y1="152" x2="186" y2="208" stroke="#FFFFFF" stroke-width="4" opacity=".5" stroke-linecap="round"/>`
+  },
+  {
+    name:'하이볼 잔',
+    rim:{xL:148, xR:252, y:118}, surface:{cy:150, rx:44, ry:6}, ice:{cy:200, s:1},
+    liquid:g=>`<path d="M156 150 L156 330 Q156 342 168 342 L232 342 Q244 342 244 330 L244 150 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <path d="M148 118 L148 334 Q148 350 164 350 L236 350 Q252 350 252 334 L252 118 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <line x1="160" y1="136" x2="160" y2="322" stroke="#FFFFFF" stroke-width="4" opacity=".5" stroke-linecap="round"/>`
+  },
+  {
+    name:'롱 드링크 잔',
+    rim:{xL:163, xR:237, y:92}, surface:{cy:128, rx:31, ry:5}, ice:{cy:180, s:.8},
+    liquid:g=>`<path d="M169 128 L169 332 Q169 342 179 342 L221 342 Q231 342 231 332 L231 128 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <path d="M163 92 L163 336 Q163 350 177 350 L223 350 Q237 350 237 336 L237 92 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <line x1="174" y1="110" x2="174" y2="324" stroke="#FFFFFF" stroke-width="4" opacity=".5" stroke-linecap="round"/>`
+  },
+  {
+    name:'와인잔',
+    rim:{xL:142, xR:258, y:128}, surface:{cy:168, rx:52, ry:6}, ice:{cy:205, s:.75},
+    liquid:g=>`<path d="M148 168 L148 186 Q148 244 200 249 Q252 244 252 186 L252 168 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <ellipse cx="200" cy="344" rx="48" ry="9" fill="rgba(208,228,244,.35)" ${GLASS_STROKE}/>
+      <line x1="200" y1="254" x2="200" y2="338" ${GLASS_STROKE}/>
+      <path d="M142 128 L142 186 Q142 250 200 254 Q258 250 258 186 L258 128 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <path d="M156 150 Q156 216 184 236" stroke="#FFFFFF" stroke-width="4" opacity=".5" fill="none" stroke-linecap="round"/>`
+  },
+  {
+    name:'샷잔',
+    rim:{xL:170, xR:230, y:250}, surface:{cy:262, rx:23, ry:3.5}, ice:{cy:296, s:.45},
+    liquid:g=>`<path d="M177 262 L184 330 L216 330 L223 262 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <path d="M170 250 L179 336 Q180 346 190 346 L210 346 Q220 346 221 336 L230 250 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <path d="M183 328 L217 328 L216 340 L184 340 Z" fill="rgba(208,228,244,.5)"/>
+      <line x1="180" y1="262" x2="186" y2="322" stroke="#FFFFFF" stroke-width="3.5" opacity=".5" stroke-linecap="round"/>`
+  },
+  {
+    name:'온더록 잔',
+    rim:{xL:138, xR:262, y:212}, surface:{cy:238, rx:54, ry:6}, ice:{cy:274, s:1},
+    liquid:g=>`<path d="M146 238 L146 316 Q146 326 156 326 L244 326 Q254 326 254 316 L254 238 Z" fill="url(#${g})" opacity=".92"/>`,
+    outline:()=>`
+      <path d="M138 212 L138 334 Q138 350 154 350 L246 350 Q262 350 262 334 L262 212 Z" ${GLASS_FILL} ${GLASS_STROKE}/>
+      <rect x="146" y="328" width="108" height="16" fill="rgba(208,228,244,.5)"/>
+      <line x1="150" y1="228" x2="150" y2="320" stroke="#FFFFFF" stroke-width="4" opacity=".5" stroke-linecap="round"/>`
+  },
+];
+
+/* ================= 얼음 ================= */
+function cube(x,y,s,rot){
+  return `<g transform="translate(${x} ${y}) rotate(${rot})">
+    <rect x="${-14*s}" y="${-14*s}" width="${28*s}" height="${28*s}" rx="${6*s}"
+      fill="rgba(255,255,255,.5)" stroke="rgba(255,255,255,.95)" stroke-width="2.5"/>
+    <line x1="${-6*s}" y1="${-6*s}" x2="${4*s}" y2="${4*s}" stroke="#FFFFFF" stroke-width="2" opacity=".7"/>
+  </g>`;
+}
+const ICE = [
+  {name:'없음', draw:()=>``},
+  {name:'큐브 2개', draw:gl=>{
+    const {cy,s}=gl.ice, cx=200;
+    return cube(cx-16,cy,s,-14) + cube(cx+16,cy+10*s,s,18);
+  }},
+  {name:'큐브 3개', draw:gl=>{
+    const {cy,s}=gl.ice, cx=200;
+    return cube(cx-18,cy+6*s,s,-14) + cube(cx+18,cy+10*s,s,18) + cube(cx,cy-16*s,s,7);
+  }},
+];
+
+/* ================= 림 디테일 ================= */
+const RIMS = [
+  {name:'없음', draw:()=>``},
+  {name:'소금', draw:rim=>{
+    let dots='';
+    for(let x=rim.xL+6; x<=rim.xR-6; x+=13){
+      const off = (x/13)%2 ? -5.5 : 5.5;
+      dots += `<circle cx="${x}" cy="${rim.y+off}" r="2.4" fill="#EFF3F6"/>`;
+    }
+    return `<line x1="${rim.xL}" y1="${rim.y}" x2="${rim.xR}" y2="${rim.y}"
+      stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" opacity=".95"/>` + dots;
+  }},
+  {name:'설탕', draw:rim=>{
+    let sp='';
+    for(let x=rim.xL+10; x<=rim.xR-10; x+=24){
+      const off = (x/24)%2 ? -8 : 8;
+      sp += `<path d="M${x} ${rim.y+off-3} l0 6 M${x-3} ${rim.y+off} l6 0" stroke="#FFE9A8" stroke-width="2" stroke-linecap="round"/>`;
+    }
+    return `<line x1="${rim.xL}" y1="${rim.y}" x2="${rim.xR}" y2="${rim.y}"
+      stroke="#FFF9EE" stroke-width="6" stroke-linecap="round" opacity=".95"/>` + sp;
+  }},
+  {name:'칠리솔트', draw:rim=>{
+    let dots='';
+    for(let x=rim.xL+6; x<=rim.xR-6; x+=15){
+      const off = (x/15)%2 ? -5.5 : 5.5;
+      const col = (x/15)%3 ? '#C74A2E' : '#F2A93B';
+      dots += `<circle cx="${x}" cy="${rim.y+off}" r="2.4" fill="${col}"/>`;
+    }
+    return `<line x1="${rim.xL}" y1="${rim.y}" x2="${rim.xR}" y2="${rim.y}"
+      stroke="#E8694A" stroke-width="9" stroke-linecap="round" opacity=".95"/>` + dots;
+  }},
+];
+
+/* ================= 가니쉬 ================= */
+function citrusSlice(x,y,outer,inner,line){
+  return `<g transform="translate(${x} ${y})">
+    <circle r="21" fill="${outer}"/><circle r="16" fill="${inner}"/>
+    <path d="M0 -14 L0 14 M-12 -7 L12 7 M-12 7 L12 -7" stroke="${line}" stroke-width="2.5" stroke-linecap="round"/>
+    <circle r="3" fill="${inner}"/>
+  </g>`;
+}
+const GARNISH = [
+  {name:'없음', draw:()=>``},
+  {name:'올리브 픽', draw:rim=>{
+    const cx=(rim.xL+rim.xR)/2, y=rim.y;
+    return `
+    <line x1="${cx-54}" y1="${y-32}" x2="${cx+44}" y2="${y+4}" stroke="#C89B6A" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="${cx-54}" cy="${y-32}" r="4" fill="#C89B6A"/>
+    <circle cx="${cx-18}" cy="${y-18}" r="10" fill="#7A8F3C"/><circle cx="${cx-15}" cy="${y-18}" r="3.5" fill="#C0392B"/>
+    <circle cx="${cx+5}" cy="${y-9}" r="10" fill="#7A8F3C"/><circle cx="${cx+8}" cy="${y-9}" r="3.5" fill="#C0392B"/>`;
+  }},
+  {name:'레몬 슬라이스', draw:rim=>citrusSlice(rim.xR, rim.y, '#F7C93C', '#FBEFC0', '#F0B429')},
+  {name:'라임 슬라이스', draw:rim=>citrusSlice(rim.xR, rim.y, '#8FBF3F', '#DCEFB4', '#7FA83A')},
+  {name:'레몬 트위스트', draw:rim=>{
+    const x=rim.xR-2, y=rim.y;
+    return `
+    <path d="M${x} ${y-8} q 20 -14 24 6 q 4 20 -13 24 q 15 9 11 26" stroke="#F7C93C" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M${x} ${y-8} q 20 -14 24 6 q 4 20 -13 24 q 15 9 11 26" stroke="#FBEFC0" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  }},
+  {name:'체리', draw:rim=>{
+    const x=rim.xR-8, y=rim.y;
+    return `
+    <path d="M${x} ${y-6} Q ${x+6} ${y-28} ${x+18} ${y-26}" stroke="#5F7A34" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="${x}" cy="${y+4}" r="11" fill="#D23B4E"/>
+    <circle cx="${x-4}" cy="${y}" r="3" fill="#FFFFFF" opacity=".65"/>`;
+  }},
+  {name:'민트 잎', draw:rim=>{
+    const x=rim.xR-14, y=rim.y;
+    return `
+    <line x1="${x}" y1="${y+2}" x2="${x-2}" y2="${y-10}" stroke="#3E7A48" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="${x-9}" cy="${y-20}" rx="7" ry="15" transform="rotate(-26 ${x-9} ${y-20})" fill="#3E8E4E"/>
+    <ellipse cx="${x+7}" cy="${y-21}" rx="7" ry="15" transform="rotate(22 ${x+7} ${y-21})" fill="#4FA75F"/>`;
+  }},
+  {name:'미니 우산', draw:rim=>{
+    const x=rim.xR-26, y=rim.y-4;
+    return `<g transform="translate(${x} ${y}) rotate(-22)">
+      <line x1="0" y1="-40" x2="0" y2="16" stroke="#B98A54" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M-36 -40 A36 36 0 0 1 36 -40 Z" fill="#F26D6D"/>
+      <path d="M0 -74 L-24 -42 M0 -74 L0 -40 M0 -74 L24 -42" stroke="#FFFFFF" stroke-width="2" opacity=".65" fill="none"/>
+      <line x1="0" y1="-74" x2="0" y2="-82" stroke="#B98A54" stroke-width="3" stroke-linecap="round"/>
+    </g>`;
+  }},
+];
+
+const CATEGORIES = [
+  {key:'glass',   label:'유리잔',    note:'6종', list:GLASSES},
+  {key:'ice',     label:'얼음',      note:'', list:ICE},
+  {key:'garnish', label:'가니쉬',    note:'림 기준으로 배치', list:GARNISH},
+  {key:'rimStyle',label:'림 디테일', note:'잔 테두리', list:RIMS},
+];
+
+/* ================= 상태 ================= */
+const state = {glass:0, ice:0, garnish:1, rimStyle:0, liquid:'#E0453A'};
+
+/* ================= 렌더 ================= */
+let uidC = 0;
+function ckSVG(st){
+  const gl = GLASSES[st.glass];
+  const gid = 'liq' + (++uidC);
+  const sf = gl.surface;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${lighten(st.liquid,.38)}"/>
+      <stop offset="1" stop-color="${st.liquid}"/>
+    </linearGradient></defs>
+    ${gl.liquid(gid)}
+    <ellipse cx="200" cy="${sf.cy}" rx="${sf.rx}" ry="${sf.ry}" fill="${lighten(st.liquid,.55)}" opacity=".9"/>
+    ${ICE[st.ice].draw(gl)}
+    ${gl.outline()}
+    ${RIMS[st.rimStyle].draw(gl.rim)}
+    ${GARNISH[st.garnish].draw(gl.rim)}
+  </svg>`;
+}
+
+function renderMain(){
+  document.getElementById('mainCk').innerHTML = ckSVG(state);
+  const liq = LIQUID_COLORS.find(l=>l.c===state.liquid);
+  document.getElementById('comboTag').textContent =
+    [GLASSES[state.glass].name, liq?liq.n:'커스텀', ICE[state.ice].name,
+     GARNISH[state.garnish].name, RIMS[state.rimStyle].name].join(' · ');
+}
+
+function buildPanel(){
+  const panel = document.getElementById('partsPanel');
+  let html = '';
+  html += `<section>
+    <div class="sec-head"><b>유리잔</b><span>6종</span></div>
+    <div class="thumbs" id="thumbs-glass"></div>
+  </section>`;
+  html += `<section>
+    <div class="sec-head"><b>내용물 색</b><span>액체 컬러 프리셋</span></div>
+    <div class="swatches" id="sw-liquid"></div>
+  </section>`;
+  for(const cat of CATEGORIES.slice(1)){
+    html += `<section>
+      <div class="sec-head"><b>${cat.label}</b><span>${cat.note}</span></div>
+      <div class="thumbs" id="thumbs-${cat.key}"></div>
+    </section>`;
+  }
+  panel.innerHTML = html;
+}
+
+function renderThumbs(){
+  for(const cat of CATEGORIES){
+    const box = document.getElementById('thumbs-'+cat.key);
+    box.innerHTML = cat.list.map((p,i)=>{
+      const st = {...state, [cat.key]:i};
+      return `<button class="thumb${state[cat.key]===i?' on':''}" onclick="pick('${cat.key}',${i})">
+        ${ckSVG(st)}<em>${p.name}</em></button>`;
+    }).join('');
+  }
+  document.getElementById('sw-liquid').innerHTML = LIQUID_COLORS.map(l=>
+    `<button class="sw${state.liquid===l.c?' on':''}" style="background:linear-gradient(180deg,${lighten(l.c,.35)},${l.c})"
+      onclick="pickColor('${l.c}')" title="${l.n}"></button>`
+  ).join('');
+}
+
+function pick(key,i){ state[key]=i; refresh(); }
+function pickColor(c){ state.liquid=c; refresh(); }
+function refresh(){ renderMain(); renderThumbs(); }
+
+function randomize(){
+  state.glass    = Math.floor(Math.random()*GLASSES.length);
+  state.ice      = Math.floor(Math.random()*ICE.length);
+  state.garnish  = Math.floor(Math.random()*GARNISH.length);
+  state.rimStyle = Math.floor(Math.random()*RIMS.length);
+  state.liquid   = LIQUID_COLORS[Math.floor(Math.random()*LIQUID_COLORS.length)].c;
+  refresh();
+}
+
+/* ================= 내보내기 ================= */
+function downloadSVG(){
+  const blob = new Blob([ckSVG(state)], {type:'image/svg+xml'});
+  triggerDL(URL.createObjectURL(blob), 'cocktail.svg');
+}
+function downloadPNG(){
+  const img = new Image();
+  img.onload = ()=>{
+    const cv = document.createElement('canvas');
+    cv.width = 800; cv.height = 920;
+    cv.getContext('2d').drawImage(img, 0, 0, 800, 920);
+    triggerDL(cv.toDataURL('image/png'), 'cocktail.png');
+  };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(ckSVG(state));
+}
+function triggerDL(url, name){
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+}
+
+buildPanel(); refresh();
+</script>
+</body>
+</html>

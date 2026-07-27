@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캐릭터 조립소 · 프로토타입</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EDF0F6; --panel:#FFFFFF; --ink:#1F2430; --sub:#6B7280;
+    --accent:#5B5BD6; --accent-soft:#EDEDFB; --line:#E3E6EE; --sun:#FFC838;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--ink); min-height:100vh; padding:20px;
+  }
+  .wrap{max-width:1060px; margin:0 auto;}
+  header{display:flex; align-items:baseline; gap:12px; margin:6px 4px 18px;}
+  h1{font-family:'Jua',sans-serif; font-size:30px; font-weight:400; letter-spacing:-0.5px;}
+  h1 .dot{color:var(--accent);}
+  header p{color:var(--sub); font-size:13px;}
+  .layout{display:grid; grid-template-columns:400px 1fr; gap:18px; align-items:start;}
+
+  /* 미리보기 */
+  .preview{
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    padding:18px; position:sticky; top:20px;
+  }
+  .stage{
+    border-radius:14px; overflow:hidden; position:relative;
+    background:
+      linear-gradient(45deg,#F3F5FA 25%,transparent 25%,transparent 75%,#F3F5FA 75%),
+      linear-gradient(45deg,#F3F5FA 25%,#FFFFFF 25%,#FFFFFF 75%,#F3F5FA 75%);
+    background-size:24px 24px; background-position:0 0,12px 12px;
+    border:1px solid var(--line);
+  }
+  .stage svg{display:block; width:100%; height:auto;}
+  .stage .tag{
+    position:absolute; top:10px; left:10px; font-size:11px; color:var(--sub);
+    background:rgba(255,255,255,.85); border:1px solid var(--line);
+    padding:3px 8px; border-radius:20px;
+  }
+  .btns{display:flex; gap:8px; margin-top:14px;}
+  button{font-family:inherit; cursor:pointer;}
+  .btn{
+    flex:1; border:none; border-radius:12px; padding:12px 0; font-size:14px; font-weight:700;
+  }
+  .btn-random{background:var(--accent); color:#fff;}
+  .btn-random:hover{background:#4A4AC4;}
+  .btn-dl{background:var(--accent-soft); color:var(--accent);}
+  .btn-dl:hover{background:#E0E0F8;}
+  .hint{margin-top:10px; font-size:12px; color:var(--sub); line-height:1.5;}
+
+  /* 파츠 패널 */
+  .parts{display:flex; flex-direction:column; gap:14px;}
+  section{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px;
+  }
+  .sec-head{display:flex; align-items:center; gap:8px; margin-bottom:10px;}
+  .sec-head b{font-family:'Jua',sans-serif; font-weight:400; font-size:17px;}
+  .sec-head span{font-size:12px; color:var(--sub);}
+  .thumbs{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;}
+  .thumb{
+    flex:0 0 auto; width:86px; border:2px solid var(--line); border-radius:12px;
+    background:#FAFBFD; padding:4px 4px 2px; text-align:center; transition:border-color .12s;
+  }
+  .thumb:hover{border-color:#B9BCE8;}
+  .thumb.on{border-color:var(--accent); background:var(--accent-soft);}
+  .thumb svg{width:100%; height:auto; display:block;}
+  .thumb em{font-style:normal; font-size:11px; color:var(--sub); display:block; padding:2px 0 4px;}
+  .thumb.on em{color:var(--accent); font-weight:700;}
+
+  .swatches{display:flex; gap:8px; flex-wrap:wrap;}
+  .sw{
+    width:34px; height:34px; border-radius:50%; border:3px solid #fff;
+    outline:2px solid var(--line); transition:transform .1s;
+  }
+  .sw:hover{transform:scale(1.1);}
+  .sw.on{outline:3px solid var(--accent);}
+  .color-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .color-group{display:flex; align-items:center; gap:8px;}
+  .color-group label{font-size:13px; color:var(--sub); font-weight:600; white-space:nowrap;}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    .preview{position:static;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>캐릭터 조립소<span class="dot">.</span></h1>
+    <p>파츠 프리셋 조합 프로토타입 — 그래픽 작업 참고용</p>
+  </header>
+
+  <div class="layout">
+    <div class="preview">
+      <div class="stage">
+        <span class="tag" id="comboTag"></span>
+        <div id="mainChar"></div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-random" onclick="randomize()">🎲 랜덤 조합</button>
+        <button class="btn btn-dl" onclick="downloadPNG()">PNG 저장</button>
+        <button class="btn btn-dl" onclick="downloadSVG()">SVG 저장</button>
+      </div>
+      <p class="hint">레이어 순서: 뒷머리 → 몸통 → 얼굴 → 눈/입 → 앞머리 → 안경. 배경은 투명으로 내보내집니다.</p>
+    </div>
+
+    <div class="parts" id="partsPanel"></div>
+  </div>
+</div>
+
+<script>
+/* ================= 색상 ================= */
+const SKIN_COLORS  = ['#FFE0C2','#F5C79E','#D89A6A','#9C6B43'];
+const HAIR_COLORS  = ['#2E2620','#5A3A24','#B4652E','#E8B84B','#8B8F98','#C96FA0'];
+const CLOTH_COLORS = ['#5B5BD6','#E85D5D','#3AA675','#F2A93B','#4A4E5A','#E88BB4'];
+
+/* ================= 파츠 정의 =================
+   각 파츠는 색상값을 받아 SVG 문자열을 반환. 좌표계 400x460, 머리 중심(200,155) */
+const PARTS = {
+  face: [
+    {name:'둥근형', draw:s=>`
+      <circle cx="126" cy="158" r="13" fill="${s}"/><circle cx="274" cy="158" r="13" fill="${s}"/>
+      <circle cx="200" cy="155" r="72" fill="${s}"/>
+      <circle cx="160" cy="184" r="10" fill="#F08A8A" opacity=".35"/><circle cx="240" cy="184" r="10" fill="#F08A8A" opacity=".35"/>`},
+    {name:'계란형', draw:s=>`
+      <circle cx="140" cy="158" r="12" fill="${s}"/><circle cx="260" cy="158" r="12" fill="${s}"/>
+      <ellipse cx="200" cy="158" rx="63" ry="76" fill="${s}"/>
+      <circle cx="164" cy="188" r="9" fill="#F08A8A" opacity=".35"/><circle cx="236" cy="188" r="9" fill="#F08A8A" opacity=".35"/>`},
+    {name:'각진형', draw:s=>`
+      <circle cx="128" cy="158" r="12" fill="${s}"/><circle cx="272" cy="158" r="12" fill="${s}"/>
+      <rect x="132" y="88" width="136" height="138" rx="30" fill="${s}"/>
+      <circle cx="160" cy="186" r="10" fill="#F08A8A" opacity=".35"/><circle cx="240" cy="186" r="10" fill="#F08A8A" opacity=".35"/>`},
+    {name:'하트형', draw:s=>`
+      <circle cx="132" cy="150" r="12" fill="${s}"/><circle cx="268" cy="150" r="12" fill="${s}"/>
+      <path d="M200 232 Q146 204 137 142 Q132 92 200 88 Q268 92 263 142 Q254 204 200 232 Z" fill="${s}"/>
+      <circle cx="162" cy="182" r="9" fill="#F08A8A" opacity=".35"/><circle cx="238" cy="182" r="9" fill="#F08A8A" opacity=".35"/>`},
+  ],
+
+  eyes: [
+    {name:'동글눈', draw:()=>`
+      <circle cx="172" cy="157" r="8" fill="#262A33"/><circle cx="228" cy="157" r="8" fill="#262A33"/>
+      <circle cx="175" cy="154" r="2.6" fill="#fff"/><circle cx="231" cy="154" r="2.6" fill="#fff"/>`},
+    {name:'아몬드', draw:()=>`
+      <ellipse cx="172" cy="157" rx="9.5" ry="6" fill="#262A33"/><ellipse cx="228" cy="157" rx="9.5" ry="6" fill="#262A33"/>
+      <circle cx="175" cy="155" r="2" fill="#fff"/><circle cx="231" cy="155" r="2" fill="#fff"/>`},
+    {name:'졸린눈', draw:()=>`
+      <path d="M161 155 Q172 165 183 155" stroke="#262A33" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M217 155 Q228 165 239 155" stroke="#262A33" stroke-width="5" fill="none" stroke-linecap="round"/>`},
+    {name:'반짝눈', draw:()=>`
+      <path d="M172 146 L175 154 L183 157 L175 160 L172 168 L169 160 L161 157 L169 154 Z" fill="#262A33"/>
+      <path d="M228 146 L231 154 L239 157 L231 160 L228 168 L225 160 L217 157 L225 154 Z" fill="#262A33"/>`},
+    {name:'윙크', draw:()=>`
+      <path d="M161 157 Q172 150 183 157" stroke="#262A33" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="228" cy="157" r="8" fill="#262A33"/><circle cx="231" cy="154" r="2.6" fill="#fff"/>`},
+  ],
+
+  mouth: [
+    {name:'미소', draw:()=>`<path d="M186 190 Q200 202 214 190" stroke="#B0492F" stroke-width="5" fill="none" stroke-linecap="round"/>`},
+    {name:'활짝', draw:()=>`<path d="M182 188 Q200 214 218 188 Z" fill="#B03A48"/><path d="M188 189 Q200 197 212 189 Z" fill="#fff"/>`},
+    {name:'무표정', draw:()=>`<path d="M189 193 L211 193" stroke="#B0492F" stroke-width="5" stroke-linecap="round"/>`},
+    {name:'냥냥입', draw:()=>`<path d="M186 190 Q193 198 200 190 Q207 198 214 190" stroke="#B0492F" stroke-width="4.5" fill="none" stroke-linecap="round"/>`},
+  ],
+
+  /* hair: back(얼굴 뒤 레이어) + front(얼굴 앞 레이어) */
+  hair: [
+    {name:'짧은머리', back:()=>``, front:h=>`
+      <path d="M127 150 A73 73 0 0 1 273 150 L263 150 Q252 116 226 128 Q200 138 174 128 Q148 116 137 150 Z" fill="${h}"/>`},
+    {name:'단발', back:h=>`
+      <path d="M122 150 A78 78 0 0 1 278 150 L278 216 Q278 232 262 232 L246 232 L246 150 L154 150 L154 232 L138 232 Q122 232 122 216 Z" fill="${h}"/>`,
+      front:h=>`<path d="M127 152 A73 73 0 0 1 273 152 L258 152 Q248 114 222 126 Q200 136 178 126 Q152 114 142 152 Z" fill="${h}"/>`},
+    {name:'긴머리', back:h=>`
+      <path d="M118 152 A82 82 0 0 1 282 152 L282 296 Q282 318 258 318 L142 318 Q118 318 118 296 Z" fill="${h}"/>`,
+      front:h=>`<path d="M127 152 A73 73 0 0 1 273 152 L260 152 Q250 112 220 126 Q200 134 180 126 Q150 112 140 152 Z" fill="${h}"/>`},
+    {name:'삐죽머리', back:()=>``, front:h=>`
+      <path d="M128 152 L140 104 L154 128 L170 90 L186 118 L200 82 L214 118 L230 90 L246 128 L260 104 L272 152 L256 150 Q228 122 200 128 Q172 122 144 150 Z" fill="${h}"/>`},
+    {name:'똥머리', back:()=>``, front:h=>`
+      <circle cx="200" cy="76" r="24" fill="${h}"/>
+      <path d="M128 152 A73 73 0 0 1 272 152 L258 152 Q246 114 222 126 Q200 134 178 126 Q154 114 142 152 Z" fill="${h}"/>`},
+  ],
+
+  body: [
+    {name:'반팔티', draw:(s,c)=>`
+      <rect x="186" y="196" width="28" height="48" rx="10" fill="${s}"/>
+      <rect x="118" y="292" width="26" height="66" rx="13" fill="${s}"/><rect x="256" y="292" width="26" height="66" rx="13" fill="${s}"/>
+      <rect x="108" y="242" width="46" height="60" rx="20" fill="${c}"/><rect x="246" y="242" width="46" height="60" rx="20" fill="${c}"/>
+      <rect x="142" y="234" width="116" height="150" rx="28" fill="${c}"/>
+      <path d="M178 236 Q200 252 222 236" stroke="rgba(0,0,0,.18)" stroke-width="5" fill="none" stroke-linecap="round"/>`},
+    {name:'후드티', draw:(s,c)=>`
+      <rect x="186" y="196" width="28" height="48" rx="10" fill="${s}"/>
+      <circle cx="131" cy="354" r="14" fill="${s}"/><circle cx="269" cy="354" r="14" fill="${s}"/>
+      <rect x="108" y="242" width="46" height="108" rx="20" fill="${c}"/><rect x="246" y="242" width="46" height="108" rx="20" fill="${c}"/>
+      <rect x="142" y="234" width="116" height="150" rx="28" fill="${c}"/>
+      <ellipse cx="200" cy="242" rx="56" ry="20" fill="rgba(0,0,0,.18)"/>
+      <rect x="168" y="322" width="64" height="44" rx="14" fill="rgba(0,0,0,.14)"/>
+      <line x1="188" y1="254" x2="188" y2="282" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+      <line x1="212" y1="254" x2="212" y2="282" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>`},
+    {name:'정장', draw:(s,c)=>`
+      <rect x="186" y="196" width="28" height="48" rx="10" fill="${s}"/>
+      <circle cx="131" cy="354" r="14" fill="${s}"/><circle cx="269" cy="354" r="14" fill="${s}"/>
+      <rect x="108" y="242" width="46" height="108" rx="20" fill="${c}"/><rect x="246" y="242" width="46" height="108" rx="20" fill="${c}"/>
+      <rect x="156" y="234" width="88" height="150" rx="18" fill="#FDFDFB"/>
+      <path d="M200 262 L191 275 L200 332 L209 275 Z" fill="#C43F55"/>
+      <path d="M142 234 L182 234 L200 264 L178 384 L142 384 Q142 300 142 234 Z" fill="${c}"/>
+      <path d="M258 234 L218 234 L200 264 L222 384 L258 384 Q258 300 258 234 Z" fill="${c}"/>`},
+    {name:'멜빵바지', draw:(s,c)=>`
+      <rect x="186" y="196" width="28" height="48" rx="10" fill="${s}"/>
+      <rect x="118" y="292" width="26" height="66" rx="13" fill="${s}"/><rect x="256" y="292" width="26" height="66" rx="13" fill="${s}"/>
+      <rect x="108" y="242" width="46" height="60" rx="20" fill="#F5EFE2"/><rect x="246" y="242" width="46" height="60" rx="20" fill="#F5EFE2"/>
+      <rect x="142" y="234" width="116" height="150" rx="28" fill="#F5EFE2"/>
+      <line x1="170" y1="242" x2="176" y2="294" stroke="${c}" stroke-width="12" stroke-linecap="round"/>
+      <line x1="230" y1="242" x2="224" y2="294" stroke="${c}" stroke-width="12" stroke-linecap="round"/>
+      <path d="M164 288 L236 288 L236 384 L164 384 Z" fill="${c}"/>
+      <path d="M142 344 L258 344 L258 384 L142 384 Z" fill="${c}"/>
+      <circle cx="176" cy="298" r="5" fill="#FFD84D"/><circle cx="224" cy="298" r="5" fill="#FFD84D"/>`},
+  ],
+
+  glasses: [
+    {name:'없음', draw:()=>``},
+    {name:'동글안경', draw:()=>`
+      <circle cx="172" cy="157" r="17" stroke="#262A33" stroke-width="3.5" fill="rgba(255,255,255,.15)"/>
+      <circle cx="228" cy="157" r="17" stroke="#262A33" stroke-width="3.5" fill="rgba(255,255,255,.15)"/>
+      <line x1="189" y1="153" x2="211" y2="153" stroke="#262A33" stroke-width="3.5"/>
+      <line x1="155" y1="152" x2="130" y2="148" stroke="#262A33" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="245" y1="152" x2="270" y2="148" stroke="#262A33" stroke-width="3.5" stroke-linecap="round"/>`},
+    {name:'사각안경', draw:()=>`
+      <rect x="154" y="144" width="36" height="26" rx="5" stroke="#262A33" stroke-width="3.5" fill="rgba(255,255,255,.15)"/>
+      <rect x="210" y="144" width="36" height="26" rx="5" stroke="#262A33" stroke-width="3.5" fill="rgba(255,255,255,.15)"/>
+      <line x1="190" y1="152" x2="210" y2="152" stroke="#262A33" stroke-width="3.5"/>
+      <line x1="154" y1="150" x2="132" y2="147" stroke="#262A33" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="246" y1="150" x2="268" y2="147" stroke="#262A33" stroke-width="3.5" stroke-linecap="round"/>`},
+    {name:'선글라스', draw:()=>`
+      <rect x="152" y="143" width="40" height="28" rx="8" fill="#23262E"/>
+      <rect x="208" y="143" width="40" height="28" rx="8" fill="#23262E"/>
+      <line x1="192" y1="150" x2="208" y2="150" stroke="#23262E" stroke-width="4"/>
+      <line x1="152" y1="149" x2="130" y2="146" stroke="#23262E" stroke-width="4" stroke-linecap="round"/>
+      <line x1="248" y1="149" x2="270" y2="146" stroke="#23262E" stroke-width="4" stroke-linecap="round"/>
+      <line x1="160" y1="150" x2="170" y2="164" stroke="#fff" stroke-width="3" opacity=".35" stroke-linecap="round"/>`},
+  ],
+};
+
+const CATEGORIES = [
+  {key:'face',    label:'얼굴형',   note:'피부색 적용'},
+  {key:'eyes',    label:'눈',       note:''},
+  {key:'mouth',   label:'입',       note:''},
+  {key:'hair',    label:'헤어',     note:'머리색 적용'},
+  {key:'body',    label:'몸통 · 옷', note:'팔/옷 포함, 옷 색 적용'},
+  {key:'glasses', label:'안경',     note:''},
+];
+
+/* ================= 상태 ================= */
+const state = {
+  face:0, eyes:0, mouth:0, hair:0, body:0, glasses:0,
+  skin:SKIN_COLORS[0], hairColor:HAIR_COLORS[0], clothColor:CLOTH_COLORS[0],
+};
+
+/* ================= 렌더 ================= */
+function charInner(st){
+  const hair = PARTS.hair[st.hair];
+  return [
+    hair.back(st.hairColor),
+    PARTS.body[st.body].draw(st.skin, st.clothColor),
+    PARTS.face[st.face].draw(st.skin),
+    PARTS.eyes[st.eyes].draw(),
+    PARTS.mouth[st.mouth].draw(),
+    hair.front(st.hairColor),
+    PARTS.glasses[st.glasses].draw(),
+  ].join('');
+}
+function charSVG(st, w){
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460"${w?` width="${w}"`:''}>${charInner(st)}</svg>`;
+}
+
+function renderMain(){
+  document.getElementById('mainChar').innerHTML = charSVG(state);
+  document.getElementById('comboTag').textContent =
+    CATEGORIES.map(c=>PARTS[c.key][state[c.key]].name).join(' · ');
+}
+
+function buildPanel(){
+  const panel = document.getElementById('partsPanel');
+  let html = '';
+  for(const cat of CATEGORIES){
+    html += `<section>
+      <div class="sec-head"><b>${cat.label}</b><span>${cat.note}</span></div>
+      <div class="thumbs" id="thumbs-${cat.key}"></div>
+    </section>`;
+  }
+  html += `<section>
+    <div class="sec-head"><b>색상</b><span>피부 · 머리 · 옷</span></div>
+    <div class="color-row">
+      <div class="color-group"><label>피부</label><div class="swatches" id="sw-skin"></div></div>
+      <div class="color-group"><label>머리</label><div class="swatches" id="sw-hairColor"></div></div>
+      <div class="color-group"><label>옷</label><div class="swatches" id="sw-clothColor"></div></div>
+    </div>
+  </section>`;
+  panel.innerHTML = html;
+}
+
+function renderThumbs(){
+  for(const cat of CATEGORIES){
+    const box = document.getElementById('thumbs-'+cat.key);
+    box.innerHTML = PARTS[cat.key].map((p,i)=>{
+      const st = {...state, [cat.key]:i};
+      return `<button class="thumb${state[cat.key]===i?' on':''}" onclick="pick('${cat.key}',${i})">
+        ${charSVG(st)}<em>${p.name}</em></button>`;
+    }).join('');
+  }
+  renderSwatches('sw-skin','skin',SKIN_COLORS);
+  renderSwatches('sw-hairColor','hairColor',HAIR_COLORS);
+  renderSwatches('sw-clothColor','clothColor',CLOTH_COLORS);
+}
+function renderSwatches(id,key,colors){
+  document.getElementById(id).innerHTML = colors.map(c=>
+    `<button class="sw${state[key]===c?' on':''}" style="background:${c}" onclick="pickColor('${key}','${c}')" title="${c}"></button>`
+  ).join('');
+}
+
+function pick(key,i){ state[key]=i; refresh(); }
+function pickColor(key,c){ state[key]=c; refresh(); }
+function refresh(){ renderMain(); renderThumbs(); }
+
+function randomize(){
+  for(const cat of CATEGORIES) state[cat.key] = Math.floor(Math.random()*PARTS[cat.key].length);
+  state.skin = SKIN_COLORS[Math.floor(Math.random()*SKIN_COLORS.length)];
+  state.hairColor = HAIR_COLORS[Math.floor(Math.random()*HAIR_COLORS.length)];
+  state.clothColor = CLOTH_COLORS[Math.floor(Math.random()*CLOTH_COLORS.length)];
+  refresh();
+}
+
+/* ================= 내보내기 ================= */
+function downloadSVG(){
+  const blob = new Blob([charSVG(state)], {type:'image/svg+xml'});
+  triggerDL(URL.createObjectURL(blob), 'character.svg');
+}
+function downloadPNG(){
+  const svg = charSVG(state);
+  const img = new Image();
+  img.onload = ()=>{
+    const cv = document.createElement('canvas');
+    cv.width = 800; cv.height = 920;
+    cv.getContext('2d').drawImage(img, 0, 0, 800, 920);
+    triggerDL(cv.toDataURL('image/png'), 'character.png');
+  };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+function triggerDL(url, name){
+  const a = document.createElement('a');
+  a.href = url; a.download = name; a.click();
+}
+
+buildPanel(); refresh();
+</script>
+</body>
+</html>

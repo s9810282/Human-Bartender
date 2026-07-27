@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project L.U.N.A · 새 제조 시스템 흐름</title>
+<style>
+  :root{
+    --ink:#0d0f14; --ink2:#141821; --ink3:#1b2029; --panel:#1e2530;
+    --line:#2a323f; --line2:#37424f;
+    --text:#e8e6df; --muted:#9aa3b0; --faint:#6b7280;
+    --amber:#e8a93c; --amber-d:#b07d20;
+    --teal:#39c2b0; --teal-d:#1f7d72;
+    --rose:#e0556b; --green:#56c07a; --violet:#9b7cff;
+    --mono:"SF Mono",ui-monospace,"Cascadia Code",Consolas,monospace;
+    --disp:"Pretendard","Noto Sans KR",system-ui,sans-serif;
+    --body:"Pretendard","Noto Sans KR",system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--text); font-family:var(--body);
+    line-height:1.6; font-size:16px; overflow-x:hidden;
+    background-image:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,169,60,.08), transparent 60%);
+  }
+  .hero{max-width:1000px; margin:0 auto; padding:64px 24px 32px; text-align:center}
+  .hero .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--teal); margin-bottom:18px}
+  .hero h1{font-family:var(--disp); font-weight:800; font-size:clamp(28px,4.6vw,46px); letter-spacing:-.02em; line-height:1.14; margin-bottom:16px}
+  .hero h1 .neon{color:var(--amber); text-shadow:0 0 24px rgba(232,169,60,.45)}
+  .hero p{color:var(--muted); font-size:16.5px; max-width:640px; margin:0 auto}
+
+  section{max-width:1000px; margin:0 auto; padding:36px 24px}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px}
+  .sec-num{font-family:var(--mono); font-size:13px; color:var(--amber); font-weight:600}
+  .sec-head h2{font-family:var(--disp); font-size:25px; font-weight:700; letter-spacing:-.01em}
+  .sec-sub{color:var(--muted); margin-bottom:26px; font-size:15px; max-width:740px}
+  .divider{height:1px; background:var(--line); max-width:1000px; margin:0 auto}
+
+  /* 흐름 파이프 */
+  .pipe{display:flex; flex-wrap:wrap; gap:8px; align-items:stretch}
+  .pstep{flex:1; min-width:120px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:13px 14px; position:relative}
+  .pstep .pn{font-family:var(--mono); font-size:10.5px; color:var(--amber); font-weight:600; letter-spacing:.04em}
+  .pstep h4{font-size:14px; margin:3px 0 4px}
+  .pstep p{font-size:12px; color:var(--muted); line-height:1.45}
+  .pstep .opt{font-family:var(--mono); font-size:9.5px; color:var(--faint); margin-top:5px}
+  .pstep.dyn{border-color:var(--teal-d)}
+  .pstep.gate{border-color:var(--amber-d)}
+
+  /* 시뮬레이터 */
+  .sim{background:linear-gradient(180deg,var(--ink2),var(--ink3)); border:1px solid var(--line2); border-radius:18px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .sim h3{font-size:13px; font-family:var(--mono); letter-spacing:.05em; color:var(--teal); margin-bottom:14px; text-transform:uppercase}
+  .sim-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px}
+  @media(max-width:860px){.sim-grid{grid-template-columns:1fr}}
+
+  /* 칵테일 선택 */
+  .cocktails{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:20px}
+  .ck{background:var(--ink); border:1px solid var(--line2); color:var(--muted); padding:8px 13px; border-radius:9px; font-size:13.5px; cursor:pointer; transition:.12s; font-weight:600}
+  .ck:hover{border-color:var(--amber-d); color:var(--text)}
+  .ck.on{background:var(--amber); border-color:var(--amber); color:#1a1206}
+
+  .recipe-card{background:var(--ink); border:1px solid var(--line); border-radius:10px; padding:13px 15px; margin-bottom:18px; font-size:13px}
+  .recipe-card .rl{display:flex; gap:8px; margin-bottom:5px; align-items:baseline}
+  .recipe-card .rl:last-child{margin-bottom:0}
+  .recipe-card .rk{font-family:var(--mono); font-size:11px; color:var(--faint); min-width:74px}
+  .recipe-card .rv{color:var(--text); font-size:13px}
+  .recipe-card .rv .pill{display:inline-block; font-family:var(--mono); font-size:11px; padding:1px 7px; border-radius:5px; background:var(--ink3); border:1px solid var(--line2); margin:1px 3px 1px 0}
+
+  /* 미니게임 큐 */
+  .queue{display:flex; flex-direction:column; gap:10px}
+  .mg{background:var(--ink); border:1px solid var(--line2); border-radius:10px; padding:12px 14px; opacity:1; transition:.15s}
+  .mg.off{opacity:.32; filter:grayscale(.7)}
+  .mg .mgtop{display:flex; align-items:center; gap:9px; margin-bottom:9px}
+  .mg .ico{width:24px; height:24px; border-radius:6px; background:var(--ink3); display:flex; align-items:center; justify-content:center; font-size:13px}
+  .mg .mgname{font-size:13.5px; font-weight:600}
+  .mg .mgname small{display:block; font-family:var(--mono); font-size:10px; color:var(--faint); font-weight:400}
+  .mg .fixed-tag{margin-left:auto; font-family:var(--mono); font-size:9.5px; color:var(--amber); border:1px solid var(--amber-d); padding:1px 6px; border-radius:4px}
+  .seg{display:flex; gap:5px}
+  .seg button{flex:1; background:var(--ink3); border:1px solid var(--line2); color:var(--muted); padding:6px 4px; border-radius:6px; font-family:var(--body); font-size:11.5px; cursor:pointer; transition:.1s; font-weight:600}
+  .seg button:hover{border-color:var(--teal-d); color:var(--text)}
+  .seg button.on{background:var(--teal); border-color:var(--teal); color:#06201d}
+  .seg.amber button.on{background:var(--amber); border-color:var(--amber); color:#1a1206}
+  .seg.rose button.on{background:var(--rose); border-color:var(--rose); color:#2a0810}
+
+  /* 결과 */
+  .result{background:var(--ink); border:1px solid var(--line2); border-radius:14px; overflow:hidden; position:sticky; top:18px}
+  .gauge{padding:18px; border-bottom:1px solid var(--line); text-align:center}
+  .grade{font-family:var(--disp); font-size:42px; font-weight:800; letter-spacing:-.02em; line-height:1}
+  .grade.perfect{color:var(--teal)} .grade.good{color:var(--green)} .grade.normal{color:var(--amber)}
+  .grade.bad{color:var(--rose)} .grade.fail{color:var(--rose)} .grade.miss{color:#c0506a}
+  .gsub{font-family:var(--mono); font-size:11px; color:var(--faint); margin-top:7px}
+  .avgbar{height:7px; background:var(--ink3); border-radius:4px; margin:12px 0 0; overflow:hidden}
+  .avgbar>span{display:block; height:100%; background:linear-gradient(90deg,var(--rose),var(--amber),var(--teal)); transition:width .25s}
+  .rtop{padding:11px 16px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:9px; background:var(--panel)}
+  .ava{width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--violet),var(--teal)); display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:13px}
+  .who{font-weight:700; font-size:13.5px} .who small{display:block; color:var(--faint); font-family:var(--mono); font-size:10px; font-weight:400}
+  .rbody{padding:16px; min-height:78px; display:flex; align-items:center}
+  .line{font-size:15.5px; line-height:1.5}
+  .rmeta{display:flex; gap:6px; flex-wrap:wrap; padding:0 16px 14px}
+  .chip{font-family:var(--mono); font-size:10.5px; padding:3px 8px; border-radius:18px; border:1px solid var(--line2); color:var(--muted)}
+  .chip.gate{border-color:#a33; color:#e08}
+  .chip.via{border-color:var(--violet); color:var(--violet)}
+  .resolved{font-family:var(--mono); font-size:10.5px; color:var(--faint); padding:0 16px 16px; line-height:1.6}
+  .resolved b{color:var(--teal)}
+
+  .aff-ctrl{margin-top:16px; background:var(--ink); border:1px solid var(--line); border-radius:10px; padding:12px 14px}
+  .aff-ctrl label{font-size:12px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:7px; font-weight:600}
+  .aff-ctrl .av{font-family:var(--mono); color:var(--teal); font-weight:700}
+  input[type=range]{width:100%; accent-color:var(--teal); height:5px}
+
+  .gains{margin-top:24px; border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  table{width:100%; border-collapse:collapse; font-size:13.5px}
+  th,td{padding:11px 15px; text-align:left; border-bottom:1px solid var(--line)}
+  th{background:var(--panel); font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--muted); text-transform:uppercase; font-weight:600}
+  td:first-child{font-weight:600} tr:last-child td{border-bottom:none}
+  .note{font-size:12.5px; color:var(--faint); margin-top:13px; font-style:italic}
+  footer{max-width:1000px; margin:30px auto 0; padding:36px 24px 70px; text-align:center; color:var(--faint); font-size:13px; border-top:1px solid var(--line)}
+  footer .q{font-style:italic; color:var(--muted); font-size:15px; margin-bottom:9px}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow">Project L.U.N.A · 새 제조 시스템</div>
+    <h1>고른 재료가 <span class="neon">미니게임을 만든다</span></h1>
+    <p>바 오아시스식으로, 플레이어의 선택이 제조 흐름을 동적으로 짭니다. 칵테일을 고르고 각 미니게임을 조절하면 — 점수가 평균으로 합쳐지고, 손님 반응까지 어떻게 나오는지 직접 확인하세요.</p>
+  </header>
+
+  <!-- 1. 흐름 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>새 제조 흐름</h2></div>
+    <p class="sec-sub">고정 순서가 아니라, 레시피와 선택에 따라 가운데 미니게임 구간이 동적으로 짜입니다. <span style="color:var(--teal)">청록 테두리</span>=재료에 따라 생김 / <span style="color:var(--amber)">호박 테두리</span>=칵테일 고정·게이트.</p>
+    <div class="pipe">
+      <div class="pstep"><div class="pn">STEP 1</div><h4>칵테일 선택</h4><p>레시피 확인 후 만들 술 결정</p></div>
+      <div class="pstep"><div class="pn">STEP 2</div><h4>잔 선택</h4><p>레시피의 정답 잔과 비교</p><div class="opt">축: glass</div></div>
+      <div class="pstep dyn"><div class="pn">STEP 3</div><h4>림 (선택)</h4><p>소금·설탕 묻히기</p><div class="opt">재료 선택 시</div></div>
+      <div class="pstep dyn"><div class="pn">STEP 4</div><h4>따르기 · 얼음</h4><p>담는 재료마다 미니게임</p><div class="opt">축: pour · ice</div></div>
+      <div class="pstep gate"><div class="pn">STEP 5</div><h4>제조 방식</h4><p>칵테일 고정 (쉐이킹/스터/플로팅/없음)</p><div class="opt">축: craft</div></div>
+      <div class="pstep dyn"><div class="pn">STEP 6</div><h4>가니쉬</h4><p>과일 종류 일치가 핵심</p><div class="opt">축: garnish</div></div>
+      <div class="pstep gate"><div class="pn">판정</div><h4>평균 합산 → 반응</h4><p>주문일치 게이트 + 점수 평균</p><div class="opt">→ Perfect~Bad</div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 2. 시뮬레이터 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>직접 만들어보기</h2></div>
+    <p class="sec-sub">칵테일을 고르면 그 레시피에 맞는 미니게임만 켜집니다. 각 미니게임 점수와 주문 일치·호감도를 조절해 결과가 어떻게 바뀌는지 보세요. (손님: 포트)</p>
+
+    <div class="sim">
+      <div class="cocktails" id="cocktails"></div>
+      <div class="recipe-card" id="recipe"></div>
+
+      <div class="sim-grid">
+        <div>
+          <h3>미니게임 — 레시피가 정한 것만 활성</h3>
+          <div class="queue" id="queue"></div>
+        </div>
+        <div>
+          <h3>결과</h3>
+          <div class="result">
+            <div class="gauge">
+              <div class="grade" id="grade">—</div>
+              <div class="gsub" id="gsub"></div>
+              <div class="avgbar"><span id="avgbar" style="width:0%"></span></div>
+            </div>
+            <div class="rtop"><div class="ava">P</div><div class="who">포트 <small id="expr">expression: default</small></div></div>
+            <div class="rbody"><div class="line" id="line">—</div></div>
+            <div class="rmeta" id="meta"></div>
+            <div class="resolved" id="resolved"></div>
+          </div>
+          <div class="aff-ctrl">
+            <label>포트 호감도 <span class="av" id="affv">65</span></label>
+            <input type="range" id="aff" min="0" max="100" value="65">
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">※ 대사는 구조 설명용 예시. 실제 대사는 캐릭터 프리셋에서 작가가 작성합니다. 핵심은 "켜진 미니게임 점수만 평균 → 등급, 실패한 축이 반응을 부른다"는 흐름.</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 3. 판정 구조 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>판정이 정리되는 방식</h2></div>
+    <p class="sec-sub">두 층으로 나뉩니다. 게이트를 먼저 통과해야 점수 평균이 의미를 가집니다.</p>
+    <div class="gains">
+      <table>
+        <thead><tr><th>층</th><th>무엇</th><th>처리</th></tr></thead>
+        <tbody>
+          <tr><td>① 게이트</td><td>order_match · 주문한 술인가</td><td class="" style="color:#e08;font-family:var(--mono);font-size:12.5px">다르면 즉시 miss — 미니게임 무시</td></tr>
+          <tr><td>② 평균</td><td>glass·rim·pour·ice·craft·garnish</td><td style="color:var(--teal);font-family:var(--mono);font-size:12.5px">켜진 것만 평균 → Perfect~Bad</td></tr>
+          <tr><td>③ 보정</td><td>tier · 손님 취향</td><td style="color:var(--amber);font-family:var(--mono);font-size:12.5px">호감·팁 가감 (전역 표)</td></tr>
+          <tr><td>④ 반응</td><td>각 미니게임 성공 여부</td><td style="color:var(--violet);font-family:var(--mono);font-size:12.5px">종합 기본 + 실패 축 override</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">가니쉬는 과일 종류만 맞으면 가산점 — 모양·프리셋은 평균에 약하게 반영. 제조 방식은 칵테일 고정이라 "안 해도 되는 술(잭콕)"은 craft 축이 아예 빠진다.</p>
+  </section>
+
+  <footer>
+    <div class="q">"고른 재료가 흐름을 만들고, 망친 축이 손님의 말을 만든다."</div>
+    Project L.U.N.A · 심연의 청강단 · 새 칵테일 제조 시스템 미리보기
+  </footer>
+
+<script>
+  // ── 칵테일 레시피 데이터 (우리 6종 + 잭콕 예시) ──
+  // method: shake/stir/float/none, glass, rim(없으면 null), pour(술 수), ice(bool), garnish(과일/없으면 null)
+  const COCKTAILS = {
+    gin_fizz:    {name:"진피즈",      method:"shake", glass:"하이볼",  rim:null,   pour:2, ice:true,  garnish:"레몬", tier:"good"},
+    dry_martini: {name:"드라이 마티니", method:"stir",  glass:"마티니",  rim:null,   pour:2, ice:true,  garnish:"올리브", tier:"love"},
+    margarita:   {name:"마르가리타",   method:"shake", glass:"쿠페",    rim:"소금", pour:3, ice:true,  garnish:"라임", tier:"good"},
+    jack_coke:   {name:"잭콕",        method:"none",  glass:"하이볼",  rim:null,   pour:2, ice:true,  garnish:null,  tier:"ok"},
+    kahlua_milk: {name:"깔루아 밀크",  method:"none",  glass:"온더락",  rim:null,   pour:2, ice:true,  garnish:null,  tier:"dislike"},
+    godfather:   {name:"갓파더",      method:"stir",  glass:"온더락",  rim:null,   pour:2, ice:true,  garnish:null,  tier:"good"},
+  };
+  const METHOD_KO = {shake:"쉐이킹", stir:"스터", float:"플로팅", none:"제조 없음"};
+  const METHOD_ICO = {shake:"🍸", stir:"🥄", float:"🪶", none:"—"};
+
+  // ── 포트 반응 프리셋 (예시) ──
+  const PORT = {
+    // 종합 등급 기본 반응
+    grade: {
+      perfect:{low:"…뭐, 제법이군.", high:"오, 완벽한데. 솜씨가 늘었어.", expr:"joy", aff:+4},
+      good:   {low:"그럭저럭이야.", high:"음, 괜찮네. 고맙군.", expr:"default", aff:+2},
+      normal: {low:"이걸 마시라고?", high:"나쁘진 않은데, 좀 아쉽네.", expr:"default", aff:0},
+      bad:    {low:"이게 술이야? 장난해?", high:"오늘 좀 안 풀리나 보네.", expr:"anger", aff:-3},
+    },
+    // 특정 축 실패 override (눈에 띄는 것만)
+    axis: {
+      glass:   {low:"이 술을 이런 잔에 담는 놈이 어딨어.", high:"잔이 좀 안 맞는 것 같은데?", expr:"serious"},
+      craft:   {low:"섞는 것도 제대로 못 하나?", high:"좀 덜 섞였네, 다음엔 신경 써줘.", expr:"default"},
+      garnish: {low:"가니쉬가 영 엉뚱하잖아.", high:"가니쉬가 살짝 다른데, 뭐 괜찮아.", expr:"default"},
+    },
+    miss: {low:"이건 내가 시킨 게 아니잖아. 똑바로 들어.", high:"어라, 이거 내가 주문한 거 맞아?", expr:"serious", aff:-4},
+  };
+
+  const SCORE = {perfect:100, normal:60, fail:20};
+  let cur = "gin_fizz";
+  const state = { order:"ok", aff:65, mg:{} };
+
+  // 칵테일 버튼
+  const ckBox = document.getElementById('cocktails');
+  Object.entries(COCKTAILS).forEach(([id,c])=>{
+    const b=document.createElement('div'); b.className='ck'+(id===cur?' on':''); b.textContent=c.name;
+    b.onclick=()=>{ cur=id; document.querySelectorAll('.ck').forEach(x=>x.classList.remove('on')); b.classList.add('on'); initRecipe(); };
+    ckBox.appendChild(b);
+  });
+
+  const affEl=document.getElementById('aff'), affv=document.getElementById('affv');
+  affEl.oninput=()=>{ state.aff=+affEl.value; affv.textContent=state.aff; render(); };
+
+  function activeAxes(){
+    const c=COCKTAILS[cur]; const ax=[];
+    ax.push({key:"glass", name:"잔 선택", sub:`정답: ${c.glass}잔`, ico:"🥃", kind:"glass"});
+    if(c.rim) ax.push({key:"rim", name:"림 — "+c.rim, sub:"잔에 묻히기", ico:"🧂", kind:"score"});
+    ax.push({key:"pour", name:"따르기", sub:`술 ${c.pour}종`, ico:"🍶", kind:"score"});
+    if(c.ice) ax.push({key:"ice", name:"얼음 깎기", sub:"얼음 모양", ico:"🧊", kind:"score"});
+    if(c.method!=="none") ax.push({key:"craft", name:"제조 — "+METHOD_KO[c.method], sub:"칵테일 고정", ico:METHOD_ICO[c.method], kind:"score", fixed:true});
+    if(c.garnish) ax.push({key:"garnish", name:"가니쉬 — "+c.garnish, sub:"과일 종류 일치", ico:"🍋", kind:"garnish"});
+    return ax;
+  }
+
+  function initRecipe(){
+    const c=COCKTAILS[cur];
+    // 레시피 카드
+    document.getElementById('recipe').innerHTML = `
+      <div class="rl"><span class="rk">제조 방식</span><span class="rv"><span class="pill">${METHOD_KO[c.method]}${c.method==='none'?' (따르기만)':' 고정'}</span></span></div>
+      <div class="rl"><span class="rk">정답 잔</span><span class="rv"><span class="pill">${c.glass}잔</span></span></div>
+      <div class="rl"><span class="rk">구성</span><span class="rv">${[`술 ${c.pour}종`, c.ice?'얼음':null, c.rim?('림 '+c.rim):null, c.garnish?('가니쉬 '+c.garnish):null].filter(Boolean).map(x=>`<span class="pill">${x}</span>`).join('')}</span></div>
+      <div class="rl"><span class="rk">포트 취향</span><span class="rv"><span class="pill" style="border-color:var(--amber-d);color:var(--amber)">tier: ${c.tier}</span></span></div>`;
+    // 미니게임 큐 — 점수 기본 perfect
+    state.mg={}; state.order="ok";
+    const q=document.getElementById('queue'); q.innerHTML="";
+    activeAxes().forEach(ax=>{
+      if(ax.kind==="glass"){
+        state.mg.glass="ok";
+        q.appendChild(mgRow(ax, [["ok","맞는 잔"],["wrong","틀린 잔"]], "glass", "amber"));
+      } else if(ax.kind==="garnish"){
+        state.mg.garnish="ok";
+        q.appendChild(mgRow(ax, [["ok","과일 맞음"],["wrong","과일 틀림"]], "garnish", "amber"));
+      } else {
+        state.mg[ax.key]="perfect";
+        q.appendChild(mgRow(ax, [["perfect","완벽"],["normal","보통"],["fail","실패"]], ax.key, ""));
+      }
+    });
+    // 주문 일치 게이트 컨트롤
+    const gate=document.createElement('div'); gate.className='mg';
+    gate.innerHTML=`<div class="mgtop"><div class="ico">📋</div><div class="mgname">주문 일치 <small>게이트 — 손님이 시킨 술인가</small></div></div>`;
+    const seg=document.createElement('div'); seg.className='seg amber';
+    [["ok","주문대로"],["wrong","다른 술"]].forEach(([v,l])=>{
+      const btn=document.createElement('button'); btn.textContent=l; if(v==="ok")btn.classList.add('on');
+      btn.onclick=()=>{ state.order=v; seg.querySelectorAll('button').forEach(x=>x.classList.remove('on')); btn.classList.add('on'); render(); };
+      seg.appendChild(btn);
+    });
+    gate.appendChild(seg); q.appendChild(gate);
+    render();
+  }
+
+  function mgRow(ax, opts, key, segclass){
+    const row=document.createElement('div'); row.className='mg';
+    row.innerHTML=`<div class="mgtop"><div class="ico">${ax.ico}</div><div class="mgname">${ax.name}<small>${ax.sub}</small></div>${ax.fixed?'<span class="fixed-tag">FIXED</span>':''}</div>`;
+    const seg=document.createElement('div'); seg.className='seg '+segclass;
+    opts.forEach(([v,l])=>{
+      const btn=document.createElement('button'); btn.textContent=l; if(state.mg[key]===v)btn.classList.add('on');
+      btn.onclick=()=>{ state.mg[key]=v; seg.querySelectorAll('button').forEach(x=>x.classList.remove('on')); btn.classList.add('on'); render(); };
+      seg.appendChild(btn);
+    });
+    row.appendChild(seg); return row;
+  }
+
+  function render(){
+    const high = state.aff>=50, tone=high?'high':'low';
+    const meta=document.getElementById('meta'); meta.innerHTML="";
+
+    // 게이트
+    if(state.order==="wrong"){
+      const r=PORT.miss;
+      paint("MISS","miss", null, r[tone], r.expr, high?-2:r.aff, "");
+      meta.innerHTML=`<span class="chip gate">게이트 실패: 주문 불일치</span><span class="chip">${high?'호감 높음':'호감 낮음'}</span>`;
+      document.getElementById('resolved').innerHTML="▸ order_match=<b>wrong</b> → 미니게임 점수 무시하고 즉시 miss 반응";
+      return;
+    }
+
+    // 평균 점수 계산 (켜진 score/garnish/glass 축)
+    let sum=0,n=0; const failedAxes=[];
+    for(const k in state.mg){
+      const v=state.mg[k];
+      if(k==="glass"){ const s=v==="ok"?100:30; sum+=s; n++; if(v==="wrong")failedAxes.push("glass"); }
+      else if(k==="garnish"){ const s=v==="ok"?100:55; sum+=s; n++; if(v==="wrong")failedAxes.push("garnish"); } // 가니쉬는 틀려도 덜 깎임(가산점 성격)
+      else { sum+=SCORE[v]; n++; if(v==="fail")failedAxes.push(k); }
+    }
+    const avg=Math.round(sum/n);
+    let grade = avg>=90?"perfect": avg>=70?"good": avg>=50?"normal":"bad";
+
+    // 반응: 단일 실패 축이 있으면 override, 아니면 종합 등급
+    let r, via;
+    const overridable = failedAxes.filter(a=>PORT.axis[a]);
+    if(overridable.length===1){
+      r=PORT.axis[overridable[0]]; via=`axis override: ${overridable[0]}`;
+    } else {
+      r=PORT.grade[grade]; via=`종합 등급: ${grade}`;
+    }
+    // 호감 보정 (tier)
+    const tierAff = {love:+2, good:+1, ok:0, dislike:-1}[COCKTAILS[cur].tier]||0;
+    const baseAff = (PORT.grade[grade].aff||0) + tierAff;
+
+    paint(grade.toUpperCase(), grade, avg, r[tone], r.expr, baseAff, via);
+    meta.innerHTML =
+      `<span class="chip">평균 ${avg}점</span>`+
+      `<span class="chip via">${via}</span>`+
+      `<span class="chip" style="border-color:var(--amber-d);color:var(--amber)">tier ${COCKTAILS[cur].tier}</span>`+
+      `<span class="chip">${high?'호감 높음(부드럽게)':'호감 낮음(날카롭게)'}</span>`;
+    const list = failedAxes.length? `실패 축: <b>${failedAxes.join(", ")}</b>` : "실패 축 없음";
+    document.getElementById('resolved').innerHTML =
+      `▸ 켜진 미니게임 ${n}개 평균 = <b>${avg}점</b> → ${grade} · ${list}<br>▸ 반응 경로: ${via}`;
+  }
+
+  function paint(gradeText, gradeClass, avg, line, expr, aff, via){
+    const g=document.getElementById('grade'); g.textContent=gradeText; g.className="grade "+gradeClass;
+    document.getElementById('gsub').textContent = avg!==null? `평균 ${avg}점` : "주문 불일치";
+    document.getElementById('avgbar').style.width = (avg!==null?avg:0)+"%";
+    document.getElementById('line').textContent = line||"—";
+    document.getElementById('expr').textContent = "expression: "+(expr||"default");
+  }
+
+  initRecipe();
+</script>
+</body>
+</html>
