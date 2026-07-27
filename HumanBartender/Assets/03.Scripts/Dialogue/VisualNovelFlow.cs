@@ -5,9 +5,10 @@ using VContainer;
 
 /// <summary>
 /// 하루(Day) 단위 데이터에 포함된 여러 씬(Scene)을 순서대로 DialogueRunner에 넘겨 재생하는 진입점.
-/// Play(Bar) 씬 진입 시 자동으로 시작되며, DialogueManager(레거시)의 InitSystem을 대체한다.
+/// Play 씬의 2부(Dialogue) 국면을 담당하며, PlayPhaseController가 1부(Tycoon) 종료 후 호출한다.
+/// DialogueManager(레거시)의 InitSystem을 대체한다.
 /// </summary>
-public class VisualNovelFlow : MonoBehaviour
+public class VisualNovelFlow : MonoBehaviour, IPlayPhaseFlow
 {
     [SerializeField] DayDataSO dayData;
     [SerializeField] DialogueRunner runner;
@@ -15,10 +16,7 @@ public class VisualNovelFlow : MonoBehaviour
 
     [Inject] ISoundManager soundManager;
 
-    private void Start()
-    {
-        PlayDayAsync().Forget();
-    }
+    public UniTask RunAsync() => PlayDayAsync();
 
     /// <summary>게임 상태를 Play로 전환하고, 하루 데이터의 모든 씬을 순차적으로 재생한다.</summary>
     public async UniTask PlayDayAsync()

@@ -28,6 +28,9 @@ public class InGameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<DialogueTriggerManager>();
         builder.RegisterComponentInHierarchy<VisualNovelFlow>();
 
+        builder.RegisterComponentInHierarchy<TycoonFlow>();
+        builder.RegisterComponentInHierarchy<PlayPhaseController>();
+
         //builder.RegisterBuildCallback(container =>
         //{
         //    _cutSceneManager = FindAnyObjectByType<CutSceneManager>();

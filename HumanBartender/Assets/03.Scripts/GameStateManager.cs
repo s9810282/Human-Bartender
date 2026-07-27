@@ -18,6 +18,7 @@ public enum GameState
     MiniGame,
 }
 
+
 /// <summary>
 /// 게임의 큰 흐름 단계(바 → 출근/퇴근 → 집)를 나타내는 열거형.
 /// JSON에서 snake_case로 직렬화된다.

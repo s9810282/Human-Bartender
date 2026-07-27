@@ -19,14 +19,24 @@ public struct NewBalanceConfig
     [field: SerializeField][JsonProperty("warn_yellow_ratio")] public float WarnYellowRatio { get; set; }
     [field: SerializeField][JsonProperty("warn_red_ratio")] public float WarnRedRatio { get; set; }
     [field: SerializeField][JsonProperty("time_limit_base_sec")] public float TimeLimitBaseSec { get; set; }
-    [field: SerializeField][JsonProperty("time_limit_per_gimmick")] public float TimeLimitPerGimmick { get; set; }
-    [field: SerializeField][JsonProperty("spawn_delay_default")] public float SpawnDelayDefault { get; set; }
+    [field: SerializeField][JsonProperty("time_limit_per_gimmick_sec")] public float TimeLimitPerGimmick { get; set; }
+    [field: SerializeField][JsonProperty("spawn_delay_default_sec")] public float SpawnDelayDefault { get; set; }
+    [field: SerializeField][JsonProperty("first_spawn_delay_sec")] public float FirstSpawnDelaySec { get; set; }
     [field: SerializeField][JsonProperty("next_round_delay_sec")] public float NextRoundDelaySec { get; set; }
     [field: SerializeField][JsonProperty("drunk_vomit_chance")] public float DrunkVomitChance { get; set; }
     [field: SerializeField][JsonProperty("wrong_cocktail_revenue_mult")] public float WrongCocktailRevenueMult { get; set; }
     [field: SerializeField][JsonProperty("leave_coaster_rep")] public int LeaveCoasterRep { get; set; }
     [field: SerializeField][JsonProperty("leave_serve_rep")] public int LeaveServeRep { get; set; }
     [field: SerializeField][JsonProperty("autosave_interval_step")] public int AutosaveIntervalStep { get; set; }
+    [field: SerializeField][JsonProperty("typing_interval_ms")] public int TypingIntervalMs { get; set; }
+    [field: SerializeField][JsonProperty("reseat_delay_sec")] public float ReseatDelaySec { get; set; }
+    [field: SerializeField][JsonProperty("sfx_guest_in")] public string SfxGuestIn { get; set; }
+    [field: SerializeField][JsonProperty("sfx_guest_out")] public string SfxGuestOut { get; set; }
+    [field: SerializeField][JsonProperty("sfx_drink_high")] public string SfxDrinkHigh { get; set; }
+    [field: SerializeField][JsonProperty("sfx_drink_mid")] public string SfxDrinkMid { get; set; }
+    [field: SerializeField][JsonProperty("sfx_drink_low")] public string SfxDrinkLow { get; set; }
+    [field: SerializeField][JsonProperty("idle_min_sec")] public float IdleMinSec { get; set; }
+    [field: SerializeField][JsonProperty("idle_max_sec")] public float IdleMaxSec { get; set; }
 }
 
 [Serializable]

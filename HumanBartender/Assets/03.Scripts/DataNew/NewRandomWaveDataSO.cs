@@ -11,6 +11,7 @@ public struct NewRandomWaveData
     [field: SerializeField][JsonProperty("personality")] public string Personality { get; set; }
     [field: SerializeField][JsonProperty("delay_sec")] public float DelaySec { get; set; }
     [field: SerializeField][JsonProperty("max_rounds")] public int MaxRounds { get; set; }
+    [field: SerializeField][JsonProperty("branch_choice")] public bool BranchChoice { get; set; }
 }
 
 /// <summary>StreamingAssets/json/random_waves.json을 보유하는 ScriptableObject.</summary>

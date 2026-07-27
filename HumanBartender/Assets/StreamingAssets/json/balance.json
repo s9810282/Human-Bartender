@@ -13,62 +13,62 @@
     "warn_yellow_ratio": 0.5,
     "warn_red_ratio": 0.8,
     "time_limit_base_sec": 20,
-    "time_limit_per_gimmick": 8,
-    "spawn_delay_default": 25,
+    "time_limit_per_gimmick_sec": 8,
+    "spawn_delay_default_sec": 25,
     "next_round_delay_sec": 3,
     "drunk_vomit_chance": 0.4,
     "wrong_cocktail_revenue_mult": -1.0,
     "leave_coaster_rep": -1,
     "leave_serve_rep": -2,
-    "autosave_interval_step": 1
+    "autosave_interval_step": 1,
+    "typing_interval_ms": 50,
+    "first_spawn_delay_sec": 5,
+    "reseat_delay_sec": 10,
+    "sfx_guest_in": "SFX_guest_door_in",
+    "sfx_guest_out": "SFX_guest_door_out",
+    "sfx_drink_high": "SFX_drink_satisfied",
+    "sfx_drink_mid": "SFX_drink_neutral",
+    "sfx_drink_low": "SFX_drink_grim",
+    "idle_min_sec": 8,
+    "idle_max_sec": 13
   },
   "grade_cuts": [
     {
       "grade": "excellent",
-      "min_pct": 95,
-      "tier_override": ""
+      "min_pct": 95
     },
     {
       "grade": "good",
-      "min_pct": 80,
-      "tier_override": ""
+      "min_pct": 80
     },
     {
       "grade": "decent",
-      "min_pct": 60,
-      "tier_override": ""
+      "min_pct": 60
     },
     {
       "grade": "poor",
-      "min_pct": 35,
-      "tier_override": ""
+      "min_pct": 35
     },
     {
       "grade": "sewage",
-      "min_pct": 0,
-      "tier_override": ""
+      "min_pct": 0
     }
   ],
   "grade_payout": {
     "excellent": {
-      "revenue_mult": 1.0,
-      "tip_mult": 0.2
+      "revenue_mult": 1.2
     },
     "good": {
-      "revenue_mult": 1.0,
-      "tip_mult": 0.0
+      "revenue_mult": 1.0
     },
     "decent": {
-      "revenue_mult": 1.0,
-      "tip_mult": 0.0
+      "revenue_mult": 0.7
     },
     "poor": {
-      "revenue_mult": 1.0,
-      "tip_mult": 0.0
+      "revenue_mult": 0.3
     },
     "sewage": {
-      "revenue_mult": -1.0,
-      "tip_mult": 0.0
+      "revenue_mult": -1.0
     }
   },
   "affinity_matrix": [

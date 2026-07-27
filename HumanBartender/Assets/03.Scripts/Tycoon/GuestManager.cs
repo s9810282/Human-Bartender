@@ -1,0 +1,166 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using VContainer;
+
+/// <summary>
+/// 타이쿤(1부) 국면의 손님 슬롯(GuestSlot) 전체를 관리한다. 랜덤 손님(random_waves.json)과
+/// 단골 손님(regular_slots.json)을 같은 day의 seq 순서로 합쳐 대기열을 구성하고, 빈 슬롯에 배정한다.
+/// 손님이 자리를 떠나면 TycoonFlow에 응대 완료를 알려 남은 손님 수를 갱신시킨다.
+/// targetCocktailId는 cocktails.json에서 같은 tier의 칵테일 중 무작위로 배정한다.
+/// TODO: personality/max_rounds/branch_choice 반영 로직 연결.
+/// </summary>
+public class GuestManager : MonoBehaviour
+{
+    [SerializeField] NewBalanceDataSO configData;
+    [SerializeField] NewRandomWaveDataSO randomWaveData;
+    [SerializeField] NewRegularSlotDataSO regularSlotData;
+    [SerializeField] NewCocktailDataSO cocktailData;
+    [SerializeField] NewPersonalityDataSO personalityData;
+    [SerializeField] GuestSlot[] slots;
+
+    [Inject] TycoonFlow tycoonFlow;
+
+    NewBalanceConfig config;
+    readonly Queue<Guest> guestQueue = new();
+
+    public int QueuedGuestCount => guestQueue.Count;
+
+    public void Start()
+    {
+        config = configData.balanceData.Config;
+        BuildGuestQueue();
+    }
+
+    /// <summary>
+    /// 오늘(GameStateManager.CurrentDay) 등장할 랜덤 손님과 단골 손님을 seq 순서로 합쳐 대기열을 구성한다.
+    /// </summary>
+    public void BuildGuestQueue()
+    {
+        int day = GameStateManager.Instance.CurrentDay;
+        guestQueue.Clear();
+
+        var randomGuests = randomWaveData.randomWaveData
+            .Where(wave => wave.Day == day)
+            .Select(wave => (wave.Seq, Guest: CreateFromRandomWave(wave)));
+
+        var regularGuests = regularSlotData.regularSlotData
+            .Where(slot => slot.Day == day)
+            .Select(slot => (slot.Seq, Guest: CreateFromRegularSlot(slot)));
+
+        foreach (var entry in randomGuests.Concat(regularGuests).OrderBy(entry => entry.Seq))
+            guestQueue.Enqueue(entry.Guest);
+    }
+
+    /// <summary>대기열에서 다음 손님을 꺼낸다. 대기열이 비어있으면 false.</summary>
+    public bool TryDequeueNextGuest(out Guest guest)
+    {
+        return guestQueue.TryDequeue(out guest);
+    }
+
+    /// <summary>
+    /// 대기열의 손님을 순서대로 등장시킨다. 첫 손님은 balance.json의 first_spawn_delay_sec만큼 기다린 뒤 등장하고,
+    /// 이후 손님들은 각자의 delaySec(앞선 손님에 이어 등장하기까지의 대기 시간)만큼 기다린다.
+    /// TODO: 빈 슬롯이 없을 때의 대기/재시도 처리.
+    /// </summary>
+    public async UniTask RunSpawnLoopAsync(CancellationToken token)
+    {
+        bool isFirstGuest = true;
+
+        while (TryDequeueNextGuest(out Guest guest))
+        {
+            float delay = isFirstGuest ? config.FirstSpawnDelaySec : guest.delaySec;
+            isFirstGuest = false;
+
+            if (delay > 0f)
+                await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
+
+            TrySeatGuest(guest);
+        }
+    }
+
+    Guest CreateFromRandomWave(NewRandomWaveData wave)
+    {
+        var (tipMult, patienceMult) = GetPersonalityMultipliers(wave.Personality);
+
+        return new Guest
+        {
+            id = $"random_{wave.Day}_{wave.Seq}",
+            targetCocktailId = PickTargetCocktailId(wave.Tier),
+            difficultyLevel = wave.Tier,
+            personality = wave.Personality,
+            tipMultiplier = tipMult,
+            patienceMultiplier = patienceMult,
+            maxRounds = wave.MaxRounds,
+            delaySec = wave.DelaySec,
+            isRegular = false,
+        };
+    }
+
+    Guest CreateFromRegularSlot(NewRegularSlotData slot)
+    {
+        // 단골은 personalities.json을 참조하지 않는다: 팁 배율은 항상 1, 인내심 개념 자체가 없어 hasPatience=false로 예외 처리한다.
+        return new Guest
+        {
+            id = slot.Character,
+            characterId = slot.Character,
+            targetCocktailId = PickTargetCocktailId(slot.Tier),
+            difficultyLevel = slot.Tier,
+            tipMultiplier = 1f,
+            hasPatience = false,
+            maxRounds = slot.MaxRounds,
+            delaySec = slot.DelaySec,
+            isRegular = true,
+        };
+    }
+
+    /// <summary>cocktails.json에서 tier가 같은 칵테일들 중 하나를 무작위로 골라 id를 반환한다. 없으면 null.</summary>
+    string PickTargetCocktailId(int tier)
+    {
+        var candidates = cocktailData.cocktailData.Where(c => c.Tier == tier).ToArray();
+        if (candidates.Length == 0) return null;
+
+        return candidates[UnityEngine.Random.Range(0, candidates.Length)].Id;
+    }
+
+    /// <summary>personalities.json에서 personalityId와 일치하는 tip_mult/patience_mult를 찾는다. 없으면 기본값 (1.0, 1.0).</summary>
+    (float tipMult, float patienceMult) GetPersonalityMultipliers(string personalityId)
+    {
+        if (!string.IsNullOrEmpty(personalityId))
+        {
+            foreach (var p in personalityData.personalityData)
+            {
+                if (p.Id == personalityId)
+                    return (p.TipMult, p.PatienceMult);
+            }
+        }
+
+        return (1f, 1f);
+    }
+
+    /// <summary>비어있는 슬롯을 찾아 손님을 배정한다. 자리가 없으면 false를 반환한다.</summary>
+    public bool TrySeatGuest(Guest guest)
+    {
+        GuestSlot slot = slots.FirstOrDefault(s => s.IsEmpty);
+        if (slot == null) return false;
+
+        slot.Seat(guest);
+        return true;
+    }
+
+    /// <summary>지정 슬롯의 손님 응대가 끝났을 때 호출한다. 슬롯을 비우고 TycoonFlow에 알린다.</summary>
+    public void ReleaseGuest(GuestSlot slot)
+    {
+        slot.Clear();
+        tycoonFlow.OnCustomerHandled();
+    }
+
+    /// <summary>손님 id로 현재 앉아있는 슬롯을 찾는다. 없으면 null.</summary>
+    public GuestSlot FindSlotByGuestId(string guestId)
+    {
+        return slots.FirstOrDefault(s => s.CurrentGuest?.id == guestId);
+    }
+}

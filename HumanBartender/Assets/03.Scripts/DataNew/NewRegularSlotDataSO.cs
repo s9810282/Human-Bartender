@@ -13,6 +13,8 @@ public struct NewRegularSlotData
     [field: SerializeField][JsonProperty("max_rounds")] public int MaxRounds { get; set; }
     [field: SerializeField][JsonProperty("branch_choice")] public bool BranchChoice { get; set; }
     [field: SerializeField][JsonProperty("cameo_scene")] public string CameoScene { get; set; }
+    [field: SerializeField][JsonProperty("must_serve")] public bool MustServe { get; set; }
+    [field: SerializeField][JsonProperty("serve_effects")] public string ServeEffects { get; set; }
 }
 
 /// <summary>StreamingAssets/json/regular_slots.json을 보유하는 ScriptableObject.</summary>

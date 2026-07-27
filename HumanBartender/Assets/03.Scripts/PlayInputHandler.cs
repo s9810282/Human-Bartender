@@ -9,21 +9,24 @@ public class PlayInputHandler : MonoBehaviour
     [Header("References")]
     [SerializeField] private DialogueRunner dialogueRunner;
     [SerializeField] private PlayCamera playCamera;
+    [SerializeField] private PlayPhaseController playPhaseController;
 
-    /// <summary>대사 진행 입력. 화면 클릭과 동일하게 DialogueRunner의 진행 로직을 호출한다.</summary>
+    /// <summary>대사 진행 입력. 화면 클릭과 동일하게 DialogueRunner의 진행 로직을 호출한다. 2부(Dialogue) 국면에서만 동작한다.</summary>
     public void OnAdvance(InputValue value)
     {
+        if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
+        if (playPhaseController.CurrentPhase != EPlayPhase.Dialogue) return;
         dialogueRunner.OnAdvanceInput();
     }
 
-    /// <summary>카메라를 현재 슬롯 기준 왼쪽 옆 칸으로 전환한다. 컷씬/미니게임 등 Play 상태가 아닐 때는 무시한다.</summary>
+    /// <summary>카메라를 현재 슬롯 기준 왼쪽 옆 칸으로 전환한다. 컷씬/미니게임 또는 1부(Tycoon) 국면일 때는 무시한다.</summary>
     public void OnLeft(InputValue value)
     {
         if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
         playCamera.MoveAdjacent(-1, 0.5f);
     }
 
-    /// <summary>카메라를 현재 슬롯 기준 오른쪽 옆 칸으로 전환한다. 컷씬/미니게임 등 Play 상태가 아닐 때는 무시한다.</summary>
+    /// <summary>카메라를 현재 슬롯 기준 오른쪽 옆 칸으로 전환한다. 컷씬/미니게임 또는 1부(Tycoon) 국면일 때는 무시한다.</summary>
     public void OnRight(InputValue value)
     {
         if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
