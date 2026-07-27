@@ -1,0 +1,56 @@
+[
+  {
+    "id": "bar_door",
+    "area": "street",
+    "desc": "바 '언노운' 정문 앞",
+    "note": "출근 도착점 / 퇴근 출발점"
+  },
+  {
+    "id": "street_board",
+    "area": "street",
+    "desc": "뉴스 전광판 앞",
+    "note": "일차별 뉴스 연출"
+  },
+  {
+    "id": "street_stall",
+    "area": "street",
+    "desc": "완의 노점",
+    "note": "상점 + 노점 이벤트"
+  },
+  {
+    "id": "street_mid",
+    "area": "street",
+    "desc": "거리 중간",
+    "note": "걷기 연출 기본 목적지 + 자판기"
+  },
+  {
+    "id": "street_wall",
+    "area": "street",
+    "desc": "전단이 붙은 벽",
+    "note": "구엔진 outside_objects 이식(전단·포스터류)"
+  },
+  {
+    "id": "home_door",
+    "area": "street",
+    "desc": "집 현관 앞",
+    "note": "퇴근 도착점 / 출근 출발점"
+  },
+  {
+    "id": "alley_in",
+    "area": "alley",
+    "desc": "뒷골목 입구",
+    "note": "골목 이벤트 얕은 쪽 + 임상시험 전단"
+  },
+  {
+    "id": "alley_deep",
+    "area": "alley",
+    "desc": "뒷골목 안쪽",
+    "note": "골목 이벤트 깊은 쪽(상자·고양이·쓰레기통)"
+  },
+  {
+    "id": "elevator",
+    "area": "street",
+    "desc": "엘리베이터 앞",
+    "note": "배드엔딩2 연출 예약"
+  }
+]

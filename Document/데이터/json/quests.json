@@ -1,0 +1,40 @@
+{
+  "quests": [
+    {
+      "id": "lost_box",
+      "title": {
+        "ko": "노점상의 잃어버린 상자",
+        "en": "The Vendor's Lost Box"
+      },
+      "kind": "side",
+      "reward_effects": "money += 50; give(lime, 3)",
+      "note": "day2 발주 → 퇴근길 회수. interact: 목표 데모"
+    },
+    {
+      "id": "samho_honey",
+      "title": {
+        "ko": "진짜 벌꿀",
+        "en": "The Real Honey"
+      },
+      "kind": "side",
+      "reward_effects": "affinity.samho += 10; unlock_recipe(bees_knees); flag.q_samho_honey_done = true",
+      "note": "day3 삼호 거래 — 진피즈 제공 시 완료. 히든 레시피 '비즈 니즈' 해금"
+    }
+  ],
+  "stages": [
+    {
+      "quest_id": "lost_box",
+      "stage": 1,
+      "goal": "interact:p_lost_box",
+      "when": "flag.q_lost_box_started",
+      "on_complete": "flag.q_lost_box_reward = true"
+    },
+    {
+      "quest_id": "samho_honey",
+      "stage": 1,
+      "goal": "serve:gin_fizz",
+      "when": "flag.q_samho_honey_started",
+      "on_complete": ""
+    }
+  ]
+}

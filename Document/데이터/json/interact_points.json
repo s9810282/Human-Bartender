@@ -1,0 +1,112 @@
+[
+  {
+    "id": "p_news_d2",
+    "spot": "street_board",
+    "kind": "object",
+    "phase": "commute_in",
+    "when": "day == 2",
+    "scene_or_shop": "d2_news",
+    "selection": "once",
+    "note": "전광판 뉴스(세계관 떡밥)"
+  },
+  {
+    "id": "p_news_d3",
+    "spot": "street_board",
+    "kind": "object",
+    "phase": "commute_in",
+    "when": "day == 3",
+    "scene_or_shop": "d3_news",
+    "selection": "once",
+    "note": "전광판 뉴스(벡터 정화사업)"
+  },
+  {
+    "id": "p_vendor_intro",
+    "spot": "street_stall",
+    "kind": "npc",
+    "phase": "commute_in",
+    "when": "day == 2 && !flag.q_lost_box_started",
+    "scene_or_shop": "d2_vendor_intro",
+    "selection": "once",
+    "note": "노점상 완 첫 인사 + 퀘스트 시작"
+  },
+  {
+    "id": "p_vendor_shop",
+    "spot": "street_stall",
+    "kind": "shop",
+    "phase": "both",
+    "when": "day >= 3",
+    "scene_or_shop": "shop:vendor",
+    "selection": "repeat",
+    "note": "노점 상점(과일·믹서 구매)"
+  },
+  {
+    "id": "p_lost_box",
+    "spot": "alley_deep",
+    "kind": "object",
+    "phase": "commute_out",
+    "when": "flag.q_lost_box_started && !flag.q_lost_box_done",
+    "scene_or_shop": "d2_box_found",
+    "selection": "once",
+    "note": "잃어버린 상자(퀘스트)"
+  },
+  {
+    "id": "p_alley_cat",
+    "spot": "alley_in",
+    "kind": "object",
+    "phase": "commute_in",
+    "when": "day == 3 && !flag.d3_cat_seen",
+    "scene_or_shop": "d3_alley_cat",
+    "selection": "once",
+    "note": "노란 꼬리 목격 → d3 아일리 선택지 연동"
+  },
+  {
+    "id": "p_shiba",
+    "spot": "alley_in",
+    "kind": "npc",
+    "phase": "both",
+    "when": "day >= 2",
+    "scene_or_shop": "group:np_shiba",
+    "selection": "conditional",
+    "note": "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"
+  },
+  {
+    "id": "p_ob_parttime",
+    "spot": "street_wall",
+    "kind": "object",
+    "phase": "both",
+    "when": "day >= 2",
+    "scene_or_shop": "group:ob_parttime",
+    "selection": "sequential",
+    "note": "[이식] parttime_posting — 볼 때마다 다음 감상(순차 소비 데모)"
+  },
+  {
+    "id": "p_ob_vending",
+    "spot": "street_mid",
+    "kind": "object",
+    "phase": "both",
+    "when": "day >= 2",
+    "scene_or_shop": "group:ob_vending",
+    "selection": "conditional",
+    "note": "[이식] vending_machine — 골드에 따라 분기(조건 선택 데모)"
+  },
+  {
+    "id": "p_ob_experiment",
+    "spot": "alley_in",
+    "kind": "object",
+    "phase": "commute_out",
+    "when": "day >= 2",
+    "scene_or_shop": "group:ob_experiment",
+    "selection": "once",
+    "note": "[이식] experiment_recruit — 코라테크 임상시험(세계관 복선)"
+  },
+  {
+    "id": "p_ob_toilet",
+    "spot": "alley_deep",
+    "kind": "object",
+    "phase": "commute_out",
+    "when": "day >= 2 && flag.q_lost_box_done",
+    "scene_or_shop": "group:ob_toilet",
+    "selection": "once",
+    "note": "[이식] toilet_bin — 유머"
+  }
+]

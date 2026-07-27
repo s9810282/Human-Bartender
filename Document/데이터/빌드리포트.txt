@@ -1,0 +1,41 @@
+===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
+· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(19), Choices(10), Cutscenes(21), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(11), OrderRules(4), QuestStages(2), Quests(2), RegularSlots(1), ResourceMap(17), Scenes(51), Spots(9), Steps(818), Tastes(10), TextTags(7), UIStrings(35)
+· LUNA_System.xlsx — 시트 9개: Cocktails(17), Config(31), GradeCuts(5), GradePayout(5), GuestBodies(14), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40)
+⚠ [플래그] 'q_samho_honey_started' — 참조(퀘스트단계 samho_honey#1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
+⚠ [플래그] 'rios_accepted' — 참조(엔딩 bad_1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
+ℹ [플래그] 'dream_raid_1' — 세워지지만(스텝 d2_dream#7) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'dream_raid_2' — 세워지지만(스텝 d3_dream#7) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'port_served_d3' — 세워지지만(단골슬롯 day3#4) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'q_lost_box_reward' — 세워지지만(퀘스트단계 lost_box#1) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'samho_drunk' — 세워지지만(주문 d4_samho_dilemma#1) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'seen_coratech_ad' — 세워지지만(스텝 ob_experiment_1#2) 아직 아무 조건도 참조하지 않음
+=== 호감도 상한 시뮬레이션 (day1~3 데이터 기준, 최선 플레이 상한) ===
+chris: 명시 +10 / 서빙 잠재 +8 (취향×excellent 기준) → 합계 상한 18 — 엔딩컷 100 대비 18%
+aili: 명시 +0 / 서빙 잠재 +4 (취향×excellent 기준) → 합계 상한 4 — 엔딩컷 100 대비 4%
+port: 명시 +1 / 서빙 잠재 +18 (취향×excellent 기준) → 합계 상한 19 — 엔딩컷 100 대비 19%
+samho: 명시 +10 / 서빙 잠재 +20 (취향×excellent 기준) → 합계 상한 30 — 엔딩컷 100 대비 30%
+bubi: 명시 +0 / 서빙 잠재 +6 (취향×excellent 기준) → 합계 상한 6 — 엔딩컷 100 대비 6%
+(day4~13 데이터 작성 시 자동 갱신. 엔딩 happy 계열은 4인 100 필요 — 일차별 획득 설계의 기준선)
+=== 일차별 입고표 (파생·검증용, 새 넘버링 — 입고 화면은 그날 바 오픈 직전) ===
+Day 1: 입고[진, 맥주, 레드와인, 샴페인, 토닉워터, 소다수, 레몬, 설탕, 드라이 버무스, 라임 웨지, 레몬 슬라이스, 올리브, 체리, 오렌지 슬라이스] → 신규 가능[진토닉(T1), 진피즈(T3), 병맥주(T1), 레드와인(T1), 샴페인(T1), 드라이 마티니(T2)]
+Day 2: 입고[보드카, 라임, 쿠앵트로, 크랜베리주스, 칼루아, 우유] → 신규 가능[코스모폴리탄(T4), 깔루아 밀크(T2)]
+Day 3: 입고[데킬라, 럼, 오렌지주스, 진저에일, 콜라] → 신규 가능[스크류드라이버(T2), 모스코뮬(T2), 데킬라 선라이즈(T2), 롱아일랜드 아이스티(T5)]
+Day 4: 입고[위스키, 그레나딘, 사워믹스] → 신규 가능[위스키 사워(T3), 바카디(T3)]
+Day 5: 입고[-] → 신규 가능[-]
+Day 6: 입고[트리플섹] → 신규 가능[마가리타(T3), 화이트레이디(T3)]
+퀘스트/이벤트 해금 재료: 벌꿀 원액(flag.q_samho_honey_done)
+퀘스트/이벤트 해금 칵테일: 비즈 니즈(T3)
+=== 퀘스트 ===
+[side] lost_box '노점상의 잃어버린 상자': interact:p_lost_box ⇒ 보상[money += 50; give(lime, 3)]
+[side] samho_honey '진짜 벌꿀': serve:gin_fizz ⇒ 보상[affinity.samho += 10; unlock_recipe(bees_knees); flag.q_samho_honey_done = true]
+슬롯 day2#1 T1 풀(4): gin_tonic, bottle_beer, red_wine, champagne
+슬롯 day2#2 T1 풀(4): gin_tonic, bottle_beer, red_wine, champagne
+슬롯 day2#3 T3 풀(1): gin_fizz
+슬롯 day2#4 T1 풀(4): gin_tonic, bottle_beer, red_wine, champagne
+슬롯 day3#1 T2 풀(5): screwdriver, moscow_mule, tequila_sunrise, dry_martini, kahlua_milk
+슬롯 day3#2 T5 풀(1): long_island
+슬롯 day3#3 T2 풀(5): screwdriver, moscow_mule, tequila_sunrise, dry_martini, kahlua_milk
+슬롯 day3#4 T3 풀(1): gin_fizz [카메오: port]
+
+✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 루나 대사 규칙
+칵테일 17 / 선반 40 / 캐릭터 19 / 씬 51 / 스텝 818 / 선택지 10 / 웨이브 7 / 단골슬롯 1
