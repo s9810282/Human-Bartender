@@ -20,7 +20,12 @@ public class GuestManager : MonoBehaviour
     [SerializeField] NewRegularSlotDataSO regularSlotData;
     [SerializeField] NewCocktailDataSO cocktailData;
     [SerializeField] NewPersonalityDataSO personalityData;
+    [SerializeField] NewGuestBodyDataSO guestBodyData;
+    [SerializeField] NewBarkDataSO barkData;
     [SerializeField] GuestSlot[] slots;
+
+    [Header("Test")]
+    [SerializeField] bool useTempAppearance; // true면 파츠 addressable 로딩을 생략하고 GuestSlot의 임시 오브젝트만 On/Off한다.
 
     [Inject] TycoonFlow tycoonFlow;
 
@@ -32,6 +37,10 @@ public class GuestManager : MonoBehaviour
     public void Start()
     {
         config = configData.balanceData.Config;
+
+        foreach (var slot in slots)
+            slot.SetTempAppearanceMode(useTempAppearance);
+
         BuildGuestQueue();
     }
 
@@ -86,7 +95,7 @@ public class GuestManager : MonoBehaviour
     {
         var (tipMult, patienceMult) = GetPersonalityMultipliers(wave.Personality);
 
-        return new Guest
+        var guest = new Guest
         {
             id = $"random_{wave.Day}_{wave.Seq}",
             targetCocktailId = PickTargetCocktailId(wave.Tier),
@@ -98,6 +107,77 @@ public class GuestManager : MonoBehaviour
             delaySec = wave.DelaySec,
             isRegular = false,
         };
+
+        guest.appearance = PickRandomAppearance();
+
+        if (!useTempAppearance)
+            LoadAppearanceAsync(guest).Forget();
+
+        return guest;
+    }
+
+    /// <summary>
+    /// 성별을 먼저 무작위로 정한 뒤, guest_bodies.json의 bodies/outfits/eyes/hairs 각각을 같은 gender로 필터링해
+    /// weight를 가중치로 하나씩 뽑는다. 파츠 4개가 항상 같은 성별로 맞춰진다.
+    /// </summary>
+    GuestBodyAppearance PickRandomAppearance()
+    {
+        var bodies = guestBodyData.guestBodyData;
+        string gender = UnityEngine.Random.value < 0.5f ? "m" : "f";
+
+        return new GuestBodyAppearance
+        {
+            Body = PickWeighted(FilterByGender(bodies.Bodies, gender)),
+            Outfit = PickWeighted(FilterByGender(bodies.Outfits, gender)),
+            Eyes = PickWeighted(FilterByGender(bodies.Eyes, gender)),
+            Hair = PickWeighted(FilterByGender(bodies.Hairs, gender)),
+        };
+    }
+
+    /// <summary>gender가 일치하는 파츠만 남긴다. 일치하는 항목이 없으면 필터링 없이 전체를 반환한다.</summary>
+    static NewGuestBodyPartData[] FilterByGender(NewGuestBodyPartData[] parts, string gender)
+    {
+        var filtered = parts.Where(p => p.Gender == gender).ToArray();
+        return filtered.Length > 0 ? filtered : parts;
+    }
+
+    static NewGuestBodyPartData PickWeighted(NewGuestBodyPartData[] parts)
+    {
+        int totalWeight = parts.Sum(p => p.Weight);
+        int roll = UnityEngine.Random.Range(0, totalWeight);
+        int cumulative = 0;
+
+        foreach (var part in parts)
+        {
+            cumulative += part.Weight;
+            if (roll < cumulative) return part;
+        }
+
+        return parts[^1];
+    }
+
+    /// <summary>
+    /// guest.appearance에 배정된 4개 파츠 스프라이트를 addressable로 병렬 로드해 guest.bodySprites에 채운다.
+    /// 손님이 대기열에 들어간 직후(등장 전) 미리 호출되어, 실제 자리에 앉을 때는 이미 로드가 끝나있도록 한다.
+    /// </summary>
+    async UniTaskVoid LoadAppearanceAsync(Guest guest)
+    {
+        var token = this.GetCancellationTokenOnDestroy();
+        var appearance = guest.appearance;
+
+        var (bodyHandle, outfitHandle, eyesHandle, hairHandle) = await UniTask.WhenAll(
+            ResourceLoader.TryLoadAsync<Sprite>(appearance.Body.Sprite, token),
+            ResourceLoader.TryLoadAsync<Sprite>(appearance.Outfit.Sprite, token),
+            ResourceLoader.TryLoadAsync<Sprite>(appearance.Eyes.Sprite, token),
+            ResourceLoader.TryLoadAsync<Sprite>(appearance.Hair.Sprite, token));
+
+        var sprites = new GuestBodySprites();
+        sprites.SetBody(bodyHandle);
+        sprites.SetOutfit(outfitHandle);
+        sprites.SetEyes(eyesHandle);
+        sprites.SetHair(hairHandle);
+
+        guest.bodySprites = sprites;
     }
 
     Guest CreateFromRegularSlot(NewRegularSlotData slot)
@@ -149,6 +229,30 @@ public class GuestManager : MonoBehaviour
 
         slot.Seat(guest);
         return true;
+    }
+
+    /// <summary>barks.json에서 situation이 일치하는 대사 중 weight를 가중치로 하나를 뽑아 슬롯의 말풍선에 띄운다. 일치하는 대사가 없으면 아무것도 하지 않는다.</summary>
+    public void ShowBark(GuestSlot slot, string situation, float durationSec = 3f)
+    {
+        var candidates = barkData.barkData.Where(b => b.Situation == situation).ToArray();
+        if (candidates.Length == 0) return;
+
+        slot.ShowBark(PickWeightedBark(candidates).Text.Ko, durationSec);
+    }
+
+    static NewBarkData PickWeightedBark(NewBarkData[] barks)
+    {
+        int totalWeight = barks.Sum(b => b.Weight);
+        int roll = UnityEngine.Random.Range(0, totalWeight);
+        int cumulative = 0;
+
+        foreach (var bark in barks)
+        {
+            cumulative += bark.Weight;
+            if (roll < cumulative) return bark;
+        }
+
+        return barks[^1];
     }
 
     /// <summary>지정 슬롯의 손님 응대가 끝났을 때 호출한다. 슬롯을 비우고 TycoonFlow에 알린다.</summary>

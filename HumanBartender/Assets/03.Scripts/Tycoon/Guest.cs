@@ -19,4 +19,7 @@ public class Guest
     public int orderRound = 0;
 
     public bool isDrunk = false;
+
+    public GuestBodyAppearance appearance; // 랜덤 손님에게 배정된 파츠 조합(guest_bodies.json). 단골(isRegular)이면 null.
+    public GuestBodySprites bodySprites; // appearance를 addressable로 로드한 스프라이트. 로딩이 끝나기 전에는 null.
 }
