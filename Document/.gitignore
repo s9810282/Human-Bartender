@@ -1,0 +1,35 @@
+# 기획 파트(Document/) 전용 무시 목록
+# 여기 적힌 것들은 작업하다 자동으로 생기는 찌꺼기 파일이라 깃에 올리지 않는다.
+# 유니티 .meta 파일은 절대 무시하지 않는다 — 에셋 연결이 끊어진다.
+
+# 엑셀이 파일을 열어두는 동안 만드는 임시 락파일
+~$*.xlsx
+~$*.xls
+~$*.docx
+~$*.pptx
+
+# 파이썬이 스크립트를 실행하면 만드는 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# 에디터·IDE 개인 설정 (사람마다 달라 충돌만 난다)
+.idea/
+.vscode/
+*.code-workspace
+
+# macOS 자동 생성 파일
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows 자동 생성 파일
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# 임시·백업 파일
+*.tmp
+*.bak
+*~
