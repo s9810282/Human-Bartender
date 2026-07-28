@@ -8,8 +8,8 @@ using VContainer;
 /// </summary>
 public class PlayPhaseController : MonoBehaviour
 {
-    [Inject] TycoonFlow tycoonFlow;
-    [Inject] VisualNovelFlow dialogueFlow;
+    [SerializeField] TycoonFlow tycoonFlow;
+    [SerializeField] VisualNovelFlow dialogueFlow;
 
     public EPlayPhase CurrentPhase { get; private set; } = EPlayPhase.Tycoon;
 

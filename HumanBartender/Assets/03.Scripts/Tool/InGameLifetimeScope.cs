@@ -26,10 +26,7 @@ public class InGameLifetimeScope : LifetimeScope
 
         builder.RegisterComponentInHierarchy<DialogueRunner>();
         builder.RegisterComponentInHierarchy<DialogueTriggerManager>();
-        builder.RegisterComponentInHierarchy<VisualNovelFlow>();
 
-        builder.RegisterComponentInHierarchy<TycoonFlow>();
-        builder.RegisterComponentInHierarchy<GuestManager>();
         builder.RegisterComponentInHierarchy<PlayPhaseController>();
 
         //builder.RegisterBuildCallback(container =>

@@ -27,8 +27,6 @@ public class GuestManager : MonoBehaviour
     [Header("Test")]
     [SerializeField] bool useTempAppearance; // true면 파츠 addressable 로딩을 생략하고 GuestSlot의 임시 오브젝트만 On/Off한다.
 
-    [Inject] TycoonFlow tycoonFlow;
-
     NewBalanceConfig config;
     readonly Queue<Guest> guestQueue = new();
 
@@ -37,6 +35,9 @@ public class GuestManager : MonoBehaviour
     public void Start()
     {
         config = configData.balanceData.Config;
+
+        if (useTempAppearance)
+            GameStateManager.Instance.CurrentDay = 2;
 
         foreach (var slot in slots)
             slot.SetTempAppearanceMode(useTempAppearance);
@@ -73,7 +74,7 @@ public class GuestManager : MonoBehaviour
     /// <summary>
     /// 대기열의 손님을 순서대로 등장시킨다. 첫 손님은 balance.json의 first_spawn_delay_sec만큼 기다린 뒤 등장하고,
     /// 이후 손님들은 각자의 delaySec(앞선 손님에 이어 등장하기까지의 대기 시간)만큼 기다린다.
-    /// TODO: 빈 슬롯이 없을 때의 대기/재시도 처리.
+    /// 슬롯이 모두 차있으면 빈 슬롯이 생길 때까지 대기한 뒤, 남은 delay를 마저 적용하고 착석시킨다.
     /// </summary>
     public async UniTask RunSpawnLoopAsync(CancellationToken token)
     {
@@ -84,11 +85,23 @@ public class GuestManager : MonoBehaviour
             float delay = isFirstGuest ? config.FirstSpawnDelaySec : guest.delaySec;
             isFirstGuest = false;
 
-            if (delay > 0f)
-                await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
+            double delayEndTime = Time.timeAsDouble + delay;
+
+            if (IsAllSlotsOccupied())
+                await UniTask.WaitUntil(() => !IsAllSlotsOccupied(), cancellationToken: token);
+
+            double remainingDelay = delayEndTime - Time.timeAsDouble;
+            if (remainingDelay > 0)
+                await UniTask.Delay(TimeSpan.FromSeconds(remainingDelay), cancellationToken: token);
 
             TrySeatGuest(guest);
         }
+    }
+
+    /// <summary>슬롯이 하나도 비어있지 않은지 확인한다.</summary>
+    bool IsAllSlotsOccupied()
+    {
+        return slots.All(s => !s.IsEmpty);
     }
 
     Guest CreateFromRandomWave(NewRandomWaveData wave)
@@ -228,13 +241,27 @@ public class GuestManager : MonoBehaviour
         if (slot == null) return false;
 
         slot.Seat(guest);
+        ShowBark(slot, "call");
         return true;
     }
 
-    /// <summary>barks.json에서 situation이 일치하는 대사 중 weight를 가중치로 하나를 뽑아 슬롯의 말풍선에 띄운다. 일치하는 대사가 없으면 아무것도 하지 않는다.</summary>
+    /// <summary>
+    /// barks.json에서 situation과 손님의 personality(voice_id)가 모두 일치하는 대사 중 weight를 가중치로 하나를 뽑아
+    /// 슬롯의 말풍선에 띄운다. personality가 일치하는 대사가 없으면 voice_id가 없는(공용) 대사 중에서 고른다.
+    /// 그마저 없으면 아무것도 하지 않는다.
+    /// </summary>
     public void ShowBark(GuestSlot slot, string situation, float durationSec = 3f)
     {
-        var candidates = barkData.barkData.Where(b => b.Situation == situation).ToArray();
+        Guest guest = slot.CurrentGuest;
+        string voiceId = guest == null ? null : guest.isRegular ? guest.characterId : guest.personality;
+
+        var situationBarks = barkData.barkData.Where(b => b.Situation == situation).ToArray();
+        if (situationBarks.Length == 0) return;
+
+        var candidates = situationBarks.Where(b => b.VoiceId == voiceId).ToArray();
+        if (candidates.Length == 0)
+            candidates = situationBarks.Where(b => string.IsNullOrEmpty(b.VoiceId)).ToArray();
+
         if (candidates.Length == 0) return;
 
         slot.ShowBark(PickWeightedBark(candidates).Text.Ko, durationSec);
@@ -259,7 +286,7 @@ public class GuestManager : MonoBehaviour
     public void ReleaseGuest(GuestSlot slot)
     {
         slot.Clear();
-        tycoonFlow.OnCustomerHandled();
+        
     }
 
     /// <summary>손님 id로 현재 앉아있는 슬롯을 찾는다. 없으면 null.</summary>

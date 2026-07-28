@@ -10,7 +10,7 @@ public class TycoonFlow : MonoBehaviour, IPlayPhaseFlow
 {
     [SerializeField] int customerCount = 5;
 
-    [Inject] GuestManager guestManager;
+    [SerializeField] GuestManager guestManager;
 
     int remainingCustomers;
     UniTaskCompletionSource completionSource;
