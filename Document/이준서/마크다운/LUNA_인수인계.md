@@ -1,6 +1,6 @@
 # LUNA 인수인계 — 데이터·기획 작업 현황 총정리
 
-작성: 2026-07-27 · 이 문서 하나로 "지금까지 한 것 / 지금 상태 / 앞으로 할 것"을 파악할 수 있게 쓴 인수인계다.
+기준일: 2026-07-29 · 이 문서 하나로 "지금까지 한 것 / 지금 상태 / 앞으로 할 것"을 파악할 수 있게 쓴 인수인계다.
 문서 안의 모든 수치·파일명·개수는 작성 시점의 **실데이터 기준**이다. 이 문서와 실데이터가 다르면 실데이터가 정답이다.
 
 ---
@@ -19,10 +19,10 @@
 
 | 위치 | 내용 |
 |---|---|
-| `Project/Human-Bartender/` | 팀 Unity 리포 (github.com/s9810282/Human-Bartender) |
-| `Project/Human-Bartender/Document/데이터/` | **데이터 파이프라인 본진** — 엑셀 3개, tools/, json/ (`클로드/데이터`는 여기로 가는 심링크) |
-| `Project/Human-Bartender/Document/이준서/` | PD 기획 문서 (이 파일, 깃 안내 2종, 데이터구조 안내서, 산출물/) |
-| `Project/Human-Bartender/HumanBartender/` | Unity 프로젝트 (구엔진 리소스 `Assets/08.AddressableResource/`) |
+| `Human-Bartender/` (받은 위치는 사람마다 다름) | 팀 Unity 리포 (github.com/s9810282/Human-Bartender) |
+| `Human-Bartender/Document/데이터/` | **데이터 파이프라인 본진** — 엑셀 3개, tools/, json/ |
+| `Human-Bartender/Document/이준서/` | PD 기획 문서 (마크다운/ 안에 이 파일·깃 안내 2종·데이터구조 안내서, 거리_시뮬레이터.html, 산출물/) |
+| `Human-Bartender/HumanBartender/` | Unity 프로젝트 — 기획은 읽기만, 수정 금지 (구엔진 리소스 `Assets/08.AddressableResource/`, 거리 구현 `Assets/03.Scripts/Outside/`) |
 | `클로드/junseo874.github.io/` | 웹 프로토타입 — **v2.3.1에서 동결**, 유지보수 종료. 참고용으로만 볼 것 |
 
 ---
@@ -54,7 +54,7 @@
 ### 도구·명령
 
 ```bash
-cd Project/Human-Bartender/Document/데이터
+cd <리포 위치>/Human-Bartender/Document/데이터
 python3 tools/build.py            # 시트 → json (평소 쓰는 것. 검증 실패 시 json 미출력)
 python3 tools/draft_tools.py import   # Draft 전달완료 행 → Narrative 반영
 python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" — 팀이 시트를 저작하기 시작하면 실행 금지(시트가 덮인다)
@@ -70,7 +70,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 ### 빌드가 보증하는 것 (구현자가 방어 코드를 줄여도 되는 목록)
 
-모든 id 참조 유효 / L10N en 항상 비어있지 않음(미번역=ko 복사) / (day,seq) 유일 / 손님 주문 tier 풀 비지 않음 / DSL 문법 유효 / cutscene kind·스텝 type 일치 / barks 무결(situation FK·표정 유효·태그 문법·카메오 전 상황 보유) / **end_part가 그날 마지막 bar 씬에 존재** / **대본 exact: 주문은 그날 반드시 해금돼 있음** / 거리 씬 say arg는 field_anims 실재 action / guest_bodies 성별(2)×성격(5)×파트(4) 40개 풀 전부 ≥1. 검증 실패 시 json이 아예 안 나온다.
+모든 id 참조 유효 / L10N en 항상 비어있지 않음(미번역=ko 복사) / (day,seq) 유일 / 손님 주문 tier 풀 비지 않음 / DSL 문법 유효 / cutscene kind·스텝 type 일치 / barks 무결(situation FK·표정 유효·태그 문법·카메오 전 상황 보유) / **end_part가 그날 마지막 bar 씬에 존재** / **대본 exact: 주문은 그날 반드시 해금돼 있음** / 거리 씬 say arg는 field_anims 실재 action / guest_bodies 성별(2)×성격(5)×파트(4) 40개 풀 전부 ≥1 + emotions 키는 common 세트(default 금지) / 선택지 세트는 2~4개 / interact_points trigger는 interact·proximity뿐(proximity는 shop 금지)·actor는 Characters 실재 / sprite 컷씬은 resource_key 필수 / auto 씬이 같은 (day,phase,seq)를 공유하면 전부 when 분기(빈 when 겹침은 에러 — interact·manual·cameo의 seq는 그룹 정렬용이라 중복 허용). 검증 실패 시 json이 아예 안 나온다.
 
 ---
 
@@ -85,6 +85,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - **랜덤 손님 외형(guest_bodies.json)**: 조합형 — 바디 2(남녀 각 1, 얼굴·코·입·패널 라인 한 장) × 의상 4(각 2: 민소매·아우터) × 눈 4(각 2) × 헤어 4(각 2) = **조합 16종**. 추첨 = 성별 → 성격 확정 → 성격 허용 항목 필터(personalities, 비면 공용) → weight 랜덤. 겹침 바디→의상→눈→헤어, 동시 착석 동일 조합 회피. 각 항목은 character_anim과 같은 이원 구조(mode=sprite 현행/parts_anim 예약) — 애니 전환 시 값만 바꾸면 됨. **감정 전환 연출은 감정 표정 아트가 나올 때까지 표정 고정**(표정 결정 데이터는 유지).
 - **취함 분기**: max_rounds 3 + branch_choice=true 손님 전용, drunk_vomit_chance 0.4 — **현재 시드에 대상 손님 0명**(발동 안 함, 밸런스 확정 때 지정).
 - **L10N**: 영어 번역 8월 중후반 착수. 그때까지 en 누락=경고(ko 폴백), 이후 `build.py --strict`.
+- **거리(외부) 시스템** — 정본은 노션 「외부 거리 시스템 모음」. 요약: 상호작용 5종(NPC 대화/NPC간 대화/오브젝트 보기/포스터 뷰/기믹), E 아이콘은 발동 가능할 때만+최근접 1개, 말풍선 2종(이름형=직접 대화 NPC만·무명형=그 외, 데이터 컬럼 없이 상황 판정), NPC 대화 = 줌인+위치 보정→줌아웃(보정 위치 유지, 상수는 엔진), 대사 시작 = interact/proximity(`interact_points.trigger`), proximity는 시작되면 범위 이탈해도 끝까지 재생, 상호작용 소비 상태는 세이브 저장, phase 전이 = 문 진입(bar_door·home_door, 순서는 엔진 고정), 말풍선 상수 = `config.street_typing_interval_ms`(50)·`street_auto_next_delay_sec`(3). NPC 존재는 `interact_points.actor`가 담당 — 같은 actor를 지점 여러 개에 두면 시간대별 위치 이동. 기믹(자판기·전화 부스)은 데모 범위 확정·사양 ❓, NPC간 대화 콘텐츠는 데모 이후. 검증용 시뮬레이터: `이준서/거리_시뮬레이터.html`(실데이터 구움 — 데이터 바뀌면 재생성 요청).
 - **day4~13 대본**: 9월 초 착수 시 자체 대본 텍스트 포맷+변환기 도입 예정(시트 직저작 아님, Ink/Yarn 비채택).
 
 ---
@@ -97,6 +98,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 | **데이터 구조 작성** (사양서) | https://app.notion.com/p/39f1612298dc80e89029fb739290812d | json 23파일 전 스키마 — 파일별 토글(실데이터 예시+필드별 스니펫). 프로그래머가 보는 정본 |
 | **바 내부 시스템** (기획서) | https://app.notion.com/p/3a61612298dc807d8936efe5bde60468 | 규칙·흐름·공식 — §1 시스템 맵 / §2 공용 / §3 1부 / §4 2부·정산 / §5 예외 / §6 데이터 총괄 / §7 남은 할 일 / §8 검수 체크리스트. 하단 「구버전 기록」 토글은 폐기 사양(참고용) |
 | **바 내부 UI** | https://app.notion.com/p/3a81612298dc803eb7f5de1d9e2abbb4 | 화면 요소별 블록(스크린샷 자리) + 연결 데이터 매핑 |
+| **외부 거리 시스템 모음** | https://app.notion.com/p/3aa1612298dc80d18899ecca42884c41 | 거리 상호작용 기획서 — §0 엔진 구현 맵(플머용) + §2.7 대사 데이터 읽는 법 포함 |
 | 플머 표정 문서 | 노션 3441612298dc80a5bb68c99d55650e3f | 「캐릭터 표정 데이터 \| character_anim.json」 — loop 5종·클립 명명의 **정본은 이쪽** |
 | 개발 마일스톤 | 노션 3a21612298dc806d8765d380f3613faf | 일정 정본 |
 
@@ -110,7 +112,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 1. **보고 구현할 수 있게 쓴다.** 읽는 사람(주로 프로그래머)이 이 문서만 들고 질문 없이 코드를 짤 수 있는가가 완성 기준. "값 이름만 띡" 적는 것 금지 — 그 값이 뭘 의미하고 어떻게 소비되는지까지.
 2. **데이터 참조는 정확한 위치로**: `파일.json → 필드` 형식. "데이터에서 가져옴" 같은 두루뭉술한 서술 금지. 수치는 실데이터 값을 인용(하드코딩 서술 금지 — 값이 바뀌면 문서가 거짓말이 된다).
-3. **JSON 예시는 실데이터에서 가져오고 실제 파일처럼 줄바꿈**(키 한 줄씩 pretty-print). 한 줄 압축 금지, 가짜 예시 금지.
+3. **JSON 예시는 실데이터에서 가져오고 실제 파일처럼 줄바꿈** — 필드가 여러 개인 객체는 필드마다 한 줄씩(중첩도 들여쓰기로 펼침), 한 줄 압축 금지. 단, 필드 하나짜리 스니펫(`"key": 값 // 주석`)은 한 줄 허용. 가짜 예시 금지.
 4. **이력·확정 표기 금지**: "PD 확정", "26.07.24 결정", "✅ 확정" 안 쓴다. 결정된 건 본문에 사실로 녹이고, 안 된 것만 "남은 할 일"로.
 5. **부정형 상기 반복 금지**: "~는 없다"는 규칙이 정의되는 자리에 한 번만.
 6. **기호는 두 개만**: ❗ = 데이터/리소스 아직 없음 / ❓ = 기획 결정 대기.
@@ -149,6 +151,9 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - **7/25**: 구현 검수 결정 10건(서빙 patience 미적용·마지막 잔 판정·제조 중 스폰 정지·코스터 무제한·upkeep_gold 신설·골드 음수 등). 대본 배포 장소별 재편(bar/dayN+home+street+cutscene, d1_walk_home 삭제). expressions→character_anim 개명(플머 정합, loop 5종). 「바 내부 UI」 신설. **「노션 문서 작성 규칙」 페이지 신설**.
 - **7/26**: OPEN 간판 수동 개점 제거(자동 시작). 데이터 문서 v3 전면 개편(필드별 스니펫+주석 형식). **전체 검수 대수정(v2.7)** — 생맥주 제거(17종)·병맥주 mug+beer pour, 2부 미해금 주문 8건 해소(재료 입고일 조정: 버무스 d1·보드카/라임/쿠앵트로/크랜베리/칼루아/우유 d2), day1 end_part를 d1_port 끝으로, 거리 arg default 82건→idle/빈값, 검증기 3종 신설(end_part 위치·주문 해금·거리 arg 엄격). 노션 3문서 실데이터 정합(Seat→L/M/R, choices 객체 구조, craft 게이트, serve 대상 규칙 등). Draft 대본 탭 4분할+상황 드롭다운 24종. 단골 팁=일괄 1.0 확정.
 - **7/26~27**: **guest_bodies.json 신설(v2.8)** — SO 대신 JSON, 조합형 카탈로그(바디2·눈4·헤어4·의상4=14항목·16조합), sprite/parts_anim 이원 구조, personalities 필드(성격별 외형 예약, 40개 풀 검증). 노션 3문서 반영 완료.
+- **7/27**: guest_bodies에 `emotions` 필드(v2.9 — 표정별 눈 교체 맵, 전부 null=표정 고정, 감정 눈 아트 오면 값만 채움). 기획 브랜치 `Document` 세팅·최초 커밋(58파일). 커밋 제목에 날짜 접두 확정(`2026 0727 [분류] …`). 「깃 구조 변경」 노션 전면 재작성(비개발자용, 시트 39개 전수 설명·커밋 규칙). `Document/.gitignore` 신설(락파일·pycache·.idea — .meta는 절대 무시 안 함).
+- **7/28**: 팀 공유 `CLAUDE.md`를 Document/에 커밋(클로드 작업 컨텍스트 — 기획 전원용). **루나 = 바에서 1인칭 확정**(초상·스탠딩 없음, 대사창 이름+본문만). 1일차 완성 목록 정리(최우선=배경 팬 방식 ❓).
+- **7/28~29**: **거리 시스템 v3.0~3.1** — 「외부 거리 시스템 모음」 신설(상호작용 5종·E 아이콘·말풍선 2종·phase 전이·§0 엔진 구현 맵·§2.7 데이터 읽는 법). 데이터: interact_points에 `trigger`(interact/proximity)·`actor` 컬럼, config `street_typing_interval_ms`·`street_auto_next_delay_sec`, Cutscenes kind `sprite`(포스터 뷰 예약), 검증 8종 신설(전부 주입 시험). 거리_시뮬레이터.html 제작(실데이터 구동 검증). 문서 원칙 확립: 변경 서술 금지·타 문서 지식으로 퉁치기 금지(신입이 그 문서만 읽고 작업 가능해야).
 
 ---
 
@@ -195,7 +200,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 ## 8. 중요 문제점 (지금 알아야 하는 것만)
 
-1. **`Document/` 전체가 git 미추적 (치명)** — 데이터 파이프라인·기획 문서 전부(약 2.2MB)가 아직 커밋 전이라 팀 공유가 안 된다. 커밋 시: plan 브랜치 생성(origin/develop 기반) → Document/ 추가 → `Document.zip` 잔재 삭제 → 기존 추적된 .DS_Store는 `git rm --cached`. 아트 파일 3개가 삭제 상태로 미스테이징인 것도 같이 정리.
+1. **유니티 쪽 json이 구버전** — `HumanBartender/Assets/StreamingAssets/json/`에 guest_bodies가 없고 구파일 5종(expressions·script/common·day_1~3)이 남아 있으며 5개 파일 내용이 다르다. 거리 시스템 구현도 이 이관이 선행 조건 — **플머가 허락하는 시점에** 23파일 최신본 반입+구파일 삭제. 기획 브랜치에서는 손대지 않는다.
 2. **레포 안 산출물 md 5종이 구스펙** — `Document/이준서/산출물/`의 설계서·JSON 설명서 등은 v2.0 이전 기준(expressions.json·orders.json·조기 마감·OPEN 간판 클릭이 그대로 적혀 있음). **팀에게는 노션 3문서가 정본이라고 안내할 것.** 레포 md는 참고 이력으로만.
 3. **json 편집기 오염 사고 2회** — §2 절대 규칙 1 참고. 빌드 산출물을 편집 모드로 열어두지 말 것.
 

@@ -336,7 +336,7 @@ RESOURCE_MAP = [
     ("expr_char", "samho",  "08.AddressableResource/Aniamtations/3",       "OK",       "폴더명 3 ↔ 데이터 id samho 매핑"),
     ("expr_char", "bubi",   "08.AddressableResource/Aniamtations/bubi",    "OK",       ""),
     ("expr_char", "common", "08.AddressableResource/Aniamtations/Default", "일부",     "annoyingB/annoyingR만 존재 — 나머지 6표정은 스프라이트 1장 방침(미제작)"),
-    ("expr_char", "luna",   "(미확인)",                                    "확인필요", "Addressable에 luna 폴더 없음 — character_anim.json의 luna 클립 실물 위치 확인 필요"),
+    ("expr_char", "luna",   "(없음)",                                      "미사용",   "바 내부는 1인칭 — 루나는 초상·스탠딩 없이 이름+대사만 출력. character_anim의 luna 항목은 예약"),
     ("bg",   "바 내부",     "01.Sprites/BG/Inside (Back/Middle/Fore 1280×720)", "결정필요", "포커스 카메라 팬 대응 — A: 줌인 팬(아트 추가 0) / B: Middle 좌우 연장(소폭). 리소스 폐기 아님"),
     ("bg",   "외부 거리",   "01.Sprites/BG/OutsideBG/Last Last (2880px 패럴랙스)", "OK", "Bar/House Entrance·Elevator·IntractObjects가 Spots 프리셋과 대응"),
     ("walk", "루나·삼호·부비·시바", "01.Sprites/Ch (노멀맵·마스크 포함)",   "OK",       "횡스크롤·컷씬용. SAMHO_DEAD 시트 = day4 사망 연출"),
@@ -672,20 +672,25 @@ SPOTS = [
 #   sequential  조사할 때마다 group의 다음 씬(flow_seq 순) — 마지막 씬에서 멈춤
 #   conditional 매번 group에서 when을 통과하는 첫 씬
 # scene_or_shop: 씬 id / "group:<그룹id>" / "shop:<상점id>"
-POINT_COLS = ["id","spot","kind","phase","when","scene_or_shop","selection","note"]
+# trigger(v3.0 거리 시스템) — 대사 시작 방식: interact(E키 상호작용, 기본) / auto(재생 범위 진입 시 자동 재생 —
+#   E 아이콘 없음·조작 락 없음·타이핑 종료 후 street_auto_next_delay_sec 뒤 다음 대사). auto는 대사 전용이라 shop: 참조 불가.
+# actor(v3.1) — 이 지점에 서 있는 캐릭터(characters.id). 빈값 = 사물·전단 등 캐릭터 아님.
+#   NPC의 "존재"는 actor가, "발동"은 지점이 담당 — 같은 actor를 phase·when이 다른 지점 여러 개에 배치하면
+#   시간대별 위치 이동을 표현할 수 있다(소비 상태는 지점별, 그룹 진행은 scene_or_shop 공유로 이어짐).
+POINT_COLS = ["id","spot","kind","actor","phase","trigger","when","scene_or_shop","selection","note"]
 POINTS = [
-    ("p_news_d2",      "street_board", "object", "commute_in",  "day == 2", "d2_news",         "once",   "전광판 뉴스(세계관 떡밥)"),
-    ("p_news_d3",      "street_board", "object", "commute_in",  "day == 3", "d3_news",         "once",   "전광판 뉴스(벡터 정화사업)"),
-    ("p_vendor_intro", "street_stall", "npc",    "commute_in",  "day == 2 && !flag.q_lost_box_started", "d2_vendor_intro", "once", "노점상 완 첫 인사 + 퀘스트 시작"),
-    ("p_vendor_shop",  "street_stall", "shop",   "both",        "day >= 3", "shop:vendor",     "repeat", "노점 상점(과일·믹서 구매)"),
-    ("p_lost_box",     "alley_deep",   "object", "commute_out", "flag.q_lost_box_started && !flag.q_lost_box_done", "d2_box_found", "once", "잃어버린 상자(퀘스트)"),
-    ("p_alley_cat",    "alley_in",     "object", "commute_in",  "day == 3 && !flag.d3_cat_seen", "d3_alley_cat", "once", "노란 꼬리 목격 → d3 아일리 선택지 연동"),
+    ("p_news_d2",      "street_board", "object", "", "commute_in",  "interact", "day == 2", "d2_news",         "once",   "전광판 뉴스(세계관 떡밥)"),
+    ("p_news_d3",      "street_board", "object", "", "commute_in",  "interact", "day == 3", "d3_news",         "once",   "전광판 뉴스(벡터 정화사업)"),
+    ("p_vendor_intro", "street_stall", "npc", "vendor",    "commute_in",  "interact", "day == 2 && !flag.q_lost_box_started", "d2_vendor_intro", "once", "노점상 완 첫 인사 + 퀘스트 시작"),
+    ("p_vendor_shop",  "street_stall", "shop", "vendor",   "both",        "interact", "day >= 3", "shop:vendor",     "repeat", "노점 상점(과일·믹서 구매)"),
+    ("p_lost_box",     "alley_deep",   "object", "", "commute_out", "interact", "flag.q_lost_box_started && !flag.q_lost_box_done", "d2_box_found", "once", "잃어버린 상자(퀘스트)"),
+    ("p_alley_cat",    "alley_in",     "object", "", "commute_in",  "interact", "day == 3 && !flag.d3_cat_seen", "d3_alley_cat", "once", "노란 꼬리 목격 → d3 아일리 선택지 연동"),
     # --- 구엔진 outside_objects.json 이식 4종 (원문 대사 기반) ---
-    ("p_shiba",       "alley_in",     "npc",    "both",        "day >= 2", "group:np_shiba",     "conditional", "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"),
-    ("p_ob_parttime",  "street_wall",  "object", "both", "day >= 2", "group:ob_parttime",  "sequential", "[이식] parttime_posting — 볼 때마다 다음 감상(순차 소비 데모)"),
-    ("p_ob_vending",   "street_mid",   "object", "both", "day >= 2", "group:ob_vending",   "conditional", "[이식] vending_machine — 골드에 따라 분기(조건 선택 데모)"),
-    ("p_ob_experiment","alley_in",     "object", "commute_out", "day >= 2", "group:ob_experiment", "once", "[이식] experiment_recruit — 코라테크 임상시험(세계관 복선)"),
-    ("p_ob_toilet",    "alley_deep",   "object", "commute_out", "day >= 2 && flag.q_lost_box_done", "group:ob_toilet", "once", "[이식] toilet_bin — 유머"),
+    ("p_shiba",       "alley_in",     "npc", "shiba",    "both",        "interact", "day >= 2", "group:np_shiba",     "conditional", "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"),
+    ("p_ob_parttime",  "street_wall",  "object", "", "both", "interact", "day >= 2", "group:ob_parttime",  "sequential", "[이식] parttime_posting — 볼 때마다 다음 감상(순차 소비 데모)"),
+    ("p_ob_vending",   "street_mid",   "object", "", "both", "interact", "day >= 2", "group:ob_vending",   "conditional", "[이식] vending_machine — 골드에 따라 분기(조건 선택 데모)"),
+    ("p_ob_experiment","alley_in",     "object", "", "commute_out", "interact", "day >= 2", "group:ob_experiment", "once", "[이식] experiment_recruit — 코라테크 임상시험(세계관 복선)"),
+    ("p_ob_toilet",    "alley_deep",   "object", "", "commute_out", "interact", "day >= 2 && flag.q_lost_box_done", "group:ob_toilet", "once", "[이식] toilet_bin — 유머"),
 ]
 
 # ============================================================
@@ -1139,6 +1144,9 @@ CONFIG = [
     ("sfx_drink_low",          "SFX_drink_grim",      "마시는 중 사운드 — Poor·Sewage"),
     ("idle_min_sec",           8,       "1부 대기 중 혼잣말(idle) 최소 간격"),
     ("idle_max_sec",           13,      "1부 대기 중 혼잣말 최대 간격"),
+    # ── v3.0 거리 시스템 — 말풍선 상수는 바와 분리해 따로 튜닝한다 ──
+    ("street_typing_interval_ms",   50, "거리 말풍선 타이핑 문자당 간격(ms) — 바(typing_interval_ms)와 별도 튜닝"),
+    ("street_auto_next_delay_sec",  3,  "auto 재생 대사 — 타이핑 종료 후 다음 대사까지 텀"),
 ]
 
 GRADE_CUTS = [("excellent",95),("good",80),("decent",60),("poor",35),("sewage",0)]
@@ -1396,6 +1404,11 @@ def validate(derived):
             errors.append(f"[표정파츠] {d['character_id']}.{d['expression']}: 파츠 {d['part']} 불가")
         if d["loop"] not in LOOP_MODES: errors.append(f"[표정파츠] {d['character_id']}.{d['expression']}.{d['part']}: loop {d['loop']} 불가")
     cut_ids = {c[0]: c[1] for c in CUTSCENES}
+    for c in CUTSCENES:  # v3.0 — kind enum + sprite(포스터 뷰)는 이미지 키 필수
+        if c[1] not in ("timeline", "gif", "sprite"):
+            errors.append(f"[컷씬] {c[0]}: kind '{c[1]}' 불가 (timeline/gif/sprite)")
+        if c[1] == "sprite" and not c[2]:
+            errors.append(f"[컷씬] {c[0]}: sprite 컷씬은 resource_key(포스터 이미지) 필수")
 
     for cid, lines in RECIPES.items():
         for a, i, q, u in lines:
@@ -1467,10 +1480,13 @@ def validate(derived):
                     mine = expr_by_char.get(st["actor"], {})
                     if mine and st["arg"] not in mine and st["arg"] not in expr_by_char.get("common", {}):
                         errors.append(f"[표정] {sid}#{st['seq']}: {st['actor']}에 표정 '{st['arg']}' 없음(common에도 없음)")
-            # 컷씬 리소스 참조
+            # 컷씬 리소스 참조 — timeline 스텝은 kind timeline(연출)과 sprite(포스터 뷰: 이미지 1장+스텝 text가 하단 대사) 둘 다 부른다
             if st["type"] in ("timeline", "gif"):
                 if st["arg"] not in cut_ids: errors.append(f"[컷씬] {sid}#{st['seq']}: Cutscenes에 {st['arg']} 없음")
-                elif cut_ids[st["arg"]] != st["type"]: errors.append(f"[컷씬] {sid}#{st['seq']}: {st['arg']}의 kind가 {st['type']}가 아님")
+                else:
+                    allowed_kinds = ("timeline", "sprite") if st["type"] == "timeline" else ("gif",)
+                    if cut_ids[st["arg"]] not in allowed_kinds:
+                        errors.append(f"[컷씬] {sid}#{st['seq']}: {st['arg']}의 kind({cut_ids[st['arg']]})는 {st['type']} 스텝에서 호출 불가")
             if st["sync"] not in ("", "no_wait"): errors.append(f"[스텝] {sid}#{st['seq']}: sync {st['sync']} 불가")
             if st["type"] in PLAYER_ACTION_STEPS and prev and prev["type"] == "say" and prev["actor"] == "luna":
                 errors.append(f"[루나규칙] {sid}#{st['seq']}: 플레이어 행동({st['type']}) 직전에 루나 대사 — 흐름 끊김")
@@ -1507,6 +1523,25 @@ def validate(derived):
             errors.append(f"[포인트] {d['id']}: 씬 {tgt} 없음")
         if d["selection"] in ("sequential", "conditional") and not tgt.startswith("group:"):
             errors.append(f"[포인트] {d['id']}: {d['selection']} 선택은 group: 참조가 필요")
+        # v3.0 거리 시스템 — 대사 시작 방식 (proximity = 접근 범위 자동 재생. Scenes.trigger의 auto와 층이 달라 이름을 분리)
+        if d["trigger"] not in ("interact", "proximity"):
+            errors.append(f"[포인트] {d['id']}: trigger '{d['trigger']}' 불가 (interact/proximity)")
+        if d["trigger"] == "proximity" and tgt.startswith("shop:"):
+            errors.append(f"[포인트] {d['id']}: proximity 재생은 대사 전용 — shop: 참조 불가")
+        if d["actor"] and d["actor"] not in char_ids:
+            errors.append(f"[포인트] {d['id']}: actor '{d['actor']}' — Characters에 없음")
+    # v3.1 — 씬 seq 계약: auto 씬의 (day,phase,seq)는 재생 순서라 중복 금지.
+    # 단, when 분기(생사 루트처럼 조건으로 하나만 재생)는 같은 자리를 공유하므로 "빈 when끼리의 중복"만 에러.
+    _auto_slots = {}
+    for sc in SCENES:
+        d = dict(zip(SCENE_COLS, sc))
+        if d["trigger"] != "auto": continue   # interact·manual·cameo의 seq는 그룹 정렬용 — 중복 허용
+        key = (d["day"], d["phase"], d["seq"])
+        _auto_slots.setdefault(key, []).append((d["id"], d["when"]))
+    for key, lst in _auto_slots.items():
+        empty = [i for i, w in lst if not w]
+        if len(lst) > 1 and empty:
+            errors.append(f"[씬] day{key[0]} {key[1]} seq{key[2]}: auto 씬이 같은 자리를 공유하는데 {empty}의 when이 비어 있음 — 분기와 무관하게 항상 재생돼 겹친다. 전부 when으로 가르거나 seq를 나눌 것")
     for s in STEPS:  # move 스텝의 spot: 참조 검사
         if s[2] == "move" and str(s[4]).startswith("spot:") and s[4][5:] not in spot_ids:
             errors.append(f"[스텝] {s[0]}#{s[1]}: 위치 프리셋 {s[4][5:]} 없음")
@@ -1566,6 +1601,12 @@ def validate(derived):
         # goto 대상 검증 (v2.2) — 오타 나면 런타임에서 조용히 점프 실패하므로 여기서 잡는다
         if ch[6] and ch[6] not in scene_ids:
             errors.append(f"[선택지] {ch[0]}#{ch[1]}: goto 씬 {ch[6]} 없음")
+    _ch_sizes = {}  # v3.0 — 선택지 세트는 2~4개 (1개짜리 확인용 금지, 5개 이상 UI 초과)
+    for ch in CHOICES:
+        _ch_sizes[ch[0]] = _ch_sizes.get(ch[0], 0) + 1
+    for cid, n in _ch_sizes.items():
+        if not (2 <= n <= 4):
+            errors.append(f"[선택지] {cid}: 항목 {n}개 — 세트는 2~4개여야 함")
     for st in STEPS:
         if st[2] == "goto" and st[4] and st[4] not in scene_ids:
             errors.append(f"[스텝] {st[0]}#{st[1]}: goto 씬 {st[4]} 없음")
@@ -2103,7 +2144,7 @@ COL_DOCS = {
     },
     "Cutscenes": {
         "id": "컷씬 고유 id. 대사(Steps)의 timeline 타입이 이 값을 부른다",
-        "kind": "timeline(Unity 타임라인 — 주력) 또는 gif(스파인 애니를 GIF로 뽑은 것)",
+        "kind": "timeline(Unity 타임라인 — 주력) / gif(스파인 애니를 GIF로 뽑은 것) / sprite(포스터 뷰 — 이미지 1장을 화면 중앙에 띄우고 timeline 스텝의 text가 하단 대사. 현재 실사용 0 = 예약)",
         "resource_key": "실제 리소스를 찾을 이름표",
         "note": "작업 메모(게임에 안 나옴)",
     },
@@ -2218,6 +2259,8 @@ COL_DOCS = {
         "spot": "어느 위치에 있는지(Spots 참조)",
         "kind": "object(조사하면 연출)/shop(상점 열기)/npc(대화 상대)",
         "phase": "언제 나타나는지 — commute_in(출근길)/commute_out(퇴근길)/both",
+        "actor": "이 지점에 서 있는 캐릭터(Characters.id). 빈값 = 사물·전단 등. 같은 actor를 phase·when이 다른 지점 여러 개에 두면 시간대별 위치 이동 표현",
+        "trigger": "대사 시작 방식 — interact(E키 상호작용, 기본)/proximity(재생 범위 진입 시 자동 재생 — E 아이콘 없음·조작 락 없음·street_auto_next_delay_sec 간격 자동 진행. 현재 실사용 0 = 예약)",
         "when": "나타날 조건(when 문법). 예: day == 2 → 2일차에만 등장",
         "scene_or_shop": "조사했을 때 재생할 씬 id. 'group:이름'이면 그 그룹의 씬들 중 selection 규칙대로 고른다. 'shop:'이면 상점",
         "selection": "반복 규칙 — once(한 번만)/repeat(계속)/sequential(볼 때마다 다음 씬)/conditional(조건 맞는 첫 씬). 시바견처럼 '첫 대화 후 반복 대사'는 conditional",
