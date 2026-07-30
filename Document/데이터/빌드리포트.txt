@@ -1,5 +1,5 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
-· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(19), Choices(10), Cutscenes(21), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(11), OrderRules(4), QuestStages(2), Quests(2), RegularSlots(1), ResourceMap(17), Scenes(51), Spots(9), Steps(818), Tastes(10), TextTags(7), UIStrings(35)
+· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(18), Choices(14), Cutscenes(23), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(7), OrderRules(4), QuestStages(2), Quests(2), RegularSlots(1), ResourceMap(17), Scenes(40), Spots(8), Steps(779), Tastes(10), TextTags(7), UIStrings(35)
 · LUNA_System.xlsx — 시트 9개: Cocktails(17), Config(33), GradeCuts(5), GradePayout(5), GuestBodies(14), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40)
 ⚠ [플래그] 'q_samho_honey_started' — 참조(퀘스트단계 samho_honey#1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
 ⚠ [플래그] 'rios_accepted' — 참조(엔딩 bad_1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
@@ -8,7 +8,8 @@
 ℹ [플래그] 'port_served_d3' — 세워지지만(단골슬롯 day3#4) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'q_lost_box_reward' — 세워지지만(퀘스트단계 lost_box#1) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'samho_drunk' — 세워지지만(주문 d4_samho_dilemma#1) 아직 아무 조건도 참조하지 않음
-ℹ [플래그] 'seen_coratech_ad' — 세워지지만(스텝 ob_experiment_1#2) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'seen_coratech_ad' — 세워지지만(스텝 ob_experiment_1#1) 아직 아무 조건도 참조하지 않음
+ℹ [플래그] 'shiba_fed' — 세워지지만(선택지 ch_st_shiba#2) 아직 아무 조건도 참조하지 않음
 === 호감도 상한 시뮬레이션 (day1~3 데이터 기준, 최선 플레이 상한) ===
 chris: 명시 +10 / 서빙 잠재 +8 (취향×excellent 기준) → 합계 상한 18 — 엔딩컷 100 대비 18%
 aili: 명시 +0 / 서빙 잠재 +4 (취향×excellent 기준) → 합계 상한 4 — 엔딩컷 100 대비 4%
@@ -38,4 +39,4 @@ Day 6: 입고[트리플섹] → 신규 가능[마가리타(T3), 화이트레이�
 슬롯 day3#4 T3 풀(1): gin_fizz [카메오: port]
 
 ✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 루나 대사 규칙
-칵테일 17 / 선반 40 / 캐릭터 19 / 씬 51 / 스텝 818 / 선택지 10 / 웨이브 7 / 단골슬롯 1
+칵테일 17 / 선반 40 / 캐릭터 18 / 씬 40 / 스텝 779 / 선택지 14 / 웨이브 7 / 단골슬롯 1

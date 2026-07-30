@@ -160,21 +160,20 @@ CHAR_COLS = ["id","name_ko","name_en","name_color","role","affinity","alive_flag
 CHARACTERS = [
     ("luna",   "루나",     "Luna",       "#5e9fe1", "player",      False, None,    "default",                    None, None, "주인공. 인조인간 바텐더"),
     ("chris",  "크리스",   "Chris",      "#8b5e2f", "master",      True,  None,    "default;success;fail",       "SFX_chris_enter", "SFX_chris_exit", "바 언노운의 마스터. 前 연구원"),
-    ("aili",   "아일리",   "Aili",       "#fcfe57", "guest_multi", True,  None,    "default;success;fail;joy",   None, None, "의사. 루나를 치료한 인물"),
-    ("port",   "포트",     "Port",       "#3c3cca", "guest_multi", True,  None,    "default;anger;joy;serious;event_surprise",  "SFX_port_enter", "SFX_port_exit", "루나를 데려온 인물. 前 기자"),
-    ("tom",    "톰 거너",  "Tom Gunner", "#7a4a2b", "guest_multi", True,  None,    "default;serious",            None, None, "갱 두목. 前 벡터 용병 대대장"),
-    ("samho",  "삼호",     "Samho",      "#ea3a3a", "guest_multi", True,  "samho", "default;success;fail;drunk", None, None, "갱단원. day4 생사 분기(구 day3)"),
-    ("bubi",   "부비",     "Bubi",       "#fdd48e", "guest_multi", True,  None,    "default",                    "SFX_cat_meow", None, "고양이"),
-    ("haru",   "송하루",   "Song Haru",  "#9fd08f", "guest_multi", True,  "haru",  "default;sad",                None, None, "취준생. day8 생사 분기(구 day7)"),
-    ("sunha",  "유선하",   "Yu Sunha",   "#c58bd6", "guest_multi", True,  None,    "default;serious",            None, None, "기자"),
-    ("hina",   "히나",     "Hina",       "#f2a0b5", "guest_twice", False, None,    "default",                    None, None, "2회 등장(구 day5·10)"),
-    ("shiba",  "시바",     "Shiba",      "#d9c58a", "guest_twice", False, None,    "default",                    None, None, "말하는 시바견. 크리스 앞에선 멍멍"),
-    ("rios",   "리오스",   "Rios",       "#b03060", "guest_once",  False, None,    "default",                    None, None, "루나와 같은 실험체. 최종일 등장"),
-    ("volts",  "볼츠",     "Volts",      "#708090", "guest_once",  False, None,    "default",                    None, None, "1회 등장(구 day8)"),
+    ("aili",   "아일리",   "Aili",       "#fcfe57", "guest",       True,  None,    "default;success;fail;joy",   "SFX_guest_door_in", "SFX_guest_door_out", "의사. 루나를 치료한 인물"),
+    ("port",   "포트",     "Port",       "#3c3cca", "guest",       True,  None,    "default;anger;joy;serious;event_surprise",  "SFX_port_enter", "SFX_port_exit", "루나를 데려온 인물. 前 기자"),
+    ("tom",    "톰 거너",  "Tom Gunner", "#7a4a2b", "guest",       True,  None,    "default;serious",            "SFX_guest_door_in", "SFX_guest_door_out", "갱 두목. 前 벡터 용병 대대장"),
+    ("samho",  "삼호",     "Samho",      "#ea3a3a", "guest",       True,  "samho", "default;success;fail;drunk", "SFX_guest_door_in", "SFX_guest_door_out", "갱단원. day4 생사 분기(구 day3)"),
+    ("bubi",   "부비",     "Bubi",       "#fdd48e", "guest",       True,  None,    "default",                    "SFX_cat_meow", "SFX_guest_door_out", "고양이"),
+    ("haru",   "송하루",   "Song Haru",  "#9fd08f", "guest",       True,  "haru",  "default;sad",                "SFX_guest_door_in", "SFX_guest_door_out", "취준생. day8 생사 분기(구 day7)"),
+    ("sunha",  "유선하",   "Yu Sunha",   "#c58bd6", "guest",       True,  None,    "default;serious",            "SFX_guest_door_in", "SFX_guest_door_out", "기자"),
+    ("hina",   "히나",     "Hina",       "#f2a0b5", "guest",       False, None,    "default",                    "SFX_guest_door_in", "SFX_guest_door_out", "2회 등장(구 day5·10)"),
+    ("shiba",  "시바",     "Shiba",      "#d9c58a", "guest",       False, None,    "default",                    "SFX_guest_door_in", "SFX_guest_door_out", "말하는 시바견. 크리스 앞에선 멍멍"),
+    ("rios",   "리오스",   "Rios",       "#b03060", "guest",       False, None,    "default",                    "SFX_guest_door_in", "SFX_guest_door_out", "루나와 같은 실험체. 최종일 등장"),
+    ("volts",  "볼츠",     "Volts",      "#708090", "guest",       False, None,    "default",                    "SFX_guest_door_in", "SFX_guest_door_out", "1회 등장(구 day8)"),
     ("yuna",   "유나",     "Yuna",       "#a8d8ff", "cutscene",    False, None,    "default",                    None, None, "꿈/과거 회상 전용. 루나의 은인"),
     ("soldier","경비병",   "Guard",      "#888888", "cutscene",    False, None,    "default",                    None, None, "꿈 컷씬 전용"),
     ("vendor", "완",       "Wan",        "#cccccc", "npc_street",  False, None,    "default",                    None, None, "노점상. 출퇴근길 상점"),
-    ("board",  "전광판",   "News Board", "#66d9ff", "npc_street",  False, None,    "default",                    None, None, "거리 뉴스 전광판(연출용 화자)"),
     ("radio",  "라디오",   "Radio",      "#9ad0a0", "npc_street",  False, None,    "default",                    None, None, "엘리베이터·집 라디오(연출용 화자, 구엔진 elevator_radio 이식)"),
     ("sign",   "표기",     "Sign",       "#9aa2b5", "npc_street",  False, None,    "default",                    None, None, "전단·간판·자판기 등 사물 텍스트 화자(구엔진 speaker=object 대응)"),
 ]
@@ -321,6 +320,9 @@ CUTSCENES = [
     ("tl_raid_2",        "timeline", "TL_Dream_Raid2",      "[예약] 꿈 습격 2"),
     ("tl_d13_rios",      "timeline", "TL_Day13_Rios",       "[예약] day13 리오스 등장"),
     ("gif_bubi_headjump","gif",      "Spine_Bubi_HeadJump", "[예약] 부비 머리 점프(스파인→GIF) — 현 fx cat_on_head 승격 후보"),
+    # ===== 포스터 뷰 (kind=sprite — 이미지 1장 + 하단 텍스트) =====
+    ("sp_parttime_poster",  "sprite", "Poster/parttime",   "알바 전단 포스터 뷰 — 이미지 발주 대기(가칭 키)"),
+    ("sp_experiment_poster","sprite", "Poster/experiment", "임상시험 전단 포스터 뷰 — 이미지 발주 대기(가칭 키)"),
 ]
 
 # ============================================================
@@ -656,9 +658,8 @@ REGULAR_SLOTS = [
 SPOT_COLS = ["id","area","desc","note"]
 SPOTS = [
     ("bar_door",     "street", "바 '언노운' 정문 앞",   "출근 도착점 / 퇴근 출발점"),
-    ("street_board", "street", "뉴스 전광판 앞",        "일차별 뉴스 연출"),
     ("street_stall", "street", "완의 노점",             "상점 + 노점 이벤트"),
-    ("street_mid",   "street", "거리 중간",             "걷기 연출 기본 목적지 + 자판기"),
+    ("street_mid",   "street", "거리 중간",             "걷기 연출 기본 목적지"),
     ("street_wall",  "street", "전단이 붙은 벽",        "구엔진 outside_objects 이식(전단·포스터류)"),
     ("home_door",    "street", "집 현관 앞",            "퇴근 도착점 / 출근 출발점"),
     ("alley_in",     "alley",  "뒷골목 입구",           "골목 이벤트 얕은 쪽 + 임상시험 전단"),
@@ -679,18 +680,14 @@ SPOTS = [
 #   시간대별 위치 이동을 표현할 수 있다(소비 상태는 지점별, 그룹 진행은 scene_or_shop 공유로 이어짐).
 POINT_COLS = ["id","spot","kind","actor","phase","trigger","when","scene_or_shop","selection","note"]
 POINTS = [
-    ("p_news_d2",      "street_board", "object", "", "commute_in",  "interact", "day == 2", "d2_news",         "once",   "전광판 뉴스(세계관 떡밥)"),
-    ("p_news_d3",      "street_board", "object", "", "commute_in",  "interact", "day == 3", "d3_news",         "once",   "전광판 뉴스(벡터 정화사업)"),
     ("p_vendor_intro", "street_stall", "npc", "vendor",    "commute_in",  "interact", "day == 2 && !flag.q_lost_box_started", "d2_vendor_intro", "once", "노점상 완 첫 인사 + 퀘스트 시작"),
     ("p_vendor_shop",  "street_stall", "shop", "vendor",   "both",        "interact", "day >= 3", "shop:vendor",     "repeat", "노점 상점(과일·믹서 구매)"),
-    ("p_lost_box",     "alley_deep",   "object", "", "commute_out", "interact", "flag.q_lost_box_started && !flag.q_lost_box_done", "d2_box_found", "once", "잃어버린 상자(퀘스트)"),
+    ("p_lost_box",     "alley_deep",   "object", "", "commute_out", "interact", "flag.q_lost_box_started && !flag.q_lost_box_done", "d2_box_found", "repeat", "잃어버린 상자(퀘스트) — 무시해도 다시 주울 수 있어야 하므로 repeat, 닫는 것은 when이 담당"),
     ("p_alley_cat",    "alley_in",     "object", "", "commute_in",  "interact", "day == 3 && !flag.d3_cat_seen", "d3_alley_cat", "once", "노란 꼬리 목격 → d3 아일리 선택지 연동"),
     # --- 구엔진 outside_objects.json 이식 4종 (원문 대사 기반) ---
     ("p_shiba",       "alley_in",     "npc", "shiba",    "both",        "interact", "day >= 2", "group:np_shiba",     "conditional", "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"),
-    ("p_ob_parttime",  "street_wall",  "object", "", "both", "interact", "day >= 2", "group:ob_parttime",  "sequential", "[이식] parttime_posting — 볼 때마다 다음 감상(순차 소비 데모)"),
-    ("p_ob_vending",   "street_mid",   "object", "", "both", "interact", "day >= 2", "group:ob_vending",   "conditional", "[이식] vending_machine — 골드에 따라 분기(조건 선택 데모)"),
-    ("p_ob_experiment","alley_in",     "object", "", "commute_out", "interact", "day >= 2", "group:ob_experiment", "once", "[이식] experiment_recruit — 코라테크 임상시험(세계관 복선)"),
-    ("p_ob_toilet",    "alley_deep",   "object", "", "commute_out", "interact", "day >= 2 && flag.q_lost_box_done", "group:ob_toilet", "once", "[이식] toilet_bin — 유머"),
+    ("p_ob_parttime",  "street_wall",  "object", "", "both", "interact", "day >= 2", "ob_parttime_1",  "repeat", "알바 전단 — 적힌 정보만, 몇 번이든 다시 읽을 수 있다"),
+    ("p_ob_experiment","alley_in",     "object", "", "commute_out", "interact", "day >= 2", "ob_experiment_1", "once", "임상시험 전단 — 코라테크 복선(한 번 읽으면 소비)"),
 ]
 
 # ============================================================
@@ -709,41 +706,31 @@ SCENES = [
     ("d1_elevator",    1, "commute_out", 2, "auto",     "", "퇴근길 엘리베이터 — 라디오 뉴스 (구엔진 elevator_radio 이식)"),
     ("d2_meet",        2, "commute_in",  2, "auto",     "", "출근길 — 삼호와 시바견"),
     ("d2_home_talk",   2, "home",        1, "auto",     "", "테라스 — 이틀째 밤"),
-    ("d2_commute_in",  2, "commute_in",  1, "auto",     "", "첫 단독 출근"),
-    ("d2_news",        2, "commute_in",  0, "interact", "", "전광판 — 코라테크/실종 뉴스"),
     ("d2_vendor_intro",2, "commute_in",  0, "interact", "", "노점상 완 — 인사 + 상자 퀘스트"),
     ("d2_bar_open",    2, "bar_open",    1, "auto",     "", "개점 전 — 크리스의 확인, OPEN 간판을 걸기까지"),
     ("d2_port_chris",  2, "bar",         1, "auto",     "", "포트 첫 등장 — 루나 구조의 진실 일부"),
     ("d2_shiba",       2, "bar",         2, "auto",     "", "시바 첫 등장 — 개똥철학 (크리스 부재)"),
     ("d2_chris_return",2, "bar",         3, "auto",     "", "크리스 복귀 — 시바는 멍멍"),
-    ("d2_commute_out", 2, "commute_out", 1, "auto",     "", "퇴근길 독백"),
     ("d2_box_found",   2, "commute_out", 0, "interact", "", "상자 발견(퀘스트 완료)"),
     ("d2_dream",       2, "dream",       1, "auto",     "", "꿈 — 습격 1: 유나의 목소리와 총성"),
-    ("d3_commute_in",  3, "commute_in",  1, "auto",     "", "출근길 — 어제의 꿈"),
-    ("d3_news",        3, "commute_in",  0, "interact", "", "전광판 — 벡터 '정화 사업'"),
     ("d3_alley_cat",   3, "commute_in",  0, "interact", "", "골목의 노란 꼬리"),
     ("d3_bar_open",    3, "bar_open",    1, "auto",     "", "개점 전 — 어제 손님 이야기, OPEN"),
     ("d3_aili_bubi",   3, "bar",         1, "auto",     "", "아일리 첫 대면 + 부비 등장"),
     ("d3_samho",       3, "bar",         2, "auto",     "", "삼호 첫 등장 — 고도수 2연속"),
     ("d3_cameo_port",  3, "bar",         0, "cameo",    "", "1부 카메오 — 포트가 짧게 들름 (서빙 후 재생)"),
-    ("d3_commute_out", 3, "commute_out", 1, "auto",     "", "퇴근길 독백"),
-    ("d3_samho_death", 3, "commute_out", 2, "auto",     "flag.samho_death_route",   "…골목의 삼호 (사망 목격 — 데모 컷)"),
-    ("d3_samho_rescue",3, "commute_out", 2, "auto",     "flag.samho_refused_drink", "도움 요청 — 삼호 구출"),
     ("d3_chris_witness",3,"home",        2, "auto",     "flag.samho_refused_drink", "크리스의 목격 — 데모 컷"),
     ("d3_home_talk",   3, "home",        1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "테라스 — 은인들 (데모에선 분기 씬이 대체)"),
     ("d3_dream",       3, "dream",       1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "꿈 — 습격 2 (데모에선 분기 엔딩이 대체)"),
+    # --- 엔딩 (day 0 상시, endings.json이 scene_id로 호출 — trigger=manual) ---
     # --- 구엔진 outside_objects.json 이식 (day 0 = 상시 공용) ---
     ("np_shiba_1",      0, "street", 1, "interact", "!flag.shiba_met", "[이식] 시바 첫 조우 (구 first_encounter)", False, "np_shiba"),
-    ("np_shiba_2",      0, "street", 2, "interact", "", "[이식] 시바 반복 대사 (구 revisit_repeat)", False, "np_shiba"),
+    ("np_shiba_3",      0, "street", 2, "interact", "flag.shiba_met && day >= 3", "[더미] 시바 — 거리 선택지 데모 (조건 항목·goto 포함)", False, "np_shiba"),
+    ("np_shiba_2",      0, "street", 3, "interact", "", "[이식] 시바 반복 대사 (구 revisit_repeat)", False, "np_shiba"),
+    ("np_shiba_treat",  0, "street", 4, "manual",   "", "[더미] 시바 — 간식 goto 결과 씬", False, ""),
     ("np_tv_1",         0, "home",   1, "interact", "!flag.tv_seen1", "홀로그램 TV — 실종 뉴스 (구 radio 이식)", False, "home_tv"),
     ("np_tv_2",         0, "home",   2, "interact", "", "홀로그램 TV — 토크쇼 (구 radio 이식)", False, "home_tv"),
-    ("ob_parttime_1",   0, "street", 1, "interact", "", "[이식] 전단 — 알바 공고 (1회차 감상)", False, "ob_parttime"),
-    ("ob_parttime_2",   0, "street", 2, "interact", "", "[이식] 전단 — 알바 공고 (2회차 감상)", False, "ob_parttime"),
-    ("ob_parttime_3",   0, "street", 3, "interact", "", "[이식] 전단 — 알바 공고 (3회차 감상)", False, "ob_parttime"),
-    ("ob_vending_buy",  0, "street", 1, "interact", "money >= 25", "[이식] 자판기 — 구매 성공", False, "ob_vending"),
-    ("ob_vending_poor", 0, "street", 2, "interact", "", "[이식] 자판기 — 잔액 부족", False, "ob_vending"),
-    ("ob_experiment_1", 0, "street", 1, "interact", "", "[이식] 임상시험 전단 — 코라테크 복선", False, "ob_experiment"),
-    ("ob_toilet_1",     0, "street", 1, "interact", "", "[이식] 쓰레기통", False, "ob_toilet"),
+    ("ob_parttime_1",   0, "street", 1, "interact", "", "전단 — 알바 공고 (포스터 뷰, 적힌 정보만)", False, ""),
+    ("ob_experiment_1", 0, "street", 1, "interact", "", "임상시험 전단 — 코라테크 복선 (포스터 뷰)", False, ""),
 ]
 # 구형 7필드 행 정규화 (skippable=False, group="")
 SCENES = [r if len(r) == len(SCENE_COLS) else tuple(list(r) + [False, ""]) for r in SCENES]
@@ -804,25 +791,21 @@ STEPS = [
     ("d1_port", 15, "end_part", "", "", "", "", "", "", "그날 bar 마지막 씬의 종료 스텝 → 정산"),
 
     # ---------- 엘리베이터 라디오 (day1 퇴근 — 구엔진 elevator_radio d1 commute_out 이식) ----------
-    ("d1_elevator", 1, "say", "luna",  "idle", "(엘리베이터가 낡은 소리를 내며 내려간다.)", "(The elevator rattles its way down.)", "", "", "강제 컷씬"),
     ("d1_elevator", 2, "say", "radio", "", "…다음 뉴스입니다.", "...In other news.", "", "", "구 radio_d1_out_001"),
     ("d1_elevator", 3, "say", "radio", "", "뉴런 트롤프 주니어가 대통령 8연임에 성공하며,\n신미합중국의 제67대 대통령으로 다시 한번 당선되었습니다.", "Newron Trolph Jr. has won his eighth term,\nre-elected as the 67th President of the New United States.", "", "", ""),
     ("d1_elevator", 4, "say", "radio", "", "트롤프 대통령은 당선 직후 연설에서", "In his victory speech, President Trolph declared:", "", "", ""),
     ("d1_elevator", 5, "say", "radio", "", "\"위대한 국가 재건은 아직 끝나지 않았다.\"\n\"신미합중국은 다시 한 번 세계의 중심에 설 것이다.\"", "\"The great national rebuilding is not over.\"\n\"The New United States will stand at the center of the world once more.\"", "", "", ""),
     ("d1_elevator", 6, "say", "radio", "", "라고 밝혔습니다.", "— he stated.", "", "", ""),
-    ("d1_elevator", 7, "say", "luna",  "idle", "(…세계는, 생각보다 넓다.)", "(...The world is wider than I thought.)", "", "", ""),
 
     # ---------- day2 출근길 — 삼호와 시바견 조우 ----------
     ("d2_meet", 1,  "say", "samho", "idle", "어? 너, 그 언노운의 새 바텐더 아냐?", "Huh? You're that new bartender at Unknown, right?", "", "", ""),
     ("d2_meet", 2,  "say", "luna",  "idle", "맞습니다. 당신은…", "That's right. And you are...", "", "", ""),
     ("d2_meet", 3,  "say", "samho", "idle", "삼호! 이 구역 애니멀 갱의 미래지. 기억해 둬.", "Samho! The future of the Animal Gang in this district. Remember it.", "", "", ""),
     ("d2_meet", 4,  "say", "shiba", "idle", "시끄러워, 시바.", "Too loud, shiba.", "", "", ""),
-    ("d2_meet", 5,  "say", "luna",  "idle", "(…개가, 말을 했다.)", "(...The dog. It talked.)", "", "", ""),
     ("d2_meet", 6,  "say", "shiba", "idle", "뭘 봐. 처음 봐, 시바?", "What're you looking at. Never seen one before, shiba?", "", "", ""),
     ("d2_meet", 7,  "say", "samho", "idle", "하하, 얘는 시바. 말버릇은 저래도 나쁜 녀석은 아냐.", "Haha, this is Shiba. Foul mouth, decent guy.", "", "", ""),
     ("d2_meet", 8,  "say", "shiba", "idle", "네가 나쁜 놈이 아닌 거겠지, 시바.", "You mean YOU'RE the decent one, shiba.", "", "", ""),
     ("d2_meet", 9,  "say", "samho", "idle", "아무튼! 조만간 그 가게에 들를 거니까, 맛있는 거 준비해 둬!", "Anyway! I'll drop by that bar of yours soon — have something good ready!", "", "", "d3_samho_visit '내가 온다고 했잖아'의 복선"),
-    ("d2_meet", 10, "say", "luna",  "idle", "(…시끄러운 아침이다.)", "(...A loud morning.)", "", "", ""),
 
     # ---------- day2 테라스 ----------
     ("d2_home_talk", 1, "fx", "", "terrace_night", "", "", "", "", ""),
@@ -835,25 +818,8 @@ STEPS = [
     ("d2_home_talk", 8, "say", "luna",  "default", "(기다린다… 기록해 둔다.)", "(Waiting... noted.)", "", "", "이후 습격의 꿈 1"),
 
     # ---------- day3 분기 — 사망 목격 (death route) ----------
-    ("d3_samho_death", 1, "say", "luna", "idle", "(…골목이 소란스럽— 아니. 조용하다. 너무.)", "(...The alley is loud— no. It's quiet. Too quiet.)", "", "", ""),
-    ("d3_samho_death", 2, "say", "luna", "idle", "(…삼호?)", "(...Samho?)", "", "", ""),
-    ("d3_samho_death", 3, "say", "luna", "idle", "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)", "(He's slumped against the alley wall...\nNot moving.)", "", "", ""),
-    ("d3_samho_death", 4, "say", "luna", "idle", "(손에… 노란 꽃이 쥐여 있다.)", "(In his hand... a yellow flower.)", "", "", "d3_samho_pour의 꽃 약속 회수"),
-    ("d3_samho_death", 5, "say", "luna", "idle", "삼호. …삼호?", "Samho. ...Samho?", "", "", ""),
-    ("d3_samho_death", 6, "say", "luna", "idle", "(………)", "(.........)", "", "", ""),
-    ("d3_samho_death", 7, "say", "luna", "idle", "(반응이 없다. 체온이… 내려가 있다.)", "(No response. His body temperature... is falling.)", "", "alive.samho = false", ""),
-    ("d3_samho_death", 8, "say", "luna", "idle", "(…내가 따라준, 마지막 잔이 생각났다.)", "(...I thought of the last glass I poured him.)", "", "", "→ 데모 엔딩(사망)"),
 
     # ---------- day3 분기 — 구출 (refuse route) ----------
-    ("d3_samho_rescue", 1, "say", "samho", "idle", "…루나! 루나 맞지?!", "...Luna! Luna, that's you, right?!", "", "", "골목에서 튀어나옴"),
-    ("d3_samho_rescue", 2, "say", "luna",  "idle", "삼호? 무슨 일—", "Samho? What's going—", "", "", ""),
-    ("d3_samho_rescue", 3, "say", "samho", "idle", "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.", "Shh— quiet. ...The Magarov crew hit our turf.", "", "", ""),
-    ("d3_samho_rescue", 4, "say", "samho", "idle", "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.", "The hideout's gone. I got my siblings out in time...\nbut they're after me now.", "", "", ""),
-    ("d3_samho_rescue", 5, "say", "luna",  "idle", "다친 겁니까? 팔이—", "Are you hurt? Your arm—", "", "", ""),
-    ("d3_samho_rescue", 6, "say", "samho", "idle", "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.", "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide.", "", "", ""),
-    ("d3_samho_rescue", 7, "say", "luna",  "idle", "(…크리스 씨한테 혼날지도 모른다. 하지만—)", "(...Chris might be furious. But—)", "", "", ""),
-    ("d3_samho_rescue", 8, "say", "luna",  "idle", "따라오세요.", "Follow me.", "", "", ""),
-    ("d3_samho_rescue", 9, "say", "samho", "idle", "…고마워. 진짜로.", "...Thank you. Really.", "", "", "→ 집으로 (크리스 목격)"),
 
     # ---------- day3 분기 — 크리스의 목격 (rescue route, 집) ----------
     ("d3_chris_witness", 1, "say", "luna",  "default", "(소파에 삼호를 앉혔다. 상처는 깊지 않다.)", "(I sat Samho on the sofa. The wound isn't deep.)", "", "", ""),
@@ -914,11 +880,6 @@ STEPS = [
     ("d1_home_talk", 6, "choice", "",      "ch_d1_home", "", "", "", "", ""),
     ("d1_home_talk", 7, "say",    "chris", "default", "그래. 천천히 하면 된다. 늦잠 자지 마라.", "Good. Take it slow. And don't oversleep.", "", "", "수면으로"),
     # ---------- DAY 2 ----------
-    ("d2_commute_in", 1, "say",   "luna",  "idle", "(첫 정식 출근. 크리스는 먼저 나갔다.)", "(My first real shift. Chris left ahead of me.)", "", "", "오후 7시, 이미 밤"),
-    ("d2_commute_in", 2, "say",   "luna",  "idle", "(…거리의 냄새는 아직 낯설다.)", "(...The smell of this street is still unfamiliar.)", "", "", "독백 후 자유 이동"),
-    ("d2_news", 1, "say", "board", "", "[속보] 코라테크, 3분기 신경보철 출하량 사상 최대 기록", "[BREAKING] CoraTech posts record Q3 shipments of neural prosthetics", "", "", "세계관 뉴스"),
-    ("d2_news", 2, "say", "board", "", "[지역] 서울 외곽 3구역, 실종 신고 3개월 연속 증가… 경비업체 \"순찰 강화\"", "[LOCAL] Missing-person reports in Outer Seoul District 3 rise for a third straight month... security firms 'stepping up patrols'", "", "", "중막 복선"),
-    ("d2_news", 3, "say", "luna",  "idle", "(…외곽. 남 일 같지 않은 단어다.)", "(...The outskirts. A word that doesn't feel like someone else's problem.)", "", "", ""),
     ("d2_vendor_intro", 1, "say", "vendor", "idle", "오, 새 얼굴. 언노운의 새 알바가 너구나? 크리스한테 얘기 들었다.", "Oh, a new face. You're Unknown's new hire, aren't you? Chris told me about you.", "", "", ""),
     ("d2_vendor_intro", 2, "say", "luna",   "idle", "…안녕하세요. 루나입니다.", "...Hello. I'm Luna.", "", "", ""),
     ("d2_vendor_intro", 3, "say", "vendor", "idle", "난 완. 이 노점 주인이다. 과일이든 탄산이든, 재료가 떨어지면 나한테 와라.", "Name's Wan. I run this stall. Fruit, fizz, whatever — when you run out of stock, come to me.", "", "", "상점 기능 소개"),
@@ -956,10 +917,8 @@ STEPS = [
     ("d2_chris_return", 5, "exit",  "shiba", "", "", "", "", "", "당당하게 꼬리 흔들며 퇴장"),
     ("d2_chris_return", 6, "say",   "chris", "default", "오늘은 슬슬 정리하지.", "Let's start closing up.", "", "", ""),
     ("d2_chris_return", 7, "end_part", "",  "", "", "", "", "", ""),
-    ("d2_commute_out", 1, "say", "luna", "idle", "(말하는 개, 목소리 큰 단골… 인간의 밤은 소란스럽다.)", "(A talking dog, a loud regular... human nights are noisy.)", "", "", "새벽 2시"),
-    ("d2_box_found", 1, "say",    "luna", "idle", "(…골목 구석, 발자국에 밟힌 상자. 노점 마크가 찍혀 있다.)", "(...A box in the corner of the alley, trampled, stamped with the stall's mark.)", "", "", ""),
-    ("d2_box_found", 2, "effect", "",     "", "", "", "", "flag.q_lost_box_done = true; quest(lost_box).advance", "퀘스트 완료 → 보상은 Quests 시트"),
-    ("d2_box_found", 3, "say",    "luna", "idle", "(내일 완 아저씨한테 가져다주자.)", "(I'll bring it to Wan tomorrow.)", "", "", ""),
+    ("d2_box_found", 1, "say",    "sign", "", "완 상회", "WAN'S STALL", "", "", "", "상자에 찍힌 노점 마크 — 적힌 정보만"),
+    ("d2_box_found", 2, "choice", "",     "ch_st_box", "", "", "", "", "", "줍는 행동은 선택지로"),
     ("d2_dream", 1, "fx",  "",     "glitch_in", "", "", "", "", "노이즈 인 — 카타나 제로식 조각 연출"),
     ("d2_dream", 2, "say", "yuna", "default", "루나. 눈 감아. 무슨 소리가 나도, 뜨면 안 돼.", "Luna. Close your eyes. Whatever you hear — don't open them.", "", "", "구 day1 꿈: 유나의 대사 재생"),
     ("d2_dream", 3, "sfx", "",     "alarm_distant", "", "", "", "", "멀리서 경보음"),
@@ -968,10 +927,7 @@ STEPS = [
     ("d2_dream", 6, "fx",  "",     "hard_cut", "", "", "", "", "강제 암전"),
     ("d2_dream", 7, "say", "luna", "default", "…!!", "...!!", "", "flag.dream_raid_1 = true", "침대에서 깨어남"),
     # ---------- DAY 3 ----------
-    ("d3_commute_in", 1, "say", "luna", "idle", "(어제의 꿈. …기록에 없는 소리였다.)", "(Last night's dream. ...A sound that isn't in my records.)", "", "", "꿈 후유증 독백"),
-    ("d3_news", 1, "say", "board", "", "[경제] 벡터 그룹, 외곽 재개발 \"정화 사업\" 착수 발표… \"더 안전한 신대한민국\"", "[BUSINESS] Vector Group launches 'Purification Project' for the outskirts... 'A safer New Korea'", "", "", "벡터 첫 언급"),
-    ("d3_news", 2, "say", "luna",  "idle", "(정화. …단어가 차갑다.)", "(Purification. ...A cold word.)", "", "", ""),
-    ("d3_alley_cat", 1, "say",    "luna", "idle", "(골목 안쪽 — 노란 꼬리가 휙, 사라졌다.)", "(Deep in the alley — a yellow tail flicked out of sight.)", "", "", ""),
+    ("d3_alley_cat", 1, "say",    "sign", "", "냐옹.", "Meow.", "", "", "고양이 위 오브젝트 말풍선 — 냐옹만"),
     ("d3_alley_cat", 2, "effect", "",     "", "", "", "", "flag.d3_cat_seen = true", "아일리 선택지 연동"),
     ("d3_aili_bubi", 1,  "enter",  "aili", "L", "", "", "", "", ""),
     ("d3_aili_bubi", 2,  "say",    "aili", "default", "네가 루나구나! 얘기 많이 들었어. 포트가 입이 싸거든.", "So you're Luna! I've heard all about you — Port has a big mouth.", "", "", ""),
@@ -1019,8 +975,6 @@ STEPS = [
     ("d3_samho", 20, "end_part","",     "", "", "", "", "", ""),
     ("d3_cameo_port", 1, "say", "port", "joy", "…역시. 어제 그 맛이 아니었으면 어쩌나 했지.", "...Right. I'd have worried if it wasn't yesterday's taste.", "", "", "1부 서빙 직후 재생되는 짧은 카메오"),
     ("d3_cameo_port", 2, "say", "port", "default", "배우는 속도가 빠르군. 크리스한테 칭찬해두지.", "You learn fast. I'll put in a good word with Chris.", "", "affinity.port += 1", "카메오는 2~3줄로 짧게 — 비중 최소"),
-    ("d3_commute_out", 1, "say", "luna", "idle", "(고도수 두 잔을 연달아 마시는 인간의 간은, 어떤 구조일까.)", "(What is the structure of a human liver that takes two of those back to back?)", "", "", ""),
-    ("d3_commute_out", 2, "say", "luna", "idle", "(진짜 벌꿀… 내일 입고 목록이 하나 늘었다. '거래'라는 건, 계산보다 나쁘지 않다.)", "(Real honey... one more line on tomorrow's stock list. 'Trade' is less unpleasant than my calculations suggested.)", "quest.samho_honey.stage >= 1", "", "연계 데모 — when DSL의 quest.<id>.stage 참조(0=미시작)"),
     ("d3_home_talk", 1,  "fx",     "",      "terrace_night", "", "", "", "", ""),
     ("d3_home_talk", 2,  "say",    "chris", "default", "아일리는 만났나.", "Did you meet Aili.", "", "", ""),
     ("d3_home_talk", 3,  "say",    "luna",  "default", "네. …포트 씨가 절 데려왔고, 아일리 씨가 고쳤다고 들었어요.", "Yes. ...I heard Port brought me in, and Aili fixed me.", "", "", ""),
@@ -1040,20 +994,17 @@ STEPS = [
     ("d3_dream", 6, "fx",  "",        "hard_cut", "", "", "", "", ""),
     ("d3_dream", 7, "say", "luna",    "default", "…!!", "...!!", "", "flag.dream_raid_2 = true", "깨어남"),
     # ---------- 구엔진 outside_objects 이식 (11필드 신형식 — sync 포함) ----------
-    ("ob_parttime_1", 1, "say", "sign", "", "아르바이트 구함. 연락처: 154*455*587", "PART-TIMER WANTED. Contact: 154*455*587", "", "", "", "원문: parttime_flow_1/5"),
-    ("ob_parttime_1", 2, "say", "luna", "idle", "(급여도 근무 시간도 없이, 연락처만 있네.)", "(No pay, no hours listed. Just a number.)", "", "", "", ""),
-    ("ob_parttime_2", 1, "say", "luna", "idle", "(Bc25 편의점… 크리스한테 들은 적 있는 것 같은데. 이 구역에서 그나마 오래된 곳이라고 했던가.)", "(Bc25 convenience store... Chris mentioned it, I think. One of the oldest shops in this district?)", "", "", "", "원문: parttime_flow_2"),
-    ("ob_parttime_3", 1, "say", "luna", "idle", "(글씨가… 손으로 쓴 건가, 발로 쓴 건가.)", "(Was this written by hand... or by foot?)", "", "", "", "원문: parttime_flow_3"),
-    ("ob_vending_buy",  1, "say", "sign", "", "(지이잉―)", "(Vrrrr—)", "", "", "", "자판기 작동음"),
-    ("ob_vending_buy",  2, "effect", "", "", "", "", "", "money -= 25; give(soda_water, 1)", "", "구매"),
-    ("ob_vending_buy",  3, "say", "luna", "idle", "('초정 탄산수'를 얻었다.)", "(Got a bottle of 'Chojeong Sparkling Water.')", "", "", "", ""),
-    ("ob_vending_poor", 1, "say", "sign", "", "(지이잉―)", "(Vrrrr—)", "", "", "", ""),
-    ("ob_vending_poor", 2, "say", "luna", "idle", "(…살 돈이 모자란 것 같다.)", "(...I don't have enough for this.)", "", "", "", ""),
-    ("ob_experiment_1", 1, "say", "sign", "", "인공 신경망 분석 — 임상시험 참가자 모집. 주관: (주)코라테크", "NEURAL NETWORK ANALYSIS — Clinical trial participants wanted. Sponsor: CoraTech Inc.", "", "", "", "원문: experiment_recruit"),
-    ("ob_experiment_1", 2, "say", "luna", "idle", "(…설마.)", "(...It couldn't be.)", "", "flag.seen_coratech_ad = true", "", "세계관 복선 플래그"),
-    ("ob_toilet_1", 1, "say", "luna", "idle", "…뭐지, 이건?", "...What is this?", "", "", "", "원문: toilet_bin"),
-    ("ob_toilet_1", 2, "say", "luna", "idle", "(방금 전까지 누군가 사용한 흔적이 있는 것 같은데.)", "(Looks like someone just used it.)", "", "", "", ""),
-    ("ob_toilet_1", 3, "say", "luna", "idle", "(더는 보고 싶지 않다.)", "(I don't want to look at this any longer.)", "", "", "", ""),
+    # 오브젝트 보기 규칙: 말풍선은 오브젝트 상단에만 — 루나 말풍선·독백 없음 (v3.3)
+    ("ob_parttime_1", 1, "timeline", "", "sp_parttime_poster", "아르바이트 구함 · Bc25 편의점 · 야간 3교대 · 연락처 154*455*587", "PART-TIMER WANTED · Bc25 convenience store · night shifts · 154*455*587", "", "", "", "전단에 적힌 정보만 — 감상·서술 금지"),
+    ("ob_experiment_1", 1, "timeline", "", "sp_experiment_poster", "임상시험 참가자 모집 · 인공 신경망 분석 · 주관 (주)코라테크 · 문의 070*8812*0031", "CLINICAL TRIAL PARTICIPANTS WANTED · neural network analysis · CoraTech Inc. · 070*8812*0031", "", "flag.seen_coratech_ad = true", "", "전단 정보 + 세계관 복선 플래그"),
+    # ---------- [더미] NPC간 대화 · 거리 선택지 · proximity (v3.3 거리 기능 전수 데모) ----------
+    ("np_shiba_3", 1, "say", "shiba", "idle", "또 왔냐, 시바.", "You again, shiba.", "", "", "", "거리 선택지 데모 씬"),
+    ("np_shiba_3", 2, "say", "luna",  "idle", "네. 지나가던 길이에요.", "Yes. Just passing by.", "", "", "", "루나 참여 — 이름형 판정"),
+    ("np_shiba_3", 3, "say", "shiba", "idle", "…뭐, 볼일 있으면 빨리 말해, 시바.", "...If you want something, spit it out, shiba.", "", "", "", ""),
+    ("np_shiba_3", 4, "choice", "", "ch_st_shiba", "", "", "", "", "", "거리 첫 선택지 — 조건 항목·goto 포함"),
+    ("np_shiba_3", 5, "say", "shiba", "idle", "손대면 문다, 시바.", "Touch me and I bite, shiba.", "", "", "", "goto 없는 항목을 고르면 이어지는 줄"),
+    ("np_shiba_treat", 1, "say", "shiba", "idle", "…흥. 뭐, 못 먹을 건 아니네, 시바.", "...Hmph. Well, it's not inedible, shiba.", "", "", "", "goto 결과 씬"),
+    # --- ed_bad_gold: 유지비 미납 엔딩 (데모용 텍스트 엔딩 — 연출 없음) ---
 ]
 # 구형 10필드 행 정규화 (sync="" 를 effects 뒤에 삽입)
 STEPS = [r if len(r) == len(STEP_COLS) else tuple(list(r[:9]) + [""] + [r[9]]) for r in STEPS]
@@ -1071,6 +1022,12 @@ CHOICES = [
     # 퀘스트 데모 — 수락은 started 플래그만 세움. 진행/완료는 QuestStages의 serve: 목표가 담당
     ("ch_d3_deal",  1, "좋아요. 셰이커는 이미 잡았어요.", "Deal. My hand's already on the shaker.",  "", "flag.q_samho_honey_started = true", "", "퀘스트 수주"),
     ("ch_d3_deal",  2, "오늘은 사양할게요.",             "I'll pass tonight.",                      "", "flag.q_samho_honey_declined = true", "", "거절 — 재제안 연출용 플래그"),
+    # [더미] 거리 첫 선택지 세트 — 무조건 항목 + 조건 항목(회색 표시 데모) + goto
+    ("ch_st_shiba", 1, "아뇨, 그냥 지나갈게요.",        "No, I'll just be on my way.",             "", "", "", "무조건 항목 — 씬 계속 진행"),
+    ("ch_st_shiba", 2, "간식 좀 드릴까요?",             "Want a little treat?",                    "flag.q_lost_box_done", "flag.shiba_fed = true", "np_shiba_treat", "조건 항목(상자 퀘스트 완료 후) — 미충족 시 회색"),
+    # 오브젝트 행동 선택지 — 루나 말풍선 없이 버튼만 뜬다(항목 문구 = 플레이어 행동)
+    ("ch_st_box",     1, "줍는다",   "Pick it up", "", "flag.q_lost_box_done = true; quest(lost_box).advance", "", "퀘스트 완료 → 보상은 Quests 시트"),
+    ("ch_st_box",     2, "무시한다", "Leave it",   "", "", "", "무조건 항목 — 무시해도 지점이 닫히지 않는다"),
 ]
 
 # ── 구엔진 실대본(바 2부) 병합 — 가안을 실제 게임 대본으로 대체 (26.07.18) ──
@@ -1103,6 +1060,7 @@ QUEST_STAGES = [
 
 END_COLS = ["priority","id","when","scene_id","note"]
 ENDINGS = [
+    # bad_gold만 매일 정산 확정(유지비 차감 포함) 직후 판정, 나머지는 최종일 판정
     (1, "bad_1",    "flag.rios_accepted",                                                                           "ed_bad1",    "벡터 이전 수락 → 병기화"),
     (2, "happy_1",  "affinity.aili >= 100 && affinity.tom >= 100 && affinity.port >= 100 && affinity.sunha >= 100", "ed_happy1",  "벡터 고발, 전체 생존"),
     (3, "happy_2",  "affinity.aili >= 100 && affinity.tom >= 100 && affinity.port >= 100",                          "ed_happy2",  "언노운 이사, 전체 생존"),
@@ -1381,6 +1339,11 @@ def validate(derived):
     cocktail_ids = {c[0] for c in COCKTAILS}
     pers_ids = {p[0] for p in PERSONALITIES}
     voice_ids = pers_ids | char_ids
+    # v3.2 — Barks.voice_id는 이름만 보고 성격/캐릭터를 구분한다. 두 시트의 id가 겹치면
+    # 그 이름의 대사가 어느 쪽 풀로 가는지 정할 수 없으므로 겹침 자체를 금지.
+    _vid_clash = pers_ids & char_ids
+    if _vid_clash:
+        errors.append(f"[id 충돌] Personalities와 Characters에 같은 id가 있음: {sorted(_vid_clash)} — Barks.voice_id가 성격 대사인지 캐릭터 전용 대사인지 구분할 수 없게 된다")
 
     # 표정 시스템 검증
     scene_phase = {s[0]: dict(zip(SCENE_COLS, s))["phase"] for s in SCENES}   # 표정/동작 검증용
@@ -1530,6 +1493,44 @@ def validate(derived):
             errors.append(f"[포인트] {d['id']}: proximity 재생은 대사 전용 — shop: 참조 불가")
         if d["actor"] and d["actor"] not in char_ids:
             errors.append(f"[포인트] {d['id']}: actor '{d['actor']}' — Characters에 없음")
+        # v3.2 — kind와 scene_or_shop 접두사는 같은 사실을 두 번 적는다. 어긋난 행(kind=shop인데
+        # gimmick: 참조 등)은 엔진이 어느 쪽을 믿느냐에 따라 동작이 달라지므로 빌드에서 차단.
+        _pref = "shop" if tgt.startswith("shop:") else ("gimmick" if tgt.startswith("gimmick:") else "scene")
+        if d["kind"] == "shop" and _pref != "shop":
+            errors.append(f"[포인트] {d['id']}: kind=shop인데 scene_or_shop이 shop: 참조가 아님 ({tgt})")
+        elif d["kind"] == "gimmick" and _pref != "gimmick":
+            errors.append(f"[포인트] {d['id']}: kind=gimmick인데 scene_or_shop이 gimmick: 참조가 아님 ({tgt})")
+        elif d["kind"] in ("npc", "object") and _pref != "scene":
+            errors.append(f"[포인트] {d['id']}: kind={d['kind']}인데 scene_or_shop이 {_pref}: 참조 ({tgt}) — 씬 id 또는 group:만 가능")
+        # v3.3 — 오브젝트 보기 씬엔 루나 말풍선 금지: 말풍선은 오브젝트 상단에만 뜨고,
+        # 루나의 생각·독백은 넣지 않는다(화자는 sign 등 사물 화자). PD 확정 규칙.
+        if d["kind"] == "object":
+            if tgt.startswith("group:"):
+                _osc = {s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["group"] == tgt[6:]}
+            elif not tgt.startswith(("shop:", "gimmick:")):
+                _osc = {tgt}
+            else:
+                _osc = set()
+            for _st in STEPS:
+                if _st[0] in _osc and _st[2] == "say" and _st[3] == "luna":
+                    errors.append(f"[포인트] {d['id']}: 오브젝트 보기 씬 {_st[0]}#{_st[1]}에 루나 대사 — "
+                                  f"말풍선은 오브젝트 상단에만, 루나 독백은 금지(화자를 sign으로)")
+        # v3.2 — Scenes.day는 auto 씬에서만 재생 일차를 정한다. interact 씬의 재생 일차는
+        # 지점 when이 정하고 day는 참고 표기다. 다만 when이 특정 일차(day == N)로 못박혀
+        # 있는데 연결 씬의 day가 다른 일차면 잘못 연결한 것이므로 차단.
+        _pm = re.search(r"day\s*==\s*(\d+)", d["when"] or "")
+        if _pm:
+            _pday = int(_pm.group(1))
+            if tgt.startswith("group:"):
+                _tsc = [s for s in SCENES if dict(zip(SCENE_COLS, s))["group"] == tgt[6:]]
+            elif not tgt.startswith(("shop:", "gimmick:")):
+                _tsc = [s for s in SCENES if s[0] == tgt]
+            else:
+                _tsc = []
+            for s in _tsc:
+                _sd = dict(zip(SCENE_COLS, s))
+                if _sd["day"] not in (0, _pday):
+                    errors.append(f"[포인트] {d['id']}: when은 day == {_pday}인데 연결 씬 {_sd['id']}의 day가 {_sd['day']} — 다른 일차의 씬을 잘못 연결함")
     # v3.1 — 씬 seq 계약: auto 씬의 (day,phase,seq)는 재생 순서라 중복 금지.
     # 단, when 분기(생사 루트처럼 조건으로 하나만 재생)는 같은 자리를 공유하므로 "빈 when끼리의 중복"만 에러.
     _auto_slots = {}
@@ -1601,12 +1602,18 @@ def validate(derived):
         # goto 대상 검증 (v2.2) — 오타 나면 런타임에서 조용히 점프 실패하므로 여기서 잡는다
         if ch[6] and ch[6] not in scene_ids:
             errors.append(f"[선택지] {ch[0]}#{ch[1]}: goto 씬 {ch[6]} 없음")
-    _ch_sizes = {}  # v3.0 — 선택지 세트는 2~4개 (1개짜리 확인용 금지, 5개 이상 UI 초과)
+    _ch_sizes, _ch_free = {}, {}  # v3.0 — 선택지 세트는 2~4개 (1개짜리 확인용 금지, 5개 이상 UI 초과)
     for ch in CHOICES:
         _ch_sizes[ch[0]] = _ch_sizes.get(ch[0], 0) + 1
+        # v3.2 — when이 빈 항목(무조건 선택 가능)의 수. 조건 미충족 항목은 회색으로 표시만 되고
+        # 선택되지 않으므로, 무조건 항목이 하나도 없으면 전부 잠겨 진행이 막힐 수 있다.
+        if not ch[4]:
+            _ch_free[ch[0]] = _ch_free.get(ch[0], 0) + 1
     for cid, n in _ch_sizes.items():
         if not (2 <= n <= 4):
             errors.append(f"[선택지] {cid}: 항목 {n}개 — 세트는 2~4개여야 함")
+        if not _ch_free.get(cid):
+            errors.append(f"[선택지] {cid}: when이 빈 항목이 없음 — 조건이 전부 거짓이면 고를 수 있는 선택지가 사라진다. 무조건 선택 가능한 항목을 최소 1개 두어야 함")
     for st in STEPS:
         if st[2] == "goto" and st[4] and st[4] not in scene_ids:
             errors.append(f"[스텝] {st[0]}#{st[1]}: goto 씬 {st[4]} 없음")
@@ -1617,6 +1624,7 @@ def validate(derived):
     _refs |= {st[4] for st in STEPS if st[2] == "goto" and st[4]}
     _refs |= {p[5] for p in POINTS}
     _refs |= {dict(zip(RSLOT_COLS, r))["cameo_scene"] for r in REGULAR_SLOTS}
+    _refs |= {e[3] for e in ENDINGS if e[3]}   # 엔딩이 scene_id로 호출하는 씬도 배선된 것
     _grouped = {s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["group"]}
     _pending = sorted({s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["trigger"] == "manual"}
                       - _refs - _grouped)
@@ -2119,12 +2127,12 @@ COL_DOCS = {
         "name_ko": "대사창에 뜨는 이름(한국어)",
         "name_en": "영어 이름(비워도 됨)",
         "name_color": "대사창 이름 글자색(#RRGGBB). 누가 말하는지 색으로 구분된다",
-        "role": "player(루나)/master(크리스)/guest_multi(여러 번 오는 단골)/guest_twice/guest_once/npc_street(거리 NPC)/cutscene(컷씬 전용)",
+        "role": "player(루나)/master(크리스)/guest(바에 오는 손님 — 단골·조연 공통, 등장 횟수는 대본이 정한다)/npc_street(거리 NPC)/cutscene(컷씬 전용)",
         "affinity": "호감도를 추적할 인물인가(TRUE/FALSE). TRUE인 인물만 단골 수첩에 실리고 엔딩 조건에 들어간다",
         "alive_flag": "생사 분기가 있는 인물만 기입(예: alive.samho). when 문법의 alive.X와 연동",
         "expressions": "이 인물이 쓸 수 있는 표정 목록(Expressions 시트 참조). 세미콜론 구분",
         "base_body": "파츠 애니메이션 캐릭터의 베이스 바디 리소스 키",
-        "enter_sfx": "등장 효과음 키(비워도 됨)",
+        "enter_sfx": "등장 효과음 키. 바에 오는 인물은 공용 디폴트(SFX_guest_door_in)를 명시하고, 전용음이 있으면 그 키로(크리스·포트·부비). 바 등퇴장이 없는 화자(루나·무생물·컷씬 전용)만 비운다",
         "exit_sfx": "퇴장 효과음 키(비워도 됨)",
         "note": "작업 메모. 게임에 나오지 않는다 — 자유롭게 적어도 됨",
     },
@@ -2268,8 +2276,8 @@ COL_DOCS = {
     },
     "Scenes": {
         "id": "씬 고유 id. Steps가 이 값으로 자기 소속을 밝힌다",
-        "day": "몇 일차 씬인지. **0 = 일차 무관 공용 씬**(거리 오브젝트·NPC 등)",
-        "phase": "어느 구간인지 — bar(바 2부)/bar_open(개점 전 대화)/commute_in/commute_out/home/dream/street/intro. **이 값이 비주얼을 자동 결정한다**(bar 계열=고해상도 흉상, 나머지=SD 픽셀)",
+        "day": "몇 일차 씬인지. **0 = 일차 무관 공용 씬**(거리 오브젝트·NPC 등). 재생 일차를 정하는 건 trigger=auto 씬에서만 — interact 씬의 재생 일차는 InteractPoints.when이 정하고, 여기 day는 참고 표기",
+        "phase": "어느 구간인지 — bar(바 2부)/bar_open(개점 전 대화)/commute_in/commute_out/home/dream/street/intro/ending(엔딩 씬 — Endings.scene_id로만 호출). **이 값이 비주얼을 자동 결정한다**(bar 계열=고해상도 흉상, 나머지=SD 픽셀)",
         "seq": "같은 phase 안에서의 재생 순서",
         "trigger": "발동 방식 — auto(그 구간 오면 자동)/interact(조사해야)/cameo(1부 카메오)/manual(다른 곳에서 호출할 때만)",
         "when": "이 씬이 재생될 조건(when 문법). 비우면 항상 재생",
@@ -2326,7 +2334,7 @@ COL_DOCS = {
     },
     "Endings": {
         "priority": "판정 순서(작을수록 먼저). **위에서부터 확인해 처음 조건이 맞는 엔딩으로 확정**된다",
-        "id": "엔딩 id",
+        "id": "엔딩 id. **bad_gold만 매일 정산 확정(유지비 차감 포함) 직후 판정**하고, 나머지는 최종일에 판정한다",
         "when": "이 엔딩의 조건(when 문법). **맨 마지막 줄은 비워둔다** — 아무 조건도 못 맞췄을 때의 안전망(엔딩이 안 뜨는 사고 방지)",
         "scene_id": "재생할 엔딩 씬 id",
         "note": "어떤 결말인지 메모",

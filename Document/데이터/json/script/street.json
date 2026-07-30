@@ -177,80 +177,18 @@
       "seq": 1,
       "trigger": "interact",
       "when": "",
-      "title": "[이식] 전단 — 알바 공고 (1회차 감상)",
+      "title": "전단 — 알바 공고 (포스터 뷰, 적힌 정보만)",
       "skippable": false,
-      "group": "ob_parttime",
+      "group": "",
       "steps": [
         {
           "seq": 1,
-          "type": "say",
-          "actor": "sign",
-          "arg": null,
-          "text": {
-            "ko": "아르바이트 구함. 연락처: 154*455*587",
-            "en": "PART-TIMER WANTED. Contact: 154*455*587"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(급여도 근무 시간도 없이, 연락처만 있네.)",
-            "en": "(No pay, no hours listed. Just a number.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "ob_vending_buy",
-      "day": 0,
-      "phase": "street",
-      "seq": 1,
-      "trigger": "interact",
-      "when": "money >= 25",
-      "title": "[이식] 자판기 — 구매 성공",
-      "skippable": false,
-      "group": "ob_vending",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "sign",
-          "arg": null,
-          "text": {
-            "ko": "(지이잉―)",
-            "en": "(Vrrrr—)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "effect",
+          "type": "timeline",
           "actor": null,
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": "money -= 25; give(soda_water, 1)",
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
+          "arg": "sp_parttime_poster",
           "text": {
-            "ko": "('초정 탄산수'를 얻었다.)",
-            "en": "(Got a bottle of 'Chojeong Sparkling Water.')"
+            "ko": "아르바이트 구함 · Bc25 편의점 · 야간 3교대 · 연락처 154*455*587",
+            "en": "PART-TIMER WANTED · Bc25 convenience store · night shifts · 154*455*587"
           },
           "when": null,
           "effects": null,
@@ -265,31 +203,18 @@
       "seq": 1,
       "trigger": "interact",
       "when": "",
-      "title": "[이식] 임상시험 전단 — 코라테크 복선",
+      "title": "임상시험 전단 — 코라테크 복선 (포스터 뷰)",
       "skippable": false,
-      "group": "ob_experiment",
+      "group": "",
       "steps": [
         {
           "seq": 1,
-          "type": "say",
-          "actor": "sign",
-          "arg": null,
+          "type": "timeline",
+          "actor": null,
+          "arg": "sp_experiment_poster",
           "text": {
-            "ko": "인공 신경망 분석 — 임상시험 참가자 모집. 주관: (주)코라테크",
-            "en": "NEURAL NETWORK ANALYSIS — Clinical trial participants wanted. Sponsor: CoraTech Inc."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…설마.)",
-            "en": "(...It couldn't be.)"
+            "ko": "임상시험 참가자 모집 · 인공 신경망 분석 · 주관 (주)코라테크 · 문의 070*8812*0031",
+            "en": "CLINICAL TRIAL PARTICIPANTS WANTED · neural network analysis · CoraTech Inc. · 070*8812*0031"
           },
           "when": null,
           "effects": "flag.seen_coratech_ad = true",
@@ -298,24 +223,24 @@
       ]
     },
     {
-      "id": "ob_toilet_1",
+      "id": "np_shiba_3",
       "day": 0,
       "phase": "street",
-      "seq": 1,
+      "seq": 2,
       "trigger": "interact",
-      "when": "",
-      "title": "[이식] 쓰레기통",
+      "when": "flag.shiba_met && day >= 3",
+      "title": "[더미] 시바 — 거리 선택지 데모 (조건 항목·goto 포함)",
       "skippable": false,
-      "group": "ob_toilet",
+      "group": "np_shiba",
       "steps": [
         {
           "seq": 1,
           "type": "say",
-          "actor": "luna",
+          "actor": "shiba",
           "arg": "idle",
           "text": {
-            "ko": "…뭐지, 이건?",
-            "en": "...What is this?"
+            "ko": "또 왔냐, 시바.",
+            "en": "You again, shiba."
           },
           "when": null,
           "effects": null,
@@ -327,8 +252,8 @@
           "actor": "luna",
           "arg": "idle",
           "text": {
-            "ko": "(방금 전까지 누군가 사용한 흔적이 있는 것 같은데.)",
-            "en": "(Looks like someone just used it.)"
+            "ko": "네. 지나가던 길이에요.",
+            "en": "Yes. Just passing by."
           },
           "when": null,
           "effects": null,
@@ -337,11 +262,34 @@
         {
           "seq": 3,
           "type": "say",
-          "actor": "luna",
+          "actor": "shiba",
           "arg": "idle",
           "text": {
-            "ko": "(더는 보고 싶지 않다.)",
-            "en": "(I don't want to look at this any longer.)"
+            "ko": "…뭐, 볼일 있으면 빨리 말해, 시바.",
+            "en": "...If you want something, spit it out, shiba."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "choice",
+          "actor": null,
+          "arg": "ch_st_shiba",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "shiba",
+          "arg": "idle",
+          "text": {
+            "ko": "손대면 문다, 시바.",
+            "en": "Touch me and I bite, shiba."
           },
           "when": null,
           "effects": null,
@@ -353,7 +301,7 @@
       "id": "np_shiba_2",
       "day": 0,
       "phase": "street",
-      "seq": 2,
+      "seq": 3,
       "trigger": "interact",
       "when": "",
       "title": "[이식] 시바 반복 대사 (구 revisit_repeat)",
@@ -428,89 +376,24 @@
       ]
     },
     {
-      "id": "ob_parttime_2",
+      "id": "np_shiba_treat",
       "day": 0,
       "phase": "street",
-      "seq": 2,
-      "trigger": "interact",
+      "seq": 4,
+      "trigger": "manual",
       "when": "",
-      "title": "[이식] 전단 — 알바 공고 (2회차 감상)",
+      "title": "[더미] 시바 — 간식 goto 결과 씬",
       "skippable": false,
-      "group": "ob_parttime",
+      "group": "",
       "steps": [
         {
           "seq": 1,
           "type": "say",
-          "actor": "luna",
+          "actor": "shiba",
           "arg": "idle",
           "text": {
-            "ko": "(Bc25 편의점… 크리스한테 들은 적 있는 것 같은데. 이 구역에서 그나마 오래된 곳이라고 했던가.)",
-            "en": "(Bc25 convenience store... Chris mentioned it, I think. One of the oldest shops in this district?)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "ob_vending_poor",
-      "day": 0,
-      "phase": "street",
-      "seq": 2,
-      "trigger": "interact",
-      "when": "",
-      "title": "[이식] 자판기 — 잔액 부족",
-      "skippable": false,
-      "group": "ob_vending",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "sign",
-          "arg": null,
-          "text": {
-            "ko": "(지이잉―)",
-            "en": "(Vrrrr—)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…살 돈이 모자란 것 같다.)",
-            "en": "(...I don't have enough for this.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "ob_parttime_3",
-      "day": 0,
-      "phase": "street",
-      "seq": 3,
-      "trigger": "interact",
-      "when": "",
-      "title": "[이식] 전단 — 알바 공고 (3회차 감상)",
-      "skippable": false,
-      "group": "ob_parttime",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(글씨가… 손으로 쓴 건가, 발로 쓴 건가.)",
-            "en": "(Was this written by hand... or by foot?)"
+            "ko": "…흥. 뭐, 못 먹을 건 아니네, 시바.",
+            "en": "...Hmph. Well, it's not inedible, shiba."
           },
           "when": null,
           "effects": null,
@@ -529,19 +412,6 @@
       "skippable": false,
       "group": "",
       "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(엘리베이터가 낡은 소리를 내며 내려간다.)",
-            "en": "(The elevator rattles its way down.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
         {
           "seq": 2,
           "type": "say",
@@ -602,71 +472,6 @@
           "text": {
             "ko": "라고 밝혔습니다.",
             "en": "— he stated."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…세계는, 생각보다 넓다.)",
-            "en": "(...The world is wider than I thought.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_news",
-      "day": 2,
-      "phase": "commute_in",
-      "seq": 0,
-      "trigger": "interact",
-      "when": "",
-      "title": "전광판 — 코라테크/실종 뉴스",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "board",
-          "arg": null,
-          "text": {
-            "ko": "[속보] 코라테크, 3분기 신경보철 출하량 사상 최대 기록",
-            "en": "[BREAKING] CoraTech posts record Q3 shipments of neural prosthetics"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "board",
-          "arg": null,
-          "text": {
-            "ko": "[지역] 서울 외곽 3구역, 실종 신고 3개월 연속 증가… 경비업체 \"순찰 강화\"",
-            "en": "[LOCAL] Missing-person reports in Outer Seoul District 3 rise for a third straight month... security firms 'stepping up patrols'"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…외곽. 남 일 같지 않은 단어다.)",
-            "en": "(...The outskirts. A word that doesn't feel like someone else's problem.)"
           },
           "when": null,
           "effects": null,
@@ -750,45 +555,6 @@
       ]
     },
     {
-      "id": "d2_commute_in",
-      "day": 2,
-      "phase": "commute_in",
-      "seq": 1,
-      "trigger": "auto",
-      "when": "",
-      "title": "첫 단독 출근",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(첫 정식 출근. 크리스는 먼저 나갔다.)",
-            "en": "(My first real shift. Chris left ahead of me.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…거리의 냄새는 아직 낯설다.)",
-            "en": "(...The smell of this street is still unfamiliar.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
       "id": "d2_meet",
       "day": 2,
       "phase": "commute_in",
@@ -852,19 +618,6 @@
           "sync": "wait"
         },
         {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…개가, 말을 했다.)",
-            "en": "(...The dog. It talked.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
           "seq": 6,
           "type": "say",
           "actor": "shiba",
@@ -915,19 +668,6 @@
           "when": null,
           "effects": null,
           "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…시끄러운 아침이다.)",
-            "en": "(...A loud morning.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
         }
       ]
     },
@@ -945,11 +685,11 @@
         {
           "seq": 1,
           "type": "say",
-          "actor": "luna",
-          "arg": "idle",
+          "actor": "sign",
+          "arg": null,
           "text": {
-            "ko": "(…골목 구석, 발자국에 밟힌 상자. 노점 마크가 찍혀 있다.)",
-            "en": "(...A box in the corner of the alley, trampled, stamped with the stall's mark.)"
+            "ko": "완 상회",
+            "en": "WAN'S STALL"
           },
           "when": null,
           "effects": null,
@@ -957,88 +697,10 @@
         },
         {
           "seq": 2,
-          "type": "effect",
+          "type": "choice",
           "actor": null,
-          "arg": null,
+          "arg": "ch_st_box",
           "text": null,
-          "when": null,
-          "effects": "flag.q_lost_box_done = true; quest(lost_box).advance",
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(내일 완 아저씨한테 가져다주자.)",
-            "en": "(I'll bring it to Wan tomorrow.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_commute_out",
-      "day": 2,
-      "phase": "commute_out",
-      "seq": 1,
-      "trigger": "auto",
-      "when": "",
-      "title": "퇴근길 독백",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(말하는 개, 목소리 큰 단골… 인간의 밤은 소란스럽다.)",
-            "en": "(A talking dog, a loud regular... human nights are noisy.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_news",
-      "day": 3,
-      "phase": "commute_in",
-      "seq": 0,
-      "trigger": "interact",
-      "when": "",
-      "title": "전광판 — 벡터 '정화 사업'",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "board",
-          "arg": null,
-          "text": {
-            "ko": "[경제] 벡터 그룹, 외곽 재개발 \"정화 사업\" 착수 발표… \"더 안전한 신대한민국\"",
-            "en": "[BUSINESS] Vector Group launches 'Purification Project' for the outskirts... 'A safer New Korea'"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(정화. …단어가 차갑다.)",
-            "en": "(Purification. ...A cold word.)"
-          },
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -1059,11 +721,11 @@
         {
           "seq": 1,
           "type": "say",
-          "actor": "luna",
-          "arg": "idle",
+          "actor": "sign",
+          "arg": null,
           "text": {
-            "ko": "(골목 안쪽 — 노란 꼬리가 휙, 사라졌다.)",
-            "en": "(Deep in the alley — a yellow tail flicked out of sight.)"
+            "ko": "냐옹.",
+            "en": "Meow."
           },
           "when": null,
           "effects": null,
@@ -1080,319 +742,52 @@
           "sync": "wait"
         }
       ]
-    },
-    {
-      "id": "d3_commute_in",
-      "day": 3,
-      "phase": "commute_in",
-      "seq": 1,
-      "trigger": "auto",
-      "when": "",
-      "title": "출근길 — 어제의 꿈",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(어제의 꿈. …기록에 없는 소리였다.)",
-            "en": "(Last night's dream. ...A sound that isn't in my records.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_commute_out",
-      "day": 3,
-      "phase": "commute_out",
-      "seq": 1,
-      "trigger": "auto",
-      "when": "",
-      "title": "퇴근길 독백",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(고도수 두 잔을 연달아 마시는 인간의 간은, 어떤 구조일까.)",
-            "en": "(What is the structure of a human liver that takes two of those back to back?)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(진짜 벌꿀… 내일 입고 목록이 하나 늘었다. '거래'라는 건, 계산보다 나쁘지 않다.)",
-            "en": "(Real honey... one more line on tomorrow's stock list. 'Trade' is less unpleasant than my calculations suggested.)"
-          },
-          "when": "quest.samho_honey.stage >= 1",
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_samho_death",
-      "day": 3,
-      "phase": "commute_out",
-      "seq": 2,
-      "trigger": "auto",
-      "when": "flag.samho_death_route",
-      "title": "…골목의 삼호 (사망 목격 — 데모 컷)",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…골목이 소란스럽— 아니. 조용하다. 너무.)",
-            "en": "(...The alley is loud— no. It's quiet. Too quiet.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…삼호?)",
-            "en": "(...Samho?)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)",
-            "en": "(He's slumped against the alley wall...\nNot moving.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(손에… 노란 꽃이 쥐여 있다.)",
-            "en": "(In his hand... a yellow flower.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "삼호. …삼호?",
-            "en": "Samho. ...Samho?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(………)",
-            "en": "(.........)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(반응이 없다. 체온이… 내려가 있다.)",
-            "en": "(No response. His body temperature... is falling.)"
-          },
-          "when": null,
-          "effects": "alive.samho = false",
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…내가 따라준, 마지막 잔이 생각났다.)",
-            "en": "(...I thought of the last glass I poured him.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_samho_rescue",
-      "day": 3,
-      "phase": "commute_out",
-      "seq": 2,
-      "trigger": "auto",
-      "when": "flag.samho_refused_drink",
-      "title": "도움 요청 — 삼호 구출",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "samho",
-          "arg": "idle",
-          "text": {
-            "ko": "…루나! 루나 맞지?!",
-            "en": "...Luna! Luna, that's you, right?!"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "삼호? 무슨 일—",
-            "en": "Samho? What's going—"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "samho",
-          "arg": "idle",
-          "text": {
-            "ko": "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.",
-            "en": "Shh— quiet. ...The Magarov crew hit our turf."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "samho",
-          "arg": "idle",
-          "text": {
-            "ko": "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.",
-            "en": "The hideout's gone. I got my siblings out in time...\nbut they're after me now."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "다친 겁니까? 팔이—",
-            "en": "Are you hurt? Your arm—"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "samho",
-          "arg": "idle",
-          "text": {
-            "ko": "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.",
-            "en": "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "(…크리스 씨한테 혼날지도 모른다. 하지만—)",
-            "en": "(...Chris might be furious. But—)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "luna",
-          "arg": "idle",
-          "text": {
-            "ko": "따라오세요.",
-            "en": "Follow me."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "samho",
-          "arg": "idle",
-          "text": {
-            "ko": "…고마워. 진짜로.",
-            "en": "...Thank you. Really."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
     }
   ],
-  "choices": {}
+  "choices": {
+    "ch_st_box": [
+      {
+        "seq": 1,
+        "text": {
+          "ko": "줍는다",
+          "en": "Pick it up"
+        },
+        "when": null,
+        "effects": "flag.q_lost_box_done = true; quest(lost_box).advance",
+        "goto": null
+      },
+      {
+        "seq": 2,
+        "text": {
+          "ko": "무시한다",
+          "en": "Leave it"
+        },
+        "when": null,
+        "effects": null,
+        "goto": null
+      }
+    ],
+    "ch_st_shiba": [
+      {
+        "seq": 1,
+        "text": {
+          "ko": "아뇨, 그냥 지나갈게요.",
+          "en": "No, I'll just be on my way."
+        },
+        "when": null,
+        "effects": null,
+        "goto": null
+      },
+      {
+        "seq": 2,
+        "text": {
+          "ko": "간식 좀 드릴까요?",
+          "en": "Want a little treat?"
+        },
+        "when": "flag.q_lost_box_done",
+        "effects": "flag.shiba_fed = true",
+        "goto": "np_shiba_treat"
+      }
+    ]
+  }
 }

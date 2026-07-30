@@ -42,7 +42,7 @@
       "en": "Aili"
     },
     "name_color": "#fcfe57",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": null,
     "expressions": [
@@ -52,8 +52,8 @@
       "joy"
     ],
     "base_body": "aili_body",
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "port",
@@ -62,7 +62,7 @@
       "en": "Port"
     },
     "name_color": "#3c3cca",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": null,
     "expressions": [
@@ -83,7 +83,7 @@
       "en": "Tom Gunner"
     },
     "name_color": "#7a4a2b",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": null,
     "expressions": [
@@ -91,8 +91,8 @@
       "serious"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "samho",
@@ -101,7 +101,7 @@
       "en": "Samho"
     },
     "name_color": "#ea3a3a",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": "samho",
     "expressions": [
@@ -111,8 +111,8 @@
       "drunk"
     ],
     "base_body": "samho_body",
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "bubi",
@@ -121,7 +121,7 @@
       "en": "Bubi"
     },
     "name_color": "#fdd48e",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": null,
     "expressions": [
@@ -129,7 +129,7 @@
     ],
     "base_body": "bubi_body",
     "enter_sfx": "SFX_cat_meow",
-    "exit_sfx": null
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "haru",
@@ -138,7 +138,7 @@
       "en": "Song Haru"
     },
     "name_color": "#9fd08f",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": "haru",
     "expressions": [
@@ -146,8 +146,8 @@
       "sad"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "sunha",
@@ -156,7 +156,7 @@
       "en": "Yu Sunha"
     },
     "name_color": "#c58bd6",
-    "role": "guest_multi",
+    "role": "guest",
     "affinity": true,
     "alive_flag": null,
     "expressions": [
@@ -164,8 +164,8 @@
       "serious"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "hina",
@@ -174,15 +174,15 @@
       "en": "Hina"
     },
     "name_color": "#f2a0b5",
-    "role": "guest_twice",
+    "role": "guest",
     "affinity": false,
     "alive_flag": null,
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "shiba",
@@ -191,15 +191,15 @@
       "en": "Shiba"
     },
     "name_color": "#d9c58a",
-    "role": "guest_twice",
+    "role": "guest",
     "affinity": false,
     "alive_flag": null,
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "rios",
@@ -208,15 +208,15 @@
       "en": "Rios"
     },
     "name_color": "#b03060",
-    "role": "guest_once",
+    "role": "guest",
     "affinity": false,
     "alive_flag": null,
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "volts",
@@ -225,15 +225,15 @@
       "en": "Volts"
     },
     "name_color": "#708090",
-    "role": "guest_once",
+    "role": "guest",
     "affinity": false,
     "alive_flag": null,
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "SFX_guest_door_in",
+    "exit_sfx": "SFX_guest_door_out"
   },
   {
     "id": "yuna",
@@ -276,23 +276,6 @@
       "en": "Wan"
     },
     "name_color": "#cccccc",
-    "role": "npc_street",
-    "affinity": false,
-    "alive_flag": null,
-    "expressions": [
-      "default"
-    ],
-    "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
-  },
-  {
-    "id": "board",
-    "name": {
-      "ko": "전광판",
-      "en": "News Board"
-    },
-    "name_color": "#66d9ff",
     "role": "npc_street",
     "affinity": false,
     "alive_flag": null,
