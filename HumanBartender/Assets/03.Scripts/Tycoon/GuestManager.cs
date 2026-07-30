@@ -22,15 +22,28 @@ public class GuestManager : MonoBehaviour
     [SerializeField] NewPersonalityDataSO personalityData;
     [SerializeField] NewGuestBodyDataSO guestBodyData;
     [SerializeField] NewBarkDataSO barkData;
+    [SerializeField] TextTagDataSO textTagData;
+    [SerializeField] NewCharacterDataSO characterData;
     [SerializeField] GuestSlot[] slots;
+
+    [Header("Dialogue")]
+    [SerializeField] UIDialogueTextView dialogueTextView; // ask_order 등 플레이어(바텐더) 대사를 띄우는 다이얼로그 말풍선
 
     [Header("Test")]
     [SerializeField] bool useTempAppearance; // true면 파츠 addressable 로딩을 생략하고 GuestSlot의 임시 오브젝트만 On/Off한다.
 
+    const string PlayerCharacterId = "luna";
+    const float PlayerBarkDurationSec = 3f;
+
     NewBalanceConfig config;
     readonly Queue<Guest> guestQueue = new();
+    readonly Dictionary<GuestSlot, CancellationTokenSource> patienceCtsBySlot = new();
+    CancellationTokenSource lunaBarkCts;
 
     public int QueuedGuestCount => guestQueue.Count;
+
+    /// <summary>손님 한 명의 응대(정상 퇴장) 또는 이탈이 끝나 슬롯이 비워졌을 때 발생한다.</summary>
+    public event Action<Guest> GuestReleased;
 
     public void Start()
     {
@@ -242,7 +255,103 @@ public class GuestManager : MonoBehaviour
 
         slot.Seat(guest);
         ShowBark(slot, "call");
+
+        if (guest.hasPatience)
+            StartPatienceTimer(slot, guest);
+
         return true;
+    }
+
+    /// <summary>
+    /// 슬롯의 인내 타이머를 시작한다. 이미 돌고 있던 타이머가 있으면(재착석 등) 먼저 멈추고 새로 시작한다.
+    /// </summary>
+    void StartPatienceTimer(GuestSlot slot, Guest guest)
+    {
+        WatchPatienceAsync(slot, guest, RegisterSlotTimer(slot)).Forget();
+    }
+
+    /// <summary>
+    /// 이 슬롯에 대해 진행 중이던 타이머(인내심/서빙 대기 등)를 멈추고, 새 타이머 하나가 쓸 CancellationToken을 등록한다.
+    /// GuestManager가 파괴될 때(this.GetCancellationTokenOnDestroy)도 함께 취소된다.
+    /// </summary>
+    CancellationToken RegisterSlotTimer(GuestSlot slot)
+    {
+        StopPatienceTimer(slot);
+
+        var cts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+        patienceCtsBySlot[slot] = cts;
+        return cts.Token;
+    }
+
+    /// <summary>
+    /// 진행 중인 슬롯 타이머(인내심 대기/서빙 대기)를 중간에 멈춘다. 예: 코스터를 받아 다음 단계로 넘어가거나,
+    /// 응대가 끝나 더 이상 이탈 카운트다운이 필요 없어졌을 때 호출한다. 돌고 있는 타이머가 없으면 아무것도 하지 않는다.
+    /// </summary>
+    public void StopPatienceTimer(GuestSlot slot)
+    {
+        if (!patienceCtsBySlot.Remove(slot, out var cts)) return;
+
+        cts.Cancel();
+        cts.Dispose();
+    }
+
+    /// <summary>
+    /// 손님이 착석한 시점을 기준으로 balance.json의 coaster_base_sec에 손님의 patience_mult를 곱한 시간(전체 인내 시간)
+    /// 동안 call_urge/call_final/leave_coaster 흐름을 진행한다.
+    /// </summary>
+    async UniTaskVoid WatchPatienceAsync(GuestSlot slot, Guest guest, CancellationToken token)
+    {
+        float patienceSec = config.CoasterBaseSec * guest.patienceMultiplier;
+        await WatchLeaveTimerAsync(slot, guest, patienceSec, "call_urge", "call_final", "leave_coaster", token);
+    }
+
+    /// <summary>
+    /// totalSec을 warn_yellow_ratio/warn_red_ratio 지점으로 나눠 각각 urgeBark/finalBark 대사를 띄우고, 전체 시간이
+    /// 다 지날 때까지도 같은 손님이 그대로면(=처리되지 않았으면) leaveBark 대사와 함께 이탈시킨다.
+    /// 대기 도중 슬롯이 비워지거나, 다른 손님으로 교체됐거나, StopPatienceTimer로 취소되면 그 시점에서 멈춘다.
+    /// </summary>
+    async UniTask WatchLeaveTimerAsync(GuestSlot slot, Guest guest, float totalSec, string urgeBark, string finalBark, string leaveBark, CancellationToken token)
+    {
+        float yellowSec = totalSec * config.WarnYellowRatio;
+        float redSec = totalSec * config.WarnRedRatio;
+
+        if (!await WaitWhileSeatedAsync(slot, guest, yellowSec, token)) return;
+        ShowBark(slot, urgeBark);
+
+        if (!await WaitWhileSeatedAsync(slot, guest, redSec - yellowSec, token)) return;
+        ShowBark(slot, finalBark);
+
+        if (!await WaitWhileSeatedAsync(slot, guest, totalSec - redSec, token)) return;
+
+        const float leaveBarkDurationSec = 3f;
+        ShowBark(slot, leaveBark, leaveBarkDurationSec);
+        slot.MarkLeaving();
+
+        // 손님이 바로 사라지지 않고, leave 말풍선이 떠있는 동안(leaveBarkDurationSec)은 자리에 남아있다가 그 뒤에 퇴장한다.
+        await UniTask.Delay(TimeSpan.FromSeconds(leaveBarkDurationSec), cancellationToken: this.GetCancellationTokenOnDestroy());
+
+        ReleaseGuest(slot);
+    }
+
+    /// <summary>
+    /// delaySec만큼 기다린 뒤, 도중에 취소되지 않았고 슬롯에 여전히 같은 손님이 앉아있으면 true.
+    /// 대기 중 StopPatienceTimer 등으로 취소되면 OperationCanceledException을 잡아 false를 반환한다.
+    /// </summary>
+    async UniTask<bool> WaitWhileSeatedAsync(GuestSlot slot, Guest guest, float delaySec, CancellationToken token)
+    {
+        if (delaySec > 0f)
+        {
+            try
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(delaySec), cancellationToken: token);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+        }
+
+        return !token.IsCancellationRequested && slot.CurrentGuest == guest;
     }
 
     /// <summary>
@@ -264,7 +373,18 @@ public class GuestManager : MonoBehaviour
 
         if (candidates.Length == 0) return;
 
-        slot.ShowBark(PickWeightedBark(candidates).Text.Ko, durationSec);
+        string cocktailName = GetCocktailName(guest?.targetCocktailId);
+        string text = DialogueTypingService.ApplyCustomTags(PickWeightedBark(candidates).Text.Ko, textTagData, cocktailName);
+        slot.ShowBark(text, durationSec);
+    }
+
+    /// <summary>cocktails.json에서 cocktailId에 해당하는 이름(한글)을 찾는다. 없으면 null.</summary>
+    string GetCocktailName(string cocktailId)
+    {
+        if (string.IsNullOrEmpty(cocktailId)) return null;
+
+        var cocktail = cocktailData.cocktailData.FirstOrDefault(c => c.Id == cocktailId);
+        return cocktail.Id != null ? cocktail.Name.Ko : null;
     }
 
     static NewBarkData PickWeightedBark(NewBarkData[] barks)
@@ -282,11 +402,123 @@ public class GuestManager : MonoBehaviour
         return barks[^1];
     }
 
-    /// <summary>지정 슬롯의 손님 응대가 끝났을 때 호출한다. 슬롯을 비우고 TycoonFlow에 알린다.</summary>
+    /// <summary>
+    /// 슬롯 앞에 코스터가 놓였을 때 호출한다(CoasterDropZone에서 드롭 판정 후 호출).
+    /// 손님이 코스터를 기다리는 상태(CanReceiveCoaster)일 때만 인내심 타이머를 멈추고 주문 대기 상태로 전환한다.
+    /// 이미 주문 대기/이탈 상태이거나 손님이 없으면 아무것도 하지 않고 false를 반환한다.
+    /// </summary>
+    public bool TryPlaceCoaster(GuestSlot slot)
+    {
+        if (!slot.CanReceiveCoaster) return false;
+
+        Logger.Log("Set Coaster");
+
+        slot.MarkWaitingOrder();
+
+        var token = RegisterSlotTimer(slot);
+        ShowPlayerAskOrderBark(slot.CurrentGuest);
+        WatchOrderAsync(slot, slot.CurrentGuest, token).Forget();
+        return true;
+    }
+
+    /// <summary>
+    /// 주문 대기 상태가 된 뒤 3초 후 order_think, 그로부터 다시 3초 후 order 대사를 띄운다.
+    /// order 대사 출력 후에는 곧바로 서빙 대기(WatchServeAsync)로 이어진다.
+    /// 대기 도중 슬롯이 비워지거나 다른 손님으로 바뀌면(=먼저 응대/이탈됨) 멈춘다.
+    /// </summary>
+    async UniTaskVoid WatchOrderAsync(GuestSlot slot, Guest guest, CancellationToken token)
+    {
+        const float orderThinkDelaySec = 3f;
+        const float orderDelaySec = 3f;
+
+        if (!await WaitWhileSeatedAsync(slot, guest, orderThinkDelaySec, token)) return;
+        ShowBark(slot, "order_think");
+
+        if (!await WaitWhileSeatedAsync(slot, guest, orderDelaySec, token)) return;
+        ShowBark(slot, "order");
+
+        await WatchServeAsync(slot, guest, token);
+    }
+
+    /// <summary>
+    /// 주문(order) 대사가 나간 뒤 시작되는 서빙 대기 타이머. 손님의 targetCocktailId가 가리키는 칵테일의
+    /// time_limit_sec에 max(serve_min_bonus_sec, serve_bonus_sec - tier * serve_per_tier_sec)를 더한 시간 동안
+    /// serve_urge/serve_final 경고를 띄우고, 시간이 다 지나면 leave_serve 대사와 함께 이탈시킨다.
+    /// </summary>
+    async UniTask WatchServeAsync(GuestSlot slot, Guest guest, CancellationToken token)
+    {
+        float serveSec = ComputeServeTimeoutSec(guest);
+        await WatchLeaveTimerAsync(slot, guest, serveSec, "serve_urge", "serve_final", "leave_serve", token);
+    }
+
+    /// <summary>
+    /// balance.json과 손님의 targetCocktailId가 가리키는 칵테일의 time_limit_sec으로 서빙 제한 시간을 계산한다.
+    /// max( time_limit_sec + serve_min_bonus_sec, time_limit_sec + serve_bonus_sec - tier * serve_per_tier_sec )
+    /// </summary>
+    float ComputeServeTimeoutSec(Guest guest)
+    {
+        var cocktail = cocktailData.cocktailData.FirstOrDefault(c => c.Id == guest.targetCocktailId);
+        float timeLimitSec = cocktail.Id != null ? cocktail.TimeLimitSec : 0f;
+
+        float tierBonus = config.ServeBonusSec - guest.difficultyLevel * config.ServePerTierSec;
+        return timeLimitSec + Mathf.Max(config.ServeMinBonusSec, tierBonus);
+    }
+
+    /// <summary>
+    /// 코스터가 놓였을 때 플레이어(바텐더, luna)의 ask_order 대사를 손님 자리의 말풍선이 아니라
+    /// 다이얼로그 말풍선(UIDialogueTextView.lunaSpeechBubble)에 띄운다. barks.json에서 situation=ask_order,
+    /// voice_id=luna인 대사 중 weight로 하나를 골라 표시하며, {cocktail}은 손님의 targetCocktailId로 치환된다.
+    /// </summary>
+    void ShowPlayerAskOrderBark(Guest guest)
+    {
+        var candidates = barkData.barkData.Where(b => b.Situation == "ask_order" && b.VoiceId == PlayerCharacterId).ToArray();
+        if (candidates.Length == 0) return;
+
+        string rawText = PickWeightedBark(candidates).Text.Ko;
+        string cocktailName = GetCocktailName(guest?.targetCocktailId);
+
+        var player = characterData.characterData.FirstOrDefault(c => c.Id == PlayerCharacterId);
+        string speakerName = player.Id != null ? player.Name.Ko : PlayerCharacterId;
+
+        Color nameColor = Color.white;
+        if (player.Id != null)
+            ColorUtility.TryParseHtmlString(player.NameColor, out nameColor);
+
+        var typingData = new TypingData(rawText, speakerName, Vector3.zero, nameColor, isLunaSpeak: true);
+
+        lunaBarkCts?.Cancel();
+        lunaBarkCts?.Dispose();
+        lunaBarkCts = new CancellationTokenSource();
+        HideLunaBarkAfterAsync(typingData, cocktailName, lunaBarkCts.Token).Forget();
+    }
+
+    /// <summary>
+    /// 타이핑이 끝난 뒤 PlayerBarkDurationSec만큼 더 보여주다가 다이얼로그 말풍선을 끈다.
+    /// 그 사이 새 ask_order 대사가 다시 뜨면(lunaBarkCts 교체) 조용히 중단한다.
+    /// </summary>
+    async UniTaskVoid HideLunaBarkAfterAsync(TypingData typingData, string cocktailName, CancellationToken token)
+    {
+        await dialogueTextView.StartType(typingData, cocktailName);
+
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(PlayerBarkDurationSec), cancellationToken: token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        dialogueTextView.lunaSpeechBubble.gameObject.SetActive(false);
+    }
+
+    /// <summary>지정 슬롯의 손님 응대가 끝났을 때 호출한다. 인내 타이머를 멈추고 슬롯을 비운 뒤 TycoonFlow에 알린다.</summary>
     public void ReleaseGuest(GuestSlot slot)
     {
+        Guest guest = slot.CurrentGuest;
+        StopPatienceTimer(slot);
         slot.Clear();
-        
+        GuestReleased?.Invoke(guest);
     }
 
     /// <summary>손님 id로 현재 앉아있는 슬롯을 찾는다. 없으면 null.</summary>

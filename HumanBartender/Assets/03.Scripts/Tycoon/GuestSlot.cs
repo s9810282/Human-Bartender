@@ -45,6 +45,10 @@ public class GuestSlot : MonoBehaviour
 
     public bool IsEmpty => CurrentState == EGuestState.Empty;
 
+    /// <summary>손님이 앉아 코스터를 기다리는 중인지(주문 대기로 넘어가기 전) 여부.</summary>
+    public bool CanReceiveCoaster => CurrentGuest != null &&
+        (CurrentState == EGuestState.Coming || CurrentState == EGuestState.Sit);
+           
     /// <summary>GuestManager가 테스트 모드 여부를 전달한다. true면 파츠 addressable 로딩 대신 tempAppearanceObject를 On/Off한다.</summary>
     public void SetTempAppearanceMode(bool enabled)
     {

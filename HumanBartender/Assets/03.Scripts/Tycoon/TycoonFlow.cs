@@ -12,6 +12,9 @@ public class TycoonFlow : MonoBehaviour, IPlayPhaseFlow
 
     [SerializeField] GuestManager guestManager;
 
+    [Tooltip("2부(대화) 전용 전역 클릭 캐처. Screen Space Overlay라 항상 World Space UI(코스터 드롭존 등)보다 레이캐스트 우선순위가 높아, 타이쿤 국면 동안은 꺼둬야 한다.")]
+    [SerializeField] GameObject dialogueClickCatcher;
+
     int remainingCustomers;
     UniTaskCompletionSource completionSource;
 
@@ -20,9 +23,16 @@ public class TycoonFlow : MonoBehaviour, IPlayPhaseFlow
         remainingCustomers = customerCount;
         completionSource = new UniTaskCompletionSource();
 
+        if (dialogueClickCatcher != null)
+            dialogueClickCatcher.SetActive(false);
+
+        guestManager.GuestReleased += OnGuestReleased;
         guestManager.RunSpawnLoopAsync(this.GetCancellationTokenOnDestroy()).Forget();
 
         await completionSource.Task;
+
+        if (dialogueClickCatcher != null)
+            dialogueClickCatcher.SetActive(true);
     }
 
     /// <summary>손님 한 명의 응대(또는 이탈)가 끝났을 때 호출한다. 남은 손님이 0이 되면 1부를 종료한다.</summary>
@@ -34,5 +44,10 @@ public class TycoonFlow : MonoBehaviour, IPlayPhaseFlow
         {
             completionSource.TrySetResult();
         }
+    }
+
+    void OnGuestReleased(Guest guest)
+    {
+        OnCustomerHandled();
     }
 }
