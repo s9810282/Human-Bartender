@@ -88,43 +88,6 @@
     "time_limit_sec": 52
   },
   {
-    "id": "draft_beer",
-    "name": {
-      "ko": "생맥주",
-      "en": "Draft Beer"
-    },
-    "price": 100,
-    "abv": 4.5,
-    "glass": "mug",
-    "mix": "none",
-    "prep": null,
-    "fill": null,
-    "garnish": null,
-    "color": "202,162,4",
-    "tags": [
-      "청량한",
-      "가벼운"
-    ],
-    "flavor": {
-      "ko": "따르는 각도가 맛의 절반이다.",
-      "en": "The pouring angle is half the taste."
-    },
-    "unlock_when": null,
-    "recipe": [
-      {
-        "action": "pour",
-        "ingredient": "beer",
-        "qty": 14,
-        "unit": "oz"
-      }
-    ],
-    "gimmick_count": 1,
-    "tier": 1,
-    "unlock_day": 1,
-    "scoring_items": 4,
-    "time_limit_sec": 28
-  },
-  {
     "id": "bottle_beer",
     "name": {
       "ko": "병맥주",
@@ -132,7 +95,7 @@
     },
     "price": 90,
     "abv": 4.5,
-    "glass": null,
+    "glass": "mug",
     "mix": "none",
     "prep": "cap",
     "fill": null,
@@ -143,16 +106,23 @@
       "가벼운"
     ],
     "flavor": {
-      "ko": "병째로. 뚜껑 따는 소리가 안주다.",
-      "en": "Straight from the bottle. The pop of the cap is the appetizer."
+      "ko": "뚜껑 따는 소리가 안주다. 잔은 곁들여서.",
+      "en": "The pop of the cap is the appetizer. Served with a glass."
     },
     "unlock_when": null,
-    "recipe": [],
-    "gimmick_count": 1,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "beer",
+        "qty": 12,
+        "unit": "oz"
+      }
+    ],
+    "gimmick_count": 2,
     "tier": 1,
     "unlock_day": 1,
-    "scoring_items": 4,
-    "time_limit_sec": 28
+    "scoring_items": 5,
+    "time_limit_sec": 36
   },
   {
     "id": "red_wine",
@@ -507,7 +477,7 @@
     ],
     "gimmick_count": 3,
     "tier": 2,
-    "unlock_day": 4,
+    "unlock_day": 1,
     "scoring_items": 6,
     "time_limit_sec": 44
   },
@@ -611,7 +581,7 @@
     ],
     "gimmick_count": 5,
     "tier": 4,
-    "unlock_day": 5,
+    "unlock_day": 2,
     "scoring_items": 8,
     "time_limit_sec": 60
   },
@@ -752,7 +722,7 @@
     ],
     "gimmick_count": 3,
     "tier": 2,
-    "unlock_day": 6,
+    "unlock_day": 2,
     "scoring_items": 6,
     "time_limit_sec": 44
   },

@@ -1,29 +1,11 @@
 [
   {
-    "id": "p_news_d2",
-    "spot": "street_board",
-    "kind": "object",
-    "phase": "commute_in",
-    "when": "day == 2",
-    "scene_or_shop": "d2_news",
-    "selection": "once",
-    "note": "전광판 뉴스(세계관 떡밥)"
-  },
-  {
-    "id": "p_news_d3",
-    "spot": "street_board",
-    "kind": "object",
-    "phase": "commute_in",
-    "when": "day == 3",
-    "scene_or_shop": "d3_news",
-    "selection": "once",
-    "note": "전광판 뉴스(벡터 정화사업)"
-  },
-  {
     "id": "p_vendor_intro",
     "spot": "street_stall",
     "kind": "npc",
+    "actor": "vendor",
     "phase": "commute_in",
+    "trigger": "interact",
     "when": "day == 2 && !flag.q_lost_box_started",
     "scene_or_shop": "d2_vendor_intro",
     "selection": "once",
@@ -33,7 +15,9 @@
     "id": "p_vendor_shop",
     "spot": "street_stall",
     "kind": "shop",
+    "actor": "vendor",
     "phase": "both",
+    "trigger": "interact",
     "when": "day >= 3",
     "scene_or_shop": "shop:vendor",
     "selection": "repeat",
@@ -43,17 +27,21 @@
     "id": "p_lost_box",
     "spot": "alley_deep",
     "kind": "object",
+    "actor": "",
     "phase": "commute_out",
+    "trigger": "interact",
     "when": "flag.q_lost_box_started && !flag.q_lost_box_done",
     "scene_or_shop": "d2_box_found",
-    "selection": "once",
-    "note": "잃어버린 상자(퀘스트)"
+    "selection": "repeat",
+    "note": "잃어버린 상자(퀘스트) — 무시해도 다시 주울 수 있어야 하므로 repeat, 닫는 것은 when이 담당"
   },
   {
     "id": "p_alley_cat",
     "spot": "alley_in",
     "kind": "object",
+    "actor": "",
     "phase": "commute_in",
+    "trigger": "interact",
     "when": "day == 3 && !flag.d3_cat_seen",
     "scene_or_shop": "d3_alley_cat",
     "selection": "once",
@@ -63,7 +51,9 @@
     "id": "p_shiba",
     "spot": "alley_in",
     "kind": "npc",
+    "actor": "shiba",
     "phase": "both",
+    "trigger": "interact",
     "when": "day >= 2",
     "scene_or_shop": "group:np_shiba",
     "selection": "conditional",
@@ -73,40 +63,24 @@
     "id": "p_ob_parttime",
     "spot": "street_wall",
     "kind": "object",
+    "actor": "",
     "phase": "both",
+    "trigger": "interact",
     "when": "day >= 2",
-    "scene_or_shop": "group:ob_parttime",
-    "selection": "sequential",
-    "note": "[이식] parttime_posting — 볼 때마다 다음 감상(순차 소비 데모)"
-  },
-  {
-    "id": "p_ob_vending",
-    "spot": "street_mid",
-    "kind": "object",
-    "phase": "both",
-    "when": "day >= 2",
-    "scene_or_shop": "group:ob_vending",
-    "selection": "conditional",
-    "note": "[이식] vending_machine — 골드에 따라 분기(조건 선택 데모)"
+    "scene_or_shop": "ob_parttime_1",
+    "selection": "repeat",
+    "note": "알바 전단 — 적힌 정보만, 몇 번이든 다시 읽을 수 있다"
   },
   {
     "id": "p_ob_experiment",
     "spot": "alley_in",
     "kind": "object",
+    "actor": "",
     "phase": "commute_out",
+    "trigger": "interact",
     "when": "day >= 2",
-    "scene_or_shop": "group:ob_experiment",
+    "scene_or_shop": "ob_experiment_1",
     "selection": "once",
-    "note": "[이식] experiment_recruit — 코라테크 임상시험(세계관 복선)"
-  },
-  {
-    "id": "p_ob_toilet",
-    "spot": "alley_deep",
-    "kind": "object",
-    "phase": "commute_out",
-    "when": "day >= 2 && flag.q_lost_box_done",
-    "scene_or_shop": "group:ob_toilet",
-    "selection": "once",
-    "note": "[이식] toilet_bin — 유머"
+    "note": "임상시험 전단 — 코라테크 복선(한 번 읽으면 소비)"
   }
 ]

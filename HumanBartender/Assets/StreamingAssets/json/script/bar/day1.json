@@ -1332,16 +1332,6 @@
           "when": null,
           "effects": null,
           "sync": "wait"
-        },
-        {
-          "seq": 27,
-          "type": "end_part",
-          "actor": null,
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
         }
       ]
     },
@@ -1522,6 +1512,16 @@
             "ko": "오늘은 여기까지. 정리는 내가 한다.\n먼저 들어가라.",
             "en": "That's enough for today. I'll close up.\nHead home first."
           },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 15,
+          "type": "end_part",
+          "actor": null,
+          "arg": null,
+          "text": null,
           "when": null,
           "effects": null,
           "sync": "wait"
