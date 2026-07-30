@@ -695,7 +695,7 @@ expressions.json
 | 그룹 | 값 | 언제 |
 | --- | --- | --- |
 | **부르기** | `call` / `call_urge` / `call_final` | 처음 부름 / 재촉 / 마지막 경고 |
-| **주문** | `ask_order` · `order_think` · `order` · `reorder` | 주문 3박자 |
+| **주문** | `ask_order` · `order_think` · `order` · `reorder` | 코스터를 놓은 뒤 주문을 받는 대사 순서 |
 | **반응** | `react_excellent` · `react_good` · `react_decent` · `react_poor` · `react_sewage` | 받은 술의 등급별 반응 |
 | **사고** | `wrong_drink` · `wrong_receive` · `drunk_enter` | 엉뚱한 술 / 취해서 들어옴 |
 | **떠남** | `leave_coaster` · `leave_serve` · `bye_good` · `bye_bad` | 못 참고 감 / 기분 좋게 감 |

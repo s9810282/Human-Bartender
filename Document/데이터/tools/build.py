@@ -46,7 +46,7 @@ BOOL_COLS = {  # TRUE/FALSE 문자열 → 불리언
 FLOAT_COLS = { # 8.0이 8로 읽히는 문제 → float 강제
     "Cocktails": {"abv"},
     "GradePayout": {"revenue_mult"},
-    "Personalities": {"tip_mult", "patience_mult"},
+    "Personalities": {"tip_mult", "patience_mult", "think_chance"},
 }
 
 # 시트 → (전역 이름, 읽을 컬럼 수). Cocktails의 (파생) 컬럼과 Characters의 base_body는 별도 처리.

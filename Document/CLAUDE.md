@@ -82,6 +82,8 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
 - **1부 시작** = 개점 대화(bar_open) 종료 시 자동. day1은 bar_open 씬이 없어 바 진입 즉시. OPEN 간판 클릭은 제거됨.
 - **인내심(비가시 — 대사 4단계로만 전달)**: 코스터 = max(12, 22−tier×1.5)×성격 patience_mult /
   서빙 = 제한시간+max(10, 40−tier×3), 성격 미적용. 50%/80%에 urge/final. 제조 중엔 전 좌석 정지.
+- **주문 대사 3개**: 코스터 드롭 → ask_order(루나)→order_think→order 순서. 대사 사이 텀 = config `order_bark_gap_sec`(1.5).
+  랜덤 손님은 personalities `think_chance`(0~1) 굴림 실패 시 order_think 생략, **카메오는 항상 재생**.
 - **정산**: 배율 1.2/1.0/0.7/0.3/−1.0. 팁 = 초과분×tip_mult(excellent만, 버림).
   **단골은 tip_mult 없이 일괄 1.0**(excellent=술값 20%). sewage·오제조 전액 배상. 골드 음수 허용.
 - **바의 루나 = 1인칭.** 초상·스탠딩 없이 화면에 나오지 않고, 대사창엔 이름+본문만. character_anim의 luna 항목은 예약(미사용).

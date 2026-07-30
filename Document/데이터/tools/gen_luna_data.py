@@ -419,13 +419,15 @@ def parse_emotions(raw):
         out[k.strip()] = v.strip()
     return out, bad
 
-PERS_COLS = ["id","name_ko","name_en","tip_mult","patience_mult","note"]
+PERS_COLS = ["id","name_ko","name_en","tip_mult","patience_mult","think_chance","note"]
 PERSONALITIES = [  # 26.07.17 PD 시트('랜덤 (일반) 손님 대사') 기준 5종. 배율은 가안
-    ("gentle", "온화형", "Gentle", 1.0, 1.2, "예의 바르고 참을성 많음. 부정 반응도 조심스러움"),
-    ("rough",  "거친형", "Rough",  1.1, 0.8, "입이 거침. 빨리 안 오면 폭발, 맛있으면 화끈하게 리액션"),
-    ("touchy", "예민형", "Touchy", 1.0, 0.9, "(구)짜증난&예민한 손님. 응대 하나하나에 민감"),
-    ("quiet",  "과묵형", "Quiet",  1.1, 1.1, "말수 최소. '...'가 대사의 절반"),
-    ("chatty", "수다형", "Chatty", 1.0, 1.0, "혼잣말·너스레 많음. 대사가 김"),
+    # think_chance: 코스터 드롭 후 order_think를 재생할 확률(0~1). 실패하면 ask_order → 바로 order.
+    # 카메오(단골)는 전용 order_think 행이 대사 그 자체이므로 이 값과 무관하게 항상 재생.
+    ("gentle", "온화형", "Gentle", 1.0, 1.2, 1.0, "예의 바르고 참을성 많음. 부정 반응도 조심스러움"),
+    ("rough",  "거친형", "Rough",  1.1, 0.8, 0.3, "입이 거침. 빨리 안 오면 폭발, 맛있으면 화끈하게 리액션. 주문도 대부분 즉답"),
+    ("touchy", "예민형", "Touchy", 1.0, 0.9, 0.8, "(구)짜증난&예민한 손님. 응대 하나하나에 민감"),
+    ("quiet",  "과묵형", "Quiet",  1.1, 1.1, 0.5, "말수 최소. '...'가 대사의 절반"),
+    ("chatty", "수다형", "Chatty", 1.0, 1.0, 1.0, "혼잣말·너스레 많음. 대사가 김"),
 ]
 
 # voice_id = 성격유형 id 또는 캐릭터 id(카메오 전용). 공란 = 전 유형 공용 폴백
@@ -595,7 +597,7 @@ BARKS = [
     ("", "bye_bad", "",      "뭐 이딴 가게가 다 있어?!", "What kind of bar is this?!", 1),
     # ===== 카메오(캐릭터 voice) =====
     ("port", "call", "",     "크리스는 안에 있나? ...아, 자네한테 시키면 되지.", "Is Chris in? ...Ah, never mind. I can order from you.", 1),
-    # ===== 루나(바텐더) 응대 라인 — 주문 3박자 플로우: 루나 질문 → 손님 고민 → 주문 =====
+    # ===== 루나(바텐더) 응대 라인 — 주문 순서: 루나 질문(ask_order) → 손님 고민(order_think) → 주문(order) =====
     ("luna", "ask_order", "",  "주문하시겠습니까?", "May I take your order?", 1),
     ("luna", "ask_order", "",  "무엇으로 드릴까요?", "What can I get you?", 1),
     ("luna", "ask_order", "",  "메뉴, 보시겠어요?", "Would you like the menu?", 1),
@@ -1102,6 +1104,7 @@ CONFIG = [
     ("sfx_drink_low",          "SFX_drink_grim",      "마시는 중 사운드 — Poor·Sewage"),
     ("idle_min_sec",           8,       "1부 대기 중 혼잣말(idle) 최소 간격"),
     ("idle_max_sec",           13,      "1부 대기 중 혼잣말 최대 간격"),
+    ("order_bark_gap_sec",     1.5,     "주문 대사 사이의 텀 — ask_order→order_think→order 순서로 재생할 때, 앞 대사 타이핑이 끝나고 다음 대사까지 기다리는 초 [가안]"),
     # ── v3.0 거리 시스템 — 말풍선 상수는 바와 분리해 따로 튜닝한다 ──
     ("street_typing_interval_ms",   50, "거리 말풍선 타이핑 문자당 간격(ms) — 바(typing_interval_ms)와 별도 튜닝"),
     ("street_auto_next_delay_sec",  3,  "auto 재생 대사 — 타이핑 종료 후 다음 대사까지 텀"),
@@ -1344,6 +1347,12 @@ def validate(derived):
     _vid_clash = pers_ids & char_ids
     if _vid_clash:
         errors.append(f"[id 충돌] Personalities와 Characters에 같은 id가 있음: {sorted(_vid_clash)} — Barks.voice_id가 성격 대사인지 캐릭터 전용 대사인지 구분할 수 없게 된다")
+
+    # v3.5 — think_chance는 확률이라 0~1 밖이면 엔진이 해석할 수 없다
+    for p in PERSONALITIES:
+        d = dict(zip(PERS_COLS, p))
+        if not (isinstance(d["think_chance"], (int, float)) and 0 <= d["think_chance"] <= 1):
+            errors.append(f"[성격] {d['id']}: think_chance {d['think_chance']!r} — 0~1 사이 확률이어야 한다")
 
     # 표정 시스템 검증
     scene_phase = {s[0]: dict(zip(SCENE_COLS, s))["phase"] for s in SCENES}   # 표정/동작 검증용
@@ -2176,6 +2185,7 @@ COL_DOCS = {
         "name_en": "영어 이름",
         "tip_mult": "팁 배율. 1.0이 기본이고 높을수록 후하다(예: 1.1 = 10% 더 줌)",
         "patience_mult": "인내심 시간 배율. 1.0이 기본이고 **높을수록 오래 기다려준다**(1.2=여유로움, 0.8=성질 급함)",
+        "think_chance": "코스터 드롭 후 order_think를 재생할 확률(0~1). 1.0=항상 고민, 0.3=대부분 즉답(ask_order 다음 바로 order). 카메오는 무관하게 항상 재생",
         "note": "작업 메모",
     },
     "Barks": {
@@ -2697,7 +2707,8 @@ def emit_json(derived):
     for p in PERSONALITIES:
         d = dict(zip(PERS_COLS, p))
         master["personalities"].append({"id": d["id"], "name": L(d["name_ko"], d["name_en"]),
-            "tip_mult": d["tip_mult"], "patience_mult": d["patience_mult"]})
+            "tip_mult": d["tip_mult"], "patience_mult": d["patience_mult"],
+            "think_chance": d["think_chance"]})
     for b in BARKS:
         d = dict(zip(BARK_COLS, b))
         master["barks"].append({"voice_id": d["voice_id"] or None, "expression": d["expression"] or None,
