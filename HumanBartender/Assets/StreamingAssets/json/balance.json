@@ -30,7 +30,10 @@
     "sfx_drink_mid": "SFX_drink_neutral",
     "sfx_drink_low": "SFX_drink_grim",
     "idle_min_sec": 8,
-    "idle_max_sec": 13
+    "idle_max_sec": 13,
+    "order_bark_gap_sec": 1.5,
+    "street_typing_interval_ms": 50,
+    "street_auto_next_delay_sec": 3
   },
   "grade_cuts": [
     {

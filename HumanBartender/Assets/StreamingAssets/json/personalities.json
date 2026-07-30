@@ -6,7 +6,8 @@
       "en": "Gentle"
     },
     "tip_mult": 1.0,
-    "patience_mult": 1.2
+    "patience_mult": 1.2,
+    "think_chance": 1.0
   },
   {
     "id": "rough",
@@ -15,7 +16,8 @@
       "en": "Rough"
     },
     "tip_mult": 1.1,
-    "patience_mult": 0.8
+    "patience_mult": 0.8,
+    "think_chance": 0.3
   },
   {
     "id": "touchy",
@@ -24,7 +26,8 @@
       "en": "Touchy"
     },
     "tip_mult": 1.0,
-    "patience_mult": 0.9
+    "patience_mult": 0.9,
+    "think_chance": 0.8
   },
   {
     "id": "quiet",
@@ -33,7 +36,8 @@
       "en": "Quiet"
     },
     "tip_mult": 1.1,
-    "patience_mult": 1.1
+    "patience_mult": 1.1,
+    "think_chance": 0.5
   },
   {
     "id": "chatty",
@@ -42,6 +46,7 @@
       "en": "Chatty"
     },
     "tip_mult": 1.0,
-    "patience_mult": 1.0
+    "patience_mult": 1.0,
+    "think_chance": 1.0
   }
 ]
