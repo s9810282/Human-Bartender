@@ -37,6 +37,9 @@ public struct NewBalanceConfig
     [field: SerializeField][JsonProperty("sfx_drink_low")] public string SfxDrinkLow { get; set; }
     [field: SerializeField][JsonProperty("idle_min_sec")] public float IdleMinSec { get; set; }
     [field: SerializeField][JsonProperty("idle_max_sec")] public float IdleMaxSec { get; set; }
+    [field: SerializeField][JsonProperty("order_bark_gap_sec")] public float OrderBarkGapSec { get; set; }
+    [field: SerializeField][JsonProperty("street_auto_next_delay_sec")] public float StreetAutoNextDelaySec { get; set; }
+    [field: SerializeField][JsonProperty("street_typing_interval_ms")] public int StreetTypingIntervalMs { get; set; }
 }
 
 [Serializable]

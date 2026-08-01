@@ -51,9 +51,7 @@ public enum ENewCharacterRole
 {
     [EnumMember(Value = "player")] Player,
     [EnumMember(Value = "master")] Master,
-    [EnumMember(Value = "guest_multi")] GuestMulti,
-    [EnumMember(Value = "guest_twice")] GuestTwice,
-    [EnumMember(Value = "guest_once")] GuestOnce,
+    [EnumMember(Value = "guest")] Guest,
     [EnumMember(Value = "cutscene")] Cutscene,
     [EnumMember(Value = "npc_street")] NpcStreet,
 }
