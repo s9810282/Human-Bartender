@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>LAST CALL — 공중전화</title>
+<style>
+  :root{
+    --bg-void:#0a0c14;
+    --bg-wall:#12151f;
+    --booth-metal:#1c212e;
+    --booth-metal-hi:#2a3142;
+    --neon-cyan:#4fe3d0;
+    --neon-magenta:#ff4fc3;
+    --amber:#ffb454;
+    --crt-green:#7dffb3;
+    --crt-bg:#03110a;
+    --danger:#ff5a5a;
+    --text-dim:#8891a8;
+    --font-display:'Rajdhani','Pretendard',sans-serif;
+    --font-mono:'Courier New',monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg-void);overflow:hidden;font-family:var(--font-display);}
+  body{
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(79,227,208,0.06), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(255,79,195,0.05), transparent 60%),
+      var(--bg-void);
+    position:relative;
+  }
+  /* ambient scanline / grain */
+  body::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:50;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,0.15) 0px,rgba(0,0,0,0.15) 1px,transparent 1px,transparent 3px);
+    opacity:0.35;
+  }
+  .stage{
+    width:420px;max-width:94vw;
+    display:flex;flex-direction:column;align-items:center;
+    gap:14px;
+  }
+  .sign{
+    font-family:var(--font-mono);
+    letter-spacing:6px;font-size:12px;color:var(--neon-cyan);
+    text-shadow:0 0 6px var(--neon-cyan),0 0 18px rgba(79,227,208,0.5);
+    animation:flicker 5s infinite;
+  }
+  @keyframes flicker{
+    0%,19%,21%,23%,80%,100%{opacity:1;}
+    20%,22%{opacity:0.3;}
+  }
+  .booth{
+    width:100%;
+    background:linear-gradient(160deg,var(--booth-metal-hi),var(--booth-metal) 55%,#0e111a);
+    border:1px solid #333c52;
+    border-radius:14px;
+    padding:22px 20px 26px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.02) inset,
+      0 20px 60px -20px rgba(0,0,0,0.8),
+      0 0 40px -10px rgba(79,227,208,0.08);
+    position:relative;
+  }
+  .screen-wrap{
+    background:#000;
+    border-radius:8px;
+    padding:6px;
+    border:1px solid #2c3346;
+    box-shadow:inset 0 0 20px rgba(0,0,0,0.9);
+  }
+  .screen{
+    background:radial-gradient(ellipse at 50% 0%,#062015,var(--crt-bg) 70%);
+    border-radius:4px;
+    min-height:150px;
+    padding:16px;
+    font-family:var(--font-mono);
+    color:var(--crt-green);
+    position:relative;
+    overflow:hidden;
+  }
+  .screen::after{
+    content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,0.35) 0px,rgba(0,0,0,0.35) 2px,transparent 2px,transparent 4px);
+    mix-blend-mode:multiply;pointer-events:none;
+  }
+  .screen-state{
+    font-size:10px;letter-spacing:3px;color:var(--neon-magenta);opacity:0.85;margin-bottom:8px;
+  }
+  .screen-body{
+    font-size:15px;line-height:1.55;min-height:70px;white-space:pre-wrap;
+    text-shadow:0 0 6px rgba(125,255,179,0.55);
+  }
+  .screen-sub{
+    margin-top:10px;font-size:11px;color:#3f9d76;letter-spacing:1px;
+  }
+  .coin-row{
+    display:flex;align-items:center;justify-content:space-between;
+    margin:16px 0 10px;
+  }
+  .coin-slot{
+    display:flex;align-items:center;gap:8px;
+    background:#0d1018;border:1px solid #333c52;border-radius:8px;
+    padding:8px 12px;cursor:pointer;user-select:none;
+    transition:transform .12s ease, border-color .2s ease;
+  }
+  .coin-slot:hover{border-color:var(--amber);}
+  .coin-slot:active{transform:scale(0.96);}
+  .coin-slot.disabled{opacity:0.35;cursor:not-allowed;}
+  .coin-icon{
+    width:20px;height:20px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ffe9a8,var(--amber) 60%,#a86a1c);
+    box-shadow:0 0 8px rgba(255,180,84,0.6);
+    flex:none;
+  }
+  .coin-label{font-size:12px;color:var(--text-dim);letter-spacing:1px;}
+  .coin-count{
+    font-family:var(--font-mono);font-size:18px;color:var(--amber);letter-spacing:2px;
+  }
+  .handset-row{
+    display:flex;justify-content:center;margin-bottom:18px;
+  }
+  .handset-btn{
+    background:linear-gradient(180deg,#3a4258,#232838);
+    border:1px solid #454f68;
+    color:#dfe4f0;
+    font-family:var(--font-display);font-weight:600;letter-spacing:2px;font-size:13px;
+    padding:10px 22px;border-radius:24px;cursor:pointer;
+    transition:box-shadow .2s ease, transform .12s ease, background .2s ease;
+  }
+  .handset-btn:hover{box-shadow:0 0 16px rgba(79,227,208,0.35);}
+  .handset-btn:active{transform:scale(0.97);}
+  .handset-btn.lifted{
+    background:linear-gradient(180deg,#2a4a44,#16302b);
+    border-color:var(--neon-cyan);color:var(--neon-cyan);
+  }
+  .dial-wrap{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+  }
+  .dial-display{
+    font-family:var(--font-mono);font-size:22px;letter-spacing:10px;color:var(--neon-cyan);
+    min-height:28px;text-shadow:0 0 8px rgba(79,227,208,0.6);
+  }
+  .dial{
+    position:relative;width:230px;height:230px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#333c52,#161a26 70%);
+    border:1px solid #3a4258;
+    box-shadow:inset 0 4px 14px rgba(0,0,0,0.6), 0 8px 22px rgba(0,0,0,0.5);
+  }
+  .dial.locked{filter:grayscale(0.6) brightness(0.7);}
+  .dial-center{
+    position:absolute;top:50%;left:50%;width:70px;height:70px;
+    transform:translate(-50%,-50%);border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#20283a,#0d0f16);
+    border:1px solid #2c3346;
+  }
+  .dial-hole{
+    position:absolute;width:38px;height:38px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#0d1018,#000);
+    border:1px solid #3a4258;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:15px;color:#c8ceda;
+    cursor:pointer;
+    transition:transform .12s ease, color .2s ease, box-shadow .2s ease;
+    transform:translate(-50%,-50%);
+  }
+  .dial-hole:hover{color:var(--neon-cyan);box-shadow:0 0 10px rgba(79,227,208,0.4);}
+  .dial-hole:active{transform:translate(-50%,-50%) scale(0.88);}
+  .dial.locked .dial-hole{cursor:not-allowed;pointer-events:none;}
+  .dial-hole.spin{animation:spin-fx .35s ease;}
+  @keyframes spin-fx{
+    0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}
+    50%{transform:translate(-50%,-50%) scale(0.9) rotate(18deg);color:var(--neon-cyan);}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}
+  }
+  .shake{animation:shake-fx .3s ease;}
+  @keyframes shake-fx{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+  .choices{
+    display:flex;flex-direction:column;gap:8px;margin-top:12px;
+  }
+  .choice-btn{
+    text-align:left;
+    background:#0d1522;border:1px solid #2c3346;color:var(--crt-green);
+    font-family:var(--font-mono);font-size:12.5px;padding:8px 10px;border-radius:4px;
+    cursor:pointer;transition:border-color .15s ease, background .15s ease;
+  }
+  .choice-btn:hover{border-color:var(--neon-cyan);background:#0f1c2c;}
+  .hint{
+    font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+    text-align:center;margin-top:4px;letter-spacing:0.5px;
+  }
+  .directory-note{
+    margin-top:14px;font-size:10px;color:#4b566e;text-align:center;font-family:var(--font-mono);
+    line-height:1.6;
+  }
+
+  /* ---- wallet HUD (top-right) ---- */
+  .wallet-hud{
+    position:fixed;top:18px;right:18px;z-index:60;
+    display:flex;align-items:center;gap:8px;
+    background:rgba(13,16,24,0.85);
+    border:1px solid #333c52;border-radius:10px;
+    padding:8px 14px;
+    font-family:var(--font-mono);
+    backdrop-filter:blur(2px);
+  }
+  .wallet-hud .coin-icon{width:16px;height:16px;}
+  .wallet-hud .wallet-count{font-size:15px;color:var(--amber);letter-spacing:1px;}
+  .wallet-hud .wallet-label{font-size:9px;color:var(--text-dim);letter-spacing:1px;}
+  .fly-pop{
+    position:fixed;z-index:61;pointer-events:none;
+    font-family:var(--font-mono);font-size:13px;font-weight:bold;
+    display:flex;align-items:center;gap:4px;
+    animation:fly-up 0.85s ease forwards;
+  }
+  .fly-pop.spend{color:var(--danger);}
+  .fly-pop.refund{color:var(--neon-cyan);}
+  .fly-pop .mini-coin{
+    width:12px;height:12px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#ffe9a8,var(--amber) 60%,#a86a1c);
+  }
+  @keyframes fly-up{
+    0%{transform:translateY(0) scale(1);opacity:1;}
+    70%{opacity:1;}
+    100%{transform:translateY(-34px) scale(0.85);opacity:0;}
+  }
+
+  /* ---- refund button ---- */
+  .refund-btn{
+    background:#1a1220;border:1px solid #4a2e46;color:var(--neon-magenta);
+    font-family:var(--font-display);font-weight:600;font-size:11px;letter-spacing:1px;
+    padding:8px 12px;border-radius:8px;cursor:pointer;
+    transition:box-shadow .2s ease, transform .12s ease, opacity .2s ease;
+  }
+  .refund-btn:hover{box-shadow:0 0 12px rgba(255,79,195,0.35);}
+  .refund-btn:active{transform:scale(0.96);}
+  .refund-btn:disabled{opacity:0.3;cursor:not-allowed;box-shadow:none;}
+</style>
+</head>
+<body>
+<div class="wallet-hud" id="walletHud">
+  <div class="coin-icon"></div>
+  <div>
+    <div class="wallet-label">보유 동전</div>
+    <div class="wallet-count" id="walletCount">10</div>
+  </div>
+</div>
+<div class="stage">
+  <div class="sign">L A S T &nbsp; C A L L &nbsp; · &nbsp; PUBLIC PHONE</div>
+  <div class="booth">
+    <div class="screen-wrap">
+      <div class="screen">
+        <div class="screen-state" id="stateLabel">IDLE</div>
+        <div class="screen-body" id="screenBody">수화기가 걸려 있습니다.</div>
+        <div class="screen-sub" id="screenSub"></div>
+      </div>
+    </div>
+
+    <div class="coin-row">
+      <div class="coin-slot" id="coinSlot">
+        <div class="coin-icon"></div>
+        <div class="coin-label">동전 투입</div>
+      </div>
+      <div class="coin-count"><span id="coinCount">0</span> / <span id="coinRequired">3</span></div>
+      <button class="refund-btn" id="refundBtn" disabled>반환</button>
+    </div>
+
+    <div class="handset-row">
+      <button class="handset-btn" id="handsetBtn">수화기 들기</button>
+    </div>
+
+    <div class="dial-wrap">
+      <div class="dial-display" id="dialDisplay">＿ ＿ ＿ ＿</div>
+      <div class="dial" id="dial"></div>
+      <div class="hint" id="hint">수화기를 들고 동전 3개를 넣으면 다이얼이 열립니다.</div>
+    </div>
+
+    <div class="choices" id="choices" style="display:none;"></div>
+  </div>
+
+  <div class="directory-note">
+    등록 번호: 0917 (루나) · 0413 (???) — 그 외 번호는 없는 번호입니다.<br>
+    이 표(NPC 이름 / 번호)에 항목을 채우면 DIRECTORY에 그대로 추가할 수 있어요.
+  </div>
+</div>
+
+<script>
+// ===== CONFIG (요청하신 "NPC 이름 / 번호" 표 → 여기 DIRECTORY로 매핑) =====
+const PAYPHONE_CONFIG = {
+  requiredCoins: 3,
+  phoneNumberLength: 4,
+};
+
+const DIRECTORY = {
+  "0917": {
+    name: "루나",
+    type: "choice",
+    lines: ["...여보세요.", "누구세요?"],
+    choices: [
+      { text: "나야. 잘 지내?", reply: "...그럭저럭. 오늘 손님이 많았어." },
+      { text: "그냥 목소리가 듣고 싶어서.", reply: "...그런 말, 데이터로는 이해가 안 되는데. 싫진 않아." }
+    ]
+  },
+  "0413": {
+    name: "???",
+    type: "scripted",
+    lines: ["...", "...누구세요.", "잘못 걸었어요.", "다시는 이 번호로 걸지 마세요."]
+  }
+};
+
+// ===== STATE =====
+let state = "IDLE";
+let wallet = 10; // 데모용 초기 소지 동전
+let insertedCoins = 0;
+let handsetLifted = false;
+let dialLocked = true;
+let currentDialNumber = "";
+let targetEntry = null;
+let dialogueIndex = 0;
+
+const el = {
+  stateLabel: document.getElementById('stateLabel'),
+  screenBody: document.getElementById('screenBody'),
+  screenSub: document.getElementById('screenSub'),
+  coinSlot: document.getElementById('coinSlot'),
+  coinCount: document.getElementById('coinCount'),
+  coinRequired: document.getElementById('coinRequired'),
+  handsetBtn: document.getElementById('handsetBtn'),
+  dial: document.getElementById('dial'),
+  dialDisplay: document.getElementById('dialDisplay'),
+  hint: document.getElementById('hint'),
+  choices: document.getElementById('choices'),
+  walletCount: document.getElementById('walletCount'),
+  walletHud: document.getElementById('walletHud'),
+  refundBtn: document.getElementById('refundBtn'),
+};
+
+// ---- fly-out pop effect (top-right) ----
+function spawnFlyPop(text, kind){
+  const rect = el.walletHud.getBoundingClientRect();
+  const pop = document.createElement('div');
+  pop.className = 'fly-pop ' + kind;
+  pop.style.top = (rect.bottom - 6) + 'px';
+  pop.style.right = '22px';
+  pop.innerHTML = `<span class="mini-coin"></span>${text}`;
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 900);
+}
+
+el.coinRequired.textContent = PAYPHONE_CONFIG.requiredCoins;
+
+// build rotary dial: digits 1-9,0 at 30deg + i*30deg
+const digits = ['1','2','3','4','5','6','7','8','9','0'];
+const radius = 88;
+digits.forEach((d, i) => {
+  const angle = (30 + i * 30) * Math.PI / 180;
+  const x = 115 + radius * Math.sin(angle);
+  const y = 115 - radius * Math.cos(angle);
+  const hole = document.createElement('div');
+  hole.className = 'dial-hole';
+  hole.style.left = x + 'px';
+  hole.style.top = y + 'px';
+  hole.textContent = d;
+  hole.addEventListener('click', () => onDialClick(d, hole));
+  el.dial.appendChild(hole);
+});
+const dialCenter = document.createElement('div');
+dialCenter.className = 'dial-center';
+el.dial.appendChild(dialCenter);
+
+function setState(newState){
+  state = newState;
+  el.stateLabel.textContent = newState;
+}
+
+function render(){
+  el.coinCount.textContent = insertedCoins;
+  el.walletCount.textContent = wallet;
+  el.dial.classList.toggle('locked', dialLocked);
+  el.coinSlot.classList.toggle('disabled', insertedCoins >= PAYPHONE_CONFIG.requiredCoins || wallet <= 0);
+  el.handsetBtn.textContent = handsetLifted ? '수화기 내려놓기' : '수화기 들기';
+  el.handsetBtn.classList.toggle('lifted', handsetLifted);
+  const slots = currentDialNumber.padEnd(PAYPHONE_CONFIG.phoneNumberLength,'＿').split('').join(' ');
+  el.dialDisplay.textContent = slots;
+  // 반환 버튼: 동전을 넣은 상태 + 아직 연결 시도 전(통화 연결/판정 중이 아닐 때)만 가능
+  const refundable = insertedCoins > 0 && (state === 'COIN_WAIT' || state === 'DIAL_READY');
+  el.refundBtn.disabled = !refundable;
+}
+
+function say(body, sub=''){
+  el.screenBody.textContent = body;
+  el.screenSub.textContent = sub;
+}
+
+// ---- IDLE ----
+function goIdle(resetCoins=true){
+  setState('IDLE');
+  handsetLifted = false;
+  dialLocked = true;
+  currentDialNumber = "";
+  targetEntry = null;
+  el.choices.style.display = 'none';
+  el.choices.innerHTML = '';
+  el.hint.textContent = '수화기를 들고 동전 3개를 넣으면 다이얼이 열립니다.';
+  if(resetCoins) insertedCoins = 0;
+  say('수화기가 걸려 있습니다.');
+  render();
+}
+
+// ---- Handset ----
+el.handsetBtn.addEventListener('click', () => {
+  if(!handsetLifted){
+    // lift
+    handsetLifted = true;
+    if(state === 'CALL_ACTIVE' || state === 'CALL_FAILED'){
+      // shouldn't happen via this button, guard anyway
+      return;
+    }
+    if(insertedCoins >= PAYPHONE_CONFIG.requiredCoins){
+      setState('DIAL_READY');
+      dialLocked = false;
+      say('다이얼을 돌려 번호를 입력하세요.', `요구 동전 ${PAYPHONE_CONFIG.requiredCoins}개 충족됨`);
+      el.hint.textContent = '다이얼을 클릭해서 4자리 번호를 입력하세요.';
+    } else {
+      setState('COIN_WAIT');
+      say('동전을 넣어주세요.', `${insertedCoins} / ${PAYPHONE_CONFIG.requiredCoins}`);
+    }
+  } else {
+    // hang up — from any state, including exception paths
+    const wasMidDial = (state === 'COIN_WAIT' || state === 'DIAL_READY' || state === 'CONNECTING');
+    goIdle(true); // 동전은 소모된 채 유지 (반환 없음)
+    if(wasMidDial){
+      say('부스가 초기화되었습니다.', '[동전은 소모된 채 유지됨]');
+    }
+  }
+  render();
+});
+
+// ---- Coin ----
+el.coinSlot.addEventListener('click', () => {
+  if(insertedCoins >= PAYPHONE_CONFIG.requiredCoins){
+    say('동전이 충분합니다.', '더 넣지 않아도 됩니다.');
+    return;
+  }
+  if(wallet <= 0){
+    say('가진 동전이 없습니다.', '');
+    return;
+  }
+  wallet--;
+  insertedCoins++;
+  spawnFlyPop('-1', 'spend');
+  if(state === 'IDLE') setState('COIN_WAIT');
+  if(insertedCoins >= PAYPHONE_CONFIG.requiredCoins){
+    if(handsetLifted){
+      setState('DIAL_READY');
+      dialLocked = false;
+      say('다이얼이 활성화되었습니다.', '4자리 번호를 입력하세요.');
+      el.hint.textContent = '다이얼을 클릭해서 4자리 번호를 입력하세요.';
+    } else {
+      say('동전이 충족되었습니다.', '수화기를 들어주세요.');
+    }
+  } else {
+    say('동전을 넣어주세요.', `${insertedCoins} / ${PAYPHONE_CONFIG.requiredCoins}`);
+  }
+  render();
+});
+
+// ---- Refund ----
+el.refundBtn.addEventListener('click', () => {
+  if(insertedCoins <= 0) return;
+  const refunded = insertedCoins;
+  wallet += refunded;
+  insertedCoins = 0;
+  dialLocked = true;
+  currentDialNumber = "";
+  spawnFlyPop('+' + refunded, 'refund');
+  if(handsetLifted){
+    setState('COIN_WAIT');
+    say('동전이 반환되었습니다.', `${insertedCoins} / ${PAYPHONE_CONFIG.requiredCoins}`);
+  } else {
+    setState('IDLE');
+    say('동전이 반환되었습니다.');
+  }
+  render();
+});
+
+// ---- Dial ----
+function onDialClick(d, holeEl){
+  if(dialLocked){
+    // 동전 부족 상태에서 다이얼 클릭 -> 흔들림 + 안내
+    el.dial.classList.add('shake');
+    setTimeout(()=> el.dial.classList.remove('shake'), 300);
+    say('동전을 넣어주세요.', `${insertedCoins} / ${PAYPHONE_CONFIG.requiredCoins}`);
+    return;
+  }
+  if(state !== 'DIAL_READY') return;
+  holeEl.classList.add('spin');
+  setTimeout(()=> holeEl.classList.remove('spin'), 350);
+
+  currentDialNumber += d;
+  render();
+
+  if(currentDialNumber.length >= PAYPHONE_CONFIG.phoneNumberLength){
+    setState('CONNECTING');
+    say('번호를 확인하는 중...', '');
+    dialLocked = true;
+    render();
+    setTimeout(resolveCall, 500);
+  }
+}
+
+function resolveCall(){
+  const entry = DIRECTORY[currentDialNumber];
+  if(entry){
+    targetEntry = entry;
+    dialogueIndex = 0;
+    setState('CALL_ACTIVE');
+    say('연결 중...', '[연결 사운드]');
+    setTimeout(()=> playDialogue(), 500);
+  } else {
+    setState('CALL_FAILED');
+    say('없는 번호입니다.\n확인 후 다시 걸어주세요.', '[삐----]');
+    el.hint.textContent = '';
+    setTimeout(()=>{
+      if(state === 'CALL_FAILED'){
+        setState('CALL_ENDED');
+        currentDialNumber = "";
+        render();
+        say('다음 이용자를 위해\n수화기를 제자리에 놔주세요.');
+      }
+    }, 1800);
+  }
+}
+
+function playDialogue(){
+  if(!targetEntry) return;
+  if(dialogueIndex < targetEntry.lines.length){
+    say(`[${targetEntry.name}] ${targetEntry.lines[dialogueIndex]}`);
+    dialogueIndex++;
+    setTimeout(playDialogue, 1200);
+    return;
+  }
+  if(targetEntry.type === 'choice' && targetEntry.choices){
+    showChoices(targetEntry.choices);
+  } else {
+    endCall();
+  }
+}
+
+function showChoices(choices){
+  el.choices.style.display = 'flex';
+  el.choices.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = '> ' + c.text;
+    btn.addEventListener('click', () => {
+      el.choices.style.display = 'none';
+      el.choices.innerHTML = '';
+      say(`[${targetEntry.name}] ${c.reply}`);
+      setTimeout(endCall, 1400);
+    });
+    el.choices.appendChild(btn);
+  });
+}
+
+function endCall(){
+  setState('CALL_ENDED');
+  currentDialNumber = "";
+  render();
+  say('통화가 종료되었습니다.', '다음 이용자를 위해 수화기를 제자리에 놔주세요.');
+}
+
+// init
+goIdle(true);
+</script>
+</body>
+</html>
