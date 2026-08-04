@@ -15,7 +15,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Pour(따르기) 미니게임을 혼자 켜서 확인할 수 있는 독립 테스트 씬(Assets/00.Scenes/Pour.unity)을
 /// 새로 만들어 저장한다. Shake.unity/Stur.unity와 같은 역할 — isTest=true로 바로 Play 가능하게 배선한다.
-/// 병/잔은 위쪽(주둥이 방향)이 뚫린 U자 콜라이더 컨테이너를 가지며, 그 안을 SPH 파티클로 채운다.
+/// 병/잔을 가두는 벽은 콜라이더가 아니라 PourManager가 bottleInteriorHalfExtents / glassInteriorHalfExtents로
+/// 직접 클램프한다. 그래서 여기서는 스프라이트만 배치하고 콜라이더는 만들지 않는다.
 /// 병/잔 비주얼은 1유닛=1스케일짜리 흰 사각 스프라이트에 색만 입힌 placeholder이며, 실제 아트로 교체해야 한다.
 /// 이미 Pour.unity가 있으면 덮어쓰지 않고 중단한다(재생성하려면 기존 씬을 지우고 다시 실행).
 /// </summary>
@@ -29,11 +30,6 @@ public static class PourSceneSetup
     const string CocktailDataSOPath = "Assets/SO/CocktailData.asset";
     const string CraftServePath = "Assets/03.Scripts/Craft/CraftServe.asset";
     const string CraftRetryPath = "Assets/03.Scripts/Craft/CraftRetry.asset";
-
-    // PourManager.bottleInteriorHalfExtents / glassInteriorHalfExtents 기본값과 반드시 맞춰야 한다 —
-    // 파티클이 처음 채워지는 영역(스크립트 쪽 계산)과 실제로 막아주는 벽(여기서 만드는 콜라이더)이
-    // 어긋나면 파티클이 벽 밖에서 시작해버린다.
-    static readonly Vector2 ContainerHalfExtents = new Vector2(0.48f, 0.48f);
 
     [MenuItem("Tools/Tycoon/Setup Pour Scene")]
     public static void Run()
@@ -69,7 +65,7 @@ public static class PourSceneSetup
 
         Transform root = new GameObject("Pour Root").transform;
 
-        BottleTiltController bottle = CreateBottle(root, placeholderSprite);
+        (BottleTiltController bottle, BottleSilhouette bottleSilhouette) = CreateBottle(root);
         Transform glassCenter = CreateGlass(root, placeholderSprite);
         SphLiquidRenderer liquidRenderer = CreateLiquidRenderer(root);
         CreateInputHandler(root, bottle);
@@ -78,7 +74,7 @@ public static class PourSceneSetup
         (Canvas buttonCanvas, Button serveButton, Button retryButton) = CreateButtonCanvas(font);
 
         PourManager manager = CreatePourManager(
-            root, bottle, glassCenter, liquidRenderer, gageBar, buttonCanvas,
+            root, bottle, bottleSilhouette, glassCenter, liquidRenderer, gageBar, buttonCanvas,
             craftStationData, categoryColorData, cocktailDataSO, craftServe, craftRetry);
 
         UnityEventTools.AddVoidPersistentListener(serveButton.onClick, manager.Serve);
@@ -89,7 +85,7 @@ public static class PourSceneSetup
 
         Debug.Log("[PourSceneSetup] 완료. Pour.unity가 생성되어 저장되었습니다. " +
                   "Play 전에 CraftLiquidData.asset의 targetCocktailId가 유효한 칵테일 id인지 확인하세요(Shake/Stur 테스트와 동일 조건). " +
-                  "SPH 파티클 물리라 성능/느낌은 PourManager의 sphConfig, bottleParticleCount 값으로 튜닝해야 합니다. " +
+                  "SPH 파티클 물리라 성능/느낌은 PourManager의 sphConfig, initialFillRatio 값으로 튜닝해야 합니다. " +
                   "병/잔 비주얼과 배치는 placeholder이니 실제 아트로 교체해주세요.");
     }
 
@@ -143,25 +139,21 @@ public static class PourSceneSetup
         new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
     }
 
-    static BottleTiltController CreateBottle(Transform parent, Sprite sprite)
+    static (BottleTiltController, BottleSilhouette) CreateBottle(Transform parent)
     {
-        var go = new GameObject("Bottle", typeof(SpriteRenderer));
+        var go = new GameObject("Bottle");
         go.transform.SetParent(parent, false);
         go.transform.position = new Vector3(-1.6f, 1.2f, 0f);
         go.transform.localScale = new Vector3(1.4f, 3.6f, 1f);
 
-        var sr = go.GetComponent<SpriteRenderer>();
-        sr.sprite = sprite;
-        sr.color = new Color(0.75f, 0.8f, 0.85f, 0.4f); // 유리병 느낌의 반투명 placeholder — 안의 SPH 파티클이 실제 색을 보여준다
-        sr.sortingOrder = 10;
-
         var controller = go.AddComponent<BottleTiltController>();
         SetSerializedField(controller, "bottleVisual", go.transform);
 
-        // 위쪽(주둥이 방향, 로컬 +Y)만 뚫린 U자 컨테이너. Bottle 자신의 자식이라 기울기와 함께 회전한다.
-        AddOpenTopWalls(go.transform, ContainerHalfExtents);
+        // 병 모양은 스프라이트가 아니라 메시로 그린다. PourManager가 액체를 가두는 내부 프로파일을
+        // 그대로 넘겨 그리기 때문에, 보이는 병목과 액체가 좁아지는 지점이 항상 일치한다.
+        var silhouette = go.AddComponent<BottleSilhouette>();
 
-        return controller;
+        return (controller, silhouette);
     }
 
     static Transform CreateGlass(Transform parent, Sprite sprite)
@@ -176,30 +168,7 @@ public static class PourSceneSetup
         sr.color = new Color(0.85f, 0.85f, 0.9f, 0.35f);
         sr.sortingOrder = 5;
 
-        // 잔은 회전하지 않으므로 그냥 위가 뚫린 U자 컨테이너를 월드에 고정.
-        AddOpenTopWalls(go.transform, ContainerHalfExtents);
-
         return go.transform;
-    }
-
-    /// <summary>좌/우/바닥 3개의 BoxCollider2D로 위(로컬 +Y)만 뚫린 U자 컨테이너를 만든다.</summary>
-    static void AddOpenTopWalls(Transform parent, Vector2 halfExtents)
-    {
-        // 너무 얇으면 압력힘으로 빠르게 밀린 파티클이 한 프레임 만에 통과(터널링)할 수 있어 넉넉히 둔다.
-        const float thickness = 0.09f;
-
-        AddWallSegment(parent, "Wall Left", new Vector2(-halfExtents.x, 0f), new Vector2(thickness, halfExtents.y * 2f));
-        AddWallSegment(parent, "Wall Right", new Vector2(halfExtents.x, 0f), new Vector2(thickness, halfExtents.y * 2f));
-        AddWallSegment(parent, "Wall Bottom", new Vector2(0f, -halfExtents.y), new Vector2(halfExtents.x * 2f, thickness));
-    }
-
-    static void AddWallSegment(Transform parent, string name, Vector2 localPos, Vector2 size)
-    {
-        var go = new GameObject(name, typeof(BoxCollider2D));
-        go.transform.SetParent(parent, false);
-        go.transform.localPosition = localPos;
-
-        go.GetComponent<BoxCollider2D>().size = size;
     }
 
     static SphLiquidRenderer CreateLiquidRenderer(Transform parent)
@@ -301,7 +270,7 @@ public static class PourSceneSetup
     }
 
     static PourManager CreatePourManager(
-        Transform parent, BottleTiltController bottle, Transform glassCenter,
+        Transform parent, BottleTiltController bottle, BottleSilhouette bottleSilhouette, Transform glassCenter,
         SphLiquidRenderer liquidRenderer,
         GradientRatioController gageBar, Canvas buttonCanvas,
         CraftStationData craftStationData, CategoryColorData categoryColorData, CocktailDataSO cocktailDataSO,
@@ -317,6 +286,7 @@ public static class PourSceneSetup
         SetSerializedField(manager, "colorData", categoryColorData);
         SetSerializedField(manager, "cocktailDataSO", cocktailDataSO);
         SetSerializedField(manager, "bottle", bottle);
+        SetSerializedField(manager, "bottleSilhouette", bottleSilhouette);
         SetSerializedField(manager, "glassCenter", glassCenter);
         SetSerializedField(manager, "liquidRenderer", liquidRenderer);
         SetSerializedField(manager, "gageBar", gageBar);

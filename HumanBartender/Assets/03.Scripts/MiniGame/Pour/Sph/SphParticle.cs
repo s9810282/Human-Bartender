@@ -4,13 +4,11 @@ using UnityEngine;
 /// <summary>
 /// SPH 파티클 하나의 물리 상태. AlexandreSajus/Unity-Fluid-Simulation의 Particle.cs를 이식했다.
 ///
-/// Rigidbody2D는 Dynamic + gravityScale 0으로 둔다. 실제 이동은 이 스크립트가 힘(중력+압력+점성)을
-/// 직접 오일러 적분해 transform.position에 쓰는데, 그러려면 벽(Static Collider2D)과의
-/// OnCollisionStay2D 콜백이 필요하다 — Kinematic으로 두면 Static 콜라이더와는 충돌 이벤트 자체가
-/// 발생하지 않기 때문에, 원본 레포처럼 Dynamic + gravityScale 0 조합을 그대로 따른다
-/// (물리엔진 자체의 낙하/이동은 안 쓰고 충돌 감지 용도로만 사용).
+/// 벽 충돌은 Unity 물리(Rigidbody2D/Collider2D)를 쓰지 않고 PourManager.ConstrainParticles()가
+/// 컨테이너 로컬 좌표로 직접 클램프한다. 둘을 같이 쓰면 콜라이더가 미는 위치와 클램프가 미는 위치가
+/// 미묘하게 달라 파티클이 매 프레임 두 지점을 오가며 떨렸다. 물리 컴포넌트를 안 붙이는 쪽이
+/// 그 진동이 없고, 파티클마다 강체를 만들지 않아 훨씬 가볍다.
 /// </summary>
-[RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public class SphParticle : MonoBehaviour
 {
     public Vector2 pos;
@@ -32,23 +30,14 @@ public class SphParticle : MonoBehaviour
     public bool exitedBottle;
 
     SphConfig config;
-    Rigidbody2D body;
-    CircleCollider2D circleCollider;
 
-    public void Init(SphConfig sphConfig, float radius)
+    /// <summary>이웃 속도 평균으로 부드럽게 만든 값을 잠시 담아두는 버퍼. 순서에 따라 결과가 달라지지
+    /// 않도록 전부 계산한 뒤 한꺼번에 반영한다.</summary>
+    public Vector2 smoothedVelocity;
+
+    public void Init(SphConfig sphConfig)
     {
         config = sphConfig;
-
-        body = GetComponent<Rigidbody2D>();
-        body.bodyType = RigidbodyType2D.Dynamic;
-        body.gravityScale = 0f;
-        body.mass = 1f;
-        // 벽이 얇고 파티클이 압력힘으로 순간적으로 빠르게 밀릴 수 있어, Discrete로는 한 프레임에
-        // 벽을 그냥 통과(터널링)해버리는 경우가 있었다. Continuous로 바꿔 얇은 벽도 확실히 막는다.
-        body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-
-        circleCollider = GetComponent<CircleCollider2D>();
-        circleCollider.radius = radius;
     }
 
     /// <summary>파티클을 spawnPos에서 정지 상태로 다시 활성화한다(재시도 시 풀 재사용용).</summary>
@@ -92,24 +81,11 @@ public class SphParticle : MonoBehaviour
             velocity = velocity.normalized * config.maxVelocity;
     }
 
-    public void CalculatePressure()
+    /// <summary>restDensity는 SphSimulation이 스폰 격자에서 실측해 넘겨준다(SphConfig의 값은 보정 전 초기값).</summary>
+    public void CalculatePressure(float restDensity)
     {
-        pressure = config.pressureStiffness * (density - config.restDensity);
+        pressure = config.pressureStiffness * (density - restDensity);
         pressureNear = config.nearPressureStiffness * densityNear;
     }
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        ContactPoint2D contact = collision.GetContact(0);
-        Vector2 normal = contact.normal;
-
-        float velocityAlongNormal = Vector2.Dot(velocity, normal);
-        if (velocityAlongNormal > 0f) return;
-
-        Vector2 tangentVelocity = velocity - normal * velocityAlongNormal;
-        velocity = tangentVelocity - normal * velocityAlongNormal * config.wallDamp;
-
-        pos = contact.point + normal * circleCollider.radius;
-        transform.position = pos;
-    }
 }

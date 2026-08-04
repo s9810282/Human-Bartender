@@ -13,6 +13,9 @@ public class SphSimulation
 {
     public SphConfig config;
 
+    /// <summary>CalibrateRestDensity()가 실측 밀도 x config.restDensityScale로 채운다.</summary>
+    float restDensity;
+
     readonly List<SphParticle> activeParticles = new List<SphParticle>();
     public IReadOnlyList<SphParticle> ActiveParticles => activeParticles;
 
@@ -47,6 +50,29 @@ public class SphSimulation
         activeParticles.Remove(particle);
     }
 
+    /// <summary>
+    /// 스폰 직후 격자 상태의 실제 밀도를 재서, 거기에 config.restDensityScale을 곱한 값을 기준 밀도로 삼는다.
+    /// 기준 밀도를 절대값으로 적어두면 spacing/neighborRadius를 조금만 바꿔도 "스폰 간격에서의 밀도"가
+    /// 기준보다 낮아지고, 그러면 압력이 밀어내는 게 아니라 끌어당기는 방향이 돼서 액체가 바닥으로
+    /// 짓눌려버린다(파티클을 늘려도 병이 안 차던 원인). 실측 대비 비율로 잡으면 어떤 설정에서도
+    /// 의도한 만큼만 응집한다.
+    /// </summary>
+    public void CalibrateRestDensity()
+    {
+        foreach (var p in activeParticles)
+            p.ResetForFrame();
+
+        AssignToGrid();
+        CalculateDensity();
+
+        float maxDensity = 0f;
+        foreach (var p in activeParticles)
+            maxDensity = Mathf.Max(maxDensity, p.density);
+
+        if (maxDensity > 0f)
+            restDensity = maxDensity * config.restDensityScale;
+    }
+
     public void Tick(float dt)
     {
         foreach (var p in activeParticles)
@@ -56,13 +82,73 @@ public class SphSimulation
         CalculateDensity();
 
         foreach (var p in activeParticles)
-            p.CalculatePressure();
+            p.CalculatePressure(restDensity);
 
         ApplyPressureForce();
+        ClampForces();
         ApplyViscosity();
+        SmoothVelocities();
 
         foreach (var p in activeParticles)
             p.Integrate(dt);
+    }
+
+    /// <summary>
+    /// 파티클이 받는 힘에 상한을 건다. 이 압력 모델은 간격이 조금만 좁아져도 힘이 급격히 커지는데,
+    /// 병 아래쪽처럼 무게에 눌린 곳은 그 큰 압력을 그대로 품고 있다가 병목에서 벽 구속이 사라지는 순간
+    /// 사방으로 터져나가 액체가 분사되듯 갈라진다. 상한을 걸면 그 폭발만 잘리고 흐름은 뭉쳐서 나온다.
+    /// </summary>
+    void ClampForces()
+    {
+        float maxForce = config.maxAcceleration;
+        if (maxForce <= 0f) return;
+
+        float maxForceSqr = maxForce * maxForce;
+
+        foreach (var p in activeParticles)
+        {
+            if (p.force.sqrMagnitude > maxForceSqr)
+                p.force = p.force.normalized * maxForce;
+        }
+    }
+
+    /// <summary>
+    /// 각 파티클의 속도를 이웃 평균 쪽으로 조금 당긴다(XSPH 방식의 속도 평활화).
+    /// 압력 강성이 높으면 정지 상태에서도 파티클들이 서로 밀고 당기며 계속 떨리는데, 이걸로 그
+    /// 상대 진동만 걷어낸다. 전체가 같은 속도로 움직이는 경우(자유낙하)에는 이웃과의 차이가 없어
+    /// 아무 영향이 없으므로, 떨어지는 속도는 느려지지 않는다.
+    /// </summary>
+    void SmoothVelocities()
+    {
+        float k = config.velocitySmoothing;
+        if (k <= 0f) return;
+
+        float r = config.NeighborRadius;
+
+        foreach (var p in activeParticles)
+        {
+            Vector2 weightedSum = Vector2.zero;
+            float weightTotal = 0f;
+
+            foreach (var n in p.neighbours)
+            {
+                if (n == p) continue;
+
+                float distance = Vector2.Distance(p.pos, n.pos);
+                if (distance >= r) continue;
+
+                float weight = 1f - distance / r;
+                weightedSum += n.velocity * weight;
+                weightTotal += weight;
+            }
+
+            p.smoothedVelocity = weightTotal > 0f
+                ? Vector2.Lerp(p.velocity, weightedSum / weightTotal, k)
+                : p.velocity;
+        }
+
+        foreach (var p in activeParticles)
+            p.velocity = p.smoothedVelocity;
     }
 
     void AssignToGrid()
@@ -84,7 +170,7 @@ public class SphSimulation
 
     void CalculateDensity()
     {
-        float r = config.neighborRadius;
+        float r = config.NeighborRadius;
 
         foreach (var p in activeParticles)
         {
@@ -114,7 +200,7 @@ public class SphSimulation
 
     void ApplyPressureForce()
     {
-        float r = config.neighborRadius;
+        float r = config.NeighborRadius;
 
         foreach (var p in activeParticles)
         {
@@ -142,7 +228,7 @@ public class SphSimulation
 
     void ApplyViscosity()
     {
-        float r = config.neighborRadius;
+        float r = config.NeighborRadius;
         float sigma = config.viscosity;
 
         foreach (var p in activeParticles)

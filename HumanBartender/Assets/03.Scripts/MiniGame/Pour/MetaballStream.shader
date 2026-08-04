@@ -23,7 +23,9 @@ Shader "Pour/MetaballStream"
             #pragma target 3.0
             #include "UnityCG.cginc"
 
-            #define MAX_BLOBS 96
+            // SphLiquidRenderer.MaxBlobs와 반드시 같아야 한다.
+            // 루프는 실제 블롭 수(_BlobCount)만큼만 도므로, 이 값을 키워도 안 쓰면 비용은 늘지 않는다.
+            #define MAX_BLOBS 192
 
             fixed4 _Color;
             float _Threshold;
@@ -32,6 +34,8 @@ Shader "Pour/MetaballStream"
             int _BlobCount;
             // xy = 블롭 월드 위치, z = 반지름
             float4 _BlobPositions[MAX_BLOBS];
+            // xy = 진행 방향(단위벡터), z = 그 방향으로 늘이는 배수
+            float4 _BlobStretch[MAX_BLOBS];
 
             struct appdata { float4 vertex : POSITION; };
             struct v2f
@@ -58,7 +62,17 @@ Shader "Pour/MetaballStream"
                     float r = _BlobPositions[b].z;
                     if (r <= 0) continue;
 
-                    float d = distance(i.worldPos, c);
+                    // 진행 방향으로만 늘린 타원 거리. 빠르게 떨어지는 파티클은 중력에 가속돼 서로
+                    // 간격이 벌어지는데, 그대로 원으로 그리면 필드가 겹치지 않아 알갱이로 흩어져 보인다.
+                    // 진행 방향으로 늘여주면 앞뒤 파티클이 이어붙어 하나의 줄기로 보인다.
+                    float2 delta = i.worldPos - c;
+                    float2 dir = _BlobStretch[b].xy;
+                    float stretch = max(_BlobStretch[b].z, 1.0);
+
+                    float along = dot(delta, dir) / stretch;
+                    float perp = dot(delta, float2(-dir.y, dir.x));
+                    float d = sqrt(along * along + perp * perp);
+
                     float t = saturate(1 - d / r);
                     field += t * t * t;
                 }
