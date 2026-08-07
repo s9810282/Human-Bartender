@@ -42,6 +42,7 @@ public static class PourSceneSetup
         }
 
         Sprite placeholderSprite = CreateOrLoadPlaceholderSprite();
+        LiquidProfile liquidProfile = CreateOrLoadLiquidProfiles();
         TMP_FontAsset font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontAssetPath);
         Material gradientMaterial = AssetDatabase.LoadAssetAtPath<Material>(GradientMaterialPath);
         CraftStationData craftStationData = AssetDatabase.LoadAssetAtPath<CraftStationData>(CraftStationDataPath);
@@ -74,7 +75,7 @@ public static class PourSceneSetup
         (Canvas buttonCanvas, Button serveButton, Button retryButton) = CreateButtonCanvas(font);
 
         PourManager manager = CreatePourManager(
-            root, bottle, bottleSilhouette, glassCenter, liquidRenderer, gageBar, buttonCanvas,
+            root, bottle, bottleSilhouette, glassCenter, liquidRenderer, liquidProfile, gageBar, buttonCanvas,
             craftStationData, categoryColorData, cocktailDataSO, craftServe, craftRetry);
 
         UnityEventTools.AddVoidPersistentListener(serveButton.onClick, manager.Serve);
@@ -85,8 +86,84 @@ public static class PourSceneSetup
 
         Debug.Log("[PourSceneSetup] 완료. Pour.unity가 생성되어 저장되었습니다. " +
                   "Play 전에 CraftLiquidData.asset의 targetCocktailId가 유효한 칵테일 id인지 확인하세요(Shake/Stur 테스트와 동일 조건). " +
-                  "SPH 파티클 물리라 성능/느낌은 PourManager의 sphConfig, initialFillRatio 값으로 튜닝해야 합니다. " +
+                  "액체의 밀도/질감은 Profiles 폴더의 LiquidProfile 에셋으로 조절합니다(Light/Default/Syrup 프리셋을 만들어 뒀습니다). " +
+                  "액체량은 PourManager의 initialFillRatio입니다. " +
                   "병/잔 비주얼과 배치는 placeholder이니 실제 아트로 교체해주세요.");
+    }
+
+    /// <summary>
+    /// 액체 프로파일 프리셋을 만든다(이미 있으면 그대로 둔다). 값 차이가 어떤 느낌으로 이어지는지
+    /// 바로 비교해볼 수 있도록 서로 다른 성격 셋을 깔아두고, 기본(가벼운 술)을 씬에 꽂는다.
+    /// </summary>
+    static LiquidProfile CreateOrLoadLiquidProfiles()
+    {
+        const string folder = "Assets/03.Scripts/MiniGame/Pour/Profiles";
+        Directory.CreateDirectory(folder);
+
+        // 가벼운 증류주 — 잘 흩어지고 산뜻하게 흐른다.
+        LiquidProfile light = CreateProfileIfMissing($"{folder}/Liquid_Light.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.25f;
+            p.physics.cohesion = 0.35f;
+            p.maxStretch = 4.5f;
+            p.streamThinning = 0.35f;
+        });
+
+        // 기본 — 리큐어 정도의 중간 질감. 셋 중 가장 묽어서 제일 빨리 흐르고, 그만큼 낙하하며
+        // 파티클이 많이 벌어지므로 늘임이 제일 커야 줄기가 이어진다.
+        CreateProfileIfMissing($"{folder}/Liquid_Default.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.12f;
+            p.physics.cohesion = 0.25f;
+            p.maxStretch = 5f;
+            p.streamThinning = 0.3f;
+        });
+
+        // 시럽 — 끈적하게 뭉쳐 늘어진다. 점도가 속도를 잡아주므로 늘임은 오히려 덜 필요하고,
+        // 두께도 거의 안 줄여야 굵게 늘어지는 느낌이 난다.
+        CreateProfileIfMissing($"{folder}/Liquid_Syrup.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.45f;
+            p.physics.cohesion = 0.6f;
+            p.maxStretch = 3.5f;
+            p.streamThinning = 0.15f;
+        });
+
+        AssetDatabase.SaveAssets();
+        return light;
+    }
+
+    /// <summary>
+    /// 알갱이 굵기와 그 짝인 렌더 값. 술마다 다르게 두지 않고 전 프로파일이 같은 값을 쓴다.
+    ///
+    /// 이건 질감이 아니라 해상도 값이라서다 — spacing에는 통로 폭(neckWidthInParticles), 파티클 수,
+    /// 목표 개수가 전부 물려 있어서, 술마다 다르면 술을 바꿀 때마다 액체가 얼마나 곱게 보이는지도
+    /// 같이 흔들린다. 술의 개성은 물성(viscosity/cohesion)과 흐를 때의 질감(maxStretch/streamThinning)으로만 낸다.
+    ///
+    /// 세 값은 서로 짝이라 하나만 바꾸면 안 된다. 인접 파티클 사이 필드값 2*(1 - 0.5/blobRadiusScale)^3이
+    /// threshold를 넘어야 액체 덩어리로 보이고, 못 넘으면 낱알로 흩어진다.
+    /// </summary>
+    static void SetGrain(LiquidProfile p)
+    {
+        p.physics.spacing = 0.05f;
+        p.blobRadiusScale = 1.9f;
+        p.threshold = 0.35f;
+        p.edgeSmoothness = 0.12f;
+    }
+
+    static LiquidProfile CreateProfileIfMissing(string path, System.Action<LiquidProfile> configure)
+    {
+        var existing = AssetDatabase.LoadAssetAtPath<LiquidProfile>(path);
+        if (existing != null) return existing;
+
+        var profile = ScriptableObject.CreateInstance<LiquidProfile>();
+        configure(profile);
+
+        AssetDatabase.CreateAsset(profile, path);
+        return profile;
     }
 
     /// <summary>
@@ -271,7 +348,7 @@ public static class PourSceneSetup
 
     static PourManager CreatePourManager(
         Transform parent, BottleTiltController bottle, BottleSilhouette bottleSilhouette, Transform glassCenter,
-        SphLiquidRenderer liquidRenderer,
+        SphLiquidRenderer liquidRenderer, LiquidProfile liquidProfile,
         GradientRatioController gageBar, Canvas buttonCanvas,
         CraftStationData craftStationData, CategoryColorData categoryColorData, CocktailDataSO cocktailDataSO,
         VoidEvent craftServe, VoidEvent craftRetry)
@@ -289,6 +366,7 @@ public static class PourSceneSetup
         SetSerializedField(manager, "bottleSilhouette", bottleSilhouette);
         SetSerializedField(manager, "glassCenter", glassCenter);
         SetSerializedField(manager, "liquidRenderer", liquidRenderer);
+        SetSerializedField(manager, "liquidProfile", liquidProfile);
         SetSerializedField(manager, "gageBar", gageBar);
         SetSerializedField(manager, "buttonCanvas", buttonCanvas);
         SetSerializedField(manager, "craftServe", craftServe);

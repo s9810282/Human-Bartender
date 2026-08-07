@@ -5,8 +5,10 @@ using UnityEngine;
 /// <summary>
 /// 따르기(Pour) 미니게임의 메인 매니저. IMiniGameController를 구현한다.
 /// 병 내부에 SPH 파티클을 채워두고, 병이 기울어지면(BottleTiltController) 병과 함께 회전하는
-/// U자 컨테이너 콜라이더의 열린 쪽이 중력 반대편을 향하게 되면서 파티클이 물리적으로 흘러나온다 —
-/// 유량을 손으로 계산하지 않는다. 목표/오차 판정은 잔 영역(AABB) 안에 들어온 파티클 개수로 한다.
+/// 내부 형태의 입구가 중력 반대편을 향하게 되면서 파티클이 물리적으로 흘러나온다 —
+/// 유량을 손으로 계산하지 않는다. 다만 "몇 도부터 나오는지"까지 물리에 맡기면 액체가 줄면서
+/// 그 각도가 계속 올라가 조작감이 잡히지 않아서, 배출 시작만 각도로 여닫는다(아래 Pour Gate).
+/// 목표/오차 판정은 잔 영역(AABB) 안에 들어온 파티클 개수로 한다.
 /// Shake/Stur와 동일하게 actionFailCount/limitFailCount에 결과를 담아 CocktailCraftManager.Evaluate()의
 /// 기존 백분율 판정 로직을 그대로 재사용한다.
 /// </summary>
@@ -31,15 +33,30 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [Header("Bottle Shape")]
     [Tooltip("병 몸통 내부의 절반 크기. x=반너비, y=반높이.")]
     [SerializeField] Vector2 bottleInteriorHalfExtents = new Vector2(0.4f, 0.4f);
-    [Tooltip("병목(입구)의 반너비. 좁힐수록 천천히, 가늘게 따라진다.\n" +
-             "주의: 입구의 월드 폭(= 이 값 x 2 x Bottle의 Scale.x)이 sphConfig.spacing의 2배를 넘으면 " +
-             "파티클이 두 줄로 나란히 빠져나와 액체 줄기가 여러 갈래로 갈라져 보인다. " +
-             "한 갈래로 흐르게 하려면 월드 폭을 spacing 근처(1~1.3배)로 맞출 것.")]
-    [SerializeField] float neckHalfWidth = 0.065f;
+    [Range(2f, 5f)]
+    [Tooltip("병목 통로의 폭을 파티클 몇 개로 잡을지. 어깨부터 입구까지 이 폭이 그대로 유지된다.\n" +
+             "  2~3개: 한 줄기로 (권장)\n" +
+             "  4개 이상: 여러 줄로 나란히 빠져나와 줄기가 갈라져 보인다\n" +
+             "길이가 아니라 개수인 이유는 이 값이 프로파일의 spacing과 짝이기 때문이다 — 통로는 " +
+             "좁은 구간이 목 길이만큼 이어지므로, 파티클 2개 폭이 안 되면 그 안에서 액체가 한 줄로 " +
+             "늘어선다. 이웃이 위아래 둘뿐이면 PBF가 비압축성으로 벌어짐을 막지 못해 낙하 가속에 " +
+             "그대로 벌어지고, 액체가 아니라 알갱이로 보인다.\n" +
+             "월드 폭으로 적어두면 spacing이 다른 프로파일로 갈아끼울 때마다 이 관계가 소리 없이 " +
+             "깨진다(같은 0.01이 Light에선 0.6개, Syrup에선 0.3개 폭이 된다).\n" +
+             "줄기를 가늘게 '보이게' 하려면 이 값이 아니라 프로파일의 streamThinning을 올릴 것. " +
+             "통로를 실제로 가늘게 하려면 spacing을 줄여야 하고, 그만큼 파티클이 늘어난다.")]
+    [SerializeField] float neckWidthInParticles = 2.5f;
     [Range(0f, 1f)]
-    [Tooltip("어깨(병목이 시작되는 높이). 0=바닥, 1=입구. 이 아래는 몸통 너비 그대로이고 위로 갈수록 " +
-             "neckHalfWidth까지 좁아진다. 낮출수록 목이 길어지는 대신 액체를 담을 몸통이 줄어든다.")]
+    [Tooltip("어깨가 시작되는 높이(몸통의 끝). 0=바닥, 1=입구. 이 아래는 몸통 너비 그대로다.\n" +
+             "낮출수록 목이 길어져(=액체가 더 멀리 올라가야 해서) 나오기 시작하는 각도가 올라가는 " +
+             "대신, 액체를 담을 몸통이 줄어든다.")]
     [SerializeField] float neckStartHeight01 = 0.6f;
+    [Range(0f, 1f)]
+    [Tooltip("어깨가 끝나고 통로가 시작되는 높이. neckStartHeight01 ~ 이 값 사이에서 몸통 너비가 " +
+             "통로 너비까지 사선으로 좁아지고, 그 위로는 입구까지 같은 폭이 유지된다.\n" +
+             "둘을 붙여두면 어깨가 90도 단차가 돼 액체가 그 밑에 갇히고, 벌려두면 완만한 깔때기가 돼 " +
+             "액체가 통로로 모여든다. 이 값이 neckStartHeight01보다 작으면 어깨 없이 단차가 된다.")]
+    [SerializeField] float neckChannelHeight01 = 0.75f;
 
     [Header("Glass")]
     [Tooltip("잔 스프라이트 자신의 Transform. InverseTransformPoint로 로컬 판정 영역을 계산한다.")]
@@ -49,19 +66,21 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
     [Header("Liquid (SPH)")]
     [SerializeField] SphLiquidRenderer liquidRenderer;
-    [SerializeField] SphConfig sphConfig = new SphConfig();
+    [Tooltip("액체의 물성과 질감 묶음. 술마다 다른 프로파일을 꽂으면 물처럼 찰랑이는 것부터 " +
+             "시럽처럼 늘어지는 것까지 다르게 표현된다.")]
+    [SerializeField] LiquidProfile liquidProfile;
     [Range(0f, 1f)]
     [Tooltip("병 몸통을 얼마나 채울지(0=빔, 1=몸통 가득). 필요한 파티클 수는 몸통 격자 용량에서 자동으로 " +
-             "계산하므로, sphConfig.spacing을 바꿔도 보이는 액체량은 그대로 유지된다.\n" +
-             "참고: 압력 계수가 낮으면 액체가 촘촘하게 눌려 실제로 차오르는 높이는 이 값보다 낮다. " +
-             "더 차게 하고 싶으면 압력을 올리지 말고(줄기가 앙상해진다) 이 값을 올릴 것.")]
+             "계산하므로, 프로파일의 spacing을 바꿔도 보이는 액체량은 그대로 유지된다.")]
     [SerializeField] float initialFillRatio = 1f;
-    [Tooltip("성능/렌더 상한. 위 비율로 계산한 수가 이걸 넘으면 여기까지만 만든다. " +
-             "SphLiquidRenderer.MaxBlobs를 넘는 파티클은 어차피 그려지지 않는다.")]
-    [SerializeField] int maxParticleCount = SphLiquidRenderer.MaxBlobs;
-    [Tooltip("SPH 공간분할그리드가 병/잔 위치 기준 사방으로 확보하는 여유 폭. 병과 잔을 멀리 떨어뜨려 배치해도 " +
-             "그 사이 낙하 구간이 그리드 밖으로 벗어나 밀도 계산이 깨지지(=허공에 멈춰 보이지) 않도록 넉넉히 잡는다.")]
-    [SerializeField] float gridPadding = 3f;
+    [Tooltip("성능 상한. 위 비율로 계산한 수가 이걸 넘으면 여기까지만 만든다." +
+             "렌더러는 파티클을 각자 크기만 한 사각형으로만 그리므로 수가 늘어도 거의 무겁지 않다 — " +
+             "이제 한계는 렌더가 아니라 SPH 계산 쪽이다. 프레임이 떨어지면 이 값을 낮추거나 spacing을 키울 것.")]
+    [SerializeField] int maxParticleCount = 1500;
+    [Tooltip("SPH 공간분할그리드가 병/잔 위치 기준 사방으로 확보하는 여유 폭.\n" +
+             "병은 바닥을 축으로 돌기 때문에 기울이면 몸체가 처음 위치에서 꽤 멀리 이동한다 — 그 범위와 " +
+             "낙하 구간까지 덮을 만큼 잡아야 이웃 탐색이 느려지지 않는다.")]
+    [SerializeField] float gridPadding = 5f;
 
     [Header("UI")]
     [SerializeField] Canvas buttonCanvas;
@@ -77,6 +96,20 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [Tooltip("허용 오차 비율. target+tolerance를 넘으면 즉시 오버플로우로 판정이 끝난다.")]
     [SerializeField] float testToleranceRatio = 0.15f;
 
+    // ── 배출 게이트 ──────────────────────────────────────────────────────
+    // 원래 액체가 나오기 시작하는 각도는 순전히 기하학이 정한다 — 수평인 수면이 병목 아랫입술보다
+    // 높아지는 순간이다. 그런데 그 각도는 따르는 동안 액체가 줄면서 계속 올라가기 때문에
+    // "60도부터 나온다" 같은 확정적인 조작감을 만들 수 없다. 그래서 입구를 각도로 직접 여닫는다.
+    //
+    // 게이트는 임계각을 '올리는' 방향으로만 작동한다. 기하학상 아직 수면이 입술에 못 닿는 각도라면
+    // 게이트를 열어둬도 나올 것이 없다.
+    [Header("Pour Gate")]
+    [Tooltip("이 각도 미만에서는 입구를 아예 막아 한 방울도 나오지 않는다.")]
+    [SerializeField] float pourStartAngle = 100f;
+    [Tooltip("입구가 원래 폭(neckHalfWidth)까지 완전히 열리는 각도. pourStartAngle과 벌려둘수록 " +
+             "졸졸 → 콸콸로 부드럽게 이어지고, 붙여두면 임계각에서 왈칵 쏟아진다.")]
+    [SerializeField] float pourFullOpenAngle = 108f;
+
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
     [SerializeField] VoidEvent craftRetry;
@@ -91,6 +124,26 @@ public class PourManager : MonoBehaviour, IMiniGameController
     float simulationAccumulator;
     readonly List<SphParticle> particles = new List<SphParticle>();
 
+    // 게이트 상태는 물리 스텝마다 한 번만 계산해 들고 있는다. 벽 보정은 파티클 x 솔버 반복마다
+    // 불리므로(프레임당 수만 번) 거기서 lossyScale 같은 Transform 조회를 하면 그것만으로 무거워진다.
+    float gateOpen01;
+    float valveLocalY;
+    float shoulderLocalY;
+    float channelLocalY;
+
+    Matrix4x4 bottleWorldToLocal;
+    Matrix4x4 bottleLocalToWorld;
+    Matrix4x4 glassWorldToLocal;
+    Matrix4x4 glassLocalToWorld;
+    Vector2 glassWorldCenter;
+    float glassGateRadiusSqr;
+
+    /// <summary>병목 통로의 반너비(병 로컬). 프로파일의 spacing에서 유도되므로 Start에서 한 번만 잡는다.</summary>
+    float neckHalfWidth;
+
+    /// <summary>파티클 간격. 프로파일의 물성값을 짧게 쓰기 위한 별칭.</summary>
+    float Spacing => liquidProfile.physics.spacing;
+
     UniTaskCompletionSource tcs;
 
     void Start()
@@ -102,14 +155,21 @@ public class PourManager : MonoBehaviour, IMiniGameController
         glassParticleCount = 0;
 
         Color liquidColor = GetLiquidColor();
-        liquidRenderer.Init(liquidColor, sphConfig.spacing, sphConfig.maxVelocity);
+        liquidRenderer.Init(liquidProfile, liquidColor);
+
+        // 통로 폭은 프로파일이 정한다. 병 모양보다 먼저 잡아야 실루엣이 같은 폭으로 그려진다.
+        float scaleX = Mathf.Max(Mathf.Abs(bottle.BottleVisual.lossyScale.x), 0.0001f);
+        neckHalfWidth = Spacing * neckWidthInParticles * 0.5f / scaleX;
 
         if (bottleSilhouette != null)
-            bottleSilhouette.Build(bottleInteriorHalfExtents, neckHalfWidth, ShoulderLocalY());
+            bottleSilhouette.Build(bottleInteriorHalfExtents, neckHalfWidth, ShoulderLocalY(), ChannelLocalY());
 
-        WarnIfNeckSplitsStream();
+        simulation = CreateSimulation();
+        simulation.ConstrainToWalls = ConstrainParticle;
 
-        simulation = new SphSimulation(sphConfig, ComputeGridMin(), ComputeGridMax());
+        // 스폰/밀도 보정도 벽 보정을 타므로 게이트 상태가 먼저 서 있어야 한다.
+        RefreshBottleGate();
+
         SpawnBottleParticles();
 
         // 스폰 격자의 실제 밀도를 기준으로 삼아야 압력이 밀어내는 방향으로 작동한다(액체가 눌리지 않음).
@@ -129,20 +189,22 @@ public class PourManager : MonoBehaviour, IMiniGameController
     }
 
     /// <summary>
-    /// 병목이 파티클 두 줄 이상 지날 만큼 넓으면 액체가 나란히 빠져나와 줄기가 여러 갈래로 갈라져 보인다.
-    /// 블롭이 두꺼울 때는 뭉쳐 보여 눈치채기 어렵고, 줄기를 얇게 만든 뒤에야 드러나는 함정이라 미리 알린다.
+    /// 공간 격자의 칸 크기를 이웃 반경에 맞춰 잡는다. 칸이 반경보다 훨씬 크면 한 칸에 파티클이 잔뜩
+    /// 들어가 이웃 탐색이 느려진다(파티클이 수백 개로 늘어난 뒤로는 이게 체감된다).
+    /// 칸 수에 상한을 두는 건 격자 자체가 메모리를 먹기 때문이다.
     /// </summary>
-    void WarnIfNeckSplitsStream()
+    SphSimulation CreateSimulation()
     {
-        float neckWorldWidth = neckHalfWidth * 2f * Mathf.Abs(bottle.BottleVisual.lossyScale.x);
+        Vector2 min = ComputeGridMin();
+        Vector2 max = ComputeGridMax();
+        Vector2 range = max - min;
 
-        if (neckWorldWidth > sphConfig.spacing * 1.6f)
-        {
-            Logger.LogWarning(
-                $"[Pour] 병목 월드 폭({neckWorldWidth:0.###})이 파티클 간격({sphConfig.spacing:0.###})에 비해 넓어 " +
-                "액체가 여러 갈래로 갈라져 보일 수 있습니다. 한 갈래로 흐르게 하려면 neckHalfWidth를 " +
-                $"{sphConfig.spacing * 1.3f / (2f * Mathf.Max(Mathf.Abs(bottle.BottleVisual.lossyScale.x), 0.0001f)):0.###} 근처로 줄이세요.");
-        }
+        float cellSize = Mathf.Max(liquidProfile.physics.NeighborRadius, 0.001f);
+
+        int gridX = Mathf.Clamp(Mathf.CeilToInt(range.x / cellSize), 16, 96);
+        int gridY = Mathf.Clamp(Mathf.CeilToInt(range.y / cellSize), 16, 96);
+
+        return new SphSimulation(liquidProfile.physics, min, max, gridX, gridY);
     }
 
     Vector2 ComputeGridMin()
@@ -169,8 +231,8 @@ public class PourManager : MonoBehaviour, IMiniGameController
         // 서로 압력을 주고받지 못해 중력에 바닥으로 다 뭉쳐버린다(파티클을 늘려도 액체량이 그대로 보이던 원인).
         // 그래서 스케일로 나눠 "월드에서 spacing 간격"이 되도록 로컬 간격을 잡는다.
         Vector3 scale = bottle.BottleVisual.lossyScale;
-        float localSpacingX = sphConfig.spacing / Mathf.Max(Mathf.Abs(scale.x), 0.0001f);
-        float localSpacingY = sphConfig.spacing / Mathf.Max(Mathf.Abs(scale.y), 0.0001f);
+        float localSpacingX = Spacing / Mathf.Max(Mathf.Abs(scale.x), 0.0001f);
+        float localSpacingY = Spacing / Mathf.Max(Mathf.Abs(scale.y), 0.0001f);
 
         int columns = Mathf.Max(1, Mathf.FloorToInt(bottleInteriorHalfExtents.x * 2f / localSpacingX));
 
@@ -184,13 +246,13 @@ public class PourManager : MonoBehaviour, IMiniGameController
         // 개수가 자동으로 늘어서 -- 보이는 액체량이 유지된다(개수를 직접 적으면 spacing을 줄일 때마다
         // 액체가 줄어든 것처럼 보인다).
         int spawnCount = Mathf.RoundToInt(gridCapacity * Mathf.Clamp01(initialFillRatio));
-        int limit = Mathf.Min(maxParticleCount, SphLiquidRenderer.MaxBlobs);
+        int limit = Mathf.Max(1, maxParticleCount);
 
         if (spawnCount > limit)
         {
             Logger.LogWarning(
                 $"[Pour] 몸통을 {initialFillRatio:P0} 채우려면 {spawnCount}개가 필요하지만 상한({limit}개)에 걸려 " +
-                "그만큼만 만듭니다. 액체가 덜 차 보이면 sphConfig.spacing을 키우거나 상한을 올리세요.");
+                "그만큼만 만듭니다. 액체가 덜 차 보이면 프로파일의 spacing을 키우거나 maxParticleCount를 올리세요.");
             spawnCount = limit;
         }
 
@@ -221,7 +283,7 @@ public class PourManager : MonoBehaviour, IMiniGameController
         go.transform.position = worldPos;
 
         var particle = go.AddComponent<SphParticle>();
-        particle.Init(sphConfig);
+        particle.Init(liquidProfile.physics);
         particle.Activate(worldPos);
 
         return particle;
@@ -257,8 +319,11 @@ public class PourManager : MonoBehaviour, IMiniGameController
         int steps = 0;
         while (simulationAccumulator >= fixedStep && steps < maxStepsPerFrame)
         {
+            RefreshBottleGate();
+
+            // 벽 클램프는 Tick 안에서 솔버 반복마다 불린다(ConstrainToWalls로 연결해둠).
+            // 반복 밖에서 한 번만 걸면 파티클이 벽을 뚫은 채로 밀도가 계산돼 액체가 새어나간다.
             simulation.Tick(fixedStep);
-            ConstrainParticles();
 
             simulationAccumulator -= fixedStep;
             steps++;
@@ -273,103 +338,170 @@ public class PourManager : MonoBehaviour, IMiniGameController
     /// 파티클을 병/잔 안쪽으로 가두는 유일한 벽 처리다(Unity 물리 콜라이더는 쓰지 않는다 —
     /// 둘을 같이 쓰면 서로 다른 위치로 밀어대 파티클이 떨렸다).
     ///
-    /// 병은 회전하기 때문에 "로컬 좌표로 근처인지 판정"을 매 프레임 다시 하면, 이미 입구를 빠져나가
-    /// 자유낙하 중인 파티클도 회전된 로컬 좌표계에서 우연히 벽처럼 보이는 방향으로 떨어지는 걸 계속
-    /// "벽에 부딪힘"으로 오판해 속도를 깎아버릴 수 있다(그래서 허공에 멈춘 것처럼 보였다).
-    /// 그래서 병은 "입구를 한 번이라도 넘었는지"를 SphParticle.exitedBottle에 기록해두고, 넘은 뒤로는
-    /// 다시는 병 기준으로 안 붙잡는다. 잔은 회전하지 않아 이런 문제가 없으므로 매 프레임 재판정해도 안전하다.
+    /// PBF 솔버가 반복마다 예측 위치를 옮기므로 이 함수도 매 반복 불린다. 그래서 확정 위치(pos)가 아니라
+    /// 예측 위치(predictedPos)를 보정한다 — 속도는 따로 건드리지 않아도 스텝 끝에서
+    /// (예측위치 - 현재위치)/dt로 되뽑히므로 벽에 부딪힌 만큼 알아서 깎인다.
+    ///
+    /// 병은 회전하기 때문에 "로컬 좌표로 근처인지"를 매번 다시 판정하면, 이미 입구를 빠져나가 자유낙하
+    /// 중인 파티클도 회전된 좌표계에서 벽에 부딪힌 것으로 오판해 붙잡힐 수 있다(허공에 멈춘 것처럼 보였다).
+    /// 그래서 입구를 한 번 넘으면 exitedBottle로 기록해 다시는 병 기준으로 붙잡지 않는다.
+    /// 잔은 회전하지 않아 그런 문제가 없다.
     /// </summary>
-    void ConstrainParticles()
+    void ConstrainParticle(SphParticle particle)
     {
-        foreach (var p in particles)
-        {
-            if (!p.gameObject.activeSelf) continue;
+        if (!particle.gameObject.activeSelf) return;
 
-            if (!p.exitedBottle)
-                ConstrainToBottle(p);
+        if (!particle.exitedBottle)
+            ConstrainToBottle(particle);
 
-            ConstrainToGlass(p);
-        }
+        ConstrainToGlass(particle);
     }
 
+    /// <summary>
+    /// 병 내부에 가둔다. 폭이 높이에 따라 연속으로 변하므로 그 높이의 반너비로 X만 자르면 된다.
+    ///
+    /// 어깨가 사선이라는 게 여기서 중요하다. 어깨에서 몸통 폭이 통로 폭으로 뚝 끊기면 그 단차 때문에
+    /// 어깨를 갓 넘어선 파티클이 몸통 벽에서 통로 한가운데로 순간이동해, 액체가 어깨를 타고 빨려
+    /// 올라간다. 그걸 피하려면 사각형 여러 개의 합집합으로 두고 매번 최근접 투영을 해야 했는데,
+    /// 사선이 그 불연속을 없애주므로 그럴 필요가 없다.
+    /// </summary>
     void ConstrainToBottle(SphParticle particle)
     {
-        Transform container = bottle.BottleVisual;
+        Vector3 local = bottleWorldToLocal.MultiplyPoint3x4(particle.predictedPos);
 
-        Vector3 local = container.InverseTransformPoint(particle.pos);
+        float halfY = bottleInteriorHalfExtents.y;
 
-        // 입구(로컬 +Y)를 넘었으면 이제부터 자유낙하 — 다시는 이 파티클을 병 기준으로 재해석하지 않는다.
-        if (local.y > bottleInteriorHalfExtents.y)
+        // 게이트가 열린 상태에서 입구(로컬 +Y)를 넘었으면 이제부터 자유낙하 — 다시는 이 파티클을
+        // 병 기준으로 재해석하지 않는다.
+        if (gateOpen01 > 0f && local.y > halfY)
         {
             particle.exitedBottle = true;
             return;
         }
 
-        ApplyClamp(particle, container, local, BottleHalfWidthAt(local.y), bottleInteriorHalfExtents.y);
-    }
+        // 완전히 닫혀 있으면 밸브 입구가 천장이다. 밸브 구간까지 들여보내고 막으면 폭이 0으로
+        // 수렴하는 곳에 갇혀 한 줄로 짜여 나오므로, 아예 밸브 아래에서 멈춰 세운다.
+        float ceilingY = gateOpen01 > 0f ? float.PositiveInfinity : valveLocalY;
 
-    /// <summary>어깨가 시작되는 로컬 Y. 이 아래는 몸통, 위는 병목 구간이다.</summary>
-    float ShoulderLocalY() =>
-        Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckStartHeight01);
-
-    /// <summary>해당 높이에서 병 내부가 허용하는 반너비. 어깨 위로는 병목까지 선형으로 좁아진다.</summary>
-    float BottleHalfWidthAt(float localY)
-    {
-        float shoulderY = ShoulderLocalY();
-        if (localY <= shoulderY) return bottleInteriorHalfExtents.x;
-
-        float t = Mathf.InverseLerp(shoulderY, bottleInteriorHalfExtents.y, localY);
-        return Mathf.Lerp(bottleInteriorHalfExtents.x, neckHalfWidth, t);
-    }
-
-    void ConstrainToGlass(SphParticle particle)
-    {
-        const float gateBuffer = 0.1f;
-
-        Transform container = glassCenter;
-        Vector2 halfExtents = glassInteriorHalfExtents;
-
-        // 잔은 회전하지 않으므로, 멀리 있으면(=아직 병 근처거나 낙하 중) 그냥 건드리지 않는다.
-        Vector2 worldHalfExtents = Vector2.Scale(halfExtents, container.lossyScale);
-        float gateRadius = worldHalfExtents.magnitude + gateBuffer;
-
-        if (Vector2.Distance(particle.pos, container.position) > gateRadius)
-            return;
-
-        Vector3 local = container.InverseTransformPoint(particle.pos);
-        ApplyClamp(particle, container, local, halfExtents.x, halfExtents.y);
-    }
-
-    /// <summary>local 좌표를 컨테이너의 좌/우/바닥 안으로 클램프하고(위는 절대 안 막음), 벽을
-    /// 뚫고 나가려던 속도 성분만 제거한다. halfWidth를 높이마다 다르게 넘기면 병목처럼 좁아지는 형태가 된다.</summary>
-    static void ApplyClamp(SphParticle particle, Transform container, Vector3 local, float halfWidth, float halfHeight)
-    {
-        // 입구보다 위에 있으면 아직 컨테이너 안이 아니다. 이때 좌우로 끌어당기면 잔 옆으로 빗나가야 할
-        // 액체까지 잔 위로 빨려들어간다 — 벽 사이 높이에 들어온 뒤에만 좌우를 막는다.
-        if (local.y > halfHeight) return;
-
+        float clampedY = Mathf.Clamp(local.y, -halfY, ceilingY);
+        float halfWidth = BottleHalfWidthAt(clampedY);
         float clampedX = Mathf.Clamp(local.x, -halfWidth, halfWidth);
-        float clampedY = Mathf.Max(local.y, -halfHeight);
 
         if (Mathf.Approximately(clampedX, local.x) && Mathf.Approximately(clampedY, local.y))
             return;
 
-        Vector2 correctedWorld = container.TransformPoint(new Vector3(clampedX, clampedY, local.z));
-        Vector2 pushBack = correctedWorld - particle.pos;
+        particle.predictedPos = bottleLocalToWorld.MultiplyPoint3x4(new Vector3(clampedX, clampedY, local.z));
+    }
 
-        particle.pos = correctedWorld;
-        particle.transform.position = correctedWorld;
+    /// <summary>
+    /// 해당 높이에서 병 내부가 허용하는 반너비. 아래에서부터 몸통 → 어깨(사선) → 통로 → 밸브다.
+    /// 구간이 바뀌는 지점마다 값이 이어지므로 폭이 튀는 곳이 없다.
+    /// </summary>
+    float BottleHalfWidthAt(float localY)
+    {
+        float shoulderY = shoulderLocalY;
+        float channelY = channelLocalY;
+        float halfY = bottleInteriorHalfExtents.y;
 
-        if (pushBack.sqrMagnitude <= 1e-10f) return;
+        // 몸통 — 폭 그대로.
+        if (localY <= shoulderY) return bottleInteriorHalfExtents.x;
 
-        // 밀어낸 방향을 그대로 벽 법선으로 쓴다. 로컬 X축으로만 속도를 지우면 어깨처럼 비스듬한 벽에서
-        // "벽을 파고드는" 성분이 남아 매 프레임 위치만 강제로 밀리다가 에너지가 쌓이고, 결국 입구에서
-        // 사방으로 분사되듯 튄다. 보정 벡터를 쓰면 기울어진 벽이든 축마다 스케일이 다르든 항상 맞는다.
-        Vector2 normal = pushBack.normalized;
-        float intoWall = Vector2.Dot(particle.velocity, normal);
+        // 어깨 — 몸통 폭에서 통로 폭까지 사선으로 좁아진다.
+        if (localY <= channelY)
+            return Mathf.Lerp(bottleInteriorHalfExtents.x, neckHalfWidth,
+                              Mathf.InverseLerp(shoulderY, channelY, localY));
 
-        if (intoWall < 0f)
-            particle.velocity -= intoWall * normal;
+        // 통로 — 입구까지 같은 폭.
+        if (localY <= valveLocalY) return neckHalfWidth;
+
+        // 밸브 — 게이트가 덜 열렸으면 입구로 갈수록 조여든다. 여기도 사선인 이유는 같다. 단차로
+        // 두면 밸브를 갓 넘어선 파티클이 통로 벽에서 입구 한가운데로 순간이동한다.
+        return Mathf.Lerp(neckHalfWidth, neckHalfWidth * gateOpen01,
+                          Mathf.InverseLerp(valveLocalY, halfY, localY));
+    }
+
+    /// <summary>
+    /// 이번 물리 스텝에서 쓸 게이트 상태를 계산한다.
+    ///
+    /// 게이트가 조이는 건 목 전체가 아니라 입구 쪽 짧은 구간(밸브)뿐이다. 통로 전체를 좁히면 파티클
+    /// 한 개 폭도 안 되는 구간이 목 길이만큼 길게 이어져서, 그 안에서 액체가 한 줄로 늘어선 채
+    /// 자유낙하로 가속돼 알갱이로 끊어진다 — PBF는 이웃이 있어야 비압축성으로 그 벌어짐을 막는데,
+    /// 한 줄로 서면 이웃이 위아래 둘뿐이라 사실상 액체가 아니라 낱개 낙하가 된다.
+    /// </summary>
+    void RefreshBottleGate()
+    {
+        gateOpen01 = NeckOpen01();
+
+        shoulderLocalY = ShoulderLocalY();
+        channelLocalY = ChannelLocalY();
+
+        float channelLength = bottleInteriorHalfExtents.y - channelLocalY;
+
+        // 밸브는 파티클 한 개 높이는 돼야 실제로 막힌다(그보다 얇으면 한 스텝에 뛰어넘는다).
+        float oneParticle = Spacing / Mathf.Max(Mathf.Abs(bottle.BottleVisual.lossyScale.y), 0.0001f);
+        float valveHeight = Mathf.Min(Mathf.Max(channelLength * 0.3f, oneParticle), channelLength);
+
+        valveLocalY = bottleInteriorHalfExtents.y - valveHeight;
+
+        // 벽 보정은 (파티클 x 솔버 반복)만큼 불린다. 거기서 Transform을 직접 쓰면 InverseTransformPoint /
+        // lossyScale 같은 네이티브 호출이 프레임당 수만 번 나가므로, 행렬만 여기서 한 번 받아둔다.
+        // 병은 물리 스텝 도중에는 움직이지 않으므로 스텝당 한 번이면 충분하다.
+        Transform bottleVisual = bottle.BottleVisual;
+        bottleWorldToLocal = bottleVisual.worldToLocalMatrix;
+        bottleLocalToWorld = bottleVisual.localToWorldMatrix;
+
+        glassWorldToLocal = glassCenter.worldToLocalMatrix;
+        glassLocalToWorld = glassCenter.localToWorldMatrix;
+        glassWorldCenter = glassCenter.position;
+
+        const float gateBuffer = 0.1f;
+        Vector2 glassWorldHalfExtents = Vector2.Scale(glassInteriorHalfExtents, glassCenter.lossyScale);
+        float gateRadius = glassWorldHalfExtents.magnitude + gateBuffer;
+        glassGateRadiusSqr = gateRadius * gateRadius;
+    }
+
+    /// <summary>
+    /// 지금 기울기에서 밸브가 얼마나 열려 있는지(0=완전히 막힘, 1=neckHalfWidth 그대로).
+    /// 여닫는 건 뚜껑이 아니라 통과 폭이다 — 폭이 좁아지면 파티클이 물리적으로 못 빠져나가므로,
+    /// 열리는 순간 왈칵 쏟아지지 않고 실제 액체처럼 졸졸에서 시작한다.
+    /// </summary>
+    float NeckOpen01()
+    {
+        float fullOpen = Mathf.Max(pourFullOpenAngle, pourStartAngle + 0.01f);
+        return Mathf.Clamp01(Mathf.InverseLerp(pourStartAngle, fullOpen, bottle.CurrentAngle));
+    }
+
+    /// <summary>어깨가 시작되는 로컬 Y. 이 아래는 몸통이다.</summary>
+    float ShoulderLocalY() =>
+        Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckStartHeight01);
+
+    /// <summary>어깨가 끝나고 통로가 시작되는 로컬 Y. 거꾸로 적힌 값도 단차(어깨 없음)로 받아준다.</summary>
+    float ChannelLocalY() =>
+        Mathf.Max(ShoulderLocalY(),
+                  Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckChannelHeight01));
+
+    void ConstrainToGlass(SphParticle particle)
+    {
+        Vector2 halfExtents = glassInteriorHalfExtents;
+
+        // 잔은 회전하지 않으므로, 멀리 있으면(=아직 병 근처거나 낙하 중) 그냥 건드리지 않는다.
+        if ((particle.predictedPos - glassWorldCenter).sqrMagnitude > glassGateRadiusSqr)
+            return;
+
+        Vector3 local = glassWorldToLocal.MultiplyPoint3x4(particle.predictedPos);
+
+        // 입구보다 위에 있으면 아직 잔 안이 아니다. 이때 좌우로 끌어당기면 잔 옆으로 빗나가야 할
+        // 액체까지 잔 위로 빨려들어간다 — 벽 사이 높이에 들어온 뒤에만 좌우를 막는다.
+        if (local.y > halfExtents.y) return;
+
+        // 속도는 건드리지 않는다 — PBF가 스텝 끝에서 위치 변화로부터 다시 계산하므로 벽 반응이 저절로 나온다.
+        float clampedX = Mathf.Clamp(local.x, -halfExtents.x, halfExtents.x);
+        float clampedY = Mathf.Max(local.y, -halfExtents.y);
+
+        if (Mathf.Approximately(clampedX, local.x) && Mathf.Approximately(clampedY, local.y))
+            return;
+
+        particle.predictedPos = glassLocalToWorld.MultiplyPoint3x4(new Vector3(clampedX, clampedY, local.z));
     }
 
     int CountParticlesInGlass()
