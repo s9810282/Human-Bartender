@@ -16,8 +16,11 @@ using UnityEngine.UI;
 /// Pour(따르기) 미니게임을 혼자 켜서 확인할 수 있는 독립 테스트 씬(Assets/00.Scenes/Pour.unity)을
 /// 새로 만들어 저장한다. Shake.unity/Stur.unity와 같은 역할 — isTest=true로 바로 Play 가능하게 배선한다.
 /// 병/잔을 가두는 벽은 콜라이더가 아니라 PourManager가 bottleInteriorHalfExtents / glassInteriorHalfExtents로
-/// 직접 클램프한다. 그래서 여기서는 스프라이트만 배치하고 콜라이더는 만들지 않는다.
-/// 병/잔 비주얼은 1유닛=1스케일짜리 흰 사각 스프라이트에 색만 입힌 placeholder이며, 실제 아트로 교체해야 한다.
+/// 직접 클램프한다. 그래서 여기서는 비주얼만 배치하고 콜라이더는 만들지 않는다.
+/// 병은 BottleSilhouette가 메시로 그린다 — PourManager가 액체를 가두는 프로파일(몸통 → 어깨 → 통로)을
+/// 그대로 넘겨받으므로 보이는 병목과 액체가 좁아지는 지점이 어긋날 수 없다. 네모 스프라이트를 쓰면
+/// 병은 상자인데 액체만 목 모양이라 액체가 병 밖으로 삐져나와 보인다.
+/// 잔 비주얼은 1유닛=1스케일짜리 흰 사각 스프라이트에 색만 입힌 placeholder이며, 실제 아트로 교체해야 한다.
 /// 이미 Pour.unity가 있으면 덮어쓰지 않고 중단한다(재생성하려면 기존 씬을 지우고 다시 실행).
 /// </summary>
 public static class PourSceneSetup
@@ -42,7 +45,6 @@ public static class PourSceneSetup
         }
 
         Sprite placeholderSprite = CreateOrLoadPlaceholderSprite();
-        LiquidProfile liquidProfile = CreateOrLoadLiquidProfiles();
         TMP_FontAsset font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontAssetPath);
         Material gradientMaterial = AssetDatabase.LoadAssetAtPath<Material>(GradientMaterialPath);
         CraftStationData craftStationData = AssetDatabase.LoadAssetAtPath<CraftStationData>(CraftStationDataPath);
@@ -69,6 +71,7 @@ public static class PourSceneSetup
         (BottleTiltController bottle, BottleSilhouette bottleSilhouette) = CreateBottle(root);
         Transform glassCenter = CreateGlass(root, placeholderSprite);
         SphLiquidRenderer liquidRenderer = CreateLiquidRenderer(root);
+        LiquidProfile liquidProfile = CreateOrLoadLiquidProfiles();
         CreateInputHandler(root, bottle);
 
         GradientRatioController gageBar = CreateGaugeCanvas(gradientMaterial);
@@ -86,84 +89,9 @@ public static class PourSceneSetup
 
         Debug.Log("[PourSceneSetup] 완료. Pour.unity가 생성되어 저장되었습니다. " +
                   "Play 전에 CraftLiquidData.asset의 targetCocktailId가 유효한 칵테일 id인지 확인하세요(Shake/Stur 테스트와 동일 조건). " +
-                  "액체의 밀도/질감은 Profiles 폴더의 LiquidProfile 에셋으로 조절합니다(Light/Default/Syrup 프리셋을 만들어 뒀습니다). " +
-                  "액체량은 PourManager의 initialFillRatio입니다. " +
+                  "액체의 점도/질감은 Profiles 폴더의 LiquidProfile 에셋에서, 양은 PourManager의 " +
+            "bottleParticleCount로 튜닝합니다. " +
                   "병/잔 비주얼과 배치는 placeholder이니 실제 아트로 교체해주세요.");
-    }
-
-    /// <summary>
-    /// 액체 프로파일 프리셋을 만든다(이미 있으면 그대로 둔다). 값 차이가 어떤 느낌으로 이어지는지
-    /// 바로 비교해볼 수 있도록 서로 다른 성격 셋을 깔아두고, 기본(가벼운 술)을 씬에 꽂는다.
-    /// </summary>
-    static LiquidProfile CreateOrLoadLiquidProfiles()
-    {
-        const string folder = "Assets/03.Scripts/MiniGame/Pour/Profiles";
-        Directory.CreateDirectory(folder);
-
-        // 가벼운 증류주 — 잘 흩어지고 산뜻하게 흐른다.
-        LiquidProfile light = CreateProfileIfMissing($"{folder}/Liquid_Light.asset", p =>
-        {
-            SetGrain(p);
-            p.physics.viscosity = 0.25f;
-            p.physics.cohesion = 0.35f;
-            p.maxStretch = 4.5f;
-            p.streamThinning = 0.35f;
-        });
-
-        // 기본 — 리큐어 정도의 중간 질감. 셋 중 가장 묽어서 제일 빨리 흐르고, 그만큼 낙하하며
-        // 파티클이 많이 벌어지므로 늘임이 제일 커야 줄기가 이어진다.
-        CreateProfileIfMissing($"{folder}/Liquid_Default.asset", p =>
-        {
-            SetGrain(p);
-            p.physics.viscosity = 0.12f;
-            p.physics.cohesion = 0.25f;
-            p.maxStretch = 5f;
-            p.streamThinning = 0.3f;
-        });
-
-        // 시럽 — 끈적하게 뭉쳐 늘어진다. 점도가 속도를 잡아주므로 늘임은 오히려 덜 필요하고,
-        // 두께도 거의 안 줄여야 굵게 늘어지는 느낌이 난다.
-        CreateProfileIfMissing($"{folder}/Liquid_Syrup.asset", p =>
-        {
-            SetGrain(p);
-            p.physics.viscosity = 0.45f;
-            p.physics.cohesion = 0.6f;
-            p.maxStretch = 3.5f;
-            p.streamThinning = 0.15f;
-        });
-
-        AssetDatabase.SaveAssets();
-        return light;
-    }
-
-    /// <summary>
-    /// 알갱이 굵기와 그 짝인 렌더 값. 술마다 다르게 두지 않고 전 프로파일이 같은 값을 쓴다.
-    ///
-    /// 이건 질감이 아니라 해상도 값이라서다 — spacing에는 통로 폭(neckWidthInParticles), 파티클 수,
-    /// 목표 개수가 전부 물려 있어서, 술마다 다르면 술을 바꿀 때마다 액체가 얼마나 곱게 보이는지도
-    /// 같이 흔들린다. 술의 개성은 물성(viscosity/cohesion)과 흐를 때의 질감(maxStretch/streamThinning)으로만 낸다.
-    ///
-    /// 세 값은 서로 짝이라 하나만 바꾸면 안 된다. 인접 파티클 사이 필드값 2*(1 - 0.5/blobRadiusScale)^3이
-    /// threshold를 넘어야 액체 덩어리로 보이고, 못 넘으면 낱알로 흩어진다.
-    /// </summary>
-    static void SetGrain(LiquidProfile p)
-    {
-        p.physics.spacing = 0.05f;
-        p.blobRadiusScale = 1.9f;
-        p.threshold = 0.35f;
-        p.edgeSmoothness = 0.12f;
-    }
-
-    static LiquidProfile CreateProfileIfMissing(string path, System.Action<LiquidProfile> configure)
-    {
-        var existing = AssetDatabase.LoadAssetAtPath<LiquidProfile>(path);
-        if (existing != null) return existing;
-
-        var profile = ScriptableObject.CreateInstance<LiquidProfile>();
-        configure(profile);
-
-        AssetDatabase.CreateAsset(profile, path);
-        return profile;
     }
 
     /// <summary>
@@ -226,8 +154,9 @@ public static class PourSceneSetup
         var controller = go.AddComponent<BottleTiltController>();
         SetSerializedField(controller, "bottleVisual", go.transform);
 
-        // 병 모양은 스프라이트가 아니라 메시로 그린다. PourManager가 액체를 가두는 내부 프로파일을
-        // 그대로 넘겨 그리기 때문에, 보이는 병목과 액체가 좁아지는 지점이 항상 일치한다.
+        // 병 모양은 스프라이트가 아니라 메시로 그린다. PourManager가 액체를 가두는 내부 프로파일
+        // (몸통 → 어깨 → 통로)을 그대로 넘겨 그리기 때문에, 보이는 병목과 액체가 좁아지는 지점이
+        // 항상 일치한다. 네모 스프라이트를 두면 병은 상자인데 액체만 목 모양이라 어긋나 보인다.
         var silhouette = go.AddComponent<BottleSilhouette>();
 
         return (controller, silhouette);
@@ -246,6 +175,78 @@ public static class PourSceneSetup
         sr.sortingOrder = 5;
 
         return go.transform;
+    }
+
+    /// <summary>
+    /// 액체 프로파일 프리셋을 만든다(이미 있으면 그대로 둔다). 값 차이가 어떤 느낌으로 이어지는지
+    /// 바로 비교해볼 수 있도록 서로 다른 성격 셋을 깔아두고, 기본(가벼운 술)을 씬에 꽂는다.
+    ///
+    /// 셋이 다른 건 점도와 흐를 때의 질감뿐이다 — 알갱이 굵기는 SetGrain()으로 통일한다.
+    /// </summary>
+    static LiquidProfile CreateOrLoadLiquidProfiles()
+    {
+        const string folder = "Assets/03.Scripts/MiniGame/Pour/Profiles";
+        Directory.CreateDirectory(folder);
+
+        // 가벼운 증류주 — 잘 흩어지고 산뜻하게 흐른다.
+        LiquidProfile light = CreateProfileIfMissing($"{folder}/Liquid_Light.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.12f;
+            p.physics.velocitySmoothing = 0.2f;
+            p.stretchPerSpeed = 0.55f;
+            p.maxStretch = 4.5f;
+        });
+
+        // 기본 — 리큐어 정도의 중간 질감.
+        CreateProfileIfMissing($"{folder}/Liquid_Default.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.2f;
+            p.physics.velocitySmoothing = 0.25f;
+            p.stretchPerSpeed = 0.45f;
+            p.maxStretch = 4f;
+        });
+
+        // 시럽 — 끈적하게 뭉쳐 늘어진다. 점도가 속도를 잡아주므로 늘임은 오히려 덜 필요하다.
+        CreateProfileIfMissing($"{folder}/Liquid_Syrup.asset", p =>
+        {
+            SetGrain(p);
+            p.physics.viscosity = 0.5f;
+            p.physics.velocitySmoothing = 0.45f;
+            p.stretchPerSpeed = 0.3f;
+            p.maxStretch = 3f;
+        });
+
+        AssetDatabase.SaveAssets();
+        return light;
+    }
+
+    /// <summary>
+    /// 알갱이 굵기와 그 짝인 렌더 값. 술마다 다르게 두지 않고 전 프로파일이 같은 값을 쓴다.
+    ///
+    /// 이건 질감이 아니라 해상도 값이라서다 — spacing에는 병목 통로 폭(neckWidthInParticles)과
+    /// 파티클 수가 물려 있어서, 술마다 다르면 술을 바꿀 때마다 액체가 얼마나 곱게 보이는지와
+    /// 성능까지 같이 흔들린다. 세 값은 서로 짝이라 하나만 바꾸면 액체가 낱알로 흩어지거나 뭉툭해진다.
+    /// </summary>
+    static void SetGrain(LiquidProfile p)
+    {
+        p.physics.spacing = 0.16f;
+        p.blobRadiusScale = 1.8f;
+        p.threshold = 0.5f;
+        p.edgeSmoothness = 0.08f;
+    }
+
+    static LiquidProfile CreateProfileIfMissing(string path, System.Action<LiquidProfile> configure)
+    {
+        var existing = AssetDatabase.LoadAssetAtPath<LiquidProfile>(path);
+        if (existing != null) return existing;
+
+        var profile = ScriptableObject.CreateInstance<LiquidProfile>();
+        configure(profile);
+
+        AssetDatabase.CreateAsset(profile, path);
+        return profile;
     }
 
     static SphLiquidRenderer CreateLiquidRenderer(Transform parent)

@@ -1,281 +1,130 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /// <summary>
-/// SPH 파티클을 메타볼 액체로 그린다. 두 패스로 나눠 그린다.
-///
-///  1패스: 파티클마다 자기 크기만 한 사각형을 RenderTexture에 가산 합성 (LiquidBlobSplat)
-///  2패스: 누적된 필드에 threshold를 적용해 액체 색으로 출력 (LiquidComposite)
-///
-/// 이전에는 화면 전체를 덮는 쿼드 하나에서 픽셀마다 모든 블롭을 검사했는데, 비용이
-/// (화면 픽셀 수 x 파티클 수)라 파티클을 조금만 늘려도 급격히 무거워졌다(384개가 한계였다).
-/// 지금은 각 블롭이 자기 주변만 칠하므로 비용이 (파티클 수 x 블롭 픽셀)이 되어, 파티클을
-/// 몇 배로 늘려도 거의 그대로다 — 알갱이 크기를 성능 걱정 없이 정할 수 있다.
-///
-/// URP에서도 별도 렌더러 기능 없이 동작하도록 RenderPipelineManager 콜백에서 CommandBuffer로
-/// 1패스를 실행한다(레이어나 프로젝트 설정을 건드리지 않는다).
+/// Pour/MetaballStream 셰이더로 SPH 파티클 전체를 그린다. 곡선을 따라가는 절차적 블롭이 아니라,
+/// 매 프레임 실제 살아있는 SphParticle들의 월드 위치를 그대로 블롭 좌표로 넘긴다 — 병 안에 있든,
+/// 흘러나오는 중이든, 잔 안에 있든 전부 같은 하나의 액체 표현이다.
 /// </summary>
 public class SphLiquidRenderer : MonoBehaviour
 {
+    /// <summary>MetaballStream.shader의 MAX_BLOBS와 반드시 같아야 한다. 이 수를 넘는 파티클은 그려지지 않는다.</summary>
+    public const int MaxBlobs = 192;
+
+    // 블롭 크기/threshold/늘임은 술마다 달라야 하므로 여기 두지 않고 LiquidProfile에서 받는다.
+    // 아래 값들은 액체 종류와 무관한 렌더 설정이라 컴포넌트에 남긴다.
     [SerializeField] int sortingOrder = 25;
 
-    [Tooltip("필드 텍스처 해상도 배율. 1이면 화면과 같은 해상도, 0.5면 절반(가볍지만 가장자리가 거칠어진다).")]
-    [Range(0.25f, 1f)]
-    [SerializeField] float fieldResolutionScale = 0.5f;
+    [Header("Metaball Shader")]
+    [Tooltip("셰이더가 블롭 필드를 계산할 월드 스페이스 영역. 병+잔+그 사이 공간을 넉넉히 덮어야 한다.")]
+    [SerializeField] Vector2 fieldQuadSize = new Vector2(14f, 10f);
+    [SerializeField] Vector2 fieldQuadCenter = Vector2.zero;
 
-    [Tooltip("액체를 그릴 카메라. 비워두면 Camera.main을 쓴다.")]
-    [SerializeField] Camera targetCamera;
+    MeshRenderer meshRenderer;
+    Material material;
+    MaterialPropertyBlock propertyBlock;
 
-    Material splatMaterial;
-    Material compositeMaterial;
-
-    MeshRenderer compositeRenderer;
-    Mesh compositeMesh;
-
-    Mesh blobMesh;
-    RenderTexture fieldTexture;
-    CommandBuffer commandBuffer;
-
-    // 블롭 하나당 사각형 하나(정점 4 + 삼각형 2).
-    Vector3[] vertices;
-    Vector2[] uvs;
-    int[] triangles;
-    int meshCapacity;
-
-    float blobRadiusScale = 1.7f;
-    float maxStretch = 1.5f;
-    float streamThinning = 0.2f;
-    float threshold = 0.35f;
-    float edgeSmoothness = 0.12f;
     float blobRadius;
-    float maxSpeed = 1f;
+    float stretchPerSpeed = 0.45f;
+    float maxStretch = 4f;
+    Vector4[] blobData;
+    Vector4[] blobStretch;
 
-    static readonly int MainTexId = Shader.PropertyToID("_MainTex");
     static readonly int ColorId = Shader.PropertyToID("_Color");
     static readonly int ThresholdId = Shader.PropertyToID("_Threshold");
     static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
+    static readonly int BlobCountId = Shader.PropertyToID("_BlobCount");
+    static readonly int BlobPositionsId = Shader.PropertyToID("_BlobPositions");
+    static readonly int BlobStretchId = Shader.PropertyToID("_BlobStretch");
 
     void Awake()
     {
-        splatMaterial = new Material(Shader.Find("Pour/LiquidBlobSplat"));
-        compositeMaterial = new Material(Shader.Find("Pour/LiquidComposite"));
-
-        blobMesh = new Mesh { name = "LiquidBlobs" };
-        blobMesh.MarkDynamic();
-        blobMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32; // 파티클이 많아지면 65535 정점을 넘는다
-
-        commandBuffer = new CommandBuffer { name = "Liquid Blob Field" };
-
-        CreateCompositeQuad();
-        EnsureMeshCapacity(256);
-    }
-
-    void OnEnable() => RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
-    void OnDisable() => RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
-
-    /// <summary>합성 결과를 보여줄 화면 크기 쿼드. 카메라 앞에 붙여 항상 화면을 덮게 한다.</summary>
-    void CreateCompositeQuad()
-    {
-        var go = new GameObject("Liquid Composite");
+        var go = new GameObject("Liquid Field");
         go.transform.SetParent(transform, false);
 
         var meshFilter = go.AddComponent<MeshFilter>();
-        compositeRenderer = go.AddComponent<MeshRenderer>();
-        compositeRenderer.sortingOrder = sortingOrder;
-        compositeRenderer.sharedMaterial = compositeMaterial;
+        meshRenderer = go.AddComponent<MeshRenderer>();
+        meshRenderer.sortingOrder = sortingOrder;
 
-        compositeMesh = new Mesh { name = "LiquidCompositeQuad" };
-        compositeMesh.vertices = new[]
-        {
-            new Vector3(-0.5f, -0.5f, 0f), new Vector3(0.5f, -0.5f, 0f),
-            new Vector3(0.5f, 0.5f, 0f), new Vector3(-0.5f, 0.5f, 0f),
-        };
-        compositeMesh.uv = new[] { Vector2.zero, Vector2.right, Vector2.one, Vector2.up };
-        compositeMesh.triangles = new[] { 0, 1, 2, 0, 2, 3 };
-        compositeMesh.RecalculateBounds();
+        meshFilter.mesh = BuildQuadMesh(fieldQuadCenter, fieldQuadSize);
 
-        meshFilter.mesh = compositeMesh;
+        material = new Material(Shader.Find("Pour/MetaballStream"));
+        meshRenderer.material = material;
+
+        propertyBlock = new MaterialPropertyBlock();
+        blobData = new Vector4[MaxBlobs];
+        blobStretch = new Vector4[MaxBlobs];
     }
 
+    static Mesh BuildQuadMesh(Vector2 center, Vector2 size)
+    {
+        Vector2 half = size * 0.5f;
+
+        var mesh = new Mesh { name = "MetaballFieldQuad" };
+        mesh.vertices = new Vector3[]
+        {
+            new Vector3(center.x - half.x, center.y - half.y, 0f),
+            new Vector3(center.x + half.x, center.y - half.y, 0f),
+            new Vector3(center.x + half.x, center.y + half.y, 0f),
+            new Vector3(center.x - half.x, center.y + half.y, 0f),
+        };
+        mesh.triangles = new[] { 0, 1, 2, 0, 2, 3 };
+        mesh.RecalculateBounds();
+
+        return mesh;
+    }
+
+    /// <summary>
+    /// 질감 값을 프로파일에서 통째로 받는다. 블롭 반지름을 프로파일의 spacing에서 유도해야
+    /// 알갱이 굵기를 바꿔도 액체가 계속 하나로 뭉쳐 보인다(고정값으로 두면 간격을 바꾸는 순간
+    /// 필드가 겹치지 않아 점들이 흩뿌려진 것처럼 보인다).
+    /// </summary>
     public void Init(LiquidProfile profile, Color liquidColor)
     {
-        blobRadiusScale = profile.blobRadiusScale;
+        blobRadius = profile.physics.spacing * profile.blobRadiusScale;
+        stretchPerSpeed = profile.stretchPerSpeed;
         maxStretch = profile.maxStretch;
-        streamThinning = profile.streamThinning;
-        threshold = profile.threshold;
-        edgeSmoothness = profile.edgeSmoothness;
 
-        blobRadius = profile.physics.spacing * blobRadiusScale;
-        maxSpeed = Mathf.Max(profile.physics.maxVelocity, 0.0001f);
-
-        compositeMaterial.SetColor(ColorId, liquidColor);
-        compositeMaterial.SetFloat(ThresholdId, threshold);
-        compositeMaterial.SetFloat(SmoothnessId, edgeSmoothness);
+        propertyBlock.SetColor(ColorId, liquidColor);
+        propertyBlock.SetFloat(ThresholdId, profile.threshold);
+        propertyBlock.SetFloat(SmoothnessId, profile.edgeSmoothness);
+        meshRenderer.SetPropertyBlock(propertyBlock);
     }
 
-    /// <summary>파티클 위치/속도로 블롭 사각형 메시를 다시 만든다. 파티클 수에 상한이 없다.</summary>
     public void UpdateBlobs(IReadOnlyList<SphParticle> particles)
     {
-        int count = particles.Count;
-        EnsureMeshCapacity(count);
+        int count = Mathf.Min(particles.Count, MaxBlobs);
 
         for (int i = 0; i < count; i++)
         {
+            Vector2 p = particles[i].pos;
+            blobData[i] = new Vector4(p.x, p.y, blobRadius, 0f);
+
             Vector2 velocity = particles[i].velocity;
             float speed = velocity.magnitude;
 
+            // 거의 멈춰 있으면 방향이 의미 없으므로 늘이지 않고 원 그대로 둔다.
             Vector2 dir = speed > 0.01f ? velocity / speed : Vector2.right;
+            float stretch = Mathf.Clamp(1f + speed * stretchPerSpeed, 1f, maxStretch);
 
-            // 늘임/가늘어짐은 최고 속도로 정규화한다 — 물리를 느리게 튜닝해도 질감이 따라 흔들리지 않는다.
-            float speed01 = Mathf.Clamp01(speed / maxSpeed);
-            float stretch = Mathf.Lerp(1f, maxStretch, speed01);
-            float thinFactor = Mathf.Lerp(1f, 1f - streamThinning, speed01);
-
-            // 사각형의 두 축을 진행 방향과 그 수직으로 잡는다. uv 공간의 원이 곧 월드의 타원이 되므로
-            // 셰이더는 uv 길이만 보면 되고, 두 축의 크기를 따로 줄 수 있다.
-            //
-            // 길이(진행 방향)는 늘임만, 두께(수직)는 가늘어짐만 적용한다. 예전처럼 두 축에 모두
-            // 가늘어짐을 걸면 줄기를 가늘게 만들수록 길이도 같이 줄어 파티클 사이가 끊어졌다 —
-            // 그래서 "흐르게 하려면 두껍게" 둘 수밖에 없었다.
-            Vector2 along = dir * (blobRadius * stretch);
-            Vector2 perp = new Vector2(-dir.y, dir.x) * (blobRadius * thinFactor);
-            Vector2 center = particles[i].pos;
-
-            int v = i * 4;
-            vertices[v + 0] = center - along - perp;
-            vertices[v + 1] = center + along - perp;
-            vertices[v + 2] = center + along + perp;
-            vertices[v + 3] = center - along + perp;
-
-            uvs[v + 0] = new Vector2(-1f, -1f);
-            uvs[v + 1] = new Vector2(1f, -1f);
-            uvs[v + 2] = new Vector2(1f, 1f);
-            uvs[v + 3] = new Vector2(-1f, 1f);
+            blobStretch[i] = new Vector4(dir.x, dir.y, stretch, 0f);
         }
 
-        // 남는 자리는 한 점으로 접어 그려지지 않게 한다.
-        for (int v = count * 4; v < vertices.Length; v++)
+        for (int i = count; i < MaxBlobs; i++)
         {
-            vertices[v] = Vector3.zero;
-            uvs[v] = Vector2.zero;
+            blobData[i] = Vector4.zero;
+            blobStretch[i] = new Vector4(1f, 0f, 1f, 0f);
         }
 
-        // 정점/uv만 올린다. 삼각형은 용량이 바뀔 때만 바뀌므로 매 프레임 다시 올리면 그만큼 순수한 낭비다.
-        blobMesh.SetVertices(vertices);
-        blobMesh.SetUVs(0, uvs);
-    }
-
-    void EnsureMeshCapacity(int particleCount)
-    {
-        if (particleCount <= meshCapacity && vertices != null) return;
-
-        meshCapacity = Mathf.Max(256, Mathf.NextPowerOfTwo(particleCount));
-
-        vertices = new Vector3[meshCapacity * 4];
-        uvs = new Vector2[meshCapacity * 4];
-        triangles = new int[meshCapacity * 6];
-
-        for (int i = 0; i < meshCapacity; i++)
-        {
-            int v = i * 4;
-            int t = i * 6;
-
-            triangles[t + 0] = v + 0;
-            triangles[t + 1] = v + 1;
-            triangles[t + 2] = v + 2;
-            triangles[t + 3] = v + 0;
-            triangles[t + 4] = v + 2;
-            triangles[t + 5] = v + 3;
-        }
-
-        // 정점을 먼저 올려야 삼각형 인덱스가 범위를 벗어나지 않는다.
-        blobMesh.Clear();
-        blobMesh.SetVertices(vertices);
-        blobMesh.SetUVs(0, uvs);
-        blobMesh.SetTriangles(triangles, 0);
-
-        // CommandBuffer.DrawMesh는 컬링을 하지 않으므로 경계를 한 번 크게 잡아두면 된다.
-        // 이러면 매 프레임 RecalculateBounds로 전 정점을 훑는 비용이 사라진다.
-        blobMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1e5f);
-    }
-
-    Camera ResolveCamera() => targetCamera != null ? targetCamera : Camera.main;
-
-    /// <summary>
-    /// 합성 쿼드 맞추기는 렌더링 콜백이 아니라 여기서 한다 — 렌더 도중에 Transform을 바꾸면
-    /// 그 프레임의 컬링 결과와 어긋나 아무것도 안 보일 수 있다.
-    /// </summary>
-    void LateUpdate()
-    {
-        Camera camera = ResolveCamera();
-        if (camera == null) return;
-
-        EnsureFieldTexture(camera);
-        FitCompositeQuad(camera);
-    }
-
-    /// <summary>1패스: 블롭 메시를 필드 텍스처에 가산 합성한다.</summary>
-    void OnBeginCameraRendering(ScriptableRenderContext context, Camera camera)
-    {
-        if (camera != ResolveCamera() || blobMesh == null || fieldTexture == null) return;
-
-        commandBuffer.Clear();
-
-        commandBuffer.SetRenderTarget(fieldTexture);
-        commandBuffer.ClearRenderTarget(true, true, Color.clear);
-
-        // CommandBuffer로 직접 그릴 때는 카메라의 뷰/투영 행렬이 자동으로 잡히지 않는다.
-        // 넣어주지 않으면 블롭이 엉뚱한 좌표에 그려져 화면에 아무것도 안 나온다.
-        // (플랫폼별 Y 뒤집힘 변환은 Unity가 알아서 하므로 카메라 원본 행렬을 그대로 넘긴다.)
-        commandBuffer.SetViewProjectionMatrices(camera.worldToCameraMatrix, camera.projectionMatrix);
-
-        commandBuffer.DrawMesh(blobMesh, Matrix4x4.identity, splatMaterial);
-
-        context.ExecuteCommandBuffer(commandBuffer);
-    }
-
-    void EnsureFieldTexture(Camera camera)
-    {
-        int width = Mathf.Max(64, Mathf.RoundToInt(camera.pixelWidth * fieldResolutionScale));
-        int height = Mathf.Max(64, Mathf.RoundToInt(camera.pixelHeight * fieldResolutionScale));
-
-        if (fieldTexture != null && fieldTexture.width == width && fieldTexture.height == height) return;
-
-        if (fieldTexture != null) fieldTexture.Release();
-
-        // 필드값은 여러 블롭이 더해져 1을 넘으므로 8비트로는 잘린다 — 부동소수점 포맷을 쓴다.
-        fieldTexture = new RenderTexture(width, height, 0, RenderTextureFormat.RHalf)
-        {
-            name = "LiquidField",
-            filterMode = FilterMode.Bilinear,
-        };
-        fieldTexture.Create();
-
-        compositeMaterial.SetTexture(MainTexId, fieldTexture);
-    }
-
-    /// <summary>합성 쿼드를 카메라 화면에 정확히 맞춘다(필드 텍스처와 화면 좌표가 1:1로 대응해야 한다).</summary>
-    void FitCompositeQuad(Camera camera)
-    {
-        Transform quad = compositeRenderer.transform;
-
-        float height = camera.orthographicSize * 2f;
-        float width = height * camera.aspect;
-
-        quad.position = new Vector3(camera.transform.position.x, camera.transform.position.y, 0f);
-        quad.rotation = camera.transform.rotation;
-        quad.localScale = new Vector3(width, height, 1f);
+        propertyBlock.SetInt(BlobCountId, count);
+        propertyBlock.SetVectorArray(BlobPositionsId, blobData);
+        propertyBlock.SetVectorArray(BlobStretchId, blobStretch);
+        meshRenderer.SetPropertyBlock(propertyBlock);
     }
 
     void OnDestroy()
     {
-        if (splatMaterial != null) Destroy(splatMaterial);
-        if (compositeMaterial != null) Destroy(compositeMaterial);
-        if (blobMesh != null) Destroy(blobMesh);
-        if (compositeMesh != null) Destroy(compositeMesh);
-
-        if (fieldTexture != null) fieldTexture.Release();
-        commandBuffer?.Release();
+        if (material != null)
+            Destroy(material);
     }
 }

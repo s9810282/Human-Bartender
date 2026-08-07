@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 병의 외곽선을 메시로 그린다. PourManager가 액체를 가두는 내부 프로파일(몸통 반너비 → 어깨 → 병목)을

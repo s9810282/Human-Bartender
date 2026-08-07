@@ -13,20 +13,19 @@ MonoBehaviour:
   m_Name: Liquid_Syrup
   m_EditorClassIdentifier: Assembly-CSharp::LiquidProfile
   physics:
-    viscosity: 0.45
-    cohesion: 0.6
-    antiClustering: 0
     gravity: 9
-    spacing: 0.05
-    solverIterations: 4
-    relaxation: 0.1
-    maxCorrectionRatio: 0.25
-    neighborRadiusScale: 2
-    maxVelocity: 6
-  blobRadiusScale: 1.9
-  threshold: 0.35
-  edgeSmoothness: 0.12
-  maxStretch: 3.5
-  streamThinning: 0.15
+    spacing: 0.16
+    pressureStiffness: 200
+    nearPressureStiffness: 40
+    restDensity: 3
+    neighborRadiusScale: 1.25
+    viscosity: 0.5
+    velocitySmoothing: 0.45
+    maxVelocity: 4.5
+  blobRadiusScale: 1.8
+  threshold: 0.5
+  edgeSmoothness: 0.08
+  stretchPerSpeed: 0.3
+  maxStretch: 3
   overrideColor: 0
   color: {r: 1, g: 0.82, b: 0.4, a: 1}

@@ -14,28 +14,17 @@ public class BottleTiltController : MonoBehaviour
 
     [Header("Tilt")]
     [Tooltip("누르고 있을 때 도달하는 최대 기울기(도).")]
-    [SerializeField] float maxTiltAngle = 120f;
+    [SerializeField] float maxTiltAngle = 95f;
     [Tooltip("누르고 있는 동안 초당 몇 도씩 기울지. 낮출수록 조작 감도가 둔해져 미세 조절이 쉬워진다.")]
     [SerializeField] float tiltSpeed = 55f;
     [Tooltip("손을 뗐을 때 초당 몇 도씩 되돌아올지. tiltSpeed보다 조금 빨라야 '멈추고 싶을 때 바로 멈추는' 느낌이 난다.")]
     [SerializeField] float returnSpeed = 80f;
 
-    [Tooltip("회전 기준점의 로컬 Y. 0이면 병 중앙에서 돌고, -0.5면 바닥을 축으로 돈다(실제 병을 기울이는 느낌).")]
-    [SerializeField] float pivotLocalY = -0.5f;
-
     float currentAngle;
     float inputHeld01;
 
-    /// <summary>기울여도 제자리에 있어야 하는 회전 기준점(월드). 똑바로 선 상태에서 한 번 잡아둔다.</summary>
-    Vector3 pivotWorld;
-
     public Transform BottleVisual => bottleVisual;
     public float CurrentAngle => currentAngle;
-
-    void Start()
-    {
-        pivotWorld = bottleVisual.TransformPoint(new Vector3(0f, pivotLocalY, 0f));
-    }
 
     /// <summary>PourInputHandler가 매 프레임 드래그량을 0~1로 정규화해 전달한다.</summary>
     public void SetTiltInput01(float value01)
@@ -49,13 +38,6 @@ public class BottleTiltController : MonoBehaviour
         float speed = targetAngle > currentAngle ? tiltSpeed : returnSpeed;
 
         currentAngle = Mathf.MoveTowards(currentAngle, targetAngle, speed * Time.deltaTime);
-
         bottleVisual.localRotation = Quaternion.Euler(0f, 0f, -currentAngle);
-
-        // 회전은 항상 Transform 원점(병 중앙)을 축으로 도므로, 기준점이 제자리에 오도록 위치를 되돌린다.
-        // 계층 구조로 축을 옮기지 않는 이유는 병 로컬 좌표계를 그대로 유지하기 위해서다 —
-        // SPH 스폰 위치, 벽 클램프, 실루엣이 전부 이 좌표계를 기준으로 계산된다.
-        Vector3 pivotAfterRotation = bottleVisual.TransformPoint(new Vector3(0f, pivotLocalY, 0f));
-        bottleVisual.position += pivotWorld - pivotAfterRotation;
     }
 }
