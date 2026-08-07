@@ -61,6 +61,7 @@ SHEET_SPEC = {
     "ResourceMap": ("RESOURCE_MAP", len(G.RESMAP_COLS)),
     "FieldAnims": ("FIELD_ANIMS", len(G.FIELD_COLS)),
     "Personalities": ("PERSONALITIES", len(G.PERS_COLS)),
+    "Tags": ("TAGS", len(G.TAG_COLS)),
     "GuestBodies": ("GUEST_BODIES", len(G.GBODY_COLS)),
     "Barks": ("BARKS", len(G.BARK_COLS)),
     "Tastes": ("TASTES", len(G.TASTE_COLS)),

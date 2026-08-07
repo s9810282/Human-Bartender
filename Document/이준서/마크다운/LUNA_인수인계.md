@@ -1,6 +1,6 @@
 # LUNA 인수인계 — 데이터·기획 작업 현황 총정리
 
-기준일: 2026-07-30 · 이 문서 하나로 "지금까지 한 것 / 지금 상태 / 앞으로 할 것"을 파악할 수 있게 쓴 인수인계다.
+기준일: 2026-08-01 · 이 문서 하나로 "지금까지 한 것 / 지금 상태 / 앞으로 할 것"을 파악할 수 있게 쓴 인수인계다.
 문서 안의 모든 수치·파일명·개수는 작성 시점의 **실데이터 기준**이다. 이 문서와 실데이터가 다르면 실데이터가 정답이다.
 
 ---
@@ -39,14 +39,14 @@
 
 | 파일 | 소유 | 내용 |
 |---|---|---|
-| `LUNA_System.xlsx` (9시트) | 고현정 | Cocktails(17)·RecipeLines(41)·ShelfItems(40)·Personalities(5)·**GuestBodies(14)**·RandomWaves(7)·Config(31)·GradeCuts(5)·GradePayout(5) |
-| `LUNA_Narrative.xlsx` (24시트) | 이준서 | Scenes(40)·Steps(779)·Choices(14행·7세트)·Barks(169)·BarkSituations(24)·Characters(18)·Expressions·ExpressionParts·Cutscenes(23)·FieldAnims(18)·Days(3)·RegularSlots(1)·Spots(8)·InteractPoints(7)·Tastes(10)·Dossier(20)·Quests·QuestStages·Endings(5)·OrderRules(4)·AffinityMatrix(5)·UIStrings(35)·TextTags(7)·ResourceMap(17, 배포 제외 검수 대장) |
+| `LUNA_System.xlsx` (10시트) | 고현정 | Cocktails(17)·**Tags(14 — 태그 사전 ko/en)**·RecipeLines(41)·ShelfItems(40)·Personalities(5)·**GuestBodies(14)**·RandomWaves(7)·Config(35)·GradeCuts(5)·GradePayout(5) |
+| `LUNA_Narrative.xlsx` (24시트) | 이준서 | Scenes(40)·Steps(779)·Choices(14행·7세트)·Barks(169)·BarkSituations(24)·Characters(18)·Expressions·ExpressionParts·Cutscenes(23)·FieldAnims(18)·Days(3)·RegularSlots(1)·Spots(8)·InteractPoints(7)·Tastes(10)·Dossier(20)·Quests·QuestStages·Endings(5)·OrderRules(4)·AffinityMatrix(5)·UIStrings(40)·TextTags(7)·ResourceMap(17, 배포 제외 검수 대장) |
 | `LUNA_Draft.xlsx` (6시트) | 이기현 | 대사 초안 원고지 — 대본 4탭(**Bar/Home/Street/Cutscene** — script/ 구획과 1:1, 분량 커지면 Bar_Day4 식 밑줄 탭 확장 가능) + Barks(상황 드롭다운 24종 완비) + NPC. 전달완료 행만 PD가 가져간다 |
 
 ### 배포 (json/ — 23파일 + script/ 6파일)
 
 - 마스터 14: cocktails·shelf_items·characters·character_anim(구 expressions)·field_anims·cutscenes·personalities·**guest_bodies**·barks·bark_situations·tastes·dossier·ui_strings·text_tags
-- 밸런스 1: balance (config 31키 + grade_cuts + grade_payout + affinity_matrix)
+- 밸런스 1: balance (config 35키 + grade_cuts + grade_payout + affinity_matrix)
 - 스케줄 5: days·random_waves·regular_slots·spots·interact_points(구 points)
 - 서사 3: quests·endings·order_rules(구 orders)
 - 대본: `script/bar/day1~3.json`(일차별) + `home.json` + `street.json` + `cutscene.json`. 로딩은 시작 시 home·street·cutscene, 일차 진입 시 그날 bar/dayN. 조회 키 (day, phase, seq), day 0 = 상시 씬.
@@ -66,7 +66,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 2. **웹 프로토(junseo874.github.io)는 동결.** `bundle_proto.py`는 신구조와 비호환(의도됨) — 재실행 금지. 구현 대상은 유니티다.
 3. **엑셀 신규 컬럼 추가 시 gen의 COL_DOCS에 설명도 추가**(안 하면 빌드가 경고).
 4. 깃: 기획은 공용 브랜치 1개(개인 브랜치 금지), PD가 빌드 확인 후 develop 병합. 파이프라인 파일은 `Document/데이터/` 한 곳에만 — 개인 폴더에 xlsx 흩뿌리지 않기. 현재 기획 브랜치 = **`Document`**(26.07.27 커밋 `50ed7b2`로 세팅 — 58파일).
-5. **기획 브랜치에서는 `Document/` 밖을 절대 건드리지 않는다.** 엔진(`HumanBartender/`)·아트(`ArtResources/`)·루트 설정 파일은 손대지 말 것 — `.gitignore`, `.DS_Store` 정리 같은 사소한 것도 포함이다. 배포 json을 유니티 `StreamingAssets/`로 옮기는 작업은 **플머가 허락하는 시점에** 별도로 진행한다(현재 유니티 쪽은 구버전: guest_bodies 없음, expressions·script/common·day_1~3 구파일 잔존, 5개 파일 내용 상이).
+5. **기획 브랜치에서는 `Document/` 밖을 절대 건드리지 않는다.** 엔진(`HumanBartender/`)·아트(`ArtResources/`)·루트 설정 파일은 손대지 말 것 — `.gitignore`, `.DS_Store` 정리 같은 사소한 것도 포함이다. 배포 json을 유니티 `StreamingAssets/`로 옮기는 작업은 **플머가 허락하는 시점에** 별도로 진행한다(7/30 PD가 29파일 반영 완료 — 이후 변경분 재전달 절차는 §8-1).
 
 ### 빌드가 보증하는 것 (구현자가 방어 코드를 줄여도 되는 목록)
 
@@ -90,6 +90,8 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - **거리 데이터 범위(7/30 확정)**: 거리엔 **외부에서 등장하는 것만** 넣는다. 컷씬(삼호 사망 등)·엔딩은 기획이 끝난 뒤 넣는다 — 지금 데이터에 없다.
 - **선택지**: 조건 미충족 항목은 숨기지 않고 **회색(비활성) + 부족 사유 문구**로 표시(사유 컬럼 `lock_reason_ko/en`은 추가 대기 ❓). 세트 2~4개 + 세트마다 무조건 항목 최소 1개(빌드 검증). 서사 스포일러는 선택지 잠금이 아니라 씬 단위 when으로 분기.
 - **씬 day**: 재생 일차를 정하는 건 **trigger=auto 씬에서만**. interact 씬의 재생 일차는 `interact_points.when`이 정하고 day는 참고 표기다.
+- **주문 대사 3개(1부)**: 코스터 드롭 → ask_order(루나) → order_think → order 순서. 대사 사이 텀 = `config.order_bark_gap_sec`(1.5). 랜덤 손님은 `personalities.think_chance`(0~1) 굴림 실패 시 order_think 생략(gentle·chatty 1.0 / touchy 0.8 / quiet 0.5 / rough 0.3), **카메오는 항상 재생**.
+- **칵테일 제조(정본 = 노션 「칵테일 제조 시스템」)**: 흐름 = 제조하기 → 레시피 목차(이미지+이름만) → 정보 → 재료 담기(잔→도구→[가니시 데모 제외]→진열장→냉장고) → 기믹 → 판정 → 복귀. 제조법 표시는 **`recipe_desc`(ko/en) 수동 문안**(조립 아님 — 수치 고치면 문장도 같이), 채점 정답표는 recipe·glass·mix·prep·fill 그대로. 태그 = **Tags 시트(14종 ko/en) 사전 강제**(미등록 = 빌드 에러, Tastes의 cocktail.tag는 ko 검사). 이미지 키 = 파생 `Finished_{Pascal}`·`Serve_{Pascal}`(구엔진 겹침 4종 재사용·13종 발주). 등급 텍스트 = `ui_grade_*` 5키(언어 불문 영어). 제공 컷씬 스킵 불가, 사운드 `config.sfx_serve` 공용. 데모는 가니시 채점 항목 자동 정답 처리. 재료 배치는 화면이 소유(데이터는 unlock_day만 — 배치 현황 ResourceMap 관리). **미결 설계 문제는 문서 §13**(틀린 재료의 기믹·채점 기준, 2부 목차 잠금, 제조=안전지대, 완성 잔 재제조 등 결정 대기 16건).
 - **캐릭터**: role은 5값(player·master·guest·npc_street·cutscene) — 등장 횟수 구분은 대본이 정하므로 폐지. 등퇴장 효과음은 **바에 오는 인물 전원 명시**(공용 디폴트 `SFX_guest_door_in/out`, 전용은 크리스·포트·부비). null은 바 등퇴장이 없는 화자뿐.
 - **day4~13 대본**: 9월 초 착수 시 자체 대본 텍스트 포맷+변환기 도입 예정(시트 직저작 아님, Ink/Yarn 비채택).
 
@@ -163,6 +165,8 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 ---
 
 - **7/30**: **거리 데이터 정리(v3.3~3.4)**. 오브젝트 3원칙 확정 후 전 오브젝트 재작성 — 전단 2종은 포스터 뷰(정보 한 줄), 분실 상자는 마크 표시+선택지(줍는다/무시한다), 고양이는 "냐옹." 한 줄. 삭제: 쓰레기통·전광판 2지점(정보 없음/불필요, `board` 화자·`street_board` 앵커 동반)·자판기 일체(기믹 사양 확정 후 재도입)·출퇴근 독백 4씬(전부 미승인 가안)·삼호 사망/구조 2씬(타임라인 컷씬으로 제작 예정)·유지비 엔딩 씬과 판정 행(엔딩 기획 미완). 루나 괄호 독백 전량 제거 — 남은 루나 대사는 전부 NPC 직접 대화. 신설 검증: **오브젝트 씬의 루나 대사 = 빌드 에러**. 스키마: role 5값 통합, 등퇴장 sfx 디폴트 명시, Choices에 거리 세트 2종. 결과 수치 — 거리 지점 7·앵커 8·거리 씬 11·전체 씬 40·스텝 779·캐릭터 18. 노션 4문서(거리·사양서·요소 목록·바 내부) 동시 최신화.
+- **7/30 저녁**: 주문 대사 리듬 확정 — `order_bark_gap_sec`(1.5) 신설, Personalities에 `think_chance` 컬럼(v3.5). PD가 배포 json 29파일을 develop `e83f8f9`로 반영(전 파일 바이트 일치 확인). 「데이터 변경 사항 07/30」 작성(파싱 수정 3건: interact_points actor·trigger / think_chance / config 3키).
+- **7/31~8/1**: **칵테일 제조 시스템 노션 문서 신설**(화면별 규칙+UI+데이터 연결+§13 설계 문제 6건). 데이터 v3.6~3.7 — **Tags 시트 신설**(태그 사전 14종 ko/en, 미등록 태그 = 빌드 에러·Tastes 참조까지 검증), cocktails에 **recipe_desc**(제조법 수동 문안 ko/en, 빈 칸 = 빌드 에러)·파생 이미지 키 `sprite`/`serve_sprite`(구엔진 명명 이식 — 겹침 4종 재사용), ui_strings에 `ui_grade_*` 5키(언어 불문 영어), config `sfx_serve`. 「데이터 변경 사항 08/01」 작성(tags 구조 변경 = 파싱 breaking + 필드 3개). 발견한 데이터 버그: **bees_knees 해금 불가**(unlock_day 99 + unlock_when null — 꿀 퀘스트 기획 미완의 데드).
 
 ---
 
@@ -183,6 +187,9 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 | 선택지 잠금 사유 열 | Choices에 `lock_reason_ko`/`lock_reason_en` 추가 — PD가 엑셀에서 직접(스크립트 저장은 헤더 메모 파손 위험). 열이 생기면 스키마·검증(when↔사유 상호 필수)·json emit·문서 반영은 이어서 처리 | PD |
 | 오브젝트 선택지 버튼 배치 | 루나 말풍선이 없는 상태에서 버튼을 어디에 띄울지 ❓ (오브젝트 말풍선 아래 / 화면 하단) — 구현 전 결정 필요 | PD·프로그래밍 |
 | 벡터 그룹 첫 언급 | 전광판 제거로 데모에서 '벡터' 언급이 사라짐 — 바 대사나 TV로 옮길지 결정 ❓ | PD |
+| 제조 시스템 결정 16건 | 정본 = 노션 「칵테일 제조 시스템」 §11 — 최우선 2건: **틀린 재료의 기믹·채점 기준(§13.1)**·**2부 목차 잠금(§13.2)**(플머 착수 차단), 다음: 판정 배점·제한시간 3종·재료 배치표 | PD·고현정 |
+| bees_knees 해금 불가 | unlock_day 99인데 unlock_when이 null — 어떤 플레이에서도 안 열림. 꿀 퀘스트 기획 시 조건 투입 | PD |
+| white_lady 단위 통일 | 유일하게 레시피가 ml(40/30/20) — 나머지는 oz·tsp. oz 통일 여부 ❓ | PD |
 | 부정 퇴장 골드 차감 | 도입 여부 추후 — 현행 평판만(−1/−2) ❓ | PD |
 | day4~13 대본 | 9월 초 착수, 대본 텍스트 포맷+변환기 설계(이기현 데모 경험 반영) | PD·이기현 |
 | 톰·하루·선하 취향 규칙 | Tastes 0줄 — 뭘 줘도 ok 판정인데 엔딩은 affinity 100 요구. day4+ 저작 때 필수 | PD |
@@ -197,6 +204,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 | 사운드 5종 | config에 키만 존재: sfx_guest_in/out(공용 입퇴장), sfx_drink_high/mid/low(마시는 소리 — excellent·good/decent/poor·sewage). 오디오 파일 발주·연결 ❗ |
 | BGM 3종 | bgm_street_night·bgm_bar_calm(day1)·bgm_bar_main ❗ |
 | 캐릭터 전용 SFX | SFX_chris_enter/exit·SFX_port_enter/exit·SFX_cat_meow ❗ |
+| 칵테일 이미지 26장 | 대표 `Finished_*`·컷씬 `Serve_*` 각 17종 중 구엔진 재사용 4종(gin_fizz·dry_martini·cosmopolitan·kahlua_milk) 제외 **13종×2 신규** ❗ (담당: 정유빈) |
 | shelf_items 스프라이트 | 40종 중 25종 sprite=null(색 대체 표시 중) ❗ |
 | 공용 표정 스프라이트 | character_anim common 8종 중 실물은 annoyingB/R 파츠 애니 2종뿐(ResourceMap 기준) |
 
@@ -215,7 +223,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 ## 8. 중요 문제점 (지금 알아야 하는 것만)
 
-1. **유니티 쪽 json이 구버전** — `HumanBartender/Assets/StreamingAssets/json/`에 guest_bodies가 없고 구파일 5종(expressions·script/common·day_1~3)이 남아 있으며 5개 파일 내용이 다르다. 거리 시스템 구현도 이 이관이 선행 조건 — **플머가 허락하는 시점에** 23파일 최신본 반입+구파일 삭제. 기획 브랜치에서는 손대지 않는다.
+1. **유니티 json 반영 상태** — 7/30 PD가 29파일을 develop(`e83f8f9`)에 반영해 당시 기준 전 파일 일치. 이후 기획 쪽 변경 3파일(cocktails·balance·ui_strings — 「데이터 변경 사항 08/01」)은 재전달 대기. 구파일 5종(expressions·script/common·day_1~3)은 **구 로더가 아직 읽고 있어 의도적으로 잔존** — 플머가 신 스키마 파싱(actor·trigger·think_chance·tags 구조 등)으로 갈아탄 뒤 삭제한다. 신 데이터는 그 전환 전까지 게임 화면에 반영되지 않는다.
 2. **레포 안 산출물 md 5종이 구스펙** — `Document/이준서/산출물/`의 설계서·JSON 설명서 등은 v2.0 이전 기준(expressions.json·orders.json·조기 마감·OPEN 간판 클릭이 그대로 적혀 있음). **팀에게는 노션 3문서가 정본이라고 안내할 것.** 레포 md는 참고 이력으로만.
 3. **json 편집기 오염 사고 2회** — §2 절대 규칙 1 참고. 빌드 산출물을 편집 모드로 열어두지 말 것.
 
@@ -230,3 +238,13 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
   - 실행 전 확인 2가지: ① `~$` 락파일이 없어야 한다(엑셀이 열려 있으면 나중에 저장하는 순간 결과가 덮인다) ② `git status`로 엑셀에 남의 미커밋 작업이 없는지 본다. 되돌릴 땐 `git checkout -- Document/데이터/LUNA_*.xlsx`.
 - **검증기를 믿되, 새 규칙을 넣으면 고의 위반을 주입해 실효성 확인**(end_part 위치·주문 해금·guest_bodies 풀 검증 전부 이렇게 확인했다).
 - Draft 구버전 백업: `구버전_데이터시트/LUNA_Draft_통짜Scenes_백업_0726.xlsx` (통짜 Scenes 탭 시절).
+
+### 클로드 작업 시 지킬 것 (7/31~8/1 실수에서 배운 것 — 다음 세션 클로드에게)
+
+1. **노션 수정은 부분 교체(update_content)로만 한다. 전체 교체(replace_content)는 빈 페이지 최초 작성에만.** 전체 교체로 문서를 다시 쓰면 사용자가 붙인 이미지·코멘트가 통째로 사라진다 — 실제로 「칵테일 제조 시스템」의 첨부 이미지 9장을 날려서 PD가 수동 복구했다. 구조를 크게 바꿔야 해도 절 단위로 쪼개 부분 교체한다.
+2. **한글은 무조건 리터럴로 쓴다. 유니코드 이스케이프 수기 작성 절대 금지.** 이번에만 오타 8종을 냈다(팭업·셔이킹·쉞이킹·뜼다·컷씨·격침되는·놀일지·뽐 — 전부 이스케이프 수기 오타). 오타 하나가 검증→재수정→재검증 사이클을 만들어 토큰이 몇 배로 든다.
+3. **검증은 fetch 1회 + grep으로 한다. 서브에이전트에게 페이지 전수 읽기·형태소 분석을 시키지 않는다.** 이번에 검증용 서브에이전트를 5회 돌려 회당 5만~12만 토큰을 썼는데, 같은 확인이 fetch 후 python 문자열 검색 몇 줄로 끝난다.
+4. **대형 노션 페이지는 한 번 fetch해 스냅샷 파일로 저장하고 그걸로 작업한다.** 6만 자짜리 「데이터 구조 작성」을 한 세션에서 대여섯 번 다시 받았다 — 수정 직후 확인만 새로 fetch하면 된다.
+5. **사용자가 지운 내용을 배치 실패로 단정해 복구하지 않는다.** 노션 배치 op가 조용히 실패하는 건 사실이지만, 내용이 사라져 있으면 먼저 물어본다 — 07/30 변경 문서에서 PD가 의도적으로 지운 §5·§6을 실패로 오판해 되살렸다.
+6. **부분 데이터로 전체를 단정하지 않는다.** shelf_items에서 바뀐 7행만 보고 "값은 1 또는 2다, 4 이상 없다"고 문서에 적었다가 전체 분포(1~99)와 어긋났다. 수치를 적기 전에 파일 전체를 집계한다.
+7. **문서 규칙 재확인 3종**: JSON 예시는 필드마다 줄바꿈(한 줄 압축 금지 — `{"ko":…,"en":…}` 한 줄도 위반이다) / 제목에 순번이 있으면 "화면 1 —" 같은 중복 번호를 붙이지 않는다 / 새 용어를 만들지 않는다("주문 3박자"라고 지어 부르다 지적받고 7곳+config 키 이름까지 되돌렸다 — 프로젝트에 있는 이름으로만 부른다).

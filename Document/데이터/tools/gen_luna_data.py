@@ -98,7 +98,8 @@ def shelf_ids(kind=None):
 #        mix의 bottle_open은 폐기(prep=cap으로 이동). 기믹 실행은 플레이어 선택 주도 — 이 값들은 '채점 정답'이다
 # v1.9: unlock_day_override = 완전 수동 지정(공란이면 재료에서 파생). tier_override = 체감 난이도 수동 지정.
 CK_COLS = ["id","name_ko","name_en","price","abv","glass","mix","prep","fill","garnish","color","tags",
-           "flavor_ko","flavor_en","unlock_day_override","unlock_when","tier_override"]
+           "flavor_ko","flavor_en","unlock_day_override","unlock_when","tier_override",
+           "recipe_desc_ko","recipe_desc_en"]
 COCKTAILS = [
     ("gin_tonic",       "진토닉",             "Gin & Tonic",     180, 8.0,  "highball", "build",  "tonic_water", "lime_wedge",   "255,255,255", "상큼한;청량한;클래식", "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.", "Gin and tonic. The simplest, and therefore the most honest.", None, ""),
     ("gin_fizz",        "진피즈",             "Gin Fizz",        220, 8.0,  "highball", "shake",  "soda_water",  "lemon_slice",  "255,255,255", "상큼한;클래식;청량한", "진과 레몬, 그리고 '피즈' 하는 탄산 소리.", "Gin, lemon, and that 'fizz' of carbonation.", None, ""),
@@ -124,6 +125,85 @@ COCKTAILS = [
 # 행 길이 보정: prep(7번째) 누락분 삽입 → tier_override(마지막) 누락분은 None으로 채움
 COCKTAILS = [r if len(r) >= 16 else tuple(list(r[:7]) + [""] + list(r[7:])) for r in COCKTAILS]
 COCKTAILS = [r if len(r) == len(CK_COLS) else tuple(list(r) + [None] * (len(CK_COLS) - len(r))) for r in COCKTAILS]
+
+# v3.6 — 태그 사전. 칵테일 tags와 Tastes의 cocktail.tag(...)이 쓰는 한글 태그의 정본 목록 + 영어 표기.
+# 여기 없는 태그를 쓰면 빌드 에러(오타 차단). 표시: 정보 화면 키워드가 ko/en을 함께 배포받는다.
+TAG_COLS = ["tag_ko","tag_en","note"]
+TAGS = [
+    ("가벼운",   "Light",    "저도수·부담 없음"),
+    ("달콤한",   "Sweet",    ""),
+    ("독한",     "Strong",   "고도수"),
+    ("묵직한",   "Heavy",    "바디감"),
+    ("부드러운", "Smooth",   ""),
+    ("비밀",     "Secret",   "비밀 레시피 계열"),
+    ("상큼한",   "Fresh",    "시트러스"),
+    ("새콤한",   "Tangy",    ""),
+    ("씁쓸한",   "Bitter",   ""),
+    ("알싸한",   "Spicy",    "진저 계열의 톡 쏘는 맛"),
+    ("우아한",   "Elegant",  ""),
+    ("청량한",   "Crisp",    "탄산감"),
+    ("클래식",   "Classic",  ""),
+    ("화사한",   "Bright",   ""),
+]
+TAG_EN = {t[0]: t[1] for t in TAGS}
+
+# v3.7 — 제조법 설명은 레시피 데이터에서 조립하지 않고 사람이 직접 쓴다(칵테일 설명과 같은 방식).
+# RecipeLines는 채점 정답표로 그대로 두고, 이 문안은 정보 화면·레시피 팝업의 표시 전용이다.
+# 수치를 고치면 이 문안도 같이 고쳐야 한다 — 빌드는 빈 칸만 잡고 내용 일치는 검사하지 못한다.
+RECIPE_DESCS = {
+    "gin_tonic": (
+        "하이볼 잔에 진 1.5oz를 붓고, 토닉워터로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
+        "Pour 1.5oz gin into a highball glass, top with tonic water, and stir gently. Garnish with a lime wedge."),
+    "gin_fizz": (
+        "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 하이볼 잔에 따른다. 소다수로 채우고 레몬 슬라이스를 올린다.",
+        "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a highball glass. Top with soda water and add a lemon slice."),
+    "bottle_beer": (
+        "오프너로 뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
+        "Pop the cap with an opener and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."),
+    "red_wine": (
+        "코르크를 조심스럽게 뽑고 와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
+        "Draw the cork carefully and pour 8oz into a wine glass. Do not swirl."),
+    "champagne": (
+        "코르크를 소리 없이 뽑고 플루트 잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
+        "Ease the cork out without a pop and pour 8oz into a flute. Serve before the bubbles settle."),
+    "screwdriver": (
+        "하이볼 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",
+        "Build 1.5oz vodka and 6oz orange juice in a highball glass and stir."),
+    "moscow_mule": (
+        "맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일로 채우고 라임 웨지를 걸친다.",
+        "Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with ginger ale and garnish with a lime wedge."),
+    "tequila_sunrise": (
+        "콜린스 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",
+        "Build 1oz tequila and 6oz orange juice in a collins glass and stir. Garnish with an orange slice."),
+    "long_island": (
+        "콜린스 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 라임 반 개의 즙을 더해 젓는다. 콜라로 채우고 레몬 슬라이스를 올린다.",
+        "Build 1oz each of gin, vodka, rum, and tequila in a collins glass, add the juice of half a lime, and stir. Top with cola and add a lemon slice."),
+    "whiskey_sour": (
+        "위스키 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 온더락 잔에 따른다. 사워믹스로 채우고 체리를 올린다.",
+        "Shake 1.5oz whiskey, the juice of half a lemon, and 1 tsp sugar, then strain into a rocks glass. Top with sour mix and garnish with a cherry."),
+    "dry_martini": (
+        "믹싱 글라스에 진 6oz와 드라이 버무스 1.5oz를 넣고 스터한 뒤 칵테일 잔에 따른다. 올리브를 넣는다.",
+        "Stir 6oz gin with 1.5oz dry vermouth in a mixing glass, then strain into a cocktail glass. Drop in an olive."),
+    "bacardi": (
+        "럼 4.5oz, 그레나딘 0.75oz, 라임즙 1.5oz를 셰이킹해 칵테일 잔에 따른다.",
+        "Shake 4.5oz rum, 0.75oz grenadine, and 1.5oz lime juice, then strain into a cocktail glass."),
+    "cosmopolitan": (
+        "보드카 4oz, 쿠앵트로 1.5oz, 크랜베리주스 3oz, 라임즙 1.5oz를 셰이킹해 칵테일 잔에 따른다. 레몬 슬라이스를 올린다.",
+        "Shake 4oz vodka, 1.5oz cointreau, 3oz cranberry juice, and 1.5oz lime juice, then strain into a cocktail glass. Add a lemon slice."),
+    "margarita": (
+        "데킬라 3.5oz, 트리플섹 2oz, 레몬즙 1.5oz를 셰이킹해 칵테일 잔에 따른다. 라임 웨지를 걸친다.",
+        "Shake 3.5oz tequila, 2oz triple sec, and 1.5oz lemon juice, then strain into a cocktail glass. Garnish with a lime wedge."),
+    "white_lady": (
+        "진 40ml, 트리플섹 30ml, 레몬즙 20ml를 셰이킹해 칵테일 잔에 따른다.",
+        "Shake 40ml gin, 30ml triple sec, and 20ml lemon juice, then strain into a cocktail glass."),
+    "kahlua_milk": (
+        "온더락 잔에 칼루아 1.5oz를 붓고 우유 0.75oz를 위에 얹듯 천천히 따른다.",
+        "Pour 1.5oz kahlua into a rocks glass, then layer 0.75oz milk slowly on top."),
+    "bees_knees": (
+        "진 2oz, 벌꿀 원액 0.75oz, 레몬즙 0.75oz를 셰이킹해 칵테일 잔에 따른다. 레몬 슬라이스를 올린다.",
+        "Shake 2oz gin, 0.75oz honey syrup, and 0.75oz lemon juice, then strain into a cocktail glass. Add a lemon slice."),
+}
+COCKTAILS = [tuple(list(r[:-2]) + list(RECIPE_DESCS[r[0]])) for r in COCKTAILS]
 
 RECIPES = {
     "gin_tonic":       [("pour","gin",1.5,"oz")],
@@ -1104,6 +1184,7 @@ CONFIG = [
     ("sfx_drink_low",          "SFX_drink_grim",      "마시는 중 사운드 — Poor·Sewage"),
     ("idle_min_sec",           8,       "1부 대기 중 혼잣말(idle) 최소 간격"),
     ("idle_max_sec",           13,      "1부 대기 중 혼잣말 최대 간격"),
+    ("sfx_serve",              "SFX_glass_slide", "제공 컷씬 공용 사운드(잔 미는 소리) — 구엔진 이식, 전 칵테일 공용"),
     ("order_bark_gap_sec",     1.5,     "주문 대사 사이의 텀 — ask_order→order_think→order 순서로 재생할 때, 앞 대사 타이핑이 끝나고 다음 대사까지 기다리는 초 [가안]"),
     # ── v3.0 거리 시스템 — 말풍선 상수는 바와 분리해 따로 튜닝한다 ──
     ("street_typing_interval_ms",   50, "거리 말풍선 타이핑 문자당 간격(ms) — 바(typing_interval_ms)와 별도 튜닝"),
@@ -1171,6 +1252,11 @@ DOSSIER = [
 
 UI_COLS = ["key","ko","en"]
 UI_STRINGS = [
+    ("ui_grade_excellent", "Excellent", "Excellent"),
+    ("ui_grade_good",      "Good",      "Good"),
+    ("ui_grade_decent",    "Decent",    "Decent"),
+    ("ui_grade_poor",      "Poor",      "Poor"),
+    ("ui_grade_sewage",    "Sewage",    "Sewage"),
     ("ui_make",        "제조하기",           "Make"),
     ("ui_serve",       "제공하기",           "Serve"),
     ("ui_discard",     "버리기",             "Discard"),
@@ -1274,8 +1360,12 @@ def derive():
         # 채점 항목: 시간·잔 + 믹스 + prep + 레시피 라인 + 필업 + 가니시(v1.9 플레이어 선택으로 편입)
         scoring = 2 + (1 if d["mix"] != "none" else 0) + (1 if d["prep"] else 0) + len(lines) + (1 if d["fill"] else 0) + 1
         tlimit = cfg["time_limit_base_sec"] + gimmick * cfg["time_limit_per_gimmick_sec"]
+        # 이미지 키(v3.6): 구엔진 에셋 명명 규칙 이식 — Finished_{Pascal}(대표)·Serve_{Pascal}(제공 컷씬).
+        # 구엔진과 겹치는 4종(gin_fizz 등)은 기존 에셋을 그대로 재사용하고, 나머지는 같은 규칙으로 신규 발주.
+        pascal = "".join(w.capitalize() for w in d["id"].split("_"))
         derived[d["id"]] = dict(gimmick_count=gimmick, tier=tier, unlock_day=unlock,
-                                scoring_items=scoring, time_limit_sec=tlimit)
+                                scoring_items=scoring, time_limit_sec=tlimit,
+                                sprite=f"Finished_{pascal}", serve_sprite=f"Serve_{pascal}")
     return derived
 
 # ============================================================
@@ -1325,7 +1415,25 @@ def validate(derived):
     check_dup("ExpressionParts", EXPRESSION_PARTS, lambda r: (r[0], r[1], r[2]))
     check_dup("FieldAnims", FIELD_ANIMS, lambda r: (r[0], r[1]))
     check_dup("Tastes", TASTES, lambda r: (r[0], r[1]))
+    check_dup("Tags", TAGS, lambda r: r[0])
     check_dup("Dossier", DOSSIER, lambda r: (r[0], r[2], r[1], r[3]))
+
+    # v3.6 — 태그는 사전(Tags)에 있는 것만. 자유 문자열이면 오타가 취향 판정을 조용히 비껴간다
+    import re as _re
+    for c in COCKTAILS:
+        d = dict(zip(CK_COLS, c))
+        # v3.7 — 제조법 문안은 사람이 쓰는 칸이라 비면 정보 화면이 빈칸으로 뜬다
+        if not (d["recipe_desc_ko"] or "").strip():
+            errors.append(f"[칵테일] {d['id']}: recipe_desc_ko가 비어 있음 — 제조법 설명은 손으로 적는 칸이다")
+        elif not (d["recipe_desc_en"] or "").strip():
+            l10n_missing.append(f"칵테일 {d['id']} 제조법 설명")
+        for t in d["tags"].split(";"):
+            if t not in TAG_EN:
+                errors.append(f"[태그] 칵테일 {d['id']}: '{t}' — Tags 시트에 없음(오타? 신규면 사전에 먼저 추가)")
+    for t_row in TASTES:
+        for m in _re.findall(r"cocktail\.tag\(([^)]+)\)", t_row[2]):
+            if m not in TAG_EN:
+                errors.append(f"[태그] Tastes {t_row[0]}#{t_row[1]}: cocktail.tag({m}) — Tags 시트에 없음")
 
     ing_ids = shelf_ids("ingredient")
     glass_ids = shelf_ids("glass")
@@ -1836,12 +1944,15 @@ def validate(derived):
     # ── when DSL 전수 검사 (v1.5) — 문법 + 참조 무결성 ─────────────────
     WHEN_TOKEN = re.compile(
         r"^(day|money|reputation|grade|phase"
+        r"|meta\.endings"
         r"|flag\.\w+|affinity\.\w+|alive\.\w+|quest\.\w+\.stage"
         r"|cocktail\.id|cocktail\.abv|cocktail\.tag\([^)]+\))$")
     CMP = re.compile(r"^(\S+)\s*(==|!=|>=|<=|>|<)\s*(\S+)$")
     NUM = re.compile(r"^-?\d+(\.\d+)?$")
     GRADES = {"excellent", "good", "decent", "poor", "sewage"}
-    NUMERIC_LHS = ("day", "money", "reputation", "cocktail.abv")
+    # meta.endings = 세이브 슬롯 밖 메타 저장(수집한 엔딩 수) — 다회차 판정용.
+    # 데모: 0일차 튜토리얼 스킵 선택지의 when에 meta.endings >= 1 로 사용
+    NUMERIC_LHS = ("day", "money", "reputation", "cocktail.abv", "meta.endings")
     alive_chars = {c[0] for c in CHARACTERS if dict(zip(CHAR_COLS, c))["alive_flag"]}
     referenced_flags, set_flags = {}, {}
 
@@ -2078,7 +2189,7 @@ TAB_COLOR = {
     "master": "4472C4", "schedule": "70AD47", "script": "9E5FC1", "balance": "ED7D31", "etc": "A6A6A6",
 }
 SHEET_GROUP = {
-    "Cocktails": "master", "RecipeLines": "master", "ShelfItems": "master",
+    "Cocktails": "master", "RecipeLines": "master", "ShelfItems": "master", "Tags": "master",
     "Characters": "master", "Expressions": "master", "ExpressionParts": "master", "Cutscenes": "master",
     "ResourceMap": "audit", "FieldAnims": "master", "Personalities": "master", "Barks": "master",
     "GuestBodies": "master", "Days": "schedule", "RandomWaves": "schedule", "RegularSlots": "schedule", "Spots": "schedule", "InteractPoints": "schedule",
@@ -2099,6 +2210,10 @@ COL_DOCS = {
         "glass": "정답 잔 — ShelfItems에서 kind=glass인 id. 비우면 정답이 '병째로'(병맥주). 플레이어가 ① 잔 선반에서 고른다",
         "mix": "섞는 방식 정답 — none(안 섞음)/build(가볍게 젓기)/stir(스터)/shake(셰이크). 플레이어가 ② 도구 선반에서 고른 도구와 대조: shake→셰이커, stir·build→믹싱글라스",
         "prep": "병 개봉 정답 — 공란(열 것 없음)/cap(병뚜껑 3연타)/cork(코르크는 천천히 2바퀴, 급하면 부스러져 감점). 도구 '따개' 하나가 둘 다 담당",
+        "recipe_desc_ko": "제조법 설명(한국어) — 정보 화면과 레시피 팝업에 그대로 뜨는 문장. 손으로 적는다. RecipeLines는 채점 정답표이고 이 칸은 표시 전용이라, 수치를 고치면 이 문장도 같이 고쳐야 한다",
+        "recipe_desc_en": "제조법 설명(영어)",
+        "(파생)sprite": "대표 이미지 키 — Finished_{아이디 파스칼표기}. 목차·정보 화면·완성 잔 표시가 쓴다. 구엔진 겹침 4종은 기존 에셋 재사용",
+        "(파생)serve_sprite": "제공 컷씬 이미지 키 — Serve_{아이디 파스칼표기}",
         "fill": "마지막에 잔을 채우는 재료(kind=ingredient, category=mixer). 채점: 정확히 일치해야 1점. 없으면 비움",
         "garnish": "정답 가니시 — ShelfItems에서 kind=garnish인 id. 플레이어가 ③ 가니시 선반에서 고른다. 비우면 정답은 '없음'(플레이어도 '없음'을 골라야 정답)",
         "color": "잔에 채워질 액체 색(R,G,B). 예: 255,255,255",
@@ -2177,6 +2292,11 @@ COL_DOCS = {
         "action": "동작 — idle/idle_blink/walk/run/dead 등",
         "resource_key": "SD 픽셀 스프라이트시트 경로 (※ 아트 파일명 = 이 값)",
         "status": "확보 상태 — OK/신규필요 등. 대본에서 쓰는데 없으면 빌드가 경고",
+        "note": "작업 메모",
+    },
+    "Tags": {
+        "tag_ko": "태그 한글 표기(정본 키). Cocktails.tags와 Tastes의 cocktail.tag(...)이 이 값을 그대로 쓴다",
+        "tag_en": "영어 표기 — 정보 화면 키워드가 EN 빌드에서 이 값을 표시",
         "note": "작업 메모",
     },
     "Personalities": {
@@ -2382,6 +2502,7 @@ COL_DOCS = {
 # 시트 자체에 대한 한 줄 설명 — A1 왼쪽 위 모서리 셀에 붙는 메모 대신, 시트 최상단 안내용
 SHEET_DOCS = {
     "Cocktails": "칵테일 정의. 한 줄이 칵테일 하나. 레시피 재료는 RecipeLines 시트에 따로 적는다",
+    "Tags": "맛 키워드 사전. 칵테일 tags와 Tastes의 cocktail.tag(...)이 여기 적힌 한글 태그만 쓸 수 있고, 영어 표기는 정보 화면 키워드 표시에 쓰인다",
     "RecipeLines": "칵테일에 들어가는 재료 목록. 한 줄이 '재료 하나를 넣는 행동' 하나 — 이건 채점 정답표이지 실행 순서표가 아니다",
     "ShelfItems": "제조 선반에 놓이는 모든 것 — 재료·잔·도구·가니시를 kind로 구분해 한 테이블에 담는다",
     "Characters": "등장인물. affinity=TRUE인 인물만 호감도가 쌓이고 단골 수첩에 실린다",
@@ -2481,7 +2602,7 @@ def add_sheet(wb, name, headers, rows):
 WORKBOOK_OF = {
     **{s: "System" for s in [
         "Cocktails", "RecipeLines", "ShelfItems", "Personalities", "GuestBodies",
-        "RandomWaves", "Config", "GradeCuts", "GradePayout"]},
+        "RandomWaves", "Config", "GradeCuts", "GradePayout", "Tags"]},
     **{s: "Narrative" for s in [
         "Scenes", "Steps", "Choices", "Barks", "OrderRules", "Quests", "QuestStages",
         "Endings", "Dossier", "RegularSlots", "Characters", "Expressions",
@@ -2495,9 +2616,11 @@ WORKBOOK_FILES = {"System": "LUNA_System.xlsx", "Narrative": "LUNA_Narrative.xls
 def emit_xlsx(derived):
     # 1) 전 시트 데이터 구성 (name → (headers, rows))
     sheets = {
-        "Cocktails": (CK_COLS + ["(파생)tier", "(파생)gimmick", "(파생)unlock_day", "(파생)scoring_items", "(파생)time_limit"],
+        "Cocktails": (CK_COLS + ["(파생)tier", "(파생)gimmick", "(파생)unlock_day", "(파생)scoring_items", "(파생)time_limit", "(파생)sprite", "(파생)serve_sprite"],
             [list(c) + [f"T{derived[c[0]]['tier']}", derived[c[0]]["gimmick_count"], derived[c[0]]["unlock_day"],
-                        derived[c[0]]["scoring_items"], derived[c[0]]["time_limit_sec"]] for c in COCKTAILS]),
+                        derived[c[0]]["scoring_items"], derived[c[0]]["time_limit_sec"],
+                        derived[c[0]]["sprite"], derived[c[0]]["serve_sprite"]] for c in COCKTAILS]),
+        "Tags": (TAG_COLS, TAGS),
         "RecipeLines": (["cocktail_id", "seq", "action", "ingredient_id", "qty", "unit"],
             [[cid, i + 1, a, ing, q, u] for cid, lines in RECIPES.items() for i, (a, ing, q, u) in enumerate(lines)]),
         "ShelfItems": (SHELF_COLS, SHELF_ITEMS),
@@ -2670,8 +2793,10 @@ def emit_json(derived):
         master["cocktails"].append({
             "id": d["id"], "name": L(d["name_ko"], d["name_en"]), "price": d["price"], "abv": d["abv"],
             "glass": d["glass"], "mix": d["mix"], "prep": d["prep"] or None, "fill": d["fill"], "garnish": d["garnish"],
-            "color": d["color"], "tags": d["tags"].split(";"),
+            "color": d["color"],
+            "tags": [{"ko": t, "en": TAG_EN[t]} for t in d["tags"].split(";")],
             "flavor": L(d["flavor_ko"], d["flavor_en"]),
+            "recipe_desc": L(d["recipe_desc_ko"], d["recipe_desc_en"]),
             "unlock_when": d["unlock_when"] or None,
             "recipe": [dict(zip(["action","ingredient","qty","unit"], l)) for l in RECIPES[d["id"]]],
             **derived[d["id"]],

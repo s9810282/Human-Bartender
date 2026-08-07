@@ -528,29 +528,6 @@
           "when": null,
           "effects": null,
           "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "vendor",
-          "arg": "idle",
-          "text": {
-            "ko": "아 참 — 어제 배송 상자 하나를 뒷골목에서 흘렸다. 퇴근길에 보이면 주워다 주라. 사례는 하마.",
-            "en": "Oh, right — I dropped a delivery box in the back alley yesterday. If you spot it on your way home, bring it over. I'll make it worth your while."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "effect",
-          "actor": null,
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": "flag.q_lost_box_started = true",
-          "sync": "wait"
         }
       ]
     },
@@ -672,42 +649,6 @@
       ]
     },
     {
-      "id": "d2_box_found",
-      "day": 2,
-      "phase": "commute_out",
-      "seq": 0,
-      "trigger": "interact",
-      "when": "",
-      "title": "상자 발견(퀘스트 완료)",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "sign",
-          "arg": null,
-          "text": {
-            "ko": "완 상회",
-            "en": "WAN'S STALL"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "choice",
-          "actor": null,
-          "arg": "ch_st_box",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
       "id": "d3_alley_cat",
       "day": 3,
       "phase": "commute_in",
@@ -745,28 +686,6 @@
     }
   ],
   "choices": {
-    "ch_st_box": [
-      {
-        "seq": 1,
-        "text": {
-          "ko": "줍는다",
-          "en": "Pick it up"
-        },
-        "when": null,
-        "effects": "flag.q_lost_box_done = true; quest(lost_box).advance",
-        "goto": null
-      },
-      {
-        "seq": 2,
-        "text": {
-          "ko": "무시한다",
-          "en": "Leave it"
-        },
-        "when": null,
-        "effects": null,
-        "goto": null
-      }
-    ],
     "ch_st_shiba": [
       {
         "seq": 1,
@@ -784,7 +703,7 @@
           "ko": "간식 좀 드릴까요?",
           "en": "Want a little treat?"
         },
-        "when": "flag.q_lost_box_done",
+        "when": null,
         "effects": "flag.shiba_fed = true",
         "goto": "np_shiba_treat"
       }

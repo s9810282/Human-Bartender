@@ -6,10 +6,10 @@
     "actor": "vendor",
     "phase": "commute_in",
     "trigger": "interact",
-    "when": "day == 2 && !flag.q_lost_box_started",
+    "when": "day == 2",
     "scene_or_shop": "d2_vendor_intro",
     "selection": "once",
-    "note": "노점상 완 첫 인사 + 퀘스트 시작"
+    "note": "노점상 완 첫 인사"
   },
   {
     "id": "p_vendor_shop",
@@ -22,18 +22,6 @@
     "scene_or_shop": "shop:vendor",
     "selection": "repeat",
     "note": "노점 상점(과일·믹서 구매)"
-  },
-  {
-    "id": "p_lost_box",
-    "spot": "alley_deep",
-    "kind": "object",
-    "actor": "",
-    "phase": "commute_out",
-    "trigger": "interact",
-    "when": "flag.q_lost_box_started && !flag.q_lost_box_done",
-    "scene_or_shop": "d2_box_found",
-    "selection": "repeat",
-    "note": "잃어버린 상자(퀘스트) — 무시해도 다시 주울 수 있어야 하므로 repeat, 닫는 것은 when이 담당"
   },
   {
     "id": "p_alley_cat",

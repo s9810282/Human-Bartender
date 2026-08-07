@@ -1,12 +1,11 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
-· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(18), Choices(14), Cutscenes(23), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(7), OrderRules(4), QuestStages(2), Quests(2), RegularSlots(1), ResourceMap(17), Scenes(40), Spots(8), Steps(779), Tastes(10), TextTags(7), UIStrings(35)
-· LUNA_System.xlsx — 시트 9개: Cocktails(17), Config(34), GradeCuts(5), GradePayout(5), GuestBodies(14), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40)
+· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(18), Choices(12), Cutscenes(23), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(1), Quests(1), RegularSlots(1), ResourceMap(17), Scenes(38), Spots(8), Steps(772), Tastes(10), TextTags(7), UIStrings(40)
+· LUNA_System.xlsx — 시트 10개: Cocktails(17), Config(35), GradeCuts(5), GradePayout(5), GuestBodies(14), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40), Tags(14)
 ⚠ [플래그] 'q_samho_honey_started' — 참조(퀘스트단계 samho_honey#1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
 ⚠ [플래그] 'rios_accepted' — 참조(엔딩 bad_1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
 ℹ [플래그] 'dream_raid_1' — 세워지지만(스텝 d2_dream#7) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'dream_raid_2' — 세워지지만(스텝 d3_dream#7) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'port_served_d3' — 세워지지만(단골슬롯 day3#4) 아직 아무 조건도 참조하지 않음
-ℹ [플래그] 'q_lost_box_reward' — 세워지지만(퀘스트단계 lost_box#1) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'samho_drunk' — 세워지지만(주문 d4_samho_dilemma#1) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'seen_coratech_ad' — 세워지지만(스텝 ob_experiment_1#1) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'shiba_fed' — 세워지지만(선택지 ch_st_shiba#2) 아직 아무 조건도 참조하지 않음
@@ -27,7 +26,6 @@ Day 6: 입고[트리플섹] → 신규 가능[마가리타(T3), 화이트레이�
 퀘스트/이벤트 해금 재료: 벌꿀 원액(flag.q_samho_honey_done)
 퀘스트/이벤트 해금 칵테일: 비즈 니즈(T3)
 === 퀘스트 ===
-[side] lost_box '노점상의 잃어버린 상자': interact:p_lost_box ⇒ 보상[money += 50; give(lime, 3)]
 [side] samho_honey '진짜 벌꿀': serve:gin_fizz ⇒ 보상[affinity.samho += 10; unlock_recipe(bees_knees); flag.q_samho_honey_done = true]
 슬롯 day2#1 T1 풀(4): gin_tonic, bottle_beer, red_wine, champagne
 슬롯 day2#2 T1 풀(4): gin_tonic, bottle_beer, red_wine, champagne
@@ -39,4 +37,4 @@ Day 6: 입고[트리플섹] → 신규 가능[마가리타(T3), 화이트레이�
 슬롯 day3#4 T3 풀(1): gin_fizz [카메오: port]
 
 ✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 루나 대사 규칙
-칵테일 17 / 선반 40 / 캐릭터 18 / 씬 40 / 스텝 779 / 선택지 14 / 웨이브 7 / 단골슬롯 1
+칵테일 17 / 선반 40 / 캐릭터 18 / 씬 38 / 스텝 772 / 선택지 12 / 웨이브 7 / 단골슬롯 1
