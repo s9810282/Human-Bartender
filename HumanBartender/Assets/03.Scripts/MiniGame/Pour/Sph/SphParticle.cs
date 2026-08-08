@@ -77,15 +77,33 @@ public class SphParticle : MonoBehaviour
 
         velocity = (pos - previousPos) / Mathf.Max(dt, 0.0001f);
 
-        if (velocity.magnitude > config.maxVelocity)
-            velocity = velocity.normalized * config.maxVelocity;
+        // 한 스텝에 간격의 일부 이상 움직이면 이웃 관계가 통째로 바뀌어 밀도가 튀고, 벽도 뚫는다.
+        // spacing을 줄이면 이 한계도 같이 내려가야 하므로 dt에서 직접 구한다 — 고정값만 쓰면
+        // 알갱이를 곱게 만드는 순간 액체가 담길 때 사방으로 튄다.
+        const float maxTravelPerStep = 0.4f; // spacing 대비
+        float cflLimit = config.spacing * maxTravelPerStep / Mathf.Max(dt, 0.0001f);
+        float speedLimit = Mathf.Min(config.maxVelocity, cflLimit);
+
+        if (velocity.magnitude > speedLimit)
+            velocity = velocity.normalized * speedLimit;
     }
 
-    /// <summary>restDensity는 SphSimulation이 스폰 격자에서 실측해 넘겨준다(SphConfig의 값은 보정 전 초기값).</summary>
+    /// <summary>restDensity는 SphSimulation이 꽉 찬 격자에서 실측해 넘겨준다(SphConfig의 값은 보정 전 초기값).</summary>
     public void CalculatePressure(float restDensity)
     {
-        pressure = config.pressureStiffness * (density - restDensity);
-        pressureNear = config.nearPressureStiffness * densityNear;
+        pressure = config.PressureStiffness * (density - restDensity);
+
+        // 밀도가 기준보다 낮으면 압력이 음수가 되어 파티클끼리 끌어당긴다. 고인 액체에서는 그게
+        // 표면장력처럼 보여 좋지만, 공중의 물줄기에서는 재앙이다 — 기준 밀도는 사방이 이웃으로
+        // 둘러싸인 '꽉 찬 격자'에서 잰 값인데, 줄기는 두어 줄짜리 리본이라 이웃이 원래 절반도 안 된다.
+        // 그래서 줄기 전체가 늘 "밀도 부족"으로 판정돼 강하게 수축하고, 액체가 덩어리로 뭉친 뒤
+        // 그 사이가 텅 비어 끊어져 보인다(입구 근처에서 특히 심하다).
+        // cohesion으로 그 당기는 쪽만 따로 약하게 만든다 — 미는 쪽(양수)은 건드리지 않으므로
+        // 잔에 고인 액체의 부피는 그대로 유지된다.
+        if (pressure < 0f)
+            pressure *= Mathf.Clamp01(config.cohesion);
+
+        pressureNear = config.NearPressureStiffness * densityNear;
     }
 
 }

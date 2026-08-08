@@ -193,9 +193,11 @@ public static class PourSceneSetup
         {
             SetGrain(p);
             p.physics.viscosity = 0.12f;
+            p.physics.cohesion = 0.25f;
             p.physics.velocitySmoothing = 0.2f;
             p.stretchPerSpeed = 0.55f;
             p.maxStretch = 4.5f;
+            p.streamThinning = 0.45f;
         });
 
         // 기본 — 리큐어 정도의 중간 질감.
@@ -206,6 +208,7 @@ public static class PourSceneSetup
             p.physics.velocitySmoothing = 0.25f;
             p.stretchPerSpeed = 0.45f;
             p.maxStretch = 4f;
+            p.streamThinning = 0.35f;
         });
 
         // 시럽 — 끈적하게 뭉쳐 늘어진다. 점도가 속도를 잡아주므로 늘임은 오히려 덜 필요하다.
@@ -213,9 +216,11 @@ public static class PourSceneSetup
         {
             SetGrain(p);
             p.physics.viscosity = 0.5f;
+            p.physics.cohesion = 0.5f; // 끈적한 액체는 뭉치는 성질이 강해야 늘어지는 느낌이 난다
             p.physics.velocitySmoothing = 0.45f;
             p.stretchPerSpeed = 0.3f;
             p.maxStretch = 3f;
+            p.streamThinning = 0.15f;
         });
 
         AssetDatabase.SaveAssets();

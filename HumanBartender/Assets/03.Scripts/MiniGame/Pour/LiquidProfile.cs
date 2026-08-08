@@ -42,6 +42,14 @@ public class LiquidProfile : ScriptableObject
     [Tooltip("아무리 빨라도 이 배수 이상으로는 늘리지 않는다. 과하면 액체가 실처럼 가늘게 번진다.")]
     public float maxStretch = 4f;
 
+    [Range(0f, 0.95f)]
+    [Tooltip("최고 속도에서 줄기를 몇 % 가늘게 만들지. 실제 액체도 가속될수록 단면이 좁아진다.\n" +
+             "진행 방향 길이는 건드리지 않고 두께만 줄이므로, 올려도 줄기가 끊어지지 않는다 " +
+             "(이어짐은 maxStretch가 담당한다). 흐를 때만 적용되고 잔에 고인 액체는 그대로다.\n" +
+             "spacing을 줄이지 않고 물줄기만 가늘게 만들 수 있는 값이라, 파티클 수를 늘리기 " +
+             "곤란할 때 여기부터 만지면 된다.")]
+    public float streamThinning = 0.35f;
+
     [Header("색")]
     [Tooltip("켜면 아래 색을 쓰고, 끄면 칵테일 키워드에서 뽑은 색(CategoryColorData)을 쓴다.")]
     public bool overrideColor = false;

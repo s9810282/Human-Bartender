@@ -13,8 +13,10 @@ public class BottleTiltController : MonoBehaviour
     [SerializeField] Transform bottleVisual;
 
     [Header("Tilt")]
-    [Tooltip("누르고 있을 때 도달하는 최대 기울기(도).")]
-    [SerializeField] float maxTiltAngle = 95f;
+    [Tooltip("누르고 있을 때 도달하는 최대 기울기(도).\n" +
+             "PourManager의 pourFullOpenAngle보다 넉넉히 높아야 한다 — 게이트가 완전히 열린 뒤에도 " +
+             "여유가 있어야 콸콸 따르는 구간이 생긴다.")]
+    [SerializeField] float maxTiltAngle = 120f;
     [Tooltip("누르고 있는 동안 초당 몇 도씩 기울지. 낮출수록 조작 감도가 둔해져 미세 조절이 쉬워진다.")]
     [SerializeField] float tiltSpeed = 55f;
     [Tooltip("손을 뗐을 때 초당 몇 도씩 되돌아올지. tiltSpeed보다 조금 빨라야 '멈추고 싶을 때 바로 멈추는' 느낌이 난다.")]

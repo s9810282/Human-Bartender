@@ -19,11 +19,26 @@ public class SphConfig
 
     [Tooltip("압력 계수(K). 액체가 중력에 눌리는 정도를 좌우한다 — 작으면 파티클을 아무리 늘려도 바닥에 " +
              "얇게 깔리고, 크면 부피를 유지한다. 참고 레포보다 훨씬 큰 값을 쓰는데, 저쪽은 타임스텝이 " +
-             "우리(1/120초 고정)의 40배라 낮은 강성밖에 못 썼기 때문이다. 값을 키우면 액체가 덜 눌린다.")]
+             "우리(1/120초 고정)의 40배라 낮은 강성밖에 못 썼기 때문이다. 값을 키우면 액체가 덜 눌린다.\n" +
+             "아래 StiffnessReferenceSpacing 기준으로 적는다 — spacing을 바꿔도 이 값은 그대로 두면 된다.")]
     public float pressureStiffness = 200f;
 
     [Tooltip("근접 압력 계수(K_NEAR). 파티클끼리 완전히 겹쳐 뭉치는 것을 막는다.")]
     public float nearPressureStiffness = 40f;
+
+    /// <summary>위 두 계수를 튜닝한 기준 간격. 이 간격에서는 보정이 1배가 된다.</summary>
+    const float StiffnessReferenceSpacing = 0.16f;
+
+    /// <summary>
+    /// 압력 계수는 spacing에 비례해야 한다. 밀도는 거리의 '비율'(d/r)로만 계산돼 spacing과 무관한데,
+    /// 압력힘도 그래서 spacing과 무관하다 — 즉 같은 힘이 간격이 좁아진 만큼 파티클을 상대적으로 더
+    /// 멀리 밀어낸다. 진동수가 1/sqrt(spacing)로 올라가 오일러 적분이 발산하고, 액체가 담기는 순간
+    /// 사방으로 튄다. 비례시키면 진동수가 일정해져 어떤 알갱이 굵기에서도 같은 거동이 나온다.
+    /// </summary>
+    float StiffnessScale => spacing / StiffnessReferenceSpacing;
+
+    public float PressureStiffness => pressureStiffness * StiffnessScale;
+    public float NearPressureStiffness => nearPressureStiffness * StiffnessScale;
 
     [Tooltip("기준 밀도의 초기값. 실제로는 SphSimulation.CalibrateRestDensity()가 스폰 직후 실측값으로 " +
              "덮어쓰므로 보통 건드릴 필요 없다.")]
@@ -37,6 +52,14 @@ public class SphConfig
     /// spacing에서 유도해야 spacing을 바꿔도 이웃 관계가 깨지지 않는다(따로 두면 세로로 이웃이 끊겨
     /// 액체가 바닥으로 짓눌리는 문제가 재발한다).</summary>
     public float NeighborRadius => spacing * neighborRadiusScale;
+
+    [Range(0f, 1f)]
+    [Tooltip("응집력. 밀도가 기준보다 낮을 때 파티클끼리 얼마나 끌어당길지의 비율이다.\n" +
+             "1이면 압력 공식 그대로 당긴다 — 고인 액체는 표면장력처럼 보여 좋지만, 공중의 물줄기는 " +
+             "이웃이 적어 늘 '밀도 부족'으로 판정되므로 덩어리로 뭉쳤다가 그 사이가 끊어진다.\n" +
+             "0이면 밀어내기만 하고 당기지 않아 줄기가 흩어진다. 0.2~0.4가 적당하다.\n" +
+             "미는 쪽(밀도 초과)에는 영향이 없으므로 이 값을 낮춰도 고인 액체가 눌리지는 않는다.")]
+    public float cohesion = 0.3f;
 
     [Tooltip("점성 계수(SIGMA). 클수록 액체가 끈적하게 뭉쳐 움직인다.")]
     public float viscosity = 0.2f;

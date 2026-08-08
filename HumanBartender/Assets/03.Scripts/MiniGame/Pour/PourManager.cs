@@ -4,9 +4,14 @@ using UnityEngine;
 
 /// <summary>
 /// 따르기(Pour) 미니게임의 메인 매니저. IMiniGameController를 구현한다.
-/// 병 내부에 SPH 파티클을 채워두고, 병이 기울어지면(BottleTiltController) 병과 함께 회전하는
-/// U자 컨테이너 콜라이더의 열린 쪽이 중력 반대편을 향하게 되면서 파티클이 물리적으로 흘러나온다 —
-/// 유량을 손으로 계산하지 않는다. 목표/오차 판정은 잔 영역(AABB) 안에 들어온 파티클 개수로 한다.
+///
+/// 병 안은 비어 있다 — 액체를 병에 채워두고 물리로 흘려보내는 게 아니라, 기울기가 임계각을 넘으면
+/// 입구에서 파티클을 뿜어내는 방출기다. 병 안 액체를 시뮬레이션하면 "몇 도부터 나오는지"를
+/// 수면 높이가 정해버려서(액체가 줄면 그 각도가 계속 올라간다) 확정적인 조작감을 만들 수 없고,
+/// 보이지도 않을 액체에 물리 비용을 그대로 쓴다. 방출기는 임계각이 곧 설정값이고, 살아있는
+/// 파티클도 공중에 떠 있는 줄기와 잔에 담긴 것뿐이다.
+///
+/// 목표/오차 판정은 잔 영역(AABB) 안에 들어온 파티클 개수로 한다.
 /// Shake/Stur와 동일하게 actionFailCount/limitFailCount에 결과를 담아 CocktailCraftManager.Evaluate()의
 /// 기존 백분율 판정 로직을 그대로 재사용한다.
 /// </summary>
@@ -22,38 +27,46 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [Header("Bottle")]
     [SerializeField] BottleTiltController bottle;
     [Tooltip("병 외곽선을 그리는 컴포넌트. 아래 병 모양 값을 그대로 받아 그리므로 " +
-             "보이는 모양과 액체가 갇히는 형태가 항상 일치한다. 비워두면 외곽선을 그리지 않는다.")]
+             "보이는 입구와 액체가 나오는 위치가 항상 일치한다. 비워두면 외곽선을 그리지 않는다.")]
     [SerializeField] BottleSilhouette bottleSilhouette;
-    [Tooltip("병 몸통 내부 영역(스케일 적용 전 병 로컬 좌표). 파티클을 처음 채우는 범위이자, 액체가 새지 않게 " +
-             "가두는 벽 위치이기도 하다(ConstrainParticles가 이 경계로 클램프한다).")]
+    [Tooltip("병 몸통 내부의 절반 크기(스케일 적용 전 병 로컬 좌표). 병을 그리는 데만 쓰인다 — " +
+             "안에 액체가 없으므로 여기에 가두는 벽은 없다.")]
     [SerializeField] Vector2 bottleInteriorHalfExtents = new Vector2(0.4f, 0.4f);
 
     // ── 병목 ────────────────────────────────────────────────────────────
-    // 아래에서부터 몸통 → 어깨(사선) → 통로다. 어깨에서 폭이 뚝 끊기지 않고 사선으로 이어지는 게
-    // 중요하다 — 단차로 두면 어깨를 갓 넘어선 파티클이 몸통 벽에서 통로 한가운데로 순간이동해
-    // 액체가 어깨를 타고 빨려 올라간다.
+    // 아래에서부터 몸통 → 어깨(사선) → 통로다. 액체가 나오는 입구 폭이자 병을 그리는 모양이다.
     [Range(2f, 5f)]
-    [Tooltip("병목 통로의 폭을 파티클 몇 개로 잡을지. 어깨부터 입구까지 이 폭이 그대로 유지된다.\n" +
-             "  2~3개: 한 줄기로 (권장)\n" +
-             "  4개 이상: 여러 줄로 나란히 빠져나와 줄기가 갈라져 보인다\n" +
-             "길이가 아니라 개수인 이유는 이 값이 프로파일의 spacing과 짝이기 때문이다 — 통로는 좁은 " +
-             "구간이 목 길이만큼 이어지므로, 파티클 2개 폭이 안 되면 그 안에서 액체가 한 줄로 늘어서 " +
-             "알갱이처럼 끊어진다.")]
+    [Tooltip("병목 통로의 폭을 파티클 몇 개로 잡을지. 그대로 물줄기의 굵기가 된다.\n" +
+             "  2~3개: 한 줄기로 가늘게 (권장)\n" +
+             "  4개 이상: 콸콸 쏟아지는 굵은 줄기\n" +
+             "길이가 아니라 개수인 이유는 이 값이 프로파일의 spacing과 짝이기 때문이다 — " +
+             "2개 폭이 안 되면 줄기가 한 줄로 늘어서 알갱이처럼 끊어져 보인다.")]
     [SerializeField] float neckWidthInParticles = 2.5f;
     [Range(0f, 1f)]
-    [Tooltip("어깨가 시작되는 높이(몸통의 끝). 0=바닥, 1=입구. 이 아래는 몸통 너비 그대로다.\n" +
-             "낮출수록 목이 길어지는 대신 액체를 담을 몸통이 줄어든다.")]
+    [Tooltip("어깨가 시작되는 높이(몸통의 끝). 0=바닥, 1=입구. 이 아래는 몸통 너비 그대로다.")]
     [SerializeField] float neckStartHeight01 = 0.6f;
     [Range(0f, 1f)]
     [Tooltip("어깨가 끝나고 통로가 시작되는 높이. neckStartHeight01 ~ 이 값 사이에서 몸통 너비가 " +
-             "통로 너비까지 사선으로 좁아지고, 그 위로는 입구까지 같은 폭이 유지된다.\n" +
-             "둘을 붙여두면 어깨가 90도 단차가 되고, 벌려두면 완만한 깔때기가 돼 액체가 통로로 모여든다.")]
+             "통로 너비까지 사선으로 좁아지고, 그 위로는 입구까지 같은 폭이 유지된다.")]
     [SerializeField] float neckChannelHeight01 = 0.75f;
+
+    // ── 배출 ────────────────────────────────────────────────────────────
+    [Header("Pour Gate")]
+    [Tooltip("이 각도 미만에서는 한 방울도 나오지 않는다. 병 안 액체를 시뮬레이션하지 않으므로 " +
+             "이 값이 곧 임계각이다 — 원하는 각도를 그대로 적으면 된다.")]
+    [SerializeField] float pourStartAngle = 45f;
+    [Tooltip("유량이 최대가 되는 각도. pourStartAngle과 벌려둘수록 졸졸 → 콸콸로 부드럽게 이어지고, " +
+             "붙여두면 임계각을 넘는 순간 최대 유량으로 쏟아진다.\n" +
+             "BottleTiltController의 maxTiltAngle보다 낮아야 최대 유량에 도달할 수 있다.")]
+    [SerializeField] float pourFullOpenAngle = 75f;
+    [Tooltip("최대 유량에서 액체가 입구를 떠나는 속도. 올리면 멀리 뻗어 나가고, 낮추면 입구에서 " +
+             "바로 떨어진다. 방출 간격이 이 속도에서 유도되므로 줄기 굵기는 그대로다.")]
+    [SerializeField] float exitSpeed = 1.6f;
 
     [Header("Glass")]
     [Tooltip("잔 스프라이트 자신의 Transform. InverseTransformPoint로 로컬 판정 영역을 계산한다.")]
     [SerializeField] Transform glassCenter;
-    [Tooltip("잔에 담긴 것으로 칠 판정 영역(스케일 적용 전 잔 로컬 좌표). 스폰이 아니라 판정용이라 벽 여유는 필요 없다.")]
+    [Tooltip("잔에 담긴 것으로 칠 판정 영역(스케일 적용 전 잔 로컬 좌표).")]
     [SerializeField] Vector2 glassInteriorHalfExtents = new Vector2(0.45f, 0.45f);
 
     [Header("Liquid (SPH)")]
@@ -61,14 +74,20 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [Tooltip("액체의 물성과 질감 묶음. 술마다 다른 프로파일을 꽂으면 물처럼 찰랑이는 것부터 " +
              "시럽처럼 늘어지는 것까지 다르게 표현된다.")]
     [SerializeField] LiquidProfile liquidProfile;
-    [Tooltip("병이 완전히 가득 찼을 때 기준 파티클 수(용량). 실제로 시작 시 채워지는 양은 이 값에 initialFillRatio를 곱한 만큼이다. " +
-             "렌더 한계(SphLiquidRenderer.MaxBlobs)와 병 내부 격자 용량 중 작은 쪽으로 자동 제한되며, 잘릴 때는 콘솔에 경고가 뜬다.")]
-    [SerializeField] int bottleParticleCount = 126;
-    [Range(0f, 10f)]
-    [Tooltip("시작할 때 bottleParticleCount 중 몇 %를 실제로 채울지. 바닥부터 격자로 쌓으므로 값을 올리면 액체 높이가 그만큼 올라간다.")]
-    [SerializeField] float initialFillRatio = 0.5f;
-    [Tooltip("SPH 공간분할그리드가 병/잔 위치 기준 사방으로 확보하는 여유 폭. 병과 잔을 멀리 떨어뜨려 배치해도 " +
-             "그 사이 낙하 구간이 그리드 밖으로 벗어나 밀도 계산이 깨지지(=허공에 멈춰 보이지) 않도록 넉넉히 잡는다.")]
+    [Tooltip("켜면 병이 마르지 않는다(테스트용). 아래 총량을 무시하고 계속 쏟을 수 있다.")]
+    [SerializeField] bool unlimitedLiquid = false;
+    [Tooltip("병에 든 액체의 총량(파티클 수). 이만큼 다 쏟으면 더 나오지 않는다. " +
+             "unlimitedLiquid가 켜져 있으면 무시된다.")]
+    [SerializeField] int bottleParticleCount = 400;
+    [Tooltip("동시에 살아있을 수 있는 파티클 수(줄기 + 잔에 담긴 것). 재사용 풀 크기라 총량과 별개이고, " +
+             "'한 번에 얼마나 많은 액체가 보이는가'는 총량이 아니라 이 값이 정한다.\n" +
+             "렌더러가 2패스로 바뀐 뒤로는 여기에 렌더 한계가 없다 — 이제 걸리는 건 SPH 계산 쪽이다. " +
+             "프레임이 떨어지면 이 값을 내리거나 프로파일의 spacing을 키울 것.")]
+    [SerializeField] int maxLiveParticles = 2000;
+    [Tooltip("이 월드 Y 아래로 떨어진 파티클은 흘린 것으로 보고 치운다(풀로 돌아간다). " +
+             "잔 바닥보다 확실히 아래로 잡아야 담긴 액체가 사라지지 않는다.")]
+    [SerializeField] float despawnBelowY = -6f;
+    [Tooltip("SPH 공간분할그리드가 병/잔 위치 기준 사방으로 확보하는 여유 폭.")]
     [SerializeField] float gridPadding = 3f;
 
     [Header("UI")]
@@ -76,11 +95,9 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [SerializeField] GradientRatioController gageBar;
 
     [Header("Pour Settings")]
-    [Tooltip("isTest일 때 목표 파티클 개수로 사용. 실제 모드에서도 recipe 기반 목표 연결 전까지는 임시로 이 값을 쓴다.\n" +
-        "target+tolerance를 넘으면 즉시 오버플로우로 판정이 끝나므로, 시작 파티클 수" +
-        "(bottleParticleCount * initialFillRatio)에 너무 가깝지도 너무 낮지도 않게 잡아야 한다.")]
-    [SerializeField] int testTargetParticleCount = 30;
-    [SerializeField] int testToleranceCount = 10;
+    [Tooltip("isTest일 때 목표 파티클 개수로 사용. 실제 모드에서도 recipe 기반 목표 연결 전까지는 임시로 이 값을 쓴다.")]
+    [SerializeField] int testTargetParticleCount = 60;
+    [SerializeField] int testToleranceCount = 15;
 
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
@@ -94,7 +111,14 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
     SphSimulation simulation;
     float simulationAccumulator;
-    readonly List<SphParticle> particles = new List<SphParticle>();
+
+    /// <summary>비활성 파티클 보관소. 흘려서 사라진 파티클을 재사용한다.</summary>
+    readonly Stack<SphParticle> pool = new Stack<SphParticle>();
+    readonly List<SphParticle> live = new List<SphParticle>();
+
+    /// <summary>병에 남은 액체(파티클 수). 0이 되면 더 나오지 않는다.</summary>
+    int remainingInBottle;
+    float emitAccumulator;
 
     /// <summary>병목 통로의 반너비(병 로컬). spacing에서 유도되므로 Start에서 한 번만 잡는다.</summary>
     float neckHalfWidth;
@@ -118,6 +142,7 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
         isFinished = false;
         glassParticleCount = 0;
+        remainingInBottle = bottleParticleCount;
 
         Color liquidColor = GetLiquidColor();
         liquidRenderer.Init(liquidProfile, liquidColor);
@@ -130,10 +155,9 @@ public class PourManager : MonoBehaviour, IMiniGameController
             bottleSilhouette.Build(bottleInteriorHalfExtents, neckHalfWidth, ShoulderLocalY(), ChannelLocalY());
 
         simulation = new SphSimulation(Physics, ComputeGridMin(), ComputeGridMax());
-        SpawnBottleParticles();
 
-        // 스폰 격자의 실제 밀도를 기준으로 삼아야 압력이 밀어내는 방향으로 작동한다(액체가 눌리지 않음).
-        simulation.CalibrateRestDensity();
+        CreatePool();
+        CalibrateRestDensity();
 
         gageBar.UpdateValues(targetParticleCount + toleranceCount, targetParticleCount - toleranceCount, toleranceCount * 2f, 0f);
 
@@ -154,75 +178,170 @@ public class PourManager : MonoBehaviour, IMiniGameController
         return Vector2.Max(bottlePos, glassPos) + Vector2.one * gridPadding;
     }
 
-    void SpawnBottleParticles()
+    // ── 파티클 풀 ───────────────────────────────────────────────────────
+
+    Transform particlesRoot;
+
+    void CreatePool()
     {
-        var particlesRoot = new GameObject("Sph Particles").transform;
+        particlesRoot = new GameObject("Sph Particles").transform;
         particlesRoot.SetParent(transform, false);
 
-        // SPH는 전부 월드 좌표로 계산하는데 병은 축마다 다른 스케일(예: 1.4 x 3.6)을 갖는다. 로컬 간격을
-        // 그대로 쓰면 TransformPoint 후 세로 간격만 크게 늘어나 이웃 반경 밖으로 벗어나고, 위아래 파티클이
-        // 서로 압력을 주고받지 못해 중력에 바닥으로 다 뭉쳐버린다(파티클을 늘려도 액체량이 그대로 보이던 원인).
-        // 그래서 스케일로 나눠 "월드에서 spacing 간격"이 되도록 로컬 간격을 잡는다.
-        Vector3 scale = bottle.BottleVisual.lossyScale;
-        float localSpacingX = Spacing / Mathf.Max(Mathf.Abs(scale.x), 0.0001f);
-        float localSpacingY = Spacing / Mathf.Max(Mathf.Abs(scale.y), 0.0001f);
+        int size = Mathf.Max(1, maxLiveParticles);
 
-        int columns = Mathf.Max(1, Mathf.FloorToInt(bottleInteriorHalfExtents.x * 2f / localSpacingX));
-
-        // 바닥부터 격자로 채우므로, 목표 개수만큼만 스폰하면 자연스럽게 그만큼의 높이까지만 차 보인다.
-        int spawnCount = Mathf.Clamp(Mathf.RoundToInt(bottleParticleCount * initialFillRatio), 0, bottleParticleCount);
-
-        // 액체는 어깨 아래(몸통)까지만 채운다 — 좁아지는 병목 안에 몸통 너비로 격자를 깔면 파티클이
-        // 벽 밖에서 시작해버린다. 실제 술병도 목까지 채우지는 않으니 모양상으로도 맞다.
-        // 화면에 그릴 수 있는 수(MetaballStream 셰이더의 MAX_BLOBS)도 넘지 않게 같이 막는다.
-        float bodyHeight = ShoulderLocalY() + bottleInteriorHalfExtents.y;
-        int rowCapacity = Mathf.Max(1, Mathf.FloorToInt(bodyHeight / localSpacingY));
-        int capacity = Mathf.Min(columns * rowCapacity, SphLiquidRenderer.MaxBlobs);
-
-        if (spawnCount > capacity)
+        for (int i = 0; i < size; i++)
         {
-            Logger.LogWarning($"[Pour] 파티클 {spawnCount}개는 병 용량/렌더 한계를 넘어 {capacity}개로 줄입니다. " +
-                              "더 늘리려면 프로파일의 spacing을 줄이거나 병 크기를 키우세요.");
-            spawnCount = capacity;
-        }
+            var go = new GameObject("Particle");
+            go.transform.SetParent(particlesRoot, false);
 
-        int spawned = 0;
-        for (int row = 0; spawned < spawnCount; row++)
-        {
-            for (int col = 0; col < columns && spawned < spawnCount; col++)
-            {
-                Vector2 localPos = new Vector2(
-                    (col - (columns - 1) * 0.5f) * localSpacingX,
-                    -bottleInteriorHalfExtents.y + localSpacingY * 0.5f + row * localSpacingY);
+            var particle = go.AddComponent<SphParticle>();
+            particle.Init(Physics);
+            particle.Deactivate();
 
-                Vector3 worldPos = bottle.BottleVisual.TransformPoint(localPos);
-
-                SphParticle particle = CreateParticle(particlesRoot, worldPos);
-                particles.Add(particle);
-                simulation.Register(particle);
-
-                spawned++;
-            }
+            pool.Push(particle);
         }
     }
 
-    SphParticle CreateParticle(Transform parent, Vector3 worldPos)
+    /// <summary>
+    /// 기준 밀도는 "정지 격자에서의 밀도"라 실측이 필요한데, 이제 병 안에 상주하는 액체가 없다.
+    /// 그래서 잠깐 격자를 깔아 재고 바로 치운다. 값을 절대값으로 적어두면 spacing을 조금만 바꿔도
+    /// 기준이 어긋나 액체가 부풀거나 눌린다.
+    /// </summary>
+    void CalibrateRestDensity()
     {
-        var go = new GameObject("Particle");
-        go.transform.SetParent(parent, false);
-        go.transform.position = worldPos;
+        const int side = 5; // 가운데 파티클이 이웃을 빠짐없이 갖는 최소 크기
 
-        var particle = go.AddComponent<SphParticle>();
-        particle.Init(Physics);
-        particle.Activate(worldPos);
+        // 공간 격자가 덮는 범위 안에 깔아야 이웃 탐색이 제대로 돈다.
+        Vector2 center = bottle.BottleVisual.position;
 
-        return particle;
+        var temporary = new List<SphParticle>();
+
+        for (int y = 0; y < side; y++)
+        {
+            for (int x = 0; x < side; x++)
+            {
+                if (pool.Count == 0) break;
+
+                SphParticle p = pool.Pop();
+                p.Activate(center + new Vector2(x - (side - 1) * 0.5f, y - (side - 1) * 0.5f) * Spacing);
+
+                simulation.Register(p);
+                temporary.Add(p);
+            }
+        }
+
+        simulation.CalibrateRestDensity();
+
+        foreach (var p in temporary)
+        {
+            simulation.Unregister(p);
+            p.Deactivate();
+            pool.Push(p);
+        }
+    }
+
+    // ── 방출 ────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// 지금 기울기의 유량(0=안 나옴, 1=최대). 이 값이 곧 "몇 도부터 나오는가"를 정한다 —
+    /// 병 안 수면을 시뮬레이션하지 않으므로 기하학이 끼어들지 않는다.
+    /// </summary>
+    float FlowRate01()
+    {
+        float fullOpen = Mathf.Max(pourFullOpenAngle, pourStartAngle + 0.01f);
+        return Mathf.Clamp01(Mathf.InverseLerp(pourStartAngle, fullOpen, bottle.CurrentAngle));
+    }
+
+    /// <summary>
+    /// 입구에서 액체를 뿜는다. 방출 간격을 속도에서 유도하는 게 핵심이다 — 간격을 고정값으로 두면
+    /// 유량이 늘 때 파티클이 겹쳐 뭉치거나, 반대로 벌어져 알갱이로 끊어진다.
+    /// "파티클이 spacing만큼 이동할 때마다 한 줄"이라야 줄기가 굵기를 유지한 채 이어진다.
+    /// </summary>
+    void EmitFromNeck(float dt)
+    {
+        float flow01 = FlowRate01();
+
+        if (flow01 <= 0f || (!unlimitedLiquid && remainingInBottle <= 0))
+        {
+            emitAccumulator = 0f;
+            return;
+        }
+
+        float speed = exitSpeed * flow01;
+        if (speed <= 0.001f) return;
+
+        float interval = Spacing / speed;
+
+        emitAccumulator += dt;
+
+        // 물리 스텝 하나에 여러 줄이 나가는 건 유량이 아주 높을 때뿐이라 보통은 0~1줄이다.
+        // 그래도 상한을 둬서 어떤 설정에서도 한 스텝이 뭉텅이가 되지 않게 막는다.
+        int emitted = 0;
+        const int maxRowsPerStep = 4;
+
+        while (emitAccumulator >= interval && emitted < maxRowsPerStep)
+        {
+            emitAccumulator -= interval;
+
+            // 한 프레임에 여러 줄이 나갈 때는 그 줄들이 원래 프레임 '중간중간'에 나갔어야 한다.
+            // 전부 입구에 그대로 놓으면 같은 자리에 겹쳐 쌓여 밀도가 폭발하고, 압력이 사방으로
+            // 튕겨낸다(입구에서 가끔 튀는 원인). 밀린 시간만큼 진행 방향으로 미리 보내주면
+            // 줄 간격이 정확히 spacing이 되어 그냥 이어진 줄기가 된다.
+            EmitRow(speed, emitAccumulator);
+            emitted++;
+        }
+
+        if (emitted >= maxRowsPerStep)
+            emitAccumulator = 0f;
+    }
+
+    /// <summary>
+    /// 입구 폭을 가로질러 한 줄 분량을 내보낸다. 줄기 굵기는 이 줄의 파티클 수가 정한다.
+    /// age는 이 줄이 원래 나갔어야 할 시점부터 지금까지의 시간이다(0이면 지금 막 나간 줄).
+    /// </summary>
+    void EmitRow(float speed, float age)
+    {
+        Transform container = bottle.BottleVisual;
+
+        int lanes = Mathf.Max(1, Mathf.FloorToInt(neckWidthInParticles));
+        float laneStep = neckHalfWidth * 2f / lanes;
+
+        // 입구는 병 로컬 +Y 끝이고, 액체는 그 바깥을 향해 나간다.
+        Vector2 outward = container.up;
+
+        // 밀린 시간만큼 미리 날아간 상태로 놓는다. 위치뿐 아니라 속도도 그동안 중력을 받았어야
+        // 맞다 — 위치만 옮기고 속도를 그대로 두면 뒤따르는 줄과 속도가 어긋나 그 지점에서 뭉친다.
+        Vector2 headStart = outward * (speed * age);
+        Vector2 gravityGain = Vector2.down * (Physics.gravity * age);
+
+        for (int i = 0; i < lanes; i++)
+        {
+            if ((!unlimitedLiquid && remainingInBottle <= 0) || pool.Count == 0) return;
+
+            float localX = (i - (lanes - 1) * 0.5f) * laneStep;
+
+            // 격자처럼 딱 떨어지면 줄기가 기계적으로 보인다. 아주 조금 흔들어준다.
+            float jitter = Random.Range(-0.15f, 0.15f) * laneStep;
+
+            Vector3 localPos = new Vector3(localX + jitter, bottleInteriorHalfExtents.y, 0f);
+            Vector2 worldPos = (Vector2)container.TransformPoint(localPos) + headStart;
+
+            SphParticle particle = pool.Pop();
+            particle.Activate(worldPos);
+            particle.velocity = outward * speed + gravityGain;
+
+            simulation.Register(particle);
+            live.Add(particle);
+
+            remainingInBottle--;
+        }
     }
 
     void Update()
     {
         // 물리는 판정이 끝난 뒤에도 계속 돌린다. 여기서 멈춰버리면 공중에 있던 액체가 그대로 얼어붙어
         // 물리 버그처럼 보인다 — 판정만 멈추고 액체는 잔으로 마저 떨어지게 둔다.
+        // 방출은 StepSimulation 안에서 물리와 같은 시간축으로 돈다(아래 주석 참고).
         StepSimulation();
         liquidRenderer.UpdateBlobs(simulation.ActiveParticles);
 
@@ -236,8 +355,13 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
     /// <summary>
     /// SPH를 고정 시간 간격으로 돌린다. 오일러 적분 + 강한 압력 조합은 dt에 민감해서, Time.deltaTime을
-    /// 그대로 넣으면 프레임이 튈 때 힘이 폭발하거나 기기마다 액체 거동이 달라진다. 한 프레임에 도는
-    /// 스텝 수를 제한해 저사양에서 물리가 프레임을 더 잡아먹는 악순환도 막는다.
+    /// 그대로 넣으면 프레임이 튈 때 힘이 폭발하거나 기기마다 액체 거동이 달라진다.
+    ///
+    /// 방출도 반드시 이 루프 안에서, 같은 fixedStep으로 돌아야 한다. 프레임이 튀면(예: 결과 UI를
+    /// 처음 켜느라 캔버스를 빌드하는 프레임) 물리는 상한에 걸려 33ms만 전진하는데 방출을
+    /// Time.deltaTime으로 돌리면 300ms어치를 내보낸다. 그러면 새 줄기가 '앞으로 감긴' 위치에
+    /// 놓이면서 아직 그 자리에 있는 기존 파티클과 겹쳐 밀도가 폭발하고, 액체가 튄다.
+    /// 같은 시간축을 쓰면 둘이 어긋날 수 없다.
     /// </summary>
     void StepSimulation()
     {
@@ -249,6 +373,7 @@ public class PourManager : MonoBehaviour, IMiniGameController
         int steps = 0;
         while (simulationAccumulator >= fixedStep && steps < maxStepsPerFrame)
         {
+            EmitFromNeck(fixedStep);
             simulation.Tick(fixedStep);
             ConstrainParticles();
 
@@ -262,75 +387,27 @@ public class PourManager : MonoBehaviour, IMiniGameController
     }
 
     /// <summary>
-    /// 파티클을 병/잔 안쪽으로 가두는 유일한 벽 처리다(Unity 물리 콜라이더는 쓰지 않는다 —
-    /// 둘을 같이 쓰면 서로 다른 위치로 밀어대 파티클이 떨렸다).
-    ///
-    /// 병은 회전하기 때문에 "로컬 좌표로 근처인지 판정"을 매 프레임 다시 하면, 이미 입구를 빠져나가
-    /// 자유낙하 중인 파티클도 회전된 로컬 좌표계에서 우연히 벽처럼 보이는 방향으로 떨어지는 걸 계속
-    /// "벽에 부딪힘"으로 오판해 속도를 깎아버릴 수 있다(그래서 허공에 멈춘 것처럼 보였다).
-    /// 그래서 병은 "입구를 한 번이라도 넘었는지"를 SphParticle.exitedBottle에 기록해두고, 넘은 뒤로는
-    /// 다시는 병 기준으로 안 붙잡는다. 잔은 회전하지 않아 이런 문제가 없으므로 매 프레임 재판정해도 안전하다.
+    /// 살아있는 파티클을 잔 안쪽으로 가두고, 잔을 빗나가 떨어진 것은 치운다.
+    /// 병에는 가둘 액체가 없으므로 병 벽 처리도 없다 — 파티클은 입구를 떠난 순간부터 자유낙하다.
     /// </summary>
     void ConstrainParticles()
     {
-        foreach (var p in particles)
+        for (int i = live.Count - 1; i >= 0; i--)
         {
-            if (!p.gameObject.activeSelf) continue;
+            SphParticle p = live[i];
 
-            if (!p.exitedBottle)
-                ConstrainToBottle(p);
+            if (p.pos.y < despawnBelowY)
+            {
+                simulation.Unregister(p);
+                p.Deactivate();
+                pool.Push(p);
+
+                live.RemoveAt(i);
+                continue;
+            }
 
             ConstrainToGlass(p);
         }
-    }
-
-    void ConstrainToBottle(SphParticle particle)
-    {
-        Transform container = bottle.BottleVisual;
-        Vector2 halfExtents = bottleInteriorHalfExtents;
-
-        Vector3 local = container.InverseTransformPoint(particle.pos);
-
-        // 입구(로컬 +Y)를 넘었으면 이제부터 자유낙하 — 다시는 이 파티클을 병 기준으로 재해석하지 않는다.
-        if (local.y > halfExtents.y)
-        {
-            particle.exitedBottle = true;
-            return;
-        }
-
-        // 몸통이 아니라 그 높이의 병목 폭으로 가둔다. 폭이 높이에 따라 연속으로 변하므로
-        // X만 잘라도 액체가 어깨를 타고 통로로 자연스럽게 모여든다.
-        ApplyClamp(particle, container, local, BottleHalfWidthAt(local.y), halfExtents.y);
-    }
-
-    /// <summary>어깨가 시작되는 로컬 Y. 이 아래는 몸통이다.</summary>
-    float ShoulderLocalY() =>
-        Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckStartHeight01);
-
-    /// <summary>어깨가 끝나고 통로가 시작되는 로컬 Y. 거꾸로 적힌 값도 단차(어깨 없음)로 받아준다.</summary>
-    float ChannelLocalY() =>
-        Mathf.Max(ShoulderLocalY(),
-                  Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckChannelHeight01));
-
-    /// <summary>
-    /// 해당 높이에서 병 내부가 허용하는 반너비. 아래에서부터 몸통 → 어깨(사선) → 통로다.
-    /// 구간이 바뀌는 지점마다 값이 이어지므로 폭이 튀는 곳이 없다.
-    /// </summary>
-    float BottleHalfWidthAt(float localY)
-    {
-        float shoulderY = ShoulderLocalY();
-        float channelY = ChannelLocalY();
-
-        // 몸통 — 폭 그대로.
-        if (localY <= shoulderY) return bottleInteriorHalfExtents.x;
-
-        // 어깨 — 몸통 폭에서 통로 폭까지 사선으로 좁아진다.
-        if (localY <= channelY)
-            return Mathf.Lerp(bottleInteriorHalfExtents.x, neckHalfWidth,
-                              Mathf.InverseLerp(shoulderY, channelY, localY));
-
-        // 통로 — 입구까지 같은 폭.
-        return neckHalfWidth;
     }
 
     void ConstrainToGlass(SphParticle particle)
@@ -340,7 +417,7 @@ public class PourManager : MonoBehaviour, IMiniGameController
         Transform container = glassCenter;
         Vector2 halfExtents = glassInteriorHalfExtents;
 
-        // 잔은 회전하지 않으므로, 멀리 있으면(=아직 병 근처거나 낙하 중) 그냥 건드리지 않는다.
+        // 잔은 회전하지 않으므로, 멀리 있으면(=아직 낙하 중) 그냥 건드리지 않는다.
         Vector2 worldHalfExtents = Vector2.Scale(halfExtents, container.lossyScale);
         float gateRadius = worldHalfExtents.magnitude + gateBuffer;
 
@@ -352,8 +429,7 @@ public class PourManager : MonoBehaviour, IMiniGameController
     }
 
     /// <summary>local 좌표를 컨테이너의 좌/우/바닥 안으로 클램프하고(위는 절대 안 막음), 벽을
-    /// 뚫고 나가려던 속도 성분만 제거한다.
-    /// halfWidth를 높이마다 다르게 넘기면 병목처럼 좁아지는 형태가 된다.</summary>
+    /// 뚫고 나가려던 속도 성분만 제거한다.</summary>
     static void ApplyClamp(SphParticle particle, Transform container, Vector3 local, float halfWidth, float halfHeight)
     {
         // 입구보다 위에 있으면 아직 컨테이너 안이 아니다. 이때 좌우로 끌어당기면 잔 옆으로 빗나가야 할
@@ -389,14 +465,25 @@ public class PourManager : MonoBehaviour, IMiniGameController
         }
     }
 
+    // ── 병 모양 (그리기 전용) ───────────────────────────────────────────
+
+    /// <summary>어깨가 시작되는 로컬 Y. 이 아래는 몸통이다.</summary>
+    float ShoulderLocalY() =>
+        Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckStartHeight01);
+
+    /// <summary>어깨가 끝나고 통로가 시작되는 로컬 Y. 거꾸로 적힌 값도 단차(어깨 없음)로 받아준다.</summary>
+    float ChannelLocalY() =>
+        Mathf.Max(ShoulderLocalY(),
+                  Mathf.Lerp(-bottleInteriorHalfExtents.y, bottleInteriorHalfExtents.y, neckChannelHeight01));
+
+    // ── 판정 ────────────────────────────────────────────────────────────
+
     int CountParticlesInGlass()
     {
         int count = 0;
 
-        foreach (var p in particles)
+        foreach (var p in live)
         {
-            if (!p.gameObject.activeSelf) continue;
-
             Vector3 local = glassCenter.InverseTransformPoint(p.pos);
             if (Mathf.Abs(local.x) <= glassInteriorHalfExtents.x && Mathf.Abs(local.y) <= glassInteriorHalfExtents.y)
                 count++;
