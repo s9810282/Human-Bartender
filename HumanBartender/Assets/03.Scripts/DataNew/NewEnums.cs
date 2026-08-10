@@ -139,7 +139,13 @@ public enum ENewSelectionMode
     [EnumMember(Value = "conditional")] Conditional,
     [EnumMember(Value = "sequential")] Sequential,
 }
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewStreetGroup
+{
 
+    [EnumMember(Value = "np_shiba")] Np_shiba,
+    [EnumMember(Value = "")] None,
+}
 /// <summary>주문 규칙 평가 결과를 나타내는 열거형.</summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ENewOrderVerdict

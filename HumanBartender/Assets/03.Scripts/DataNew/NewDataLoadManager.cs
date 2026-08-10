@@ -1,6 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
-using Cysharp.Threading.Tasks;
+using TreeEditor;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -45,6 +46,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
     [SerializeField] NewSpotDataSO spotData;
     [SerializeField] NewTasteDataSO tasteData;
     [SerializeField] NewUIStringDataSO uiStringData;
+    [SerializeField] NewStreetDataSO streetData;
 
     [Header("DataFile Name (json/*.json)")]
     [SerializeField] string balanceFileName = "json/balance.json";
@@ -69,6 +71,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
     [SerializeField] string spotFileName = "json/spots.json";
     [SerializeField] string tasteFileName = "json/tastes.json";
     [SerializeField] string uiStringFileName = "json/ui_strings.json";
+    [SerializeField] string streetFileName = "json/script/street.json";
 
     Dictionary<int, NewDayScriptBase> _dayScriptCache = new();
 
@@ -113,7 +116,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         spotData.spotData = JsonManager<NewSpotData[]>.LoadGameData_StreamingAssets(spotFileName);
         tasteData.tasteData = JsonManager<NewTasteData[]>.LoadGameData_StreamingAssets(tasteFileName);
         uiStringData.uiStringData = JsonManager<Dictionary<string, LocalizedText>>.LoadGameData_StreamingAssets(uiStringFileName);
-
+        streetData = JsonManager<NewStreetDataSO>.LoadGameData_StreamingAssets(streetFileName);
         Logger.Log("[New] Load end");
     }
 
@@ -149,7 +152,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         spotData.spotData = await JsonManager<NewSpotData[]>.LoadAsync<NewSpotData[]>(spotFileName);
         tasteData.tasteData = await JsonManager<NewTasteData[]>.LoadAsync<NewTasteData[]>(tasteFileName);
         uiStringData.uiStringData = await JsonManager<Dictionary<string, LocalizedText>>.LoadAsync<Dictionary<string, LocalizedText>>(uiStringFileName);
-
+        streetData = await JsonManager<NewStreetDataSO>.LoadAsync<NewStreetDataSO>(streetFileName);
         Logger.Log("[New] Load end");
     }
 

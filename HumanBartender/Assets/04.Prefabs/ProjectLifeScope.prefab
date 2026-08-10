@@ -10562,6 +10562,7 @@ MonoBehaviour:
   spotData: {fileID: 11400000, guid: 2aec38dee5aa4aa0bf346a3d87d40428, type: 2}
   tasteData: {fileID: 11400000, guid: 4fed73f749dc492ca5cb7558765b976c, type: 2}
   uiStringData: {fileID: 11400000, guid: 71205796125f439391152ee18d0c6ca7, type: 2}
+  streetData: {fileID: 11400000, guid: c8fee4a984072cf4591e1c219a36020d, type: 2}
   balanceFileName: json/balance.json
   barkFileName: json/barks.json
   characterFileName: json/characters.json
@@ -10584,6 +10585,7 @@ MonoBehaviour:
   spotFileName: json/spots.json
   tasteFileName: json/tastes.json
   uiStringFileName: json/ui_strings.json
+  streetFileName: json/script/street.json
 --- !u!1 &7276943955447727398
 GameObject:
   m_ObjectHideFlags: 0
