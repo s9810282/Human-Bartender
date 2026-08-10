@@ -119,6 +119,58 @@
       ]
     },
     {
+      "id": "d1_note",
+      "day": 1,
+      "phase": "home",
+      "seq": 0,
+      "trigger": "interact",
+      "when": "!flag.d1_note_read",
+      "title": "크리스의 쪽지",
+      "skippable": false,
+      "group": "",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "luna",
+          "arg": "default",
+          "text": {
+            "ko": "(테이블 위에 쪽지가 놓여 있다.)",
+            "en": "(There's a note on the table.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "luna",
+          "arg": "default",
+          "text": {
+            "ko": "「먼저 나간다. 가게로 와라.\n길은 어제 알려준 대로. — 크리스」",
+            "en": "\"Went ahead. Come to the bar.\nThe way I showed you yesterday. — Chris\""
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "arg": "default",
+          "text": {
+            "ko": "(…출근이라는 걸, 해보자.)",
+            "en": "(...Time to try this thing called 'going to work.')"
+          },
+          "when": null,
+          "effects": "flag.d1_note_read = true",
+          "sync": "wait"
+        }
+      ]
+    },
+    {
       "id": "d1_home_talk",
       "day": 1,
       "phase": "home",
