@@ -116,7 +116,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         spotData.spotData = JsonManager<NewSpotData[]>.LoadGameData_StreamingAssets(spotFileName);
         tasteData.tasteData = JsonManager<NewTasteData[]>.LoadGameData_StreamingAssets(tasteFileName);
         uiStringData.uiStringData = JsonManager<Dictionary<string, LocalizedText>>.LoadGameData_StreamingAssets(uiStringFileName);
-        streetData = JsonManager<NewStreetDataSO>.LoadGameData_StreamingAssets(streetFileName);
+        streetData.newStreetData = JsonManager<NewStreetData>.LoadGameData_StreamingAssets(streetFileName);
         Logger.Log("[New] Load end");
     }
 
@@ -152,7 +152,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         spotData.spotData = await JsonManager<NewSpotData[]>.LoadAsync<NewSpotData[]>(spotFileName);
         tasteData.tasteData = await JsonManager<NewTasteData[]>.LoadAsync<NewTasteData[]>(tasteFileName);
         uiStringData.uiStringData = await JsonManager<Dictionary<string, LocalizedText>>.LoadAsync<Dictionary<string, LocalizedText>>(uiStringFileName);
-        streetData = await JsonManager<NewStreetDataSO>.LoadAsync<NewStreetDataSO>(streetFileName);
+        streetData.newStreetData = await JsonManager<NewStreetData>.LoadAsync<NewStreetData>(streetFileName);
         Logger.Log("[New] Load end");
     }
 

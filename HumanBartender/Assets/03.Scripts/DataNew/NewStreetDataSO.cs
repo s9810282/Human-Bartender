@@ -52,17 +52,18 @@ public struct ChoiceDatas
     [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
     [field: SerializeField][JsonProperty("options")] public ChoiceOption[] Options { get; set; }
 }
+[Serializable]
 public struct NewStreetData
 {
 
     [field: SerializeField][JsonProperty("place")] public string Place { get; set; }
     [field: SerializeField][JsonProperty("scenes")] public NewSceneData[] Scenes { get; set; }
-
-    [field: SerializeField][JsonProperty("choices")]public ChoiceDatas[] Choices { get; set; }
+    [field: SerializeField][JsonProperty("choices")]public Dictionary<string, ChoiceOption[]> Choices { get; set; }
 }
 /// <summary>Street.json 단일 객체 구조와 1:1 대응되는 ScriptableObject</summary>
 [CreateAssetMenu(fileName = "NewStreetDataSO", menuName = "Data/New/StreetDataSO")]
 [Serializable]
 public class NewStreetDataSO : ScriptableObject
 {
+    public NewStreetData newStreetData;
 }
