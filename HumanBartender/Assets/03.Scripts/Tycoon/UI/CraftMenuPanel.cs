@@ -132,8 +132,8 @@ public class CraftMenuPanel : MonoBehaviour
         if (cocktail.Tags == null) return;
 
         foreach (var tag in cocktail.Tags)
-            if (!string.IsNullOrEmpty(tag))
-                CreateTagChip(tag);
+            if (!string.IsNullOrEmpty(tag.Ko))
+                CreateTagChip(tag.Ko);
     }
 
     static string GetMixLabel(ENewMixMethod mix) => mix switch

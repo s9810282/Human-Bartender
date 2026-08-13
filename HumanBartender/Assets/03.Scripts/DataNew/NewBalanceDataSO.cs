@@ -35,11 +35,18 @@ public struct NewBalanceConfig
     [field: SerializeField][JsonProperty("sfx_drink_high")] public string SfxDrinkHigh { get; set; }
     [field: SerializeField][JsonProperty("sfx_drink_mid")] public string SfxDrinkMid { get; set; }
     [field: SerializeField][JsonProperty("sfx_drink_low")] public string SfxDrinkLow { get; set; }
+    [field: SerializeField][JsonProperty("sfx_serve")] public string SfxServe { get; set; }
     [field: SerializeField][JsonProperty("idle_min_sec")] public float IdleMinSec { get; set; }
     [field: SerializeField][JsonProperty("idle_max_sec")] public float IdleMaxSec { get; set; }
     [field: SerializeField][JsonProperty("order_bark_gap_sec")] public float OrderBarkGapSec { get; set; }
     [field: SerializeField][JsonProperty("street_auto_next_delay_sec")] public float StreetAutoNextDelaySec { get; set; }
     [field: SerializeField][JsonProperty("street_typing_interval_ms")] public int StreetTypingIntervalMs { get; set; }
+
+    // ── 스터 기믹 ────────────────────────────────────────────────────────
+    // 모든 스터 칵테일에 공통으로 적용한다. 성공에 필요한 입력 수(4회)는 4방위를 도는 게임의
+    // 구조 자체라서 데이터로 빼지 않고 고정값으로 둔다.
+    [field: SerializeField][JsonProperty("stir_stacks")] public int StirStacks { get; set; }
+    [field: SerializeField][JsonProperty("stir_stack_sec")] public float StirStackSec { get; set; }
 }
 
 [Serializable]
