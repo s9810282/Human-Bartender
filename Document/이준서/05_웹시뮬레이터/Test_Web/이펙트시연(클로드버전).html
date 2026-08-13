@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L.U.N.A — 이펙트 시연</title>
+<style>
+  :root{
+    --bg:#08090d; --panel:#111319; --panel-2:#171a22; --line:#262b38;
+    --gold:#f2c14e; --text:#e9ebf2; --text-dim:#8890a4;
+    --good:#38d47a; --bad:#ff5c6c; --cyan:#7ff0ea; --purple:#8f86e8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    min-height:100vh; display:flex; justify-content:center;
+    padding:24px 16px 60px;
+  }
+  .app{width:100%;max-width:980px;}
+  h1{font-size:20px;font-weight:700;margin:0 0 4px;}
+  .sub{color:var(--text-dim);font-size:13px;margin:0 0 18px;line-height:1.7;}
+  .sub b{color:var(--gold);font-weight:600;}
+
+  .fx-card{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; overflow:hidden; margin-bottom:22px;
+  }
+  .fx-head{
+    display:flex; align-items:baseline; gap:10px;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+  }
+  .fx-no{font-size:12px;color:var(--purple);font-weight:800;letter-spacing:.08em;}
+  .fx-title{font-size:15px;font-weight:700;}
+  .fx-desc{font-size:12px;color:var(--text-dim);margin-left:auto;}
+
+  .stage{
+    position:relative; width:100%; aspect-ratio:12/5;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 42%, #101722 0%, #0a0d13 70%, #07080c 100%);
+    overflow:hidden; user-select:none;
+  }
+  .stage::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,0.014) 0 1px, transparent 1px 4px);
+  }
+  .stage canvas{position:absolute; inset:0; width:100%; height:100%;}
+
+  .fx-controls{
+    display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center;
+    padding:12px 18px 14px; border-top:1px solid var(--line);
+  }
+  button{
+    background:var(--panel-2); border:1px solid var(--line); color:var(--text);
+    border-radius:8px; padding:8px 16px; font-size:13px; font-weight:700;
+    font-family:inherit; cursor:pointer;
+  }
+  button:hover{border-color:var(--cyan); color:var(--cyan);}
+  button.warn:hover{border-color:var(--bad); color:var(--bad);}
+  label.file{
+    background:var(--panel-2); border:1px dashed var(--line); color:var(--text-dim);
+    border-radius:8px; padding:8px 16px; font-size:13px; cursor:pointer;
+  }
+  label.file:hover{border-color:var(--gold); color:var(--gold);}
+  input[type=file]{display:none;}
+  .row{display:flex; gap:8px; align-items:center;}
+  .row .lb{font-size:12px;color:var(--text-dim);white-space:nowrap;}
+  input[type=range]{width:130px;accent-color:#0a4bf5;}
+  .row .vv{font-size:12px;color:var(--gold);min-width:44px;text-align:right;font-variant-numeric:tabular-nums;}
+  .hint{font-size:11px;color:var(--text-dim);width:100%;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>L.U.N.A — 이펙트 시연</h1>
+  <p class="sub">
+    요청한 이펙트를 모아 보는 페이지. 항목이 늘어나면 카드가 아래로 추가된다.
+  </p>
+
+  <!-- ══ 01 타이틀 로고 ══ -->
+  <div class="fx-card">
+    <div class="fx-head">
+      <span class="fx-no">FX 01</span>
+      <span class="fx-title">타이틀 로고 — 등장 + 네온 점멸</span>
+      <span class="fx-desc">숨김 → 글리치/페이드 등장 → LUNA 랜덤 한 글자 소등·점등</span>
+    </div>
+    <div class="stage" id="logoStage">
+      <canvas id="logoCanvas"></canvas>
+    </div>
+    <div class="fx-controls">
+      <button id="btnGlitch">글리치 등장</button>
+      <button id="btnFade">페이드 등장</button>
+      <button id="btnHide" class="warn">숨기기</button>
+      <label class="file">로고 PNG 불러오기<input type="file" id="pngInput" accept="image/png"></label>
+      <span class="row"><span class="lb">점멸 간격</span><input type="range" id="gapSlider" min="20" max="80" value="45" step="5"><span class="vv" id="gapV">4.5s</span></span>
+      <span class="row"><span class="lb">꺼짐 유지</span><input type="range" id="offSlider" min="3" max="20" value="8" step="1"><span class="vv" id="offV">0.8s</span></span>
+      <span class="hint">
+        PNG를 불러오면 글자 영역을 자동 감지해(투명 배경 기준) 한 글자씩 끈다 —
+        감지가 어긋나면 기본 재현 로고로 시연. 점멸은 등장이 끝난 뒤부터 랜덤 글자 하나씩 돈다.
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+/* ══════════ FX 01 — 타이틀 로고 ══════════ */
+(() => {
+  const canvas = $("logoCanvas");
+  const ctx = canvas.getContext("2d");
+
+  /* ── 로고 소스 (오프스크린) ─────────────────
+     기본 = 텍스트 재현 로고. PNG를 불러오면 그걸로 교체한다.
+     letters = 점멸 대상 글자의 소스 사각형(L·U·N·A) */
+  let src = null;              // 원본 로고 (풀 밝기)
+  let letters = [];            // [{sx, sy, sw, sh}]
+  let comp = null;             // 글자별 알파를 반영한 합성본
+  let compCtx = null;
+
+  function buildDefaultLogo(){
+    const W = 1200, H = 500;
+    const c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    const g = c.getContext("2d");
+    g.fillStyle = "#f2f6f5";
+    g.textBaseline = "alphabetic";
+
+    /* PROJECT — 점멸 없음 */
+    g.font = "700 44px Pretendard, sans-serif";
+    const small = "P R O J E C T";
+    g.fillText(small, (W - g.measureText(small).width) / 2, 110);
+
+    /* L.U.N.A — 글자별 사각형 기록 */
+    g.font = "900 230px Pretendard, sans-serif";
+    const chars = ["L", ".", "U", ".", "N", ".", "A"];
+    const widths = chars.map(ch => g.measureText(ch).width);
+    const gap = 14;
+    const total = widths.reduce((a, b) => a + b, 0) + gap * (chars.length - 1);
+    let x = (W - total) / 2;
+    const baseY = 360;
+    letters = [];
+    chars.forEach((ch, i) => {
+      g.fillText(ch, x, baseY);
+      if (ch !== "."){
+        letters.push({sx: x - 8, sy: baseY - 230, sw: widths[i] + 16, sh: 290});
+      }
+      x += widths[i] + gap;
+    });
+    src = c;
+    rebuildComp();
+  }
+
+  /* PNG 로드 — 알파 스캔으로 가장 큰 글자 행을 찾아 글자 4개를 감지 */
+  function detectLetters(img){
+    const W = img.width, H = img.height;
+    const c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    const g = c.getContext("2d");
+    g.drawImage(img, 0, 0);
+    const data = g.getImageData(0, 0, W, H).data;
+
+    const rowCount = new Array(H).fill(0);
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++)
+        if (data[(y * W + x) * 4 + 3] > 40) rowCount[y]++;
+
+    /* 가장 두꺼운 연속 행 묶음 = 큰 글자 줄(LUNA) */
+    let bandY0 = 0, bandY1 = H - 1, best = -1;
+    let y = 0;
+    while (y < H){
+      if (rowCount[y] > W * 0.01){
+        let y2 = y, mass = 0;
+        while (y2 < H && rowCount[y2] > W * 0.005){ mass += rowCount[y2]; y2++; }
+        if (mass > best){ best = mass; bandY0 = y; bandY1 = y2 - 1; }
+        y = y2;
+      } else y++;
+    }
+
+    /* 밴드 안에서 열 클러스터 → 폭이 큰 4개가 L·U·N·A */
+    const colCount = new Array(W).fill(0);
+    for (let x = 0; x < W; x++)
+      for (let yy = bandY0; yy <= bandY1; yy++)
+        if (data[(yy * W + x) * 4 + 3] > 40) colCount[x]++;
+    const clusters = [];
+    let x0 = -1;
+    const minGap = Math.max(3, W * 0.008);
+    let gapRun = 0;
+    for (let x = 0; x < W; x++){
+      if (colCount[x] > 0){
+        if (x0 < 0) x0 = x;
+        gapRun = 0;
+      } else if (x0 >= 0){
+        gapRun++;
+        if (gapRun >= minGap){ clusters.push([x0, x - gapRun]); x0 = -1; gapRun = 0; }
+      }
+    }
+    if (x0 >= 0) clusters.push([x0, W - 1]);
+
+    const sorted = clusters.slice().sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]));
+    const four = sorted.slice(0, 4).sort((a, b) => a[0] - b[0]);
+    if (four.length < 4) return null;
+    const pad = Math.round(W * 0.004);
+    return four.map(cl => ({
+      sx: cl[0] - pad, sy: bandY0 - pad,
+      sw: cl[1] - cl[0] + pad * 2, sh: bandY1 - bandY0 + pad * 2,
+    }));
+  }
+
+  $("pngInput").addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const img = new Image();
+    img.onload = () => {
+      const det = detectLetters(img);
+      const c = document.createElement("canvas");
+      c.width = img.width; c.height = img.height;
+      c.getContext("2d").drawImage(img, 0, 0);
+      src = c;
+      letters = det || [];   // 감지 실패 시 점멸 없이 등장만
+      rebuildComp();
+      playEntrance("glitch");
+    };
+    img.src = URL.createObjectURL(file);
+  });
+
+  function rebuildComp(){
+    comp = document.createElement("canvas");
+    comp.width = src.width; comp.height = src.height;
+    compCtx = comp.getContext("2d");
+  }
+
+  /* ── 상태 ────────────────────────────────── */
+  const S = {
+    mode: "hidden",            // hidden | glitch | fade | on
+    modeT: 0,                  // 등장 진행 시각(초)
+    gapSec: 4.5, offSec: 0.8,
+    nextFlicker: 0,            // 다음 점멸 시각 (elapsed 기준)
+    flickerLetter: -1,         // 점멸 중인 글자 인덱스
+    flickerT: 0,               // 점멸 경과(초)
+    lastLetter: -1,
+    elapsed: 0,
+  };
+  const BUZZ_IN = 0.4, BUZZ_OUT = 0.3;   // 소등 전·점등 버즈 길이
+
+  function playEntrance(kind){
+    S.mode = kind; S.modeT = 0;
+    S.flickerLetter = -1;
+    S.nextFlicker = 0;
+  }
+  $("btnGlitch").addEventListener("click", () => playEntrance("glitch"));
+  $("btnFade").addEventListener("click", () => playEntrance("fade"));
+  $("btnHide").addEventListener("click", () => { S.mode = "hidden"; S.flickerLetter = -1; });
+  $("gapSlider").addEventListener("input", e => {
+    S.gapSec = e.target.value / 10; $("gapV").textContent = S.gapSec.toFixed(1) + "s";
+  });
+  $("offSlider").addEventListener("input", e => {
+    S.offSec = e.target.value / 10; $("offV").textContent = S.offSec.toFixed(1) + "s";
+  });
+
+  /* ── 점멸 스케줄러 ───────────────────────── */
+  function scheduleNext(){
+    S.nextFlicker = S.elapsed + S.gapSec * (0.85 + Math.random() * 0.3);
+  }
+  function flickerAlpha(ft){
+    /* 반환: 점멸 중 글자의 알파. 끝나면 null */
+    if (ft < BUZZ_IN)
+      return (Math.floor(ft / 0.04) % 2 === 0) ? 0.85 : 0.18;
+    if (ft < BUZZ_IN + S.offSec) return 0.05;
+    if (ft < BUZZ_IN + S.offSec + BUZZ_OUT)
+      return (Math.floor(ft / 0.045) % 2 === 0) ? 0.25 : 0.95;
+    return null;
+  }
+
+  /* ── 합성: 글자별 알파를 comp에 반영 ───────── */
+  function drawComp(letterAlphas){
+    compCtx.clearRect(0, 0, comp.width, comp.height);
+    compCtx.globalAlpha = 1;
+    compCtx.drawImage(src, 0, 0);
+    letters.forEach((L, i) => {
+      const a = letterAlphas[i];
+      if (a >= 1) return;
+      compCtx.clearRect(L.sx, L.sy, L.sw, L.sh);
+      if (a > 0){
+        compCtx.globalAlpha = a;
+        compCtx.drawImage(src, L.sx, L.sy, L.sw, L.sh, L.sx, L.sy, L.sw, L.sh);
+        compCtx.globalAlpha = 1;
+      }
+    });
+  }
+
+  /* ── 렌더 ────────────────────────────────── */
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    const s = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.round(r.width * s));
+    canvas.height = Math.max(1, Math.round(r.height * s));
+    ctx.setTransform(s, 0, 0, s, 0, 0);
+  }
+  new ResizeObserver(resize).observe(canvas);
+  resize();
+
+  function fitRect(){
+    const r = canvas.getBoundingClientRect();
+    const scale = Math.min(r.width * 0.72 / src.width, r.height * 0.72 / src.height);
+    const w = src.width * scale, h = src.height * scale;
+    return {x: (r.width - w) / 2, y: (r.height - h) / 2, w, h, vw: r.width, vh: r.height};
+  }
+
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min((now - last) / 1000, 0.05); last = now;
+    S.elapsed += dt;
+    const R = fitRect();
+    ctx.clearRect(0, 0, R.vw, R.vh);
+
+    if (S.mode === "hidden"){ requestAnimationFrame(frame); return; }
+
+    /* 글자 알파 결정 */
+    const alphas = letters.map(() => 1);
+    if (S.mode === "on" && letters.length){
+      if (S.flickerLetter >= 0){
+        S.flickerT += dt;
+        const a = flickerAlpha(S.flickerT);
+        if (a === null){ S.flickerLetter = -1; scheduleNext(); }
+        else alphas[S.flickerLetter] = a;
+      } else {
+        if (S.nextFlicker === 0) scheduleNext();
+        else if (S.elapsed >= S.nextFlicker){
+          let pick = Math.floor(Math.random() * letters.length);
+          if (letters.length > 1 && pick === S.lastLetter)
+            pick = (pick + 1) % letters.length;
+          S.flickerLetter = pick; S.lastLetter = pick; S.flickerT = 0;
+        }
+      }
+    }
+    drawComp(alphas);
+
+    if (S.mode === "fade"){
+      S.modeT += dt;
+      const p = Math.min(1, S.modeT / 2.4);
+      ctx.save();
+      ctx.globalAlpha = p * p;
+      ctx.filter = `blur(${(1 - p) * 7}px)`;
+      ctx.shadowColor = "rgba(127,240,234,0.55)";
+      ctx.shadowBlur = 26 * p;
+      ctx.drawImage(comp, R.x, R.y, R.w, R.h);
+      ctx.restore();
+      if (p >= 1){ S.mode = "on"; scheduleNext(); }
+    }
+    else if (S.mode === "glitch"){
+      S.modeT += dt;
+      const p = Math.min(1, S.modeT / 1.7);
+      const blank = Math.random() < 0.28 * (1 - p);
+      if (!blank){
+        const slices = 9;
+        const amp = 46 * (1 - p) * (0.4 + Math.random() * 0.6);
+        const split = 8 * (1 - p);
+        for (let i = 0; i < slices; i++){
+          const sy = comp.height * i / slices;
+          const sh = comp.height / slices;
+          const dy = R.y + R.h * i / slices;
+          const dh = R.h / slices;
+          const dx = (Math.random() - 0.5) * amp;
+          /* RGB 스플릿 — 붉은/청록 잔상 */
+          ctx.save();
+          ctx.globalCompositeOperation = "lighter";
+          ctx.globalAlpha = 0.42;
+          ctx.filter = "drop-shadow(0 0 1px rgba(255,60,90,0.9)) opacity(0.6)";
+          ctx.drawImage(comp, 0, sy, comp.width, sh, R.x + dx - split, dy, R.w, dh);
+          ctx.filter = "drop-shadow(0 0 1px rgba(80,240,255,0.9)) opacity(0.6)";
+          ctx.drawImage(comp, 0, sy, comp.width, sh, R.x + dx + split, dy, R.w, dh);
+          ctx.restore();
+          ctx.globalAlpha = 0.35 + p * 0.65;
+          ctx.drawImage(comp, 0, sy, comp.width, sh, R.x + dx, dy, R.w, dh);
+          ctx.globalAlpha = 1;
+        }
+        /* 노이즈 라인 */
+        if (Math.random() < 0.5 * (1 - p) + 0.05){
+          ctx.fillStyle = `rgba(127,240,234,${0.06 + Math.random() * 0.1})`;
+          const ny = R.y + Math.random() * R.h;
+          ctx.fillRect(0, ny, R.vw, 1 + Math.random() * 2);
+        }
+      }
+      if (p >= 1){ S.mode = "on"; scheduleNext(); }
+    }
+    else { /* on — 정착 상태: 네온 글로우 + 미세 흔들림 */
+      const breathe = 0.92 + 0.08 * Math.sin(S.elapsed * 1.7);
+      ctx.save();
+      ctx.shadowColor = "rgba(127,240,234,0.5)";
+      ctx.shadowBlur = 24 * breathe;
+      ctx.drawImage(comp, R.x, R.y, R.w, R.h);
+      ctx.restore();
+      /* 은은한 바닥 반사광 */
+      ctx.save();
+      ctx.globalAlpha = 0.05 * breathe;
+      ctx.filter = "blur(14px)";
+      ctx.scale(1, -0.4);
+      ctx.drawImage(comp, R.x, -(R.y + R.h * 3.6), R.w, R.h);
+      ctx.restore();
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  buildDefaultLogo();
+  playEntrance("glitch");
+  requestAnimationFrame(frame);
+  last = performance.now();
+
+  window.__fx1 = {S, playEntrance, letters: () => letters,
+    step(t){ frame.call(null, t); },  // 테스트용 수동 프레임 (rAF 중복 주의: 검증에만 사용)
+  };
+})();
+</script>
+</body>
+</html>

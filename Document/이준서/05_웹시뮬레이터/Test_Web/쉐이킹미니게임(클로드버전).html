@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쉐이킹 기믹 — 노드 타이밍 + 스택 판정</title>
+<style>
+  :root{
+    --bg:#08090d; --panel:#111319; --panel-2:#171a22; --line:#262b38;
+    --blue:#0a4bf5; --blue-soft:#3d6bff; --gold:#f2c14e;
+    --text:#e9ebf2; --text-dim:#8890a4;
+    --good:#38d47a; --bad:#ff5c6c; --cyan:#7ff0ea; --purple:#8f86e8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    min-height:100vh; display:flex; justify-content:center;
+    padding:24px 16px 60px;
+  }
+  .app{width:100%;max-width:980px;}
+  h1{font-size:19px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em;}
+  .sub{color:var(--text-dim);font-size:13px;margin:0 0 16px;line-height:1.7;}
+  .sub b{color:var(--gold);font-weight:600;}
+
+  .stage{
+    position:relative; width:100%; aspect-ratio:16/9;
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:#10141c; user-select:none;
+  }
+  .stage svg.main{position:absolute; inset:0; width:100%; height:100%;}
+  .stage.wrong svg.main{animation:sceneShake 260ms ease-in-out;}
+  @keyframes sceneShake{
+    0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);}
+    55%{transform:translateX(4px);} 80%{transform:translateX(-2px);}
+  }
+  .judge{
+    position:absolute; left:31%; top:38%; transform:translate(-50%,-50%) scale(0.8);
+    font-size:32px; font-weight:800; opacity:0; pointer-events:none; z-index:5;
+    text-shadow:0 2px 14px rgba(0,0,0,.7);
+  }
+  .judge.pop{animation:judgePop 550ms ease-out;}
+  @keyframes judgePop{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(0.7);}
+    18%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+    70%{opacity:1;}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1);}
+  }
+  .finishBtn{
+    position:absolute; right:2.4%; bottom:4.5%; z-index:6;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--text-dim);
+    border-radius:10px; padding:10px 22px; font-size:15px; font-weight:700;
+    font-family:inherit; cursor:not-allowed; opacity:.45;
+  }
+  .finishBtn.ready{
+    cursor:pointer; opacity:1; color:#1b1405; background:var(--gold);
+    border-color:var(--gold); animation:btnPulse 1.1s ease-in-out infinite;
+  }
+  @keyframes btnPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(242,193,78,.45);}
+    50%{box-shadow:0 0 0 9px rgba(242,193,78,0);}
+  }
+  .result{
+    position:absolute; inset:0; z-index:8; display:none;
+    background:rgba(6,8,12,.82); backdrop-filter:blur(2px);
+    flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  }
+  .result.show{display:flex;}
+  .result .grade{font-size:52px;font-weight:800;letter-spacing:.02em;}
+  .result .pct{font-size:20px;color:var(--text);}
+  .result .detail{font-size:14px;color:var(--text-dim);line-height:1.8;text-align:center;}
+  .result button{
+    margin-top:10px; background:var(--panel-2); border:1px solid var(--line);
+    color:var(--text); border-radius:8px; padding:9px 20px; font-size:14px;
+    font-family:inherit; cursor:pointer;
+  }
+  .keyhint{
+    position:absolute; left:2%; bottom:3.5%; font-size:12px; color:var(--text-dim); z-index:4;
+  }
+  .kbd{
+    display:inline-block; background:rgba(23,26,34,.85); border:1px solid var(--line);
+    border-bottom-width:2px; border-radius:6px; padding:2px 7px;
+    font-size:11px; font-weight:700; color:var(--text); margin:0 2px;
+  }
+  .panel{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:14px 20px 12px; margin-top:14px;
+  }
+  .row{display:flex;gap:10px;align-items:center;margin-bottom:6px;}
+  .slider-label{font-size:13px;color:var(--text-dim);min-width:110px;}
+  input[type=range]{flex:1;accent-color:var(--blue);min-width:120px;}
+  .slider-value{font-size:13px;color:var(--gold);min-width:64px;text-align:right;font-variant-numeric:tabular-nums;}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>쉐이킹 기믹 — 노드 타이밍 + 스택 판정</h1>
+  <p class="sub">
+    엔진(ShakingManagerNew) 구조 이식 — 커서가 <b>4개 점을 비트에 맞춰 왕복</b>(0→1→2→3→2→1)하고,
+    끝점에 닿을 때마다 점 사이의 노드 패턴이 초기화·재생성된다.
+    점이나 노드 위에서 <b>Space</b> = 성공 스택, 빈 곳 = 실패 스택 — 지나침은 실패가 아니다.
+    스택 <b id="subTotal">20</b>개가 차거나 실패가 한계를 넘으면 종료.
+  </p>
+
+  <div class="stage" id="stage">
+    <svg class="main" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="rightClip"><polygon points="570,0 960,0 960,540 770,540"/></clipPath>
+      </defs>
+
+      <!-- ── 좌: 기믹 영역 ── -->
+      <rect x="0" y="0" width="960" height="540" fill="#10141c"/>
+
+      <!-- HUD 3칸 -->
+      <g font-weight="700">
+        <rect x="24" y="18" width="150" height="34" rx="8" fill="#171a22" stroke="#262b38"/>
+        <text x="38" y="40" font-size="13" fill="#8890a4">시간</text>
+        <text id="hudTime" x="160" y="40" font-size="14" fill="#f2c14e" text-anchor="end">0.0s</text>
+        <rect x="188" y="18" width="150" height="34" rx="8" fill="#171a22" stroke="#262b38"/>
+        <text x="202" y="40" font-size="13" fill="#8890a4">스택</text>
+        <text id="hudStack" x="324" y="40" font-size="14" fill="#f2c14e" text-anchor="end">0 / 20</text>
+        <rect x="352" y="18" width="150" height="34" rx="8" fill="#171a22" stroke="#262b38"/>
+        <text x="366" y="40" font-size="13" fill="#8890a4">성공·실패</text>
+        <text id="hudJudge" x="488" y="40" font-size="14" text-anchor="end"><tspan fill="#38d47a">0</tspan><tspan fill="#8890a4"> / </tspan><tspan fill="#ff5c6c">0</tspan></text>
+      </g>
+
+      <!-- 노드 트랙 — 지그재그 사선(점 4개 = 정적 노드) + 패턴 노드 -->
+      <g id="trackG">
+        <polyline id="trackLine" points="" fill="none" stroke="#7ff0ea" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+        <g id="staticDots"></g>
+        <g id="nodes"></g>
+        <g id="fx"></g>
+        <g id="cursorG">
+          <circle id="cursorGlow" cx="90" cy="120" r="17" fill="#f2c14e" opacity="0.22"/>
+          <circle id="cursorDot" cx="90" cy="120" r="9" fill="#f2c14e"/>
+        </g>
+      </g>
+      <text id="startTxt" x="305" y="82" font-size="17" font-weight="800" fill="#f2c14e" text-anchor="middle">SPACE를 눌러 시작 — 점·노드 위에서 SPACE</text>
+
+      <!-- ── 우: 캐릭터 쉐이킹 연출 (사선 클립) ── -->
+      <g clip-path="url(#rightClip)">
+        <rect x="560" y="0" width="400" height="540" fill="#151a24"/>
+        <line x1="560" y1="70" x2="960" y2="70" stroke="#1d2430" stroke-width="2"/>
+        <g opacity="0.5">
+          <rect x="650" y="26" width="14" height="44" rx="3" fill="#232d42"/>
+          <rect x="676" y="16" width="12" height="54" rx="3" fill="#2a3550"/>
+          <rect x="898" y="22" width="14" height="48" rx="3" fill="#2a3550"/>
+          <rect x="926" y="30" width="12" height="40" rx="3" fill="#232d42"/>
+        </g>
+
+        <!-- 몸통: 조끼 + 셔츠 칼라 -->
+        <path d="M780 214 Q794 196 830 192 L890 196 Q928 206 936 238 L940 460 L766 460 Q764 310 780 214 Z" fill="#232d42"/>
+        <path d="M822 196 L840 216 L854 196 Z" fill="#f4f6f9"/>
+        <rect x="928" y="252" width="5" height="64" rx="2" fill="#7ff0ea" opacity="0.4"/>
+
+        <!-- 목 + 머리 (측면 · 왼쪽을 본다) -->
+        <rect x="820" y="172" width="28" height="30" fill="#e8c49a"/>
+        <g id="headG">
+          <ellipse cx="836" cy="136" rx="35" ry="39" fill="#e8c49a"/>
+          <path d="M802 134 L792 144 L804 150 Z" fill="#e8c49a"/>
+          <path d="M868 102 Q882 132 874 172 L858 180 Q868 142 860 108 Z" fill="#c3c9d4"/>
+          <path d="M871 110 Q869 74 834 70 Q798 72 794 108 Q792 126 799 134 L806 114 L814 132 L823 110 L831 128 L840 110 Q854 120 871 126 Z" fill="#d6dbe2"/>
+          <line x1="806" y1="140" x2="819" y2="138" stroke="#3a3f4e" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M810 158 Q816 162 823 160" fill="none" stroke="#b98b62" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="855" cy="142" r="6" fill="#dcb489"/>
+        </g>
+
+        <!-- 팔 (JS가 매 프레임 갱신) -->
+        <path id="armBot" d="" fill="none" stroke="#e8c49a" stroke-width="17" stroke-linecap="round"/>
+        <path id="armTop" d="" fill="none" stroke="#e8c49a" stroke-width="17" stroke-linecap="round"/>
+
+        <!-- 스피드 스트릭 -->
+        <path id="streaks" d="" fill="none" stroke="#7ff0ea" stroke-width="3" stroke-linecap="round" opacity="0"/>
+
+        <!-- 보스턴 쉐이커 (로컬 좌표 · JS가 위치/회전 갱신) -->
+        <g id="shakerG">
+          <path d="M-21 -54 L21 -54 L26 -4 L-26 -4 Z" fill="#b9c2d8" stroke="#96a0b8" stroke-width="2"/>
+          <rect x="-13" y="-72" width="26" height="20" rx="7" fill="#dfe3ea" stroke="#96a0b8" stroke-width="2"/>
+          <path d="M-26 -6 L26 -6 L19 80 L-19 80 Z" fill="#cbd3e8" stroke="#96a0b8" stroke-width="2"/>
+          <line x1="-15" y1="2" x2="-10" y2="72" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <circle id="handBot" cx="0" cy="0" r="13" fill="#e8c49a"/>
+        <circle id="handTop" cx="0" cy="0" r="12.5" fill="#e8c49a"/>
+
+        <rect x="560" y="460" width="400" height="80" fill="#232d42"/>
+        <line x1="560" y1="460" x2="960" y2="460" stroke="#2e3a50" stroke-width="2"/>
+      </g>
+
+      <!-- 사선 게이지 (\ 방향, 아래에서 위로 차오름) -->
+      <g id="gaugeG">
+        <line x1="756" y1="512" x2="588" y2="42" stroke="#0a0c11" stroke-width="20" stroke-linecap="round"/>
+        <line id="gaugeBg" x1="756" y1="512" x2="588" y2="42" stroke="#232d42" stroke-width="14" stroke-linecap="round"/>
+        <g id="gaugeSegs"></g>
+        <g id="gaugeTicks"></g>
+      </g>
+    </svg>
+
+    <div class="judge" id="judge">NICE</div>
+    <button class="finishBtn" id="finishBtn">종료</button>
+    <div class="keyhint"><span class="kbd">Space</span> 판정 · <span class="kbd">R</span> 다시</div>
+
+    <div class="result" id="result">
+      <div class="grade" id="rGrade">GOOD</div>
+      <div class="pct" id="rPct">완성도 70%</div>
+      <div class="detail" id="rDetail"></div>
+      <button id="rRetry">다시 (R)</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <span class="slider-label">목표 스택</span>
+      <input type="range" id="totalSlider" min="8" max="32" value="20" step="1">
+      <span class="slider-value" id="totalSliderV">20개</span>
+    </div>
+    <div class="row">
+      <span class="slider-label">커서 BPM</span>
+      <input type="range" id="bpmSlider" min="40" max="180" value="60" step="5">
+      <span class="slider-value" id="bpmSliderV">60</span>
+    </div>
+    <div class="row">
+      <span class="slider-label">판정 반경</span>
+      <input type="range" id="hitSlider" min="18" max="60" value="30" step="2">
+      <span class="slider-value" id="hitSliderV">30px</span>
+    </div>
+    <div class="row">
+      <span class="slider-label">실패 한계</span>
+      <input type="range" id="failSlider" min="2" max="10" value="5" step="1">
+      <span class="slider-value" id="failSliderV">5회</span>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const rad = d => d * Math.PI / 180;
+
+/* ── 설정 · 상태 ─────────────────────────────── */
+const GRADES = [
+  {min: 0.9, name: "PERFECT",  color: "#f2c14e"},
+  {min: 0.7, name: "GOOD",     color: "#38d47a"},
+  {min: 0.5, name: "DECENT",   color: "#7ff0ea"},
+  {min: 0.3, name: "POOR",     color: "#8890a4"},
+  {min: 0.0, name: "SEWAGE",   color: "#ff5c6c"},
+];
+/* 엔진 대응: dots 4개 + targetSequence {0,1,2,3,2,1} + beat당 한 구간(InOutQuad)
+   점 배치는 엔진 화면처럼 지그재그 사선(Z) — 노드도 사선 위에 얹힌다 */
+const DOTS = [
+  {x: 92,  y: 118},
+  {x: 522, y: 232},
+  {x: 92,  y: 346},
+  {x: 522, y: 460},
+];
+const SEQ = [0, 1, 2, 3, 2, 1];
+const NODE_LIFE = 2.0;          // 엔진 nodeLifeTime
+const G = {
+  total: 20, bpm: 60, hitR: 30, failLimit: 5,   // 엔진: totalJudge 20(=15×1.3) · limitFailJudge 5(≈15×0.3)
+  started: false, done: false, earlyEnd: false,
+  beat: 0, segLast: -1, cx: DOTS[0].x, cy: DOTS[0].y,
+  results: [], ok: 0, fails: 0, elapsed: 0, wrong: 0,
+};
+$("trackLine").setAttribute("points", DOTS.map(d => `${d.x},${d.y}`).join(" "));
+const dist2 = (ax, ay, bx, by) => Math.hypot(ax - bx, ay - by);
+
+/* ── 정적 노드(점 4개) — 엔진 SpawnStaticNode 대응(빨강), 상시 타격 가능 ── */
+const statics = [];
+DOTS.forEach(p => {
+  const g = document.createElementNS(NS, "g");
+  const ring = document.createElementNS(NS, "circle");
+  ring.setAttribute("cx", p.x); ring.setAttribute("cy", p.y);
+  ring.setAttribute("r", 12); ring.setAttribute("fill", "#1b1016");
+  ring.setAttribute("stroke", "#ff5c6c"); ring.setAttribute("stroke-width", 3);
+  const dot = document.createElementNS(NS, "circle");
+  dot.setAttribute("cx", p.x); dot.setAttribute("cy", p.y);
+  dot.setAttribute("r", 5); dot.setAttribute("fill", "#ff5c6c");
+  g.appendChild(ring); g.appendChild(dot);
+  $("staticDots").appendChild(g);
+  statics.push({x: p.x, y: p.y, ring, dot});
+});
+
+/* ── 패턴 노드 — 끝점 도달 시 초기화 후 사선 구간 위에 랜덤 생성(파랑) ── */
+const nodes = [];   // {g, ring, dot, x, y, state: "pending"|"ok"|"expired", age, fade}
+function makeNode(x, y){
+  const g = document.createElementNS(NS, "g");
+  const ring = document.createElementNS(NS, "circle");
+  ring.setAttribute("cx", x); ring.setAttribute("cy", y);
+  ring.setAttribute("r", 1); ring.setAttribute("fill", "rgba(74,157,245,0.08)");
+  const dot = document.createElementNS(NS, "circle");
+  dot.setAttribute("cx", x); dot.setAttribute("cy", y);
+  dot.setAttribute("r", 6); dot.setAttribute("fill", "#4a9df5");
+  g.appendChild(ring); g.appendChild(dot);
+  $("nodes").appendChild(g);
+  nodes.push({g, ring, dot, x, y, state: "pending", age: 0, fade: 1});
+}
+function respawnPattern(){
+  /* 엔진 SpawnPatternNode: 기존 패턴 노드 전부 회수 후 새 패턴 스폰 */
+  nodes.forEach(n => { if (n.state === "pending") n.state = "expired"; });
+  const count = 1 + Math.floor(Math.random() * 3);   // 1~3개
+  for (let i = 0; i < count; i++){
+    for (let t = 0; t < 12; t++){
+      const seg = Math.floor(Math.random() * 3);
+      const r = 0.22 + Math.random() * 0.56;
+      const x = DOTS[seg].x + (DOTS[seg + 1].x - DOTS[seg].x) * r;
+      const y = DOTS[seg].y + (DOTS[seg + 1].y - DOTS[seg].y) * r;
+      const clear = nodes.every(n => n.state !== "pending" || dist2(n.x, n.y, x, y) >= Math.max(76, G.hitR * 2 + 12))
+        && DOTS.every(d => dist2(d.x, d.y, x, y) >= G.hitR + 24);
+      if (clear){ makeNode(x, y); break; }
+    }
+  }
+}
+function clearNodes(){
+  nodes.forEach(n => n.g.remove());
+  nodes.length = 0;
+}
+
+/* ── 히트/실패 이펙트 ────────────────────────── */
+const fxList = [];   // {type:"burst"|"fail", x, y, color, t}
+function spawnFx(type, x, y, color){ fxList.push({type, x, y, color, t: 0}); }
+function renderFx(dt){
+  const gEl = $("fx");
+  for (let i = fxList.length - 1; i >= 0; i--){
+    fxList[i].t += dt;
+    const life = fxList[i].type === "burst" ? 0.42 : 0.36;
+    if (fxList[i].t >= life) fxList.splice(i, 1);
+  }
+  gEl.innerHTML = "";
+  fxList.forEach(f => {
+    const life = f.type === "burst" ? 0.42 : 0.36;
+    const p = f.t / life, fade = (1 - p).toFixed(2);
+    if (f.type === "burst"){
+      const ring = document.createElementNS(NS, "circle");
+      ring.setAttribute("cx", f.x); ring.setAttribute("cy", f.y);
+      ring.setAttribute("r", (10 + p * 36).toFixed(1));
+      ring.setAttribute("fill", "none");
+      ring.setAttribute("stroke", f.color || "#38d47a");
+      ring.setAttribute("stroke-width", (3.5 * (1 - p)).toFixed(2));
+      ring.setAttribute("opacity", fade);
+      gEl.appendChild(ring);
+      for (let i = 0; i < 6; i++){
+        const a = rad(i * 60 - 90), d = 12 + p * 38;
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", (f.x + Math.cos(a) * d).toFixed(1));
+        c.setAttribute("cy", (f.y + Math.sin(a) * d * 0.8).toFixed(1));
+        c.setAttribute("r", (3 * (1 - p)).toFixed(2));
+        c.setAttribute("fill", "#f2c14e");
+        c.setAttribute("opacity", fade);
+        gEl.appendChild(c);
+      }
+    } else {
+      const ring = document.createElementNS(NS, "circle");
+      ring.setAttribute("cx", f.x); ring.setAttribute("cy", f.y);
+      ring.setAttribute("r", (8 + p * 20).toFixed(1));
+      ring.setAttribute("fill", "none");
+      ring.setAttribute("stroke", "#ff5c6c");
+      ring.setAttribute("stroke-width", 3);
+      ring.setAttribute("opacity", fade);
+      gEl.appendChild(ring);
+      const s = 9 + p * 6;
+      [[-1,-1,1,1],[-1,1,1,-1]].forEach(v => {
+        const l = document.createElementNS(NS, "line");
+        l.setAttribute("x1", f.x + v[0] * s); l.setAttribute("y1", f.y + v[1] * s);
+        l.setAttribute("x2", f.x + v[2] * s); l.setAttribute("y2", f.y + v[3] * s);
+        l.setAttribute("stroke", "#ff5c6c"); l.setAttribute("stroke-width", 3);
+        l.setAttribute("stroke-linecap", "round"); l.setAttribute("opacity", fade);
+        gEl.appendChild(l);
+      });
+    }
+  });
+}
+
+/* ── 사선 게이지: 스택별 세그먼트 + 얇은 구분선 ── */
+const GA = {x1: 756, y1: 512, x2: 588, y2: 42};
+function gaugePoint(p){
+  return { x: GA.x1 + (GA.x2 - GA.x1) * p, y: GA.y1 + (GA.y2 - GA.y1) * p };
+}
+const gaugeSegEls = [];
+function buildTicks(){
+  const segs = $("gaugeSegs"), ticks = $("gaugeTicks");
+  segs.innerHTML = ""; ticks.innerHTML = ""; gaugeSegEls.length = 0;
+
+  for (let i = 0; i < G.total; i++){
+    const a = gaugePoint(i / G.total), b = gaugePoint((i + 1) / G.total);
+    const l = document.createElementNS(NS, "line");
+    l.setAttribute("x1", a.x); l.setAttribute("y1", a.y);
+    l.setAttribute("x2", b.x); l.setAttribute("y2", b.y);
+    l.setAttribute("stroke-width", 14);
+    l.setAttribute("opacity", 0);
+    segs.appendChild(l);
+    gaugeSegEls.push(l);
+  }
+  const len = Math.hypot(GA.x2 - GA.x1, GA.y2 - GA.y1);
+  const nx = -(GA.y2 - GA.y1) / len, ny = (GA.x2 - GA.x1) / len;
+  for (let i = 1; i < G.total; i++){
+    const pt = gaugePoint(i / G.total);
+    const t = document.createElementNS(NS, "line");
+    t.setAttribute("x1", pt.x - nx * 10); t.setAttribute("y1", pt.y - ny * 10);
+    t.setAttribute("x2", pt.x + nx * 10); t.setAttribute("y2", pt.y + ny * 10);
+    t.setAttribute("stroke", "#0a0c11"); t.setAttribute("stroke-width", 2.5);
+    ticks.appendChild(t);
+  }
+}
+buildTicks();
+
+/* ── 판정 — 엔진 ClickEvent 대응 ─────────────── */
+function finishGame(early){
+  G.done = true;
+  G.earlyEnd = early;
+  $("finishBtn").classList.add("ready");
+  popJudge(early ? "FAIL LIMIT" : "FINISH", early ? "#ff5c6c" : "#f2c14e");
+}
+function addStack(success, label, color){
+  if (G.done) return;
+  G.results.push(success);
+  if (success) G.ok++;
+  else {
+    G.fails++;
+    G.wrong = 1;
+    const st = $("stage");
+    st.classList.remove("wrong"); void st.offsetWidth; st.classList.add("wrong");
+  }
+  popJudge(label, color);
+  if (G.results.length >= G.total) finishGame(false);
+  else if (G.fails > G.failLimit) finishGame(true);   // 엔진: failJudge > limitFailJudge
+}
+function press(){
+  if (G.done) return;
+  if (!G.started){
+    G.started = true;
+    $("startTxt").style.display = "none";
+    return;
+  }
+  /* 최근접 노드(패턴 ∪ 정적)가 판정 반경 안이면 성공 — 엔진 GetNearestNode */
+  let nearest = null, minD = Infinity, isStatic = false;
+  nodes.forEach(n => {
+    if (n.state !== "pending") return;
+    const d = dist2(n.x, n.y, G.cx, G.cy);
+    if (d < minD){ minD = d; nearest = n; isStatic = false; }
+  });
+  statics.forEach(s => {
+    const d = dist2(s.x, s.y, G.cx, G.cy);
+    if (d < minD){ minD = d; nearest = s; isStatic = true; }
+  });
+  if (nearest && minD <= G.hitR){
+    if (!isStatic) nearest.state = "ok";   // 패턴 노드만 소비, 점은 유지
+    spawnFx("burst", nearest.x, nearest.y, isStatic ? "#ff5c6c" : "#4a9df5");   // 엔진: 노드 색으로 이펙트
+    triggerStroke();
+    addStack(true, "NICE", "#38d47a");
+  } else {
+    spawnFx("fail", G.cx, G.cy);
+    addStack(false, "MISS", "#ff5c6c");
+  }
+}
+function popJudge(text, color){
+  const j = $("judge");
+  j.textContent = text; j.style.color = color;
+  j.classList.remove("pop"); void j.offsetWidth; j.classList.add("pop");
+}
+
+addEventListener("keydown", e => {
+  if (e.code === "KeyR"){ reset(); return; }
+  if (e.code !== "Space") return;
+  e.preventDefault();
+  if (e.repeat) return;
+  press();
+});
+
+/* ── 종료·결과 ───────────────────────────────── */
+$("finishBtn").addEventListener("click", () => {
+  if (!G.done) return;
+  $("finishBtn").blur();
+  const ratio = G.ok / G.total;
+  const grade = GRADES.find(g => ratio >= g.min);
+  $("rGrade").textContent = grade.name;
+  $("rGrade").style.color = grade.color;
+  $("rPct").textContent = "완성도 " + Math.round(ratio * 100) + "%";
+  $("rDetail").innerHTML =
+    `성공 ${G.ok} · 실패 ${G.fails} / ${G.total}스택` +
+    (G.earlyEnd ? ` · <span style="color:#ff5c6c">실패 한계(${G.failLimit}회) 초과 종료</span>` : "") +
+    ` · 걸린 시간 ${G.elapsed.toFixed(1)}초<br>` +
+    `PERFECT 90% · GOOD 70% · DECENT 50% · POOR 30%`;
+  $("result").classList.add("show");
+});
+$("rRetry").addEventListener("click", () => { $("rRetry").blur(); reset(); });
+
+function reset(){
+  G.started = false; G.done = false; G.earlyEnd = false;
+  G.beat = 0; G.segLast = -1; G.cx = DOTS[0].x; G.cy = DOTS[0].y;
+  G.results = []; G.ok = 0; G.fails = 0; G.elapsed = 0; G.wrong = 0;
+  shake.idx = 0; shake.p = 0; shake.active = false; shake.queue = 0;
+  clearNodes();
+  fxList.length = 0;
+  $("finishBtn").classList.remove("ready");
+  $("result").classList.remove("show");
+  $("startTxt").style.display = "";
+  buildTicks();
+}
+$("totalSlider").addEventListener("input", e => {
+  G.total = +e.target.value;
+  $("totalSliderV").textContent = G.total + "개";
+  $("subTotal").textContent = G.total;
+  reset();
+});
+$("bpmSlider").addEventListener("input", e => {
+  G.bpm = +e.target.value; $("bpmSliderV").textContent = G.bpm;
+});
+$("hitSlider").addEventListener("input", e => {
+  G.hitR = +e.target.value; $("hitSliderV").textContent = G.hitR + "px";
+});
+$("failSlider").addEventListener("input", e => {
+  G.failLimit = +e.target.value; $("failSliderV").textContent = G.failLimit + "회";
+});
+
+/* ── 쉐이커 연출 상태 ─────────────────────────── */
+/* 기본 = 몸 쪽(안쪽). 성공할 때마다 바깥으로 뻗었다 돌아오는 스트로크 1회 —
+   엔진 PlayAnim의 Play0/Play1 교대처럼 / 위쪽·\ 아래쪽을 번갈아 쓴다. 합치면 < 궤적 */
+const shake = { idx: 0, p: 0, active: false, queue: 0 };
+const REST = {x: 775, y: 280, rot: -35};
+const STROKE = [ {x: -44, y: -40}, {x: -44, y: 40} ];
+const STROKE_DUR = 0.3;
+const S_TOP = {x: 862, y: 238}, S_BOT = {x: 790, y: 258};
+function triggerStroke(){
+  if (!shake.active){ shake.active = true; shake.p = 0; }
+  else shake.queue = Math.min(shake.queue + 1, 2);
+}
+
+function worldOf(px, py, th, lx, ly){
+  return {
+    x: px + lx * Math.cos(th) - ly * Math.sin(th),
+    y: py + lx * Math.sin(th) + ly * Math.cos(th),
+  };
+}
+
+/* ── 메인 루프 ───────────────────────────────── */
+const easeInOutQuad = t => t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t);
+let last = performance.now();
+function loop(now){
+  step(now);
+  requestAnimationFrame(loop);
+}
+function step(now){
+  const dt = Math.min((now - last) / 1000, 0.05); last = now;
+  const playing = G.started && !G.done;
+
+  if (playing) G.elapsed += dt;
+  G.wrong = Math.max(0, G.wrong - dt * 3);
+
+  /* 커서 — 비트당 한 구간(지그재그 사선 위), 끝점(0·3) 출발 시 패턴 초기화 (엔진 OnChangeSeqIndex) */
+  if (playing){
+    G.beat += dt * (G.bpm / 60);
+    const segIndex = Math.floor(G.beat);
+    const t = easeInOutQuad(G.beat - segIndex);
+    const from = DOTS[SEQ[segIndex % SEQ.length]];
+    const to = DOTS[SEQ[(segIndex + 1) % SEQ.length]];
+    G.cx = from.x + (to.x - from.x) * t;
+    G.cy = from.y + (to.y - from.y) * t;
+    if (segIndex !== G.segLast){
+      G.segLast = segIndex;
+      const fromIdx = SEQ[segIndex % SEQ.length];
+      if (fromIdx === 0 || fromIdx === 3) respawnPattern();
+    }
+  }
+
+  /* 패턴 노드 갱신 (팝인 · 수명 만료 · 페이드) — 엔진 nodeLifeTime 대응 */
+  for (let i = nodes.length - 1; i >= 0; i--){
+    const n = nodes[i];
+    n.age += dt;
+    if (n.state === "pending" && n.age >= NODE_LIFE) n.state = "expired";
+    if (n.state === "pending"){
+      const pop = Math.min(1, n.age / 0.15);
+      const pulse = 0.55 + 0.45 * Math.sin(now / 180);
+      n.ring.setAttribute("r", (G.hitR * pop).toFixed(1));
+      n.ring.setAttribute("stroke", "#4a9df5");
+      n.ring.setAttribute("stroke-width", (2 + pulse * 1.8).toFixed(1));
+      n.dot.setAttribute("fill", "#4a9df5");
+      n.g.setAttribute("opacity", pop.toFixed(2));
+    } else {
+      n.fade -= dt / 0.35;
+      if (n.fade <= 0){ n.g.remove(); nodes.splice(i, 1); continue; }
+      const col = n.state === "ok" ? "#38d47a" : "#5a6478";
+      n.ring.setAttribute("r", G.hitR);
+      n.ring.setAttribute("stroke", col);
+      n.ring.setAttribute("stroke-width", 2.5);
+      n.dot.setAttribute("fill", col);
+      n.g.setAttribute("opacity", (n.fade * 0.7).toFixed(2));
+    }
+  }
+  renderFx(dt);
+
+  /* 커서 표시 */
+  $("cursorGlow").setAttribute("cx", G.cx); $("cursorGlow").setAttribute("cy", G.cy);
+  $("cursorDot").setAttribute("cx", G.cx); $("cursorDot").setAttribute("cy", G.cy);
+  if (!G.started){
+    const blink = 0.5 + 0.5 * Math.sin(now / 260);
+    $("startTxt").setAttribute("opacity", (0.45 + blink * 0.55).toFixed(2));
+  }
+
+  /* 정적 노드(점) — 커서가 겹치면 밝아진다 */
+  statics.forEach(s => {
+    const near = dist2(s.x, s.y, G.cx, G.cy) <= G.hitR;
+    s.ring.setAttribute("stroke", near ? "#ff8a96" : "#ff5c6c");
+    s.ring.setAttribute("stroke-width", near ? 4 : 3);
+    s.dot.setAttribute("fill", near ? "#ffc2c9" : "#ff5c6c");
+  });
+
+  /* 사선 게이지 — 판정된 스택만큼 세그먼트가 차오른다 */
+  gaugeSegEls.forEach((l, i) => {
+    if (i < G.results.length){
+      l.setAttribute("stroke", G.results[i] ? "#f2c14e" : "#7a3644");
+      l.setAttribute("opacity", 1);
+    } else l.setAttribute("opacity", 0);
+  });
+
+  /* ── 쉐이커 — 안쪽 기본, 성공 시 바깥으로 1스트로크 ── */
+  let offX = 0, offY = 0, strokeAmp = 0, strokeVec = STROKE[shake.idx % 2];
+  if (shake.active){
+    shake.p += dt / STROKE_DUR;
+    while (shake.p >= 1){
+      shake.p -= 1; shake.idx++;
+      if (shake.queue > 0) shake.queue--;
+      else { shake.active = false; shake.p = 0; break; }
+    }
+    if (shake.active){
+      strokeAmp = Math.sin(shake.p * Math.PI);
+      strokeVec = STROKE[shake.idx % 2];
+      offX = strokeVec.x * strokeAmp;
+      offY = strokeVec.y * strokeAmp;
+    }
+  }
+  if (!shake.active) offY += Math.sin(now / 420) * 3;
+  if (G.wrong > 0){
+    offX += Math.sin(now * 0.09) * 6 * G.wrong;
+    offY += Math.cos(now * 0.11) * 4 * G.wrong;
+  }
+
+  const px = REST.x + offX, py = REST.y + offY;
+  const rot = REST.rot + offX * 0.14 - offY * 0.15;
+  const th = rad(rot);
+  $("shakerG").setAttribute("transform", `translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(1)})`);
+
+  const hTop = worldOf(px, py, th, 0, -62);
+  const hBot = worldOf(px, py, th, 0, 72);
+  $("handTop").setAttribute("cx", hTop.x); $("handTop").setAttribute("cy", hTop.y);
+  $("handBot").setAttribute("cx", hBot.x); $("handBot").setAttribute("cy", hBot.y);
+  $("armTop").setAttribute("d",
+    `M${S_TOP.x} ${S_TOP.y} Q${(S_TOP.x + hTop.x) / 2} ${(S_TOP.y + hTop.y) / 2 - 26} ${hTop.x} ${hTop.y}`);
+  $("armBot").setAttribute("d",
+    `M${S_BOT.x} ${S_BOT.y} Q${(S_BOT.x + hBot.x) / 2} ${(S_BOT.y + hBot.y) / 2 + 20} ${hBot.x} ${hBot.y}`);
+
+  /* 머리는 스트로크에 살짝 끌린다 */
+  $("headG").setAttribute("transform", `translate(${(offX * 0.10).toFixed(1)} ${(offY * 0.06).toFixed(1)})`);
+
+  /* 스피드 스트릭 — 스트로크 반대편 꼬리 */
+  if (strokeAmp > 0.3){
+    const len = Math.hypot(strokeVec.x, strokeVec.y);
+    const ux = strokeVec.x / len, uy = strokeVec.y / len;
+    const nx = -uy, ny = ux;
+    let d = "";
+    for (const s of [-1, 1]){
+      const bx = px - ux * 58 + nx * 16 * s, by = py - uy * 58 + ny * 16 * s;
+      d += `M${(bx).toFixed(1)} ${(by).toFixed(1)} L${(bx - ux * 26 * strokeAmp).toFixed(1)} ${(by - uy * 26 * strokeAmp).toFixed(1)} `;
+    }
+    $("streaks").setAttribute("d", d);
+    $("streaks").setAttribute("opacity", (strokeAmp * 0.55).toFixed(2));
+  } else $("streaks").setAttribute("opacity", 0);
+
+  /* HUD */
+  $("hudTime").textContent = G.elapsed.toFixed(1) + "s";
+  $("hudStack").textContent = `${G.results.length} / ${G.total}`;
+  $("hudJudge").innerHTML =
+    `<tspan fill="#38d47a">${G.ok}</tspan><tspan fill="#8890a4"> / </tspan><tspan fill="#ff5c6c">${G.fails}</tspan>`;
+}
+reset();
+requestAnimationFrame(loop);
+window.__dbg = {G, nodes, statics, press, reset, step, respawnPattern};   // 자동 테스트용
+</script>
+</body>
+</html>

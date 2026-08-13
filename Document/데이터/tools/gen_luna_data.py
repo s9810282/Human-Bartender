@@ -1189,6 +1189,9 @@ CONFIG = [
     # ── v3.0 거리 시스템 — 말풍선 상수는 바와 분리해 따로 튜닝한다 ──
     ("street_typing_interval_ms",   50, "거리 말풍선 타이핑 문자당 간격(ms) — 바(typing_interval_ms)와 별도 튜닝"),
     ("street_auto_next_delay_sec",  3,  "auto 재생 대사 — 타이핑 종료 후 다음 대사까지 텀"),
+    # ── 스터 기믹 — 전 칵테일 공통, 차등이 필요해지면 tier 파생으로 전환 ──
+    ("stir_stacks",            10,      "스터 게이지 스택 수(결과 칸) — 전 칵테일 공통, 성공·실패 불문 시도 하나가 한 칸을 채운다 [가안]"),
+    ("stir_stack_sec",         2,       "스터 시도(스택 한 칸) 제한시간(초) — 초과 시 실패 스택 [가안]"),
 ]
 
 GRADE_CUTS = [("excellent",95),("good",80),("decent",60),("poor",35),("sewage",0)]
