@@ -230,6 +230,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 3. **json 편집기 오염 사고 2회** — §2 절대 규칙 1 참고. 빌드 산출물을 편집 모드로 열어두지 말 것.
 4. **유지비 배드엔딩이 데이터에 없다** — 규칙은 확정(정산 직후 골드 음수 → `bad_gold` → 씬 `ed_bad_gold`)됐는데 endings.json은 5종(bad_1·happy_1·happy_2·normal_1·bad_2)뿐이고 `ed_bad_gold`는 전 json 등장 0회. `이준서/유지비_배드엔딩_행추가.md`의 행을 Narrative 엑셀에 붙여넣어야 하고, days.upkeep_gold가 전부 0이라 붙여넣어도 발동 불가 — 일차별 금액 결정과 세트다. 데모에서 뺄 거면 그걸로 확정할 것.
 5. **happy 계열 엔딩의 tom·sunha 호감도 경로가 없다** — `happy_1.when` = aili·tom·port·sunha 각 100, `happy_2` = aili·tom·port 100인데 Tastes에 톰·선하(+하루) 0줄이라 서빙 획득이 불가하고, day1~3 씬 명시 획득도 0(빌드 호감도 시뮬에 둘 다 미등장). tom·sunha만 두 경로가 전부 비어 있다 — 취향을 넣을지 씬 명시 전용으로 갈지 설계 결정 필요. bad_1도 `rios_accepted`를 set하는 데이터가 없어 현재 도달 불가(알려진 미완결). set만 되고 안 읽히는 플래그 7건(dream_raid_1/2·port_served_d3·samho_drunk·samho_calmed·seen_coratech_ad·shiba_fed)은 미래 분기 예약이면 정상 — 목록만 인지할 것.
+6. **와인 오프너는 데모에서 제외 — 정식 버전 추가 여부는 PD가 추후 재논의** (8/17 신규 제조 개편에서 확정). 와인·샴페인은 데모에서 도구 없이 잔에 따르고, Open 기믹은 병뚜껑형(병맥주)만 쓴다. 나중에 와인 오프너를 되살릴 때 같이 손댈 곳: shelf_items의 opener 도구, 신규 Tools 시트, 레시피 화면 UI 문서의 도구 표, cork형 Open 기믹·아이콘 발주. 신규 제조 개편의 결정 전체는 노션 「수정님 기획서 수정사항」(3bf1612298dc80c6af85cc5da7e8af11) 참고.
 
 ---
 

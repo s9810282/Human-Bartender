@@ -32,6 +32,8 @@ SHELF_COLS = ["id","kind","name_ko","name_en","category","color","sprite",
 #   unlock_day/unlock_when/shop_price는 전 kind 공통 — 가니시도 입고·해금 대상이 될 수 있다.
 SHELF_ITEMS = [
     # ── 재료 (소모품 — 수량·해금·상점가를 가진다) ──
+    # 해금일 원칙(제조 개편): 재료 unlock_day = 그 재료를 쓰는 칵테일 unlock_day의 최솟값.
+    # 설탕·벌꿀 원액은 제거 — 파우더 기믹 데모 제외 + bees_knees·꿀 퀘스트 삭제.
     ("gin"            , "ingredient", "진"            , "Gin"                     , "base"     , "230,235,240", ""              , 1 , ""                       , None, "주니퍼베리 향의 증류주. 칵테일의 기본기."        , "A juniper-scented spirit. The foundation of cocktails."),
     ("beer"           , "ingredient", "맥주"           , "Beer"                    , "wine_beer", "202,162,4"  , ""              , 1 , ""                       , None, "차갑게. 그게 전부이자 진리."               , "Serve it cold. That's the whole truth."),
     ("red_wine"       , "ingredient", "레드와인"         , "Red Wine"                , "wine_beer", "98,15,11"   , ""              , 1 , ""                       , None, "잔에 따르는 순간부터 분위기가 달라진다."         , "The mood changes the moment it hits the glass."),
@@ -39,36 +41,49 @@ SHELF_ITEMS = [
     ("tonic_water"    , "ingredient", "토닉워터"         , "Tonic Water"             , "mixer"    , "245,250,255", ""              , 1 , ""                       , None, "씁쓸한 탄산. 진의 가장 오랜 친구."           , "Bitter fizz. Gin's oldest friend."),
     ("soda_water"     , "ingredient", "소다수"          , "Soda Water"              , "mixer"    , "245,250,255", ""              , 1 , ""                       , None, "아무 맛도 없어서 무엇이든 될 수 있다."         , "Tastes like nothing, so it can become anything."),
     ("lemon"          , "ingredient", "레몬"           , "Lemon"                   , "fruit"    , ""           , ""              , 1 , ""                       , 20  , "스퀴즈용. 새콤함의 표준."                 , "For squeezing. The standard of sour."),
-    ("sugar"          , "ingredient", "설탕"           , "Sugar"                   , "powder"   , ""           , ""              , 1 , ""                       , 10  , "파우더용. 1티스푼의 위로."                , "For powder. One teaspoon of comfort."),
-    ("tequila"        , "ingredient", "데킬라"          , "Tequila"                 , "base"     , "240,235,220", ""              , 3 , ""                       , None, "아가베의 태양을 병에 담은 것."              , "The agave sun, bottled."),
+    ("tequila"        , "ingredient", "데킬라"          , "Tequila"                 , "base"     , "240,235,220", ""              , 2 , ""                       , None, "아가베의 태양을 병에 담은 것."              , "The agave sun, bottled."),
     ("vodka"          , "ingredient", "보드카"          , "Vodka"                   , "base"     , "240,245,250", ""              , 2 , ""                       , None, "무색무취. 그래서 어디에나 스며든다."           , "Colorless and odorless — that's how it blends in anywhere."),
-    ("rum"            , "ingredient", "럼"            , "Rum"                     , "base"     , "180,120,60" , ""              , 3 , ""                       , None, "사탕수수와 항해의 술."                   , "The spirit of sugarcane and long voyages."),
-    ("orange_juice"   , "ingredient", "오렌지주스"        , "Orange Juice"            , "juice"    , "253,180,60" , ""              , 3 , ""                       , 25  , "아침의 맛. 새벽의 바에서는 위장약."           , "The taste of morning. At a bar past midnight, it's medicine."),
-    ("ginger_ale"     , "ingredient", "진저에일"         , "Ginger Ale"              , "mixer"    , "230,200,120", ""              , 3 , ""                       , 25  , "알싸한 생강 탄산."                     , "Spicy ginger fizz."),
-    ("cola"           , "ingredient", "콜라"           , "Cola"                    , "mixer"    , "60,30,20"   , ""              , 3 , ""                       , 25  , "무엇을 섞어도 콜라 맛이 이긴다. 그게 무기다."     , "Mix in anything — cola wins. That's its weapon."),
+    ("rum"            , "ingredient", "럼"            , "Rum"                     , "base"     , "180,120,60" , ""              , 2 , ""                       , None, "사탕수수와 항해의 술."                   , "The spirit of sugarcane and long voyages."),
+    ("orange_juice"   , "ingredient", "오렌지주스"        , "Orange Juice"            , "juice"    , "253,180,60" , ""              , 2 , ""                       , 25  , "아침의 맛. 새벽의 바에서는 위장약."           , "The taste of morning. At a bar past midnight, it's medicine."),
+    ("ginger_ale"     , "ingredient", "진저에일"         , "Ginger Ale"              , "mixer"    , "230,200,120", ""              , 2 , ""                       , 25  , "알싸한 생강 탄산."                     , "Spicy ginger fizz."),
+    ("cola"           , "ingredient", "콜라"           , "Cola"                    , "mixer"    , "60,30,20"   , ""              , 2 , ""                       , 25  , "무엇을 섞어도 콜라 맛이 이긴다. 그게 무기다."     , "Mix in anything — cola wins. That's its weapon."),
     ("lime"           , "ingredient", "라임"           , "Lime"                    , "fruit"    , ""           , ""              , 2 , ""                       , 20  , "스퀴즈용. 레몬보다 한 톤 낮은 산미."          , "For squeezing. One tone lower than lemon."),
-    ("whiskey"        , "ingredient", "위스키"          , "Whiskey"                 , "base"     , "190,120,40" , ""              , 4 , ""                       , None, "오크통에서 잠들었다 깨어난 시간."             , "Time that slept in an oak barrel and woke up."),
-    ("dry_vermouth"   , "ingredient", "드라이 버무스"      , "Dry Vermouth"            , "liqueur"  , "220,220,190", ""              , 1 , ""                       , None, "마티니를 마티니로 만드는 한 방울."            , "The one drop that makes a martini a martini."),
-    ("grenadine"      , "ingredient", "그레나딘"         , "Grenadine"               , "syrup"    , "180,30,50"  , ""              , 4 , ""                       , None, "석류빛 붉은 시럽. 노을 담당."              , "Pomegranate-red syrup. In charge of sunsets."),
-    ("sour_mix"       , "ingredient", "사워믹스"         , "Sour Mix"                , "mixer"    , "230,220,160", ""              , 4 , ""                       , 25  , "새콤한 필업 베이스."                    , "A tangy fill-up base."),
-    ("cointreau"      , "ingredient", "쿠앵트로"         , "Cointreau"               , "liqueur"  , "235,200,140", ""              , 2 , ""                       , None, "오렌지 리큐르의 귀족."                   , "The aristocrat of orange liqueurs."),
-    ("cranberry_juice", "ingredient", "크랜베리주스"       , "Cranberry Juice"         , "juice"    , "170,30,60"  , ""              , 2 , ""                       , 25  , "붉고 떫고 세련된 맛."                   , "Red, tart, and sophisticated."),
-    ("triple_sec"     , "ingredient", "트리플섹"         , "Triple Sec"              , "liqueur"  , "235,225,200", ""              , 6 , ""                       , None, "오렌지 리큐르의 실용주의자."                , "The pragmatist of orange liqueurs."),
-    ("kahlua"         , "ingredient", "칼루아"          , "Kahlua"                  , "liqueur"  , "60,35,25"   , ""              , 2 , ""                       , None, "커피를 술로 번역한 것."                  , "Coffee, translated into liquor."),
-    ("milk"           , "ingredient", "우유"           , "Milk"                    , "dairy"    , "245,245,240", ""              , 2 , ""                       , 15  , "고양이와 초보 손님의 선택."                , "The choice of cats and cautious customers."),
-    ("honey_syrup"    , "ingredient", "벌꿀 원액"        , "Raw Honey"               , "syrup"    , "235,180,60" , ""              , 99, "flag.q_samho_honey_done", None, "삼호의 창고에서 나온 진짜 꿀. 요즘 세상엔 금값이다." , "Real honey from Samho's warehouse. Worth its weight in gold these days."),
-    # ── 잔 (제조 1단계 선반) ──
-    ("mug"            , "glass"     , "맥주잔"          , "Beer Mug"                , ""         , ""           , "glass_mug"     , 1 , ""                       , None, "생맥주·뮬 담당의 묵직한 잔."               , "A heavy glass for draft beer and mules."),
-    ("wine"           , "glass"     , "와인잔"          , "Wine Glass"              , ""         , ""           , "glass_wine"    , 1 , ""                       , None, "다리가 긴 잔. 향을 가둔다."               , "A long-stemmed glass that holds the aroma."),
-    ("flute"          , "glass"     , "플루트잔"         , "Flute Glass"             , ""         , ""           , "glass_flute"   , 1 , ""                       , None, "기포가 오래 살아있는 좁고 긴 잔."            , "Narrow and tall — the bubbles live longer."),
-    ("highball"       , "glass"     , "하이볼잔"         , "Highball Glass"          , ""         , ""           , "glass_highball", 1 , ""                       , None, "탄산 롱드링크의 표준."                   , "The standard for fizzy long drinks."),
-    ("collins"        , "glass"     , "콜린스잔"         , "Collins Glass"           , ""         , ""           , "glass_collins" , 1 , ""                       , None, "하이볼보다 조금 더 길고 늘씬한 잔."           , "A touch taller and slimmer than a highball."),
-    ("rocks"          , "glass"     , "온더락잔"         , "Rocks Glass"             , ""         , ""           , "glass_rocks"   , 1 , ""                       , None, "낮고 두꺼운 잔. 얼음과 독주의 자리."          , "Low and thick. A seat for ice and strong spirits."),
+    ("whiskey"        , "ingredient", "위스키"          , "Whiskey"                 , "base"     , "190,120,40" , ""              , 3 , ""                       , None, "오크통에서 잠들었다 깨어난 시간."             , "Time that slept in an oak barrel and woke up."),
+    ("dry_vermouth"   , "ingredient", "드라이 버무스"      , "Dry Vermouth"            , "liqueur"  , "220,220,190", ""              , 3 , ""                       , None, "마티니를 마티니로 만드는 한 방울."            , "The one drop that makes a martini a martini."),
+    ("grenadine"      , "ingredient", "그레나딘"         , "Grenadine"               , "syrup"    , "180,30,50"  , ""              , 3 , ""                       , None, "석류빛 붉은 시럽. 노을 담당."              , "Pomegranate-red syrup. In charge of sunsets."),
+    ("sour_mix"       , "ingredient", "사워믹스"         , "Sour Mix"                , "mixer"    , "230,220,160", ""              , 3 , ""                       , 25  , "새콤한 필업 베이스."                    , "A tangy fill-up base."),
+    ("cointreau"      , "ingredient", "쿠앵트로"         , "Cointreau"               , "liqueur"  , "235,200,140", ""              , 4 , ""                       , None, "오렌지 리큐르의 귀족."                   , "The aristocrat of orange liqueurs."),
+    ("cranberry_juice", "ingredient", "크랜베리주스"       , "Cranberry Juice"         , "juice"    , "170,30,60"  , ""              , 4 , ""                       , 25  , "붉고 떫고 세련된 맛."                   , "Red, tart, and sophisticated."),
+    ("triple_sec"     , "ingredient", "트리플섹"         , "Triple Sec"              , "liqueur"  , "235,225,200", ""              , 5 , ""                       , None, "오렌지 리큐르의 실용주의자."                , "The pragmatist of orange liqueurs."),
+    ("kahlua"         , "ingredient", "칼루아"          , "Kahlua"                  , "liqueur"  , "60,35,25"   , ""              , 5 , ""                       , None, "커피를 술로 번역한 것."                  , "Coffee, translated into liquor."),
+    ("milk"           , "ingredient", "우유"           , "Milk"                    , "dairy"    , "245,245,240", ""              , 5 , ""                       , 15  , "고양이와 초보 손님의 선택."                , "The choice of cats and cautious customers."),
+    # ── 제조 개편 신규 재료 14종 (day6+; 스프라이트 발주 필요) ──
+    ("brandy"         , "ingredient", "브랜디"          , "Brandy"                  , "base"     , "170,90,35"  , ""              , 6 , ""                       , None, "포도를 증류한 온기. 잔을 데우는 술."          , "Distilled warmth of the grape. A spirit that warms the glass."),
+    ("amaretto"       , "ingredient", "아마레토"         , "Amaretto"                , "liqueur"  , "135,75,35"  , ""              , 6 , ""                       , None, "살구씨의 달콤쌉싸름한 향."                , "Bittersweet aroma of apricot kernels."),
+    ("cream"          , "ingredient", "크림"           , "Cream"                   , "dairy"    , "240,228,205", ""              , 6 , ""                       , 15  , "무엇이든 부드럽게 감싸는 마무리."             , "A finish that softens everything it touches."),
+    ("green_peppermint","ingredient", "그린페퍼민트"      , "Green Peppermint"        , "liqueur"  , "45,160,110" , ""              , 7 , ""                       , None, "초록빛 박하. 한 모금의 냉기."              , "Green mint. A sip of cold air."),
+    ("white_cacao"    , "ingredient", "화이트카카오"       , "White Cacao"             , "liqueur"  , "232,220,188", ""              , 7 , ""                       , None, "색을 지운 초콜릿 향."                   , "Chocolate aroma with the color removed."),
+    ("coffee"         , "ingredient", "커피"           , "Coffee"                  , "other"    , "70,45,30"   , ""              , 7 , ""                       , 15  , "새벽 바의 두 번째 연료."                 , "The bar's second fuel after midnight."),
+    ("campari"        , "ingredient", "캄파리"          , "Campari"                 , "liqueur"  , "200,45,45"  , ""              , 8 , ""                       , None, "선명한 붉은색의 쓴맛. 어른의 입문 시험."        , "A vivid red bitterness. An entrance exam for adults."),
+    ("blue_curacao"   , "ingredient", "블루큐라소"        , "Blue Curacao"            , "liqueur"  , "0,145,200"  , ""              , 8 , ""                       , None, "오렌지 향의 파랑. 바다를 접어 넣은 병."        , "Orange-scented blue. A bottle with the sea folded in."),
+    ("pineapple_juice", "ingredient", "파인애플주스"       , "Pineapple Juice"         , "juice"    , "235,200,75" , ""              , 8 , ""                       , 25  , "트로피컬의 기본값."                     , "The default setting of tropical."),
+    ("coconut_milk"   , "ingredient", "코코넛우유"        , "Coconut Milk"            , "dairy"    , "243,238,220", ""              , 8 , ""                       , 15  , "야자수 그늘의 맛."                     , "Tastes like the shade of a palm tree."),
+    ("peach_brandy"   , "ingredient", "피치브랜디"        , "Peach Brandy"            , "liqueur"  , "225,145,100", ""              , 9 , ""                       , None, "복숭아의 단내를 증류한 리큐르."              , "A liqueur distilled from the sweetness of peaches."),
+    ("melon_liqueur"  , "ingredient", "멜론리큐르"        , "Melon Liqueur"           , "liqueur"  , "130,190,55" , ""              , 10, ""                       , None, "초록 멜론의 단맛."                     , "The sweetness of green melon."),
+    ("malibu"         , "ingredient", "말리부"          , "Malibu"                  , "liqueur"  , "242,238,220", ""              , 10, ""                       , None, "코코넛 향 럼. 휴양지의 지름길."             , "Coconut rum. A shortcut to the beach."),
+    ("banana_liqueur" , "ingredient", "바나나리큐르"       , "Banana Liqueur"          , "liqueur"  , "235,205,65" , ""              , 10, ""                       , None, "노란 단맛의 마무리 담당."                 , "A yellow sweetness for the finishing touch."),
+    # ── 잔 (제조 1단계 선반 — 제조 개편으로 6종 체계) ──
+    # 통합 매핑: highball·collins→long_drink / rocks→old_fashioned / flute→wine(통합) / mug=맥주잔(유지) / sour 신설
     ("cocktail"       , "glass"     , "칵테일잔"         , "Cocktail Glass"          , ""         , ""           , "glass_cocktail", 1 , ""                       , None, "역삼각형의 그 잔. 격식의 상징."             , "The inverted triangle. A symbol of formality."),
+    ("long_drink"     , "glass"     , "롱드링크잔"        , "Long Drink Glass"        , ""         , ""           , "glass_longdrink", 1, ""                       , None, "길고 늘씬한 잔. 탄산 롱드링크의 표준."         , "Tall and slim. The standard for fizzy long drinks."),
+    ("old_fashioned"  , "glass"     , "올드패션잔"        , "Old Fashioned Glass"     , ""         , ""           , "glass_oldfashioned", 1, ""                    , None, "낮고 두꺼운 잔. 얼음과 독주의 자리."          , "Low and thick. A seat for ice and strong spirits."),
+    ("sour"           , "glass"     , "사워잔"          , "Sour Glass"              , ""         , ""           , "glass_sour"    , 1 , ""                       , None, "사워 칵테일 전용의 짧은 스템 잔."            , "A short-stemmed glass reserved for sours."),
+    ("wine"           , "glass"     , "와인잔"          , "Wine Glass"              , ""         , ""           , "glass_wine"    , 1 , ""                       , None, "다리가 긴 잔. 와인도 샴페인도 여기에."         , "A long-stemmed glass — for wine and champagne alike."),
+    ("mug"            , "glass"     , "맥주잔"          , "Beer Mug"                , ""         , ""           , "glass_mug"     , 1 , ""                       , None, "맥주·뮬 담당의 묵직한 잔."                , "A heavy glass for beer and mules."),
     # ── 도구 (제조 2단계 선반 — 집으면 그 기믹) ──
+    # 따개(opener)는 제거 — 병따기(Open)는 병뚜껑형(병맥주)만, 와인 오프너는 데모 제외(추후 재논의)
     ("shaker"         , "tool"      , "셰이커"          , "Shaker"                  , ""         , ""           , "tool_shaker"   , 1 , ""                       , None, "셰이킹 기믹용."                       , "For the shaking gimmick."),
     ("mixing_glass"   , "tool"      , "믹싱 글라스 & 바 스푼", "Mixing Glass & Bar Spoon", ""         , ""           , "tool_mixing"   , 1 , ""                       , None, "스터 기믹용 — 잔에 붓기 전 여기서 젓는다."      , "For the stirring gimmick — stir here before pouring."),
-    ("opener"         , "tool"      , "따개"           , "Opener"                  , ""         , ""           , "tool_opener"   , 1 , ""                       , None, "병뚜껑도 코르크도 이걸로 — 병따기·코르크 따기 기믹용.", "Caps and corks alike — for the cap-pop and cork-twist gimmicks."),
     # ── 가니시 (제조 3단계 선반 — v1.9부터 플레이어 선택·채점 대상) ──
     ("lime_wedge"     , "garnish"   , "라임 웨지"        , "Lime Wedge"              , ""         , ""           , "gn_lime"       , 1 , ""                       , None, "라임 조각 장식."                      , "A lime garnish."),
     ("lemon_slice"    , "garnish"   , "레몬 슬라이스"      , "Lemon Slice"             , ""         , ""           , "gn_lemon"      , 1 , ""                       , None, "레몬 슬라이스 장식."                    , "A lemon slice garnish."),
@@ -94,37 +109,49 @@ def shelf_ids(kind=None):
 # unlock_day_override: 재료가 있어도 이 일차 전엔 미해금 (공란=재료 따름)
 # unlock_when: 이벤트 조건부 해금 (공란=없음)
 # ============================================================
-# v1.7: prep = 병 개봉 사전 동작("" 없음 / cap 병뚜껑 / cork 코르크) — 도구 '따개' 하나가 둘 다 담당
-#        mix의 bottle_open은 폐기(prep=cap으로 이동). 기믹 실행은 플레이어 선택 주도 — 이 값들은 '채점 정답'이다
-# v1.9: unlock_day_override = 완전 수동 지정(공란이면 재료에서 파생). tier_override = 체감 난이도 수동 지정.
-CK_COLS = ["id","name_ko","name_en","price","abv","glass","mix","prep","fill","garnish","color","tags",
-           "flavor_ko","flavor_en","unlock_day_override","unlock_when","tier_override",
+# 제조 개편(26.08.17) — Order/Selected/Actual Craft 3층 판정 체계 반영.
+#   · tier 폐지: 대체 기준(인내심·주문 풀)은 결정 대기 — RandomWaves.tier는 그때까지 존치.
+#   · fill 컬럼 폐지: 필업은 RecipeLines의 action=fill_up 라인으로 흡수.
+#   · unlock_day = 완전 수동(파생 폐지). time_limit_sec = 완전 수동(기믹 수 공식 폐지).
+#   · status: confirmed=수치 확정 / tbd=레시피 수치 대기(수량 공란 허용, 확정 파일 수령 후 채움).
+#   · color2: 완성 색이 그라데이션인 칵테일만 끝색 기록(현재 oasis_sunset 1종). 공란=단색.
+#   · prep: cap(병뚜껑)만 사용 — cork(와인 오프너)는 데모 제외(추후 재논의, 인수인계 §8-6).
+CK_COLS = ["id","name_ko","name_en","status","price","abv","glass","mix","prep","garnish","color","color2","tags",
+           "flavor_ko","flavor_en","unlock_day","unlock_when","time_limit_sec",
            "recipe_desc_ko","recipe_desc_en"]
 COCKTAILS = [
-    ("gin_tonic",       "진토닉",             "Gin & Tonic",     180, 8.0,  "highball", "build",  "tonic_water", "lime_wedge",   "255,255,255", "상큼한;청량한;클래식", "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.", "Gin and tonic. The simplest, and therefore the most honest.", None, ""),
-    ("gin_fizz",        "진피즈",             "Gin Fizz",        220, 8.0,  "highball", "shake",  "soda_water",  "lemon_slice",  "255,255,255", "상큼한;클래식;청량한", "진과 레몬, 그리고 '피즈' 하는 탄산 소리.", "Gin, lemon, and that 'fizz' of carbonation.", None, ""),
-    ("bottle_beer",     "병맥주",             "Bottled Beer",    90,  4.5,  "mug",      "none", "cap",  None,     None,           "202,162,4",   "청량한;가벼운",        "뚜껑 따는 소리가 안주다. 잔은 곁들여서.", "The pop of the cap is the appetizer. Served with a glass.", None, ""),
-    ("red_wine",        "레드와인",           "Red Wine",        220, 13.0, "wine",     "none", "cork", None,          None,           "98,15,11",    "묵직한;클래식",        "말이 필요 없는 잔. 코르크는 조심스럽게.", "A glass that needs no words. Mind the cork.", None, ""),
-    ("champagne",       "샴페인",             "Champagne",       350, 12.0, "flute",    "none", "cork", None,          None,           "255,245,225", "화사한;달콤한",        "기포가 올라오는 동안은 누구나 주인공.", "While the bubbles rise, everyone's the main character.", None, ""),
-    ("screwdriver",     "스크류드라이버",     "Screwdriver",     190, 12.0, "highball", "build",  None,          None,           "236,223,95",  "달콤한;부드러운",      "보드카와 오렌지주스. 이름은 공구, 맛은 과일.", "Vodka and orange juice. Named after a tool, tastes like fruit.", None, ""),
-    ("moscow_mule",     "모스코뮬",           "Moscow Mule",     210, 10.0, "mug",      "build",  "ginger_ale",  "lime_wedge",   "215,163,2",   "청량한;알싸한",        "생강의 알싸함이 노새의 뒷발차기 같다고 해서 뮬.", "The ginger kick they say feels like a mule's hind leg.", None, ""),
-    ("tequila_sunrise", "데킬라 선라이즈",    "Tequila Sunrise", 200, 12.0, "collins",  "build",  None,          "orange_slice", "253,161,48",  "달콤한;화사한",        "잔 속에서 해가 뜬다. 새벽의 바에서 제일 잘 팔리는 아침.", "A sunrise inside a glass. The best-selling morning at a late-night bar.", None, ""),
-    ("long_island",     "롱아일랜드 아이스티","Long Island Iced Tea", 380, 22.0, "collins", "build", "cola",     "lemon_slice",  "214,122,13",  "독한;달콤한",          "홍차는 한 방울도 안 들어간다. 그게 함정이다.", "Not a drop of tea in it. That's the trap.", None, ""),
-    ("whiskey_sour",    "위스키 사워",        "Whiskey Sour",    240, 15.0, "rocks",    "shake",  "sour_mix",    "cherry",       "243,208,144", "새콤한;묵직한",        "위스키의 무게에 레몬의 균형.", "The weight of whiskey, balanced by lemon.", None, ""),
-    ("dry_martini",     "드라이 마티니",      "Dry Martini",     300, 30.0, "cocktail", "stir",   None,          "olive",        "230,229,201", "씁쓸한;클래식;독한",   "젓지 말고 흔들어서, 라고 말하는 손님을 조심할 것.", "Beware the customer who says 'shaken, not stirred.'", None, ""),
-    ("bacardi",         "바카디",             "Bacardi",         230, 20.0, "cocktail", "shake",  None,          None,           "219,96,89",   "새콤한;클래식",        "럼과 그레나딘과 라임. 이름을 건 칵테일.", "Rum, grenadine, lime. A cocktail that bears the name.", None, ""),
-    ("cosmopolitan",    "코스모폴리탄",       "Cosmopolitan",    250, 20.0, "cocktail", "shake",  None,          "lemon_slice",  "219,109,92",  "상큼한;부드러운",      "도시적인 붉은 빛. 유행은 지나가도 맛은 남는다.", "Urban red. Trends pass; the taste stays.", None, ""),
-    ("margarita",       "마가리타",           "Margarita",       260, 25.0, "cocktail", "shake",  None,          "lime_wedge",   "210,218,109", "새콤한;독한",          "데킬라의 태양과 레몬의 번개.", "Tequila's sun and lemon's lightning.", None, ""),
-    ("white_lady",      "화이트레이디",       "White Lady",      270, 25.0, "cocktail", "shake",  None,          None,           "247,241,214", "상큼한;우아한",        "새하얀 드레스처럼 우아하고, 도수는 우아하지 않다.", "Elegant as a white dress. The proof is not elegant.", None, ""),
-    ("kahlua_milk",     "깔루아 밀크",        "Kahlua Milk",     150, 7.0,  "rocks",    "build",  None,          None,           "159,162,119", "달콤한;부드러운",      "커피와 우유와 약간의 알코올. 고양이도 탐내는 맛.", "Coffee, milk, a little alcohol. Even cats covet it.", None, ""),
-    # 히든 레시피 데모 — 퀘스트 samho_honey 보상(unlock_recipe)으로만 해금. 재료 honey_syrup이 day 99라 파생 해금일도 99 → 메뉴 비노출
-    ("bees_knees",      "비즈 니즈",          "Bee's Knees",     260, 20.0, "cocktail", "shake",  None,          "lemon_slice",  "240,200,90",  "달콤한;클래식;비밀",   "금주법 시대, 싸구려 진의 향을 진짜 꿀로 감추던 밀주 칵테일. '최고'라는 뜻의 은어.", "A Prohibition-era bootleg cocktail — real honey to mask cheap gin. Slang for 'the best.'", None, ""),
+    # id, ko, en, status, price, abv, glass, mix, prep, garnish, color, color2, tags, flavor_ko, flavor_en, unlock, when, tlimit
+    ("gin_tonic",       "진토닉",             "Gin & Tonic",     "confirmed", 180, 8.0,  "long_drink",    "build", "",    "lime_wedge",   "255,255,255", "", "상큼한;청량한;클래식", "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.", "Gin and tonic. The simplest, and therefore the most honest.", 1, "", 36),
+    ("gin_fizz",        "진피즈",             "Gin Fizz",        "confirmed", 220, 8.0,  "long_drink",    "shake", "",    "lemon_slice",  "255,255,255", "", "상큼한;클래식;청량한", "진과 레몬, 그리고 '피즈' 하는 탄산 소리.", "Gin, lemon, and that 'fizz' of carbonation.", 1, "", 52),
+    ("bottle_beer",     "병맥주",             "Bottled Beer",    "confirmed", 90,  4.5,  "mug",           "none",  "cap", None,           "202,162,4",   "", "청량한;가벼운",        "뚜껑 따는 소리가 안주다. 잔은 곁들여서.", "The pop of the cap is the appetizer. Served with a glass.", 1, "", 28),
+    ("red_wine",        "레드와인",           "Red Wine",        "confirmed", 220, 13.0, "wine",          "none",  "",    None,           "98,15,11",    "", "묵직한;클래식",        "말이 필요 없는 잔. 향이 절반이다.", "A glass that needs no words. Half of it is the aroma.", 1, "", 36),
+    ("champagne",       "샴페인",             "Champagne",       "confirmed", 350, 12.0, "wine",          "none",  "",    None,           "255,245,225", "", "화사한;달콤한",        "기포가 올라오는 동안은 누구나 주인공.", "While the bubbles rise, everyone's the main character.", 1, "", 36),
+    ("screwdriver",     "스크류드라이버",     "Screwdriver",     "confirmed", 190, 12.0, "long_drink",    "build", "",    None,           "236,223,95",  "", "달콤한;부드러운",      "보드카와 오렌지주스. 이름은 공구, 맛은 과일.", "Vodka and orange juice. Named after a tool, tastes like fruit.", 2, "", 44),
+    ("moscow_mule",     "모스코뮬",           "Moscow Mule",     "confirmed", 210, 10.0, "mug",           "build", "",    "lime_wedge",   "215,163,2",   "", "청량한;알싸한",        "생강의 알싸함이 노새의 뒷발차기 같다고 해서 뮬.", "The ginger kick they say feels like a mule's hind leg.", 2, "", 44),
+    ("tequila_sunrise", "데킬라 선라이즈",    "Tequila Sunrise", "confirmed", 200, 12.0, "long_drink",    "build", "",    "orange_slice", "253,161,48",  "", "달콤한;화사한",        "잔 속에서 해가 뜬다. 새벽의 바에서 제일 잘 팔리는 아침.", "A sunrise inside a glass. The best-selling morning at a late-night bar.", 2, "", 44),
+    ("long_island",     "롱아일랜드 아이스티","Long Island Iced Tea", "confirmed", 380, 22.0, "long_drink", "build", "",   "lemon_slice",  "214,122,13",  "", "독한;달콤한",          "홍차는 한 방울도 안 들어간다. 그게 함정이다.", "Not a drop of tea in it. That's the trap.", 2, "", 68),
+    ("whiskey_sour",    "위스키 사워",        "Whiskey Sour",    "confirmed", 240, 15.0, "sour",          "shake", "",    "cherry",       "243,208,144", "", "새콤한;묵직한",        "위스키의 무게에 레몬의 균형.", "The weight of whiskey, balanced by lemon.", 3, "", 52),
+    ("dry_martini",     "드라이 마티니",      "Dry Martini",     "confirmed", 300, 30.0, "cocktail",      "stir",  "",    "olive",        "230,229,201", "", "씁쓸한;클래식;독한",   "젓지 말고 흔들어서, 라고 말하는 손님을 조심할 것.", "Beware the customer who says 'shaken, not stirred.'", 3, "", 44),
+    ("bacardi",         "바카디",             "Bacardi",         "confirmed", 230, 20.0, "cocktail",      "shake", "",    None,           "219,96,89",   "", "새콤한;클래식",        "럼과 그레나딘과 라임. 이름을 건 칵테일.", "Rum, grenadine, lime. A cocktail that bears the name.", 3, "", 52),
+    ("cosmopolitan",    "코스모폴리탄",       "Cosmopolitan",    "confirmed", 250, 20.0, "cocktail",      "shake", "",    "lemon_slice",  "219,109,92",  "", "상큼한;부드러운",      "도시적인 붉은 빛. 유행은 지나가도 맛은 남는다.", "Urban red. Trends pass; the taste stays.", 4, "", 60),
+    ("margarita",       "마가리타",           "Margarita",       "confirmed", 260, 25.0, "cocktail",      "shake", "",    "lime_wedge",   "210,218,109", "", "새콤한;독한",          "데킬라의 태양과 레몬의 번개.", "Tequila's sun and lemon's lightning.", 5, "", 52),
+    ("white_lady",      "화이트레이디",       "White Lady",      "confirmed", 270, 25.0, "cocktail",      "shake", "",    None,           "247,241,214", "", "상큼한;우아한",        "새하얀 드레스처럼 우아하고, 도수는 우아하지 않다.", "Elegant as a white dress. The proof is not elegant.", 5, "", 52),
+    ("kahlua_milk",     "깔루아 밀크",        "Kahlua Milk",     "confirmed", 150, 7.0,  "old_fashioned", "build", "",    None,           "159,162,119", "", "달콤한;부드러운",      "커피와 우유와 약간의 알코올. 고양이도 탐내는 맛.", "Coffee, milk, a little alcohol. Even cats covet it.", 5, "", 44),
+    # ── 제조 개편 신규 13종 — status=tbd: 레시피 수량 확정 파일 수령 후 confirmed로 전환 ──
+    ("godfather",       "갓파더",             "Godfather",       "tbd", 230, 28.0, "old_fashioned", "stir",  "", None,           "222,150,52",  "", "묵직한;클래식;달콤한", "위스키와 아마레토. 짧고 묵직한 두 재료의 대화.", "Whiskey and amaretto. A short, weighty conversation between two spirits.", 6, "", 44),
+    ("godmother",       "갓마더",             "Godmother",       "tbd", 220, 22.0, "old_fashioned", "stir",  "", None,           "232,188,102", "", "부드러운;달콤한;클래식", "보드카의 깨끗함에 아마레토의 단맛을 얹는다.", "Clean vodka softened by the sweetness of amaretto.", 6, "", 44),
+    ("french_connection","프렌치 커넥션",     "French Connection", "tbd", 240, 30.0, "old_fashioned", "build", "", None,          "200,120,40",  "", "묵직한;달콤한;클래식", "브랜디와 아마레토가 만드는 깊고 느린 단맛.", "Brandy and amaretto create a deep, lingering sweetness.", 6, "", 44),
+    ("brandy_sour",     "브랜디 사워",        "Brandy Sour",     "tbd", 250, 15.0, "sour",          "shake", "", "cherry",       "212,146,0",   "", "새콤한;묵직한",        "브랜디의 온기에 레몬의 균형을 잡는다.", "Warm brandy balanced with lemon.", 6, "", 52),
+    ("pink_lady",       "핑크 레이디",        "Pink Lady",       "tbd", 300, 18.0, "cocktail",      "shake", "", None,           "254,97,126",  "", "달콤한;부드러운;화사한", "진과 그레나딘, 크림이 만드는 부드러운 분홍빛.", "Gin, grenadine, and cream in a soft shade of pink.", 6, "", 60),
+    ("espresso_martini","에스프레소 마티니",  "Espresso Martini", "tbd", 280, 20.0, "cocktail",     "shake", "", None,           "66,42,28",    "", "달콤한;묵직한;커피",   "보드카와 커피가 새벽을 한 잔 더 연장한다.", "Vodka and coffee extend the night by one more glass.", 7, "", 52),
+    ("grasshopper",     "그래스호퍼",         "Grasshopper",     "tbd", 300, 10.0, "cocktail",      "shake", "", None,           "118,183,161", "", "달콤한;부드러운;민트", "민트와 카카오, 크림이 만드는 차갑고 달콤한 디저트 칵테일.", "Mint, cacao, and cream make a cool, sweet dessert cocktail.", 7, "", 60),
+    ("irish_coffee",    "아이리시 커피",      "Irish Coffee",    "tbd", 300, 12.0, "mug",           "build", "", None,           "74,48,32",    "", "달콤한;부드러운;커피", "위스키와 뜨거운 커피 위에 크림을 띄운 따뜻한 한 잔.", "Whiskey and hot coffee topped with cream for a warming drink.", 7, "", 60),
+    ("old_pal",         "올드 팔",            "Old Pal",         "tbd", 280, 25.0, "cocktail",      "stir",  "", None,           "212,72,45",   "", "씁쓸한;묵직한;클래식", "위스키와 버무스, 캄파리의 쌉쌀한 악수.", "A bitter handshake of whiskey, vermouth, and Campari.", 8, "", 52),
+    ("blue_hawaii",     "블루 하와이",        "Blue Hawaii",     "tbd", 320, 14.0, "long_drink",    "shake", "", None,           "0,151,182",   "", "달콤한;열대과일;화사한", "럼과 블루큐라소 위로 파인애플과 코코넛이 펼쳐진다.", "Rum and blue curaçao carried by pineapple and coconut.", 8, "", 60),
+    ("oasis_sunset",    "오아시스 선셋",      "Oasis Sunset",    "tbd", 400, 18.0, "long_drink",    "shake", "", "orange_slice", "0,153,139",   "219,96,89", "달콤한;열대과일;화사한", "푸른 오아시스 위로 붉은 노을이 번지는 바의 시그니처 칵테일.", "The bar's signature: a red sunset spreading over a blue oasis.", 8, "", 68),
+    ("blue_sapphire",   "블루 사파이어",      "Blue Sapphire",   "tbd", 320, 15.0, "long_drink",    "shake", "", None,           "0,153,139",   "", "달콤한;열대과일;상큼한", "블루큐라소와 복숭아, 코코넛이 만드는 푸른 보석.", "Blue curaçao, peach, and coconut form a liquid blue gem.", 9, "", 60),
+    ("june_bug",        "준 벅",              "June Bug",        "tbd", 320, 12.0, "long_drink",    "shake", "", None,           "186,205,2",   "", "달콤한;열대과일;화사한", "멜론과 코코넛, 바나나와 파인애플이 겹치는 초록빛 트로피컬 칵테일.", "A green tropical mix of melon, coconut, banana, and pineapple.", 10, "", 60),
 ]
-
-# prep(v1.7) 역호환 — 구형 15필드 행에 prep="" 삽입 (mix 다음)
-# 행 길이 보정: prep(7번째) 누락분 삽입 → tier_override(마지막) 누락분은 None으로 채움
-COCKTAILS = [r if len(r) >= 16 else tuple(list(r[:7]) + [""] + list(r[7:])) for r in COCKTAILS]
-COCKTAILS = [r if len(r) == len(CK_COLS) else tuple(list(r) + [None] * (len(CK_COLS) - len(r))) for r in COCKTAILS]
 
 # v3.6 — 태그 사전. 칵테일 tags와 Tastes의 cocktail.tag(...)이 쓰는 한글 태그의 정본 목록 + 영어 표기.
 # 여기 없는 태그를 쓰면 빌드 에러(오타 차단). 표시: 정보 화면 키워드가 ko/en을 함께 배포받는다.
