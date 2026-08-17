@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일반 손님 남성형 파츠 시뮬레이터</title>
+<style>
+  :root {
+    --bg: #090d15;
+    --surface: #111824;
+    --surface-2: #161f2d;
+    --surface-3: #1d2938;
+    --line: #2a394b;
+    --line-bright: #3c566f;
+    --text: #eef5f7;
+    --muted: #8fa1b4;
+    --cyan: #68e7ef;
+    --cyan-soft: rgba(104, 231, 239, 0.14);
+    --amber: #f4b957;
+    --danger: #f77982;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 15% 0%, rgba(35, 99, 122, 0.18), transparent 30rem),
+      linear-gradient(180deg, #0b111c 0%, var(--bg) 100%);
+    font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  button, input { font: inherit; }
+
+  button { color: inherit; }
+
+  .app-shell {
+    width: min(1440px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 34px 0 48px;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    margin: 0 0 7px;
+    color: var(--cyan);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(25px, 3vw, 38px);
+    line-height: 1.16;
+    letter-spacing: -0.04em;
+  }
+
+  .header-copy {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .header-spec {
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: minmax(360px, 0.82fr) minmax(560px, 1.55fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(17, 24, 36, 0.94);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+  }
+
+  .preview-panel {
+    position: sticky;
+    top: 18px;
+    padding: 16px;
+  }
+
+  .panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .panel-heading h2,
+  .category-heading h2 {
+    margin: 0;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .status-dot::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+  }
+
+  .stage-frame {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 500px;
+    overflow: hidden;
+    border: 1px solid var(--line-bright);
+    border-radius: 8px;
+    background:
+      linear-gradient(rgba(116, 229, 237, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(116, 229, 237, 0.035) 1px, transparent 1px),
+      radial-gradient(circle at 50% 36%, #243146 0%, #151d2b 46%, #0e1520 100%);
+    background-size: 24px 24px, 24px 24px, auto;
+  }
+
+  .stage-frame::before,
+  .stage-frame::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .stage-frame::before {
+    inset: 0;
+    background: repeating-linear-gradient(180deg, transparent 0 4px, rgba(0, 0, 0, 0.08) 5px);
+    opacity: 0.7;
+  }
+
+  .stage-frame::after {
+    right: 16px;
+    bottom: 15px;
+    width: 56px;
+    height: 6px;
+    border-right: 1px solid var(--line-bright);
+    border-bottom: 1px solid var(--line-bright);
+  }
+
+  .character-stage {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 430px);
+    aspect-ratio: 332 / 388;
+    isolation: isolate;
+  }
+
+  .character-stage img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .alignment-guide {
+    position: absolute;
+    z-index: 20;
+    inset: 0;
+    display: none;
+    border: 1px solid var(--cyan);
+    pointer-events: none;
+  }
+
+  .alignment-guide::before,
+  .alignment-guide::after {
+    content: "";
+    position: absolute;
+    background: rgba(104, 231, 239, 0.55);
+  }
+
+  .alignment-guide::before { left: 50%; top: 0; width: 1px; height: 100%; }
+  .alignment-guide::after { top: 50%; left: 0; width: 100%; height: 1px; }
+  .show-guide .alignment-guide { display: block; }
+
+  .preview-actions {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .action-button {
+    min-height: 42px;
+    border: 1px solid var(--line-bright);
+    border-radius: 7px;
+    background: var(--surface-2);
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease, color 120ms ease, transform 120ms ease;
+  }
+
+  .action-button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .action-button:active { transform: translateY(1px); }
+
+  .action-button.primary {
+    border-color: var(--cyan);
+    color: #061014;
+    background: var(--cyan);
+    font-weight: 700;
+  }
+
+  .action-button.primary:hover {
+    color: #061014;
+    background: #8cf4f8;
+  }
+
+  .preview-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 2px 2px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .guide-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+  }
+
+  .guide-toggle input { accent-color: var(--cyan); }
+
+  .combination-summary {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+  }
+
+  .combination-summary h3 {
+    margin: 0 0 9px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .selection-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 12px;
+    margin: 0;
+  }
+
+  .selection-row {
+    min-width: 0;
+    padding: 8px 9px;
+    border-left: 2px solid var(--line-bright);
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .selection-row dt {
+    margin: 0 0 2px;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .selection-row dd {
+    margin: 0;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .parts-panel { padding: 16px; }
+
+  .parts-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 4px;
+    padding: 2px 2px 12px;
+  }
+
+  .parts-intro p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .parts-count {
+    flex: 0 0 auto;
+    color: var(--amber);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+  }
+
+  .category {
+    padding: 17px 2px 19px;
+    border-top: 1px solid var(--line);
+  }
+
+  .category-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    margin-bottom: 11px;
+  }
+
+  .category-heading span {
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .part-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+    gap: 8px;
+  }
+
+  .part-card {
+    min-width: 0;
+    padding: 6px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--surface-2);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+  }
+
+  .part-card:hover {
+    border-color: var(--line-bright);
+    background: var(--surface-3);
+  }
+
+  .part-card:active { transform: translateY(1px); }
+
+  .part-card.selected {
+    border-color: var(--cyan);
+    background: var(--cyan-soft);
+    box-shadow: inset 0 0 0 1px rgba(104, 231, 239, 0.22);
+  }
+
+  .part-card.unavailable {
+    border-color: rgba(247, 121, 130, 0.35);
+    background: rgba(247, 121, 130, 0.045);
+    opacity: 0.58;
+  }
+
+  .part-card.unavailable:hover {
+    border-color: var(--danger);
+    background: rgba(247, 121, 130, 0.08);
+  }
+
+  .part-card.unavailable .part-name::after {
+    content: " · 조합 불가";
+    color: var(--danger);
+    font-size: 9px;
+    font-weight: 600;
+  }
+
+  .part-card.fixed {
+    cursor: default;
+    border-color: var(--line-bright);
+  }
+
+  .part-card canvas {
+    display: block;
+    width: 100%;
+    height: 92px;
+    border-radius: 4px;
+    background:
+      linear-gradient(45deg, #1c2634 25%, transparent 25%, transparent 75%, #1c2634 75%),
+      linear-gradient(45deg, #1c2634 25%, #141c28 25%, #141c28 75%, #1c2634 75%);
+    background-position: 0 0, 7px 7px;
+    background-size: 14px 14px;
+    image-rendering: pixelated;
+  }
+
+  .part-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-top: 7px;
+  }
+
+  .part-name {
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .selected .part-name { color: var(--cyan); }
+
+  .part-index {
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+  }
+
+  .part-file {
+    display: block;
+    margin-top: 3px;
+    overflow: hidden;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .empty-card {
+    display: grid;
+    place-items: center;
+    height: 92px;
+    border: 1px dashed var(--line-bright);
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .layer-note {
+    margin: 14px 0 0;
+    padding: 11px 12px;
+    border-left: 2px solid var(--amber);
+    color: var(--muted);
+    background: rgba(244, 185, 87, 0.06);
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .layer-note strong { color: var(--amber); }
+
+  .toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 100;
+    max-width: min(360px, calc(100% - 32px));
+    padding: 11px 14px;
+    border: 1px solid var(--cyan);
+    border-radius: 7px;
+    color: var(--text);
+    background: rgba(9, 15, 24, 0.96);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36);
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 980px) {
+    .workspace { grid-template-columns: 1fr; }
+    .preview-panel { position: static; }
+    .stage-frame { min-height: 440px; }
+  }
+
+  @media (max-width: 620px) {
+    .app-shell { width: min(100% - 24px, 1440px); padding-top: 22px; }
+    .page-header { align-items: flex-start; flex-direction: column; gap: 12px; }
+    .header-spec { display: none; }
+    .stage-frame { min-height: 380px; }
+    .preview-actions { grid-template-columns: 1fr 1fr; }
+    .action-button.primary { grid-column: 1 / -1; }
+    .selection-list { grid-template-columns: 1fr; }
+    .parts-intro { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .part-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">PROJECT L.U.N.A · GUEST PARTS LAB</p>
+      <h1>일반 손님 남성형 파츠 조합</h1>
+      <p class="header-copy">원본 PNG를 같은 332×388 좌표에 겹쳐 실제 조합 상태를 확인합니다.</p>
+    </div>
+    <div class="header-spec">CANVAS 332 × 388 · PNG RGBA</div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel preview-panel" aria-label="캐릭터 조합 미리보기">
+      <div class="panel-heading">
+        <h2>조합 미리보기</h2>
+        <span class="status-dot">레이어 정렬 정상</span>
+      </div>
+
+      <div class="stage-frame" id="stageFrame">
+        <div class="character-stage" id="characterStage" aria-label="현재 선택한 파츠가 합쳐진 남성 일반 손님">
+          <img id="layer-body" alt="" draggable="false">
+          <img id="layer-shirt" alt="" draggable="false">
+          <img id="layer-acc2" alt="" draggable="false">
+          <img id="layer-acc3" alt="" draggable="false">
+          <img id="layer-eye" alt="" draggable="false">
+          <img id="layer-eyebrow" alt="" draggable="false">
+          <img id="layer-mouth" alt="" draggable="false">
+          <img id="layer-hair" alt="" draggable="false">
+          <img id="layer-acc1" alt="" draggable="false">
+          <div class="alignment-guide" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="preview-actions">
+        <button class="action-button primary" id="randomButton" type="button">랜덤 조합</button>
+        <button class="action-button" id="resetButton" type="button">초기화</button>
+        <button class="action-button" id="downloadButton" type="button">PNG 저장</button>
+      </div>
+
+      <div class="preview-options">
+        <label class="guide-toggle">
+          <input id="guideToggle" type="checkbox">
+          <span>정렬 가이드 표시</span>
+        </label>
+        <span>액세서리는 복수 선택 가능</span>
+      </div>
+
+      <section class="combination-summary" aria-labelledby="summaryTitle">
+        <h3 id="summaryTitle">현재 조합</h3>
+        <dl class="selection-list" id="selectionList"></dl>
+      </section>
+    </aside>
+
+    <section class="panel parts-panel" aria-label="파츠 선택">
+      <div class="parts-intro">
+        <div>
+          <div class="panel-heading" style="margin-bottom:0"><h2>파츠 목록</h2></div>
+          <p>썸네일은 실제 PNG의 불투명 영역을 자동으로 확대해 보여줍니다.</p>
+        </div>
+        <span class="parts-count">23 FILES · 7 CATEGORIES</span>
+      </div>
+
+      <div id="categoryList"></div>
+
+      <p class="layer-note">
+        <strong>레이어 순서</strong><br>
+        기본 바디 → 의상 → 후드 아우터 → 목걸이 → 눈 → 눈썹 → 입 → 헤어 → 팔 액세서리<br>
+        모든 PNG가 같은 캔버스를 사용하므로 파츠별 좌표 이동이나 크기 보정은 적용하지 않습니다.
+      </p>
+
+      <p class="layer-note">
+        <strong>금지 조합 규칙</strong><br>
+        팔 액세서리 <code>Acc_1.png</code>는 민소매 의상인 <code>Shirt_3.png</code> 또는 <code>Shirt_3(2).png</code>와만 조합할 수 있습니다.
+      </p>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const ASSET_ROOT = "assets/";
+
+  const parts = {
+    body: [
+      { name: "기본 남성 바디", file: "body.png", bbox: [40, 44, 293, 375] }
+    ],
+    shirt: [
+      { name: "반팔 티셔츠 A", file: "Shirt_1.png", bbox: [28, 183, 306, 369] },
+      { name: "반팔 티셔츠 B", file: "Shirt_1(2).png", bbox: [28, 183, 306, 369] },
+      { name: "그래픽 티셔츠 A", file: "Shirt_1(3).png", bbox: [28, 183, 306, 370] },
+      { name: "그래픽 티셔츠 B", file: "Shirt_1(4).png", bbox: [28, 183, 306, 369] },
+      { name: "반팔 티셔츠 C", file: "Shirt_1(5).png", bbox: [28, 183, 306, 369] },
+      { name: "비대칭 셔츠", file: "Shirt_2.png", bbox: [28, 179, 306, 381] },
+      { name: "민소매 A", file: "Shirt_3.png", bbox: [79, 185, 255, 367] },
+      { name: "민소매 B", file: "Shirt_3(2).png", bbox: [79, 185, 255, 367] }
+    ],
+    hair: [
+      { name: "버즈컷", file: "Hair_1.png", bbox: [125, 45, 213, 122] },
+      { name: "비대칭 장발", file: "Hair_2.png", bbox: [125, 24, 234, 142] }
+    ],
+    eye: [
+      { name: "기본 눈", file: "Eye_1.png", bbox: [134, 110, 200, 119] },
+      { name: "가늘게 뜬 눈", file: "Eye_2.png", bbox: [133, 109, 201, 119] },
+      { name: "또렷한 눈", file: "Eye_3.png", bbox: [134, 110, 200, 119] }
+    ],
+    eyebrow: [
+      { name: "올라간 눈썹", file: "Eyebrow_1.png", bbox: [130, 100, 204, 110] },
+      { name: "기본 눈썹", file: "Eyebrow_2.png", bbox: [133, 104, 201, 109] },
+      { name: "처진 눈썹", file: "Eyebrow_3.png", bbox: [133, 104, 201, 109] }
+    ],
+    mouth: [
+      { name: "무표정", file: "mouth_1.png", bbox: [158, 149, 177, 152] },
+      { name: "미소", file: "mouth_2.png", bbox: [157, 148, 180, 156] },
+      { name: "입을 연 표정", file: "mouth_3.png", bbox: [156, 150, 178, 158] }
+    ],
+    accessory: [
+      { name: "팔 액세서리", file: "Acc_1.png", bbox: [33, 280, 89, 353], layer: "acc1" },
+      { name: "후드 아우터", file: "Acc_2.png", bbox: [36, 174, 296, 384], layer: "acc2" },
+      { name: "목걸이", file: "Acc_3.png", bbox: [121, 178, 209, 270], layer: "acc3" }
+    ]
+  };
+
+  const exclusions = [
+    { a: "Acc_1.png", b: "Shirt_1.png", note: "팔 액세서리는 민소매 의상 전용" },
+    { a: "Acc_1.png", b: "Shirt_1(2).png", note: "팔 액세서리는 민소매 의상 전용" },
+    { a: "Acc_1.png", b: "Shirt_1(3).png", note: "팔 액세서리는 민소매 의상 전용" },
+    { a: "Acc_1.png", b: "Shirt_1(4).png", note: "팔 액세서리는 민소매 의상 전용" },
+    { a: "Acc_1.png", b: "Shirt_1(5).png", note: "팔 액세서리는 민소매 의상 전용" },
+    { a: "Acc_1.png", b: "Shirt_2.png", note: "팔 액세서리는 민소매 의상 전용" }
+  ];
+
+  const categoryMeta = [
+    { key: "body", label: "기본 바디", note: "고정 파츠", mode: "fixed" },
+    { key: "shirt", label: "의상", note: "1개 선택", mode: "single" },
+    { key: "hair", label: "헤어", note: "1개 선택", mode: "single" },
+    { key: "eye", label: "눈", note: "1개 선택", mode: "single" },
+    { key: "eyebrow", label: "눈썹", note: "1개 선택", mode: "single" },
+    { key: "mouth", label: "입", note: "1개 선택", mode: "single" },
+    { key: "accessory", label: "액세서리", note: "여러 개 선택 가능", mode: "multiple" }
+  ];
+
+  const defaults = {
+    shirt: 0,
+    hair: 0,
+    eye: 0,
+    eyebrow: 1,
+    mouth: 0,
+    accessories: new Set()
+  };
+
+  const state = {
+    shirt: defaults.shirt,
+    hair: defaults.hair,
+    eye: defaults.eye,
+    eyebrow: defaults.eyebrow,
+    mouth: defaults.mouth,
+    accessories: new Set()
+  };
+
+  const imageCache = new Map();
+
+  function assetPath(file) {
+    return ASSET_ROOT + file;
+  }
+
+  function loadImage(file) {
+    if (imageCache.has(file)) return imageCache.get(file);
+    const promise = new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error(file + " 로드 실패"));
+      image.src = assetPath(file);
+    });
+    imageCache.set(file, promise);
+    return promise;
+  }
+
+  function allPartFiles() {
+    return [...new Set(Object.values(parts).flat().map(part => part.file))];
+  }
+
+  function isAccessoryAllowed(accessoryIndex, shirtIndex = state.shirt) {
+    const accessoryFile = parts.accessory[accessoryIndex].file;
+    const shirtFile = parts.shirt[shirtIndex].file;
+    return !exclusions.some(rule =>
+      (rule.a === accessoryFile && rule.b === shirtFile) ||
+      (rule.a === shirtFile && rule.b === accessoryFile)
+    );
+  }
+
+  function removeInvalidAccessories() {
+    const removed = [];
+    state.accessories.forEach(index => {
+      if (!isAccessoryAllowed(index)) {
+        removed.push(parts.accessory[index].name);
+        state.accessories.delete(index);
+      }
+    });
+    return removed;
+  }
+
+  function buildCategories() {
+    const root = document.getElementById("categoryList");
+    root.innerHTML = categoryMeta.map(category => {
+      const cards = parts[category.key].map((part, index) => {
+        const fixed = category.mode === "fixed";
+        return `
+          <button
+            class="part-card${fixed ? " fixed selected" : ""}"
+            type="button"
+            data-category="${category.key}"
+            data-index="${index}"
+            ${fixed ? "disabled" : ""}
+            aria-pressed="${fixed ? "true" : "false"}">
+            <canvas width="240" height="184" data-thumb="${category.key}-${index}" aria-hidden="true"></canvas>
+            <span class="part-label">
+              <span class="part-name">${part.name}</span>
+              <span class="part-index">${String(index + 1).padStart(2, "0")}</span>
+            </span>
+            <span class="part-file">${part.file}</span>
+          </button>`;
+      }).join("");
+
+      const noneCard = category.mode === "multiple"
+        ? `<button class="part-card selected" type="button" data-category="accessory-none" data-index="-1" aria-pressed="true">
+            <span class="empty-card">액세서리 없음</span>
+            <span class="part-label"><span class="part-name">없음</span><span class="part-index">00</span></span>
+            <span class="part-file">모든 Acc 레이어 숨김</span>
+          </button>`
+        : "";
+
+      return `
+        <section class="category" aria-labelledby="category-${category.key}">
+          <div class="category-heading">
+            <h2 id="category-${category.key}">${category.label}</h2>
+            <span>${parts[category.key].length}종 · ${category.note}</span>
+          </div>
+          <div class="part-grid">${noneCard}${cards}</div>
+        </section>`;
+    }).join("");
+
+    root.addEventListener("click", event => {
+      const card = event.target.closest(".part-card");
+      if (!card || card.disabled) return;
+      const category = card.dataset.category;
+      const index = Number(card.dataset.index);
+
+      if (category === "accessory-none") {
+        state.accessories.clear();
+      } else if (category === "accessory") {
+        if (state.accessories.has(index)) {
+          state.accessories.delete(index);
+        } else if (!isAccessoryAllowed(index)) {
+          showToast("팔 액세서리는 민소매 A 또는 민소매 B와만 조합할 수 있습니다.", true);
+          return;
+        } else {
+          state.accessories.add(index);
+        }
+      } else {
+        state[category] = index;
+        if (category === "shirt") {
+          const removed = removeInvalidAccessories();
+          if (removed.length > 0) {
+            showToast("민소매가 아닌 의상으로 변경되어 팔 액세서리를 해제했습니다.", true);
+          }
+        }
+      }
+      updateAll();
+    });
+  }
+
+  async function drawThumbnail(canvas, part) {
+    const image = await loadImage(part.file);
+    const context = canvas.getContext("2d");
+    const [x0, y0, x1, y1] = part.bbox;
+    const sourceWidth = x1 - x0;
+    const sourceHeight = y1 - y0;
+    const padding = 18;
+    const scale = Math.min(
+      (canvas.width - padding * 2) / sourceWidth,
+      (canvas.height - padding * 2) / sourceHeight
+    );
+    const drawWidth = sourceWidth * scale;
+    const drawHeight = sourceHeight * scale;
+    const drawX = (canvas.width - drawWidth) / 2;
+    const drawY = (canvas.height - drawHeight) / 2;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.imageSmoothingEnabled = false;
+    context.drawImage(image, x0, y0, sourceWidth, sourceHeight, drawX, drawY, drawWidth, drawHeight);
+  }
+
+  async function drawAllThumbnails() {
+    const jobs = [];
+    categoryMeta.forEach(category => {
+      parts[category.key].forEach((part, index) => {
+        const canvas = document.querySelector(`[data-thumb="${category.key}-${index}"]`);
+        if (canvas) jobs.push(drawThumbnail(canvas, part));
+      });
+    });
+    await Promise.all(jobs);
+  }
+
+  function setLayer(layer, part) {
+    const image = document.getElementById("layer-" + layer);
+    if (!part) {
+      image.removeAttribute("src");
+      image.hidden = true;
+      return;
+    }
+    image.src = assetPath(part.file);
+    image.hidden = false;
+  }
+
+  function updatePreview() {
+    setLayer("body", parts.body[0]);
+    setLayer("shirt", parts.shirt[state.shirt]);
+    setLayer("hair", parts.hair[state.hair]);
+    setLayer("eye", parts.eye[state.eye]);
+    setLayer("eyebrow", parts.eyebrow[state.eyebrow]);
+    setLayer("mouth", parts.mouth[state.mouth]);
+
+    ["acc1", "acc2", "acc3"].forEach(layer => setLayer(layer, null));
+    state.accessories.forEach(index => {
+      const part = parts.accessory[index];
+      setLayer(part.layer, part);
+    });
+  }
+
+  function updateCards() {
+    document.querySelectorAll(".part-card[data-category]").forEach(card => {
+      const category = card.dataset.category;
+      const index = Number(card.dataset.index);
+      let selected = false;
+
+      if (category === "body") selected = true;
+      else if (category === "accessory-none") selected = state.accessories.size === 0;
+      else if (category === "accessory") selected = state.accessories.has(index);
+      else selected = state[category] === index;
+
+      card.classList.toggle("selected", selected);
+      const unavailable = category === "accessory" && !isAccessoryAllowed(index);
+      card.classList.toggle("unavailable", unavailable);
+      card.setAttribute("aria-disabled", String(unavailable));
+      if (unavailable) {
+        card.title = "민소매 A 또는 민소매 B를 선택해야 사용할 수 있습니다.";
+      } else {
+        card.removeAttribute("title");
+      }
+      card.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  function updateSummary() {
+    const accessoryNames = [...state.accessories]
+      .sort((a, b) => a - b)
+      .map(index => parts.accessory[index].name)
+      .join(" + ") || "없음";
+
+    const rows = [
+      ["기본 바디", parts.body[0].name],
+      ["의상", parts.shirt[state.shirt].name],
+      ["헤어", parts.hair[state.hair].name],
+      ["눈", parts.eye[state.eye].name],
+      ["눈썹", parts.eyebrow[state.eyebrow].name],
+      ["입", parts.mouth[state.mouth].name],
+      ["액세서리", accessoryNames]
+    ];
+
+    document.getElementById("selectionList").innerHTML = rows.map(([label, value]) => `
+      <div class="selection-row"><dt>${label}</dt><dd title="${value}">${value}</dd></div>
+    `).join("");
+  }
+
+  function updateAll() {
+    updatePreview();
+    updateCards();
+    updateSummary();
+  }
+
+  function randomIndex(list) {
+    return Math.floor(Math.random() * list.length);
+  }
+
+  function randomize() {
+    state.shirt = randomIndex(parts.shirt);
+    state.hair = randomIndex(parts.hair);
+    state.eye = randomIndex(parts.eye);
+    state.eyebrow = randomIndex(parts.eyebrow);
+    state.mouth = randomIndex(parts.mouth);
+    state.accessories.clear();
+    parts.accessory.forEach((part, index) => {
+      if (isAccessoryAllowed(index) && Math.random() < 0.38) {
+        state.accessories.add(index);
+      }
+    });
+    updateAll();
+    showToast("새로운 일반 손님 조합을 만들었습니다.");
+  }
+
+  function reset() {
+    state.shirt = defaults.shirt;
+    state.hair = defaults.hair;
+    state.eye = defaults.eye;
+    state.eyebrow = defaults.eyebrow;
+    state.mouth = defaults.mouth;
+    state.accessories.clear();
+    updateAll();
+    showToast("기본 조합으로 되돌렸습니다.");
+  }
+
+  async function downloadPNG() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 332;
+    canvas.height = 388;
+    const context = canvas.getContext("2d");
+    context.imageSmoothingEnabled = false;
+
+    const orderedParts = [
+      parts.body[0],
+      parts.shirt[state.shirt],
+      state.accessories.has(1) ? parts.accessory[1] : null,
+      state.accessories.has(2) ? parts.accessory[2] : null,
+      parts.eye[state.eye],
+      parts.eyebrow[state.eyebrow],
+      parts.mouth[state.mouth],
+      parts.hair[state.hair],
+      state.accessories.has(0) ? parts.accessory[0] : null
+    ].filter(Boolean);
+
+    try {
+      const images = await Promise.all(orderedParts.map(part => loadImage(part.file)));
+      images.forEach(image => context.drawImage(image, 0, 0, 332, 388));
+      canvas.toBlob(blob => {
+        if (!blob) {
+          showToast("PNG를 만들지 못했습니다.", true);
+          return;
+        }
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = "LUNA_guest_male_parts.png";
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast("현재 조합을 332×388 PNG로 저장했습니다.");
+      }, "image/png");
+    } catch (error) {
+      showToast("PNG 저장 중 파츠를 불러오지 못했습니다.", true);
+    }
+  }
+
+  let toastTimer = 0;
+  function showToast(message, isError = false) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.borderColor = isError ? "var(--danger)" : "var(--cyan)";
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+
+  async function init() {
+    buildCategories();
+    updateAll();
+    document.getElementById("randomButton").addEventListener("click", randomize);
+    document.getElementById("resetButton").addEventListener("click", reset);
+    document.getElementById("downloadButton").addEventListener("click", downloadPNG);
+    document.getElementById("guideToggle").addEventListener("change", event => {
+      document.getElementById("stageFrame").classList.toggle("show-guide", event.target.checked);
+    });
+
+    try {
+      await Promise.all(allPartFiles().map(loadImage));
+      await drawAllThumbnails();
+    } catch (error) {
+      showToast("일부 파츠 이미지를 불러오지 못했습니다.", true);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

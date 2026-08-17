@@ -1,6 +1,7 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
 · LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(18), Choices(12), Cutscenes(23), Days(3), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(1), Quests(1), RegularSlots(1), ResourceMap(17), Scenes(38), Spots(8), Steps(772), Tastes(10), TextTags(7), UIStrings(40)
-· LUNA_System.xlsx — 시트 10개: Cocktails(17), Config(37), GradeCuts(5), GradePayout(5), GuestBodies(14), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40), Tags(14)
+· LUNA_System.xlsx — 시트 11개: Cocktails(17), Config(38), GradeCuts(5), GradePayout(5), GuestBodies(32), GuestBodyExclusions(6), Personalities(5), RandomWaves(7), RecipeLines(41), ShelfItems(40), Tags(14)
+『외형 풀』 m: touchy 2160 · rough 2160 · chatty 2160 · gentle 2160 · quiet 2160 / f: touchy 8 · rough 8 · chatty 8 · gentle 8 · quiet 8
 ⚠ [플래그] 'q_samho_honey_started' — 참조(퀘스트단계 samho_honey#1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
 ⚠ [플래그] 'rios_accepted' — 참조(엔딩 bad_1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
 ℹ [플래그] 'dream_raid_1' — 세워지지만(스텝 d2_dream#7) 아직 아무 조건도 참조하지 않음

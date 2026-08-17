@@ -42,6 +42,7 @@ BOOL_COLS = {  # TRUE/FALSE 문자열 → 불리언
     "RegularSlots": {"branch_choice", "must_serve"},
     "RandomWaves": {"branch_choice"},
     "Characters": {"affinity"},
+    "GuestBodies": {"is_default"},
 }
 FLOAT_COLS = { # 8.0이 8로 읽히는 문제 → float 강제
     "Cocktails": {"abv"},
@@ -63,6 +64,7 @@ SHEET_SPEC = {
     "Personalities": ("PERSONALITIES", len(G.PERS_COLS)),
     "Tags": ("TAGS", len(G.TAG_COLS)),
     "GuestBodies": ("GUEST_BODIES", len(G.GBODY_COLS)),
+    "GuestBodyExclusions": ("GUEST_BODY_EXCLUSIONS", len(G.GBEXCL_COLS)),
     "Barks": ("BARKS", len(G.BARK_COLS)),
     "Tastes": ("TASTES", len(G.TASTE_COLS)),
     "Dossier": ("DOSSIER", len(G.DOSSIER_COLS)),

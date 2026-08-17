@@ -461,30 +461,69 @@ FIELD_ANIMS = [
     ("rios",  "idle",       "(미제작)",                          "신규필요", "배드엔딩 엘리베이터 연출에 필요"),
 ]
 
-# ── 랜덤 손님 공용 외형 — 조합형 카탈로그 (바디×의상×눈×헤어, 성별 일치 조합) ──
+# ── 랜덤 손님 공용 외형 — 조합형 카탈로그 (성별 일치 조합) ──
 # 각 항목은 character_anim 항목과 같은 이원 구조: 지금은 mode=sprite(한 장),
 # 애니 전환 시 그 행의 mode를 parts_anim으로 바꾸고 파츠 시트를 추가하면 된다(스키마 변경 없음).
-# sprite 키는 가칭 — 아트 제작 중, 완성 시 실제 리소스 키로 치환.
+# sprite 키는 가칭 — 완성 아트 임포트 시 실제 리소스 키로 치환. note에 실물 파일명 매핑을 적는다.
 # emotions(v2.9) — 표정별 교체 스프라이트 맵 "표정:키; 표정:키" (예: "joy:Guest/eyes_m_1_joy; anger:Guest/eyes_m_1_anger").
 #   랜덤 손님의 표정이 정해지면(barks.expression → bark_situations 기본 → default) 각 파트에서 그 표정 키를 찾아
 #   있으면 그 스프라이트로 교체, 없으면 기본 sprite 유지. 전부 공란 = 현행 '표정 고정'과 동일 동작.
-#   감정 표현은 눈 파트가 주 대상(코·입은 바디에 인쇄) — 감정 눈 아트가 나오면 eyes 행에만 채우면 켜진다.
-GBODY_COLS = ["part","id","gender","personalities","mode","sprite","emotions","weight","status","note"]
+# v3.3 — 슬롯 9종 확장(실물 남자 파츠 기준) + is_default(기본 조합 마킹) + GuestBodyExclusions(금지 쌍).
+#   슬롯 종류·레이어 순서는 아래 GB_SLOT_ORDER가 정본 — build 검증과 엔진 렌더러가 같은 목록을 쓴다.
+#   필수 슬롯은 성별·성격마다 후보 1개 이상 필요, 선택 슬롯은 추첨 시 '없음' 후보가 항상 붙는다.
+GB_SLOT_ORDER = ["body", "outfit", "outerwear", "necklace", "eyes", "eyebrows", "mouth", "hair", "arm_accessory"]
+GB_REQUIRED   = ["body", "outfit", "eyes", "eyebrows", "mouth", "hair"]          # 하나 필수
+GB_OPTIONAL   = ["outerwear", "necklace", "arm_accessory"]                        # 없음 가능
+GB_JSON_KEY   = {"body": "bodies", "outfit": "outfits", "outerwear": "outerwears",
+                 "necklace": "necklaces", "eyes": "eyes", "eyebrows": "eyebrows",
+                 "mouth": "mouths", "hair": "hairs", "arm_accessory": "arm_accessories"}
+GBODY_COLS = ["part","id","gender","personalities","mode","sprite","emotions","weight","status","note","is_default"]
 GUEST_BODIES = [
-    ("body",   "body_m",     "m", "", "sprite", "Guest/body_m",     "", 1, "제작중", "남성 바디 — 얼굴·몸통·코·입·패널 라인을 붙여 한 장으로 제작"),
-    ("body",   "body_f",     "f", "", "sprite", "Guest/body_f",     "", 1, "제작중", "여성 바디 — 얼굴·몸통·코·입·패널 라인을 붙여 한 장으로 제작"),
-    ("eyes",   "eyes_m_1",   "m", "", "sprite", "Guest/eyes_m_1",   "", 1, "제작중", ""),
-    ("eyes",   "eyes_m_2",   "m", "", "sprite", "Guest/eyes_m_2",   "", 1, "제작중", ""),
-    ("eyes",   "eyes_f_1",   "f", "", "sprite", "Guest/eyes_f_1",   "", 1, "제작중", ""),
-    ("eyes",   "eyes_f_2",   "f", "", "sprite", "Guest/eyes_f_2",   "", 1, "제작중", ""),
-    ("hair",   "hair_m_1",   "m", "", "sprite", "Guest/hair_m_1",   "", 1, "제작중", ""),
-    ("hair",   "hair_m_2",   "m", "", "sprite", "Guest/hair_m_2",   "", 1, "제작중", ""),
-    ("hair",   "hair_f_1",   "f", "", "sprite", "Guest/hair_f_1",   "", 1, "제작중", ""),
-    ("hair",   "hair_f_2",   "f", "", "sprite", "Guest/hair_f_2",   "", 1, "제작중", ""),
-    ("outfit", "outfit_m_1", "m", "", "sprite", "Guest/outfit_m_1", "", 1, "제작중", "민소매"),
-    ("outfit", "outfit_m_2", "m", "", "sprite", "Guest/outfit_m_2", "", 1, "제작중", "아우터"),
-    ("outfit", "outfit_f_1", "f", "", "sprite", "Guest/outfit_f_1", "", 1, "제작중", "민소매"),
-    ("outfit", "outfit_f_2", "f", "", "sprite", "Guest/outfit_f_2", "", 1, "제작중", "아우터"),
+    ("body",    "body_m",      "m", "", "sprite", "Guest/body_m",      "", 1, "완료",   "실물 body.png — 얼굴·몸통·코·패널 라인 한 장", True),
+    ("body",    "body_f",      "f", "", "sprite", "Guest/body_f",      "", 1, "제작중", "여성 바디 — 남자 body.png와 같은 규격으로 제작", True),
+    ("outfit",  "outfit_m_1",  "m", "", "sprite", "Guest/outfit_m_1",  "", 1, "완료",   "실물 Shirt_1 — 프린트 티(반소매)", True),
+    ("outfit",  "outfit_m_2",  "m", "", "sprite", "Guest/outfit_m_2",  "", 1, "완료",   "실물 Shirt_1(2) — 색 변형", ""),
+    ("outfit",  "outfit_m_3",  "m", "", "sprite", "Guest/outfit_m_3",  "", 1, "완료",   "실물 Shirt_1(3) — 색 변형", ""),
+    ("outfit",  "outfit_m_4",  "m", "", "sprite", "Guest/outfit_m_4",  "", 1, "완료",   "실물 Shirt_1(4) — 색 변형", ""),
+    ("outfit",  "outfit_m_5",  "m", "", "sprite", "Guest/outfit_m_5",  "", 1, "완료",   "실물 Shirt_1(5) — 색 변형", ""),
+    ("outfit",  "outfit_m_6",  "m", "", "sprite", "Guest/outfit_m_6",  "", 1, "완료",   "실물 Shirt_2 — 소매 있음", ""),
+    ("outfit",  "outfit_m_7",  "m", "", "sprite", "Guest/outfit_m_7",  "", 1, "완료",   "실물 Shirt_3 — 민소매(팔 액세서리 허용)", ""),
+    ("outfit",  "outfit_m_8",  "m", "", "sprite", "Guest/outfit_m_8",  "", 1, "완료",   "실물 Shirt_3(2) — 민소매 색 변형(팔 액세서리 허용)", ""),
+    ("outfit",  "outfit_f_1",  "f", "", "sprite", "Guest/outfit_f_1",  "", 1, "제작중", "민소매", True),
+    ("outfit",  "outfit_f_2",  "f", "", "sprite", "Guest/outfit_f_2",  "", 1, "제작중", "아우터", ""),
+    ("outerwear", "outerwear_m_1", "m", "", "sprite", "Guest/outerwear_m_1", "", 1, "완료", "실물 Acc_2 — 어깨 재킷", ""),
+    ("necklace",  "necklace_m_1",  "m", "", "sprite", "Guest/necklace_m_1",  "", 1, "완료", "실물 Acc_3 — 목걸이", ""),
+    ("eyes",    "eyes_m_1",    "m", "", "sprite", "Guest/eyes_m_1",    "", 1, "완료",   "실물 Eye_1", True),
+    ("eyes",    "eyes_m_2",    "m", "", "sprite", "Guest/eyes_m_2",    "", 1, "완료",   "실물 Eye_2", ""),
+    ("eyes",    "eyes_m_3",    "m", "", "sprite", "Guest/eyes_m_3",    "", 1, "완료",   "실물 Eye_3", ""),
+    ("eyes",    "eyes_f_1",    "f", "", "sprite", "Guest/eyes_f_1",    "", 1, "제작중", "", True),
+    ("eyes",    "eyes_f_2",    "f", "", "sprite", "Guest/eyes_f_2",    "", 1, "제작중", "", ""),
+    ("eyebrows", "eyebrows_m_1", "m", "", "sprite", "Guest/eyebrows_m_1", "", 1, "완료",   "실물 Eyebrow_1", True),
+    ("eyebrows", "eyebrows_m_2", "m", "", "sprite", "Guest/eyebrows_m_2", "", 1, "완료",   "실물 Eyebrow_2", ""),
+    ("eyebrows", "eyebrows_m_3", "m", "", "sprite", "Guest/eyebrows_m_3", "", 1, "완료",   "실물 Eyebrow_3", ""),
+    ("eyebrows", "eyebrows_f_1", "f", "", "sprite", "Guest/eyebrows_f_1", "", 1, "신규필요", "여성 눈썹 — 아트 대기", True),
+    ("mouth",   "mouth_m_1",   "m", "", "sprite", "Guest/mouth_m_1",   "", 1, "완료",   "실물 mouth_1", True),
+    ("mouth",   "mouth_m_2",   "m", "", "sprite", "Guest/mouth_m_2",   "", 1, "완료",   "실물 mouth_2", ""),
+    ("mouth",   "mouth_m_3",   "m", "", "sprite", "Guest/mouth_m_3",   "", 1, "완료",   "실물 mouth_3", ""),
+    ("mouth",   "mouth_f_1",   "f", "", "sprite", "Guest/mouth_f_1",   "", 1, "신규필요", "여성 입 — 아트 대기", True),
+    ("hair",    "hair_m_1",    "m", "", "sprite", "Guest/hair_m_1",    "", 1, "완료",   "실물 Hair_1", True),
+    ("hair",    "hair_m_2",    "m", "", "sprite", "Guest/hair_m_2",    "", 1, "완료",   "실물 Hair_2", ""),
+    ("hair",    "hair_f_1",    "f", "", "sprite", "Guest/hair_f_1",    "", 1, "제작중", "", True),
+    ("hair",    "hair_f_2",    "f", "", "sprite", "Guest/hair_f_2",    "", 1, "제작중", "", ""),
+    ("arm_accessory", "arm_accessory_m_1", "m", "", "sprite", "Guest/arm_accessory_m_1", "", 1, "완료", "실물 Acc_1 — 팔 액세서리, 민소매 전용(GuestBodyExclusions 참조)", ""),
+]
+
+# ── 랜덤 손님 외형 금지 조합 — 한 행 = 금지 쌍 하나, (a,b)=(b,a) ──
+# 팔 액세서리는 민소매(outfit_m_7·8)에서만 노출 — 소매 있는 상의 전부와 금지.
+# 새 상의를 추가할 때 민소매가 아니면 여기에도 행을 추가한다(이미지 판단이라 자동 검증 불가).
+GBEXCL_COLS = ["part_a", "part_b", "note"]
+GUEST_BODY_EXCLUSIONS = [
+    ("arm_accessory_m_1", "outfit_m_1", "민소매 아님 — 소매가 팔 액세서리를 가린다"),
+    ("arm_accessory_m_1", "outfit_m_2", "민소매 아님"),
+    ("arm_accessory_m_1", "outfit_m_3", "민소매 아님"),
+    ("arm_accessory_m_1", "outfit_m_4", "민소매 아님"),
+    ("arm_accessory_m_1", "outfit_m_5", "민소매 아님"),
+    ("arm_accessory_m_1", "outfit_m_6", "민소매 아님"),
 ]
 
 def parse_emotions(raw):
@@ -1192,6 +1231,8 @@ CONFIG = [
     # ── 스터 기믹 — 전 칵테일 공통, 차등이 필요해지면 tier 파생으로 전환 ──
     ("stir_stacks",            10,      "스터 게이지 스택 수(결과 칸) — 전 칵테일 공통, 성공·실패 불문 시도 하나가 한 칸을 채운다 [가안]"),
     ("stir_stack_sec",         2,       "스터 시도(스택 한 칸) 제한시간(초) — 초과 시 실패 스택 [가안]"),
+    # ── 랜덤 손님 외형 ──
+    ("guest_acc_none_weight",  1,       "선택 슬롯(아우터·목걸이·팔 액세서리)의 '없음' 후보 가중치 — 클수록 미착용이 흔하다. 없음 1·파츠 합 3이면 미착용 25% [가안]"),
 ]
 
 GRADE_CUTS = [("excellent",95),("good",80),("decent",60),("poor",35),("sewage",0)]
@@ -1414,6 +1455,7 @@ def validate(derived):
     check_dup("TextTags", TEXT_TAGS, lambda r: r[0])
     check_dup("BarkSituations", BARK_SITUATIONS, lambda r: r[0])
     check_dup("GuestBodies", GUEST_BODIES, lambda r: r[1])
+    check_dup("GuestBodyExclusions", GUEST_BODY_EXCLUSIONS, lambda r: tuple(sorted((r[0], r[1]))))
     check_dup("Expressions", EXPRESSIONS, lambda r: (r[0], r[1]))
     check_dup("ExpressionParts", EXPRESSION_PARTS, lambda r: (r[0], r[1], r[2]))
     check_dup("FieldAnims", FIELD_ANIMS, lambda r: (r[0], r[1]))
@@ -1668,13 +1710,15 @@ def validate(derived):
             errors.append(f"[스텝] {s[0]}#{s[1]}: 위치 프리셋 {s[4][5:]} 없음")
     for g in RANDOM_WAVES:
         d = dict(zip(WAVE_COLS, g))
-        if d["personality"] and d["personality"] not in pers_ids: errors.append(f"[웨이브] day{d['day']}#{d['seq']}: 성격 {d['personality']} 없음")
-    # ── 랜덤 손님 외형 카탈로그 (v2.8) — 성별별 파트 풀이 비면 조합 불가 ──
+        # v3.3 — personality는 필수: 비어 있으면 외형 생성이 성격을 정할 수 없다
+        if not d["personality"]: errors.append(f"[웨이브] day{d['day']}#{d['seq']}: personality는 필수 — 외형·대사 추첨의 기준값")
+        elif d["personality"] not in pers_ids: errors.append(f"[웨이브] day{d['day']}#{d['seq']}: 성격 {d['personality']} 없음")
+    # ── 랜덤 손님 외형 카탈로그 (v3.3) — 슬롯 9종 + is_default + 금지 조합 + 유효 조합 풀 ──
     _gb_pool = {}
     for r in GUEST_BODIES:
         d = dict(zip(GBODY_COLS, r))
-        if d["part"] not in ("body", "outfit", "eyes", "hair"):
-            errors.append(f"[외형] {d['id']}: part '{d['part']}' 불가 (body/outfit/eyes/hair)")
+        if d["part"] not in GB_SLOT_ORDER:
+            errors.append(f"[외형] {d['id']}: part '{d['part']}' 불가 — 슬롯 목록({'/'.join(GB_SLOT_ORDER)})에 없음")
         if d["gender"] not in ("m", "f"):
             errors.append(f"[외형] {d['id']}: gender '{d['gender']}' 불가 (m/f)")
         if d["mode"] not in ("sprite", "parts_anim"):
@@ -1701,11 +1745,64 @@ def validate(derived):
         for pid in (allow or pers_ids):
             _gb_pool.setdefault((d["gender"], d["part"], pid), 0)
             _gb_pool[(d["gender"], d["part"], pid)] += 1
+    # ── 금지 조합(GuestBodyExclusions) — id 존재·성별 일치·슬롯 상이·중복(역순 포함) 금지 ──
+    _gb_by = {dict(zip(GBODY_COLS, r))["id"]: dict(zip(GBODY_COLS, r)) for r in GUEST_BODIES}
+    _excl, _excl_seen = set(), set()
+    for e in GUEST_BODY_EXCLUSIONS:
+        a, b = e[0], e[1]
+        for x in (a, b):
+            if x not in _gb_by: errors.append(f"[외형금지] {a}×{b}: id '{x}' — GuestBodies에 없음")
+        if a in _gb_by and b in _gb_by:
+            da, db = _gb_by[a], _gb_by[b]
+            if da["gender"] != db["gender"]: errors.append(f"[외형금지] {a}×{b}: 성별이 달라 만날 수 없는 조합 — 행 삭제")
+            if da["part"] == db["part"]: errors.append(f"[외형금지] {a}×{b}: 같은 슬롯({da['part']})끼리는 동시 적용이 없어 무의미 — 행 삭제")
+        key = tuple(sorted((a, b)))
+        if key in _excl_seen: errors.append(f"[외형금지] {a}×{b}: 중복 등록(역순 포함) — 같은 규칙은 한 행만")
+        _excl_seen.add(key); _excl.add(key)
+    # ── 기본 조합(is_default) — 성별 × 필수 슬롯마다 정확히 1개, 전 성격 공용, 금지 쌍 미포함 ──
+    _gb_def = {}
+    for d in _gb_by.values():
+        if d.get("is_default"):
+            _gb_def.setdefault((d["gender"], d["part"]), []).append(d["id"])
+            if [x.strip() for x in str(d["personalities"] or "").split(";") if x.strip()]:
+                errors.append(f"[외형기본] {d['id']}: is_default 파츠는 personalities를 비워 전 성격에서 쓸 수 있어야 함")
+            if d["part"] in GB_OPTIONAL:
+                errors.append(f"[외형기본] {d['id']}: 선택 슬롯({d['part']})은 기본 조합에서 항상 '없음' — is_default 마킹 제거")
     for g in ("m", "f"):
-        for part in ("body", "outfit", "eyes", "hair"):
-            for pid in pers_ids:
-                if not _gb_pool.get((g, part, pid)):
-                    errors.append(f"[외형] 성별 '{g}' × 성격 '{pid}'의 {part} 풀이 0개 — 이 성격 손님은 조합 불가")
+        for part in GB_REQUIRED:
+            n = len(_gb_def.get((g, part), []))
+            if n != 1:
+                errors.append(f"[외형기본] 성별 '{g}' {part}: is_default 마킹 {n}개 — 정확히 1개여야 함")
+        combo = [ids[0] for p in GB_REQUIRED if (ids := _gb_def.get((g, p), []))]
+        for i in range(len(combo)):
+            for j in range(i + 1, len(combo)):
+                if tuple(sorted((combo[i], combo[j]))) in _excl:
+                    errors.append(f"[외형기본] 성별 '{g}': 기본 조합에 금지 쌍 {combo[i]}×{combo[j]} 포함")
+    # ── 유효 조합 풀 — (성별×성격) 전수 열거, 금지 쌍 포함 조합 제외. 0개 = 데드락(빌드 에러) ──
+    import itertools as _it
+    _pool_report = []
+    for g in ("m", "f"):
+        counts = []
+        for pid in pers_ids:
+            cand, ok = {}, True
+            for part in GB_SLOT_ORDER:
+                pool = [d["id"] for d in _gb_by.values() if d["part"] == part and d["gender"] == g
+                        and (not (al := [x.strip() for x in str(d["personalities"] or "").split(";") if x.strip()]) or pid in al)]
+                if part in GB_OPTIONAL: pool = pool + [None]
+                cand[part] = pool
+                if not pool: ok = False; break
+            n = 0
+            if ok:
+                for combo in _it.product(*(cand[p] for p in GB_SLOT_ORDER)):
+                    ids = [c for c in combo if c]
+                    if not any(tuple(sorted((ids[i], ids[j]))) in _excl
+                               for i in range(len(ids)) for j in range(i + 1, len(ids))):
+                        n += 1
+            if n == 0:
+                errors.append(f"[외형] 성별 '{g}' × 성격 '{pid}': 유효 조합 풀 0개 — 금지 조합·성격 필터·필수 슬롯 확인")
+            counts.append(f"{pid} {n}")
+        _pool_report.append(f"{g}: " + " · ".join(counts))
+    report.append("『외형 풀』 " + " / ".join(_pool_report))
     for g in REGULAR_SLOTS:
         d = dict(zip(RSLOT_COLS, g))
         if not d["character"]: errors.append(f"[단골슬롯] day{d['day']}#{d['seq']}: character는 필수 — 랜덤 손님은 RandomWaves 시트에")
@@ -2354,8 +2451,14 @@ COL_DOCS = {
         "sprite": "sprite 모드의 리소스 키. 아트 제작 중이라 지금은 가칭 — 완성 시 실키로 교체",
         "emotions": "표정별 교체 스프라이트 — '표정:키; 표정:키' (예: joy:Guest/eyes_m_1_joy; anger:…). 표정이 정해지면 이 맵에 있는 표정만 교체, 없으면 기본 sprite 유지. 비우면 표정 고정(현행). 표정은 common 세트, default 등록 금지. 감정 눈 아트가 나오면 eyes 행에 채운다",
         "weight": "추첨 가중치(1 이상 정수). 클수록 자주 나온다",
-        "status": "제작중/OK — 에셋 검수용, 게임 미사용",
-        "note": "기획 메모 (게임 미사용)",
+        "status": "완료/제작중/신규필요 — 에셋 검수용, 게임 미사용",
+        "note": "기획 메모 — 실물 파일명 매핑 기재 (게임 미사용)",
+        "is_default": "TRUE = 그 성별·슬롯의 기본 파츠. 성별×필수 슬롯마다 정확히 1개, personalities 공란 필수. 리소스 로드 실패 시 이 조합으로 대체(선택 슬롯은 항상 미착용)",
+    },
+    "GuestBodyExclusions": {
+        "part_a": "금지 쌍의 한쪽 파츠 id (GuestBodies.id)",
+        "part_b": "금지 쌍의 다른쪽 파츠 id — (a,b)와 (b,a)는 같은 규칙, 한 행만 등록",
+        "note": "금지 이유 — 검수용, json 미배포 (예: 민소매 아님)",
     },
     "BarkSituations": {
         "situation": "상황 코드 — Barks.situation의 정본 목록. 새 상황은 반드시 여기 먼저 등록(없는 값을 쓰면 빌드 에러)",
@@ -2532,7 +2635,8 @@ SHEET_DOCS = {
     "Endings": "엔딩 조건. priority 순으로 확인해 처음 맞는 엔딩으로 확정된다",
     "Config": "게임 전역 상수. 시작 골드·시간대·제한시간 공식·페널티 등",
     "BarkSituations": "1부 대사 상황 사전 + 상황별 기본 표정. Barks.situation의 정본 목록",
-    "GuestBodies": "랜덤 손님 공용 외형 카탈로그 — 바디(얼굴·코·입 포함)×의상×눈×헤어를 성별 맞춰 조합. 스폰 시 성별 추첨 후, 그 손님 성격을 허용하는 항목만 남겨 파트별 weight 가중 랜덤",
+    "GuestBodies": "랜덤 손님 공용 외형 카탈로그 — 슬롯 9종(바디·의상·아우터·목걸이·눈·눈썹·입·헤어·팔 액세서리)을 성별 맞춰 조합. 스폰 시 성별 추첨 후 (성별×성격) 유효 조합 풀에서 weight 곱 가중 랜덤",
+    "GuestBodyExclusions": "랜덤 손님 외형 금지 조합 — 한 행 = 함께 나오면 안 되는 파츠 쌍 하나. 현재 팔 액세서리×소매 상의 6행",
     "TextTags": "텍스트 연출 태그 정의 — <world> 색·<slow> 속도·<big> 크기 등. 대사에 쓴 태그는 반드시 여기 등록",
     "GradeCuts": "제조 점수(%)를 5등급으로 나누는 기준선",
     "GradePayout": "등급별 정산 — 술값을 얼마나 받고 팁이 얼마나 붙는지. 음수면 배상",
@@ -2605,7 +2709,7 @@ def add_sheet(wb, name, headers, rows):
 WORKBOOK_OF = {
     **{s: "System" for s in [
         "Cocktails", "RecipeLines", "ShelfItems", "Personalities", "GuestBodies",
-        "RandomWaves", "Config", "GradeCuts", "GradePayout", "Tags"]},
+        "GuestBodyExclusions", "RandomWaves", "Config", "GradeCuts", "GradePayout", "Tags"]},
     **{s: "Narrative" for s in [
         "Scenes", "Steps", "Choices", "Barks", "OrderRules", "Quests", "QuestStages",
         "Endings", "Dossier", "RegularSlots", "Characters", "Expressions",
@@ -2658,6 +2762,7 @@ def emit_xlsx(derived):
         "TextTags": (TEXTTAG_COLS, TEXT_TAGS),
         "BarkSituations": (BARKSIT_COLS, BARK_SITUATIONS),
         "GuestBodies": (GBODY_COLS, GUEST_BODIES),
+        "GuestBodyExclusions": (GBEXCL_COLS, GUEST_BODY_EXCLUSIONS),
     }
 
     # 2) 저작 2파일로 저장 (v2.0 — 시스템/내러티브 분리, 파일 1개 = 소유자 1명)
@@ -2883,16 +2988,25 @@ def emit_json(derived):
     dump("order_rules.json", [dict(zip(ORDER_COLS, o)) for o in ORDERS])
     dump("text_tags.json", {t: {"kind": k, "value": v} for t, k, v, _ in TEXT_TAGS})
     dump("bark_situations.json", {s: {"default_expression": e} for s, e, _ in BARK_SITUATIONS})
-    # 랜덤 손님 조합형 외형 — 파트별 그룹으로 배포. parts=null은 애니 전환용 자리(character_anim과 동일 규칙)
-    gb = {"bodies": [], "outfits": [], "eyes": [], "hairs": []}
-    _GB_KEY = {"body": "bodies", "outfit": "outfits", "eyes": "eyes", "hair": "hairs"}
+    # 랜덤 손님 조합형 외형 — 슬롯별 그룹으로 배포(GB_SLOT_ORDER 순). parts=null은 애니 전환용 자리.
+    # v3.3 — defaults(성별별 기본 조합: is_default 마킹에서 생성, 선택 슬롯 null) + exclusions(금지 쌍, note 제외).
+    #   is_default·status·note는 시트 전용 — json에 배포하지 않는다.
+    gb = {GB_JSON_KEY[p]: [] for p in GB_SLOT_ORDER}
     for r in GUEST_BODIES:
         d = dict(zip(GBODY_COLS, r))
         emo, _ = parse_emotions(d["emotions"])   # 표정별 교체 스프라이트(v2.9). 빈 dict = 표정 고정
-        gb[_GB_KEY[d["part"]]].append({"id": d["id"], "gender": d["gender"],
+        gb[GB_JSON_KEY[d["part"]]].append({"id": d["id"], "gender": d["gender"],
                                        "personalities": [x.strip() for x in str(d["personalities"] or "").split(";") if x.strip()],
                                        "mode": d["mode"], "sprite": d["sprite"] or None, "emotions": emo or None,
                                        "parts": None, "weight": d["weight"]})
+    _defs = {}
+    for r in GUEST_BODIES:
+        d = dict(zip(GBODY_COLS, r))
+        if d.get("is_default") and d["part"] in GB_REQUIRED:
+            _defs.setdefault(d["gender"], {})[d["part"]] = d["id"]
+    gb["defaults"] = {g: {**{p: _defs.get(g, {}).get(p) for p in GB_REQUIRED},
+                          **{p: None for p in GB_OPTIONAL}} for g in ("m", "f")}
+    gb["exclusions"] = [{"a": a, "b": b} for a, b in sorted({tuple(sorted((e[0], e[1]))) for e in GUEST_BODY_EXCLUSIONS})]
     dump("guest_bodies.json", gb)
     for old in ("schedule.json", "config.json", "grade_cuts.json", "tip_rates.json",
                 "affinity_matrix.json", "quest_stages.json", "guest_slots.json", "orders.json", "points.json"):   # 구/과분할 파일 잔존 방지

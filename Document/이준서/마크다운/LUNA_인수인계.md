@@ -39,7 +39,7 @@
 
 | 파일 | 소유 | 내용 |
 |---|---|---|
-| `LUNA_System.xlsx` (10시트) | 고현정 | Cocktails(17)·**Tags(14 — 태그 사전 ko/en)**·RecipeLines(41)·ShelfItems(40)·Personalities(5)·**GuestBodies(14)**·RandomWaves(7)·Config(35)·GradeCuts(5)·GradePayout(5) |
+| `LUNA_System.xlsx` (11시트) | 고현정 | Cocktails(17)·**Tags(14 — 태그 사전 ko/en)**·RecipeLines(41)·ShelfItems(40)·Personalities(5)·**GuestBodies(32 — 슬롯 9종+is_default)**·**GuestBodyExclusions(6 — 외형 금지 쌍)**·RandomWaves(7)·Config(38)·GradeCuts(5)·GradePayout(5) |
 | `LUNA_Narrative.xlsx` (24시트) | 이준서 | Scenes(40)·Steps(779)·Choices(14행·7세트)·Barks(169)·BarkSituations(24)·Characters(18)·Expressions·ExpressionParts·Cutscenes(23)·FieldAnims(18)·Days(3)·RegularSlots(1)·Spots(8)·InteractPoints(7)·Tastes(10)·Dossier(20)·Quests·QuestStages·Endings(5)·OrderRules(4)·AffinityMatrix(5)·UIStrings(40)·TextTags(7)·ResourceMap(17, 배포 제외 검수 대장) |
 | `LUNA_Draft.xlsx` (6시트) | 이기현 | 대사 초안 원고지 — 대본 4탭(**Bar/Home/Street/Cutscene** — script/ 구획과 1:1, 분량 커지면 Bar_Day4 식 밑줄 탭 확장 가능) + Barks(상황 드롭다운 24종 완비) + NPC. 전달완료 행만 PD가 가져간다 |
 
@@ -70,7 +70,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 ### 빌드가 보증하는 것 (구현자가 방어 코드를 줄여도 되는 목록)
 
-모든 id 참조 유효 / L10N en 항상 비어있지 않음(미번역=ko 복사) / (day,seq) 유일 / 손님 주문 tier 풀 비지 않음 / DSL 문법 유효 / cutscene kind·스텝 type 일치 / barks 무결(situation FK·표정 유효·태그 문법·카메오 전 상황 보유) / **end_part가 그날 마지막 bar 씬에 존재** / **대본 exact: 주문은 그날 반드시 해금돼 있음** / 거리 씬 say arg는 field_anims 실재 action / guest_bodies 성별(2)×성격(5)×파트(4) 40개 풀 전부 ≥1 + emotions 키는 common 세트(default 금지) / 선택지 세트는 2~4개 / interact_points trigger는 interact·proximity뿐(proximity는 shop 금지)·actor는 Characters 실재 / sprite 컷씬은 resource_key 필수 / auto 씬이 같은 (day,phase,seq)를 공유하면 전부 when 분기(빈 when 겹침은 에러 — interact·manual·cameo의 seq는 그룹 정렬용이라 중복 허용). 검증 실패 시 json이 아예 안 나온다.
+모든 id 참조 유효 / L10N en 항상 비어있지 않음(미번역=ko 복사) / (day,seq) 유일 / 손님 주문 tier 풀 비지 않음 / DSL 문법 유효 / cutscene kind·스텝 type 일치 / barks 무결(situation FK·표정 유효·태그 문법·카메오 전 상황 보유) / **end_part가 그날 마지막 bar 씬에 존재** / **대본 exact: 주문은 그날 반드시 해금돼 있음** / 거리 씬 say arg는 field_anims 실재 action / guest_bodies 슬롯 9종 화이트리스트·(성별×성격) 유효 조합 풀 ≥1(금지 쌍 반영 전수 열거)·금지 쌍 4검증(id·성별·슬롯·중복/역순)·is_default 성별×필수 슬롯당 정확히 1개·weight 1 이상 정수·random_waves personality 필수 + emotions 키는 common 세트(default 금지) / 선택지 세트는 2~4개 / interact_points trigger는 interact·proximity뿐(proximity는 shop 금지)·actor는 Characters 실재 / sprite 컷씬은 resource_key 필수 / auto 씬이 같은 (day,phase,seq)를 공유하면 전부 when 분기(빈 when 겹침은 에러 — interact·manual·cameo의 seq는 그룹 정렬용이라 중복 허용). 검증 실패 시 json이 아예 안 나온다.
 
 ---
 
@@ -82,7 +82,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - **카메오(regular_slots)**: 전용 대사만(공용 폴백 금지, 빌드 보증). `must_serve`=true면 인내심 없음·응대가 곧 1부 진행 조건(소프트락 아님). `serve_effects`=서빙 시 1회 DSL. 1부 카메오엔 취향·호감도 자동 적용 없음(serve_effects로만) — 자동 적용은 2부 serve 스텝 전용.
 - **2부**: order→craft→serve 3종 세트(각 12회). 제조 게이트는 **craft 스텝**(arg: order=일반/tutorial:id=코치마크). **serve 대상 = 직전 order 스텝의 actor**(d2_aili_craft 둘째 잔은 부비가 주문 — 씬 주인공으로 추론하면 틀림). 인내심 없음. 종료는 마지막 bar 씬의 end_part 스텝.
 - **표정**: 결정 = barks.expression(행 커스텀) → bark_situations 상황 기본(24종) → default. 카메오는 자기 세트+common. **랜덤 손님의 화면 반영 = guest_bodies의 파트별 emotions 맵**(표정→교체 스프라이트, 예: 오제조→화난 눈·excellent→웃는 눈) — 현재 전 항목 null이라 표정 고정으로 동작, 감정 눈 아트가 나오면 eyes 행의 emotions 값만 채우면 켜진다(코드·스키마 변경 없음). emotions 키는 common 세트 FK·default 등록 금지(빌드 검증).
-- **랜덤 손님 외형(guest_bodies.json)**: 조합형 — 바디 2(남녀 각 1, 얼굴·코·입·패널 라인 한 장) × 의상 4(각 2: 민소매·아우터) × 눈 4(각 2) × 헤어 4(각 2) = **조합 16종**. 추첨 = 성별 → 성격 확정 → 성격 허용 항목 필터(personalities, 비면 공용) → weight 랜덤. 겹침 바디→의상→눈→헤어, 동시 착석 동일 조합 회피. 각 항목은 character_anim과 같은 이원 구조(mode=sprite 현행/parts_anim 예약) — 애니 전환 시 값만 바꾸면 됨. **감정 전환 연출은 감정 표정 아트가 나올 때까지 표정 고정**(표정 결정 데이터는 유지).
+- **랜덤 손님 외형(guest_bodies.json, v3.3)**: 조합형 **슬롯 9종** — 필수 6(body·outfit·eyes·eyebrows·mouth·hair) + 선택 3(outerwear·necklace·arm_accessory, '없음' 후보 상시). 남자는 실물 파츠 반영(의상 8·눈 3·눈썹 3·입 3·헤어 2·액세서리 3 = 26항목), 여자는 구색(눈썹·입은 자리 행 — 아트 발주 ❗). 추첨 = 성격(웨이브 지정, 필수) → 성별 50/50 → **(성별×성격) 유효 조합 풀에서 weight 곱 추첨**(풀은 로드 시 사전 생성, 금지 쌍 포함 조합 제거 — 런타임 금지 규칙 무시 절대 없음, 현재 남 2,160/성격·여 8). 금지 쌍 = **GuestBodyExclusions 시트**(팔 액세서리×소매 상의 6행, (a,b) 순서 무관), 기본 조합 = GuestBodies `is_default` 마킹 → json `defaults`(추첨·로드 실패 시 전체 교체 폴백, 최후엔 누락 리소스 이미지 ❗). 선택 슬롯 미착용 = 인스턴스에 null·레이어 생략, '없음' 가중치 = config `guest_acc_none_weight`(1). 레이어 순서 고정(body 0→…→arm_accessory 80) — build 검증 목록과 엔진 렌더러가 같은 배열. 각 항목은 character_anim과 같은 이원 구조(mode=sprite 현행/parts_anim 예약). 정본 = 노션 「1부 일반 손님 외형 랜덤 생성 시스템」. **감정 전환 연출은 감정 표정 아트가 나올 때까지 표정 고정**(표정 결정 데이터는 유지).
 - **취함 분기**: max_rounds 3 + branch_choice=true 손님 전용, drunk_vomit_chance 0.4 — **현재 시드에 대상 손님 0명**(발동 안 함, 밸런스 확정 때 지정).
 - **L10N**: 영어 번역 8월 중후반 착수. 그때까지 en 누락=경고(ko 폴백), 이후 `build.py --strict`.
 - **거리(외부) 시스템** — 정본은 노션 「외부 거리 시스템 모음」. 요약: 상호작용 5종(NPC 대화/NPC간 대화/오브젝트 보기/포스터 뷰/기믹), E 아이콘은 발동 가능할 때만+최근접 1개, 말풍선 2종(이름형=직접 대화 NPC만·무명형=그 외, 데이터 컬럼 없이 상황 판정), NPC 대화 = 줌인+위치 보정→줌아웃(보정 위치 유지, 상수는 엔진), 대사 시작 = interact/proximity(`interact_points.trigger`), proximity는 시작되면 범위 이탈해도 끝까지 재생, 상호작용 소비 상태는 세이브 저장, phase 전이 = 문 진입(bar_door·home_door, 순서는 엔진 고정), 말풍선 상수 = `config.street_typing_interval_ms`(50)·`street_auto_next_delay_sec`(3). NPC 존재는 `interact_points.actor`가 담당 — 같은 actor를 지점 여러 개에 두면 시간대별 위치 이동. 기믹(자판기·전화 부스)은 데모 범위 확정·사양 ❓, NPC간 대화 콘텐츠는 데모 이후. 검증용 시뮬레이터: `이준서/거리_시뮬레이터.html`(실데이터 구움 — 데이터 바뀌면 재생성 요청).
@@ -167,6 +167,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - **7/30**: **거리 데이터 정리(v3.3~3.4)**. 오브젝트 3원칙 확정 후 전 오브젝트 재작성 — 전단 2종은 포스터 뷰(정보 한 줄), 분실 상자는 마크 표시+선택지(줍는다/무시한다), 고양이는 "냐옹." 한 줄. 삭제: 쓰레기통·전광판 2지점(정보 없음/불필요, `board` 화자·`street_board` 앵커 동반)·자판기 일체(기믹 사양 확정 후 재도입)·출퇴근 독백 4씬(전부 미승인 가안)·삼호 사망/구조 2씬(타임라인 컷씬으로 제작 예정)·유지비 엔딩 씬과 판정 행(엔딩 기획 미완). 루나 괄호 독백 전량 제거 — 남은 루나 대사는 전부 NPC 직접 대화. 신설 검증: **오브젝트 씬의 루나 대사 = 빌드 에러**. 스키마: role 5값 통합, 등퇴장 sfx 디폴트 명시, Choices에 거리 세트 2종. 결과 수치 — 거리 지점 7·앵커 8·거리 씬 11·전체 씬 40·스텝 779·캐릭터 18. 노션 4문서(거리·사양서·요소 목록·바 내부) 동시 최신화.
 - **7/30 저녁**: 주문 대사 리듬 확정 — `order_bark_gap_sec`(1.5) 신설, Personalities에 `think_chance` 컬럼(v3.5). PD가 배포 json 29파일을 develop `e83f8f9`로 반영(전 파일 바이트 일치 확인). 「데이터 변경 사항 07/30」 작성(파싱 수정 3건: interact_points actor·trigger / think_chance / config 3키).
 - **7/31~8/1**: **칵테일 제조 시스템 노션 문서 신설**(화면별 규칙+UI+데이터 연결+§13 설계 문제 6건). 데이터 v3.6~3.7 — **Tags 시트 신설**(태그 사전 14종 ko/en, 미등록 태그 = 빌드 에러·Tastes 참조까지 검증), cocktails에 **recipe_desc**(제조법 수동 문안 ko/en, 빈 칸 = 빌드 에러)·파생 이미지 키 `sprite`/`serve_sprite`(구엔진 명명 이식 — 겹침 4종 재사용), ui_strings에 `ui_grade_*` 5키(언어 불문 영어), config `sfx_serve`. 「데이터 변경 사항 08/01」 작성(tags 구조 변경 = 파싱 breaking + 필드 3개). 발견한 데이터 버그: **bees_knees 해금 불가**(unlock_day 99 + unlock_when null — 꿀 퀘스트 기획 미완의 데드).
+- **8/17**: **랜덤 손님 외형 v3.3** — 실물 남자 파츠(zip 9레이어) 기준으로 GuestBodies 슬롯 9종 확장(32행)+`is_default` 컬럼, **GuestBodyExclusions 시트 신설**(팔 액세서리×소매 상의 6행), config `guest_acc_none_weight`(1). 생성 방식을 (성별×성격) 유효 조합 풀 사전 생성으로 확정(런타임 금지 규칙 무시 금지, 기본 조합 폴백). 검증 신설 7종(금지 쌍 4·is_default·weight 정수·waves personality 필수)+풀 리포트, 고의 위반 3종 차단 확인. 노션 「1부 일반 손님 외형 랜덤 생성 시스템」 신설(프로그래머 리뷰 3라운드), 「데이터 변경 사항 08/17」 작성. 웹 프로토 손님파츠조합 시뮬레이터 제작.
 
 ---
 
@@ -199,7 +200,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 
 | 항목 | 내용 |
 |---|---|
-| 랜덤 손님 외형 | 제작 중(바디2·눈4·헤어4·의상4) — 완성 시 GuestBodies 시트의 sprite 가칭 키(`Guest/body_m` 등)를 실키로 교체, status=OK |
+| 랜덤 손님 외형 | 남자 실물 파츠 수령 완료(9레이어 26항목) — 유니티 임포트 시 GuestBodies sprite 가칭 키를 실키로 교체. **여자 눈썹·입 미제작** ❗ · **일반 손님용 누락 리소스 이미지** ❗(기본 조합까지 로드 실패 시 표시) |
 | 감정 표정 아트 | 데이터 구조 완성(guest_bodies.emotions — 표정별 교체 스프라이트 맵, 현재 전부 null=표정 고정). **감정 눈 아트 제작이 남은 전부** ❗ — 눈 4종 발주에 감정 변형(웃음·화남 등)을 얹으면 eyes 행 값만 채워 켠다 |
 | 사운드 5종 | config에 키만 존재: sfx_guest_in/out(공용 입퇴장), sfx_drink_high/mid/low(마시는 소리 — excellent·good/decent/poor·sewage). 오디오 파일 발주·연결 ❗ |
 | BGM 3종 | bgm_street_night·bgm_bar_calm(day1)·bgm_bar_main ❗ |
@@ -213,6 +214,7 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 - 세 노션 문서(§4 표)가 구현 정본 — 특히 데이터 사양서의 "빌드가 보증하는 것" 목록(방어 코드 절감)과 tolerant reader 원칙(모르는 필드 무시) 전달.
 - 텔레메트리는 필수 아닌 권장(마일스톤 W4 한치우 행 메모).
 - 8월 중후반 번역 착수 후 `build.py --strict` 상시화.
+- **랜덤 손님 외형 렌더러 구현 전달** — guest_bodies.json 스키마 변경(9슬롯+defaults+exclusions, 「데이터 변경 사항 08/17」). 구현 정본 = 「1부 일반 손님 외형 랜덤 생성 시스템」. 슬롯 배열·레이어 순서는 build.py GB_SLOT_ORDER와 동일하게 코드 고정.
 
 ### 인프라
 
@@ -226,6 +228,8 @@ python3 tools/gen_luna_data.py    # ⚠ 코드 시드 → 시트 "재생성" —
 1. **유니티 json 반영 상태** — 7/30 PD가 29파일을 develop(`e83f8f9`)에 반영해 당시 기준 전 파일 일치. 이후 기획 쪽 변경 3파일(cocktails·balance·ui_strings — 「데이터 변경 사항 08/01」)은 재전달 대기. 구파일 5종(expressions·script/common·day_1~3)은 **구 로더가 아직 읽고 있어 의도적으로 잔존** — 플머가 신 스키마 파싱(actor·trigger·think_chance·tags 구조 등)으로 갈아탄 뒤 삭제한다. 신 데이터는 그 전환 전까지 게임 화면에 반영되지 않는다.
 2. **레포 안 산출물 md 5종이 구스펙** — `Document/이준서/산출물/`의 설계서·JSON 설명서 등은 v2.0 이전 기준(expressions.json·orders.json·조기 마감·OPEN 간판 클릭이 그대로 적혀 있음). **팀에게는 노션 3문서가 정본이라고 안내할 것.** 레포 md는 참고 이력으로만.
 3. **json 편집기 오염 사고 2회** — §2 절대 규칙 1 참고. 빌드 산출물을 편집 모드로 열어두지 말 것.
+4. **유지비 배드엔딩이 데이터에 없다** — 규칙은 확정(정산 직후 골드 음수 → `bad_gold` → 씬 `ed_bad_gold`)됐는데 endings.json은 5종(bad_1·happy_1·happy_2·normal_1·bad_2)뿐이고 `ed_bad_gold`는 전 json 등장 0회. `이준서/유지비_배드엔딩_행추가.md`의 행을 Narrative 엑셀에 붙여넣어야 하고, days.upkeep_gold가 전부 0이라 붙여넣어도 발동 불가 — 일차별 금액 결정과 세트다. 데모에서 뺄 거면 그걸로 확정할 것.
+5. **happy 계열 엔딩의 tom·sunha 호감도 경로가 없다** — `happy_1.when` = aili·tom·port·sunha 각 100, `happy_2` = aili·tom·port 100인데 Tastes에 톰·선하(+하루) 0줄이라 서빙 획득이 불가하고, day1~3 씬 명시 획득도 0(빌드 호감도 시뮬에 둘 다 미등장). tom·sunha만 두 경로가 전부 비어 있다 — 취향을 넣을지 씬 명시 전용으로 갈지 설계 결정 필요. bad_1도 `rios_accepted`를 set하는 데이터가 없어 현재 도달 불가(알려진 미완결). set만 되고 안 읽히는 플래그 7건(dream_raid_1/2·port_served_d3·samho_drunk·samho_calmed·seen_coratech_ad·shiba_fed)은 미래 분기 예약이면 정상 — 목록만 인지할 것.
 
 ---
 

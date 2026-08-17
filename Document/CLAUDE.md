@@ -93,7 +93,11 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
   **serve 대상 = 직전 order 스텝의 actor**(씬 주인공으로 추론하면 틀린다).
 - **표정**: 결정 = barks.expression → bark_situations(24상황) → default.
   **랜덤 손님 화면 반영 = guest_bodies의 파트별 `emotions` 맵**(현재 전부 null = 표정 고정, 감정 눈 아트가 오면 값만 채우면 켜진다).
-- **랜덤 손님 외형**: 조합형 — 바디2×의상4×눈4×헤어4 = 조합 16종. 성별 → 성격 → 성격 허용 필터 → weight 랜덤.
+- **랜덤 손님 외형**: 조합형 슬롯 9종 — 필수 6(body·outfit·eyes·eyebrows·mouth·hair) + 선택 3(outerwear·necklace·arm_accessory, '없음' 후보 상시).
+  성격 = 웨이브 지정(필수), 성별 = 50/50 → (성별×성격) 유효 조합 풀(금지 쌍 제거, 사전 생성)에서 weight 곱 추첨.
+  금지 쌍 = GuestBodyExclusions 시트(현 팔 액세서리×소매 상의 6행), 기본 조합 = GuestBodies `is_default` 마킹 → json `defaults`.
+  선택 슬롯 '없음' 가중치 = config `guest_acc_none_weight`(1). 정본 = 노션 「1부 일반 손님 외형 랜덤 생성 시스템」(3bf1612298dc8004b2d3c766e8e3892b).
+  남자 파츠는 실물 반영(의상 8·눈 3·눈썹 3·입 3·헤어 2·액세서리 3) — 여자 눈썹·입은 자리 행(아트 발주 ❗), 엔진 렌더러 구현 대기.
 - **랜덤 손님은 day2부터** 등장(random_waves에 day1 없음). day1 바 = 크리스 튜토리얼 + 포트 첫 잔.
 - **1부 지정 이벤트 = regular_slots 카메오.** cameo_scene은 서빙 후 재생, 씬 안 choice 스텝으로 선택지 가능.
   씬 재생 중(선택지 포함) 전 좌석 타이머 정지(제조 정지와 동일). 주문 칵테일 지정 불가 — tier 풀 추첨,
