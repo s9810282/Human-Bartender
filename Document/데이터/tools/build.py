@@ -33,27 +33,34 @@ def _config_cast(v, t):
 
 # 컬럼 타입 명세 — 엑셀 왕복 시 타입이 뭉개지는 컬럼만 명시 (그 외는 그대로)
 NULLABLE = {   # 빈 칸을 ""가 아니라 None(널)로
-    "Cocktails": {"glass", "fill", "garnish", "unlock_day_override", "tier_override"},
-    "ShelfItems": {"shop_price", "category", "sprite"},
+    "Cocktails": {"glass", "garnish", "color2"},
+    "RecipeLines": {"qty", "unit"},          # fill_up·수량 tbd 라인은 수량이 널
+    "ScoreBands": {"max_ratio"},             # 마지막 구간은 상한 없음(널)
+    "Scenes": {"day"},                       # 널 = 상시 씬(구 day 0 센티널)
+    "ShelfItems": {"shop_price", "category", "sprite", "prep_action", "default_target_qty", "default_target_unit"},
     "Characters": {"alive_flag", "enter_sfx", "exit_sfx"},
 }
 BOOL_COLS = {  # TRUE/FALSE 문자열 → 불리언
     "Scenes": {"skippable"},
     "RegularSlots": {"branch_choice", "must_serve"},
     "RandomWaves": {"branch_choice"},
+    "RecipeLines": {"is_core", "auto_apply", "scored"},
+    "ScoreBands": {"min_inclusive", "max_inclusive"},
     "Characters": {"affinity"},
     "GuestBodies": {"is_default"},
 }
 FLOAT_COLS = { # 8.0이 8로 읽히는 문제 → float 강제
     "Cocktails": {"abv"},
-    "GradePayout": {"revenue_mult"},
+    "SettlementRules": {"sale_rate", "tip_rate", "refund_rate"},
+    "ScoreBands": {"min_ratio", "max_ratio"},
     "Personalities": {"tip_mult", "patience_mult", "think_chance"},
+    "ShelfItems": {"default_target_qty"},
 }
 
 # 시트 → (전역 이름, 읽을 컬럼 수). Cocktails의 (파생) 컬럼과 Characters의 base_body는 별도 처리.
 SHEET_SPEC = {
     "Cocktails": ("COCKTAILS", len(G.CK_COLS)),
-    "RecipeLines": (None, 6),
+    "RecipeLines": (None, 9),
     "ShelfItems": ("SHELF_ITEMS", len(G.SHELF_COLS)),
     "Characters": (None, len(G.CHAR_COLS) + 1),
     "Expressions": ("EXPRESSIONS", len(G.EXPR_COLS)),
@@ -82,7 +89,8 @@ SHEET_SPEC = {
     "Endings": ("ENDINGS", len(G.END_COLS)),
     "Config": ("CONFIG", len(G.CONFIG_COLS)),
     "GradeCuts": ("GRADE_CUTS", 2),
-    "GradePayout": ("GRADE_PAYOUT", 2),
+    "SettlementRules": ("SETTLEMENT_RULES", len(G.SETTLE_COLS)),
+    "ScoreBands": ("SCORE_BANDS", len(G.SCOREBAND_COLS)),
     "AffinityMatrix": ("AFFINITY_MATRIX", 6),
     "UIStrings": ("UI_STRINGS", len(G.UI_COLS)),
     "TextTags": ("TEXT_TAGS", len(G.TEXTTAG_COLS)),
@@ -144,10 +152,16 @@ def collect(paths):
 
 def load_into_globals(tables):
     # 특수 1 — RecipeLines → RECIPES 딕셔너리 (레시피 없는 칵테일도 빈 키 유지)
+    # 시트의 is_core/auto_apply는 시드의 플래그 문자열로 복원. scored는 파생 참고 컬럼 —
+    # 플래그로 설명되지 않는 scored=FALSE만 noscore로 되살린다(현재 실사용 0 — 예약).
     G.COCKTAILS = tables["Cocktails"]
     rec = {}
-    for cid, seq, action, ing, qty, unit in sorted(tables["RecipeLines"], key=lambda x: (str(x[0]), x[1])):
-        rec.setdefault(cid, []).append((action, ing, qty, unit))
+    for cid, seq, action, ing, qty, unit, is_core, auto_apply, scored in sorted(
+            tables["RecipeLines"], key=lambda x: (str(x[0]), x[1])):
+        flags = [f for f, on in (("core", is_core), ("auto", auto_apply)) if on]
+        if not scored and not auto_apply:
+            flags.append("noscore")
+        rec.setdefault(cid, []).append((action, ing, qty, unit, "|".join(flags)))
     for c in G.COCKTAILS:
         rec.setdefault(c[0], [])
     G.RECIPES = rec

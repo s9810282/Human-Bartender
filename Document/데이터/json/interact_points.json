@@ -6,7 +6,7 @@
     "actor": "vendor",
     "phase": "commute_in",
     "trigger": "interact",
-    "when": "day == 2",
+    "when": "day == 1",
     "scene_or_shop": "d2_vendor_intro",
     "selection": "once",
     "note": "노점상 완 첫 인사"
@@ -18,7 +18,7 @@
     "actor": "vendor",
     "phase": "both",
     "trigger": "interact",
-    "when": "day >= 3",
+    "when": "day >= 2",
     "scene_or_shop": "shop:vendor",
     "selection": "repeat",
     "note": "노점 상점(과일·믹서 구매)"
@@ -30,7 +30,7 @@
     "actor": "",
     "phase": "commute_in",
     "trigger": "interact",
-    "when": "day == 3 && !flag.d3_cat_seen",
+    "when": "day == 2 && !flag.d3_cat_seen",
     "scene_or_shop": "d3_alley_cat",
     "selection": "once",
     "note": "노란 꼬리 목격 → d3 아일리 선택지 연동"
@@ -42,7 +42,7 @@
     "actor": "shiba",
     "phase": "both",
     "trigger": "interact",
-    "when": "day >= 2",
+    "when": "day >= 1",
     "scene_or_shop": "group:np_shiba",
     "selection": "conditional",
     "note": "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"
@@ -54,7 +54,7 @@
     "actor": "",
     "phase": "both",
     "trigger": "interact",
-    "when": "day >= 2",
+    "when": "day >= 1",
     "scene_or_shop": "ob_parttime_1",
     "selection": "repeat",
     "note": "알바 전단 — 적힌 정보만, 몇 번이든 다시 읽을 수 있다"
@@ -66,7 +66,7 @@
     "actor": "",
     "phase": "commute_out",
     "trigger": "interact",
-    "when": "day >= 2",
+    "when": "day >= 1",
     "scene_or_shop": "ob_experiment_1",
     "selection": "once",
     "note": "임상시험 전단 — 코라테크 복선(한 번 읽으면 소비)"

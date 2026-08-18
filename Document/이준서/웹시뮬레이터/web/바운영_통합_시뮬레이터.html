@@ -1,0 +1,3019 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Project L.U.N.A — 바 운영 통합 시뮬레이터</title>
+  <style>
+    :root {
+      --bg: #070b0e;
+      --panel: #0b1115;
+      --ink: #edf7f5;
+      --muted: #7c8f93;
+      --line: rgba(184, 222, 219, 0.16);
+      --cyan: #69f6e1;
+      --cyan-soft: rgba(105, 246, 225, 0.14);
+      --lime: #dfff6b;
+      --green: #72f2a0;
+      --red: #ff6478;
+      --violet: #a58cff;
+      --gold: #ffc85a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(105, 246, 225, 0.07), transparent 30%),
+        radial-gradient(circle at 84% 78%, rgba(165, 140, 255, 0.09), transparent 34%),
+        var(--bg);
+      font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", system-ui, sans-serif;
+    }
+
+    body { display: grid; place-items: center; padding: 22px; overflow-x: hidden; }
+    button { font: inherit; cursor: pointer; }
+
+    .game-shell {
+      position: relative;
+      width: min(1500px, calc(100vw - 44px));
+      aspect-ratio: 16 / 9;
+      min-height: 650px;
+      overflow: hidden;
+      isolation: isolate;
+      border: 1px solid rgba(181, 220, 216, 0.21);
+      border-radius: 20px;
+      background: #090e12;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+    }
+
+    .game-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 4px),
+        radial-gradient(circle at center, transparent 58%, rgba(0,0,0,0.3));
+      mix-blend-mode: screen;
+    }
+
+    /* ── 상단바 ── */
+    .topbar {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 40;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 26px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(6,10,13,0.98), rgba(6,10,13,0.82));
+      backdrop-filter: blur(14px);
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 12px; font-weight: 900; letter-spacing: 0.18em; }
+    .brand-mark {
+      width: 27px; height: 27px; display: grid; place-items: center;
+      border: 1px solid var(--cyan); border-radius: 50%; color: var(--cyan);
+      box-shadow: 0 0 20px rgba(105, 246, 225, 0.2);
+      font-family: ui-monospace, Menlo, monospace; font-size: 11px;
+    }
+    .phase-chip {
+      margin-left: 12px; padding: 4px 12px;
+      border: 1px solid rgba(165,140,255,0.4); color: var(--violet);
+      font-family: ui-monospace, Menlo, monospace; font-size: 10px; font-weight: 900; letter-spacing: 0.14em;
+    }
+
+    .top-stats { display: flex; align-items: center; gap: 10px; }
+    .top-stat {
+      min-width: 112px; padding: 8px 13px;
+      border: 1px solid rgba(184, 222, 219, 0.13);
+      background: rgba(255,255,255,0.018);
+      text-align: right;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    }
+    .top-stat small { display: block; margin-bottom: 1px; color: var(--muted); font-size: 8px; letter-spacing: 0.16em; }
+    .top-stat strong { color: var(--ink); font-size: 15px; letter-spacing: 0.05em; }
+    .top-stat.timer strong { color: var(--cyan); }
+    .top-stat.timer.over strong { color: var(--red); }
+    .top-stat.hidden { display: none; }
+
+    /* ── 화면 공통 ── */
+    .screen { position: absolute; inset: 68px 0 0; display: none; overflow: hidden; }
+    .screen.active { display: block; }
+
+    /* ── 타이틀 ── */
+    #screen-title { display: none; place-items: center; background:
+      radial-gradient(circle at 50% 34%, rgba(105,246,225,0.06), transparent 42%), var(--panel); }
+    #screen-title.active { display: grid; }
+    .title-card { text-align: center; max-width: 640px; padding: 0 24px; }
+    .title-card small { color: var(--violet); font-family: ui-monospace, Menlo, monospace; font-size: 10px; font-weight: 900; letter-spacing: 0.22em; }
+    .title-card h1 { margin: 14px 0 10px; font-size: clamp(30px, 3.4vw, 46px); letter-spacing: -0.04em; }
+    .title-card p { margin: 0 0 26px; color: var(--muted); font-size: 13px; line-height: 1.9; }
+    .title-start {
+      min-width: 220px; height: 52px;
+      border: 1px solid var(--lime); color: #10160a; background: var(--lime);
+      font-family: ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 900; letter-spacing: 0.14em;
+      box-shadow: 0 0 28px rgba(223,255,107,0.17);
+    }
+    .title-keys { margin-top: 22px; color: var(--muted); font-size: 11px; line-height: 2; }
+    .title-keys b { color: var(--cyan); font-family: ui-monospace, Menlo, monospace; font-weight: 700; }
+
+    /* ── 바 화면 ── */
+    #screen-bar {
+      background:
+        linear-gradient(180deg, rgba(16,27,31,0.9) 0%, rgba(9,14,18,0.96) 52%),
+        radial-gradient(circle at 50% 0%, rgba(165,140,255,0.1), transparent 46%),
+        var(--panel);
+    }
+    #screen-bar::before {
+      content: "";
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(105,246,225,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(105,246,225,0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    .seat-indicators {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 22px; z-index: 12;
+    }
+    .seat-dot {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid rgba(124,143,147,0.5);
+      background: rgba(255,255,255,0.03);
+      padding: 0;
+      transition: background 160ms, border-color 160ms, box-shadow 160ms, border-radius 160ms;
+    }
+    .seat-dot.entering { animation: dotBlink 700ms ease-in-out infinite alternate; border-color: var(--cyan); }
+    .seat-dot.seated { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 12px rgba(105,246,225,0.35); }
+    .seat-dot.warn { background: var(--gold); border-color: var(--gold); border-radius: 7px; box-shadow: 0 0 12px rgba(255,200,90,0.4); }
+    .seat-dot.danger { background: var(--red); border-color: var(--red); border-radius: 7px; animation: dotBlink 320ms ease-in-out infinite alternate; }
+    .seat-dot.focused { outline: 2px solid var(--lime); outline-offset: 3px; }
+    @keyframes dotBlink { from { filter: brightness(0.55); } to { filter: brightness(1.35); } }
+
+    .bar-counter {
+      position: absolute; left: 0; right: 0; bottom: 120px; height: 84px;
+      background: linear-gradient(180deg, #1d2a2e, #131d21 40%, #0d1518);
+      border-top: 2px solid rgba(105,246,225,0.22);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.4);
+      z-index: 4;
+    }
+    .bar-counter::after {
+      content: ""; position: absolute; top: 6px; left: 0; right: 0; height: 2px;
+      background: rgba(105,246,225,0.08);
+    }
+
+    .seats {
+      position: absolute; left: 50%; bottom: 150px; transform: translateX(-50%);
+      display: flex; gap: 8%;
+      width: min(78%, 980px);
+      justify-content: center;
+      z-index: 6;
+    }
+    .seat {
+      position: relative;
+      width: 30%; max-width: 240px; min-width: 170px;
+      height: 300px;
+      display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+      cursor: pointer;
+      transition: transform 240ms ease, filter 240ms ease;
+    }
+    .seat.focused { transform: scale(1.16) translateY(-8px); z-index: 8; }
+    .seats.has-focus .seat:not(.focused) { filter: brightness(0.55) saturate(0.6); }
+
+    .guest-card {
+      position: relative;
+      width: 132px; height: 172px;
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 14px 14px 6px 6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.24)), var(--panel);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+      overflow: hidden;
+    }
+    .seat.occupied .guest-card { display: block; }
+    .guest-sil {
+      position: absolute; inset: 12px 12px 34px;
+      display: grid; place-items: center;
+    }
+    .guest-sil svg { width: 100%; height: 100%; }
+    .guest-name {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 28px;
+      display: grid; place-items: center;
+      border-top: 1px solid var(--line);
+      background: rgba(0,0,0,0.35);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+    }
+    .guest-card.enter-anim { animation: guestIn 420ms ease-out; }
+    @keyframes guestIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    .guest-card.leave-anim { animation: guestOut 380ms ease-in forwards; }
+    @keyframes guestOut { to { opacity: 0; transform: translateX(38px); } }
+
+    .coaster {
+      position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%);
+      width: 58px; height: 12px; border-radius: 50%;
+      border: 1px solid rgba(105,246,225,0.5);
+      background: radial-gradient(circle at 50% 40%, rgba(105,246,225,0.28), rgba(105,246,225,0.08));
+      display: none;
+    }
+    .seat.coastered .coaster { display: block; }
+
+    .seat-hint {
+      position: absolute; bottom: -52px; left: 50%; transform: translateX(-50%);
+      color: var(--lime); font-size: 10px; font-weight: 900; letter-spacing: 0.1em;
+      white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 160ms;
+    }
+    .seat.actionable .seat-hint { opacity: 1; animation: dotBlink 600ms ease-in-out infinite alternate; }
+
+    /* 말풍선 */
+    .bubble {
+      position: absolute; bottom: calc(100% + 16px); left: 50%; transform: translateX(-50%);
+      width: 240px;
+      padding: 10px 13px 11px;
+      border: 1px solid rgba(184,222,219,0.3);
+      border-radius: 12px;
+      background: rgba(10,17,20,0.96);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      opacity: 0; pointer-events: none;
+      transition: opacity 140ms;
+      z-index: 20;
+    }
+    .bubble.show { opacity: 1; }
+    .bubble::after {
+      content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      border: 9px solid transparent; border-top-color: rgba(184,222,219,0.3);
+    }
+    .bubble .b-name {
+      display: inline-block; margin-bottom: 4px;
+      color: var(--cyan); font-size: 10px; font-weight: 900; letter-spacing: 0.08em;
+    }
+    .bubble .b-text {
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+      font-size: 12.5px; line-height: 1.55; min-height: 19px;
+    }
+
+    /* 루나 대사창 */
+    .luna-box {
+      position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+      width: min(70%, 760px);
+      padding: 13px 20px 14px;
+      border: 1px solid rgba(105,246,225,0.28);
+      border-radius: 10px;
+      background: rgba(8,13,16,0.94);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.5);
+      opacity: 0; pointer-events: none;
+      transition: opacity 160ms;
+      z-index: 24;
+    }
+    .luna-box.show { opacity: 1; }
+    .luna-box .l-name { color: var(--cyan); font-size: 11px; font-weight: 900; letter-spacing: 0.12em; margin-right: 12px; }
+    .luna-box .l-text { font-size: 13.5px; line-height: 1.6; }
+
+    /* VN 대화창 (개점·2부·컷) */
+    .vn-box {
+      position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);
+      width: min(78%, 860px); min-height: 116px;
+      padding: 16px 24px 18px;
+      border: 1px solid rgba(184,222,219,0.3);
+      border-radius: 12px;
+      background: rgba(7,12,15,0.96);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+      cursor: pointer;
+      display: none;
+      z-index: 30;
+    }
+    .vn-box.show { display: block; }
+    .vn-name {
+      display: inline-block; margin-bottom: 7px; padding: 3px 12px;
+      border: 1px solid rgba(105,246,225,0.4);
+      color: var(--cyan); font-size: 11px; font-weight: 900; letter-spacing: 0.1em;
+    }
+    .vn-text { font-size: 15px; line-height: 1.75; min-height: 52px; }
+    .vn-next {
+      position: absolute; right: 18px; bottom: 12px;
+      color: var(--lime); font-size: 13px;
+      opacity: 0;
+    }
+    .vn-next.on { opacity: 1; animation: vnBob 800ms ease-in-out infinite alternate; }
+    @keyframes vnBob { from { transform: translateY(0); } to { transform: translateY(4px); } }
+
+    .vn-choices {
+      position: absolute; left: 50%; bottom: 160px; transform: translateX(-50%);
+      display: none; flex-direction: column; gap: 10px;
+      width: min(64%, 620px);
+      z-index: 32;
+    }
+    .vn-choices.show { display: flex; }
+    .vn-choice {
+      padding: 13px 18px;
+      border: 1px solid rgba(105,246,225,0.32);
+      color: var(--ink); background: rgba(10,17,20,0.95);
+      font-size: 13.5px; text-align: center;
+      transition: background 120ms, border-color 120ms;
+    }
+    .vn-choice:hover { background: rgba(105,246,225,0.1); border-color: var(--cyan); }
+
+    /* 좌측 고정 패널 */
+    .left-panel {
+      position: absolute; left: 0; top: 26px;
+      z-index: 26;
+      display: flex; align-items: flex-start;
+      transition: transform 240ms ease;
+    }
+    .left-panel.collapsed { transform: translateX(-148px); }
+    .lp-body {
+      width: 148px;
+      padding: 12px 10px;
+      border: 1px solid var(--line); border-left: 0;
+      border-radius: 0 12px 12px 0;
+      background: rgba(8,13,16,0.94);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .lp-toggle {
+      margin-top: 8px;
+      width: 26px; height: 64px;
+      border: 1px solid var(--line); border-left: 0;
+      border-radius: 0 8px 8px 0;
+      color: var(--cyan); background: rgba(8,13,16,0.94);
+      font-size: 12px;
+    }
+    .lp-btn {
+      padding: 10px 8px;
+      border: 1px solid rgba(105,246,225,0.28);
+      color: var(--ink); background: rgba(105,246,225,0.05);
+      font-size: 12px; font-weight: 700;
+    }
+    .lp-btn:disabled { opacity: 0.32; cursor: default; }
+    .lp-held {
+      margin-top: 4px; padding: 9px 8px;
+      border: 1px dashed rgba(223,255,107,0.4);
+      color: var(--lime); font-size: 11px; line-height: 1.5; text-align: center;
+      display: none;
+    }
+    .lp-held.show { display: block; }
+
+    /* 재화 UI */
+    .gold-ui {
+      position: absolute; right: 22px; top: 14px;
+      z-index: 34;
+      min-width: 170px;
+      padding: 10px 16px;
+      border: 1px solid rgba(255,200,90,0.4);
+      background: rgba(10,15,18,0.96);
+      text-align: right;
+      font-family: ui-monospace, Menlo, monospace;
+      transform: translateY(-72px); opacity: 0;
+      transition: transform 260ms ease, opacity 260ms ease;
+    }
+    .gold-ui.show { transform: none; opacity: 1; }
+    .gold-ui small { display: block; color: var(--muted); font-size: 8px; letter-spacing: 0.16em; margin-bottom: 2px; }
+    .gold-ui strong { font-size: 19px; color: var(--gold); }
+    .gold-ui .g-delta { display: block; margin-top: 2px; font-size: 12px; font-weight: 900; }
+    .gold-ui .g-delta.plus { color: var(--lime); }
+    .gold-ui .g-delta.minus { color: var(--red); }
+    .gold-ui.shake { animation: goldShake 340ms ease-in-out; }
+    @keyframes goldShake {
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    /* 팝업 공통 */
+    .popup-layer {
+      position: absolute; inset: 0; z-index: 60;
+      display: none; place-items: center;
+      background: rgba(4,8,10,0.72);
+      backdrop-filter: blur(6px);
+    }
+    .popup-layer.show { display: grid; }
+    .popup-card {
+      width: min(560px, 88%);
+      max-height: 82%;
+      overflow: auto;
+      padding: 24px 26px;
+      border: 1px solid rgba(105,246,225,0.3);
+      background: rgba(8,14,17,0.97);
+      box-shadow: 0 0 54px rgba(105,246,225,0.08);
+    }
+    .popup-card h3 { margin: 0 0 12px; font-size: 17px; color: var(--cyan); letter-spacing: 0.02em; }
+    .popup-card p { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .popup-actions { display: flex; gap: 9px; margin-top: 16px; }
+    .popup-actions button {
+      flex: 1; height: 42px;
+      border: 1px solid rgba(105,246,225,0.3);
+      color: var(--ink); background: rgba(105,246,225,0.07);
+      font-size: 12px; font-weight: 800;
+    }
+    .popup-actions button.primary { border-color: var(--lime); color: #10160a; background: var(--lime); }
+    .sales-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .sales-table th, .sales-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; }
+    .sales-table th { color: var(--muted); font-weight: 700; font-size: 10px; letter-spacing: 0.08em; }
+    .sales-table td:first-child, .sales-table th:first-child { text-align: left; }
+    .sales-table .num { font-family: ui-monospace, Menlo, monospace; }
+
+    /* ── 제조 화면 ── */
+    #screen-craft { background: var(--panel); }
+    .craft-head {
+      position: absolute; top: 0; left: 0; right: 0; height: 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(6,10,13,0.9);
+      z-index: 10;
+    }
+    .craft-head .c-title { font-size: 13px; font-weight: 900; letter-spacing: 0.06em; color: var(--violet); }
+    .craft-head .c-name { color: var(--ink); margin-left: 10px; }
+    .craft-time { font-family: ui-monospace, Menlo, monospace; font-size: 14px; color: var(--cyan); }
+    .craft-time.over { color: var(--red); font-weight: 900; }
+    .craft-body { position: absolute; inset: 52px 0 0; overflow: auto; padding: 18px 24px 24px; }
+
+    /* 목차 */
+    .menu-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .menu-filters .f-group { color: var(--muted); font-size: 10px; font-weight: 900; letter-spacing: 0.1em; margin-right: 2px; }
+    .f-chip {
+      padding: 5px 12px;
+      border: 1px solid var(--line); border-radius: 999px;
+      color: var(--muted); background: transparent;
+      font-size: 11px;
+    }
+    .f-chip.on { color: #10160a; background: var(--cyan); border-color: var(--cyan); font-weight: 800; }
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+      gap: 12px; margin-top: 12px;
+    }
+    .cock-card {
+      position: relative;
+      padding: 14px 14px 12px;
+      border: 1px solid var(--line); border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent), rgba(255,255,255,0.012);
+      text-align: left;
+      transition: border-color 120ms, box-shadow 120ms, transform 120ms;
+    }
+    .cock-card.kb-sel, .cock-card:hover:not(.locked) {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 1px var(--cyan), 0 8px 26px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+    .cock-card .cc-glass {
+      width: 40px; height: 52px; margin-bottom: 9px;
+      display: grid; place-items: center;
+    }
+    .cock-card h4 { margin: 0 0 3px; font-size: 14.5px; letter-spacing: -0.01em; }
+    .cock-card .cc-price { color: var(--gold); font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+    .cock-card .cc-tags { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 4px; }
+    .cc-tag { padding: 2px 7px; border-radius: 999px; font-size: 9.5px; border: 1px solid var(--line); color: var(--muted); }
+    .cc-tag.taste { border-color: rgba(255,200,90,0.4); color: var(--gold); }
+    .cc-tag.feel { border-color: rgba(165,140,255,0.4); color: var(--violet); }
+    .cock-card.locked { cursor: default; opacity: 0.5; }
+    .cock-card.locked .cc-glass { filter: brightness(0.25); }
+    .cock-card.locked h4 { color: var(--muted); letter-spacing: 0.2em; }
+    .menu-help { margin-top: 16px; color: var(--muted); font-size: 11px; line-height: 1.9; }
+    .menu-help b { color: var(--cyan); font-family: ui-monospace, Menlo, monospace; }
+
+    /* 상세 */
+    .detail-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 22px; max-width: 900px; margin: 0 auto; }
+    .detail-visual {
+      border: 1px solid var(--line); border-radius: 14px;
+      padding: 22px; text-align: center;
+      background: rgba(255,255,255,0.012);
+    }
+    .detail-visual .dv-glass { height: 130px; display: grid; place-items: center; margin-bottom: 12px; }
+    .detail-visual h2 { margin: 0 0 4px; font-size: 22px; }
+    .detail-visual .dv-price { color: var(--gold); font-family: ui-monospace, Menlo, monospace; }
+    .detail-visual .dv-flavor { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .detail-info h3 { margin: 0 0 8px; font-size: 12px; color: var(--cyan); letter-spacing: 0.1em; }
+    .detail-info .di-desc {
+      padding: 13px 15px; border: 1px solid var(--line); border-radius: 10px;
+      background: rgba(255,255,255,0.015);
+      font-size: 13px; line-height: 1.85; margin-bottom: 14px;
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+    .badge {
+      padding: 6px 12px; border: 1px solid rgba(184,222,219,0.28); border-radius: 8px;
+      font-size: 11.5px; background: rgba(255,255,255,0.02);
+    }
+    .badge small { color: var(--muted); font-size: 9px; margin-right: 5px; letter-spacing: 0.08em; }
+    .badge.off { opacity: 0.4; }
+    .detail-actions { display: flex; gap: 9px; margin-top: 6px; }
+    .btn-ghost {
+      flex: 1; height: 46px;
+      border: 1px solid rgba(184,222,219,0.3); color: var(--ink); background: transparent;
+      font-size: 12.5px; font-weight: 700;
+    }
+    .btn-primary {
+      flex: 2; height: 46px;
+      border: 1px solid var(--lime); color: #10160a; background: var(--lime);
+      font-size: 13px; font-weight: 900; letter-spacing: 0.04em;
+      box-shadow: 0 0 22px rgba(223,255,107,0.14);
+    }
+    .btn-primary:disabled { opacity: 0.35; box-shadow: none; cursor: default; }
+
+    /* 선반(제조 준비) */
+    .prep-wrap { max-width: 1080px; margin: 0 auto; }
+    .prep-section { margin-bottom: 15px; }
+    .prep-section h3 {
+      margin: 0 0 7px; font-size: 11px; color: var(--cyan); letter-spacing: 0.12em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .prep-section h3 .cnt { color: var(--muted); font-weight: 400; letter-spacing: 0; }
+    .shelf-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .shelf-item {
+      position: relative;
+      min-width: 86px;
+      padding: 9px 11px 8px;
+      border: 1px solid var(--line); border-radius: 9px;
+      color: var(--ink); background: rgba(255,255,255,0.015);
+      font-size: 11.5px; text-align: center;
+      transition: border-color 100ms, background 100ms;
+    }
+    .shelf-item .si-dot {
+      display: block; width: 22px; height: 22px; margin: 0 auto 5px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .shelf-item .si-cat { display: block; margin-top: 3px; color: var(--muted); font-size: 8.5px; letter-spacing: 0.08em; }
+    .shelf-item.sel { border-color: var(--lime); background: rgba(223,255,107,0.1); box-shadow: 0 0 0 1px var(--lime); }
+    .shelf-item.guide { animation: guideBlink 640ms ease-in-out infinite alternate; }
+    @keyframes guideBlink {
+      from { box-shadow: 0 0 0 1px rgba(105,246,225,0.25); border-color: rgba(105,246,225,0.4); }
+      to { box-shadow: 0 0 0 2px var(--cyan), 0 0 16px rgba(105,246,225,0.35); border-color: var(--cyan); }
+    }
+    .prep-foot {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line);
+    }
+    .prep-foot .pf-note { color: var(--muted); font-size: 11px; }
+    .prep-foot .pf-actions { display: flex; gap: 9px; }
+    .prep-foot button { min-width: 130px; }
+
+    /* 기믹 스테이지 */
+    .gimmick-wrap { max-width: 1020px; margin: 0 auto; }
+    .gimmick-queue { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .gq-step {
+      padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px;
+      color: var(--muted); font-size: 10.5px; letter-spacing: 0.04em;
+      font-family: ui-monospace, Menlo, monospace;
+    }
+    .gq-step.done { color: var(--green); border-color: rgba(114,242,160,0.4); }
+    .gq-step.cur { color: #10160a; background: var(--cyan); border-color: var(--cyan); font-weight: 800; }
+    #gimmick-stage {
+      position: relative;
+      height: 470px;
+      border: 1px solid var(--line); border-radius: 14px;
+      background:
+        linear-gradient(rgba(105,246,225,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(105,246,225,0.028) 1px, transparent 1px),
+        radial-gradient(circle at 50% 46%, rgba(105,246,225,0.04), transparent 58%),
+        #0a1013;
+      background-size: 30px 30px, 30px 30px, auto, auto;
+      overflow: hidden;
+      user-select: none;
+    }
+    .g-hud {
+      position: absolute; top: 12px; left: 16px; right: 16px;
+      display: flex; justify-content: space-between;
+      color: var(--muted); font-size: 12px;
+      font-family: ui-monospace, Menlo, monospace;
+      pointer-events: none; z-index: 6;
+    }
+    .g-hud b { color: var(--gold); }
+    .g-title {
+      position: absolute; top: 38px; left: 0; right: 0; text-align: center;
+      font-size: 15px; font-weight: 800; pointer-events: none; z-index: 6;
+    }
+    .g-sub { position: absolute; top: 62px; left: 0; right: 0; text-align: center; font-size: 11px; color: var(--muted); pointer-events: none; z-index: 6; }
+    .g-keyhint {
+      position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+      display: flex; gap: 8px; align-items: center;
+      color: var(--muted); font-size: 11.5px; white-space: nowrap; z-index: 6; pointer-events: none;
+    }
+    .kbd {
+      display: inline-block; min-width: 28px; text-align: center;
+      background: #10181c; border: 1px solid var(--line); border-bottom-width: 3px;
+      border-radius: 6px; padding: 3px 8px;
+      font-size: 12px; font-weight: 800; color: var(--ink);
+      font-family: ui-monospace, Menlo, monospace;
+      transition: 60ms;
+    }
+    .kbd.down { background: var(--cyan); border-color: var(--cyan); color: #10160a; transform: translateY(2px); border-bottom-width: 1px; }
+    .g-judge {
+      position: absolute; left: 50%; top: 44%; transform: translate(-50%,-50%);
+      font-size: 38px; font-weight: 900; letter-spacing: 0.06em;
+      font-family: ui-monospace, Menlo, monospace;
+      opacity: 0; pointer-events: none; z-index: 8; text-shadow: 0 0 22px currentColor;
+    }
+    @keyframes judgePop {
+      0% { opacity: 0; transform: translate(-50%,-50%) scale(0.6); }
+      18% { opacity: 1; transform: translate(-50%,-50%) scale(1.12); }
+      70% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(1) translateY(-22px); }
+    }
+    .g-judge.show { animation: judgePop 620ms ease-out; }
+    .g-autocard {
+      position: absolute; inset: 0; display: grid; place-items: center; z-index: 5;
+    }
+    .g-autocard .ac-inner { text-align: center; }
+    .g-autocard .ac-icon { font-size: 46px; margin-bottom: 10px; animation: acFloat 900ms ease-in-out infinite alternate; }
+    @keyframes acFloat { from { transform: translateY(-4px); } to { transform: translateY(5px); } }
+    .g-autocard h4 { margin: 0 0 6px; font-size: 18px; }
+    .g-autocard p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    /* 따르기 */
+    .pour-bottle {
+      position: absolute; width: 45px; height: 170px; top: 46%;
+      transform: translateY(-50%); transform-origin: 50% 50%;
+      z-index: 3;
+    }
+    .pour-bottle .pb-shape {
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, transparent 0 12%, #24313a 12% 26%, #17222a 26%);
+      border-radius: 6px 6px 10px 10px;
+      position: relative;
+      border: 1px solid rgba(184,222,219,0.25);
+    }
+    .pour-bottle .pb-neck {
+      position: absolute; top: -26px; left: 50%; transform: translateX(-50%);
+      width: 14px; height: 30px; background: #17222a;
+      border: 1px solid rgba(184,222,219,0.25); border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+    }
+    .pour-bottle .pb-liquid { position: absolute; left: 5px; right: 5px; bottom: 6px; height: 52%; border-radius: 0 0 7px 7px; opacity: 0.75; }
+    .pour-glass-zone { position: absolute; bottom: 64px; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: rgba(105,246,225,0.5); transform: translateX(-50%); z-index: 2; }
+    .tilt-gauge {
+      position: absolute; left: 18px; bottom: 52px; width: 170px; height: 9px;
+      background: #10181c; border: 1px solid var(--line); border-radius: 5px; z-index: 6;
+    }
+    .tilt-fill { height: 100%; width: 0%; background: var(--cyan); border-radius: 4px; }
+    .tilt-fill.pouring { background: var(--gold); }
+    .tilt-mark { position: absolute; top: -5px; width: 2px; height: 19px; background: var(--red); }
+    .tilt-caption { position: absolute; left: 0; top: -19px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .stream-svg { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+    .ripple { animation: rippleAnim 480ms ease-out forwards; transform-box: fill-box; transform-origin: center; }
+    @keyframes rippleAnim { 0% { opacity: 0.75; transform: scale(0.3); } 100% { opacity: 0; transform: scale(1.8); } }
+    .pour-ok {
+      position: absolute; inset: 0; display: none; place-items: center;
+      font-size: 52px; font-weight: 900; color: var(--gold);
+      font-family: ui-monospace, Menlo, monospace;
+      text-shadow: 0 0 24px rgba(255,200,90,0.6); z-index: 8; pointer-events: none;
+    }
+    .pour-ok.show { display: grid; animation: okBlink 900ms ease-in-out infinite; }
+    @keyframes okBlink { 0%,100% { opacity: 0; } 50% { opacity: 1; } }
+
+    /* 병따기 */
+    .cap-bottle2 {
+      position: absolute; left: 50%; width: 48px; height: 190px; transform: translateX(-50%);
+      z-index: 3;
+    }
+    .cap-bottle2 .cb-shape {
+      width: 100%; height: 100%;
+      background: linear-gradient(180deg, transparent 0 10%, #3d2f14 10% 24%, #2a2110 24%);
+      border-radius: 6px 6px 10px 10px;
+      border: 1px solid rgba(202,162,4,0.4);
+      position: relative;
+    }
+    .cap-bottle2 .cb-neck {
+      position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
+      width: 13px; height: 28px; background: #2a2110;
+      border: 1px solid rgba(202,162,4,0.4); border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+    }
+    .cap-piece2 {
+      position: absolute; left: 50%; width: 42px; height: 16px;
+      transform: translate(-50%, -60%);
+      border-radius: 5px 5px 7px 7px;
+      background: repeating-linear-gradient(90deg, #c9d1de 0 3px, #8b94a4 3px 6px), linear-gradient(180deg, #e4eaf3, #79808f);
+      border: 2px solid #5f6673;
+      z-index: 5;
+    }
+    @keyframes capPop {
+      0% { transform: translate(-50%,-60%) rotate(0deg); opacity: 1; }
+      30% { transform: translate(-50%,-260%) rotate(140deg); opacity: 1; }
+      100% { transform: translate(-10%,-520%) rotate(520deg); opacity: 0; }
+    }
+    .cap-piece2.pop { animation: capPop 620ms cubic-bezier(.2,.7,.4,1) forwards; }
+    @keyframes capBend {
+      0%,100% { transform: translate(-50%,-60%) rotate(0deg); }
+      35% { transform: translate(-50%,-64%) rotate(-13deg); }
+      70% { transform: translate(-50%,-58%) rotate(6deg); }
+    }
+    .cap-piece2.bend { animation: capBend 320ms ease-in-out; }
+
+    /* 셰이킹 (정본 이식) */
+    .shake-arena {
+      position: absolute; left: 50%; top: 52%; transform: translate(-50%,-50%);
+      width: min(88%, 780px); aspect-ratio: 16/8;
+      border: 1px solid rgba(105,246,225,0.13);
+      background: radial-gradient(circle at 50% 50%, rgba(105,246,225,0.045), transparent 57%);
+      overflow: hidden;
+    }
+    .shake-arena .track-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .track-line-shadow, .track-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .track-line-shadow { stroke: rgba(105,246,225,0.11); stroke-width: 12; }
+    .track-line { stroke: rgba(135,255,244,0.88); stroke-width: 4; filter: drop-shadow(0 0 7px rgba(105,246,225,0.28)); }
+    .route-node {
+      position: absolute; z-index: 3; width: 38px; height: 38px;
+      transform: translate(-50%,-50%);
+      border: 5px solid #ff314f; border-radius: 50%;
+      background: #11191d;
+      box-shadow: 0 0 0 4px rgba(255,49,79,0.12), 0 0 20px rgba(255,49,79,0.42);
+    }
+    .rhythm-node {
+      position: absolute; z-index: 5; width: 32px; height: 32px;
+      transform: translate(-50%,-50%);
+      border: 5px solid #3da7ff; border-radius: 50%;
+      background: #0b151b;
+      box-shadow: 0 0 0 4px rgba(61,167,255,0.1), 0 0 18px rgba(61,167,255,0.34);
+      transition: 100ms;
+    }
+    .route-node.window, .rhythm-node.window {
+      border-color: var(--lime); background: rgba(223,255,107,0.12);
+      box-shadow: 0 0 0 9px rgba(223,255,107,0.08), 0 0 32px rgba(223,255,107,0.34);
+      animation: nodePulse 560ms ease-in-out infinite alternate;
+    }
+    .route-node.hit, .rhythm-node.hit {
+      border-color: var(--lime); background: var(--lime);
+      transform: translate(-50%,-50%) scale(1.26);
+    }
+    .rhythm-node.cleared { opacity: 0.13; transform: translate(-50%,-50%) scale(0.72); }
+    @keyframes nodePulse { from { filter: brightness(0.88); } to { filter: brightness(1.25); } }
+    .shake-cursor {
+      position: absolute; z-index: 8; width: 52px; height: 52px;
+      transform: translate(-50%,-50%);
+      border: 9px solid #3da7ff; border-radius: 50%;
+      background: #0b1719;
+      box-shadow: 0 0 0 5px rgba(61,167,255,0.09), 0 0 25px rgba(61,167,255,0.38);
+    }
+    .shake-cursor.success { border-color: var(--lime); box-shadow: 0 0 0 9px rgba(223,255,107,0.1), 0 0 38px rgba(223,255,107,0.52); }
+    .shake-cursor.failure { animation: cursorFail 200ms ease-in-out; }
+    @keyframes cursorFail {
+      25%, 75% { transform: translate(-59%,-50%); border-color: var(--red); }
+      50% { transform: translate(-41%,-50%); }
+    }
+    .feedback-pop {
+      position: absolute; z-index: 12; transform: translate(-50%,-50%);
+      opacity: 0; pointer-events: none;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 20px; font-weight: 900; letter-spacing: 0.12em;
+    }
+    .feedback-pop.show-success { color: var(--lime); animation: feedbackRise 480ms ease-out; }
+    .feedback-pop.show-failure { color: var(--red); animation: feedbackRise 480ms ease-out; }
+    @keyframes feedbackRise {
+      0% { opacity: 0; transform: translate(-50%,-20%) scale(0.72); }
+      25% { opacity: 1; transform: translate(-50%,-75%) scale(1.08); }
+      100% { opacity: 0; transform: translate(-50%,-130%) scale(0.96); }
+    }
+    /* 사선 게이지 (셰이킹·스터 공용) */
+    .diag-gauge {
+      position: absolute; right: 30px; top: 8%; height: 84%; width: 26px;
+      padding: 4px;
+      transform: rotate(-13.8deg); transform-origin: 50% 0;
+      border: 1px solid rgba(105,246,225,0.33);
+      background: rgba(5,11,14,0.91);
+      z-index: 7;
+    }
+    .diag-gauge .gauge-segments { position: absolute; inset: 6px; display: flex; flex-direction: column-reverse; gap: 2px; }
+    .gauge-segment { flex: 1; min-height: 3px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.025); }
+    .gauge-segment.success { border-color: rgba(223,255,107,0.72); background: linear-gradient(180deg, var(--lime), #719038); }
+    .gauge-segment.failure { border-color: rgba(255,100,120,0.66); background: linear-gradient(180deg, var(--red), #872f43); }
+
+    /* 스터 (정본 이식) */
+    .stir-arena2 {
+      position: absolute; left: 50%; top: 54%; transform: translate(-50%,-50%);
+      width: 320px; height: 320px; z-index: 3;
+    }
+    .stir-glass2 {
+      position: absolute; inset: 44px; border-radius: 50%;
+      border: 3px solid #7c8598;
+      background: radial-gradient(circle at 38% 32%, rgba(255,255,255,0.14), rgba(0,0,0,0.5) 72%);
+      overflow: hidden;
+    }
+    .stir-liquid2 { position: absolute; inset: 8px; border-radius: 50%; opacity: 0.42; }
+    .stir-swirl2 {
+      position: absolute; inset: 8px; border-radius: 50%;
+      background: conic-gradient(from 0deg,
+        rgba(255,255,255,0) 0deg, rgba(255,255,255,0.42) 34deg,
+        rgba(255,255,255,0) 84deg, rgba(255,255,255,0.26) 148deg,
+        rgba(255,255,255,0) 206deg, rgba(255,255,255,0.42) 274deg,
+        rgba(255,255,255,0) 336deg);
+      mix-blend-mode: screen;
+    }
+    .stir-spoon2 {
+      position: absolute; left: 50%; top: 50%; width: 6px; height: 104px;
+      margin-left: -3px; margin-top: -104px; transform-origin: 50% 100%;
+      background: linear-gradient(180deg, #e8eef7, #98a2b4); border-radius: 3px;
+      z-index: 4;
+    }
+    .stir-key {
+      position: absolute; width: 54px; height: 54px;
+      display: grid; place-items: center;
+      border: 2px solid var(--line); border-radius: 12px;
+      background: #10181c; color: var(--muted);
+      font-size: 21px; font-weight: 900;
+      font-family: ui-monospace, Menlo, monospace;
+      transition: 110ms;
+      z-index: 6;
+      padding: 0;
+    }
+    .stir-key small { position: absolute; bottom: 3px; font-size: 8px; font-weight: 400; color: var(--muted); }
+    .stir-key.k-w { top: -14px; left: 50%; transform: translateX(-50%); }
+    .stir-key.k-d { right: -14px; top: 50%; transform: translateY(-50%); }
+    .stir-key.k-s { bottom: -14px; left: 50%; transform: translateX(-50%); }
+    .stir-key.k-a { left: -14px; top: 50%; transform: translateY(-50%); }
+    .stir-key.target { border-color: var(--lime); color: var(--lime); box-shadow: 0 0 18px rgba(223,255,107,0.35); animation: nodePulse 560ms ease-in-out infinite alternate; }
+    .stir-key.position { border-color: var(--cyan); color: var(--cyan); }
+    .stir-key.correct-flash { background: rgba(114,242,160,0.2); border-color: var(--green); color: var(--green); }
+    .stir-key.wrong-flash { background: rgba(255,100,120,0.2); border-color: var(--red); color: var(--red); }
+    .stir-round-timer {
+      position: absolute; left: 24%; right: 24%; bottom: 46px; height: 8px;
+      background: #10181c; border: 1px solid var(--line); border-radius: 5px; overflow: hidden; z-index: 6;
+    }
+    .stir-round-fill { height: 100%; width: 100%; background: var(--gold); }
+    .stir-round-fill.danger { background: var(--red); }
+    @keyframes glassShake {
+      0%,100% { transform: translate(-50%,-50%); }
+      20% { transform: translate(calc(-50% - 11px),-50%) rotate(-2deg); }
+      50% { transform: translate(calc(-50% + 10px),-50%) rotate(2deg); }
+      80% { transform: translate(calc(-50% - 5px),-50%) rotate(-1deg); }
+    }
+    .stir-arena2.wrong { animation: glassShake 300ms ease-in-out; }
+
+    /* 결과 */
+    .result-wrap { max-width: 760px; margin: 0 auto; }
+    .result-head { text-align: center; margin-bottom: 16px; }
+    .result-head small { color: var(--muted); font-family: ui-monospace, Menlo, monospace; font-size: 9px; letter-spacing: 0.2em; }
+    .result-head h2 { margin: 8px 0 2px; font-size: clamp(38px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.04em; }
+    .result-head .r-score { font-family: ui-monospace, Menlo, monospace; font-size: 16px; color: var(--muted); }
+    .result-head .r-forced { margin-top: 8px; color: var(--red); font-size: 12.5px; font-weight: 800; }
+    .result-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 12px; }
+    .result-table th, .result-table td { padding: 7px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+    .result-table th { color: var(--muted); font-size: 10px; letter-spacing: 0.08em; }
+    .result-table td:first-child, .result-table th:first-child { text-align: left; }
+    .result-table .num { font-family: ui-monospace, Menlo, monospace; }
+    .result-table .bad { color: var(--red); }
+    .result-table .good { color: var(--green); }
+    .result-actions2 { display: flex; gap: 10px; margin-top: 18px; }
+
+    /* ── 정산 화면 ── */
+    #screen-settle { display: none; place-items: center; background: var(--panel); overflow: auto; }
+    #screen-settle.active { display: grid; }
+    .settle-card { width: min(760px, 92%); padding: 30px 34px; }
+    .settle-card small.sc-cap { color: var(--violet); font-family: ui-monospace, Menlo, monospace; font-size: 10px; font-weight: 900; letter-spacing: 0.2em; }
+    .settle-card h2 { margin: 10px 0 18px; font-size: 30px; letter-spacing: -0.03em; }
+    .settle-total {
+      display: flex; gap: 10px; margin: 18px 0 22px;
+    }
+    .settle-total .st-box {
+      flex: 1; padding: 13px 14px;
+      border: 1px solid var(--line); background: rgba(255,255,255,0.018);
+      text-align: right; font-family: ui-monospace, Menlo, monospace;
+    }
+    .settle-total .st-box small { display: block; color: var(--muted); font-size: 8.5px; letter-spacing: 0.14em; margin-bottom: 3px; }
+    .settle-total .st-box strong { font-size: 17px; }
+    .settle-total .gold strong { color: var(--gold); }
+    .settle-total .plus strong { color: var(--lime); }
+    .settle-total .minus strong { color: var(--red); }
+
+    /* 디버그 바 */
+    .debug-bar {
+      position: absolute; right: 14px; bottom: 12px; z-index: 70;
+      display: flex; gap: 6px;
+    }
+    .debug-bar button {
+      padding: 7px 11px;
+      border: 1px solid rgba(165,140,255,0.35); border-radius: 7px;
+      color: var(--violet); background: rgba(8,13,16,0.9);
+      font-size: 10.5px; font-weight: 700;
+    }
+    .debug-bar button.on { color: #10160a; background: var(--violet); }
+
+    .fade-layer {
+      position: absolute; inset: 0; z-index: 80; pointer-events: none;
+      background: #05080a; opacity: 0; transition: opacity 420ms ease;
+    }
+    .fade-layer.on { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 1100px) {
+      body { padding: 0; display: block; }
+      .game-shell { width: 100%; min-height: 100vh; aspect-ratio: auto; border: 0; border-radius: 0; }
+      .seats { width: 92%; gap: 4%; }
+      .detail-wrap { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="game-shell" aria-label="Project L.U.N.A 바 운영 통합 시뮬레이터">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">L</span> PROJECT L.U.N.A
+        <span class="phase-chip" id="phaseChip">TITLE</span>
+      </div>
+      <div class="top-stats">
+        <div class="top-stat timer hidden" id="craftTimeBox">
+          <small>CRAFT TIME</small>
+          <strong id="craftTimeText">00:00</strong>
+        </div>
+        <div class="top-stat">
+          <small>DAY</small>
+          <strong>DAY 1</strong>
+        </div>
+        <div class="top-stat">
+          <small>GOLD</small>
+          <strong id="topGold" style="color:var(--gold)">300G</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ 타이틀 ═══ -->
+    <section class="screen active" id="screen-title">
+      <div class="title-card">
+        <small>BAR OPERATION INTEGRATED SIMULATOR</small>
+        <h1>바 운영 통합 시뮬레이터</h1>
+        <p>
+          개점 대화 → 1부(랜덤 손님 실시간 응대) → 카메오 → 2부(단골 비주얼 노벨) → 정산.<br>
+          하루치 바 운영 흐름을 실데이터(day0~1 해금 칵테일 9종·balance·barks)로 재현한다.
+        </p>
+        <button class="title-start" id="btnStart" type="button">영업 시작</button>
+        <div class="title-keys">
+          바: 좌석 <b>클릭</b> = 코스터 놓기·서빙 &nbsp;/&nbsp; 제조: <b>A·D</b> 이동 <b>SPACE</b> 선택·판정 <b>W·A·S·D</b> 스터 <b>ESC</b> 닫기
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 바 (개점·1부·카메오·2부 공용) ═══ -->
+    <section class="screen" id="screen-bar">
+      <div class="seat-indicators" id="seatIndicators">
+        <button class="seat-dot" data-seat="0" type="button" aria-label="좌석 1"></button>
+        <button class="seat-dot" data-seat="1" type="button" aria-label="좌석 2"></button>
+        <button class="seat-dot" data-seat="2" type="button" aria-label="좌석 3"></button>
+      </div>
+
+      <div class="bar-counter"></div>
+
+      <div class="seats" id="seats">
+        <div class="seat" data-seat="0">
+          <div class="bubble"><span class="b-name"></span><span class="b-text"></span></div>
+          <div class="guest-card"><div class="guest-sil"></div><div class="guest-name"></div></div>
+          <div class="coaster"></div>
+          <div class="seat-hint"></div>
+        </div>
+        <div class="seat" data-seat="1">
+          <div class="bubble"><span class="b-name"></span><span class="b-text"></span></div>
+          <div class="guest-card"><div class="guest-sil"></div><div class="guest-name"></div></div>
+          <div class="coaster"></div>
+          <div class="seat-hint"></div>
+        </div>
+        <div class="seat" data-seat="2">
+          <div class="bubble"><span class="b-name"></span><span class="b-text"></span></div>
+          <div class="guest-card"><div class="guest-sil"></div><div class="guest-name"></div></div>
+          <div class="coaster"></div>
+          <div class="seat-hint"></div>
+        </div>
+      </div>
+
+      <div class="luna-box" id="lunaBox"><span class="l-name">루나</span><span class="l-text" id="lunaText"></span></div>
+
+      <div class="vn-box" id="vnBox">
+        <span class="vn-name" id="vnName">크리스</span>
+        <div class="vn-text" id="vnText"></div>
+        <span class="vn-next" id="vnNext">▼</span>
+      </div>
+      <div class="vn-choices" id="vnChoices"></div>
+
+      <div class="left-panel" id="leftPanel">
+        <div class="lp-body">
+          <button class="lp-btn" id="lpCraft" type="button">칵테일 제조</button>
+          <button class="lp-btn" id="lpRegular" type="button">단골 정보</button>
+          <button class="lp-btn" id="lpSales" type="button">매출 현황</button>
+          <div class="lp-held" id="lpHeld"></div>
+        </div>
+        <button class="lp-toggle" id="lpToggle" type="button" aria-label="패널 접기">〈</button>
+      </div>
+    </section>
+
+    <!-- ═══ 제조 ═══ -->
+    <section class="screen" id="screen-craft">
+      <div class="craft-head">
+        <div><span class="c-title" id="craftPhaseTitle">칵테일 목차</span><span class="c-name" id="craftCockName"></span></div>
+        <div class="craft-time" id="craftHeadTime">제조 시간 00:00 / --</div>
+      </div>
+      <div class="craft-body" id="craftBody"></div>
+    </section>
+
+    <!-- ═══ 정산 ═══ -->
+    <section class="screen" id="screen-settle">
+      <div class="settle-card popup-card">
+        <small class="sc-cap">DAY 1 SETTLEMENT</small>
+        <h2>영업 종료 — 정산</h2>
+        <div id="settleRows"></div>
+        <div class="settle-total" id="settleTotal"></div>
+        <div class="popup-actions">
+          <button class="primary" id="btnRestart" type="button">다시 시작</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 재화 UI -->
+    <div class="gold-ui" id="goldUi">
+      <small>GOLD</small>
+      <strong id="goldUiValue">300G</strong>
+      <span class="g-delta" id="goldUiDelta"></span>
+    </div>
+
+    <!-- 팝업 -->
+    <div class="popup-layer" id="popupLayer">
+      <div class="popup-card" id="popupCard"></div>
+    </div>
+
+    <!-- 디버그 -->
+    <div class="debug-bar">
+      <button id="dbgSpeed" type="button">배속 1x</button>
+      <button id="dbgSkip" type="button">기믹 스킵</button>
+      <button id="dbgSpawn" type="button">즉시 스폰</button>
+      <button id="dbgStir" type="button">스터 테스트</button>
+    </div>
+
+    <div class="fade-layer" id="fadeLayer"></div>
+  </main>
+
+  <script>
+  (() => {
+  "use strict";
+
+  /* ══════════════════════════════════════════════════════════
+     0. 실데이터 embed — 데이터/json 에서 그대로 복사
+     ══════════════════════════════════════════════════════════ */
+
+  // cocktails.json — day0~1 해금 9종 전체 레코드
+  const COCKTAILS = [
+    {id:"gin_tonic",name:{ko:"진토닉",en:"Gin & Tonic"},status:"confirmed",price:180,abv:8.0,glass:"long_drink",mix:"build",prep:null,garnish:"lime_wedge",color:"255,255,255",color2:null,mixing_ice:"none",serving_ice:"cubed",
+     tags:[{ko:"상큼한",en:"Fresh",category:"taste"},{ko:"청량한",en:"Crisp",category:"feel"},{ko:"클래식",en:"Classic",category:"feel"}],
+     flavor:{ko:"진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.",en:"Gin and tonic. The simplest, and therefore the most honest."},
+     recipe_desc:{ko:"롱드링크 잔에 진 1.5oz를 붓고, 토닉워터 4oz로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",en:"Pour 1.5oz gin into a long drink glass, top with 4oz tonic water, and stir gently. Garnish with a lime wedge."},
+     unlock_day:0,unlock_when:null,time_limit_sec:36,
+     recipe:[
+       {action:"pour",ingredient:"gin",qty:1.5,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"fill_up",ingredient:"tonic_water",qty:4,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_GinTonic",serve_sprite:"Serve_GinTonic"},
+    {id:"gin_fizz",name:{ko:"진피즈",en:"Gin Fizz"},status:"confirmed",price:220,abv:8.0,glass:"long_drink",mix:"shake",prep:null,garnish:"lemon_slice",color:"255,255,255",color2:null,mixing_ice:"cubed",serving_ice:"cubed",
+     tags:[{ko:"상큼한",en:"Fresh",category:"taste"},{ko:"클래식",en:"Classic",category:"feel"},{ko:"청량한",en:"Crisp",category:"feel"}],
+     flavor:{ko:"진과 레몬, 그리고 '피즈' 하는 탄산 소리.",en:"Gin, lemon, and that 'fizz' of carbonation."},
+     recipe_desc:{ko:"진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 롱드링크 잔에 따른다. 소다수 3oz로 채우고 레몬 슬라이스를 올린다.",en:"Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a long drink glass. Top with 3oz soda water and add a lemon slice."},
+     unlock_day:0,unlock_when:null,time_limit_sec:52,
+     recipe:[
+       {action:"pour",ingredient:"gin",qty:1.5,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"squeeze",ingredient:"lemon",qty:0.5,unit:"oz",is_core:false,scored:true,auto_apply:false},
+       {action:"powder",ingredient:"sugar",qty:1,unit:"tsp",is_core:false,scored:false,auto_apply:true},
+       {action:"fill_up",ingredient:"soda_water",qty:3,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_GinFizz",serve_sprite:"Serve_GinFizz"},
+    {id:"bottle_beer",name:{ko:"병맥주",en:"Bottled Beer"},status:"confirmed",price:90,abv:4.5,glass:"mug",mix:"none",prep:"cap",garnish:null,color:"202,162,4",color2:null,mixing_ice:"none",serving_ice:"none",
+     tags:[{ko:"청량한",en:"Crisp",category:"feel"},{ko:"가벼운",en:"Light",category:"feel"}],
+     flavor:{ko:"뚜껑 따는 소리가 안주다. 잔은 곁들여서.",en:"The pop of the cap is the appetizer. Served with a glass."},
+     recipe_desc:{ko:"뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",en:"Pop the cap and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."},
+     unlock_day:0,unlock_when:null,time_limit_sec:28,
+     recipe:[
+       {action:"pour",ingredient:"beer",qty:12,unit:"oz",is_core:true,scored:true,auto_apply:false}
+     ],sprite:"Finished_BottleBeer",serve_sprite:"Serve_BottleBeer"},
+    {id:"red_wine",name:{ko:"레드와인",en:"Red Wine"},status:"confirmed",price:220,abv:13.0,glass:"wine",mix:"none",prep:null,garnish:null,color:"98,15,11",color2:null,mixing_ice:"none",serving_ice:"none",
+     tags:[{ko:"묵직한",en:"Heavy",category:"feel"},{ko:"클래식",en:"Classic",category:"feel"}],
+     flavor:{ko:"말이 필요 없는 잔. 향이 절반이다.",en:"A glass that needs no words. Half of it is the aroma."},
+     recipe_desc:{ko:"와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",en:"Pour 8oz into a wine glass. Do not swirl."},
+     unlock_day:0,unlock_when:null,time_limit_sec:36,
+     recipe:[
+       {action:"pour",ingredient:"red_wine",qty:8,unit:"oz",is_core:true,scored:true,auto_apply:false}
+     ],sprite:"Finished_RedWine",serve_sprite:"Serve_RedWine"},
+    {id:"champagne",name:{ko:"샴페인",en:"Champagne"},status:"confirmed",price:350,abv:12.0,glass:"wine",mix:"none",prep:null,garnish:null,color:"255,245,225",color2:null,mixing_ice:"none",serving_ice:"none",
+     tags:[{ko:"화사한",en:"Bright",category:"feel"},{ko:"달콤한",en:"Sweet",category:"taste"}],
+     flavor:{ko:"기포가 올라오는 동안은 누구나 주인공.",en:"While the bubbles rise, everyone's the main character."},
+     recipe_desc:{ko:"와인잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",en:"Pour 8oz into a wine glass. Serve before the bubbles settle."},
+     unlock_day:0,unlock_when:null,time_limit_sec:36,
+     recipe:[
+       {action:"pour",ingredient:"champagne",qty:8,unit:"oz",is_core:true,scored:true,auto_apply:false}
+     ],sprite:"Finished_Champagne",serve_sprite:"Serve_Champagne"},
+    {id:"screwdriver",name:{ko:"스크류드라이버",en:"Screwdriver"},status:"confirmed",price:190,abv:12.0,glass:"long_drink",mix:"build",prep:null,garnish:null,color:"236,223,95",color2:null,mixing_ice:"none",serving_ice:"cubed",
+     tags:[{ko:"달콤한",en:"Sweet",category:"taste"},{ko:"부드러운",en:"Smooth",category:"feel"}],
+     flavor:{ko:"보드카와 오렌지주스. 이름은 공구, 맛은 과일.",en:"Vodka and orange juice. Named after a tool, tastes like fruit."},
+     recipe_desc:{ko:"롱드링크 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",en:"Build 1.5oz vodka and 6oz orange juice in a long drink glass and stir."},
+     unlock_day:1,unlock_when:null,time_limit_sec:44,
+     recipe:[
+       {action:"pour",ingredient:"vodka",qty:1.5,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"pour",ingredient:"orange_juice",qty:6,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_Screwdriver",serve_sprite:"Serve_Screwdriver"},
+    {id:"moscow_mule",name:{ko:"모스코뮬",en:"Moscow Mule"},status:"confirmed",price:210,abv:10.0,glass:"mug",mix:"build",prep:null,garnish:"lime_wedge",color:"215,163,2",color2:null,mixing_ice:"none",serving_ice:"cubed",
+     tags:[{ko:"청량한",en:"Crisp",category:"feel"},{ko:"알싸한",en:"Spicy",category:"taste"}],
+     flavor:{ko:"생강의 알싸함이 노새의 뒷발차기 같다고 해서 뮬.",en:"The ginger kick they say feels like a mule's hind leg."},
+     recipe_desc:{ko:"맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일 4oz로 채우고 라임 웨지를 걸친다.",en:"Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with 4oz ginger ale and garnish with a lime wedge."},
+     unlock_day:1,unlock_when:null,time_limit_sec:44,
+     recipe:[
+       {action:"pour",ingredient:"vodka",qty:1.5,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"squeeze",ingredient:"lime",qty:0.5,unit:"oz",is_core:false,scored:true,auto_apply:false},
+       {action:"fill_up",ingredient:"ginger_ale",qty:4,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_MoscowMule",serve_sprite:"Serve_MoscowMule"},
+    {id:"tequila_sunrise",name:{ko:"데킬라 선라이즈",en:"Tequila Sunrise"},status:"confirmed",price:200,abv:12.0,glass:"long_drink",mix:"build",prep:null,garnish:"orange_slice",color:"253,161,48",color2:null,mixing_ice:"none",serving_ice:"cubed",
+     tags:[{ko:"달콤한",en:"Sweet",category:"taste"},{ko:"화사한",en:"Bright",category:"feel"}],
+     flavor:{ko:"잔 속에서 해가 뜬다. 새벽의 바에서 제일 잘 팔리는 아침.",en:"A sunrise inside a glass. The best-selling morning at a late-night bar."},
+     recipe_desc:{ko:"롱드링크 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",en:"Build 1oz tequila and 6oz orange juice in a long drink glass and stir. Garnish with an orange slice."},
+     unlock_day:1,unlock_when:null,time_limit_sec:44,
+     recipe:[
+       {action:"pour",ingredient:"tequila",qty:1,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"pour",ingredient:"orange_juice",qty:6,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_TequilaSunrise",serve_sprite:"Serve_TequilaSunrise"},
+    {id:"long_island",name:{ko:"롱아일랜드 아이스티",en:"Long Island Iced Tea"},status:"confirmed",price:380,abv:22.0,glass:"long_drink",mix:"build",prep:null,garnish:"lemon_slice",color:"214,122,13",color2:null,mixing_ice:"none",serving_ice:"cubed",
+     tags:[{ko:"독한",en:"Strong",category:"feel"},{ko:"달콤한",en:"Sweet",category:"taste"}],
+     flavor:{ko:"홍차는 한 방울도 안 들어간다. 그게 함정이다.",en:"Not a drop of tea in it. That's the trap."},
+     recipe_desc:{ko:"롱드링크 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 레몬 반 개의 즙을 더해 젓는다. 콜라 1.5oz로 채우고 레몬 슬라이스를 올린다.",en:"Build 1oz each of gin, vodka, rum, and tequila in a long drink glass, add the juice of half a lemon, and stir. Top with 1.5oz cola and add a lemon slice."},
+     unlock_day:1,unlock_when:null,time_limit_sec:68,
+     recipe:[
+       {action:"pour",ingredient:"gin",qty:1,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"pour",ingredient:"vodka",qty:1,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"pour",ingredient:"rum",qty:1,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"pour",ingredient:"tequila",qty:1,unit:"oz",is_core:true,scored:true,auto_apply:false},
+       {action:"squeeze",ingredient:"lemon",qty:0.5,unit:"oz",is_core:false,scored:true,auto_apply:false},
+       {action:"fill_up",ingredient:"cola",qty:1.5,unit:"oz",is_core:false,scored:true,auto_apply:false}
+     ],sprite:"Finished_LongIsland",serve_sprite:"Serve_LongIsland"}
+  ];
+  // 미해금 표시용 실루엣 카드(더미 — 목차 하단에 ??? 로만 노출)
+  const LOCKED_COUNT = 20;   // 실데이터 칵테일 29종 - 해금 9종
+
+  // balance.json — config·grade_cuts·settlement_rules·score_bands
+  const CONFIG = {
+    gold_start:300, coaster_base_sec:22, coaster_min_sec:12, coaster_max_sec:60,
+    serve_bonus_sec:40, serve_grace_per_day_sec:3, serve_min_bonus_sec:10,
+    warn_yellow_ratio:0.5, warn_red_ratio:0.8,
+    force_sewage_on_order_mismatch:true, force_sewage_on_missing_core:true,
+    shake_target_stacks:20, open_transition_delay_sec:0.9, open_penalty_per_failure:15,
+    powder_demo_behavior:"auto_apply_unscored",
+    glass_mismatch_penalty:10, tool_mismatch_penalty:10,
+    missing_ingredient_penalty:15, extra_ingredient_penalty:10,
+    weight_open:10, weight_pour:20, weight_squeeze:10, weight_powder:5,
+    weight_shake:20, weight_stir:20, weight_fill_up:15,
+    unit_oz_to_ml:30, unit_tsp_to_ml:5,
+    spawn_delay_default_sec:25, next_round_delay_sec:3,
+    typing_interval_ms:50, first_spawn_delay_sec:5, reseat_delay_sec:10,
+    idle_min_sec:8, idle_max_sec:13,
+    order_bark_gap_sec:1.5, stir_stacks:10, stir_stack_sec:2
+  };
+  const GRADE_CUTS = [
+    {grade:"excellent",min_pct:95},{grade:"good",min_pct:80},{grade:"decent",min_pct:60},
+    {grade:"poor",min_pct:35},{grade:"sewage",min_pct:0}
+  ];
+  const SETTLE_RULES = {
+    excellent:{sale_rate:1.0,tip_rate:0.2,refund_rate:0.0},
+    good:{sale_rate:1.0,tip_rate:0.0,refund_rate:0.0},
+    decent:{sale_rate:1.0,tip_rate:0.0,refund_rate:0.0},
+    poor:{sale_rate:1.0,tip_rate:0.0,refund_rate:0.0},
+    sewage:{sale_rate:0.0,tip_rate:0.0,refund_rate:1.0}
+  };
+  const SCORE_BANDS = [
+    {band_type:"quantity",min_ratio:0.0,max_ratio:0.05,min_inclusive:true,max_inclusive:false,score_or_penalty:100},
+    {band_type:"quantity",min_ratio:0.05,max_ratio:0.1,min_inclusive:true,max_inclusive:false,score_or_penalty:90},
+    {band_type:"quantity",min_ratio:0.1,max_ratio:0.2,min_inclusive:true,max_inclusive:false,score_or_penalty:75},
+    {band_type:"quantity",min_ratio:0.2,max_ratio:0.35,min_inclusive:true,max_inclusive:false,score_or_penalty:50},
+    {band_type:"quantity",min_ratio:0.35,max_ratio:null,min_inclusive:true,max_inclusive:false,score_or_penalty:0},
+    {band_type:"overtime",min_ratio:0.0,max_ratio:0.0,min_inclusive:true,max_inclusive:true,score_or_penalty:0},
+    {band_type:"overtime",min_ratio:0.0,max_ratio:0.1,min_inclusive:false,max_inclusive:true,score_or_penalty:5},
+    {band_type:"overtime",min_ratio:0.1,max_ratio:0.25,min_inclusive:false,max_inclusive:true,score_or_penalty:10},
+    {band_type:"overtime",min_ratio:0.25,max_ratio:0.5,min_inclusive:false,max_inclusive:true,score_or_penalty:20},
+    {band_type:"overtime",min_ratio:0.5,max_ratio:null,min_inclusive:false,max_inclusive:false,score_or_penalty:30}
+  ];
+
+  // personalities.json — 성격 5종
+  const PERSONALITIES = {
+    gentle:{id:"gentle",name_ko:"온화형",tip_mult:1.0,patience_mult:1.2,think_chance:1.0,hue:"#72f2a0"},
+    rough:{id:"rough",name_ko:"거친형",tip_mult:1.1,patience_mult:0.8,think_chance:0.3,hue:"#ff6478"},
+    touchy:{id:"touchy",name_ko:"예민형",tip_mult:1.0,patience_mult:0.9,think_chance:0.8,hue:"#ffc85a"},
+    quiet:{id:"quiet",name_ko:"과묵형",tip_mult:1.1,patience_mult:1.1,think_chance:0.5,hue:"#7c8f93"},
+    chatty:{id:"chatty",name_ko:"수다형",tip_mult:1.0,patience_mult:1.0,think_chance:1.0,hue:"#a58cff"}
+  };
+
+  // barks.json — 성격×상황별 대사 발췌(ko). voice 미보유 상황은 common 폴백.
+  const BARKS = {
+    gentle:{call:["한 명이요, 자리 있을까요?","안녕하세요!"],call_urge:["저기요...","음... 자리 없나요?"],call_final:["저기요, 마스터.","왜 안 오시지..."],
+      order:["{cocktail} 부탁드립니다.","음, {cocktail} 주문할게요."],order_think:["고민되네요... 뭐가 좋을까."],
+      react_excellent:["맛있다... 감사합니다.","맛있네요! 감사합니다."],react_good:["아, 이거 좋네요."],
+      react_poor:["맛이 좀, ... 이상한 것 같은데요.","... 주문이 혹시 잘못 들어갔나요?"],react_sewage:["저기... 이거 상한 건 아니죠...?"],
+      wrong_drink:["저 {cocktail} 시켰는데... 맞다고요?"],reorder:["이번에는 {cocktail} 주문할게요.","{cocktail} 하나 더 부탁드립니다."],
+      bye_good:["감사합니다, 잘 마셨어요!"],serve_thanks:["감사합니다!"],idle:["여긴 음악이 참 좋네요."]},
+    rough:{call:["어이, 자리 있어?","이봐! 마스터!"],call_urge:["마스터!!!","야!!! 손님 무시해?!"],call_final:["빠져가지고... 쯧.","술이나 파는 새끼가 건방지게..."],
+      order:["{cocktail} 한 잔 말아와.","{cocktail} 하나."],order_think:["뭐가 있더라..."],
+      react_excellent:["크하! 이거 맛 죽이네!","이게 술이지! 크흐, 좀 살겠다!"],react_good:["이 맛에 돈 쓰지. 오늘 좀 괜찮은데?"],
+      react_poor:["야, 돈 도로 뱉어. 돈 내고 이딴 건 못 마셔."],react_sewage:["장난해?! 이걸 어떻게 마시라는 거야!!","아이 씹, 이딴 걸 술이라고 내와?"],
+      reorder:["이봐, 마스터! {cocktail} 한 잔 말아줘!","{cocktail} 하나 더!"],serve_thanks:["어, 왔군."],idle:["...조용해서 좋군, 여긴."]},
+    touchy:{call:["안녕하세요.","1명이요."],call_urge:["사람 무시하나 지금...","여기 손님 응대가 왜 이래?"],call_final:["지금 뭐 하자는 거야? 사람 안 보여?","뭐 어쩌라는 건지..."],
+      order:["{cocktail} 하나 줘봐요.","{cocktail}."],
+      react_excellent:["좋네요, 고마워요."],react_good:["... 괜찮네.","나쁘지 않네요."],
+      react_poor:["이걸 칵테일이라고 내온 건 아니죠?"],react_sewage:["무슨 이딴 걸 칵테일이라고...","시간이랑 돈 다 버렸네요, 이걸로 장사가 돼요?"],
+      reorder:["{cocktail} 하나 줘봐요.","추가 주문할게요, {cocktail}으로."],serve_thanks:["...흘리신 건 아니죠?"],idle:["(손끝으로 카운터를 두드린다)"]},
+    quiet:{call:["...","마스터."],call_urge:["...","마스터, 자리 있나?"],call_final:["...","마스터, 안내 좀 해줬으면 하는데."],
+      order:["{cocktail} 하나.","{cocktail}으로."],order_think:["...."],
+      react_excellent:["잘 마셨습니다."],react_good:["맛있네요.","감사합니다."],
+      react_poor:["... 맛이 좀, 그렇군요.","... 뭔가 맛이 이상한데."],react_sewage:["..."],
+      reorder:["{cocktail} 하나 부탁드립니다.","이번에는 {cocktail}."],serve_thanks:["고맙소."],idle:["......."]},
+    chatty:{call:["마스터! 한 명이요~","아이, 나 한 잔만 걸치고 갈게. 마스터!"],call_urge:["마스터? 여기 손님 받아주세요.","... 왜 응대를 안 해주신담?"],call_final:["...","마스터!"],
+      order:["보자보자, 뭘 마시는 게 좋을까... 일단 {cocktail} 하나!","저번에 그거 괜찮았는데. {cocktail}? 그거 하나 주세요."],
+      order_think:["아~ 뭐 마시지? 이럴 때가 제일 행복하다니까요."],
+      react_excellent:["아, 이거지! 맛이 좋은데요? 오늘 술이 잘 받네..."],react_good:["이거만한 게 또 없다니까? 고마워요."],
+      react_poor:["음, 오늘 컨디션이 별로인가? 맛이 이상하네...","저기, 마스터? 마스터! 이거 잘못 만들었어요?"],
+      react_sewage:["이거 맛이 왜 이래?... 마스터, 제대로 만든 거 맞죠?"],
+      reorder:["이번에는 {cocktail} 주문할게요~","{cocktail} 맛 괜찮아요? 궁금한데. 이거 추가로 주문할게요."],
+      bye_good:["감사합니다, 잘 마셨어요! 다음에도 잘 좀 부탁할게요."],serve_thanks:["오~ 드디어! 기다렸다구요!"],
+      idle:["요즘 위쪽 구역은 난리라던데, 들었어요?","혼잣말이에요, 신경 쓰지 마세요."]},
+    common:{serve_urge:["음료 아직인가요...?","목이 타는데..."],serve_final:["만들어 놓고 왜 안 줘요?","이제 그냥 갈까..."],
+      react_decent:["뭐... 마실 만하네요."],leave_coaster:["됐어요. 다른 데 갑니다."],leave_serve:["만들어 놓고 안 주는 건 무슨 경우야!"],
+      wrong_receive:["...내가 시킨 게 맞나?"],wrong_drink:["역시 내가 시킨 게 아니잖아!!"],
+      bye_good:["다음에 또 올게요!"],bye_bad:["뭐 이딴 가게가 다 있어?!"],
+      order_think:["흠... 잠시만요.","어디 보자..."],idle:["(창밖을 물끄러미 바라본다)","오늘도 밤이 기네..."]},
+    port:{call:["크리스는 안에 있나? ...아, 자네한테 시키면 되지."],call_urge:["바쁜가? 천천히 해도 되네."],call_final:["허허... 오늘은 글렀나 보군."],
+      order_think:["뭘 마실지는 정해져 있네만."],order:["{cocktail}, 정석대로 부탁하네."],
+      serve_urge:["재촉은 않겠네. 다만 잊진 말게나."],serve_final:["슬슬 걱정되는군."],serve_thanks:["고맙네."],
+      react_excellent:["...크리스보다 낫군. 이건 비밀일세."],react_good:["좋군. 정석이야."],react_decent:["무난하군."],
+      react_poor:["...연습이 더 필요하겠어."],react_sewage:["이건 기사감이군. '신입 바텐더, 손님을 독살하려 들다'."],
+      wrong_receive:["흠? 내가 시킨 게 이거였나."],wrong_drink:["역시 아니군. 나는 {cocktail}을 시켰네만."],
+      bye_good:["잘 마셨네. 크리스에게 안부 전해주게."],bye_bad:["오늘은 운이 없었다고 해두지."],
+      leave_coaster:["다음에 다시 오지."],leave_serve:["시간이 다 됐군. 아쉽지만."],idle:["이 바는 변한 게 없군."]},
+    luna:{ask_order:["주문하시겠습니까?","무엇으로 드릴까요?"]}
+  };
+
+  // shelf_items.json — 잔 6·도구 2·가니시·재료(9종 레시피 + 오답용 여분)
+  const SHELF = [
+    {id:"gin",kind:"ingredient",name_ko:"진",category:"base",color:"230,235,240"},
+    {id:"vodka",kind:"ingredient",name_ko:"보드카",category:"base",color:"240,245,250"},
+    {id:"rum",kind:"ingredient",name_ko:"럼",category:"base",color:"180,120,60"},
+    {id:"tequila",kind:"ingredient",name_ko:"데킬라",category:"base",color:"240,235,220"},
+    {id:"whiskey",kind:"ingredient",name_ko:"위스키",category:"base",color:"190,120,40"},
+    {id:"beer",kind:"ingredient",name_ko:"맥주",category:"wine_beer",color:"202,162,4"},
+    {id:"red_wine",kind:"ingredient",name_ko:"레드와인",category:"wine_beer",color:"98,15,11"},
+    {id:"champagne",kind:"ingredient",name_ko:"샴페인",category:"wine_beer",color:"255,245,225"},
+    {id:"dry_vermouth",kind:"ingredient",name_ko:"드라이 버무스",category:"liqueur",color:"220,220,190"},
+    {id:"triple_sec",kind:"ingredient",name_ko:"트리플섹",category:"liqueur",color:"235,225,200"},
+    {id:"kahlua",kind:"ingredient",name_ko:"칼루아",category:"liqueur",color:"60,35,25"},
+    {id:"orange_juice",kind:"ingredient",name_ko:"오렌지주스",category:"juice",color:"253,180,60"},
+    {id:"cranberry_juice",kind:"ingredient",name_ko:"크랜베리주스",category:"juice",color:"170,30,60"},
+    {id:"milk",kind:"ingredient",name_ko:"우유",category:"dairy",color:"245,245,240"},
+    {id:"grenadine",kind:"ingredient",name_ko:"그레나딘",category:"syrup",color:"180,30,50"},
+    {id:"tonic_water",kind:"ingredient",name_ko:"토닉워터",category:"mixer",color:"245,250,255"},
+    {id:"soda_water",kind:"ingredient",name_ko:"소다수",category:"mixer",color:"245,250,255"},
+    {id:"ginger_ale",kind:"ingredient",name_ko:"진저에일",category:"mixer",color:"230,200,120"},
+    {id:"cola",kind:"ingredient",name_ko:"콜라",category:"mixer",color:"60,30,20"},
+    {id:"lemon",kind:"ingredient",name_ko:"레몬",category:"fruit",color:"242,209,78"},
+    {id:"lime",kind:"ingredient",name_ko:"라임",category:"fruit",color:"155,210,74"},
+    {id:"sugar",kind:"ingredient",name_ko:"설탕",category:"powder",color:"250,250,245"},
+    {id:"cocktail",kind:"glass",name_ko:"칵테일잔"},
+    {id:"long_drink",kind:"glass",name_ko:"롱드링크잔"},
+    {id:"old_fashioned",kind:"glass",name_ko:"올드패션잔"},
+    {id:"sour",kind:"glass",name_ko:"사워잔"},
+    {id:"wine",kind:"glass",name_ko:"와인잔"},
+    {id:"mug",kind:"glass",name_ko:"맥주잔"},
+    {id:"shaker",kind:"tool",name_ko:"셰이커"},
+    {id:"mixing_glass",kind:"tool",name_ko:"믹싱 글라스 & 바 스푼"},
+    {id:"lime_wedge",kind:"garnish",name_ko:"라임 웨지"},
+    {id:"lemon_slice",kind:"garnish",name_ko:"레몬 슬라이스"},
+    {id:"orange_slice",kind:"garnish",name_ko:"오렌지 슬라이스"},
+    {id:"olive",kind:"garnish",name_ko:"올리브"},
+    {id:"cherry",kind:"garnish",name_ko:"체리"}
+  ];
+
+  // 1부 더미 웨이브
+  const WAVES = [
+    {seq:1,personality:"gentle",delay:0,max_rounds:1,order:null},
+    {seq:2,personality:"chatty",delay:25,max_rounds:1,order:null},
+    {seq:3,personality:"quiet",delay:CONFIG.spawn_delay_default_sec,max_rounds:1,order:"gin_fizz"},
+    {seq:4,personality:"touchy",delay:CONFIG.spawn_delay_default_sec,max_rounds:2,order:null}
+  ];
+
+  /* ══════════════════════════════════════════════════════════
+     1. 공용 헬퍼·전역 상태
+     ══════════════════════════════════════════════════════════ */
+  const $ = id => document.getElementById(id);
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const fmtG = n => `${Math.round(n)}G`;
+  const rgb = s => s ? `rgb(${s})` : "#3a4a50";
+  const byId = {}; SHELF.forEach(x => byId[x.id] = x);
+  const cockById = {}; COCKTAILS.forEach(c => cockById[c.id] = c);
+  const shelfName = id => byId[id] ? byId[id].name_ko : (id || "없음");
+
+  function bark(voice, situation, cockName){
+    const v = BARKS[voice];
+    const pool = (v && v[situation] && v[situation].length ? v[situation] : null)
+      || (BARKS.common[situation] || []);
+    let t = pool.length ? pick(pool) : "...";
+    return t.replace(/\{cocktail\}/g, cockName || "");
+  }
+  function gradeOf(pct){
+    for (const g of GRADE_CUTS) if (pct >= g.min_pct) return g.grade;
+    return "sewage";
+  }
+  const GRADE_KO = {excellent:"EXCELLENT",good:"GOOD",decent:"DECENT",poor:"POOR",sewage:"SEWAGE"};
+  const GRADE_COLOR = {excellent:"var(--lime)",good:"var(--green)",decent:"var(--gold)",poor:"#ff9a64",sewage:"var(--red)"};
+  function bandMatch(type, ratio){
+    for (const b of SCORE_BANDS){
+      if (b.band_type !== type) continue;
+      const loOk = b.min_inclusive ? ratio >= b.min_ratio : ratio > b.min_ratio;
+      const hiOk = b.max_ratio === null ? true : (b.max_inclusive ? ratio <= b.max_ratio : ratio < b.max_ratio);
+      if (loOk && hiOk) return b.score_or_penalty;
+    }
+    return 0;
+  }
+  // 도구 기대값: shake→셰이커, stir/build→믹싱글라스, none→없음
+  function expectedTool(mix){
+    if (mix === "shake") return "shaker";
+    if (mix === "stir" || mix === "build") return "mixing_glass";
+    return null;
+  }
+  const CAT_LABEL = {base:"기주",liqueur:"리큐르",wine_beer:"와인·맥주",juice:"주스",dairy:"유제품",syrup:"시럽",mixer:"믹서",fruit:"과일",powder:"파우더"};
+  const POUR_CATS = ["base","liqueur","wine_beer","juice","dairy","syrup"];
+
+  const G = {
+    state: "TITLE",          // TITLE / OPENING / PART1 / CRAFT / PART2 / SETTLE
+    speed: 1,
+    gold: CONFIG.gold_start,
+    paused: false,           // 제조·씬 재생 중 바 타이머 정지
+    heldDrink: null,         // {cocktailId, grade, score}
+    guests: [null, null, null],
+    waveIdx: 0,
+    nextSpawnIn: CONFIG.first_spawn_delay_sec,
+    cameo: "pending",        // pending / active / done
+    focusSeat: -1,
+    ledger: [],              // [{who, rounds:[{name,grade,sale,tip,refund}]}]
+    craftReturnState: "PART1",
+    part2Grade: null,
+    part2Cocktail: null
+  };
+
+  function setPhase(txt){ $("phaseChip").textContent = txt; }
+  function showScreen(name){
+    ["screen-title","screen-bar","screen-craft","screen-settle"].forEach(id => {
+      $(id).classList.toggle("active", id === "screen-" + name);
+    });
+  }
+  function fade(on){ $("fadeLayer").classList.toggle("on", on); }
+
+  /* 재화 UI — 변동 순간에만 등장 */
+  let goldUiTimer = null;
+  function goldChange(delta){
+    const prev = G.gold;
+    G.gold += delta;
+    $("topGold").textContent = fmtG(G.gold);
+    const ui = $("goldUi"), val = $("goldUiValue"), del = $("goldUiDelta");
+    del.textContent = (delta >= 0 ? "+" : "") + Math.round(delta) + "G";
+    del.className = "g-delta " + (delta >= 0 ? "plus" : "minus");
+    ui.classList.add("show");
+    if (delta < 0){ ui.classList.remove("shake"); void ui.offsetWidth; ui.classList.add("shake"); }
+    // 이전 → 최종 금액 카운트업/다운
+    const t0 = performance.now(), dur = 700;
+    (function step(t){
+      const k = clamp((t - t0) / dur, 0, 1);
+      val.textContent = fmtG(prev + (G.gold - prev) * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+    clearTimeout(goldUiTimer);
+    goldUiTimer = setTimeout(() => ui.classList.remove("show"), 2600);
+  }
+
+  /* 팝업 */
+  function openPopup(html){ $("popupCard").innerHTML = html; $("popupLayer").classList.add("show"); }
+  function closePopup(){ $("popupLayer").classList.remove("show"); }
+  $("popupLayer").addEventListener("click", e => { if (e.target === $("popupLayer")) closePopup(); });
+
+  /* ══════════════════════════════════════════════════════════
+     2. 시뮬레이션 시계 — 배속·정지 반영
+     ══════════════════════════════════════════════════════════ */
+  let simClock = 0;      // 초 단위, 정지 중엔 멈춘다
+  const simWaiters = []; // {until, resolve}
+  function waitSim(sec){
+    return new Promise(res => simWaiters.push({ until: simClock + sec, resolve: res }));
+  }
+  function waitReal(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+  /* ══════════════════════════════════════════════════════════
+     3. 말풍선·대사창
+     ══════════════════════════════════════════════════════════ */
+  const seatEls = [...document.querySelectorAll(".seat")];
+  const dotEls = [...document.querySelectorAll(".seat-dot")];
+  let typingToken = 0;
+
+  function typeInto(el, text, instant){
+    // 타이핑 효과 — 반환값은 완료 promise. 새 타이핑이 시작되면 이전 것은 즉시 전체 표시로 종료.
+    const my = ++typingToken;
+    el.textContent = "";
+    if (instant){ el.textContent = text; return Promise.resolve(); }
+    return new Promise(res => {
+      let i = 0;
+      (function step(){
+        if (my !== typingToken){ res(); return; }
+        i += 1;
+        el.textContent = text.slice(0, i);
+        if (i >= text.length){ res(); return; }
+        setTimeout(step, CONFIG.typing_interval_ms / G.speed);
+      })();
+    });
+  }
+
+  async function showBubble(seatIdx, name, text){
+    const seat = seatEls[seatIdx];
+    if (!seat) return;
+    const bubble = seat.querySelector(".bubble");
+    bubble.querySelector(".b-name").textContent = name;
+    bubble.classList.add("show");
+    await typeInto(bubble.querySelector(".b-text"), text);
+    // 본문 길이에 비례해 잠시 유지
+    await waitSim(Math.min(3.4, 1.2 + text.length * 0.045));
+  }
+  function clearBubble(seatIdx){
+    const seat = seatEls[seatIdx];
+    if (seat) seat.querySelector(".bubble").classList.remove("show");
+  }
+
+  async function lunaSay(text){
+    $("lunaBox").classList.add("show");
+    await typeInto($("lunaText"), text);
+    await waitSim(Math.min(3.0, 1.1 + text.length * 0.04));
+    $("lunaBox").classList.remove("show");
+  }
+
+  /* VN 대화창 — 클릭/Space 진행 + ▼ */
+  let vnClickRes = null;
+  let vnTypingDone = false;
+  let vnCurrentText = "";
+  function vnAdvanceInput(){
+    if (!$("vnBox").classList.contains("show")) return;
+    if (!vnTypingDone){
+      // 입력 시 전체 표시
+      typingToken++;
+      $("vnText").textContent = vnCurrentText;
+      vnTypingDone = true;
+      $("vnNext").classList.add("on");
+      return;
+    }
+    if (vnClickRes){ const r = vnClickRes; vnClickRes = null; r(); }
+  }
+  $("vnBox").addEventListener("click", vnAdvanceInput);
+
+  async function vnLine(name, text){
+    const box = $("vnBox");
+    box.classList.add("show");
+    $("vnName").textContent = name;
+    $("vnNext").classList.remove("on");
+    vnTypingDone = false;
+    vnCurrentText = text;
+    await typeInto($("vnText"), text);
+    vnTypingDone = true;
+    $("vnNext").classList.add("on");
+    await new Promise(res => { vnClickRes = res; });
+    $("vnNext").classList.remove("on");
+  }
+  function vnHide(){ $("vnBox").classList.remove("show"); }
+
+  function vnChoice(options){
+    return new Promise(res => {
+      const wrap = $("vnChoices");
+      wrap.innerHTML = "";
+      options.forEach((opt, i) => {
+        const b = document.createElement("button");
+        b.className = "vn-choice";
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", () => { wrap.classList.remove("show"); wrap.innerHTML = ""; res(i); });
+        wrap.appendChild(b);
+      });
+      wrap.classList.add("show");
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     4. 손님(1부) — 스폰·인내심·주문·서빙·퇴장
+     ══════════════════════════════════════════════════════════ */
+  const SIL_SVG = (hue) => `
+    <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="50" cy="30" r="20" fill="${hue}" opacity="0.28"/>
+      <circle cx="50" cy="30" r="20" fill="none" stroke="${hue}" stroke-width="2"/>
+      <path d="M14 118 Q16 68 50 64 Q84 68 86 118 Z" fill="${hue}" opacity="0.22"/>
+      <path d="M14 118 Q16 68 50 64 Q84 68 86 118 Z" fill="none" stroke="${hue}" stroke-width="2"/>
+    </svg>`;
+
+  function makeGuest(wave){
+    const p = PERSONALITIES[wave.personality];
+    return {
+      wave, personality: p,
+      isCameo: false,
+      seat: -1,
+      state: "enter",       // enter → wait_coaster → ordering → wait_serve → busy(대사·반응) → gone
+      coasterMax: clamp(CONFIG.coaster_base_sec * p.patience_mult, CONFIG.coaster_min_sec, CONFIG.coaster_max_sec),
+      coasterT: 0,
+      serveMax: 0, serveT: 0,
+      warned: 0,            // 0=없음 1=urge 2=final
+      order: null,
+      roundsLeft: wave.max_rounds || 1,
+      pending: [],          // 회차 정산 누적
+      idleIn: CONFIG.idle_min_sec + Math.random() * (CONFIG.idle_max_sec - CONFIG.idle_min_sec),
+      label: p.name_ko + " 손님"
+    };
+  }
+
+  function seatGuest(guest, seatIdx){
+    guest.seat = seatIdx;
+    G.guests[seatIdx] = guest;
+    const seat = seatEls[seatIdx];
+    const card = seat.querySelector(".guest-card");
+    seat.classList.add("occupied");
+    seat.querySelector(".guest-sil").innerHTML = SIL_SVG(guest.isCameo ? "#69f6e1" : guest.personality.hue);
+    seat.querySelector(".guest-name").textContent = guest.isCameo ? "포트 (단골)" : guest.label;
+    seat.querySelector(".seat-hint").textContent = "클릭 — 코스터 놓기";
+    card.classList.remove("leave-anim");
+    card.classList.add("enter-anim");
+    setTimeout(() => card.classList.remove("enter-anim"), 460);
+  }
+
+  const SEAT_RESERVED = [false, false, false];   // 입장 연출 중(착석 전) 좌석 예약 — 연속 스폰 중복 배정 방지
+  async function spawnGuest(wave){
+    const empty = [1, 0, 2].filter(i => !G.guests[i] && !SEAT_RESERVED[i]);
+    if (!empty.length) return false;
+    const guest = makeGuest(wave);
+    const seatIdx = empty[0];
+    SEAT_RESERVED[seatIdx] = true;
+    dotEls[seatIdx].classList.add("entering");
+    await waitSim(0.8);
+    dotEls[seatIdx].classList.remove("entering");
+    SEAT_RESERVED[seatIdx] = false;
+    seatGuest(guest, seatIdx);
+    guest.state = "wait_coaster";
+    showBubble(seatIdx, guest.label, bark(guest.personality.id, "call"));
+    return true;
+  }
+
+  function guestActionable(guest){
+    if (!guest) return false;
+    if (guest.state === "wait_coaster") return true;
+    if (guest.state === "wait_serve" && G.heldDrink) return true;
+    return false;
+  }
+
+  function refreshSeatUi(){
+    seatEls.forEach((seat, i) => {
+      const g = G.guests[i];
+      seat.classList.toggle("actionable", guestActionable(g) && !G.paused);
+      if (g && g.state === "wait_serve" && G.heldDrink){
+        seat.querySelector(".seat-hint").textContent = "클릭 — 서빙";
+      } else if (g && g.state === "wait_coaster"){
+        seat.querySelector(".seat-hint").textContent = "클릭 — 코스터 놓기";
+      }
+      const dot = dotEls[i];
+      dot.classList.toggle("seated", !!g);
+      dot.classList.toggle("warn", !!g && g.warned === 1);
+      dot.classList.toggle("danger", !!g && g.warned === 2);
+      dot.classList.toggle("focused", G.focusSeat === i);
+      seat.classList.toggle("focused", G.focusSeat === i);
+    });
+    $("seats").classList.toggle("has-focus", G.focusSeat >= 0);
+    // 좌측 패널
+    $("lpCraft").disabled = !(G.state === "PART1" && !G.heldDrink);
+    const held = $("lpHeld");
+    if (G.heldDrink){
+      const html = `완성 잔 보유<br><b>${cockById[G.heldDrink.cocktailId].name.ko}</b><br>(${GRADE_KO[G.heldDrink.grade]})<br><button class="lp-btn" data-discard-held type="button" style="margin-top:6px;width:100%">버리기</button>`;
+      held.classList.add("show");
+      if (held.dataset.last !== html){ held.innerHTML = html; held.dataset.last = html; }  // 매 틱 재생성 방지(클릭 유실 방지)
+    } else { held.classList.remove("show"); held.dataset.last = ""; }
+  }
+
+  function setFocus(i){
+    G.focusSeat = (G.focusSeat === i) ? -1 : i;
+    refreshSeatUi();
+  }
+
+  /* 코스터 놓기 → 주문 대사 3종 시퀀스 */
+  async function placeCoaster(guest){
+    guest.state = "ordering";
+    guest.warned = 0;
+    clearBubble(guest.seat);
+    seatEls[guest.seat].classList.add("coastered");
+    await lunaSay(bark("luna", "ask_order"));                       // 루나: ask_order
+    await waitSim(CONFIG.order_bark_gap_sec);
+    const voice = guest.isCameo ? "port" : guest.personality.id;
+    const doThink = guest.isCameo || Math.random() < guest.personality.think_chance;
+    if (doThink){                                                   // think_chance 굴림 (카메오는 항상)
+      await showBubble(guest.seat, guestName(guest), bark(voice, "order_think"));
+      clearBubble(guest.seat);
+      await waitSim(CONFIG.order_bark_gap_sec);
+    }
+    // 주문 확정 — 지정 주문 우선, 공란이면 그날 해금 풀 추첨
+    guest.order = guest.wave.order || pick(COCKTAILS.filter(c => c.unlock_day <= 1)).id;
+    const cock = cockById[guest.order];
+    await showBubble(guest.seat, guestName(guest), bark(voice, "order", cock.name.ko));
+    clearBubble(guest.seat);
+    // 서빙 인내심 시작 — 제한시간 + max(10, 40 − 해금일×3). 카메오는 must_serve(무제한).
+    guest.serveMax = guest.isCameo ? Infinity
+      : cock.time_limit_sec + Math.max(CONFIG.serve_min_bonus_sec, CONFIG.serve_bonus_sec - cock.unlock_day * CONFIG.serve_grace_per_day_sec);
+    guest.serveT = 0;
+    guest.warned = 0;
+    guest.state = "wait_serve";
+    refreshSeatUi();
+  }
+
+  function guestName(g){ return g.isCameo ? "포트" : g.label; }
+
+  /* 서빙 → 판정 → 반응 → 재주문/퇴장 */
+  async function serveTo(guest){
+    const held = G.heldDrink;
+    G.heldDrink = null;
+    refreshSeatUi();
+    guest.state = "busy";
+    const voice = guest.isCameo ? "port" : guest.personality.id;
+    const ordered = cockById[guest.order];
+    const mismatch = held.cocktailId !== guest.order;
+    const finalGrade = mismatch ? "sewage" : held.grade;   // 주문 ≠ 제공 → 점수 무관 강제 sewage
+
+    if (mismatch){
+      await showBubble(guest.seat, guestName(guest), bark(voice, "wrong_receive"));
+      await showBubble(guest.seat, guestName(guest), bark(voice, "wrong_drink", ordered.name.ko));
+    } else {
+      await showBubble(guest.seat, guestName(guest), bark(voice, "serve_thanks"));
+      await waitSim(0.6);
+      await showBubble(guest.seat, guestName(guest), bark(voice, "react_" + finalGrade));
+    }
+    clearBubble(guest.seat);
+
+    // 회차 정산 누적(퇴장 시 합산) — 단골은 tip_mult 일괄 1.0
+    const rule = SETTLE_RULES[finalGrade];
+    const tipMult = guest.isCameo ? 1.0 : guest.personality.tip_mult;
+    guest.pending.push({
+      name: ordered.name.ko, grade: finalGrade,
+      sale: Math.round(ordered.price * rule.sale_rate),
+      tip: Math.round(ordered.price * rule.tip_rate * tipMult),
+      refund: Math.round(ordered.price * rule.refund_rate)
+    });
+    guest.roundsLeft -= 1;
+
+    const positive = !mismatch && finalGrade !== "sewage";
+    if (positive && guest.roundsLeft > 0){
+      // 다회 주문 — 텀 3초 후 reorder
+      await waitSim(CONFIG.next_round_delay_sec);
+      guest.order = guest.wave.order || pick(COCKTAILS.filter(c => c.unlock_day <= 1)).id;
+      const next = cockById[guest.order];
+      await showBubble(guest.seat, guestName(guest), bark(voice, "reorder", next.name.ko));
+      clearBubble(guest.seat);
+      guest.serveMax = next.time_limit_sec + Math.max(CONFIG.serve_min_bonus_sec, CONFIG.serve_bonus_sec - next.unlock_day * CONFIG.serve_grace_per_day_sec);
+      guest.serveT = 0;
+      guest.warned = 0;
+      guest.state = "wait_serve";
+      refreshSeatUi();
+      return;
+    }
+    // sewage/오제조 → 남은 주문 취소 즉시 퇴장 / 주문 소진 → 정상 퇴장
+    await guestLeave(guest, positive ? "bye_good" : "bye_bad");
+  }
+
+  async function guestLeave(guest, byeSituation){
+    guest.state = "busy";
+    const voice = guest.isCameo ? "port" : guest.personality.id;
+    // 카메오 — 서빙 후 cameo_scene 재생(씬 재생 중 전 좌석 타이머 정지)
+    if (guest.isCameo && byeSituation) await cameoAfterServe();
+    if (byeSituation) await showBubble(guest.seat, guestName(guest), bark(voice, byeSituation));
+    clearBubble(guest.seat);
+    // 퇴장 시 한 번만 합산 정산 (재화 UI 연출)
+    if (guest.pending.length){
+      const net = guest.pending.reduce((s, r) => s + r.sale + r.tip - r.refund, 0);
+      G.ledger.push({ who: guestName(guest), rounds: guest.pending });
+      goldChange(net);
+    }
+    const seat = seatEls[guest.seat];
+    seat.querySelector(".guest-card").classList.add("leave-anim");
+    await waitSim(0.5);
+    seat.classList.remove("occupied", "coastered");
+    seat.querySelector(".guest-card").classList.remove("leave-anim");
+    if (G.focusSeat === guest.seat) G.focusSeat = -1;
+    G.guests[guest.seat] = null;
+    guest.state = "gone";
+    guest.gone = true;
+    refreshSeatUi();
+    // 카메오 퇴장 → 2부 전환
+    if (guest.isCameo){
+      G.cameo = "done";
+      startPart2();
+    }
+  }
+
+  /* 좌석 클릭 */
+  function onSeatClick(i){
+    if (G.state !== "PART1" || G.paused) { setFocus(i); return; }
+    const g = G.guests[i];
+    if (!g){ setFocus(i); return; }
+    if (g.state === "wait_coaster"){ setFocus(i); placeCoaster(g); return; }
+    if (g.state === "wait_serve" && G.heldDrink){ setFocus(i); serveTo(g); return; }
+    setFocus(i);
+  }
+  seatEls.forEach((seat, i) => seat.addEventListener("click", () => onSeatClick(i)));
+  dotEls.forEach((dot, i) => dot.addEventListener("click", () => onSeatClick(i)));
+
+  /* 1부 진행 틱 */
+  let waveResolvedCount = 0;
+  function part1Tick(dt){
+    // 스폰
+    if (G.waveIdx < WAVES.length){
+      G.nextSpawnIn -= dt;
+      if (G.nextSpawnIn <= 0 && G.guests.some((g, i) => !g && !SEAT_RESERVED[i])){
+        const wave = WAVES[G.waveIdx];
+        G.waveIdx += 1;
+        G.nextSpawnIn = G.waveIdx < WAVES.length ? WAVES[G.waveIdx].delay : Infinity;
+        spawnGuest(wave);
+      }
+    }
+    // 인내심
+    G.guests.forEach(g => {
+      if (!g || g.isCameo) return;
+      if (g.state === "wait_coaster"){
+        g.coasterT += dt;
+        const r = g.coasterT / g.coasterMax;
+        if (g.warned < 1 && r >= CONFIG.warn_yellow_ratio){ g.warned = 1; showBubble(g.seat, g.label, bark(g.personality.id, "call_urge")).then(() => clearBubble(g.seat)); }
+        if (g.warned < 2 && r >= CONFIG.warn_red_ratio){ g.warned = 2; showBubble(g.seat, g.label, bark(g.personality.id, "call_final")).then(() => clearBubble(g.seat)); }
+        if (r >= 1){
+          g.state = "busy";
+          showBubble(g.seat, g.label, bark(g.personality.id, "leave_coaster")).then(() => guestLeave(g, null));
+        }
+      } else if (g.state === "wait_serve"){
+        g.serveT += dt;
+        const r = g.serveT / g.serveMax;
+        if (g.warned < 1 && r >= CONFIG.warn_yellow_ratio){ g.warned = 1; showBubble(g.seat, g.label, bark(g.personality.id, "serve_urge")).then(() => clearBubble(g.seat)); }
+        if (g.warned < 2 && r >= CONFIG.warn_red_ratio){ g.warned = 2; showBubble(g.seat, g.label, bark(g.personality.id, "serve_final")).then(() => clearBubble(g.seat)); }
+        if (r >= 1){
+          g.state = "busy";
+          showBubble(g.seat, g.label, bark(g.personality.id, "leave_serve")).then(() => guestLeave(g, null));
+        }
+        // idle 대사
+        g.idleIn -= dt;
+        if (g.idleIn <= 0 && g.warned === 0){
+          g.idleIn = CONFIG.idle_min_sec + Math.random() * (CONFIG.idle_max_sec - CONFIG.idle_min_sec);
+          showBubble(g.seat, g.label, bark(g.personality.id, "idle")).then(() => clearBubble(g.seat));
+        }
+      }
+      refreshSeatUi();
+    });
+    // 1부 종료 → 카메오
+    if (G.cameo === "pending" && G.waveIdx >= WAVES.length && G.guests.every(g => !g) && !SEAT_RESERVED.some(Boolean) && !G.heldDrink){
+      G.cameo = "active";
+      startCameo();
+    }
+  }
+
+  /* ── 카메오(포트) ── */
+  async function startCameo(){
+    setPhase("1부 — 카메오");
+    await waitSim(1.2);
+    const guest = {
+      wave: {order: "gin_fizz", max_rounds: 1},
+      personality: PERSONALITIES.quiet,   // patience 미사용(must_serve)
+      isCameo: true,
+      seat: -1, state: "enter",
+      coasterMax: Infinity, coasterT: 0, serveMax: Infinity, serveT: 0,
+      warned: 0, order: null, roundsLeft: 1, pending: [],
+      idleIn: Infinity, label: "포트"
+    };
+    seatGuest(guest, 1);
+    guest.state = "wait_coaster";
+    await showBubble(1, "포트", bark("port", "call"));
+    clearBubble(1);
+    refreshSeatUi();
+    // 이후 진행은 좌석 클릭 → placeCoaster → 제조 → 서빙 → serveTo(포트 분기)
+  }
+
+  async function cameoAfterServe(){
+    // 포트 서빙 후 카메오 대사 2줄 — 씬 재생 중 전 좌석 타이머 정지(남은 손님 없음)
+    G.paused = true;
+    await vnLine("포트", "요즘 바깥이 뒤숭숭해. 기사 쓸 거리는 넘치는데, 마실 곳은 줄어든단 말이지.");
+    await vnLine("포트", "자네는 여기 있게. 이 바는 그런 소란과 어울리지 않으니.");
+    vnHide();
+    G.paused = false;
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     5. 제조 — 목차 → 상세 → 선반 → 기믹 → 결과
+     ══════════════════════════════════════════════════════════ */
+  const CR = {
+    active: false, phase: "menu",
+    gate: null,              // 2부 craft 스텝이면 {order, resolve}
+    cock: null,
+    sel: { glass: null, tool: null, garnish: null, ings: new Set() },
+    noteOpen: false,
+    time: 0, timing: false,  // 수동 기믹 입력 활성 구간만 합산
+    startedManual: false,
+    queue: [], qIdx: -1, results: [],
+    filter: null, kbIdx: 0,
+    current: null            // 진행 중 기믹 {onKey, onKeyUp, tick, skip}
+  };
+  const GLASS_ICON = { cocktail:"🍸", long_drink:"🥃", old_fashioned:"🥃", sour:"🍹", wine:"🍷", mug:"🍺" };
+
+  function craftOpen(gate){
+    CR.active = true;
+    CR.gate = gate || null;
+    CR.cock = null;
+    CR.sel = { glass: null, tool: null, garnish: null, ings: new Set() };
+    CR.time = 0; CR.timing = false; CR.startedManual = false;
+    CR.queue = []; CR.qIdx = -1; CR.results = [];
+    CR.filter = null; CR.kbIdx = 0; CR.current = null; CR.noteOpen = false;
+    G.paused = true;
+    G.state = "CRAFT";
+    showScreen("craft");
+    $("craftTimeBox").classList.remove("hidden");
+    renderMenu();
+  }
+  function craftClose(){
+    CR.active = false; CR.current = null;
+    $("craftTimeBox").classList.add("hidden");
+    G.state = CR.gate ? "PART2" : "PART1";
+    G.paused = !!CR.gate;   // 2부는 씬 재생 계속(타이머 없음), 1부는 타이머 재개
+    showScreen("bar");
+    refreshSeatUi();
+  }
+  function fmtMMSS(sec){
+    const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  }
+  function craftFrame(dtReal){
+    if (CR.timing) CR.time += dtReal;
+    const limit = CR.cock ? CR.cock.time_limit_sec : null;
+    const over = limit !== null && CR.time > limit;
+    $("craftHeadTime").textContent = `제조 시간 ${fmtMMSS(CR.time)}` + (limit ? ` / ${fmtMMSS(limit)}` : " / --");
+    $("craftHeadTime").classList.toggle("over", over);
+    $("craftTimeText").textContent = fmtMMSS(CR.time);
+    $("craftTimeBox").classList.toggle("over", over);
+    if (CR.current && CR.current.tick) CR.current.tick(dtReal);
+  }
+
+  /* ── 목차 ── */
+  function visibleMenuCards(){
+    let list = COCKTAILS.slice(); // 이미 해금일 오름차순→등록순
+    if (CR.filter) list = list.filter(c => c.tags.some(t => t.ko === CR.filter));
+    return list;
+  }
+  function renderMenu(){
+    CR.phase = "menu";
+    CR.cock = null;
+    $("craftPhaseTitle").textContent = "칵테일 목차";
+    $("craftCockName").textContent = "";
+    const tags = { taste: [], feel: [] };
+    COCKTAILS.forEach(c => c.tags.forEach(t => {
+      if (!tags[t.category].includes(t.ko)) tags[t.category].push(t.ko);
+    }));
+    const chips = cat => tags[cat].map(t =>
+      `<button class="f-chip ${CR.filter === t ? "on" : ""}" data-tag="${t}" type="button">${t}</button>`).join("");
+    const list = visibleMenuCards();
+    CR.kbIdx = clamp(CR.kbIdx, 0, Math.max(0, list.length - 1));
+    const cards = list.map((c, i) => `
+      <button class="cock-card ${i === CR.kbIdx ? "kb-sel" : ""}" data-cid="${c.id}" type="button">
+        <div class="cc-glass" style="font-size:34px">${GLASS_ICON[c.glass] || "🍸"}</div>
+        <h4>${c.name.ko}</h4>
+        <div class="cc-price">${c.price}G · ${c.abv}%</div>
+        <div class="cc-tags">${c.tags.map(t => `<span class="cc-tag ${t.category}">${t.ko}</span>`).join("")}</div>
+      </button>`).join("");
+    // 미해금 실루엣 — 필터 중엔 미노출
+    const locked = (!CR.filter) ? Array.from({length: LOCKED_COUNT}, () => `
+      <div class="cock-card locked">
+        <div class="cc-glass" style="font-size:34px">🍸</div>
+        <h4>???</h4>
+        <div class="cc-price" style="color:var(--muted)">---</div>
+      </div>`).join("") : "";
+    $("craftBody").innerHTML = `
+      <div class="menu-filters">
+        <span class="f-group">맛</span>${chips("taste")}
+        <span class="f-group" style="margin-left:10px">느낌</span>${chips("feel")}
+        <button class="f-chip ${CR.filter === null ? "on" : ""}" data-tag="" type="button" style="margin-left:10px">전체</button>
+      </div>
+      <div class="menu-grid" id="menuGrid">${cards}${locked}</div>
+      <div class="menu-help">
+        <b>A / D</b> 이동 · <b>SPACE</b> 선택 · <b>TAB</b> 태그 필터 순환 · <b>ESC</b> 닫기(첫 수동 기믹 전까지 무페널티)
+        ${CR.gate ? `<br>대본 지정 제조 — 주문: <b style="color:var(--gold)">${cockById[CR.gate.order].name.ko}</b> (해금 무시)` : ""}
+      </div>`;
+    $("craftBody").querySelectorAll(".f-chip").forEach(b => b.addEventListener("click", () => {
+      CR.filter = b.dataset.tag || null; CR.kbIdx = 0; renderMenu();
+    }));
+    $("craftBody").querySelectorAll(".cock-card[data-cid]").forEach(b => b.addEventListener("click", () => openDetail(cockById[b.dataset.cid])));
+  }
+  function menuKey(e){
+    const list = visibleMenuCards();
+    if (e.code === "KeyA"){ CR.kbIdx = (CR.kbIdx - 1 + list.length) % list.length; renderMenu(); }
+    else if (e.code === "KeyD"){ CR.kbIdx = (CR.kbIdx + 1) % list.length; renderMenu(); }
+    else if (e.code === "Space"){ if (list[CR.kbIdx]) openDetail(list[CR.kbIdx]); }
+    else if (e.code === "Tab"){
+      e.preventDefault();
+      const all = [null, ...COCKTAILS.flatMap(c => c.tags.map(t => t.ko)).filter((v, i, a) => a.indexOf(v) === i)];
+      CR.filter = all[(all.indexOf(CR.filter) + 1) % all.length];
+      CR.kbIdx = 0; renderMenu();
+    }
+    else if (e.code === "Escape"){ craftCancel(); }
+  }
+  function craftCancel(){
+    if (CR.startedManual) return;   // 첫 수동 기믹 이후엔 취소 불가(버리기로만)
+    if (CR.gate){ renderMenu(); return; } // 제조 게이트는 이탈 불가
+    craftClose();
+  }
+
+  /* ── 상세 ── */
+  function openDetail(cock){
+    CR.phase = "detail";
+    CR.cock = cock;
+    $("craftPhaseTitle").textContent = "칵테일 상세";
+    $("craftCockName").textContent = cock.name.ko;
+    const iceKo = v => v === "none" ? "없음" : v === "cubed" ? "큐브" : v;
+    const toolId = expectedTool(cock.mix);
+    $("craftBody").innerHTML = `
+      <div class="detail-wrap">
+        <div class="detail-visual">
+          <div class="dv-glass" style="font-size:84px">${GLASS_ICON[cock.glass] || "🍸"}</div>
+          <h2>${cock.name.ko}</h2>
+          <div class="dv-price">${cock.price}G · ${cock.abv}%</div>
+          <div class="dv-flavor">${cock.flavor.ko}</div>
+        </div>
+        <div class="detail-info">
+          <h3>RECIPE</h3>
+          <div class="di-desc">${cock.recipe_desc.ko}</div>
+          <div class="badge-row">
+            <span class="badge"><small>잔</small>${shelfName(cock.glass)}</span>
+            <span class="badge ${toolId ? "" : "off"}"><small>도구</small>${toolId ? shelfName(toolId) : "없음"}</span>
+            <span class="badge ${cock.garnish ? "" : "off"}"><small>가니시</small>${cock.garnish ? shelfName(cock.garnish) : "없음"}</span>
+          </div>
+          <div class="badge-row">
+            <span class="badge ${cock.mixing_ice === "none" ? "off" : ""}"><small>믹싱 얼음</small>${iceKo(cock.mixing_ice)}</span>
+            <span class="badge ${cock.serving_ice === "none" ? "off" : ""}"><small>서빙 얼음</small>${iceKo(cock.serving_ice)}</span>
+            <span class="badge"><small>믹스</small>${cock.mix}</span>
+          </div>
+          <div class="detail-actions">
+            <button class="btn-ghost" id="btnDetailBack" type="button">목차로</button>
+            <button class="btn-primary" id="btnDetailGo" type="button">제조 확정</button>
+          </div>
+        </div>
+      </div>`;
+    $("btnDetailBack").addEventListener("click", renderMenu);
+    $("btnDetailGo").addEventListener("click", () => {
+      openPopup(`
+        <h3>제조 확인</h3>
+        <p>선택한 음료를 만드시겠습니까?<br><b style="color:var(--ink)">${cock.name.ko}</b> · ${cock.price}G · 제한시간 ${cock.time_limit_sec}초</p>
+        <div class="popup-actions">
+          <button id="ppNo" type="button">취소</button>
+          <button class="primary" id="ppYes" type="button">만든다</button>
+        </div>`);
+      $("ppNo").addEventListener("click", closePopup);
+      $("ppYes").addEventListener("click", () => { closePopup(); renderPrep(); });
+    });
+  }
+  function detailKey(e){
+    if (e.code === "Escape") renderMenu();
+    else if (e.code === "Space") $("btnDetailGo") && $("btnDetailGo").click();
+  }
+
+  /* ── 선반(제조 준비) ── */
+  function renderPrep(){
+    CR.phase = "prep";
+    const cock = CR.cock;
+    $("craftPhaseTitle").textContent = "제조 준비 — 선반";
+    const item = (x, group) => `
+      <button class="shelf-item" data-group="${group}" data-id="${x.id || ""}" type="button">
+        <span class="si-dot" style="background:${x.color ? rgb(x.color) : "rgba(255,255,255,0.06)"}"></span>
+        ${x.name_ko}
+        ${x.category ? `<span class="si-cat">${CAT_LABEL[x.category] || x.category}</span>` : ""}
+      </button>`;
+    const glasses = SHELF.filter(x => x.kind === "glass").map(x => item(x, "glass")).join("");
+    const tools = SHELF.filter(x => x.kind === "tool").map(x => item(x, "tool")).join("")
+      + item({id: "", name_ko: "선택 안 함"}, "tool");
+    const garnishes = SHELF.filter(x => x.kind === "garnish").map(x => item(x, "garnish")).join("")
+      + item({id: "", name_ko: "없음"}, "garnish");
+    const ings = SHELF.filter(x => x.kind === "ingredient").map(x => item(x, "ing")).join("");
+    $("craftBody").innerHTML = `
+      <div class="prep-wrap">
+        <div class="prep-section"><h3>잔 <span class="cnt">(1개 선택)</span></h3><div class="shelf-row" id="rowGlass">${glasses}</div></div>
+        <div class="prep-section"><h3>도구 <span class="cnt">(mix=none이면 생략 가능)</span></h3><div class="shelf-row" id="rowTool">${tools}</div></div>
+        <div class="prep-section"><h3>가니시</h3><div class="shelf-row" id="rowGarnish">${garnishes}</div></div>
+        <div class="prep-section"><h3>재료 <span class="cnt">(다중 선택 — 오답 선택 가능)</span></h3><div class="shelf-row" id="rowIng">${ings}</div></div>
+        <div class="prep-foot">
+          <span class="pf-note" id="prepNote">잔 1개 + 재료 1개 이상이면 제조를 시작할 수 있다.</span>
+          <div class="pf-actions">
+            <button class="btn-ghost" id="btnPrepBack" type="button">목차로</button>
+            <button class="btn-ghost" id="btnRecipeNote" type="button">레시피 노트</button>
+            <button class="btn-primary" id="btnCraftStart" type="button" disabled>제조 시작</button>
+          </div>
+        </div>
+      </div>`;
+    const sync = () => {
+      $("craftBody").querySelectorAll(".shelf-item").forEach(b => {
+        const g = b.dataset.group, id = b.dataset.id;
+        let on = false;
+        if (g === "glass") on = CR.sel.glass === id;
+        else if (g === "tool") on = (CR.sel.tool || "") === id;
+        else if (g === "garnish") on = (CR.sel.garnish || "") === id;
+        else on = CR.sel.ings.has(id);
+        b.classList.toggle("sel", on);
+        // 레시피 노트 — 정답 항목 가이드 점멸
+        let guide = false;
+        if (CR.noteOpen){
+          if (g === "glass") guide = id === cock.glass;
+          else if (g === "tool") guide = id === (expectedTool(cock.mix) || "");
+          else if (g === "garnish") guide = id === (cock.garnish || "");
+          else guide = cock.recipe.some(l => l.ingredient === id && !l.auto_apply);
+        }
+        b.classList.toggle("guide", guide && !on);
+      });
+      $("btnCraftStart").disabled = !(CR.sel.glass && CR.sel.ings.size >= 1);
+    };
+    $("craftBody").querySelectorAll(".shelf-item").forEach(b => b.addEventListener("click", () => {
+      const g = b.dataset.group, id = b.dataset.id;
+      if (g === "glass") CR.sel.glass = (CR.sel.glass === id) ? null : id;
+      else if (g === "tool") CR.sel.tool = id || null;
+      else if (g === "garnish") CR.sel.garnish = id || null;
+      else { CR.sel.ings.has(id) ? CR.sel.ings.delete(id) : CR.sel.ings.add(id); }
+      sync();
+    }));
+    $("btnPrepBack").addEventListener("click", renderMenu);
+    $("btnRecipeNote").addEventListener("click", () => { CR.noteOpen = !CR.noteOpen; $("btnRecipeNote").textContent = CR.noteOpen ? "노트 닫기" : "레시피 노트"; sync(); });
+    $("btnCraftStart").addEventListener("click", startGimmicks);
+    sync();
+  }
+  function prepKey(e){
+    if (e.code === "Escape") renderMenu();
+  }
+
+  /* ── 기믹 큐 구성 ──
+     고정 순서: Open → Pour → Squeeze(자동) → Powder(자동) → 얼음(자동) → Mix → Fill-up */
+  function resolveIngAction(ingId){
+    const line = CR.cock.recipe.find(l => l.ingredient === ingId);
+    if (line) return { action: line.action, target: line.qty, unit: line.unit, wrong: false, auto: line.auto_apply };
+    const cat = byId[ingId].category;
+    if (cat === "mixer") return { action: "fill_up", target: 1.5, unit: "oz", wrong: true, auto: false };
+    if (cat === "fruit") return { action: "squeeze", target: 0.5, unit: "oz", wrong: true, auto: true };
+    if (cat === "powder") return { action: "powder", target: 1, unit: "tsp", wrong: true, auto: true };
+    return { action: "pour", target: 1.5, unit: "oz", wrong: true, auto: false };  // base·liqueur·wine_beer·juice·dairy·syrup
+  }
+  function startGimmicks(){
+    const cock = CR.cock;
+    const sel = [...CR.sel.ings];
+    const queue = [];
+    // ① Open — prep=cap 칵테일이고 그 재료(맥주)가 선택돼 있을 때
+    if (cock.prep === "cap" && sel.some(id => byId[id].category === "wine_beer")){
+      queue.push({ kind: "open", label: "병따기" });
+    }
+    // ② Pour — 재료 순
+    sel.forEach(id => {
+      const r = resolveIngAction(id);
+      if (r.action === "pour") queue.push({ kind: "pour", type: "pour", label: `따르기 — ${shelfName(id)}`, ing: id, target: r.target, hidden: r.wrong });
+    });
+    // ③ Squeeze — 자동 투입·비채점
+    sel.forEach(id => {
+      const r = resolveIngAction(id);
+      if (r.action === "squeeze") queue.push({ kind: "auto", icon: "🍋", label: `스퀴즈 — ${shelfName(id)}`, sub: "자동 투입 · 비채점" });
+    });
+    // ④ Powder(설탕) — 자동·비채점 (레시피 auto_apply 라인은 미선택이어도 자동 투입)
+    const powders = new Set(sel.filter(id => byId[id].category === "powder"));
+    cock.recipe.filter(l => l.auto_apply).forEach(l => powders.add(l.ingredient));
+    powders.forEach(id => queue.push({ kind: "auto", icon: "🧂", label: `파우더 — ${shelfName(id)}`, sub: "자동 투입 · 비채점 (powder_demo_behavior)" }));
+    // ⑤ 얼음 자동 적용
+    if (cock.mixing_ice !== "none" || cock.serving_ice !== "none"){
+      queue.push({ kind: "auto", icon: "🧊", label: "얼음 적용", sub: `믹싱 ${cock.mixing_ice} · 서빙 ${cock.serving_ice}` });
+    }
+    // ⑥ Mix — 선택 도구 기준: 셰이커→셰이킹 게임 / 믹싱글라스→(mix=stir이면 스터 게임, 아니면 자동) / 없음→생략
+    if (CR.sel.tool === "shaker") queue.push({ kind: "shake", label: "셰이킹" });
+    else if (CR.sel.tool === "mixing_glass"){
+      if (cock.mix === "stir") queue.push({ kind: "stir", label: "스터" });
+      else queue.push({ kind: "auto", icon: "🥄", label: "빌드 — 가볍게 젓기", sub: "build는 자동 진행" });
+    }
+    // ⑦ Fill-up — 마지막
+    sel.forEach(id => {
+      const r = resolveIngAction(id);
+      if (r.action === "fill_up") queue.push({ kind: "pour", type: "fill_up", label: `필업 — ${shelfName(id)}`, ing: id, target: r.target, hidden: r.wrong });
+    });
+    CR.queue = queue;
+    CR.qIdx = -1;
+    CR.results = [];
+    CR.phase = "gimmick";
+    $("craftPhaseTitle").textContent = "제조 진행";
+    $("craftBody").innerHTML = `
+      <div class="gimmick-wrap">
+        <div class="gimmick-queue" id="gqChips"></div>
+        <div id="gimmick-stage"></div>
+      </div>`;
+    nextGimmick();
+  }
+  function paintQueueChips(){
+    $("gqChips").innerHTML = CR.queue.map((s, i) =>
+      `<span class="gq-step ${i < CR.qIdx ? "done" : i === CR.qIdx ? "cur" : ""}">${i + 1}. ${s.label}</span>`).join("");
+  }
+  async function nextGimmick(){
+    CR.qIdx += 1;
+    if (CR.qIdx >= CR.queue.length){ renderResult(); return; }
+    paintQueueChips();
+    const step = CR.queue[CR.qIdx];
+    let result = null;
+    if (step.kind === "auto") result = await runAuto(step);
+    else if (step.kind === "open") result = await runOpen(step);
+    else if (step.kind === "pour") result = await runPour(step);
+    else if (step.kind === "shake") result = await runShake(step);
+    else if (step.kind === "stir") result = await runStir(step);
+    CR.current = null;
+    CR.timing = false;
+    if (result && result.scoredType) CR.results.push(result);
+    nextGimmick();
+  }
+
+  /* ── 결과 계산 ── */
+  function computeCraft(){
+    const cock = CR.cock;
+    const sel = [...CR.sel.ings];
+    const W = { open: CONFIG.weight_open, pour: CONFIG.weight_pour, squeeze: CONFIG.weight_squeeze,
+                powder: CONFIG.weight_powder, shake: CONFIG.weight_shake, stir: CONFIG.weight_stir, fill_up: CONFIG.weight_fill_up };
+    const perType = {};
+    const rows = [];
+    CR.results.forEach(r => {
+      if (r.wrong){
+        // UNEXPECTED — 오답 재료는 TypeScore 평균·가중치 분모에서 제외, extra_ingredient_penalty만 적용
+        rows.push({ label: `${r.label} — 추가 재료 (채점 제외)`, score: r.score, detail: r.detail });
+        return;
+      }
+      (perType[r.scoredType] ||= []).push(r.score);
+      rows.push({ label: r.label, score: r.score, detail: r.detail });
+    });
+    // MISSING_INGREDIENT — 누락 재료는 기믹 결과를 생성하지 않는다(평균·분모 제외). missing_ingredient_penalty 감점만.
+    // MISSING_GIMMICK(재료는 담았는데 기믹 결과가 없는 경우)은 현 구조상 발생하지 않는다 —
+    // 선택된 재료는 큐에 반드시 들어가고, 기믹은 스킵 불가(결과가 항상 생성됨).
+    const deds = [];
+    let coreMissing = false, missingCnt = 0;
+    cock.recipe.forEach(l => {
+      if (l.auto_apply) return;
+      if (sel.includes(l.ingredient)) return;
+      if (l.is_core) coreMissing = true;
+      missingCnt += 1;
+      rows.push({ label: `${l.action === "fill_up" ? "필업" : l.action === "squeeze" ? "스퀴즈" : "따르기"} — ${shelfName(l.ingredient)}`, score: null, detail: "누락 — 평균 제외, 감점만" });
+    });
+    // Mix 누락 — 레시피가 셰이킹인데 셰이킹을 안 했으면 0점 포함
+    const mixGim = cock.mix === "shake" ? "shake" : cock.mix === "stir" ? "stir" : null;
+    if (mixGim && !(perType[mixGim] && perType[mixGim].length)){
+      (perType[mixGim] ||= []).push(0);
+      rows.push({ label: mixGim === "shake" ? "셰이킹" : "스터", score: 0, detail: "미수행 — 0점 포함" });
+    }
+    // 가중 평균
+    let num = 0, den = 0;
+    const typeRows = [];
+    Object.keys(perType).forEach(t => {
+      const avg = perType[t].reduce((a, b) => a + b, 0) / perType[t].length;
+      num += avg * W[t]; den += W[t];
+      typeRows.push({ type: t, avg, w: W[t] });
+    });
+    const base = den ? num / den : 0;
+    // 감점
+    if (CR.sel.glass !== cock.glass) deds.push({ label: `잔 불일치 (${shelfName(CR.sel.glass)} ≠ ${shelfName(cock.glass)})`, v: CONFIG.glass_mismatch_penalty });
+    const expTool = expectedTool(cock.mix);
+    if ((CR.sel.tool || null) !== expTool) deds.push({ label: `도구 불일치 (${CR.sel.tool ? shelfName(CR.sel.tool) : "없음"} ≠ ${expTool ? shelfName(expTool) : "없음"})`, v: CONFIG.tool_mismatch_penalty });
+    if (missingCnt) deds.push({ label: `일반 재료 누락 ×${missingCnt}`, v: CONFIG.missing_ingredient_penalty * missingCnt });
+    const extras = sel.filter(id => !cock.recipe.some(l => l.ingredient === id) && byId[id].category !== "powder");
+    if (extras.length) deds.push({ label: `추가 재료 ×${extras.length} (${extras.map(shelfName).join(", ")})`, v: CONFIG.extra_ingredient_penalty * extras.length });
+    const limit = cock.time_limit_sec;
+    const otRatio = Math.max(0, (CR.time - limit) / limit);
+    const otPen = bandMatch("overtime", otRatio);
+    if (otPen) deds.push({ label: `시간 초과 ${(otRatio * 100).toFixed(0)}%`, v: otPen });
+    const dedSum = deds.reduce((s, d) => s + d.v, 0);
+    const final = clamp(Math.round(base - dedSum), 0, 100);
+    let grade = gradeOf(final);
+    let forced = null;
+    if (coreMissing && CONFIG.force_sewage_on_missing_core){
+      grade = "sewage";
+      forced = "핵심 재료(is_core) 누락 — 산식 무관 강제 SEWAGE";
+    }
+    return { rows, typeRows, deds, base, dedSum, final, grade, forced };
+  }
+
+  function renderResult(){
+    CR.phase = "result";
+    $("craftPhaseTitle").textContent = "제조 결과";
+    const R = computeCraft();
+    CR.lastResult = R;
+    const typeKo = { open: "병따기", pour: "따르기", fill_up: "필업", shake: "셰이킹", stir: "스터", squeeze: "스퀴즈", powder: "파우더" };
+    $("craftBody").innerHTML = `
+      <div class="result-wrap">
+        <div class="result-head">
+          <small>CRAFT RESULT — ${CR.cock.name.ko}</small>
+          <h2 style="color:${GRADE_COLOR[R.grade]}">${GRADE_KO[R.grade]}</h2>
+          <div class="r-score">craft_score ${R.final} / 100 · 제조 시간 ${fmtMMSS(CR.time)} / ${fmtMMSS(CR.cock.time_limit_sec)}</div>
+          ${R.forced ? `<div class="r-forced">${R.forced}</div>` : ""}
+        </div>
+        <table class="result-table">
+          <tr><th>기믹</th><th>점수</th><th>비고</th></tr>
+          ${R.rows.map(r => `<tr><td>${r.label}</td><td class="num ${r.score === null ? "" : r.score >= 90 ? "good" : r.score < 50 ? "bad" : ""}">${r.score === null ? "—" : Math.round(r.score)}</td><td style="color:var(--muted)">${r.detail || ""}</td></tr>`).join("")}
+          ${R.typeRows.map(t => `<tr><td style="color:var(--cyan)">종류 평균 — ${typeKo[t.type] || t.type}</td><td class="num">${t.avg.toFixed(1)}</td><td style="color:var(--muted)">가중치 ${t.w}</td></tr>`).join("")}
+          <tr><td style="color:var(--cyan)">가중 합산 기본 점수</td><td class="num">${R.base.toFixed(1)}</td><td></td></tr>
+          ${R.deds.map(d => `<tr><td class="bad">감점 — ${d.label}</td><td class="num bad">−${d.v}</td><td></td></tr>`).join("")}
+          <tr><td><b>최종</b></td><td class="num"><b>${R.final}</b></td><td style="color:${GRADE_COLOR[R.grade]}"><b>${GRADE_KO[R.grade]}</b></td></tr>
+        </table>
+        <div class="result-actions2">
+          <button class="btn-ghost" id="btnDiscard" type="button">버리기 (재제조)</button>
+          <button class="btn-primary" id="btnServe" type="button">제공하기</button>
+        </div>
+      </div>`;
+    $("btnDiscard").addEventListener("click", () => {
+      // 버리기 → 재제조. 좌석 타이머는 계속 정지 상태를 유지한다.
+      CR.sel = { glass: null, tool: null, garnish: null, ings: new Set() };
+      CR.time = 0; CR.results = []; CR.queue = []; CR.qIdx = -1; CR.startedManual = false;
+      renderMenu();
+    });
+    $("btnServe").addEventListener("click", () => {
+      const made = { cocktailId: CR.cock.id, grade: R.grade, score: R.final };
+      if (CR.gate){
+        const gate = CR.gate;
+        craftClose();
+        gate.resolve(made);
+      } else {
+        G.heldDrink = made;
+        craftClose();
+      }
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     6. 기믹 구현 — 병따기·따르기·셰이킹·스터·자동
+     ══════════════════════════════════════════════════════════ */
+  const stage = () => $("gimmick-stage");
+  function judgePop2(el, text, color){
+    el.textContent = text; el.style.color = color;
+    el.classList.remove("show"); void el.offsetWidth; el.classList.add("show");
+  }
+
+  /* 자동 단계 — 짧은 연출 후 통과 */
+  function runAuto(step){
+    return new Promise(res => {
+      stage().innerHTML = `
+        <div class="g-autocard"><div class="ac-inner">
+          <div class="ac-icon">${step.icon}</div>
+          <h4>${step.label}</h4>
+          <p>${step.sub || "자동 진행"}</p>
+        </div></div>`;
+      CR.current = { skip: () => res(null) };
+      setTimeout(() => res(null), CONFIG.open_transition_delay_sec * 1000);
+    });
+  }
+
+  /* 병따기(Open) — 조여드는 고리를 목표 고리에 겹칠 때 SPACE.
+     점수 = max(0, 100 − 실패 × 15) */
+  function runOpen(step){
+    return new Promise(res => {
+      CR.startedManual = true; CR.timing = true;
+      const P = { start: 150, targetR: 42, window: 10, approach: 1.6, r: 150, fails: 0, opened: false, cool: 0 };
+      stage().innerHTML = `
+        <div class="g-hud"><span>시도 <b id="opTry">1</b>회째</span><span id="opState">조여드는 중</span></div>
+        <div class="g-title">병따기 — 고리가 겹치는 순간 SPACE</div>
+        <div class="cap-bottle2" style="top:34%"><div class="cb-neck"></div><div class="cb-shape"></div></div>
+        <div class="cap-piece2" id="capPiece" style="top:34%"></div>
+        <svg class="stream-svg" id="capSvg" width="100%" height="100%">
+          <circle id="capTarget" fill="none" stroke="#69f6e1" stroke-width="3" opacity=".9"></circle>
+          <circle id="capIn" fill="none" stroke="#ffc85a" stroke-width="2" opacity=".95"></circle>
+        </svg>
+        <div class="g-judge" id="opJudge"></div>
+        <div class="g-keyhint"><span class="kbd" id="opKbd">SPACE</span><span>고리가 겹치는 순간 누른다</span></div>`;
+      let cx = 0, cy = 0;
+      const layout = () => {
+        const r = stage().getBoundingClientRect();
+        cx = r.width / 2; cy = r.height * 0.34;
+        $("capTarget").setAttribute("cx", cx); $("capTarget").setAttribute("cy", cy); $("capTarget").setAttribute("r", P.targetR);
+        $("capIn").setAttribute("cx", cx); $("capIn").setAttribute("cy", cy);
+      };
+      layout();
+      const finish = () => {
+        CR.timing = false;
+        const score = Math.max(0, 100 - P.fails * CONFIG.open_penalty_per_failure);
+        res({ scoredType: "open", score, label: "병따기", detail: `실패 ${P.fails}회 (회당 −${CONFIG.open_penalty_per_failure})` });
+      };
+      CR.current = {
+        onKey(e){
+          if (e.code !== "Space" || P.opened || P.cool > 0) return;
+          $("opKbd").classList.add("down"); setTimeout(() => $("opKbd").classList.remove("down"), 120);
+          if (Math.abs(P.r - P.targetR) <= P.window){
+            P.opened = true;
+            CR.timing = false;                  // 판정 종료 — 뚜껑 팝 연출 0.9초는 제조 시간 미포함
+            judgePop2($("opJudge"), "OPEN!", "var(--lime)");
+            const piece = $("capPiece");
+            piece.classList.remove("bend"); void piece.offsetWidth; piece.classList.add("pop");
+            $("capIn").style.opacity = "0";
+            $("opState").textContent = "뚜껑 열림";
+            setTimeout(finish, CONFIG.open_transition_delay_sec * 1000);
+          } else {
+            P.fails += 1; P.cool = 0.45;
+            judgePop2($("opJudge"), "MISS", "var(--red)");
+            const piece = $("capPiece");
+            piece.classList.remove("bend"); void piece.offsetWidth; piece.classList.add("bend");
+            $("opTry").textContent = String(P.fails + 1);
+          }
+        },
+        tick(dt){
+          if (P.opened) return;
+          if (P.cool > 0){
+            P.cool -= dt;
+            if (P.cool <= 0){ P.cool = 0; P.r = P.start; }
+            $("opState").textContent = "다시 준비 중";
+          } else {
+            P.r -= (P.start - P.targetR) / P.approach * dt;
+            if (P.r < P.targetR - P.window){ P.fails += 1; P.cool = 0.45; judgePop2($("opJudge"), "MISS", "var(--red)"); $("opTry").textContent = String(P.fails + 1); }
+            $("opState").textContent = "조여드는 중";
+          }
+          $("capIn").setAttribute("r", Math.max(0, P.r).toFixed(1));
+          $("capIn").setAttribute("stroke", Math.abs(P.r - P.targetR) <= P.window ? "#72f2a0" : "#ffc85a");
+        },
+        skip(){ P.opened = true; finish(); }
+      };
+    });
+  }
+
+  /* 따르기(Pour·Fill-up) — A 눕히기 / D 세우기, 임계 기울기를 넘으면 흐른다. SPACE로 확정.
+     점수 = 수량 오차율 밴드(score_bands quantity) */
+  function runPour(step){
+    return new Promise(res => {
+      CR.startedManual = true; CR.timing = true;
+      const ingItem = byId[step.ing];
+      const color = ingItem.color ? rgb(ingItem.color) : "#9fb3b8";
+      const P = { n: 1.2, rate: 1.0, threshold: 0.55, progress: 0, oz: 0, done: false, held: { a: false, d: false }, okShown: false, pourStart: null, lastRipple: 0 };
+      const targetText = step.hidden ? "???" : `${step.target.toFixed(2)}oz`;
+      stage().innerHTML = `
+        <div class="g-hud"><span id="poOz">0.00 / ${targetText}</span><span id="poState">대기</span></div>
+        <div class="g-title">${step.label} <span style="color:var(--gold)">(목표 ${targetText})</span></div>
+        <div class="g-sub">${step.hidden ? "레시피에 없는 재료 — 목표량이 표시되지 않는다" : ""}</div>
+        <svg class="stream-svg" id="poSvg" width="100%" height="100%">
+          <path id="poStream" d="" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" opacity="0"></path>
+          <g id="poRipples"></g>
+        </svg>
+        <div class="pour-glass-zone"></div>
+        <div class="pour-bottle" id="poBottle"><div class="pb-neck"></div><div class="pb-shape"><div class="pb-liquid" style="background:${color}"></div></div></div>
+        <div class="tilt-gauge">
+          <span class="tilt-caption">기울기 — 붉은 눈금부터 쏟아진다</span>
+          <div class="tilt-fill" id="poFill"></div>
+          <div class="tilt-mark" style="left:55%"></div>
+        </div>
+        <div class="pour-ok" id="poOk">O.K</div>
+        <div class="g-keyhint">
+          <span class="kbd" id="poKeyA">A</span><span>눕히기</span>
+          <span class="kbd" id="poKeyD">D</span><span>세우기</span>
+          <span class="kbd" id="poKeySp">SPACE</span><span>붓기 종료(확정)</span>
+        </div>`;
+      const MAX_ANGLE = -75, MOUTH_Y = -100;
+      const positionBottle = () => {
+        const w = stage().getBoundingClientRect().width;
+        const rad = MAX_ANGLE * Math.PI / 180;
+        const rx = -MOUTH_Y * Math.sin(rad);
+        $("poBottle").style.left = ((w / 2 - rx) - 22.5) + "px";
+      };
+      positionBottle();
+      const finish = () => {
+        if (P.done) return;
+        P.done = true;
+        CR.timing = false;
+        const err = Math.abs(step.target - P.oz) / step.target;
+        const score = bandMatch("quantity", err);
+        res({ scoredType: step.type, score, wrong: !!step.hidden,   // 오답 재료 → 평균 제외 플래그
+              label: step.label,
+              detail: `목표 ${step.target.toFixed(2)}oz · 실제 ${P.oz.toFixed(2)}oz · 오차 ${(err * 100).toFixed(0)}%` });
+      };
+      CR.current = {
+        onKey(e){
+          if (e.code === "KeyA") P.held.a = true;
+          else if (e.code === "KeyD") P.held.d = true;
+          else if (e.code === "Space") finish();
+        },
+        onKeyUp(e){
+          if (e.code === "KeyA") P.held.a = false;
+          else if (e.code === "KeyD") P.held.d = false;
+        },
+        tick(dt){
+          if (P.done) return;
+          if (P.held.a) P.progress = Math.min(1, P.progress + dt / P.n);
+          else if (P.held.d) P.progress = Math.max(0, P.progress - dt / P.n);
+          const pouring = P.progress >= P.threshold;
+          if (pouring){
+            P.oz += P.rate * dt;
+            if (!P.okShown && !step.hidden && P.oz >= step.target){ P.okShown = true; $("poOk").classList.add("show"); }
+          }
+          $("poKeyA").classList.toggle("down", P.held.a);
+          $("poKeyD").classList.toggle("down", P.held.d);
+          const angle = MAX_ANGLE * P.progress;
+          $("poBottle").style.transform = `translateY(-50%) rotate(${angle}deg)`;
+          const rect = stage().getBoundingClientRect();
+          const bx = parseFloat($("poBottle").style.left || "0") + 22.5;
+          const byy = rect.height * 0.46;
+          const rad = angle * Math.PI / 180;
+          const mouth = { x: bx - MOUTH_Y * Math.sin(rad) * -1 * -1, y: byy + MOUTH_Y * Math.cos(rad) };
+          const end = { x: rect.width / 2, y: rect.height - 66 };
+          if (pouring){
+            const t = performance.now();
+            if (P.pourStart === null) P.pourStart = t;
+            const grow = Math.min(1, (t - P.pourStart) / 180);
+            const midY = Math.min(mouth.y, end.y) + Math.max(20, (end.y - mouth.y) * 0.35);
+            const ex = mouth.x + (end.x - mouth.x) * grow;
+            const ey = mouth.y + (end.y - mouth.y) * grow;
+            $("poStream").setAttribute("d", `M ${mouth.x.toFixed(1)} ${mouth.y.toFixed(1)} Q ${((mouth.x + ex) / 2).toFixed(1)} ${midY.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+            $("poStream").style.opacity = "0.92";
+            if (grow >= 1 && t - P.lastRipple > 150){
+              P.lastRipple = t;
+              const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+              c.setAttribute("cx", end.x + (Math.random() * 10 - 5)); c.setAttribute("cy", end.y);
+              c.setAttribute("r", 9); c.setAttribute("fill", color); c.setAttribute("class", "ripple");
+              $("poRipples").appendChild(c);
+              setTimeout(() => c.remove(), 500);
+            }
+          } else {
+            P.pourStart = null;
+            $("poStream").style.opacity = "0";
+          }
+          $("poFill").style.width = (P.progress * 100) + "%";
+          $("poFill").classList.toggle("pouring", pouring);
+          $("poOz").textContent = `${P.oz.toFixed(2)} / ${targetText}`;
+          $("poState").textContent = pouring ? "쏟아지는 중 — D로 세우기" : P.held.a ? "눕히는 중" : P.held.d ? "세우는 중" : P.progress > 0 ? "멈춤" : "대기";
+        },
+        skip(){ P.oz = step.target; finish(); }
+      };
+    });
+  }
+
+  /* 셰이킹 — 쉐이킹미니게임(GPT버전) 이식.
+     트랙 위 커서+노드, SPACE 타이밍 판정, 성공+실패 합 20스택 자동 종료.
+     점수 = 성공 / 20 × 100 */
+  function runShake(step){
+    return new Promise(res => {
+      CR.startedManual = true; CR.timing = true;
+      const TARGET = CONFIG.shake_target_stacks;
+      const CURSOR_SPEED = 1, HIT_RADIUS = 30;
+      const TRACK_POINTS = [ {x:9.5,y:16}, {x:90.5,y:38}, {x:11,y:70}, {x:90.5,y:88} ];
+      const NODE_PATTERNS = [
+        [ {lineIndex:0,t:0.37}, {lineIndex:2,t:0.47} ],
+        [ {lineIndex:0,t:0.28}, {lineIndex:0,t:0.38}, {lineIndex:1,t:0.38}, {lineIndex:2,t:0.49}, {lineIndex:2,t:0.56} ],
+        [ {lineIndex:0,t:0.39}, {lineIndex:0,t:0.57}, {lineIndex:1,t:0.32}, {lineIndex:1,t:0.48}, {lineIndex:2,t:0.55}, {lineIndex:2,t:0.82} ],
+        [ {lineIndex:0,t:0.28}, {lineIndex:1,t:0.32}, {lineIndex:2,t:0.55} ]
+      ];
+      stage().innerHTML = `
+        <div class="g-hud"><span>판정 <b id="shStack">0 / ${TARGET}</b></span><span>성공/실패 <b id="shSF">0 / 0</b></span></div>
+        <div class="g-title">셰이킹 — 커서가 노드와 겹칠 때 SPACE</div>
+        <div class="shake-arena" id="shArena">
+          <svg class="track-svg" viewBox="0 0 1000 500" aria-hidden="true">
+            <polyline class="track-line-shadow" points="95,80 905,190 110,350 905,440"></polyline>
+            <polyline class="track-line" points="95,80 905,190 110,350 905,440"></polyline>
+          </svg>
+          <div id="shRoutes"></div>
+          <div id="shNodes"></div>
+          <span class="shake-cursor" id="shCursor"></span>
+          <span class="feedback-pop" id="shPop"></span>
+        </div>
+        <div class="diag-gauge"><div class="gauge-segments" id="shGauge"></div></div>
+        <div class="g-judge" id="shJudge"></div>
+        <div class="g-keyhint"><span class="kbd" id="shKbd">SPACE</span><span>노드 밖에서 누르면 실패 스택 · 지나치는 것은 무판정</span></div>`;
+      const arena = $("shArena");
+      const routeNodes = [], gaugeEls = [];
+      TRACK_POINTS.forEach(pt => {
+        const n = document.createElement("span");
+        n.className = "route-node";
+        n.style.left = pt.x + "%"; n.style.top = pt.y + "%";
+        $("shRoutes").appendChild(n);
+        routeNodes.push({ element: n, point: pt, isStatic: true, locked: false });
+      });
+      for (let i = 0; i < TARGET; i++){
+        const s = document.createElement("span");
+        s.className = "gauge-segment";
+        $("shGauge").appendChild(s);
+        gaugeEls.push(s);
+      }
+      let results = [], cursorPos = 0, dir = 1, timingNodes = [], currentPattern = NODE_PATTERNS[0], done = false;
+      const easeInOut = v => v < 0.5 ? 2 * v * v : 1 - Math.pow(-2 * v + 2, 2) / 2;
+      function interp(pos){
+        const sp = clamp(pos, 0, TRACK_POINTS.length - 1);
+        const si = Math.min(TRACK_POINTS.length - 2, Math.floor(sp));
+        const local = sp - si;
+        const a = TRACK_POINTS[si], b = TRACK_POINTS[si + 1];
+        return { x: a.x + (b.x - a.x) * local, y: a.y + (b.y - a.y) * local };
+      }
+      function visualPos(){
+        const sp = clamp(cursorPos, 0, TRACK_POINTS.length - 1);
+        const si = Math.min(TRACK_POINTS.length - 2, Math.floor(sp));
+        return si + easeInOut(sp - si);
+      }
+      function spawnPattern(isDown){
+        if (isDown) currentPattern = pick(NODE_PATTERNS);
+        $("shNodes").replaceChildren();
+        timingNodes = currentPattern.map((def, i) => {
+          const pos = isDown ? def.lineIndex + def.t : TRACK_POINTS.length - 1 - def.lineIndex - def.t;
+          const pt = interp(pos);
+          const n = document.createElement("span");
+          n.className = "rhythm-node";
+          n.style.left = pt.x + "%"; n.style.top = pt.y + "%";
+          n.style.borderColor = ["#3da7ff", "#497aff", "#6458ff"][i % 3];
+          $("shNodes").appendChild(n);
+          return { element: n, point: pt, isStatic: false, hit: false };
+        });
+      }
+      function closestTarget(){
+        const cp = interp(visualPos());
+        const bounds = arena.getBoundingClientRect();
+        let best = null, bd = Infinity;
+        [...routeNodes.filter(n => !n.locked), ...timingNodes.filter(n => !n.hit)].forEach(n => {
+          const dx = (cp.x - n.point.x) / 100 * bounds.width;
+          const dy = (cp.y - n.point.y) / 100 * bounds.height;
+          const d = Math.hypot(dx, dy);
+          if (d < bd){ bd = d; best = n; }
+        });
+        return bd <= Math.max(HIT_RADIUS, bounds.width * 0.027) ? best : null;
+      }
+      function updateWindows(){
+        const cp = interp(visualPos());
+        const bounds = arena.getBoundingClientRect();
+        routeNodes.forEach(n => {
+          if (!n.locked) return;
+          const dx = (cp.x - n.point.x) / 100 * bounds.width;
+          const dy = (cp.y - n.point.y) / 100 * bounds.height;
+          if (Math.hypot(dx, dy) > Math.max(HIT_RADIUS, bounds.width * 0.027) * 1.5) n.locked = false;
+        });
+        const c = closestTarget();
+        [...routeNodes, ...timingNodes].forEach(n => n.element.classList.toggle("window", n === c));
+      }
+      function showPop(success){
+        const cp = interp(visualPos());
+        const pop = $("shPop");
+        pop.style.left = cp.x + "%"; pop.style.top = cp.y + "%";
+        pop.textContent = success ? "SUCCESS" : "MISS";
+        pop.className = "feedback-pop";
+        void pop.offsetWidth;
+        pop.classList.add(success ? "show-success" : "show-failure");
+      }
+      function paint(){
+        const succ = results.filter(r => r === "success").length;
+        $("shStack").textContent = `${results.length} / ${TARGET}`;
+        $("shSF").textContent = `${succ} / ${results.length - succ}`;
+        gaugeEls.forEach((s, i) => { s.className = "gauge-segment" + (results[i] ? " " + results[i] : ""); });
+      }
+      function finish(){
+        if (done) return;
+        done = true;
+        CR.timing = false;
+        const succ = results.filter(r => r === "success").length;
+        res({ scoredType: "shake", score: succ / TARGET * 100, label: "셰이킹", detail: `성공 ${succ} / ${TARGET}` });
+      }
+      spawnPattern(true);
+      CR.current = {
+        onKey(e){
+          if (e.code !== "Space" || done || results.length >= TARGET) return;  // 20스택 도달 즉시 입력 차단
+          $("shKbd").classList.add("down"); setTimeout(() => $("shKbd").classList.remove("down"), 110);
+          const target = closestTarget();
+          results.push(target ? "success" : "failure");
+          showPop(!!target);
+          if (target){
+            if (target.isStatic) target.locked = true; else target.hit = true;
+            target.element.classList.remove("window");
+            target.element.classList.add("hit");
+            setTimeout(() => { target.element.classList.remove("hit"); if (!target.isStatic) target.element.classList.add("cleared"); }, 180);
+            $("shCursor").classList.add("success");
+            setTimeout(() => $("shCursor").classList.remove("success"), 160);
+            judgePop2($("shJudge"), "SUCCESS", "var(--lime)");
+          } else {
+            $("shCursor").classList.remove("failure"); void $("shCursor").offsetWidth; $("shCursor").classList.add("failure");
+            judgePop2($("shJudge"), "BAD TIMING", "var(--red)");
+          }
+          paint();
+          if (results.length >= TARGET){
+            CR.timing = false;                  // 판정 종료 — 종료 연출 300ms는 제조 시간 미포함
+            setTimeout(finish, 300);            // 성공+실패 합 20스택 자동 종료
+          }
+        },
+        tick(dt){
+          if (done) return;
+          cursorPos += dir * CURSOR_SPEED * dt;
+          const max = TRACK_POINTS.length - 1;
+          if (cursorPos >= max){ cursorPos = max; dir = -1; spawnPattern(false); }
+          else if (cursorPos <= 0){ cursorPos = 0; dir = 1; spawnPattern(true); }
+          const p = interp(visualPos());
+          $("shCursor").style.left = p.x + "%";
+          $("shCursor").style.top = p.y + "%";
+          updateWindows();
+        },
+        skip(){ while (results.length < TARGET) results.push("success"); paint(); finish(); }
+      };
+    });
+  }
+
+  /* 스터 — 스터미니게임(GPT버전) 이식.
+     W→D→S→A 시계방향 순환, 한 바퀴=4입력, 성공+실패 합 10스택 종료,
+     한 바퀴 제한 2초, 오답 시 현재 위치 유지·그 위치부터 재시작.
+     점수 = 성공 / 10 × 100 */
+  function runStir(step){
+    return new Promise(res => {
+      CR.startedManual = true; CR.timing = true;
+      const TARGET = CONFIG.stir_stacks, ROUND_LIMIT = CONFIG.stir_stack_sec;
+      const DIRECTIONS = [
+        { key: "W", arrow: "↑" }, { key: "D", arrow: "→" }, { key: "S", arrow: "↓" }, { key: "A", arrow: "←" }
+      ];
+      const KEY_MAP = { KeyW: 0, ArrowUp: 0, KeyD: 1, ArrowRight: 1, KeyS: 2, ArrowDown: 2, KeyA: 3, ArrowLeft: 3 };
+      const liq = CR.cock ? rgb(CR.cock.color) : "#E6EBF0";
+      stage().innerHTML = `
+        <div class="g-hud"><span>바퀴 <b id="stCircle">0 / ${TARGET}</b></span><span>제한 <b id="stTime">${ROUND_LIMIT.toFixed(2)}s</b></span></div>
+        <div class="g-title">스터 — W→D→S→A 순서로 저어라 (한 바퀴 ${ROUND_LIMIT}초)</div>
+        <div class="stir-arena2" id="stArena">
+          <div class="stir-glass2"><div class="stir-liquid2" style="background:${liq}"></div><div class="stir-swirl2" id="stSwirl"></div></div>
+          <div class="stir-spoon2" id="stSpoon"></div>
+          ${DIRECTIONS.map((d, i) => `<button class="stir-key k-${d.key.toLowerCase()}" data-dir="${i}" type="button">${d.key}<small>${d.arrow}</small></button>`).join("")}
+        </div>
+        <div class="stir-round-timer"><div class="stir-round-fill" id="stFill"></div></div>
+        <div class="diag-gauge"><div class="gauge-segments" id="stGauge"></div></div>
+        <div class="g-judge" id="stJudge"></div>
+        <div class="g-keyhint"><span class="kbd">W A S D</span><span>또는</span><span class="kbd">← ↑ → ↓</span><span>— W로 시작</span></div>`;
+      const keyNodes = [...stage().querySelectorAll(".stir-key")];
+      const gaugeEls = [];
+      for (let i = 0; i < TARGET; i++){
+        const s = document.createElement("span");
+        s.className = "gauge-segment";
+        $("stGauge").appendChild(s);
+        gaugeEls.push(s);
+      }
+      const S = {
+        started: false, done: false,
+        roundActive: false,   // 라운드 비활성 중(종료 유예 포함)엔 입력·타임아웃 검사 차단
+        expected: 0, position: -1, startPos: 0, steps: 0,
+        attempted: 0, success: 0, spoon: 0, spoonTarget: 0,
+        deadline: 0
+      };
+      function paintKeys(){
+        keyNodes.forEach((n, i) => {
+          n.classList.toggle("target", !S.done && i === S.expected);
+          n.classList.toggle("position", S.position >= 0 && i === S.position && i !== S.expected);
+        });
+      }
+      function paintStats(){
+        $("stCircle").textContent = `${S.attempted} / ${TARGET}`;
+        gaugeEls.forEach((s, i) => { s.className = "gauge-segment" + (s.dataset.r ? " " + s.dataset.r : ""); });
+      }
+      function finish(){
+        if (S.done) return;
+        S.done = true;
+        CR.timing = false;
+        keyNodes.forEach(n => n.classList.remove("target", "position"));
+        res({ scoredType: "stir", score: S.success / TARGET * 100, label: "스터", detail: `성공 ${S.success} / ${TARGET}바퀴` });
+      }
+      function completeCircle(success, result){
+        if (S.done || !S.roundActive) return;   // 종료 유예 중 재진입(마지막 바퀴 타임아웃 크래시) 차단
+        S.roundActive = false;
+        const restart = S.position >= 0 ? S.position : S.startPos;
+        S.attempted += 1;
+        gaugeEls[S.attempted - 1].dataset.r = success ? "success" : "failure";
+        if (success) S.success += 1;
+        paintStats();
+        judgePop2($("stJudge"), success ? "GOOD" : result === "timeout" ? "TIME OUT" : "FAILED", success ? "var(--green)" : "var(--red)");
+        if (!success){
+          const a = $("stArena");
+          a.classList.remove("wrong"); void a.offsetWidth; a.classList.add("wrong");
+        }
+        if (S.attempted >= TARGET){
+          CR.timing = false;                    // 판정 종료 — 종료 연출 구간은 제조 시간 미포함
+          setTimeout(finish, 350);
+          return;                               // roundActive=false 유지 → 입력·타임아웃 모두 차단
+        }
+        // 오답/타임아웃 시 현재 위치 유지 — 그 위치부터 다시 한 바퀴
+        S.startPos = restart;
+        S.steps = 0;
+        S.position = restart;
+        S.expected = (restart + 1) % 4;
+        S.deadline = performance.now() + ROUND_LIMIT * 1000;
+        S.roundActive = true;
+        paintKeys();
+      }
+      function handleDir(i){
+        if (S.done) return;
+        if (!S.started){
+          if (i === 0){
+            S.started = true;
+            S.roundActive = true;
+            S.position = 0; S.startPos = 0; S.expected = 1; S.steps = 0;
+            S.deadline = performance.now() + ROUND_LIMIT * 1000;
+            paintKeys();
+          } else {
+            keyNodes[i].classList.add("wrong-flash");
+            setTimeout(() => keyNodes[i].classList.remove("wrong-flash"), 140);
+            judgePop2($("stJudge"), "START AT W", "var(--red)");
+          }
+          return;
+        }
+        if (!S.roundActive) return;             // 종료 유예·라운드 전환 중 입력 무시
+        if (performance.now() >= S.deadline){ completeCircle(false, "timeout"); return; }
+        if (i === S.expected){
+          S.position = i;
+          S.steps += 1;
+          S.spoonTarget += 90;
+          S.expected = (i + 1) % 4;
+          keyNodes[i].classList.add("correct-flash");
+          setTimeout(() => keyNodes[i].classList.remove("correct-flash"), 130);
+          if (S.steps >= 4){ completeCircle(true, "clean"); return; }
+          paintKeys();
+        } else {
+          keyNodes[i].classList.add("wrong-flash");
+          setTimeout(() => keyNodes[i].classList.remove("wrong-flash"), 140);
+          completeCircle(false, "wrong");
+        }
+      }
+      keyNodes.forEach(n => n.addEventListener("pointerdown", e => { e.preventDefault(); handleDir(Number(n.dataset.dir)); }));
+      CR.current = {
+        onKey(e){
+          const i = KEY_MAP[e.code];
+          if (i === undefined) return;
+          handleDir(i);
+        },
+        tick(dt){
+          if (S.done) return;
+          // 스푼은 목표 각도까지 굴러가 따라잡는다
+          const remain = S.spoonTarget - S.spoon;
+          if (Math.abs(remain) > 0.5) S.spoon += Math.sign(remain) * Math.min(Math.abs(remain), 300 * dt * (1 + Math.abs(remain) / 240));
+          else S.spoon = S.spoonTarget;
+          $("stSpoon").style.transform = `rotate(${S.spoon.toFixed(1)}deg)`;
+          $("stSwirl").style.transform = `rotate(${(S.spoon * 0.8).toFixed(1)}deg)`;
+          if (S.started && S.roundActive){
+            const left = Math.max(0, (S.deadline - performance.now()) / 1000);
+            $("stTime").textContent = left.toFixed(2) + "s";
+            const ratio = left / ROUND_LIMIT;
+            $("stFill").style.width = ratio * 100 + "%";
+            $("stFill").classList.toggle("danger", ratio < 0.34);
+            if (left <= 0) completeCircle(false, "timeout");
+          }
+        },
+        skip(){ S.success = TARGET; S.attempted = TARGET; finish(); }
+      };
+      paintKeys();
+      paintStats();
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     7. 개점 대화 → 1부 → 2부 → 정산
+     ══════════════════════════════════════════════════════════ */
+  async function startOpening(){
+    G.state = "OPENING";
+    setPhase("개점 대화");
+    showScreen("bar");
+    refreshSeatUi();
+    await vnLine("크리스", "루나. 오늘부터 홀은 네가 맡는다. 나는 안쪽 창고 정리를 해야 해서 말이지.");
+    await vnLine("크리스", "손님이 앉으면 코스터부터 놓아라. 주문을 받고, 제 시간에 잔을 내면 된다.");
+    await vnLine("크리스", "어렵게 생각하지 마라. 늘 하던 대로. ...그럼, 개점이다.");
+    vnHide();
+    startPart1();
+  }
+  function startPart1(){
+    G.state = "PART1";
+    G.paused = false;
+    setPhase("1부 — 실시간 응대");
+    refreshSeatUi();
+  }
+
+  /* 2부 — 단골 비주얼 노벨 (더미 씬 1개) */
+  async function startPart2(){
+    G.state = "PART2";
+    G.paused = true;   // 2부는 씬 진행만 있고 좌석 타이머가 없다
+    setPhase("2부 — 단골 비주얼 노벨");
+    fade(true);
+    await waitReal(520);
+    // 바 초기화 후 포트를 중앙에 앉힌다
+    seatEls.forEach(s => s.classList.remove("occupied", "coastered", "focused"));
+    G.focusSeat = -1;
+    G.guests = [null, null, null];
+    const seat = seatEls[1];
+    seat.classList.add("occupied");
+    seat.querySelector(".guest-sil").innerHTML = SIL_SVG("#69f6e1");
+    seat.querySelector(".guest-name").textContent = "포트 (단골)";
+    seat.querySelector(".seat-hint").textContent = "";
+    refreshSeatUi();
+    fade(false);
+    await waitReal(420);
+
+    await vnLine("포트", "다시 왔네. 1부 영업은 어땠나? 자네 얼굴을 보니 나쁘진 않았던 모양이군.");
+    await vnLine("루나", "포트 씨. 두 번째 방문이시네요. 오늘은 기록적인 밤인가요?");
+    await vnLine("포트", "기자에게 기록적인 밤이란 없네. 마감이 있는 밤과 없는 밤이 있을 뿐이지. 오늘은... 없는 밤이야.");
+    await vnLine("포트", "스크류드라이버를 부탁하지. 이름은 공구지만, 맛은 과일이라던가.");
+    vnHide();
+
+    // 제조 게이트 — craft 스텝(arg order). 해금 무시.
+    const made = await new Promise(resolve => craftOpen({ order: "screwdriver", resolve }));
+    G.part2Grade = made.grade;
+    G.part2Cocktail = made.cocktailId;
+    showScreen("bar");
+
+    // 서빙 — 주문 ≠ 제공이면 강제 sewage
+    const ordered = cockById.screwdriver;
+    const mismatch = made.cocktailId !== "screwdriver";
+    const finalGrade = mismatch ? "sewage" : made.grade;
+    await vnLine("루나", `${cockById[made.cocktailId].name.ko}입니다. 천천히 즐기세요.`);
+
+    // 등급별 반응 4분기 — excellent / good / 그 외 / 오제조
+    if (mismatch){
+      await vnLine("포트", "흠? 내가 시킨 게 이거였나.");
+      await vnLine("포트", `역시 아니군. 나는 ${ordered.name.ko}를 시켰네만. ...뭐, 실수는 기사가 되기 전까진 실수가 아닐세.`);
+    } else if (finalGrade === "excellent"){
+      await vnLine("포트", "...크리스보다 낫군. 이건 비밀일세.");
+      await vnLine("포트", "정확한 계량, 망설임 없는 손. 자네, 생각보다 빨리 이 바의 얼굴이 되겠어.");
+    } else if (finalGrade === "good"){
+      await vnLine("포트", "좋군. 정석이야.");
+      await vnLine("포트", "정석대로 만든 술은 정석대로 취하게 해주지. 그거면 충분하네.");
+    } else {
+      await vnLine("포트", "...연습이 더 필요하겠어.");
+      await vnLine("포트", "괜찮네. 첫날부터 완벽한 바텐더는 기사 소재로도 재미가 없거든.");
+    }
+
+    // 정산 누적 — 단골은 tip_mult 일괄 1.0
+    const rule = SETTLE_RULES[finalGrade];
+    G.ledger.push({ who: "포트 (2부)", rounds: [{
+      name: ordered.name.ko, grade: finalGrade,
+      sale: Math.round(ordered.price * rule.sale_rate),
+      tip: Math.round(ordered.price * rule.tip_rate * 1.0),
+      refund: Math.round(ordered.price * rule.refund_rate)
+    }]});
+    goldChange(Math.round(ordered.price * rule.sale_rate) + Math.round(ordered.price * rule.tip_rate) - Math.round(ordered.price * rule.refund_rate));
+
+    // 선택지 1세트(2항목, 효과 없음)
+    vnHide();
+    const c = await vnChoice([
+      "「과찬이세요. 저는 배운 대로 만들 뿐입니다.」",
+      "「다음 잔은 더 나을 겁니다. 약속하죠.」"
+    ]);
+    if (c === 0) await vnLine("루나", "과찬이세요. 저는 배운 대로 만들 뿐입니다.");
+    else await vnLine("루나", "다음 잔은 더 나을 겁니다. 약속하죠.");
+    await vnLine("포트", "그 대답, 기사 마지막 문장으로 쓰기 좋겠군. ...오늘은 여기까지 하지. 잘 마셨네.");
+    vnHide();
+
+    fade(true);
+    await waitReal(560);
+    renderSettle();
+    fade(false);
+  }
+
+  /* 정산 요약 */
+  function renderSettle(){
+    G.state = "SETTLE";
+    setPhase("정산");
+    showScreen("settle");
+    let sale = 0, tip = 0, refund = 0;
+    const rowsHtml = G.ledger.length ? G.ledger.map(entry => {
+      const inner = entry.rounds.map(r => {
+        sale += r.sale; tip += r.tip; refund += r.refund;
+        return `<tr>
+          <td>${r.name}</td>
+          <td style="color:${GRADE_COLOR[r.grade]}">${GRADE_KO[r.grade]}</td>
+          <td class="num">${r.sale ? "+" + r.sale : "0"}</td>
+          <td class="num">${r.tip ? "+" + r.tip : "0"}</td>
+          <td class="num" style="color:${r.refund ? "var(--red)" : "inherit"}">${r.refund ? "−" + r.refund : "0"}</td>
+        </tr>`;
+      }).join("");
+      return `<h3 style="margin:14px 0 6px;font-size:13px;color:var(--cyan)">${entry.who}</h3>
+        <table class="sales-table"><tr><th>칵테일</th><th>등급</th><th>판매</th><th>팁</th><th>배상</th></tr>${inner}</table>`;
+    }).join("") : `<p>판매 내역이 없다. 손님이 전부 그냥 떠났다...</p>`;
+    $("settleRows").innerHTML = rowsHtml;
+    $("settleTotal").innerHTML = `
+      <div class="st-box plus"><small>SALES</small><strong>+${sale}G</strong></div>
+      <div class="st-box plus"><small>TIP</small><strong>+${tip}G</strong></div>
+      <div class="st-box minus"><small>REFUND</small><strong>−${refund}G</strong></div>
+      <div class="st-box gold"><small>FINAL GOLD</small><strong>${fmtG(G.gold)}</strong></div>`;
+  }
+  $("btnRestart").addEventListener("click", () => location.reload());
+
+  /* ══════════════════════════════════════════════════════════
+     8. 좌측 패널·팝업·디버그
+     ══════════════════════════════════════════════════════════ */
+  // 완성 잔 버리기 — 서빙 대상이 없을 때의 소프트락 해제용. 정산 없음, 언제든 가능.
+  $("lpHeld").addEventListener("click", e => {
+    if (!e.target.closest("[data-discard-held]")) return;
+    G.heldDrink = null;
+    refreshSeatUi();
+  });
+  $("lpToggle").addEventListener("click", () => {
+    const p = $("leftPanel");
+    p.classList.toggle("collapsed");
+    $("lpToggle").textContent = p.classList.contains("collapsed") ? "〉" : "〈";
+  });
+  $("lpCraft").addEventListener("click", () => {
+    if (G.state !== "PART1" || G.paused || G.heldDrink) return;
+    craftOpen(null);
+  });
+  $("lpRegular").addEventListener("click", () => {
+    openPopup(`
+      <h3>단골 정보</h3>
+      <p><b style="color:var(--ink)">포트</b> — 밤의 신문기자. 크리스의 오랜 단골.<br>
+      단골은 성격 tip_mult를 쓰지 않고 팁 배율 일괄 1.0을 적용한다.<br>
+      1부 말미 카메오로 착석하며(코스터 인내심 없음 — must_serve), 진피즈를 정석대로 주문한다.</p>
+      <div class="popup-actions"><button class="primary" id="ppClose1" type="button">닫기</button></div>`);
+    $("ppClose1").addEventListener("click", closePopup);
+  });
+  $("lpSales").addEventListener("click", () => {
+    let sale = 0, tip = 0, refund = 0;
+    const rows = G.ledger.flatMap(e => e.rounds.map(r => {
+      sale += r.sale; tip += r.tip; refund += r.refund;
+      return `<tr><td>${e.who}</td><td>${r.name}</td><td style="color:${GRADE_COLOR[r.grade]}">${GRADE_KO[r.grade]}</td><td class="num">${r.sale + r.tip - r.refund >= 0 ? "+" : ""}${r.sale + r.tip - r.refund}</td></tr>`;
+    })).join("");
+    openPopup(`
+      <h3>매출 현황</h3>
+      <table class="sales-table"><tr><th>손님</th><th>칵테일</th><th>등급</th><th>손익</th></tr>${rows || `<tr><td colspan="4" style="color:var(--muted)">아직 판매 내역이 없다.</td></tr>`}</table>
+      <p style="margin-top:12px">판매 +${sale}G · 팁 +${tip}G · 배상 −${refund}G · 현재 골드 <b style="color:var(--gold)">${fmtG(G.gold)}</b></p>
+      <div class="popup-actions"><button class="primary" id="ppClose2" type="button">닫기</button></div>`);
+    $("ppClose2").addEventListener("click", closePopup);
+  });
+
+  /* 디버그 바 */
+  $("dbgSpeed").addEventListener("click", () => {
+    G.speed = G.speed === 1 ? 3 : 1;
+    $("dbgSpeed").textContent = `배속 ${G.speed}x`;
+    $("dbgSpeed").classList.toggle("on", G.speed !== 1);
+  });
+  $("dbgSkip").addEventListener("click", () => {
+    if (CR.active && CR.current && CR.current.skip) CR.current.skip();
+  });
+  $("dbgSpawn").addEventListener("click", () => {
+    if (G.state === "PART1" && G.waveIdx < WAVES.length) G.nextSpawnIn = 0;
+  });
+  $("dbgStir").addEventListener("click", async () => {
+    // 스터 기믹 단독 테스트 — day0~1 해금 풀에 mix=stir 칵테일이 없어 정규 흐름에선 안 나온다
+    if (G.state !== "PART1" || G.paused) return;
+    G.paused = true; G.state = "CRAFT"; CR.active = true; CR.gate = null; CR.cock = null;
+    CR.time = 0; CR.timing = false;
+    showScreen("craft");
+    $("craftPhaseTitle").textContent = "스터 기믹 테스트";
+    $("craftCockName").textContent = "";
+    $("craftTimeBox").classList.remove("hidden");
+    $("craftBody").innerHTML = `<div class="gimmick-wrap"><div class="gimmick-queue" id="gqChips"></div><div id="gimmick-stage"></div></div>`;
+    const r = await runStir({ label: "스터" });
+    CR.current = null; CR.startedManual = false;
+    openPopup(`<h3>스터 결과</h3><p>${r.detail} — 점수 ${Math.round(r.score)}</p>
+      <div class="popup-actions"><button class="primary" id="ppClose3" type="button">닫기</button></div>`);
+    $("ppClose3").addEventListener("click", () => { closePopup(); craftClose(); });
+  });
+
+  /* ══════════════════════════════════════════════════════════
+     9. 입력 라우팅·메인 루프·시작
+     ══════════════════════════════════════════════════════════ */
+  window.addEventListener("keydown", e => {
+    const guard = ["Space", "Tab", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    if (guard.includes(e.code)) e.preventDefault();
+    // 포커스가 버튼에 남아 Space가 버튼을 재클릭하는 사고 방지
+    if (guard.includes(e.code) && document.activeElement && document.activeElement !== document.body && document.activeElement.blur) document.activeElement.blur();
+    // 팝업 표시 중엔 키 입력을 팝업에만 라우팅 — ESC=닫기, Space/Enter=확정(primary)
+    if ($("popupLayer").classList.contains("show")){
+      if (e.repeat) return;
+      if (e.code === "Escape") closePopup();
+      else if (e.code === "Space" || e.code === "Enter"){
+        const prim = $("popupCard").querySelector(".popup-actions .primary");
+        if (prim) prim.click();
+      }
+      return;
+    }
+    if (G.state === "CRAFT"){
+      if (CR.current){
+        if (e.repeat) return;
+        if (CR.current.onKey) CR.current.onKey(e);
+        return;
+      }
+      if (e.repeat) return;
+      if (CR.phase === "menu") menuKey(e);
+      else if (CR.phase === "detail") detailKey(e);
+      else if (CR.phase === "prep") prepKey(e);
+      return;
+    }
+    if (e.repeat) return;
+    if ((e.code === "Space" || e.code === "Enter") && $("vnBox").classList.contains("show")) vnAdvanceInput();
+  });
+  window.addEventListener("keyup", e => {
+    if (G.state === "CRAFT" && CR.current && CR.current.onKeyUp) CR.current.onKeyUp(e);
+  });
+  window.addEventListener("blur", () => {
+    if (G.state === "CRAFT" && CR.current && CR.current.onKeyUp){
+      CR.current.onKeyUp({ code: "KeyA" });
+      CR.current.onKeyUp({ code: "KeyD" });
+    }
+  });
+
+  let lastT = performance.now();
+  function frame(t){
+    const dtReal = Math.min(0.05, Math.max(0, (t - lastT) / 1000));
+    lastT = t;
+    const dt = dtReal * G.speed;
+    if (!G.paused && G.state !== "CRAFT"){
+      simClock += dt;
+      if (G.state === "PART1") part1Tick(dt);
+    }
+    // 시뮬레이션 대기열 해소
+    for (let i = simWaiters.length - 1; i >= 0; i--){
+      if (simClock >= simWaiters[i].until){
+        const w = simWaiters.splice(i, 1)[0];
+        w.resolve();
+      }
+    }
+    if (CR.active) craftFrame(dtReal);
+    requestAnimationFrame(frame);
+  }
+
+  $("btnStart").addEventListener("click", () => {
+    startOpening();
+  });
+
+  $("topGold").textContent = fmtG(G.gold);
+  requestAnimationFrame(frame);
+  })();
+  </script>
+</body>
+</html>

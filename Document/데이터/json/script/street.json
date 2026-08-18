@@ -3,7 +3,7 @@
   "scenes": [
     {
       "id": "np_shiba_1",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 1,
       "trigger": "interact",
@@ -172,7 +172,7 @@
     },
     {
       "id": "ob_parttime_1",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 1,
       "trigger": "interact",
@@ -198,7 +198,7 @@
     },
     {
       "id": "ob_experiment_1",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 1,
       "trigger": "interact",
@@ -224,11 +224,11 @@
     },
     {
       "id": "np_shiba_3",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 2,
       "trigger": "interact",
-      "when": "flag.shiba_met && day >= 3",
+      "when": "flag.shiba_met && day >= 2",
       "title": "[더미] 시바 — 거리 선택지 데모 (조건 항목·goto 포함)",
       "skippable": false,
       "group": "np_shiba",
@@ -299,7 +299,7 @@
     },
     {
       "id": "np_shiba_2",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 3,
       "trigger": "interact",
@@ -377,7 +377,7 @@
     },
     {
       "id": "np_shiba_treat",
-      "day": 0,
+      "day": null,
       "phase": "street",
       "seq": 4,
       "trigger": "manual",
@@ -403,7 +403,7 @@
     },
     {
       "id": "d1_elevator",
-      "day": 1,
+      "day": 0,
       "phase": "commute_out",
       "seq": 2,
       "trigger": "auto",
@@ -481,7 +481,7 @@
     },
     {
       "id": "d2_vendor_intro",
-      "day": 2,
+      "day": 1,
       "phase": "commute_in",
       "seq": 0,
       "trigger": "interact",
@@ -533,7 +533,7 @@
     },
     {
       "id": "d2_meet",
-      "day": 2,
+      "day": 1,
       "phase": "commute_in",
       "seq": 2,
       "trigger": "auto",
@@ -650,7 +650,7 @@
     },
     {
       "id": "d3_alley_cat",
-      "day": 3,
+      "day": 2,
       "phase": "commute_in",
       "seq": 0,
       "trigger": "interact",
@@ -680,6 +680,253 @@
           "text": null,
           "when": null,
           "effects": "flag.d3_cat_seen = true",
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_samho_death",
+      "day": 3,
+      "phase": "commute_out",
+      "seq": 2,
+      "trigger": "auto",
+      "when": "flag.samho_death_route",
+      "title": "…골목의 삼호 (사망 목격 — 데모 컷)",
+      "skippable": false,
+      "group": "",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(…골목이 소란스럽— 아니. 조용하다. 너무.)",
+            "en": "(...The alley is loud— no. It's quiet. Too quiet.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(…삼호?)",
+            "en": "(...Samho?)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)",
+            "en": "(He's slumped against the alley wall...\nNot moving.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(손에… 노란 꽃이 쥐여 있다.)",
+            "en": "(In his hand... a yellow flower.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "삼호. …삼호?",
+            "en": "Samho. ...Samho?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(………)",
+            "en": "(.........)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(반응이 없다. 체온이… 내려가 있다.)",
+            "en": "(No response. His body temperature... is falling.)"
+          },
+          "when": null,
+          "effects": "alive.samho = false",
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(…내가 따라준, 마지막 잔이 생각났다.)",
+            "en": "(...I thought of the last glass I poured him.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_samho_rescue",
+      "day": 3,
+      "phase": "commute_out",
+      "seq": 2,
+      "trigger": "auto",
+      "when": "flag.samho_refused_drink",
+      "title": "도움 요청 — 삼호 구출",
+      "skippable": false,
+      "group": "",
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "samho",
+          "arg": "idle",
+          "text": {
+            "ko": "…루나! 루나 맞지?!",
+            "en": "...Luna! Luna, that's you, right?!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "삼호? 무슨 일—",
+            "en": "Samho? What's going—"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "samho",
+          "arg": "idle",
+          "text": {
+            "ko": "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.",
+            "en": "Shh— quiet. ...The Magarov crew hit our turf."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "say",
+          "actor": "samho",
+          "arg": "idle",
+          "text": {
+            "ko": "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.",
+            "en": "The hideout's gone. I got my siblings out in time...\nbut they're after me now."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "다친 겁니까? 팔이—",
+            "en": "Are you hurt? Your arm—"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "say",
+          "actor": "samho",
+          "arg": "idle",
+          "text": {
+            "ko": "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.",
+            "en": "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "(…크리스 씨한테 혼날지도 모른다. 하지만—)",
+            "en": "(...Chris might be furious. But—)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "luna",
+          "arg": "idle",
+          "text": {
+            "ko": "따라오세요.",
+            "en": "Follow me."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 9,
+          "type": "say",
+          "actor": "samho",
+          "arg": "idle",
+          "text": {
+            "ko": "…고마워. 진짜로.",
+            "en": "...Thank you. Really."
+          },
+          "when": null,
+          "effects": null,
           "sync": "wait"
         }
       ]

@@ -23,8 +23,9 @@ OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # tools/의 
 # ============================================================
 # 1. 마스터 — Ingredients
 # ============================================================
-SHELF_COLS = ["id","kind","name_ko","name_en","category","color","sprite",
-              "unlock_day","unlock_when","shop_price","desc_ko","desc_en"]
+SHELF_BASE_COLS = ["id","kind","name_ko","name_en","category","color","sprite",
+                   "unlock_day","unlock_when","shop_price","desc_ko","desc_en"]
+SHELF_COLS = SHELF_BASE_COLS + ["default_action","prep_action","default_target_qty","default_target_unit"]
 # v1.9: 재료(Ingredients)와 잔·도구·가니시(Items)를 한 테이블로 통합.
 #   제조가 "잔 선반 → 도구 선반 → 가니시 선반 → 재료 선반" 4단계 선택으로 바뀌면서
 #   넷 다 '선반에서 고르는 것'이 되었기 때문. kind가 어느 선반에 놓일지를 결정한다.
@@ -40,6 +41,8 @@ SHELF_ITEMS = [
     ("champagne"      , "ingredient", "샴페인"          , "Champagne"               , "wine_beer", "255,245,225", ""              , 1 , ""                       , None, "축하할 일이 없어도 축하하게 만드는 술."         , "Makes you celebrate even with nothing to celebrate."),
     ("tonic_water"    , "ingredient", "토닉워터"         , "Tonic Water"             , "mixer"    , "245,250,255", ""              , 1 , ""                       , None, "씁쓸한 탄산. 진의 가장 오랜 친구."           , "Bitter fizz. Gin's oldest friend."),
     ("soda_water"     , "ingredient", "소다수"          , "Soda Water"              , "mixer"    , "245,250,255", ""              , 1 , ""                       , None, "아무 맛도 없어서 무엇이든 될 수 있다."         , "Tastes like nothing, so it can become anything."),
+    # 설탕 — 데모는 자동 투입(powder_demo_behavior)이라 선반 조작은 없지만, 레시피 라인이 참조하는 재료 데이터는 필요
+    ("sugar"          , "ingredient", "설탕"            , "Sugar"                   , "powder"   , "250,250,245", ""              , 1 , ""                       , None, "달콤함의 기본값. 데모에선 손대지 않아도 알아서 들어간다.", "Sweetness by default. In the demo it adds itself."),
     ("lemon"          , "ingredient", "레몬"           , "Lemon"                   , "fruit"    , ""           , ""              , 1 , ""                       , 20  , "스퀴즈용. 새콤함의 표준."                 , "For squeezing. The standard of sour."),
     ("tequila"        , "ingredient", "데킬라"          , "Tequila"                 , "base"     , "240,235,220", ""              , 2 , ""                       , None, "아가베의 태양을 병에 담은 것."              , "The agave sun, bottled."),
     ("vodka"          , "ingredient", "보드카"          , "Vodka"                   , "base"     , "240,245,250", ""              , 2 , ""                       , None, "무색무취. 그래서 어디에나 스며든다."           , "Colorless and odorless — that's how it blends in anywhere."),
@@ -92,6 +95,29 @@ SHELF_ITEMS = [
     ("orange_slice"   , "garnish"   , "오렌지 슬라이스"     , "Orange Slice"            , ""         , ""           , "gn_orange"     , 1 , ""                       , None, "선라이즈의 태양."                      , "The sun of a sunrise."),
 ]
 
+# D-06 — 레시피 밖 재료도 실제 선택 재료에 맞는 기믹을 생성한다.
+# 기본 목표량은 미니게임을 정상 종료하기 위한 값이며, 정답 레시피의 점수 기준으로 사용하지 않는다.
+_DEFAULT_ACTION_BY_CATEGORY = {
+    "base": "pour", "liqueur": "pour", "wine_beer": "pour", "juice": "pour",
+    "dairy": "pour", "syrup": "pour", "other": "pour",
+    "mixer": "fill_up", "fruit": "squeeze", "powder": "powder",
+}
+_DEFAULT_TARGET_BY_ACTION = {
+    "pour": (1.0, "oz"), "fill_up": (3.0, "oz"),
+    "squeeze": (0.5, "oz"), "powder": (1.0, "tsp"),
+}
+_expanded_shelf_items = []
+for _row in SHELF_ITEMS:
+    _base = dict(zip(SHELF_BASE_COLS, _row))
+    if _base["kind"] == "ingredient":
+        _action = _DEFAULT_ACTION_BY_CATEGORY.get(_base["category"], "")
+        _qty, _unit = _DEFAULT_TARGET_BY_ACTION.get(_action, (None, ""))
+        _prep = "open" if _base["id"] == "beer" else ""
+        _expanded_shelf_items.append(tuple(_row) + (_action, _prep, _qty, _unit))
+    else:
+        _expanded_shelf_items.append(tuple(_row) + ("", "", None, ""))
+SHELF_ITEMS = _expanded_shelf_items
+
 
 # SHELF_ITEMS 접근 헬퍼 — 호출 시점에 전역을 읽는다(build.py가 시트 데이터로 갈아끼워도 동작)
 def shelf_rows(kind=None):
@@ -106,19 +132,20 @@ def shelf_ids(kind=None):
 
 # ============================================================
 # 2. 마스터 — Cocktails + RecipeLines
-# unlock_day_override: 재료가 있어도 이 일차 전엔 미해금 (공란=재료 따름)
-# unlock_when: 이벤트 조건부 해금 (공란=없음)
 # ============================================================
 # 제조 개편(26.08.17) — Order/Selected/Actual Craft 3층 판정 체계 반영.
-#   · tier 폐지: 대체 기준(인내심·주문 풀)은 결정 대기 — RandomWaves.tier는 그때까지 존치.
+#   · tier 폐지: 코스터 인내심은 고정(coaster_base_sec), 서빙 여유는 해금일 기반,
+#     주문 풀은 RandomWaves/RegularSlots의 order 직접 지정(공란=그날 해금 풀 추첨).
 #   · fill 컬럼 폐지: 필업은 RecipeLines의 action=fill_up 라인으로 흡수.
 #   · unlock_day = 완전 수동(파생 폐지). time_limit_sec = 완전 수동(기믹 수 공식 폐지).
 #   · status: confirmed=수치 확정 / tbd=레시피 수치 대기(수량 공란 허용, 확정 파일 수령 후 채움).
 #   · color2: 완성 색이 그라데이션인 칵테일만 끝색 기록(현재 oasis_sunset 1종). 공란=단색.
 #   · prep: cap(병뚜껑)만 사용 — cork(와인 오프너)는 데모 제외(추후 재논의, 인수인계 §8-6).
+#   · mixing_ice/serving_ice: 얼음 데이터(none/cubed/crushed) — 레시피 화면 얼음 행·제조 연출용.
+#   · 일차는 0일차 스타트(표시=데이터) — 시드는 구표기(1-based)로 적고 아래 _shift_day가 로드 시 일괄 변환한다.
 CK_COLS = ["id","name_ko","name_en","status","price","abv","glass","mix","prep","garnish","color","color2","tags",
            "flavor_ko","flavor_en","unlock_day","unlock_when","time_limit_sec",
-           "recipe_desc_ko","recipe_desc_en"]
+           "mixing_ice","serving_ice","recipe_desc_ko","recipe_desc_en"]
 COCKTAILS = [
     # id, ko, en, status, price, abv, glass, mix, prep, garnish, color, color2, tags, flavor_ko, flavor_en, unlock, when, tlimit
     ("gin_tonic",       "진토닉",             "Gin & Tonic",     "confirmed", 180, 8.0,  "long_drink",    "build", "",    "lime_wedge",   "255,255,255", "", "상큼한;청량한;클래식", "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.", "Gin and tonic. The simplest, and therefore the most honest.", 1, "", 36),
@@ -155,59 +182,99 @@ COCKTAILS = [
 
 # v3.6 — 태그 사전. 칵테일 tags와 Tastes의 cocktail.tag(...)이 쓰는 한글 태그의 정본 목록 + 영어 표기.
 # 여기 없는 태그를 쓰면 빌드 에러(오타 차단). 표시: 정보 화면 키워드가 ko/en을 함께 배포받는다.
-TAG_COLS = ["tag_ko","tag_en","note"]
+# 제조 개편: category 신설 — 레시피 화면 필터가 태그를 두 구분으로 묶는다. taste=맛 / feel=느낌.
+#   민트·열대과일·커피 3종 추가(신규 칵테일용). '비밀'은 bees_knees 삭제로 사용처가 없어 제거.
+TAG_COLS = ["tag_ko","tag_en","category","note"]
 TAGS = [
-    ("가벼운",   "Light",    "저도수·부담 없음"),
-    ("달콤한",   "Sweet",    ""),
-    ("독한",     "Strong",   "고도수"),
-    ("묵직한",   "Heavy",    "바디감"),
-    ("부드러운", "Smooth",   ""),
-    ("비밀",     "Secret",   "비밀 레시피 계열"),
-    ("상큼한",   "Fresh",    "시트러스"),
-    ("새콤한",   "Tangy",    ""),
-    ("씁쓸한",   "Bitter",   ""),
-    ("알싸한",   "Spicy",    "진저 계열의 톡 쏘는 맛"),
-    ("우아한",   "Elegant",  ""),
-    ("청량한",   "Crisp",    "탄산감"),
-    ("클래식",   "Classic",  ""),
-    ("화사한",   "Bright",   ""),
+    ("가벼운",   "Light",          "feel",  "저도수·부담 없음"),
+    ("달콤한",   "Sweet",          "taste", ""),
+    ("독한",     "Strong",         "feel",  "고도수"),
+    ("묵직한",   "Heavy",          "feel",  "바디감"),
+    ("민트",     "Mint",           "taste", "박하 계열"),
+    ("부드러운", "Smooth",         "feel",  ""),
+    ("상큼한",   "Fresh",          "taste", "시트러스"),
+    ("새콤한",   "Tangy",          "taste", ""),
+    ("씁쓸한",   "Bitter",         "taste", ""),
+    ("알싸한",   "Spicy",          "taste", "진저 계열의 톡 쏘는 맛"),
+    ("열대과일", "Tropical Fruit", "taste", "파인애플·코코넛 계열"),
+    ("우아한",   "Elegant",        "feel",  ""),
+    ("청량한",   "Crisp",          "feel",  "탄산감"),
+    ("커피",     "Coffee",         "taste", ""),
+    ("클래식",   "Classic",        "feel",  ""),
+    ("화사한",   "Bright",         "feel",  ""),
 ]
 TAG_EN = {t[0]: t[1] for t in TAGS}
+TAG_CATEGORY = {t[0]: t[2] for t in TAGS}
+
+# 얼음 데이터(제조 개편) — mixing_ice: 셰이커·믹싱 글라스에 넣는 얼음 / serving_ice: 완성 잔에 넣는 얼음.
+# 값은 none/cubed/crushed. 레시피 화면 얼음 행과 제조·서빙 연출이 이 두 값을 읽는다.
+COCKTAIL_ICE = {
+    "gin_tonic":       ("none",  "cubed"),
+    "gin_fizz":        ("cubed", "cubed"),
+    "bottle_beer":     ("none",  "none"),
+    "red_wine":        ("none",  "none"),
+    "champagne":       ("none",  "none"),
+    "screwdriver":     ("none",  "cubed"),
+    "moscow_mule":     ("none",  "cubed"),
+    "tequila_sunrise": ("none",  "cubed"),
+    "long_island":     ("none",  "cubed"),
+    "whiskey_sour":    ("cubed", "none"),
+    "dry_martini":     ("cubed", "none"),
+    "bacardi":         ("cubed", "none"),
+    "cosmopolitan":    ("cubed", "none"),
+    "margarita":       ("cubed", "none"),
+    "white_lady":      ("cubed", "none"),
+    "kahlua_milk":     ("none",  "cubed"),
+    "godfather":       ("cubed", "cubed"),
+    "godmother":       ("cubed", "cubed"),
+    "french_connection": ("none", "cubed"),
+    "brandy_sour":     ("cubed", "none"),
+    "pink_lady":       ("cubed", "none"),
+    "espresso_martini": ("cubed", "none"),
+    "grasshopper":     ("cubed", "none"),
+    "irish_coffee":    ("none",  "none"),
+    "old_pal":         ("cubed", "none"),
+    "blue_hawaii":     ("cubed", "cubed"),
+    "oasis_sunset":    ("cubed", "cubed"),
+    "blue_sapphire":   ("cubed", "cubed"),
+    "june_bug":        ("cubed", "cubed"),
+}
 
 # v3.7 — 제조법 설명은 레시피 데이터에서 조립하지 않고 사람이 직접 쓴다(칵테일 설명과 같은 방식).
 # RecipeLines는 채점 정답표로 그대로 두고, 이 문안은 정보 화면·레시피 팝업의 표시 전용이다.
 # 수치를 고치면 이 문안도 같이 고쳐야 한다 — 빌드는 빈 칸만 잡고 내용 일치는 검사하지 못한다.
+# status=tbd 칵테일은 수량이 미정이라 수량 없는 서술로 쓴다 — 수량 확정 파일 수령 시 문안에 수치를 더한다.
 RECIPE_DESCS = {
     "gin_tonic": (
-        "하이볼 잔에 진 1.5oz를 붓고, 토닉워터로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
-        "Pour 1.5oz gin into a highball glass, top with tonic water, and stir gently. Garnish with a lime wedge."),
+        "롱드링크 잔에 진 1.5oz를 붓고, 토닉워터 4oz로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
+        "Pour 1.5oz gin into a long drink glass, top with 4oz tonic water, and stir gently. Garnish with a lime wedge."),
     "gin_fizz": (
-        "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 하이볼 잔에 따른다. 소다수로 채우고 레몬 슬라이스를 올린다.",
-        "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a highball glass. Top with soda water and add a lemon slice."),
+        "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 롱드링크 잔에 따른다. 소다수 3oz로 채우고 레몬 슬라이스를 올린다.",
+        "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a long drink glass. Top with 3oz soda water and add a lemon slice."),
     "bottle_beer": (
-        "오프너로 뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
-        "Pop the cap with an opener and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."),
+        "뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
+        "Pop the cap and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."),
     "red_wine": (
-        "코르크를 조심스럽게 뽑고 와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
-        "Draw the cork carefully and pour 8oz into a wine glass. Do not swirl."),
+        "와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
+        "Pour 8oz into a wine glass. Do not swirl."),
     "champagne": (
-        "코르크를 소리 없이 뽑고 플루트 잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
-        "Ease the cork out without a pop and pour 8oz into a flute. Serve before the bubbles settle."),
+        "와인잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
+        "Pour 8oz into a wine glass. Serve before the bubbles settle."),
     "screwdriver": (
-        "하이볼 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",
-        "Build 1.5oz vodka and 6oz orange juice in a highball glass and stir."),
+        "롱드링크 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",
+        "Build 1.5oz vodka and 6oz orange juice in a long drink glass and stir."),
     "moscow_mule": (
-        "맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일로 채우고 라임 웨지를 걸친다.",
-        "Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with ginger ale and garnish with a lime wedge."),
+        "맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일 4oz로 채우고 라임 웨지를 걸친다.",
+        "Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with 4oz ginger ale and garnish with a lime wedge."),
     "tequila_sunrise": (
-        "콜린스 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",
-        "Build 1oz tequila and 6oz orange juice in a collins glass and stir. Garnish with an orange slice."),
+        "롱드링크 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",
+        "Build 1oz tequila and 6oz orange juice in a long drink glass and stir. Garnish with an orange slice."),
     "long_island": (
-        "콜린스 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 라임 반 개의 즙을 더해 젓는다. 콜라로 채우고 레몬 슬라이스를 올린다.",
-        "Build 1oz each of gin, vodka, rum, and tequila in a collins glass, add the juice of half a lime, and stir. Top with cola and add a lemon slice."),
+        "롱드링크 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 레몬 반 개의 즙을 더해 젓는다. 콜라 1.5oz로 채우고 레몬 슬라이스를 올린다.",
+        "Build 1oz each of gin, vodka, rum, and tequila in a long drink glass, add the juice of half a lemon, and stir. Top with 1.5oz cola and add a lemon slice."),
     "whiskey_sour": (
-        "위스키 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 온더락 잔에 따른다. 사워믹스로 채우고 체리를 올린다.",
-        "Shake 1.5oz whiskey, the juice of half a lemon, and 1 tsp sugar, then strain into a rocks glass. Top with sour mix and garnish with a cherry."),
+        "위스키 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 사워 잔에 따른다. 사워믹스 2oz로 채우고 체리를 올린다.",
+        "Shake 1.5oz whiskey, the juice of half a lemon, and 1 tsp sugar, then strain into a sour glass. Top with 2oz sour mix and garnish with a cherry."),
     "dry_martini": (
         "믹싱 글라스에 진 6oz와 드라이 버무스 1.5oz를 넣고 스터한 뒤 칵테일 잔에 따른다. 올리브를 넣는다.",
         "Stir 6oz gin with 1.5oz dry vermouth in a mixing glass, then strain into a cocktail glass. Drop in an olive."),
@@ -224,41 +291,100 @@ RECIPE_DESCS = {
         "진 40ml, 트리플섹 30ml, 레몬즙 20ml를 셰이킹해 칵테일 잔에 따른다.",
         "Shake 40ml gin, 30ml triple sec, and 20ml lemon juice, then strain into a cocktail glass."),
     "kahlua_milk": (
-        "온더락 잔에 칼루아 1.5oz를 붓고 우유 0.75oz를 위에 얹듯 천천히 따른다.",
-        "Pour 1.5oz kahlua into a rocks glass, then layer 0.75oz milk slowly on top."),
-    "bees_knees": (
-        "진 2oz, 벌꿀 원액 0.75oz, 레몬즙 0.75oz를 셰이킹해 칵테일 잔에 따른다. 레몬 슬라이스를 올린다.",
-        "Shake 2oz gin, 0.75oz honey syrup, and 0.75oz lemon juice, then strain into a cocktail glass. Add a lemon slice."),
+        "올드패션 잔에 칼루아 1.5oz를 붓고 우유 0.75oz를 위에 얹듯 천천히 따른다.",
+        "Pour 1.5oz kahlua into an old fashioned glass, then layer 0.75oz milk slowly on top."),
+    "godfather": (
+        "믹싱 글라스에 위스키와 아마레토를 넣고 스터한 뒤 올드패션 잔에 따른다.",
+        "Stir whiskey and amaretto in a mixing glass, then strain into an old fashioned glass."),
+    "godmother": (
+        "믹싱 글라스에 보드카와 아마레토를 넣고 스터한 뒤 올드패션 잔에 따른다.",
+        "Stir vodka and amaretto in a mixing glass, then strain into an old fashioned glass."),
+    "french_connection": (
+        "올드패션 잔에 브랜디와 아마레토를 넣고 가볍게 젓는다.",
+        "Build brandy and amaretto in an old fashioned glass and stir gently."),
+    "brandy_sour": (
+        "브랜디, 레몬즙, 설탕을 셰이킹해 사워 잔에 따른다. 사워믹스로 채우고 체리를 올린다.",
+        "Shake brandy, lemon juice, and sugar, then strain into a sour glass. Top with sour mix and garnish with a cherry."),
+    "pink_lady": (
+        "진, 그레나딘, 크림을 셰이킹해 칵테일 잔에 따른다.",
+        "Shake gin, grenadine, and cream, then strain into a cocktail glass."),
+    "espresso_martini": (
+        "보드카, 칼루아, 커피를 셰이킹해 칵테일 잔에 따른다.",
+        "Shake vodka, kahlua, and coffee, then strain into a cocktail glass."),
+    "grasshopper": (
+        "그린페퍼민트, 화이트카카오, 크림을 셰이킹해 칵테일 잔에 따른다.",
+        "Shake green peppermint, white cacao, and cream, then strain into a cocktail glass."),
+    "irish_coffee": (
+        "맥주잔에 위스키와 뜨거운 커피를 넣고 저은 뒤 크림을 위에 띄운다.",
+        "Build whiskey and hot coffee in a mug, stir, and float cream on top."),
+    "old_pal": (
+        "믹싱 글라스에 위스키, 드라이 버무스, 캄파리를 넣고 스터한 뒤 칵테일 잔에 따른다.",
+        "Stir whiskey, dry vermouth, and Campari in a mixing glass, then strain into a cocktail glass."),
+    "blue_hawaii": (
+        "럼, 블루큐라소, 코코넛우유를 셰이킹해 롱드링크 잔에 따른다. 파인애플주스로 채운다.",
+        "Shake rum, blue curaçao, and coconut milk, then strain into a long drink glass. Top with pineapple juice."),
+    "oasis_sunset": (
+        "데킬라와 블루큐라소를 셰이킹해 롱드링크 잔에 따르고, 그레나딘을 천천히 흘려 노을 층을 만든다. 오렌지 슬라이스를 올린다.",
+        "Shake tequila and blue curaçao, strain into a long drink glass, then slowly pour grenadine to form a sunset layer. Garnish with an orange slice."),
+    "blue_sapphire": (
+        "블루큐라소, 피치브랜디, 코코넛우유를 셰이킹해 롱드링크 잔에 따른다.",
+        "Shake blue curaçao, peach brandy, and coconut milk, then strain into a long drink glass."),
+    "june_bug": (
+        "멜론리큐르, 말리부, 바나나리큐르를 셰이킹해 롱드링크 잔에 따른다. 파인애플주스와 사워믹스로 채운다.",
+        "Shake melon liqueur, Malibu, and banana liqueur, then strain into a long drink glass. Top with pineapple juice and sour mix."),
 }
-COCKTAILS = [tuple(list(r[:-2]) + list(RECIPE_DESCS[r[0]])) for r in COCKTAILS]
+COCKTAILS = [tuple(list(r) + list(COCKTAIL_ICE[r[0]]) + list(RECIPE_DESCS[r[0]])) for r in COCKTAILS]
 
+# 레시피 라인(채점 정답표) — 5번째 요소는 플래그 문자열(생략 가능):
+#   core    = 핵심 재료. 누락 시 강제 Sewage (Order/Selected/Actual 판정 체계)
+#   auto    = 데모 자동 투입·비채점 (파우더 설탕 — powder_demo_behavior 참조)
+#   noscore = 수량 채점 제외 (현재 사용 0 — 예약)
+#   fill_up도 pour처럼 목표량 대비 수량 오차로 채점한다(루프 기획서 확정). 구 fill 컬럼을 흡수했다.
+#   confirmed 5종의 fill_up 목표량은 [가안] — 수량 확정 파일 수령 시 함께 갱신.
 RECIPES = {
-    "gin_tonic":       [("pour","gin",1.5,"oz")],
-    "gin_fizz":        [("pour","gin",1.5,"oz"), ("squeeze","lemon",0.5,"oz"), ("powder","sugar",1,"tsp")],
-    "bottle_beer":     [("pour","beer",12,"oz")],
-    "red_wine":        [("pour","red_wine",8,"oz")],
-    "champagne":       [("pour","champagne",8,"oz")],
-    "screwdriver":     [("pour","vodka",1.5,"oz"), ("pour","orange_juice",6,"oz")],
-    "moscow_mule":     [("pour","vodka",1.5,"oz"), ("squeeze","lime",0.5,"oz")],
-    "tequila_sunrise": [("pour","tequila",1,"oz"), ("pour","orange_juice",6,"oz")],
-    "long_island":     [("pour","gin",1,"oz"), ("pour","vodka",1,"oz"), ("pour","rum",1,"oz"), ("pour","tequila",1,"oz"), ("squeeze","lemon",0.5,"oz")],
-    "whiskey_sour":    [("pour","whiskey",1.5,"oz"), ("squeeze","lemon",0.5,"oz"), ("powder","sugar",1,"tsp")],
-    "dry_martini":     [("pour","gin",6,"oz"), ("pour","dry_vermouth",1.5,"oz")],
-    "bacardi":         [("pour","rum",4.5,"oz"), ("pour","grenadine",0.75,"oz"), ("squeeze","lime",1.5,"oz")],
-    "cosmopolitan":    [("pour","vodka",4,"oz"), ("pour","cointreau",1.5,"oz"), ("pour","cranberry_juice",3,"oz"), ("squeeze","lime",1.5,"oz")],
-    "margarita":       [("pour","tequila",3.5,"oz"), ("pour","triple_sec",2,"oz"), ("squeeze","lemon",1.5,"oz")],
-    "white_lady":      [("pour","gin",40,"ml"), ("pour","triple_sec",30,"ml"), ("squeeze","lemon",20,"ml")],
-    "kahlua_milk":     [("pour","kahlua",1.5,"oz"), ("pour","milk",0.75,"oz")],
-    "bees_knees":      [("pour","gin",2,"oz"), ("pour","honey_syrup",0.75,"oz"), ("squeeze","lemon",0.75,"oz")],
+    "gin_tonic":       [("pour","gin",1.5,"oz","core"), ("fill_up","tonic_water",4,"oz")],
+    "gin_fizz":        [("pour","gin",1.5,"oz","core"), ("squeeze","lemon",0.5,"oz"), ("powder","sugar",1,"tsp","auto"), ("fill_up","soda_water",3,"oz")],
+    "bottle_beer":     [("pour","beer",12,"oz","core")],
+    "red_wine":        [("pour","red_wine",8,"oz","core")],
+    "champagne":       [("pour","champagne",8,"oz","core")],
+    "screwdriver":     [("pour","vodka",1.5,"oz","core"), ("pour","orange_juice",6,"oz")],
+    "moscow_mule":     [("pour","vodka",1.5,"oz","core"), ("squeeze","lime",0.5,"oz"), ("fill_up","ginger_ale",4,"oz")],
+    "tequila_sunrise": [("pour","tequila",1,"oz","core"), ("pour","orange_juice",6,"oz")],
+    "long_island":     [("pour","gin",1,"oz","core"), ("pour","vodka",1,"oz","core"), ("pour","rum",1,"oz","core"), ("pour","tequila",1,"oz","core"), ("squeeze","lemon",0.5,"oz"), ("fill_up","cola",1.5,"oz")],
+    "whiskey_sour":    [("pour","whiskey",1.5,"oz","core"), ("squeeze","lemon",0.5,"oz"), ("powder","sugar",1,"tsp","auto"), ("fill_up","sour_mix",2,"oz")],
+    "dry_martini":     [("pour","gin",6,"oz","core"), ("pour","dry_vermouth",1.5,"oz")],
+    "bacardi":         [("pour","rum",4.5,"oz","core"), ("pour","grenadine",0.75,"oz"), ("squeeze","lime",1.5,"oz")],
+    "cosmopolitan":    [("pour","vodka",4,"oz","core"), ("pour","cointreau",1.5,"oz"), ("pour","cranberry_juice",3,"oz"), ("squeeze","lime",1.5,"oz")],
+    "margarita":       [("pour","tequila",3.5,"oz","core"), ("pour","triple_sec",2,"oz"), ("squeeze","lemon",1.5,"oz")],
+    "white_lady":      [("pour","gin",40,"ml","core"), ("pour","triple_sec",30,"ml"), ("squeeze","lemon",20,"ml")],
+    "kahlua_milk":     [("pour","kahlua",1.5,"oz","core"), ("pour","milk",0.75,"oz")],
+    # ── 신규 13종 — 수량 tbd(공란). 확정 파일 수령 시 qty·unit을 채우고 Cocktails.status를 confirmed로 ──
+    "godfather":       [("pour","whiskey",None,None,"core"), ("pour","amaretto",None,None)],
+    "godmother":       [("pour","vodka",None,None,"core"), ("pour","amaretto",None,None)],
+    "french_connection": [("pour","brandy",None,None,"core"), ("pour","amaretto",None,None)],
+    "brandy_sour":     [("pour","brandy",None,None,"core"), ("squeeze","lemon",None,None), ("powder","sugar",None,None,"auto"), ("fill_up","sour_mix",None,None)],
+    "pink_lady":       [("pour","gin",None,None,"core"), ("pour","grenadine",None,None), ("pour","cream",None,None)],
+    "espresso_martini": [("pour","vodka",None,None,"core"), ("pour","kahlua",None,None), ("pour","coffee",None,None,"core")],
+    "grasshopper":     [("pour","green_peppermint",None,None,"core"), ("pour","white_cacao",None,None,"core"), ("pour","cream",None,None)],
+    "irish_coffee":    [("pour","whiskey",None,None,"core"), ("pour","coffee",None,None,"core"), ("pour","cream",None,None)],
+    "old_pal":         [("pour","whiskey",None,None,"core"), ("pour","dry_vermouth",None,None), ("pour","campari",None,None)],
+    "blue_hawaii":     [("pour","rum",None,None,"core"), ("pour","blue_curacao",None,None,"core"), ("pour","coconut_milk",None,None), ("fill_up","pineapple_juice",None,None)],
+    "oasis_sunset":    [("pour","tequila",None,None,"core"), ("pour","blue_curacao",None,None,"core"), ("pour","grenadine",None,None)],
+    "blue_sapphire":   [("pour","blue_curacao",None,None,"core"), ("pour","peach_brandy",None,None), ("pour","coconut_milk",None,None)],
+    "june_bug":        [("pour","melon_liqueur",None,None,"core"), ("pour","malibu",None,None), ("pour","banana_liqueur",None,None), ("fill_up","pineapple_juice",None,None), ("fill_up","sour_mix",None,None)],
 }
 
-EXPECTED_TIER = {
-    "gin_tonic":1,"gin_fizz":3,"bottle_beer":1,"red_wine":1,"champagne":1,
-    "screwdriver":2,"moscow_mule":2,"tequila_sunrise":2,"long_island":5,
-    "whiskey_sour":3,"dry_martini":2,"bacardi":3,"cosmopolitan":4,
-    "margarita":3,"white_lady":3,"kahlua_milk":2,
-    "bees_knees":3,  # ②문서 17종 외 신규 히든 레시피 (3라인+셰이크=기믹4)
-}
+# 레시피 라인 정규화 헬퍼 — (action, ingredient, qty, unit, is_core, scored, auto_apply)
+def recipe_lines(cid):
+    out = []
+    for l in RECIPES.get(cid, []):   # 키 없음 = 0줄 — 검증이 에러로 잡되 여기서 죽지 않는다
+        a, ing, q, u = l[0], l[1], l[2], l[3]
+        flags = set((l[4] if len(l) > 4 else "").split("|")) - {""}
+        auto = "auto" in flags
+        scored = not ("noscore" in flags or auto)   # fill_up도 pour처럼 수량 오차 채점 (루프 기획서 확정)
+        out.append({"action": a, "ingredient": ing, "qty": q, "unit": u,
+                    "is_core": "core" in flags, "scored": scored, "auto_apply": auto})
+    return out
 
 # ============================================================
 # 3. 마스터 — Characters / Personalities / Barks
@@ -773,31 +899,34 @@ DAY_COLS = ["day","label_ko","label_en","start_phase","bgm_street","bgm_bar","up
 DAYS = [
     (1, "튜토리얼",      "Tutorial",     "home",       "bgm_street_night", "bgm_bar_calm", 0, "인트로→집 기상→쪽지→비 오는 출근길(행인 없음)→튜토리얼+포트 첫 잔→엘리베이터 컷씬→테라스"),
     (2, "첫 영업",       "First Night",  "home", "bgm_street_night", "bgm_bar_main", 0, "첫 풀 사이클. 신규 입고 없음(day1 배치 공유). 밤: 습격의 꿈 1"),
-    (3, "삼호와 아일리", "Samho & Aili", "home", "bgm_street_night", "bgm_bar_main", 0, "입고 4종(데킬라·보드카·럼·OJ). 밤: 습격의 꿈 2"),
+    (3, "삼호와 아일리", "Samho & Aili", "home", "bgm_street_night", "bgm_bar_main", 0, "삼호·아일리 영업. 선택 결과는 Day 3 퇴근길·집·꿈 장면에서 확인"),
+    (4, "선택의 결과", "Consequences", "commute_out", "bgm_street_night", "bgm_bar_main", 0, "데모 최종일. 삼호 사망·구출·일반 경로 결과를 확인한 뒤 엔딩으로 연결"),
 ]
 
 # v2.0 저작 분리 — 구 GuestSlots를 둘로 쪼갬. 1부 랜덤 손님(시스템 튜닝)과 단골 슬롯(서사)은
 # 만지는 사람이 다르다. seq는 두 시트가 '하루 공용 번호'를 나눠 쓴다(스폰 순서 병합 기준) —
 # 같은 날 같은 seq가 양쪽에 있으면 빌드 에러.
-WAVE_COLS = ["day","seq","tier","personality","delay_sec","max_rounds","branch_choice"]
+# 제조 개편: tier 컬럼 폐지 → order(칵테일 id 직접 지정). 공란 = 그날 해금된 칵테일 풀에서 추첨.
+#   구 tier 지정의 의도(어려운 술 프리뷰)는 칵테일 직접 지정으로 보존한다.
+WAVE_COLS = ["day","seq","order","personality","delay_sec","max_rounds","branch_choice"]
 # 26.07.17 무드 확정 — 사이버펑크 슬럼가의 한적한 바: 하루 최대 4명, 스폰 텀 35~50초로 느슨하게
 RANDOM_WAVES = [
-    # day2 — T1×3 + T3×1(진피즈 프리뷰)
-    (2, 1, 1, "gentle", 0,  1, False),
-    (2, 2, 1, "chatty", 35, 1, False),
-    (2, 3, 3, "quiet",  50, 1, False),
-    (2, 4, 1, "touchy", 40, 1, False),
-    # day3 — T2 + T5(롱아일랜드 프리뷰) + T2(다회주문)
-    (3, 1, 2, "chatty", 0,  1, False),
-    (3, 2, 5, "rough",  45, 1, False),
-    (3, 3, 2, "touchy", 50, 2, False),
+    # day2 — 일반×3 + 진피즈 프리뷰(구 T3 지정 의도)
+    (2, 1, "",         "gentle", 0,  1, False),
+    (2, 2, "",         "chatty", 35, 1, False),
+    (2, 3, "gin_fizz", "quiet",  50, 1, False),
+    (2, 4, "",         "touchy", 40, 1, False),
+    # day3 — 일반 + 롱아일랜드 프리뷰(구 T5 지정 의도) + 일반(다회주문)
+    (3, 1, "",            "chatty", 0,  1, False),
+    (3, 2, "long_island", "rough",  45, 1, False),
+    (3, 3, "",            "touchy", 50, 2, False),
 ]
 
-RSLOT_COLS = ["day","seq","character","tier","delay_sec","max_rounds","branch_choice","cameo_scene","must_serve","serve_effects"]
+RSLOT_COLS = ["day","seq","character","order","delay_sec","max_rounds","branch_choice","cameo_scene","must_serve","serve_effects"]
 REGULAR_SLOTS = [
-    # day3 — 포트 카메오(1부 말미에 T3 한 잔 하러 들른다)
+    # day3 — 포트 카메오(1부 말미에 한 잔 하러 들른다). order=gin_fizz: 수십 년 진피즈 한 우물(Tastes와 부합)
     # must_serve=True: 인내심 타이머 없음 — 응대할 때까지 좌석 유지(2부 연결 손님 보호). False면 일반 손님처럼 이탈
-    (3, 4, "port", 3, 40, 1, False, "d3_cameo_port", True, "flag.port_served_d3 = true"),
+    (3, 4, "port", "gin_fizz", 40, 1, False, "d3_cameo_port", True, "flag.port_served_d3 = true"),
 ]
 
 # 위치 프리셋 — 항상 같은 맵이므로 좌표 대신 이름 붙은 지점을 쓴다.
@@ -828,9 +957,8 @@ SPOTS = [
 #   시간대별 위치 이동을 표현할 수 있다(소비 상태는 지점별, 그룹 진행은 scene_or_shop 공유로 이어짐).
 POINT_COLS = ["id","spot","kind","actor","phase","trigger","when","scene_or_shop","selection","note"]
 POINTS = [
-    ("p_vendor_intro", "street_stall", "npc", "vendor",    "commute_in",  "interact", "day == 2 && !flag.q_lost_box_started", "d2_vendor_intro", "once", "노점상 완 첫 인사 + 퀘스트 시작"),
+    ("p_vendor_intro", "street_stall", "npc", "vendor",    "commute_in",  "interact", "day == 2", "d2_vendor_intro", "once", "노점상 완 첫 인사"),
     ("p_vendor_shop",  "street_stall", "shop", "vendor",   "both",        "interact", "day >= 3", "shop:vendor",     "repeat", "노점 상점(과일·믹서 구매)"),
-    ("p_lost_box",     "alley_deep",   "object", "", "commute_out", "interact", "flag.q_lost_box_started && !flag.q_lost_box_done", "d2_box_found", "repeat", "잃어버린 상자(퀘스트) — 무시해도 다시 주울 수 있어야 하므로 repeat, 닫는 것은 when이 담당"),
     ("p_alley_cat",    "alley_in",     "object", "", "commute_in",  "interact", "day == 3 && !flag.d3_cat_seen", "d3_alley_cat", "once", "노란 꼬리 목격 → d3 아일리 선택지 연동"),
     # --- 구엔진 outside_objects.json 이식 4종 (원문 대사 기반) ---
     ("p_shiba",       "alley_in",     "npc", "shiba",    "both",        "interact", "day >= 2", "group:np_shiba",     "conditional", "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"),
@@ -849,7 +977,6 @@ SCENES = [
     ("d1_tutorial",    1, "bar",         1, "auto",     "", "튜토리얼 — 크리스의 진토닉 강습"),
     ("d1_home_talk",   1, "home",        1, "auto",     "", "테라스 — 바텐더의 태도 + 근황"),
     ("d1_intro",       1, "intro",       1, "auto",     "", "인트로 — 검은 화면, 루나가 처음 눈뜨던 밤"),
-    ("d1_note",        1, "home",        0, "interact", "!flag.d1_note_read", "크리스의 쪽지"),
     ("d1_port",        1, "bar",         3, "auto",     "", "포트 첫 잔 — 진피즈 (튜토리얼 두 번째 제조)"),
     ("d1_elevator",    1, "commute_out", 2, "auto",     "", "퇴근길 엘리베이터 — 라디오 뉴스 (구엔진 elevator_radio 이식)"),
     ("d2_meet",        2, "commute_in",  2, "auto",     "", "출근길 — 삼호와 시바견"),
@@ -859,16 +986,18 @@ SCENES = [
     ("d2_port_chris",  2, "bar",         1, "auto",     "", "포트 첫 등장 — 루나 구조의 진실 일부"),
     ("d2_shiba",       2, "bar",         2, "auto",     "", "시바 첫 등장 — 개똥철학 (크리스 부재)"),
     ("d2_chris_return",2, "bar",         3, "auto",     "", "크리스 복귀 — 시바는 멍멍"),
-    ("d2_box_found",   2, "commute_out", 0, "interact", "", "상자 발견(퀘스트 완료)"),
     ("d2_dream",       2, "dream",       1, "auto",     "", "꿈 — 습격 1: 유나의 목소리와 총성"),
     ("d3_alley_cat",   3, "commute_in",  0, "interact", "", "골목의 노란 꼬리"),
     ("d3_bar_open",    3, "bar_open",    1, "auto",     "", "개점 전 — 어제 손님 이야기, OPEN"),
     ("d3_aili_bubi",   3, "bar",         1, "auto",     "", "아일리 첫 대면 + 부비 등장"),
     ("d3_samho",       3, "bar",         2, "auto",     "", "삼호 첫 등장 — 고도수 2연속"),
     ("d3_cameo_port",  3, "bar",         0, "cameo",    "", "1부 카메오 — 포트가 짧게 들름 (서빙 후 재생)"),
-    ("d3_chris_witness",3,"home",        2, "auto",     "flag.samho_refused_drink", "크리스의 목격 — 데모 컷"),
-    ("d3_home_talk",   3, "home",        1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "테라스 — 은인들 (데모에선 분기 씬이 대체)"),
-    ("d3_dream",       3, "dream",       1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "꿈 — 습격 2 (데모에선 분기 엔딩이 대체)"),
+    # 표시 Day 3(시드 day4) — Day 2 제조 선택의 결과를 확인하는 데모 최종일.
+    ("d3_samho_death", 4, "commute_out", 2, "auto",     "flag.samho_death_route", "…골목의 삼호 (사망 목격 — 데모 컷)"),
+    ("d3_samho_rescue",4, "commute_out", 2, "auto",     "flag.samho_refused_drink", "도움 요청 — 삼호 구출"),
+    ("d3_chris_witness",4,"home",        2, "auto",     "flag.samho_refused_drink", "크리스의 목격 — 데모 컷"),
+    ("d3_home_talk",   4, "home",        1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "테라스 — 은인들 (데모에선 분기 씬이 대체)"),
+    ("d3_dream",       4, "dream",       1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "꿈 — 습격 2 (데모에선 분기 엔딩이 대체)"),
     # --- 엔딩 (day 0 상시, endings.json이 scene_id로 호출 — trigger=manual) ---
     # --- 구엔진 outside_objects.json 이식 (day 0 = 상시 공용) ---
     ("np_shiba_1",      0, "street", 1, "interact", "!flag.shiba_met", "[이식] 시바 첫 조우 (구 first_encounter)", False, "np_shiba"),
@@ -917,9 +1046,6 @@ STEPS = [
     ("d1_intro", 9, "say", "luna",  "default", "(…그렇게, 이 집의 소파가 내 자리가 되었다.)", "(...And so, the sofa in this house became my place.)", "", "", "페이드 아웃 → 소파 기상"),
 
     # ---------- 크리스의 쪽지 (day1 아침 — 읽어야 출근 가능) ----------
-    ("d1_note", 1, "say", "luna", "default", "(테이블 위에 쪽지가 놓여 있다.)", "(There's a note on the table.)", "", "", ""),
-    ("d1_note", 2, "say", "luna", "default", "「먼저 나간다. 가게로 와라.\n길은 어제 알려준 대로. — 크리스」", "\"Went ahead. Come to the bar.\nThe way I showed you yesterday. — Chris\"", "", "", ""),
-    ("d1_note", 3, "say", "luna", "default", "(…출근이라는 걸, 해보자.)", "(...Time to try this thing called 'going to work.')", "", "flag.d1_note_read = true", ""),
 
     # ---------- 포트 첫 잔 (day1 — 튜토리얼 두 번째 제조: 진피즈) ----------
     ("d1_port", 1,  "enter", "port", "R", "", "", "", "", ""),
@@ -966,8 +1092,25 @@ STEPS = [
     ("d2_home_talk", 8, "say", "luna",  "default", "(기다린다… 기록해 둔다.)", "(Waiting... noted.)", "", "", "이후 습격의 꿈 1"),
 
     # ---------- day3 분기 — 사망 목격 (death route) ----------
+    ("d3_samho_death", 1, "say", "luna", "idle", "(…골목이 소란스럽— 아니. 조용하다. 너무.)", "(...The alley is loud— no. It's quiet. Too quiet.)", "", "", ""),
+    ("d3_samho_death", 2, "say", "luna", "idle", "(…삼호?)", "(...Samho?)", "", "", ""),
+    ("d3_samho_death", 3, "say", "luna", "idle", "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)", "(He's slumped against the alley wall...\nNot moving.)", "", "", ""),
+    ("d3_samho_death", 4, "say", "luna", "idle", "(손에… 노란 꽃이 쥐여 있다.)", "(In his hand... a yellow flower.)", "", "", "d3_samho_pour의 꽃 약속 회수"),
+    ("d3_samho_death", 5, "say", "luna", "idle", "삼호. …삼호?", "Samho. ...Samho?", "", "", ""),
+    ("d3_samho_death", 6, "say", "luna", "idle", "(………)", "(.........)", "", "", ""),
+    ("d3_samho_death", 7, "say", "luna", "idle", "(반응이 없다. 체온이… 내려가 있다.)", "(No response. His body temperature... is falling.)", "", "alive.samho = false", ""),
+    ("d3_samho_death", 8, "say", "luna", "idle", "(…내가 따라준, 마지막 잔이 생각났다.)", "(...I thought of the last glass I poured him.)", "", "", "→ 데모 엔딩(사망)"),
 
     # ---------- day3 분기 — 구출 (refuse route) ----------
+    ("d3_samho_rescue", 1, "say", "samho", "idle", "…루나! 루나 맞지?!", "...Luna! Luna, that's you, right?!", "", "", "골목에서 튀어나옴"),
+    ("d3_samho_rescue", 2, "say", "luna", "idle", "삼호? 무슨 일—", "Samho? What's going—", "", "", ""),
+    ("d3_samho_rescue", 3, "say", "samho", "idle", "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.", "Shh— quiet. ...The Magarov crew hit our turf.", "", "", ""),
+    ("d3_samho_rescue", 4, "say", "samho", "idle", "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.", "The hideout's gone. I got my siblings out in time...\nbut they're after me now.", "", "", ""),
+    ("d3_samho_rescue", 5, "say", "luna", "idle", "다친 겁니까? 팔이—", "Are you hurt? Your arm—", "", "", ""),
+    ("d3_samho_rescue", 6, "say", "samho", "idle", "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.", "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide.", "", "", ""),
+    ("d3_samho_rescue", 7, "say", "luna", "idle", "(…크리스 씨한테 혼날지도 모른다. 하지만—)", "(...Chris might be furious. But—)", "", "", ""),
+    ("d3_samho_rescue", 8, "say", "luna", "idle", "따라오세요.", "Follow me.", "", "", ""),
+    ("d3_samho_rescue", 9, "say", "samho", "idle", "…고마워. 진짜로.", "...Thank you. Really.", "", "", "→ 집으로 (크리스 목격)"),
 
     # ---------- day3 분기 — 크리스의 목격 (rescue route, 집) ----------
     ("d3_chris_witness", 1, "say", "luna",  "default", "(소파에 삼호를 앉혔다. 상처는 깊지 않다.)", "(I sat Samho on the sofa. The wound isn't deep.)", "", "", ""),
@@ -1031,8 +1174,6 @@ STEPS = [
     ("d2_vendor_intro", 1, "say", "vendor", "idle", "오, 새 얼굴. 언노운의 새 알바가 너구나? 크리스한테 얘기 들었다.", "Oh, a new face. You're Unknown's new hire, aren't you? Chris told me about you.", "", "", ""),
     ("d2_vendor_intro", 2, "say", "luna",   "idle", "…안녕하세요. 루나입니다.", "...Hello. I'm Luna.", "", "", ""),
     ("d2_vendor_intro", 3, "say", "vendor", "idle", "난 완. 이 노점 주인이다. 과일이든 탄산이든, 재료가 떨어지면 나한테 와라.", "Name's Wan. I run this stall. Fruit, fizz, whatever — when you run out of stock, come to me.", "", "", "상점 기능 소개"),
-    ("d2_vendor_intro", 4, "say", "vendor", "idle", "아 참 — 어제 배송 상자 하나를 뒷골목에서 흘렸다. 퇴근길에 보이면 주워다 주라. 사례는 하마.", "Oh, right — I dropped a delivery box in the back alley yesterday. If you spot it on your way home, bring it over. I'll make it worth your while.", "", "", "사이드퀘스트 발주"),
-    ("d2_vendor_intro", 5, "effect", "", "", "", "", "", "flag.q_lost_box_started = true", "퀘스트 시작"),
     ("d2_port_chris", 1,  "enter", "port",  "L", "", "", "", "", ""),
     ("d2_port_chris", 2,  "say",   "port",  "joy", "크리스! 이 영감, 아직 살아있었네.", "Chris! You old man, still alive!", "", "", ""),
     ("d2_port_chris", 3,  "say",   "chris", "default", "…영감은 너다, 포트.", "...You're the old man, Port.", "", "", ""),
@@ -1065,8 +1206,6 @@ STEPS = [
     ("d2_chris_return", 5, "exit",  "shiba", "", "", "", "", "", "당당하게 꼬리 흔들며 퇴장"),
     ("d2_chris_return", 6, "say",   "chris", "default", "오늘은 슬슬 정리하지.", "Let's start closing up.", "", "", ""),
     ("d2_chris_return", 7, "end_part", "",  "", "", "", "", "", ""),
-    ("d2_box_found", 1, "say",    "sign", "", "완 상회", "WAN'S STALL", "", "", "", "상자에 찍힌 노점 마크 — 적힌 정보만"),
-    ("d2_box_found", 2, "choice", "",     "ch_st_box", "", "", "", "", "", "줍는 행동은 선택지로"),
     ("d2_dream", 1, "fx",  "",     "glitch_in", "", "", "", "", "노이즈 인 — 카타나 제로식 조각 연출"),
     ("d2_dream", 2, "say", "yuna", "default", "루나. 눈 감아. 무슨 소리가 나도, 뜨면 안 돼.", "Luna. Close your eyes. Whatever you hear — don't open them.", "", "", "구 day1 꿈: 유나의 대사 재생"),
     ("d2_dream", 3, "sfx", "",     "alarm_distant", "", "", "", "", "멀리서 경보음"),
@@ -1106,16 +1245,7 @@ STEPS = [
     ("d3_samho", 13, "choice", "",      "ch_d3_samho", "", "", "", "", ""),
     ("d3_samho", 14, "say",    "samho", "default", "…뭐야, 신입 주제에 잔소리는. (싫지 않은 눈치다)", "...What, a rookie nagging me? (He doesn't seem to hate it)", "flag.d3_samho_worry", "", ""),
     ("d3_samho", 15, "say",    "samho", "success", "하! 장사꾼 다 됐네. 마음에 들어.", "Ha! A born merchant. I like you.", "flag.d3_samho_sell", "", ""),
-    # --- 사이드퀘스트 데모: '진짜 벌꿀' (수주→선택지→씬 내 제작·서빙으로 목표 달성→보상 자동 발동) ---
-    ("d3_samho", 16, "say",    "samho", "default", "아 — 가기 전에 장사 얘기 하나. 요즘 위쪽 동네에서 '진짜 벌꿀'이 금값이야. 마침 내 창고에 원액이 몇 병 있지.", "Oh — one bit of business before I go. Real honey goes for gold uptown these days. And I happen to have a few jars of the raw stuff in my warehouse.", "", "", "퀘스트 밑밥"),
-    ("d3_samho", 17, "say",    "samho", "default", "한 병 구해다 주지. 대신 조건이 있다 — 셰이킹 실력 좀 보자. 진피즈 한 잔, 제대로.", "I'll get you a jar. One condition — show me your shake. A gin fizz, done right.", "", "", "제안 — 선택지 직전은 손님 대사(루나 규칙)"),
-    ("d3_samho", 18, "choice", "",      "ch_d3_deal", "", "", "", "", "수락/거절 → 이후 스텝은 플래그로 분기"),
-    ("d3_samho", 19, "order",  "samho", "exact:gin_fizz", "좋아. 레몬은 아끼지 말고.", "Good. Don't skimp on the lemon.", "flag.q_samho_honey_started", "", "수락 루트"),
-    ("d3_samho", 20, "craft",  "",      "order", "", "", "flag.q_samho_honey_started", "", ""),
-    ("d3_samho", 21, "serve",  "samho", "", "", "", "flag.q_samho_honey_started", "", "서빙 순간 serve:gin_fizz 목표 자동 달성 → Quests.reward_effects 발동"),
-    ("d3_samho", 22, "say",    "samho", "success", "…호오. 손목이 살아 있는데? 거래 성립이다. 벌꿀은 내일 입고시켜 주지.", "...Well now. That wrist is alive. Deal. The honey arrives with tomorrow's stock.", "flag.q_samho_honey_started", "", "보상 재료는 다음날 stock_in부터 (Ingredients.unlock_when)"),
-    ("d3_samho", 23, "say",    "samho", "default", "덤으로 레시피 하나 — '비즈 니즈'. 금주법 시대에 밀주 진을 꿀로 감추던 물건이다. 진짜 꿀 없인 못 만들지.", "And a recipe on the house — 'Bee's Knees.' Prohibition-era stuff, honey over bootleg gin. Can't make it without the real thing.", "flag.q_samho_honey_started", "", "unlock_recipe(bees_knees)는 보상에서 이미 발동"),
-    ("d3_samho", 24, "say",    "samho", "default", "쳇, 배짱이 없구만. 거래는 타이밍인데 말이야.", "Tch. No guts. And in trade, timing is everything.", "flag.q_samho_honey_declined", "", "거절 루트 — 재제안 여지는 declined 플래그로"),
+    # ('진짜 벌꿀' 사이드퀘스트 가안은 제조 개편에서 삭제 — bees_knees·허니시럽 폐기와 함께 (26.08.17 PD 확정))
     ("d3_samho", 25, "say",    "samho", "default", "간다. 계산은 달아놔. …농담이다, 여기.", "I'm off. Put it on my tab. ...Kidding. Here.", "", "", ""),
     ("d3_samho", 26, "exit",   "samho", "", "", "", "", "", ""),
     ("d3_samho", 27, "say",    "aili",  "default", "…쟤 저래 봬도 나쁜 애는 아니야. 나중에 알게 될 거야.", "...He acts tough, but he's not a bad kid. You'll see.", "", "", "day4 분기 감정 밑작업"),
@@ -1130,7 +1260,6 @@ STEPS = [
     ("d3_home_talk", 5,  "say",    "luna",  "default", "…크리스 씨는, 왜 절 받아준 거예요?", "...Chris. Why did you take me in?", "", "", ""),
     ("d3_home_talk", 6,  "say",    "chris", "default", "……。", "......", "", "", "침묵"),
     ("d3_home_talk", 7,  "say",    "chris", "default", "…그 얘긴 아직이다. 때가 되면 말해주지.", "...Not yet. When it's time, I'll tell you.", "", "", "회피 — day10(구9)까지 이어짐"),
-    ("d3_home_talk", 8,  "say",    "chris", "default", "…삼호와 거래를 텄다고? 나쁠 건 없지. 다만 걔 물건엔 늘 이야기가 붙어 있다. 조심해라.", "...You cut a deal with Samho? No harm in that. Just know his goods always come with a story attached. Be careful.", "flag.q_samho_honey_done", "", "연계 데모 — 퀘스트 완료 플래그로 씬 간 반응"),
     ("d3_home_talk", 9,  "say",    "chris", "default", "일은 좀 어떠냐. 사흘 해보니.", "How's the work? Three days in.", "", "", "선택지 직전은 크리스 대사"),
     ("d3_home_talk", 10, "choice", "",      "ch_d3_home", "", "", "", "", ""),
     ("d3_home_talk", 11, "say",    "chris", "default", "…그래. 그거면 됐다.", "...Good. That's enough for me.", "", "", ""),
@@ -1168,14 +1297,10 @@ CHOICES = [
     ("ch_d3_home",  1, "만드는 건 재밌어요.",           "Making drinks is fun.",                   "", "affinity.chris += 2", "", ""),
     ("ch_d3_home",  2, "사람이… 어렵네요.",             "People are... difficult.",                "", "affinity.chris += 2", "", "크리스: 그건 나도 그렇다"),
     # 퀘스트 데모 — 수락은 started 플래그만 세움. 진행/완료는 QuestStages의 serve: 목표가 담당
-    ("ch_d3_deal",  1, "좋아요. 셰이커는 이미 잡았어요.", "Deal. My hand's already on the shaker.",  "", "flag.q_samho_honey_started = true", "", "퀘스트 수주"),
-    ("ch_d3_deal",  2, "오늘은 사양할게요.",             "I'll pass tonight.",                      "", "flag.q_samho_honey_declined = true", "", "거절 — 재제안 연출용 플래그"),
     # [더미] 거리 첫 선택지 세트 — 무조건 항목 + 조건 항목(회색 표시 데모) + goto
     ("ch_st_shiba", 1, "아뇨, 그냥 지나갈게요.",        "No, I'll just be on my way.",             "", "", "", "무조건 항목 — 씬 계속 진행"),
-    ("ch_st_shiba", 2, "간식 좀 드릴까요?",             "Want a little treat?",                    "flag.q_lost_box_done", "flag.shiba_fed = true", "np_shiba_treat", "조건 항목(상자 퀘스트 완료 후) — 미충족 시 회색"),
+    ("ch_st_shiba", 2, "간식 좀 드릴까요?",             "Want a little treat?",                    "", "flag.shiba_fed = true", "np_shiba_treat", "무조건 항목 — 상자 퀘스트 삭제로 조건 해제"),
     # 오브젝트 행동 선택지 — 루나 말풍선 없이 버튼만 뜬다(항목 문구 = 플레이어 행동)
-    ("ch_st_box",     1, "줍는다",   "Pick it up", "", "flag.q_lost_box_done = true; quest(lost_box).advance", "", "퀘스트 완료 → 보상은 Quests 시트"),
-    ("ch_st_box",     2, "무시한다", "Leave it",   "", "", "", "무조건 항목 — 무시해도 지점이 닫히지 않는다"),
 ]
 
 # ── 구엔진 실대본(바 2부) 병합 — 가안을 실제 게임 대본으로 대체 (26.07.18) ──
@@ -1196,14 +1321,10 @@ ORDERS = [
 
 QUEST_COLS = ["id","title_ko","title_en","kind","reward_effects","note"]
 QUESTS = [
-    ("lost_box",    "노점상의 잃어버린 상자", "The Vendor's Lost Box", "side", "money += 50; give(lime, 3)", "day2 발주 → 퇴근길 회수. interact: 목표 데모"),
     # serve: 목표 + 재료/레시피 해금 데모 — 재료는 Ingredients.unlock_when(다음날 입고), 레시피는 unlock_recipe(즉시)
-    ("samho_honey", "진짜 벌꿀",              "The Real Honey",        "side", "affinity.samho += 10; unlock_recipe(bees_knees); flag.q_samho_honey_done = true", "day3 삼호 거래 — 진피즈 제공 시 완료. 히든 레시피 '비즈 니즈' 해금"),
 ]
 QSTAGE_COLS = ["quest_id","stage","goal","when","on_complete"]
 QUEST_STAGES = [
-    ("lost_box",    1, "interact:p_lost_box", "flag.q_lost_box_started",    "flag.q_lost_box_reward = true"),
-    ("samho_honey", 1, "serve:gin_fizz",      "flag.q_samho_honey_started", ""),
 ]
 
 END_COLS = ["priority","id","when","scene_id","note"]
@@ -1218,24 +1339,69 @@ ENDINGS = [
 
 CONFIG_COLS = ["key","value","type","note"]   # type: 엑셀 왕복에서 3.0→3으로 뭉개지는 것을 막는 명시 타입 (v2.2)
 CONFIG = [
+    ("data_schema_version",     "2.1.0", "제조 데이터 계약 버전. 프로그래머가 호환되지 않는 JSON을 식별하는 기준"),
     ("gold_start",             300,     "시작 골드"),
     ("reputation_start",       0,       "시작 평판"),
     ("commute_in_time",        "19:00", "출근 시각(연출 표기용). 배경은 밤 고정 단일 리소스"),
     ("commute_out_time",       "02:00", "퇴근 시각(연출 표기용)"),
-    ("coaster_base_sec",       22,      "코스터 인내심 기본(①§3.7)"),
-    ("coaster_per_tier_sec",   1.5,     "티어당 감소"),
-    ("coaster_min_sec",        12,      "하한"),
-    ("serve_bonus_sec",        40,      "서빙 인내심 = 제한시간 + 이 값"),
-    ("serve_per_tier_sec",     3,       "티어당 감소"),
-    ("serve_min_bonus_sec",    10,      "하한 보너스"),
+    # ── 인내심 (제조 개편: 티어 폐지 — 코스터는 고정, 서빙 여유는 해금일 기반) ──
+    ("coaster_base_sec",       22,      "코스터 인내심 기본 × 성격 patience_mult"),
+    ("coaster_min_sec",        12,      "코스터 인내심 하한"),
+    ("coaster_max_sec",        60,      "코스터 인내심 상한"),
+    ("serve_bonus_sec",        40,      "서빙 여유 기본 — 서빙 인내심 = 제한시간 + max(하한, 기본 − 해금일×감소)"),
+    ("serve_grace_per_day_sec", 3,      "칵테일 해금일(0일차 스타트)당 여유 감소 [가안]"),
+    ("serve_min_bonus_sec",    10,      "서빙 여유 하한"),
     ("warn_yellow_ratio",      0.5,     "노란 경고 임계"),
     ("warn_red_ratio",         0.8,     "빨간 점멸 임계"),
-    ("time_limit_base_sec",    20,      "제조 제한시간 기본 [가안]"),
-    ("time_limit_per_gimmick_sec", 8,   "기믹 1개당 추가 초 [가안]"),
+    # ── 제조 흐름 정지·판정 (제조 개편 확정) ──
+    ("craft_pause_start",      "cocktail_menu_enter", "칵테일 메뉴 진입 시 코스터·서빙·스폰 타이머 정지 — 레시피 열람은 제조 시간 미포함"),
+    ("craft_pause_end",        "return_to_table_after_serve_choice", "제공하기/버리기 선택 후 테이블 복귀 시 재개"),
+    ("discard_keeps_pause",    True,    "버리기→재선택→재제조 동안 계속 정지"),
+    ("force_sewage_on_order_mismatch", True, "서빙 시 주문과 제공 칵테일이 다르면 final_grade만 Sewage로 확정. craft_score·craft_grade는 보존"),
+    ("force_sewage_on_missing_core", True, "핵심 재료(is_core) 누락 시 Sewage 확정"),
+    ("craft_score_formula",     "weighted_representative_v1", "종류별 평균 → 현재 채점 기믹 가중치 정규화 → 고정 감점 차감"),
+    ("score_aggregation_mode",  "mean_per_action_then_weighted", "같은 기믹 종류의 개별 점수를 먼저 평균낸 뒤 종류별 가중치를 적용"),
+    ("normalize_present_gimmick_weights", True, "현재 제조에서 실제로 채점한 기믹 종류의 가중치 합으로 정규화"),
+    ("fill_up_weight_source",   "weight_pour", "Fill-up은 별도 가중치 없이 Pour 종류에 포함하여 weight_pour를 공유"),
+    ("craft_timer_scope",       "manual_input_active_only", "수동 기믹의 입력 활성 시간만 전체 제조시간에 합산"),
+    # ── 기믹 파라미터 (제조 개편 확정: 셰이킹 20·스터 10, 기믹별 제한시간 없음) ──
+    ("shake_target_stacks",    20,      "셰이킹 목표 = 성공+실패 합 20스택 자동 종료, 조기 실패 종료 없음"),
+    ("open_approach_sec",      1.6,     "조여드는 고리가 시작 반지름에서 목표 반지름까지 접근하는 시간 [가안]"),
+    ("open_judge_window_px",   10,      "목표 반지름과의 차이를 성공으로 인정하는 픽셀 범위 [가안]"),
+    ("open_start_radius_px",   165,     "병따기 조여드는 고리의 시작 반지름 [가안]"),
+    ("open_target_radius_px",  44,      "병따기 목표 고리 반지름 [가안]"),
+    ("open_input_enabled_after_sec", 0.0, "기믹 진입 후 입력을 허용하기까지의 대기시간 [가안]"),
+    ("open_transition_delay_sec", 0.9,  "병따기 성공 연출 후 따르기 전환까지의 시간. 수동 입력 비활성 구간이므로 전체 제조시간에서 제외 [가안]"),
+    ("open_penalty_per_failure", 15,    "병따기 점수 = max(0, 100 − 실패×15) [가안]"),
+    ("powder_demo_behavior",   "auto_apply_unscored", "데모: 파우더(설탕) 자동 투입·비채점 — 정식 버전에서 기믹 복원"),
+    ("squeeze_demo_behavior",  "auto_apply_unscored", "데모 스퀴즈는 자동 적용·비채점. 기믹 큐·제조시간·가중치 정규화에서 제외"),
+    ("ice_demo_behavior",      "auto_apply_unscored", "얼음은 자동 적용·비채점. UI에는 완성 잔의 얼음 여부만 표시"),
+    ("pour_start_angle_deg",   95.0,    "액체 방출을 시작하는 병 각도 [가안]"),
+    ("pour_max_tilt_angle_deg", 150.0,  "병이 기울어질 수 있는 최대 각도 [가안]"),
+    ("pour_tilt_speed_deg_per_sec", 95.0, "입력 유지 중 병 각도 변화 속도 [가안]"),
+    ("pour_emit_rate_ml_per_sec", 70.0, "유체 프로토타입의 초당 방출량(ml/s) [가안]"),
+    ("pour_quantity_update_interval_sec", 0.05, "Actual 수량을 화면과 런타임에 갱신하는 주기 [가안]"),
+    ("shake_bpm",              60.0,    "스트라이커가 지그재그 경로를 왕복하는 기준 BPM [가안]"),
+    ("shake_judge_radius_units", 1.0,   "Shake 입력 성공 판정 반경. 엔진 월드 단위 [가안]"),
+    ("shake_node_lifetime_sec", 2.0,    "패턴 노드가 판정 대상으로 유지되는 시간 [가안]"),
+    ("shake_pattern_node_min_count", 1, "한 패턴에 생성하는 패턴 노드 최소 개수 [가안]"),
+    ("shake_pattern_node_max_count", 3, "한 패턴에 생성하는 패턴 노드 최대 개수 [가안]"),
+    # ── 채점 (제조 개편: 감점·가중치 — 오차 구간은 ScoreBands 시트) ──
+    ("glass_mismatch_penalty", 10,      "정답 잔 불일치 감점 [가안]"),
+    ("tool_mismatch_penalty",  10,      "정답 도구 불일치·미선택 감점 [가안]"),
+    ("missing_ingredient_penalty", 15,  "일반(비핵심) 정답 재료 누락 1개당 감점 — 누락 기믹 0점과 이중 적용 금지 [가안]"),
+    ("extra_ingredient_penalty", 10,    "정답에 없는 직접 선택 재료 1개당 감점 [가안]"),
+    ("weight_open",            10,      "기믹 가중치 — 병따기 [가안]"),
+    ("weight_pour",            20,      "기믹 가중치 — 따르기 [가안]"),
+    ("weight_squeeze",         10,      "기믹 가중치 — 스퀴즈 [가안]"),
+    ("weight_powder",          5,       "기믹 가중치 — 파우더(데모 제외, 정식용 예약) [가안]"),
+    ("weight_shake",           20,      "기믹 가중치 — 셰이킹 [가안]"),
+    ("weight_stir",            20,      "기믹 가중치 — 스터 [가안]"),
+    ("unit_oz_to_ml",          30,      "수량 계산용 온스 환산(게임 단순화 값)"),
+    ("unit_tsp_to_ml",         5,       "수량 계산용 티스푼 환산"),
     ("spawn_delay_default_sec", 25,     "슬롯 delay 공란 시 기본"),
     ("next_round_delay_sec",   3,       "다회 주문 다음 잔 텀"),
     ("drunk_vomit_chance",     0.4,     "3잔째 제공 시 토함 확률 [TBD]"),
-    ("wrong_cocktail_revenue_mult", -1.0, "주문과 다른 술: 술값 배율(-1.0=전액 배상)"),
     ("leave_coaster_rep",      -1,      "코스터 미제공 이탈 평판"),
     ("leave_serve_rep",        -2,      "서빙 지연 이탈 평판"),
     ("autosave_interval_step", 1,       "크래시 복구 스냅숏 갱신 주기(스텝 단위)"),
@@ -1256,18 +1422,42 @@ CONFIG = [
     ("street_typing_interval_ms",   50, "거리 말풍선 타이핑 문자당 간격(ms) — 바(typing_interval_ms)와 별도 튜닝"),
     ("street_auto_next_delay_sec",  3,  "auto 재생 대사 — 타이핑 종료 후 다음 대사까지 텀"),
     # ── 스터 기믹 — 전 칵테일 공통, 차등이 필요해지면 tier 파생으로 전환 ──
-    ("stir_stacks",            10,      "스터 게이지 스택 수(결과 칸) — 전 칵테일 공통, 성공·실패 불문 시도 하나가 한 칸을 채운다 [가안]"),
-    ("stir_stack_sec",         2,       "스터 시도(스택 한 칸) 제한시간(초) — 초과 시 실패 스택 [가안]"),
+    ("stir_target_stacks",     10,      "스터 목표 스택 수. 성공+실패 합계가 10이 되면 자동 종료"),
+    ("stir_inputs_per_circle", 4,       "현재 위치에서 시계 방향 한 바퀴를 완성하는 정답 입력 수"),
+    ("stir_circle_limit_sec",  2,       "현재 위치에서 한 바퀴를 완성할 제한시간. 초과하면 실패 스택 1개 [가안]"),
+    ("stir_warning_ratio",     0.34,    "한 바퀴 게이지가 경고색으로 바뀌는 남은 시간 비율 [가안]"),
+    ("stir_input_cooldown_sec", 0.0,    "판정 직후 다음 입력까지의 잠금 시간. 0이면 즉시 연속 입력 허용"),
     # ── 랜덤 손님 외형 ──
     ("guest_acc_none_weight",  1,       "선택 슬롯(아우터·목걸이·팔 액세서리)의 '없음' 후보 가중치 — 클수록 미착용이 흔하다. 없음 1·파츠 합 3이면 미착용 25% [가안]"),
 ]
 
 GRADE_CUTS = [("excellent",95),("good",80),("decent",60),("poor",35),("sewage",0)]
-# v2.3 등급별 매출 배율 (PD 확정 26.07.24 — 고현정안 채택) — revenue_mult=술값 배율(음수면 배상).
-#   팁 컬럼은 은퇴: 팁 = 가격 × (revenue_mult − 1.0) × 성격 tip_mult — 1.0 초과분(현재 excellent만)이 팁이다.
-#   sewage와 오제조만 배상(-1.0) 유지. poor는 30%라도 받는다.
-GRADE_PAYOUT = [("excellent", 1.2), ("good", 1.0), ("decent", 0.7),
-                ("poor", 0.3), ("sewage", -1.0)]
+# 제조 개편 정산 — 구 GradePayout(등급 배율 1.2/1.0/0.7/0.3/-1.0)을 폐기하고 판매가+팁+배상 구조로 교체.
+#   매출 = 가격 × sale_rate + 가격 × tip_rate × 성격 tip_mult(단골은 tip_mult 없이 일괄 1.0).
+#   배상 = 가격 × refund_rate. 주문 불일치는 등급 자체가 Sewage(force_sewage_on_order_mismatch).
+SETTLE_COLS = ["grade","sale_rate","tip_rate","refund_rate","note"]
+SETTLEMENT_RULES = [
+    ("excellent", 1.0, 0.2, 0.0, "판매가 전액 + 팁 20%"),
+    ("good",      1.0, 0.0, 0.0, "판매가 전액 [팁 가안]"),
+    ("decent",    1.0, 0.0, 0.0, "판매가 전액 [팁 가안]"),
+    ("poor",      1.0, 0.0, 0.0, "판매가 전액 [팁 가안]"),
+    ("sewage",    0.0, 0.0, 1.0, "판매가만큼 배상"),
+]
+# 수량 오차·시간 초과 구간표 — 위에서부터 첫 일치. min/max 포함 여부를 값으로 명시(경계 모호성 제거).
+#   quantity: score_or_penalty = 그 기믹의 점수 / overtime: score_or_penalty = 전체 감점.
+SCOREBAND_COLS = ["band_type","min_ratio","max_ratio","min_inclusive","max_inclusive","score_or_penalty","note"]
+SCORE_BANDS = [
+    ("quantity", 0.00, 0.05, True,  False, 100, "오차 0% 이상 5% 미만"),
+    ("quantity", 0.05, 0.10, True,  False, 90,  "5% 이상 10% 미만"),
+    ("quantity", 0.10, 0.20, True,  False, 75,  "10% 이상 20% 미만"),
+    ("quantity", 0.20, 0.35, True,  False, 50,  "20% 이상 35% 미만"),
+    ("quantity", 0.35, None, True,  False, 0,   "35% 이상"),
+    ("overtime", 0.00, 0.00, True,  True,  0,   "제한시간 이내"),
+    ("overtime", 0.00, 0.10, False, True,  5,   "0% 초과 10% 이하"),
+    ("overtime", 0.10, 0.25, False, True,  10,  "10% 초과 25% 이하"),
+    ("overtime", 0.25, 0.50, False, True,  20,  "25% 초과 50% 이하"),
+    ("overtime", 0.50, None, False, False, 30,  "50% 초과"),
+]
 AFFINITY_MATRIX = [
     ("love",6,4,1,-1,-2),("good",4,3,1,-1,-2),("ok",2,1,0,-1,-3),("dislike",1,0,-1,-2,-4),("miss",-4,-4,-4,-4,-4),
 ]
@@ -1411,32 +1601,53 @@ BARK_SITUATIONS = [
 ]
 
 # ============================================================
+# 0일차 스타트 일괄 변환 (제조 개편 확정 — 표시 일차 = 데이터 일차)
+# 시드는 전부 구표기(1일차 스타트)로 적혀 있고, 여기서 한 번에 −1 시프트한다.
+#   · 씬의 '상시' 표식: 구표기 day 0 → None (json에선 null). 0은 이제 진짜 첫날(튜토리얼)이다.
+#   · when 문자열의 day 비교("day >= 2" 등)도 같은 규칙으로 숫자만 −1.
+#   · build.py는 시트(이미 시프트된 값)를 주입하므로 이중 시프트가 없다 — 이 블록은 시드 전용.
+def _sd(v, sentinel=False):
+    if v in (None, ""): return None
+    if v == 0: return None if sentinel else 0
+    if v >= 99: return v          # 99 = '날짜로는 안 열림' 컨벤션 — 시프트 대상 아님
+    return v - 1
+def _shift_col(rows, idx, sentinel=False):
+    return [tuple(list(r)[:idx] + [_sd(r[idx], sentinel)] + list(r)[idx + 1:]) for r in rows]
+def _shift_when(rows, idx):
+    def f(s):
+        return re.sub(r"(day\s*(?:==|>=|<=|>|<)\s*)(\d+)",
+                      lambda m: m.group(1) + str(int(m.group(2)) - 1), s) if s else s
+    return [tuple(list(r)[:idx] + [f(r[idx])] + list(r)[idx + 1:]) for r in rows]
+
+COCKTAILS     = _shift_col(COCKTAILS, CK_COLS.index("unlock_day"))
+SHELF_ITEMS   = _shift_col(SHELF_ITEMS, SHELF_COLS.index("unlock_day"))
+DAYS          = _shift_col(DAYS, 0)
+SCENES        = _shift_col(SCENES, 1, sentinel=True)
+RANDOM_WAVES  = _shift_col(RANDOM_WAVES, 0)
+REGULAR_SLOTS = _shift_col(REGULAR_SLOTS, 0)
+SCENES        = _shift_when(SCENES, SCENE_COLS.index("when"))
+POINTS        = _shift_when(POINTS, POINT_COLS.index("when"))
+STEPS         = _shift_when(STEPS, STEP_COLS.index("when"))
+CHOICES       = _shift_when(CHOICES, CHOICE_COLS.index("when"))
+ENDINGS       = _shift_when(ENDINGS, END_COLS.index("when"))
+QUEST_STAGES  = _shift_when(QUEST_STAGES, QSTAGE_COLS.index("when"))
+ORDERS        = _shift_when(ORDERS, ORDER_COLS.index("when"))
+TASTES        = _shift_when(TASTES, TASTE_COLS.index("when"))
+COCKTAILS     = _shift_when(COCKTAILS, CK_COLS.index("unlock_when"))
+SHELF_ITEMS   = _shift_when(SHELF_ITEMS, SHELF_COLS.index("unlock_when"))
+
+# ============================================================
 # 파생 계산
 # ============================================================
 def derive():
-    ing = {r[0]: dict(zip(SHELF_COLS, r)) for r in shelf_rows()}
-    cfg = {k: v for k, v, _ in CONFIG}
+    # 제조 개편: 티어·해금·제한시간·채점 항목 파생 전부 폐지 — 시트가 수동 정본.
+    # 남은 파생은 이미지 키뿐: 구엔진 에셋 명명 규칙 이식 — Finished_{Pascal}(대표)·Serve_{Pascal}(제공 컷씬).
+    # 구엔진과 겹치는 4종(gin_fizz 등)은 기존 에셋을 그대로 재사용하고, 나머지는 같은 규칙으로 신규 발주.
     derived = {}
     for c in COCKTAILS:
         d = dict(zip(CK_COLS, c))
-        lines = RECIPES[d["id"]]
-        gimmick = len(lines)
-        if d["mix"] in ("build", "stir", "shake"): gimmick += 1
-        if d["prep"] in ("cap", "cork"): gimmick += 1
-        # 티어: 공란이면 기믹 수 공식, 값이 있으면 그 값 그대로 (체감 난이도 수동 지정 — v1.9)
-        tier = d["tier_override"] or (1 if gimmick <= 2 else min(gimmick - 1, 5))
-        used = [l[1] for l in lines] + ([d["fill"]] if d["fill"] else [])
-        # 해금일: 공란이면 재료에서 파생, 값이 있으면 그 값 그대로 (완전 수동 지정 — v1.9)
-        unlock = d["unlock_day_override"] or max([ing[u]["unlock_day"] for u in used] or [1])
-        # 채점 항목: 시간·잔 + 믹스 + prep + 레시피 라인 + 필업 + 가니시(v1.9 플레이어 선택으로 편입)
-        scoring = 2 + (1 if d["mix"] != "none" else 0) + (1 if d["prep"] else 0) + len(lines) + (1 if d["fill"] else 0) + 1
-        tlimit = cfg["time_limit_base_sec"] + gimmick * cfg["time_limit_per_gimmick_sec"]
-        # 이미지 키(v3.6): 구엔진 에셋 명명 규칙 이식 — Finished_{Pascal}(대표)·Serve_{Pascal}(제공 컷씬).
-        # 구엔진과 겹치는 4종(gin_fizz 등)은 기존 에셋을 그대로 재사용하고, 나머지는 같은 규칙으로 신규 발주.
         pascal = "".join(w.capitalize() for w in d["id"].split("_"))
-        derived[d["id"]] = dict(gimmick_count=gimmick, tier=tier, unlock_day=unlock,
-                                scoring_items=scoring, time_limit_sec=tlimit,
-                                sprite=f"Finished_{pascal}", serve_sprite=f"Serve_{pascal}")
+        derived[d["id"]] = dict(sprite=f"Finished_{pascal}", serve_sprite=f"Serve_{pascal}")
     return derived
 
 # ============================================================
@@ -1490,6 +1701,79 @@ def validate(derived):
     check_dup("Tags", TAGS, lambda r: r[0])
     check_dup("Dossier", DOSSIER, lambda r: (r[0], r[2], r[1], r[3]))
 
+    # 데모 일차 계약 — Day 0·1·2·3 네 일차와 Day 3 결과 장면을 보존한다.
+    _demo_days = {d[0] for d in DAYS}
+    for _day in sorted({0, 1, 2, 3} - _demo_days):
+        errors.append(f"[Days] 데모 필수 Day {_day} 행 없음 — 데모는 Day 0~3 총 4일")
+    _scene_day = {s[0]: s[1] for s in SCENES}
+    for _scene_id in ("d3_samho_death", "d3_samho_rescue", "d3_chris_witness", "d3_home_talk", "d3_dream"):
+        if _scene_day.get(_scene_id) != 3:
+            errors.append(f"[Scenes] {_scene_id}는 Day 3 결과 장면이어야 함")
+
+    # 제조 데이터 계약 검증 — D-01/D-02/D-04/D-09/D-12/D-14.
+    _cfg = {k: v for k, v, _ in CONFIG}
+    _required_cfg = {
+        "data_schema_version", "craft_score_formula", "score_aggregation_mode",
+        "normalize_present_gimmick_weights", "fill_up_weight_source", "craft_timer_scope",
+        "squeeze_demo_behavior", "powder_demo_behavior", "ice_demo_behavior",
+        "shake_target_stacks", "open_approach_sec", "open_judge_window_px",
+        "open_start_radius_px", "open_target_radius_px", "open_input_enabled_after_sec",
+        "open_transition_delay_sec", "pour_start_angle_deg", "pour_max_tilt_angle_deg",
+        "pour_tilt_speed_deg_per_sec", "pour_emit_rate_ml_per_sec",
+        "pour_quantity_update_interval_sec", "shake_bpm", "shake_judge_radius_units",
+        "shake_node_lifetime_sec", "shake_pattern_node_min_count",
+        "shake_pattern_node_max_count", "stir_target_stacks", "stir_inputs_per_circle",
+        "stir_circle_limit_sec", "stir_warning_ratio", "stir_input_cooldown_sec",
+    }
+    for _key in sorted(_required_cfg - set(_cfg)):
+        errors.append(f"[Config] 필수 키 '{_key}' 없음 — 제조 데이터 계약 2.1.0")
+    if "weight_fill_up" in _cfg:
+        errors.append("[Config] weight_fill_up은 사용하지 않음 — Fill-up은 weight_pour를 공유한다")
+    if _cfg.get("craft_score_formula") != "weighted_representative_v1":
+        errors.append("[Config] craft_score_formula는 weighted_representative_v1이어야 한다")
+    if _cfg.get("score_aggregation_mode") != "mean_per_action_then_weighted":
+        errors.append("[Config] score_aggregation_mode는 mean_per_action_then_weighted여야 한다")
+    if _cfg.get("normalize_present_gimmick_weights") is not True:
+        errors.append("[Config] normalize_present_gimmick_weights는 TRUE여야 한다")
+    if _cfg.get("fill_up_weight_source") != "weight_pour":
+        errors.append("[Config] fill_up_weight_source는 weight_pour여야 한다")
+    for _key in ("squeeze_demo_behavior", "powder_demo_behavior", "ice_demo_behavior"):
+        if _key in _cfg and _cfg[_key] != "auto_apply_unscored":
+            errors.append(f"[Config] {_key}={_cfg[_key]!r} — 데모는 auto_apply_unscored만 허용")
+    if _cfg.get("craft_timer_scope") != "manual_input_active_only":
+        errors.append("[Config] craft_timer_scope는 manual_input_active_only이어야 한다")
+    _positive_cfg = (
+        "shake_target_stacks", "open_approach_sec", "open_judge_window_px",
+        "open_start_radius_px", "open_target_radius_px", "pour_max_tilt_angle_deg",
+        "pour_tilt_speed_deg_per_sec", "pour_emit_rate_ml_per_sec",
+        "pour_quantity_update_interval_sec", "shake_bpm", "shake_judge_radius_units",
+        "shake_node_lifetime_sec", "shake_pattern_node_min_count",
+        "shake_pattern_node_max_count", "stir_target_stacks", "stir_inputs_per_circle",
+        "stir_circle_limit_sec",
+    )
+    for _key in _positive_cfg:
+        if _key in _cfg and (not isinstance(_cfg[_key], (int, float)) or isinstance(_cfg[_key], bool) or _cfg[_key] <= 0):
+            errors.append(f"[Config] {_key}={_cfg[_key]!r} — 0보다 큰 숫자여야 한다")
+    for _key in ("open_input_enabled_after_sec", "open_transition_delay_sec", "stir_input_cooldown_sec"):
+        if _key in _cfg and (not isinstance(_cfg[_key], (int, float)) or isinstance(_cfg[_key], bool) or _cfg[_key] < 0):
+            errors.append(f"[Config] {_key}={_cfg[_key]!r} — 0 이상의 숫자여야 한다")
+    if "stir_warning_ratio" in _cfg and not (isinstance(_cfg["stir_warning_ratio"], (int, float))
+                                                and not isinstance(_cfg["stir_warning_ratio"], bool)
+                                                and 0 < _cfg["stir_warning_ratio"] < 1):
+        errors.append(f"[Config] stir_warning_ratio={_cfg.get('stir_warning_ratio')!r} — 0 초과 1 미만이어야 한다")
+    if all(k in _cfg for k in ("pour_start_angle_deg", "pour_max_tilt_angle_deg")):
+        _start, _maximum = _cfg["pour_start_angle_deg"], _cfg["pour_max_tilt_angle_deg"]
+        if not (isinstance(_start, (int, float)) and not isinstance(_start, bool)
+                and isinstance(_maximum, (int, float)) and not isinstance(_maximum, bool)
+                and 0 <= _start < _maximum <= 180):
+            errors.append("[Config] Pour 각도는 숫자이며 0 <= 시작각 < 최대각 <= 180이어야 한다")
+    if all(k in _cfg for k in ("shake_pattern_node_min_count", "shake_pattern_node_max_count")):
+        _minimum, _maximum = _cfg["shake_pattern_node_min_count"], _cfg["shake_pattern_node_max_count"]
+        if (isinstance(_minimum, (int, float)) and isinstance(_maximum, (int, float))
+                and not isinstance(_minimum, bool) and not isinstance(_maximum, bool)
+                and _minimum > _maximum):
+            errors.append("[Config] Shake 패턴 노드 최소 개수가 최대 개수보다 큼")
+
     # v3.6 — 태그는 사전(Tags)에 있는 것만. 자유 문자열이면 오타가 취향 판정을 조용히 비껴간다
     import re as _re
     for c in COCKTAILS:
@@ -1516,6 +1800,17 @@ def validate(derived):
     for r in shelf_rows():
         if r[1] not in ("ingredient", "glass", "tool", "garnish"):
             errors.append(f"[선반] {r[0]}: kind '{r[1]}' 은(는) 허용되지 않음 (ingredient/glass/tool/garnish)")
+        d = dict(zip(SHELF_COLS, r))
+        if d["kind"] == "ingredient":
+            if d["default_action"] not in ("pour", "fill_up", "squeeze", "powder"):
+                errors.append(f"[선반] {d['id']}: default_action '{d['default_action']}' 불가 또는 공란")
+            if d["prep_action"] not in (None, "", "open"):
+                errors.append(f"[선반] {d['id']}: prep_action '{d['prep_action']}' 불가 (공란/open)")
+            if d["default_action"] in ("pour", "fill_up", "squeeze", "powder"):
+                if not isinstance(d["default_target_qty"], (int, float)) or isinstance(d["default_target_qty"], bool) or d["default_target_qty"] <= 0:
+                    errors.append(f"[선반] {d['id']}: 수량형 default_action인데 default_target_qty가 0보다 큰 숫자가 아님")
+                if d["default_target_unit"] not in ("oz", "ml", "tsp"):
+                    errors.append(f"[선반] {d['id']}: default_target_unit '{d['default_target_unit']}' 불가 (oz/ml/tsp)")
     char_ids = {c[0] for c in CHARACTERS}
     scene_ids = {s[0] for s in SCENES}
     choice_ids = {c[0] for c in CHOICES}
@@ -1562,28 +1857,52 @@ def validate(derived):
         if c[1] == "sprite" and not c[2]:
             errors.append(f"[컷씬] {c[0]}: sprite 컷씬은 resource_key(포스터 이미지) 필수")
 
+    # 레시피 라인 검증 (제조 개편 — 플래그 체계)
+    ck_ids_set = {c[0] for c in COCKTAILS}
+    for cid in RECIPES:
+        if cid not in ck_ids_set: errors.append(f"[레시피] {cid}: Cocktails에 없는 id")
+    for cid in ck_ids_set:
+        if cid not in RECIPES: errors.append(f"[레시피] {cid}: RecipeLines 0줄 — 제조 불가")
+    VALID_ACTIONS = {"open", "pour", "squeeze", "powder", "shake", "stir", "fill_up"}
     for cid, lines in RECIPES.items():
-        for a, i, q, u in lines:
-            if i not in ing_ids: errors.append(f"[레시피] {cid}: 재료 {i} 없음")
+        st = next((dict(zip(CK_COLS, c))["status"] for c in COCKTAILS if c[0] == cid), "tbd")
+        for l in recipe_lines(cid):
+            if l["action"] not in VALID_ACTIONS:
+                errors.append(f"[레시피] {cid}: action '{l['action']}' 불가")
+            if l["ingredient"] not in ing_ids:
+                errors.append(f"[레시피] {cid}: 재료 {l['ingredient']} 없음")
+            if l["auto_apply"] and l["action"] not in ("powder", "squeeze"):
+                errors.append(f"[레시피] {cid}: auto 플래그는 데모 자동 처리인 powder/squeeze에만 허용")
+            if l["action"] == "squeeze" and (not l["auto_apply"] or l["scored"]):
+                errors.append(f"[레시피] {cid}: 데모 squeeze는 auto_apply=TRUE, scored=FALSE여야 한다")
+            if l["action"] == "powder" and (not l["auto_apply"] or l["scored"]):
+                errors.append(f"[레시피] {cid}: 데모 powder는 auto_apply=TRUE, scored=FALSE여야 한다")
+            if l["unit"] not in (None, "", "oz", "ml", "tsp"):
+                errors.append(f"[레시피] {cid}: 단위 '{l['unit']}' 불가 (oz/ml/tsp)")
+            # 수량 확정 규칙: status=confirmed면 전 라인 수량 필수(fill_up 포함 — pour와 동일하게 수량 오차 채점).
+            # tbd(신규 13종)는 수량 공란 허용
+            if st == "confirmed" and l["scored"] and (l["qty"] is None or not l["unit"]):
+                errors.append(f"[레시피] {cid}: status=confirmed인데 {l['action']} {l['ingredient']} 수량/단위 공란")
+    VALID_ICE = ("none", "cubed", "crushed")
     for c in COCKTAILS:
         d = dict(zip(CK_COLS, c))
+        if d["status"] not in ("confirmed", "tbd"):
+            errors.append(f"[칵테일] {d['id']}: status '{d['status']}' 불가 (confirmed/tbd)")
         if d["mix"] not in ("none", "build", "stir", "shake"):
             errors.append(f"[칵테일] {d['id']}: mix '{d['mix']}' 불가 — bottle_open은 폐기(prep=cap으로)")
-        if d["prep"] not in ("", "cap", "cork"):
-            errors.append(f"[칵테일] {d['id']}: prep '{d['prep']}' 불가 (공란/cap/cork)")
+        if d["prep"] not in ("", "cap"):
+            errors.append(f"[칵테일] {d['id']}: prep '{d['prep']}' 불가 (공란/cap — cork는 와인 오프너와 함께 데모 제외)")
+        if d["mixing_ice"] not in VALID_ICE or d["serving_ice"] not in VALID_ICE:
+            errors.append(f"[칵테일] {d['id']}: 얼음 '{d['mixing_ice']}/{d['serving_ice']}' 불가 (none/cubed/crushed)")
         # kind까지 대조 — 통합 테이블이라 "잔 칸에 가니시 id"가 문법상 가능해졌다 (v1.9)
         if d["glass"] and d["glass"] not in glass_ids:
             errors.append(f"[칵테일] {d['id']}: 잔 {d['glass']} 없음" if d["glass"] not in shelf_ids()
                           else f"[칵테일] {d['id']}: 잔 칸에 kind=glass가 아닌 {d['glass']} 지정됨")
-        if d["fill"] and d["fill"] not in ing_ids:
-            errors.append(f"[칵테일] {d['id']}: 필 {d['fill']} 없음" if d["fill"] not in shelf_ids()
-                          else f"[칵테일] {d['id']}: 필 칸에 kind=ingredient가 아닌 {d['fill']} 지정됨")
         if d["garnish"] and d["garnish"] not in garnish_ids:
             errors.append(f"[칵테일] {d['id']}: 가니시 {d['garnish']} 없음" if d["garnish"] not in shelf_ids()
                           else f"[칵테일] {d['id']}: 가니시 칸에 kind=garnish가 아닌 {d['garnish']} 지정됨")
-        # 티어 회귀 가드 — 수동 지정(tier_override)한 칵테일은 사람이 정한 값이므로 대조 제외 (v1.9)
-        if not d["tier_override"] and d["id"] in EXPECTED_TIER and derived[d["id"]]["tier"] != EXPECTED_TIER[d["id"]]:
-            errors.append(f"[티어] {d['id']}: 계산 T{derived[d['id']]['tier']} ≠ ②문서 T{EXPECTED_TIER[d['id']]}")
+        if not d["recipe_desc_ko"]:
+            errors.append(f"[칵테일] {d['id']}: recipe_desc_ko 공란 — 레시피 UI에 표시할 문안 필수")
 
     # 씬 트리거/그룹 검증 (v1.2)
     VALID_TRIGGERS = {"auto", "interact", "cameo", "manual"}
@@ -1718,7 +2037,7 @@ def validate(derived):
                 _tsc = []
             for s in _tsc:
                 _sd = dict(zip(SCENE_COLS, s))
-                if _sd["day"] not in (0, _pday):
+                if _sd["day"] not in (None, _pday):   # None = 상시 씬(구 day 0)
                     errors.append(f"[포인트] {d['id']}: when은 day == {_pday}인데 연결 씬 {_sd['id']}의 day가 {_sd['day']} — 다른 일차의 씬을 잘못 연결함")
     # v3.1 — 씬 seq 계약: auto 씬의 (day,phase,seq)는 재생 순서라 중복 금지.
     # 단, when 분기(생사 루트처럼 조건으로 하나만 재생)는 같은 자리를 공유하므로 "빈 when끼리의 중복"만 에러.
@@ -1923,29 +2242,38 @@ def validate(derived):
             errors.append(f"[선반] {s['id']}: unlock_day 99(퀘스트/이벤트 전용)인데 unlock_when 없음 — 영구 미해금")
     for c in COCKTAILS:
         d = dict(zip(CK_COLS, c))
-        if derived[d["id"]]["unlock_day"] >= 99 and not d["unlock_when"] and d["id"] not in unlocked_by_effect:
+        if (d["unlock_day"] or 0) >= 99 and not d["unlock_when"] and d["id"] not in unlocked_by_effect:
             errors.append(f"[칵테일] {d['id']}: 해금 경로 없음 — unlock_when 또는 어딘가의 unlock_recipe() 필요")
 
-    # 수동 해금일이 재료 입고일보다 빠르면 '메뉴에는 뜨는데 못 만드는' 상태 (v1.9) — 의도적일 수 있어 경고
+    # 해금일이 재료 입고일보다 빠르면 '메뉴에는 뜨는데 못 만드는' 상태 — 의도적일 수 있어 경고
     _ing_day = {r[0]: dict(zip(SHELF_COLS, r))["unlock_day"] for r in shelf_rows()}
     for c in COCKTAILS:
         d = dict(zip(CK_COLS, c))
-        if not d["unlock_day_override"]:
-            continue
-        used = [l[1] for l in RECIPES[d["id"]]] + ([d["fill"]] if d["fill"] else [])
-        need = max([_ing_day.get(u, 1) for u in used] or [1])
-        if d["unlock_day_override"] < need:
-            report.append(f"⚠ [해금] {d['id']}: 수동 해금 {d['unlock_day_override']}일차인데 재료는 {need}일차 입고 "
+        used = [l["ingredient"] for l in recipe_lines(d["id"])]
+        need = max([_ing_day.get(u) or 0 for u in used] or [0])
+        if (d["unlock_day"] or 0) < need:
+            report.append(f"⚠ [해금] {d['id']}: 해금 {d['unlock_day']}일차인데 재료는 {need}일차 입고 "
                           f"— 그 사이엔 메뉴에 보이지만 만들 수 없음(대본 지정 제조용이면 정상)")
 
-    # 티어 풀 검증 (v1.9) — 1부 손님은 tier와 같은 티어에서 칵테일을 뽑는다. 비면 주문 불가
+    # 주문 풀 검증 (제조 개편: 티어 폐지) — order 공란이면 그날 해금 풀 추첨, 지정이면 존재·해금·status 대조.
+    # 풀은 status=confirmed만 — tbd(수량 미확정)가 주문되면 채점이 불가능하다
+    _ck_unlock = {c[0]: dict(zip(CK_COLS, c))["unlock_day"] for c in COCKTAILS}
+    _ck_status = {c[0]: dict(zip(CK_COLS, c))["status"] for c in COCKTAILS}
     for cols, rows, tag in ((WAVE_COLS, RANDOM_WAVES, "웨이브"), (RSLOT_COLS, REGULAR_SLOTS, "단골슬롯")):
         for sl in rows:
             s = dict(zip(cols, sl))
-            pool = [c[0] for c in COCKTAILS
-                    if derived[c[0]]["tier"] == s["tier"] and derived[c[0]]["unlock_day"] <= s["day"]]
-            if not pool:
-                errors.append(f"[{tag}] day{s['day']}#{s['seq']}: T{s['tier']} 칵테일이 그날 0종 — 손님이 주문할 게 없음")
+            if s["order"]:
+                if s["order"] not in _ck_unlock:
+                    errors.append(f"[{tag}] day{s['day']}#{s['seq']}: 지정 칵테일 {s['order']} 없음")
+                elif (99 if _ck_unlock[s["order"]] is None else _ck_unlock[s["order"]]) > s["day"]:
+                    errors.append(f"[{tag}] day{s['day']}#{s['seq']}: {s['order']}는 {_ck_unlock[s['order']]}일차 해금 — 그날 손님이 주문 불가")
+                elif _ck_status[s["order"]] != "confirmed":
+                    errors.append(f"[{tag}] day{s['day']}#{s['seq']}: {s['order']}는 status=tbd — 수량 미확정이라 채점 불가, confirmed 후 지정할 것")
+            else:
+                pool = [i for i, u in _ck_unlock.items()
+                        if (u if u is not None else 99) <= s["day"] and _ck_status[i] == "confirmed"]
+                if not pool:
+                    errors.append(f"[{tag}] day{s['day']}#{s['seq']}: 그날 주문 가능한(해금+confirmed) 칵테일 0종 — 손님이 주문할 게 없음")
 
     # 대사 커버리지 (v2.0, 저작 2파일 분리 대응) — 성격은 System 파일, 대사(Barks)는 Narrative 파일이라
     # 서로 어긋나도 각자 화면에선 안 보인다. 성격×핵심 상황에 대사가 0줄이면 손님이 침묵하므로 여기서 잡는다.
@@ -2042,7 +2370,7 @@ def validate(derived):
         check_text_tags(en, f"UI {k}(en)")
 
     # ── 2부 종료 트리거 검사 (v2.3, 명세서 §1.1) — end_part가 없거나 마지막 씬이 아니면 뒤 씬이 유실된다 ──
-    for day in sorted({s[1] for s in SCENES}):
+    for day in sorted({s[1] for s in SCENES if s[1] is not None}):
         bar_scenes = [dict(zip(SCENE_COLS, s)) for s in SCENES
                       if s[1] == day and dict(zip(SCENE_COLS, s))["phase"] == "bar"]
         if not bar_scenes:
@@ -2056,24 +2384,26 @@ def validate(derived):
             errors.append(f"[종료 트리거] day{day}: end_part가 {sorted(owners)}에 있는데 마지막 bar 씬은 '{last_id}' "
                           f"— 종료 신호 뒤에 남는 씬은 재생되지 않는다")
 
-    # ── 대본 주문 해금 검사 (v2.7) — 2부에서 그날 못 만드는 칵테일을 주문하면 진행 불가 ──
-    _ck_unlock = {cid: d["unlock_day"] for cid, d in derived.items()}
+    # ── 대본 주문 해금 대조 (제조 개편으로 경고 강등) — 대본 지정 제조(craft 스텝)는 메뉴 해금을
+    # 무시하고 필요한 재료를 노출하는 규칙이라 진행은 막히지 않는다. 의도 확인용으로만 알린다.
+    _ck_unlock2 = {c[0]: dict(zip(CK_COLS, c))["unlock_day"] for c in COCKTAILS}
     _scene_day = {s[0]: s[1] for s in SCENES}
     for st in STEPS:
         if st[2] != "order" or not st[4].startswith("exact:"):
             continue
         cid = st[4][6:]
         day = _scene_day.get(st[0])
-        if cid in _ck_unlock and day and _ck_unlock[cid] > day:
-            errors.append(f"[주문 해금] {st[0]}#{st[1]}: day{day}에 '{cid}' 주문 — 해금 day{_ck_unlock[cid]}라 "
-                          f"플레이어가 재료를 못 가짐 (재료 입고일을 당기거나 다른 칵테일로 교체)")
+        if cid in _ck_unlock2 and day is not None and (99 if _ck_unlock2[cid] is None else _ck_unlock2[cid]) > day:
+            report.append(f"⚠ [주문 해금] {st[0]}#{st[1]}: day{day}에 '{cid}' 주문 — 메뉴 해금은 day{_ck_unlock2[cid]}. "
+                          f"대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것")
 
     # ── when DSL 전수 검사 (v1.5) — 문법 + 참조 무결성 ─────────────────
     WHEN_TOKEN = re.compile(
-        r"^(day|money|reputation|grade|phase"
+        r"^(day|money|reputation|grade|craft_grade|final_grade|order_match|phase"
         r"|meta\.endings"
         r"|flag\.\w+|affinity\.\w+|alive\.\w+|quest\.\w+\.stage"
-        r"|cocktail\.id|cocktail\.abv|cocktail\.tag\([^)]+\))$")
+        r"|cocktail\.id|ordered_cocktail\.id|served_cocktail\.id"
+        r"|cocktail\.abv|cocktail\.tag\([^)]+\))$")
     CMP = re.compile(r"^(\S+)\s*(==|!=|>=|<=|>|<)\s*(\S+)$")
     NUM = re.compile(r"^-?\d+(\.\d+)?$")
     GRADES = {"excellent", "good", "decent", "poor", "sewage"}
@@ -2106,9 +2436,9 @@ def validate(derived):
             if m:
                 lhs, _, rhs = m.groups()
                 check_token(lhs, src)
-                if lhs == "grade" and rhs not in GRADES:
+                if lhs in ("grade", "craft_grade", "final_grade") and rhs not in GRADES:
                     errors.append(f"[when] {src}: 등급 '{rhs}' 불가")
-                elif lhs == "cocktail.id" and rhs not in cocktail_ids:
+                elif lhs in ("cocktail.id", "ordered_cocktail.id", "served_cocktail.id") and rhs not in cocktail_ids:
                     errors.append(f"[when] {src}: 칵테일 {rhs} 없음")
                 elif (lhs in NUMERIC_LHS or lhs.startswith(("affinity.", "quest."))) and not NUM.match(rhs):
                     errors.append(f"[when] {src}: '{lhs}' 비교값 '{rhs}'는 숫자가 아님")
@@ -2189,7 +2519,7 @@ def validate(derived):
 
     # ── 호감도 상한 시뮬레이션 (v1.5) — 최선 플레이 가정 상한치 ──
     scene_day = {s[0]: s[1] for s in SCENES}
-    max_day = max((s[1] for s in SCENES), default=0)
+    max_day = max((s[1] for s in SCENES if s[1] is not None), default=0)
     choice_day = {}
     for s in STEPS:
         if s[2] == "choice": choice_day[s[4]] = scene_day.get(s[0], 0)
@@ -2271,14 +2601,15 @@ def validate(derived):
             report.append(f"{ch}: 명시 +{cum} / 서빙 잠재 +{pot} (취향×excellent 기준) → 합계 상한 {cum + pot} — 엔딩컷 100 대비 {cum + pot}%")
     report.append(f"(day{max_day + 1}~13 데이터 작성 시 자동 갱신. 엔딩 happy 계열은 4인 100 필요 — 일차별 획득 설계의 기준선)")
 
-    report.append("=== 일차별 입고표 (파생·검증용, 새 넘버링 — 입고 화면은 그날 바 오픈 직전) ===")
-    for d in range(1, 7):
+    _ck_day = {c[0]: dict(zip(CK_COLS, c))["unlock_day"] for c in COCKTAILS}
+    report.append("=== 일차별 입고표 (검증용, Day 0 스타트 — 입고 화면은 그날 바 오픈 직전) ===")
+    for d in range(0, 11):
         new_ing = [s2["name_ko"] for s2 in shelf_dicts()
                    if s2["unlock_day"] == d and s2["kind"] in ("ingredient", "garnish")]   # 소모품만(잔·도구는 상시 비치)
-        new_ck = [f"{c[1]}(T{derived[c[0]]['tier']})" for c in COCKTAILS if derived[c[0]]["unlock_day"] == d]
+        new_ck = [c[1] for c in COCKTAILS if _ck_day[c[0]] == d]
         report.append(f"Day {d}: 입고[{', '.join(new_ing) or '-'}] → 신규 가능[{', '.join(new_ck) or '-'}]")
     cond_ing = [f'{s2["name_ko"]}({s2["unlock_when"]})' for s2 in shelf_dicts() if (s2["unlock_day"] or 0) >= 99]
-    cond_ck = [f"{c[1]}(T{derived[c[0]]['tier']})" for c in COCKTAILS if derived[c[0]]["unlock_day"] >= 99]
+    cond_ck = [c[1] for c in COCKTAILS if (_ck_day[c[0]] or 0) >= 99]
     if cond_ing: report.append(f"퀘스트/이벤트 해금 재료: {', '.join(cond_ing)}")
     if cond_ck: report.append(f"퀘스트/이벤트 해금 칵테일: {', '.join(cond_ck)}")
     report.append("=== 퀘스트 ===")
@@ -2287,10 +2618,15 @@ def validate(derived):
         report.append(f"[{q[3]}] {q[0]} '{q[1]}': {goals} ⇒ 보상[{q[4]}]")
     merged_slots = ([(dict(zip(WAVE_COLS, g)), "") for g in RANDOM_WAVES]
                     + [(dict(zip(RSLOT_COLS, g)), f" [카메오: {dict(zip(RSLOT_COLS, g))['character']}]") for g in REGULAR_SLOTS])
+    _ck_st = {c[0]: dict(zip(CK_COLS, c))["status"] for c in COCKTAILS}
     for d, tag in sorted(merged_slots, key=lambda x: (x[0]["day"], x[0]["seq"])):
-        pool = [c[0] for c in COCKTAILS if derived[c[0]]["tier"] == d["tier"] and derived[c[0]]["unlock_day"] <= d["day"]]
-        if pool:
-            report.append(f"슬롯 day{d['day']}#{d['seq']} T{d['tier']} 풀({len(pool)}): {', '.join(pool)}{tag}")
+        if d["order"]:
+            report.append(f"슬롯 day{d['day']}#{d['seq']} 지정 주문: {d['order']}{tag}")
+        else:
+            pool = [i for i, u in _ck_day.items()
+                    if (u if u is not None else 99) <= d["day"] and _ck_st[i] == "confirmed"]
+            if pool:
+                report.append(f"슬롯 day{d['day']}#{d['seq']} 해금 풀({len(pool)}): {', '.join(pool)}{tag}")
     # L10N 누락 판정 — strict면 에러, 아니면 리포트에 집계만 (en은 emit 시 ko로 폴백돼 빈 화면은 없음)
     if l10n_missing:
         if STRICT_L10N:
@@ -2322,7 +2658,7 @@ SHEET_GROUP = {
     "GuestBodies": "master", "Days": "schedule", "RandomWaves": "schedule", "RegularSlots": "schedule", "Spots": "schedule", "InteractPoints": "schedule",
     "Scenes": "script", "Steps": "script", "Choices": "script", "OrderRules": "script", "TextTags": "master", "BarkSituations": "master",
     "Quests": "script", "QuestStages": "script", "Endings": "script",
-    "Config": "balance", "GradeCuts": "balance", "GradePayout": "balance", "AffinityMatrix": "balance", "Tastes": "balance", "Dossier": "master",
+    "Config": "balance", "GradeCuts": "balance", "SettlementRules": "balance", "ScoreBands": "balance", "AffinityMatrix": "balance", "Tastes": "balance", "Dossier": "master",
     "UIStrings": "etc",
 }
 
@@ -2332,32 +2668,38 @@ COL_DOCS = {
         "id": "snake_case 고유 id. 다른 시트가 이 값으로 이 칵테일을 가리킨다 — 한 번 정하면 바꾸지 말 것(참조가 전부 깨짐)",
         "name_ko": "메뉴판·주문에 뜨는 이름(한국어). 필수",
         "name_en": "영어 이름. 8월 번역 전까진 비워도 됨(비우면 빌드가 ko로 폴백)",
-        "price": "판매가(골드). 정산 매출과 팁 계산의 기준값 — 팁 = 가격 × 등급 팁배율 × 손님 성격 배율",
+        "status": "confirmed(수량 확정 — RecipeLines 수량 필수)/tbd(신규 13종 — 수량 공란 허용, 수량 확정 파일 수령 시 confirmed로 전환)",
+        "price": "판매가(골드). 정산 매출·팁·배상 계산의 기준값 — SettlementRules 시트의 배율이 이 값에 곱해진다",
         "abv": "도수(%). 손님 취향 판정(cocktail.abv)과 삼호 취함 분기(abv>=20)에 쓰인다",
         "glass": "정답 잔 — ShelfItems에서 kind=glass인 id. 비우면 정답이 '병째로'(병맥주). 플레이어가 ① 잔 선반에서 고른다",
         "mix": "섞는 방식 정답 — none(안 섞음)/build(가볍게 젓기)/stir(스터)/shake(셰이크). 플레이어가 ② 도구 선반에서 고른 도구와 대조: shake→셰이커, stir·build→믹싱글라스",
-        "prep": "병 개봉 정답 — 공란(열 것 없음)/cap(병뚜껑 3연타)/cork(코르크는 천천히 2바퀴, 급하면 부스러져 감점). 도구 '따개' 하나가 둘 다 담당",
-        "recipe_desc_ko": "제조법 설명(한국어) — 정보 화면과 레시피 팝업에 그대로 뜨는 문장. 손으로 적는다. RecipeLines는 채점 정답표이고 이 칸은 표시 전용이라, 수치를 고치면 이 문장도 같이 고쳐야 한다",
+        "prep": "병 개봉 정답 — 공란(열 것 없음)/cap(병뚜껑 따기). ※ cork(와인 오프너)는 데모 제외 — 정식 버전에서 재논의",
+        "recipe_desc_ko": "제조법 설명(한국어) — 레시피 UI 상세 패널에 그대로 뜨는 문장. 손으로 적는다. RecipeLines는 채점 정답표이고 이 칸은 표시 전용이라, 수치를 고치면 이 문장도 같이 고쳐야 한다",
         "recipe_desc_en": "제조법 설명(영어)",
         "(파생)sprite": "대표 이미지 키 — Finished_{아이디 파스칼표기}. 목차·정보 화면·완성 잔 표시가 쓴다. 구엔진 겹침 4종은 기존 에셋 재사용",
         "(파생)serve_sprite": "제공 컷씬 이미지 키 — Serve_{아이디 파스칼표기}",
-        "fill": "마지막에 잔을 채우는 재료(kind=ingredient, category=mixer). 채점: 정확히 일치해야 1점. 없으면 비움",
         "garnish": "정답 가니시 — ShelfItems에서 kind=garnish인 id. 플레이어가 ③ 가니시 선반에서 고른다. 비우면 정답은 '없음'(플레이어도 '없음'을 골라야 정답)",
         "color": "잔에 채워질 액체 색(R,G,B). 예: 255,255,255",
-        "tags": "맛 분류 키워드. 세미콜론(;)으로 구분. 손님 취향 판정의 cocktail.tag(태그명)가 이 값을 본다",
+        "color2": "그라데이션 하단 색(R,G,B). 단색이면 비움 — 현재 oasis_sunset만 사용",
+        "tags": "분류 키워드. 세미콜론(;)으로 구분. Tags 시트에 등록된 값만 허용(맛/느낌 2분류) — 레시피 UI 필터와 손님 취향 판정(cocktail.tag)이 이 값을 본다",
         "flavor_ko": "메뉴판에 뜨는 한 줄 설명(한국어). 손님이 고민할 때 분위기를 만드는 문구",
         "flavor_en": "위 설명의 영어판. 비워도 됨(ko 폴백)",
-        "unlock_day_override": "해금일을 손으로 지정. 비우면 재료들의 해금일에서 자동 계산. 재료보다 이른 날을 넣으면 빌드가 경고(메뉴엔 뜨는데 못 만드는 상태 — 대본 지정 제조용이면 정상)",
-        "unlock_when": "조건부 해금(when 문법). 예: flag.q_samho_honey_done — 퀘스트를 깨야 열리는 히든 레시피에 사용",
-        "tier_override": "난이도(T1~T5)를 손으로 지정. 비우면 기믹 개수로 자동 계산. 기믹 수와 체감 난이도가 다를 때 사람이 보정한다",
+        "unlock_day": "며칠차부터 메뉴에 나오는지(Day 0 스타트 — 0=처음부터). 99=날짜로는 안 열림(unlock_when 필수). ※ 대본 지정 제조(craft 스텝)는 해금을 무시한다",
+        "unlock_when": "조건부 해금(when 문법). 예: flag.q_퀘스트id_done — 퀘스트를 깨야 열리는 히든 레시피에 사용",
+        "time_limit_sec": "제조 제한시간(초) — 수동 정본. 초과해도 제조는 계속되고 OvertimeBands(ScoreBands 시트)로 감점만 된다",
+        "mixing_ice": "믹싱(셰이커·믹싱글라스)에 넣는 얼음 — none/cubed(각얼음)/crushed(크러시드)",
+        "serving_ice": "서빙 잔에 넣는 얼음 — none/cubed/crushed. 레시피 UI 얼음 행이 이 두 칸을 표시한다",
     },
     "RecipeLines": {
         "cocktail_id": "이 재료 줄이 속한 칵테일 id (Cocktails 참조)",
         "seq": "표시·채점용 순번. ※ 실행 순서가 아니다 — 실제 기믹은 개봉→따르기→스퀴즈→파우더→믹스→필업 순서로 강제된다",
-        "action": "투입 방식 — pour(따르기)/squeeze(스퀴즈)/powder(파우더). 재료의 category가 아니라 이 값이 어떤 기믹이 나올지 결정",
+        "action": "투입 방식 — pour(따르기)/squeeze(스퀴즈)/powder(파우더)/fill_up(필업). 재료의 category가 아니라 이 값이 어떤 기믹이 나올지 결정",
         "ingredient_id": "넣을 재료 — ShelfItems에서 kind=ingredient인 id",
-        "qty": "목표량. 채점 공식은 '정답에 가까울수록 고득점'(오차 비율로 감점)",
-        "unit": "단위 — oz(온스)/ml/tsp(티스푼). 따르기·스퀴즈는 보통 oz, 파우더는 tsp",
+        "qty": "목표량. 오차 비율을 QuantityBands(ScoreBands 시트)에 대조해 그 기믹 점수가 된다 — fill_up도 pour와 동일하게 채점. status=tbd 칵테일만 수량 확정 전까지 비움",
+        "unit": "단위 — oz(온스, ×30ml)/ml/tsp(티스푼, ×5ml)",
+        "is_core": "핵심 재료(TRUE/FALSE). 핵심 재료를 빼먹으면 감점이 아니라 Sewage 확정",
+        "auto_apply": "자동 투입(TRUE/FALSE). 데모의 설탕(powder)과 스퀴즈(squeeze)는 TRUE — 플레이어 조작 없이 적용되고 채점·제조시간에서 빠진다",
+        "scored": "채점 대상(TRUE/FALSE) — auto_apply·noscore 플래그면 FALSE. 데모의 powder/squeeze는 FALSE",
     },
     "ShelfItems": {
         "id": "고유 id. 레시피·칵테일의 잔/가니시 칸이 이 값을 참조한다",
@@ -2367,11 +2709,15 @@ COL_DOCS = {
         "category": "재료(kind=ingredient)일 때만 의미 — 어떤 기믹으로 갈지 결정. base·liqueur·wine_beer·juice·dairy·syrup=따르기 / fruit=스퀴즈 / powder=파우더 / mixer=필업",
         "color": "액체 렌더용 RGB. 스퀴즈·파우더 재료나 잔·도구는 비워도 됨",
         "sprite": "잔·도구·가니시의 스프라이트 리소스 키. 재료는 비움 (※ 아트 파일명 = 이 값)",
-        "unlock_day": "며칠차부터 선반에 나오는지. 1=처음부터, N=그날 입고, 99=날짜로는 영원히 안 열림(퀘스트 전용 — unlock_when 필수, 없으면 빌드 에러)",
-        "unlock_when": "조건부 입고(when 문법). 조건이 참이 되면 다음 입고 화면에 등장한다. 예: flag.q_samho_honey_done",
+        "unlock_day": "며칠차부터 선반에 나오는지(Day 0 스타트). 0=처음부터, N=그날 입고, 99=날짜로는 영원히 안 열림(퀘스트 전용 — unlock_when 필수, 없으면 빌드 에러)",
+        "unlock_when": "조건부 입고(when 문법). 조건이 참이 되면 다음 입고 화면에 등장한다. 예: flag.q_퀘스트id_done",
         "shop_price": "퇴근길 노점 판매가. 비우면 비매품. ※ 현재는 자동 입고가 기본이고 상점은 히든 재료용 보조 경로",
         "desc_ko": "입고 화면·제조 화면에서 보이는 설명(한국어)",
         "desc_en": "위 설명의 영어판(비워도 됨)",
+        "default_action": "레시피 밖에서 이 재료를 선택했을 때 실행할 기본 행동 — pour/fill_up/squeeze/powder. 정답 레시피의 action을 대신하지 않는다",
+        "prep_action": "재료 본 동작 전에 필요한 선행 행동 — 공란/open. 현재 beer만 open",
+        "default_target_qty": "레시피 밖 수량 기믹을 정상 종료하기 위한 기본 목표량. 정답 점수로 사용하지 않고 UNEXPECTED 재료 기록에만 사용",
+        "default_target_unit": "default_target_qty의 단위 — oz/ml/tsp",
     },
     "Characters": {
         "id": "고유 id. 대사(Steps.actor)·취향·수첩이 전부 이 값으로 인물을 가리킨다",
@@ -2424,6 +2770,7 @@ COL_DOCS = {
     "Tags": {
         "tag_ko": "태그 한글 표기(정본 키). Cocktails.tags와 Tastes의 cocktail.tag(...)이 이 값을 그대로 쓴다",
         "tag_en": "영어 표기 — 정보 화면 키워드가 EN 빌드에서 이 값을 표시",
+        "category": "분류 — taste(맛)/feel(느낌). 레시피 UI 목차 필터가 두 그룹으로 나눠 보여준다",
         "note": "작업 메모",
     },
     "Personalities": {
@@ -2501,7 +2848,7 @@ COL_DOCS = {
     "RandomWaves": {
         "day": "몇 일차의 손님인지",
         "seq": "그날 몇 번째로 오는 손님인지. RegularSlots와 번호를 나눠 쓴다 — 같은 날 같은 번호가 양쪽에 있으면 빌드 에러",
-        "tier": "이 손님이 주문할 칵테일의 난이도(T1~T5). 그 시점에 해금된 같은 티어 칵테일 중에서 무작위로 뽑는다 — 해당 티어가 0종이면 빌드 에러",
+        "order": "주문할 칵테일 id 직접 지정. 비우면 그날 해금된 칵테일 전체에서 무작위 추첨 — 해금 전 칵테일을 지정하면 빌드 에러",
         "personality": "손님 성격(Personalities의 id). 비우면 무작위",
         "delay_sec": "앞 손님으로부터 몇 초 뒤에 들어오는지. 35~50초가 '한적한 슬럼가' 기본값",
         "max_rounds": "이 손님이 몇 잔이나 주문하는지(보통 1)",
@@ -2511,7 +2858,7 @@ COL_DOCS = {
         "day": "몇 일차에 들르는지",
         "seq": "그날 몇 번째로 오는지. RandomWaves와 번호를 나눠 쓴다 — 같은 날 같은 번호가 양쪽에 있으면 빌드 에러",
         "character": "누가 오는지(Characters의 id). 필수 — 이름 없는 랜덤 손님은 RandomWaves 시트에",
-        "tier": "1부 카메오로 왔을 때 주문할 칵테일의 난이도(T1~T5)",
+        "order": "1부 카메오로 왔을 때 주문할 칵테일 id. 비우면 그날 해금 풀에서 추첨",
         "delay_sec": "앞 손님으로부터 몇 초 뒤에 들어오는지",
         "max_rounds": "몇 잔이나 주문하는지(보통 1)",
         "branch_choice": "분기 선택지가 붙는 슬롯인지(TRUE/FALSE)",
@@ -2592,7 +2939,7 @@ COL_DOCS = {
         "quest_id": "어느 퀘스트의 단계인지(Quests 참조)",
         "stage": "단계 번호(1부터). 마지막 단계를 끝내면 보상이 나온다",
         "goal": "목표 — serve:칵테일id(그 술을 정상 서빙하면 완료) 또는 interact:포인트id(그 지점을 조사하면 완료). ※ 오제조나 sewage 등급은 인정되지 않는다",
-        "when": "이 단계가 활성화될 조건. 보통 수주 플래그(예: flag.q_samho_honey_started)",
+        "when": "이 단계가 활성화될 조건. 보통 수주 플래그(예: flag.q_퀘스트id_started)",
         "on_complete": "이 단계를 넘길 때 실행할 효과(effects 문법). 비워도 됨",
     },
     "Endings": {
@@ -2612,10 +2959,21 @@ COL_DOCS = {
         "grade": "등급 이름 — excellent/good/decent/poor/sewage",
         "min_pct": "이 등급을 받기 위한 최소 점수(%). **위에서부터 확인**해 처음 넘는 등급이 된다(92점이면 95 미달 → 80 이상이므로 good)",
     },
-    "GradePayout": {
+    "SettlementRules": {
         "grade": "등급 이름(GradeCuts와 짝)",
-        "revenue_mult": "술값 배율. 1.0=정가 다 받음, **음수면 배상**(-1.0 = 술값만큼 물어줌). sewage와 오제조만 음수",
-        "tip_mult": "팁 비율(술값 대비). 여기에 손님 성격의 tip_mult가 한 번 더 곱해진다. 0이면 팁 없음",
+        "sale_rate": "판매가 수취 비율. 1.0=정가 다 받음, 0=못 받음(sewage)",
+        "tip_rate": "팁 비율(판매가 대비). 여기에 랜덤 손님은 성격 tip_mult가 한 번 더 곱해진다(단골은 일괄 1.0). 0이면 팁 없음",
+        "refund_rate": "배상 비율(판매가 대비). sewage만 1.0 — 주문 불일치도 등급이 sewage로 강제되므로 이 줄을 탄다",
+        "note": "작업 메모",
+    },
+    "ScoreBands": {
+        "band_type": "quantity(수량 오차 → 그 기믹 점수) / overtime(제한시간 초과 비율 → 전체 감점)",
+        "min_ratio": "구간 하한(비율). 위에서부터 첫 일치 구간이 적용된다",
+        "max_ratio": "구간 상한(비율). 비우면 무한대",
+        "min_inclusive": "하한 포함 여부(TRUE=이상, FALSE=초과) — 경계값 모호성 제거용",
+        "max_inclusive": "상한 포함 여부(TRUE=이하, FALSE=미만)",
+        "score_or_penalty": "quantity면 그 기믹의 점수(0~100), overtime이면 전체 점수에서 뺄 감점",
+        "note": "작업 메모",
     },
     "AffinityMatrix": {
         "taste_tier": "손님의 취향 등급(Tastes의 tier) — love/good/ok/dislike, 그리고 miss(주문과 다른 술을 냈을 때)",
@@ -2660,13 +3018,14 @@ SHEET_DOCS = {
     "Quests": "퀘스트 기본 정보와 보상",
     "QuestStages": "퀘스트의 단계별 목표. 마지막 단계를 끝내면 Quests의 보상이 나온다",
     "Endings": "엔딩 조건. priority 순으로 확인해 처음 맞는 엔딩으로 확정된다",
-    "Config": "게임 전역 상수. 시작 골드·시간대·제한시간 공식·페널티 등",
+    "Config": "게임 전역 상수. 시작 골드·시간대·기믹 가중치·페널티 등",
     "BarkSituations": "1부 대사 상황 사전 + 상황별 기본 표정. Barks.situation의 정본 목록",
     "GuestBodies": "랜덤 손님 공용 외형 카탈로그 — 슬롯 9종(바디·의상·아우터·목걸이·눈·눈썹·입·헤어·팔 액세서리)을 성별 맞춰 조합. 스폰 시 성별 추첨 후 (성별×성격) 유효 조합 풀에서 weight 곱 가중 랜덤",
     "GuestBodyExclusions": "랜덤 손님 외형 금지 조합 — 한 행 = 함께 나오면 안 되는 파츠 쌍 하나. 현재 팔 액세서리×소매 상의 6행",
     "TextTags": "텍스트 연출 태그 정의 — <world> 색·<slow> 속도·<big> 크기 등. 대사에 쓴 태그는 반드시 여기 등록",
     "GradeCuts": "제조 점수(%)를 5등급으로 나누는 기준선",
-    "GradePayout": "등급별 정산 — 술값을 얼마나 받고 팁이 얼마나 붙는지. 음수면 배상",
+    "SettlementRules": "등급별 정산 — 판매가·팁·배상 비율. 주문 불일치는 등급이 sewage로 강제된다",
+    "ScoreBands": "채점 구간표 — 수량 오차(quantity)와 시간 초과(overtime)를 구간별 점수/감점으로 변환",
     "AffinityMatrix": "취향 × 등급 → 호감도 증감표. 이 게임의 감정 시스템 핵심",
     "UIStrings": "버튼·시스템 문구 모음(대사가 아닌 UI 텍스트)",
 }
@@ -2686,7 +3045,7 @@ def add_sheet(wb, name, headers, rows):
         if str(h).startswith("(파생)"):
             body = ("[자동 계산 컬럼]\n"
                     "빌드가 값을 채우는 칸이다. 손으로 고쳐도 다음 빌드에서 덮어써진다.\n"
-                    "계산 근거를 바꾸고 싶으면 재료·레시피·override 컬럼을 수정할 것.")
+                    "이미지 키는 id에서 파생된다 — id를 바꾸면 아트 파일명 대응도 함께 깨진다.")
             c.fill = DERIVED_FILL
         elif h in docs:
             body = docs[h]
@@ -2736,7 +3095,7 @@ def add_sheet(wb, name, headers, rows):
 WORKBOOK_OF = {
     **{s: "System" for s in [
         "Cocktails", "RecipeLines", "ShelfItems", "Personalities", "GuestBodies",
-        "GuestBodyExclusions", "RandomWaves", "Config", "GradeCuts", "GradePayout", "Tags"]},
+        "GuestBodyExclusions", "RandomWaves", "Config", "GradeCuts", "SettlementRules", "ScoreBands", "Tags"]},
     **{s: "Narrative" for s in [
         "Scenes", "Steps", "Choices", "Barks", "OrderRules", "Quests", "QuestStages",
         "Endings", "Dossier", "RegularSlots", "Characters", "Expressions",
@@ -2750,13 +3109,13 @@ WORKBOOK_FILES = {"System": "LUNA_System.xlsx", "Narrative": "LUNA_Narrative.xls
 def emit_xlsx(derived):
     # 1) 전 시트 데이터 구성 (name → (headers, rows))
     sheets = {
-        "Cocktails": (CK_COLS + ["(파생)tier", "(파생)gimmick", "(파생)unlock_day", "(파생)scoring_items", "(파생)time_limit", "(파생)sprite", "(파생)serve_sprite"],
-            [list(c) + [f"T{derived[c[0]]['tier']}", derived[c[0]]["gimmick_count"], derived[c[0]]["unlock_day"],
-                        derived[c[0]]["scoring_items"], derived[c[0]]["time_limit_sec"],
-                        derived[c[0]]["sprite"], derived[c[0]]["serve_sprite"]] for c in COCKTAILS]),
+        "Cocktails": (CK_COLS + ["(파생)sprite", "(파생)serve_sprite"],
+            [list(c) + [derived[c[0]]["sprite"], derived[c[0]]["serve_sprite"]] for c in COCKTAILS]),
         "Tags": (TAG_COLS, TAGS),
-        "RecipeLines": (["cocktail_id", "seq", "action", "ingredient_id", "qty", "unit"],
-            [[cid, i + 1, a, ing, q, u] for cid, lines in RECIPES.items() for i, (a, ing, q, u) in enumerate(lines)]),
+        "RecipeLines": (["cocktail_id", "seq", "action", "ingredient_id", "qty", "unit", "is_core", "auto_apply", "scored"],
+            [[cid, i + 1, l["action"], l["ingredient"], l["qty"], l["unit"],
+              l["is_core"], l["auto_apply"], l["scored"]]
+             for cid in RECIPES for i, l in enumerate(recipe_lines(cid))]),
         "ShelfItems": (SHELF_COLS, SHELF_ITEMS),
         "Characters": (CHAR_COLS + ["base_body"], [list(c) + [BASE_BODY.get(c[0], "")] for c in CHARACTERS]),
         "Expressions": (EXPR_COLS, EXPRESSIONS),
@@ -2783,7 +3142,8 @@ def emit_xlsx(derived):
         "Config": (CONFIG_COLS,
             [(k, v, type(v).__name__, n) for k, v, n in CONFIG]),   # type을 시트에 명시 — 신규 키도 타입 보존
         "GradeCuts": (["grade", "min_pct"], GRADE_CUTS),
-        "GradePayout": (["grade", "revenue_mult"], GRADE_PAYOUT),
+        "SettlementRules": (SETTLE_COLS, SETTLEMENT_RULES),
+        "ScoreBands": (SCOREBAND_COLS, SCORE_BANDS),
         "AffinityMatrix": (["taste_tier", "excellent", "good", "decent", "poor", "sewage"], AFFINITY_MATRIX),
         "UIStrings": (UI_COLS, UI_STRINGS),
         "TextTags": (TEXTTAG_COLS, TEXT_TAGS),
@@ -2812,7 +3172,7 @@ def emit_xlsx(derived):
             ("", "재료·잔·도구·가니시를 손보고 싶다  →  ShelfItems"),
             ("", "랜덤 손님이 언제 몇 명 오는지      →  RandomWaves (단골 방문은 Narrative의 RegularSlots)"),
             ("", "손님 성격(팁·인내 배율)            →  Personalities (대사는 Narrative의 Barks)"),
-            ("", "난이도·보상을 조절하고 싶다        →  Config + GradeCuts + GradePayout"),
+            ("", "난이도·보상을 조절하고 싶다        →  Config + GradeCuts + SettlementRules + ScoreBands"),
             ("", ""),
             ("h2", "3-1. 옆 파일과의 약속"),
             ("", "• Personalities에 성격을 추가하면 → Narrative 담당에게 그 성격의 Barks 대사를 요청하세요. 없으면 손님이 침묵합니다(빌드가 경고)."),
@@ -2926,14 +3286,17 @@ def emit_json(derived):
     for c in COCKTAILS:
         d = dict(zip(CK_COLS, c))
         master["cocktails"].append({
-            "id": d["id"], "name": L(d["name_ko"], d["name_en"]), "price": d["price"], "abv": d["abv"],
-            "glass": d["glass"], "mix": d["mix"], "prep": d["prep"] or None, "fill": d["fill"], "garnish": d["garnish"],
-            "color": d["color"],
-            "tags": [{"ko": t, "en": TAG_EN[t]} for t in d["tags"].split(";")],
+            "id": d["id"], "name": L(d["name_ko"], d["name_en"]), "status": d["status"],
+            "price": d["price"], "abv": d["abv"],
+            "glass": d["glass"], "mix": d["mix"], "prep": d["prep"] or None, "garnish": d["garnish"],
+            "color": d["color"], "color2": d["color2"] or None,
+            "mixing_ice": d["mixing_ice"], "serving_ice": d["serving_ice"],
+            "tags": [{"ko": t, "en": TAG_EN[t], "category": TAG_CATEGORY[t]} for t in d["tags"].split(";")],
             "flavor": L(d["flavor_ko"], d["flavor_en"]),
             "recipe_desc": L(d["recipe_desc_ko"], d["recipe_desc_en"]),
-            "unlock_when": d["unlock_when"] or None,
-            "recipe": [dict(zip(["action","ingredient","qty","unit"], l)) for l in RECIPES[d["id"]]],
+            "unlock_day": d["unlock_day"], "unlock_when": d["unlock_when"] or None,
+            "time_limit_sec": d["time_limit_sec"],
+            "recipe": recipe_lines(d["id"]),
             **derived[d["id"]],
         })
     # v1.9: 재료·잔·도구·가니시 통합 — kind가 어느 선반 화면에 놓일지를 결정
@@ -2942,7 +3305,11 @@ def emit_json(derived):
             "id": d["id"], "kind": d["kind"], "name": L(d["name_ko"], d["name_en"]),
             "category": d["category"] or None, "color": d["color"], "sprite": d["sprite"] or None,
             "unlock_day": d["unlock_day"], "unlock_when": d["unlock_when"] or None,
-            "shop_price": d["shop_price"], "desc": L(d["desc_ko"], d["desc_en"])})
+            "shop_price": d["shop_price"], "desc": L(d["desc_ko"], d["desc_en"]),
+            "default_action": d["default_action"] or None,
+            "prep_action": d["prep_action"] or None,
+            "default_target_qty": d["default_target_qty"],
+            "default_target_unit": d["default_target_unit"] or None})
     for c in CHARACTERS:
         d = dict(zip(CHAR_COLS, c))
         master["characters"].append({"id": d["id"], "name": L(d["name_ko"], d["name_en"]),
@@ -2998,7 +3365,9 @@ def emit_json(derived):
     dump("balance.json", {
         "config": {k: v for k, v, _ in CONFIG},
         "grade_cuts": [dict(zip(["grade","min_pct"], g)) for g in GRADE_CUTS],
-        "grade_payout": {g: {"revenue_mult": rv} for g, rv in GRADE_PAYOUT},
+        "settlement_rules": {g: {"sale_rate": s, "tip_rate": t, "refund_rate": r}
+                             for g, s, t, r, _ in SETTLEMENT_RULES},
+        "score_bands": [dict(zip(SCOREBAND_COLS[:-1], b[:-1])) for b in SCORE_BANDS],
         "affinity_matrix": [dict(zip(["taste_tier","excellent","good","decent","poor","sewage"], a)) for a in AFFINITY_MATRIX],
     })
     dump("days.json", [{**{k: v for k, v in zip(DAY_COLS, d) if k not in ("label_ko", "label_en")}, "label": L(d[1], d[2])} for d in DAYS])
@@ -3051,12 +3420,13 @@ def emit_json(derived):
     place_members = {}
     for x in SCENES:
         place_members.setdefault(PLACE_OF.get(dict(zip(SCENE_COLS, x))["phase"], "cutscene"), []).append(x)
+    # 바 장면이 없는 일차도 빈 파일을 생성한다. 일차 파일의 부재와 '그날 바 장면 없음'을 구분하기 위함.
     bundles = [(f"script/bar/day{d}.json", [x for x in place_members.get("bar", []) if x[1] == d], "bar")
-               for d in sorted({x[1] for x in place_members.get("bar", [])})]
+               for d in sorted({x[0] for x in DAYS})]
     bundles += [(f"script/{pl}.json", place_members.get(pl, []), pl) for pl in ("home", "street", "cutscene")]
     for fname, members, place in bundles:
         scenes, used_choices = [], set()
-        for s in sorted(members, key=lambda x: (x[1], PHASE_RANK.get(x[2], 9), x[3])):
+        for s in sorted(members, key=lambda x: (-1 if x[1] is None else x[1], PHASE_RANK.get(x[2], 9), x[3])):   # None = 상시 씬을 맨 앞에
             sd = dict(zip(SCENE_COLS, s))
             steps = []
             for st in sorted([x for x in STEPS if x[0] == s[0]], key=lambda x: x[1]):
@@ -3085,7 +3455,7 @@ def main():
     if errors:
         lines.append(f"❌ 오류 {len(errors)}건:"); lines += ["  " + e for e in errors]
     else:
-        lines.append("✅ 검증 통과: 참조 무결성 · 티어 공식 · 슬롯 풀 · L10N(ko/en) · 루나 대사 규칙 전부 정상")
+        lines.append("✅ 검증 통과: 참조 무결성 · 레시피 플래그 · 주문 풀 · L10N(ko/en) · 루나 대사 규칙 전부 정상")
     lines.append(f"칵테일 {len(COCKTAILS)} / 선반 {len(SHELF_ITEMS)} / 캐릭터 {len(CHARACTERS)} / 씬 {len(SCENES)} / 스텝 {len(STEPS)} / 선택지 {len(CHOICES)} / 웨이브 {len(RANDOM_WAVES)} / 단골슬롯 {len(REGULAR_SLOTS)} / UI문자열 {len(UI_STRINGS)}")
     print("\n".join(lines))
     with open(os.path.join(OUT, "빌드리포트.txt"), "w", encoding="utf-8") as f:

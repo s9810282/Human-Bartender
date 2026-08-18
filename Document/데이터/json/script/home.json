@@ -3,7 +3,7 @@
   "scenes": [
     {
       "id": "np_tv_1",
-      "day": 0,
+      "day": null,
       "phase": "home",
       "seq": 1,
       "trigger": "interact",
@@ -68,7 +68,7 @@
     },
     {
       "id": "np_tv_2",
-      "day": 0,
+      "day": null,
       "phase": "home",
       "seq": 2,
       "trigger": "interact",
@@ -120,7 +120,7 @@
     },
     {
       "id": "d1_home_talk",
-      "day": 1,
+      "day": 0,
       "phase": "home",
       "seq": 1,
       "trigger": "auto",
@@ -218,7 +218,7 @@
     },
     {
       "id": "d2_home_talk",
-      "day": 2,
+      "day": 1,
       "phase": "home",
       "seq": 1,
       "trigger": "auto",
@@ -426,19 +426,6 @@
             "en": "...Not yet. When it's time, I'll tell you."
           },
           "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "…삼호와 거래를 텄다고? 나쁠 건 없지. 다만 걔 물건엔 늘 이야기가 붙어 있다. 조심해라.",
-            "en": "...You cut a deal with Samho? No harm in that. Just know his goods always come with a story attached. Be careful."
-          },
-          "when": "flag.q_samho_honey_done",
           "effects": null,
           "sync": "wait"
         },

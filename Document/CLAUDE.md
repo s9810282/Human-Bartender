@@ -14,7 +14,7 @@
 **하루 구조(엔진 고정 순서)**: home(기상) → commute_in(출근길) → bar_open(개점 대화) → **1부**(랜덤 손님 실시간 응대)
 → **2부**(단골 비주얼 노벨) → 정산 → commute_out(퇴근길) → home(테라스) → dream → 다음날
 
-**일정**: 8/31 넥스타 데모 제출(Day1~3, EN 포함) ← 크리티컬 패스 / 8/25 텀블벅 사전예약 / 10월 페스트 /
+**일정**: 8/31 넥스타 데모 제출(Day 0~3, 총 4일·EN 포함) ← 크리티컬 패스 / 8/25 텀블벅 사전예약 / 10월 페스트 /
 11월 크로니클 전시 / 27년 1월 말 스팀 EA
 
 **팀 11인** — 기획: 이준서(PD·연출·데이터)·고현정(시스템·컨텐츠)·이기현(시나리오)·임수진(컨텐츠·텀블벅·SNS) /
@@ -30,7 +30,7 @@ Document/
 │  ├─ LUNA_System.xlsx         제조·운영 (주인: 고현정)
 │  ├─ LUNA_Narrative.xlsx      대사·서사 (주인: 이준서)
 │  ├─ LUNA_Draft.xlsx          대사 초안 (주인: 이기현)
-│  ├─ json/                    빌드 산출물 — 게임이 읽는 23파일 + script/ 6파일
+│  ├─ json/                    빌드 산출물 — 게임이 읽는 23파일 + script/ 7파일
 │  ├─ tools/                   build.py · draft_tools.py · gen_luna_data.py
 │  └─ 구버전_데이터시트/          예전 엑셀 백업
 └─ 고현정/ 이기현/ 이준서/ 임수진/   개인 작업 폴더
@@ -42,7 +42,7 @@ Document/
 
 ```
 LUNA_System.xlsx(10시트) ┐
-LUNA_Narrative.xlsx(24시트) ┼→ build.py(96가지 검사) → json/ 23파일 + script/ 6파일 → 유니티
+LUNA_Narrative.xlsx(24시트) ┼→ build.py(96가지 검사) → json/ 23파일 + script/ 7파일 → 유니티
 LUNA_Draft.xlsx(6시트) ─┘      검사 실패 시 json을 아예 만들지 않는다
 ```
 
@@ -52,7 +52,8 @@ python3 tools/build.py               # 시트 → json (평소 쓰는 것)
 python3 tools/draft_tools.py import  # Draft 전달완료 행 → Narrative (PD만)
 ```
 
-script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscene.json`. 조회 키 (day, phase, seq), day 0 = 상시 씬.
+script 구성: `script/bar/day0~3.json` + `home.json` + `street.json` + `cutscene.json`. 조회 키 (day, phase, seq), day null = 상시 씬.
+Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.json`은 빈 장면 배열이며, 실제 Day 3 장면은 `street.json`·`home.json`·`cutscene.json`에 들어간다.
 
 ## 절대 규칙
 
@@ -82,12 +83,14 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
 ## 핵심 확정 사양
 
 - **1부 시작** = 개점 대화(bar_open) 종료 시 자동. day1은 bar_open 씬이 없어 바 진입 즉시. OPEN 간판 클릭은 제거됨.
-- **인내심(비가시 — 대사 4단계로만 전달)**: 코스터 = max(12, 22−tier×1.5)×성격 patience_mult /
-  서빙 = 제한시간+max(10, 40−tier×3), 성격 미적용. 50%/80%에 urge/final. 제조 중엔 전 좌석 정지.
+- **인내심(비가시 — 대사 4단계로만 전달, 티어 폐지)**: 코스터 = 22(고정)×성격 patience_mult, 하한 12·상한 60 /
+  서빙 = 제한시간+max(10, 40−칵테일 해금일×3), 성격 미적용. 50%/80%에 urge/final.
+  제조 정지 구간 = 칵테일 메뉴 진입 ~ 제공/버리기 선택 후 테이블 복귀(레시피 열람은 제조 시간 미포함, 버리기 재제조도 계속 정지).
 - **주문 대사 3개**: 코스터 드롭 → ask_order(루나)→order_think→order 순서. 대사 사이 텀 = config `order_bark_gap_sec`(1.5).
   랜덤 손님은 personalities `think_chance`(0~1) 굴림 실패 시 order_think 생략, **카메오는 항상 재생**.
-- **정산**: 배율 1.2/1.0/0.7/0.3/−1.0. 팁 = 초과분×tip_mult(excellent만, 버림).
-  **단골은 tip_mult 없이 일괄 1.0**(excellent=술값 20%). sewage·오제조 전액 배상. 골드 음수 허용.
+- **정산(제조 개편)**: `balance.json → settlement_rules` — 매출 = 가격×sale_rate + 가격×tip_rate×성격 tip_mult, 배상 = 가격×refund_rate.
+  excellent만 팁 20%, sewage만 판매가 전액 배상(sale 0). **단골은 tip_mult 없이 일괄 1.0**. 골드 음수 허용.
+  **주문 ≠ 제공 칵테일이면 점수 무관 강제 sewage**(config `force_sewage_on_order_mismatch`), 핵심 재료(is_core) 누락도 강제 sewage.
 - **바의 루나 = 1인칭.** 초상·스탠딩 없이 화면에 나오지 않고, 대사창엔 이름+본문만. character_anim의 luna 항목은 예약(미사용).
 - **2부**: order→craft→serve 3종 세트. 제조 게이트 = **craft 스텝**(arg `order`/`tutorial:id`).
   **serve 대상 = 직전 order 스텝의 actor**(씬 주인공으로 추론하면 틀린다).
@@ -100,12 +103,17 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
   남자 파츠는 실물 반영(의상 8·눈 3·눈썹 3·입 3·헤어 2·액세서리 3) — 여자 눈썹·입은 자리 행(아트 발주 ❗), 엔진 렌더러 구현 대기.
 - **랜덤 손님은 day2부터** 등장(random_waves에 day1 없음). day1 바 = 크리스 튜토리얼 + 포트 첫 잔.
 - **1부 지정 이벤트 = regular_slots 카메오.** cameo_scene은 서빙 후 재생, 씬 안 choice 스텝으로 선택지 가능.
-  씬 재생 중(선택지 포함) 전 좌석 타이머 정지(제조 정지와 동일). 주문 칵테일 지정 불가 — tier 풀 추첨,
-  받은 술 분기는 order_rules.json(현재 day4 삼호 가안 4행).
-- 칵테일 17종(생맥주 제거, 병맥주 = mug + 뚜껑 + beer pour). 카메오는 전용 대사만(공용 폴백 금지).
-  제조 정본 = 노션 「칵테일 제조 시스템」(3ae1612298dc800cb633f45c4ac4aec7) — 제조법 표시는 recipe_desc 수동 문안(ko/en),
-  채점 정답표는 recipe·glass·mix·prep·fill. 미결 설계 문제·결정 대기 16건은 그 문서 §11·§13.
-  이미지 키 = 파생(`Finished_{Pascal}`·`Serve_{Pascal}`), 태그는 Tags 시트(ko/en) 사전 강제, 등급 텍스트 = ui_grade_* 5키(언어 불문 영어).
+  씬 재생 중(선택지 포함) 전 좌석 타이머 정지(제조 정지와 동일). 주문 칵테일 = `order` 컬럼 직접 지정(공란=그날 해금 풀 추첨,
+  RandomWaves도 동일 — 티어 폐지), 받은 술 분기는 order_rules.json(현재 day3 삼호 가안 4행).
+- 칵테일 29종(기존 16 + 신규 13 `status=tbd` — 수량 확정 파일 수령 시 qty 채우고 confirmed 전환). 병맥주 = mug + 뚜껑 + beer pour.
+  카메오는 전용 대사만(공용 폴백 금지). 제조 정본 = 노션 「칵테일 제조 시스템」(3ae1612298dc800cb633f45c4ac4aec7) —
+  제조법 표시는 recipe_desc 수동 문안(ko/en), 채점 정답표는 recipe 라인(is_core/auto_apply/scored 플래그, fill_up이 구 fill 컬럼 흡수)·glass·mix·prep·얼음 2필드(mixing/serving).
+  잔 6종(cocktail/long_drink/old_fashioned/sour/wine/mug)·도구 2종(셰이커·믹싱글라스, 와인 오프너는 데모 제외 — 인수인계 §8-6).
+  설탕·스퀴즈·얼음 = 데모 자동 적용·비채점(config `powder_demo_behavior`·`squeeze_demo_behavior`·`ice_demo_behavior`), 셰이킹 = 성공+실패 합 20스택 자동 종료,
+  채점 = 종류별 대표 점수의 정규화 가중치 + 고정 감점, 구간 = `balance.json → score_bands`(수량 오차·시간 초과).
+  Fill-up = 순서만 다른 Pour(`weight_pour` 공유). 레시피 밖 재료 = `shelf_items.json → default_action`·기본 목표량으로 기믹 생성 후 UNEXPECTED 감점만 적용.
+  해금 = unlock_day 완전 수동(0일차 5종 시작, 파생 폐지), **대본 지정 제조(craft 스텝)는 해금 무시 + 필요 재료 노출**.
+  이미지 키 = 파생(`Finished_{Pascal}`·`Serve_{Pascal}`), 태그는 Tags 시트(ko/en) 사전 강제 + **category 2분류(taste 맛 8종 / feel 느낌 8종)**, 등급 텍스트 = ui_grade_* 5키(언어 불문 영어).
 - **선택지**: 조건(when) 미충족 항목은 숨기지 않고 **회색(비활성) + 부족 사유 문구**로 표시(사유 컬럼은 Choices 시트 열 추가 대기).
   세트 2~4개 + 세트마다 when 빈 항목 최소 1개(빌드 검증). 서사 스포일러는 선택지 잠금이 아니라 씬 단위 when으로 분기.
 - **씬 day는 auto 씬에서만 재생 일차를 정한다** — interact 씬의 재생 일차는 interact_points.when이 정하고 day는 참고 표기.
@@ -119,7 +127,7 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
   ② 본문은 **그 사물에 적힌 정보만** — 관찰·감상·설명체 금지(전단이면 "사람 구함 010-…"이 그대로)
   ③ 줍기·구매처럼 **행동이 붙으면 선택지로**(상자=줍는다/무시한다, 자판기=뽑는다/그만둔다 — 루나 말풍선 없이 버튼만, 배치 기준 ❓).
   정보도 서사도 없는 오브젝트는 배치하지 않는다(전봇대 예시). 현재 지점 6·앵커 8, sequential 실사용 0.
-- **거리 데이터 범위(PD 확정)**: 거리엔 외부에서 등장하는 것만 넣는다 — 컷씬(삼호 사망 등)·엔딩은 기획 완료 전까지 데이터에 넣지 않는다.
+- **거리 데이터 범위(PD 확정)**: 거리엔 외부에서 등장하는 장면만 넣는다. Day 3 결과 장면인 삼호 사망 목격·구출은 `street.json`에 포함하며, 집·꿈 장면은 각각 `home.json`·`cutscene.json`으로 분리한다.
 
 ## 설명 요령 (권장 — 규칙 아님)
 
@@ -153,14 +161,19 @@ script 구성: `script/bar/day1~3.json` + `home.json` + `street.json` + `cutscen
 
 - **1일차 완성 최우선**: 바 내부 배경 팬 방식 결정 ❓ (1일차 재료 스프라이트 9종은 제작 진행 중)
 - 사운드 전 항목 미발주(BGM 2·SFX 공용 5·전용 4), 선반 40종 중 25종 sprite 없음, 칵테일 이미지 신규 13종×2(대표·컷씬) 발주 필요(구엔진 재사용 4종 제외)
-- 유니티 StreamingAssets/json 29파일은 기획 배포본과 동일(7/30 PD가 develop에 반영). 구파일 5종(expressions·script/common·day_1~3)은
-  구 로더가 아직 읽고 있어 잔존 — 플머가 신 스키마 파싱(actor·trigger·think_chance 등, 노션 「데이터 변경 사항 07/30」)으로 갈아탄 뒤 삭제
-- 데드 콘텐츠: branch_choice 대상 0명, Tastes에 톰·하루·선하 0줄, 미완결 플래그 2건(`q_samho_honey_started`·`rios_accepted`),
-  **bees_knees 해금 불가**(unlock_day 99 + unlock_when null — 꿀 퀘스트 기획 시 조건 투입)
-- **일차 표기**: 데모는 표시 Day 0~3, 데이터 내부 day는 1부터(0 = 상시 씬 센티널이라 못 씀). 표시 = 내부 − 1.
-  새 최종일(표시 Day 3 = 내부 4)은 대본 확정 때 Days 행과 함께 추가. when 문법에 `meta.endings`(수집 엔딩 수, 세이브 밖 메타 저장) 추가됨 — 다회차 튜토리얼 스킵 조건용
-- 상자 퀘스트(lost_box)·크리스 쪽지(d1_note) 데이터 삭제됨 — 완 인사 씬(d2_vendor_intro)은 인사 3스텝만 유지, 시바 간식 선택지는 무조건 항목화
-- **제조 시스템 결정 대기 16건**(「칵테일 제조 시스템」 §11) — 최우선 = 틀린 재료의 기믹·채점 기준(§13.1)·2부 목차 잠금(§13.2), 이 둘이 플머 착수 차단
+- 유니티 StreamingAssets/json은 7/30 배포본(제조 개편 **이전**) — 이번 개편 json과 다르다. 재배포는 플머가 신 스키마
+  파싱을 갖춘 뒤 PD가 진행. 구파일 5종(expressions·script/common·day_1~3)도 그때 삭제
+- 데드 콘텐츠: branch_choice 대상 0명, Tastes에 톰·하루·선하 0줄, 미완결 플래그 1건(`rios_accepted`).
+  bees_knees·꿀 퀘스트(samho_honey)·상자 퀘스트(lost_box)·크리스 쪽지(d1_note)는 삭제 완료 — Quests 시트 현재 0행
+- **일차 표기(0일차 스타트 적용 완료)**: 표시 = 데이터, Day 0(튜토리얼)부터. 상시 씬 센티널은 day 0 → **공란(json null)**.
+  gen 시드는 구표기(1-based)로 적고 로드 시 `_shift_day` 블록이 일괄 −1(99 컨벤션은 유지, when 문자열의 day 비교도 함께 변환).
+  표시 Day 3(선택 결과 최종일)까지 `Days`와 결과 장면 반영 완료. when 문법에 `meta.endings`(수집 엔딩 수, 세이브 밖 메타 저장) 있음 — 다회차 튜토리얼 스킵 조건용
+- **제조 개편 데이터 반영 완료(08/18)** — 신규 시트 SettlementRules·ScoreBands(구 GradePayout 폐지), RecipeLines 9컬럼(플래그),
+  Cocktails 22컬럼(status·color2·ice 2필드·unlock_day·time_limit_sec 수동), ShelfItems 4컬럼(default_action·prep_action·기본 목표량·단위),
+  Config 계약 2.1.0(미니게임 초기값·정규화 점수 공식·자동 처리 3종), Tags category, RandomWaves/RegularSlots order 컬럼.
+  플머에게 전달 대기: 신 스키마 파싱 + 0-based 일차 + `script/bar/day0~3.json` 파일명 + 셰이킹 20스택 + 제조/서빙 등급 분리 + 지정 제조 해금 무시
+- 제조 잔여 결정: 신규 13종 수량(status=tbd — 확정 파일 수령 시 반영) ❓, 튜토리얼 칵테일 교체(크리스 dry_martini — 나중에 논의) ❓,
+  「칵테일 제조 시스템」 §11·§13 미결 중 이번 개편으로 해소 안 된 항목 정리 필요
 - **이펙터 인력 합류 확정** — 합류 시점에 맞춰 대본에서 이펙트를 부를 `Effects` 시트 신설 필요(현재 fx 실사용 3종·7회뿐)
 - 유지비 미납 배드엔딩 — 규칙 확정: 정산(유지비 차감 포함) 확정 직후 골드 음수면 즉시 `bad_gold`(when `money < 0`) →
   씬 `ed_bad_gold` 재생(톰이 코라테크에 루나 정보를 팔아 가게를 살리는 텍스트 엔딩). bad_gold만 정산 시 판정, 나머지 엔딩은 최종일.
