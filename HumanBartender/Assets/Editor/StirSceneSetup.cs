@@ -20,7 +20,8 @@ using UnityEngine.UI;
 /// 오른쪽 입력 무대(라운드 타이머 카드 + 아레나 + 하단 버튼) · 시작 오버레이.
 ///
 /// 1500x844 기준의 프로토타입 치수를 960x540 캔버스로 환산해 배치했다(비율 0.64).
-/// 캐릭터 무대 안의 그림(§2.1)과 잔 속 얼음(§2.2)은 아트 확정 후에 붙일 자리라 비워뒀다.
+/// 잔 속 얼음(§2.2)과 왼쪽의 정면 잔(§2.1)은 IceLayout 표 하나를 같이 쓴다 — 같은 조각을
+/// 탑다운과 정면으로 나눠 그리는 것이다. 캐릭터 본체는 아트 확정 후에 붙일 자리라 비워뒀다.
 /// </summary>
 public static class StirSceneSetup
 {
@@ -56,6 +57,46 @@ public static class StirSceneSetup
     const float SpoonLength = ArenaSize * 0.49f;
     /// <summary>스푼 피벗의 세로 위치(아래에서부터). 프로토타입 transform-origin 50% 86%.</summary>
     const float SpoonPivotY = 0.14f;
+
+    /// <summary>왼쪽 연출 영역의 정면 잔. 프로토타입 캐릭터 캔버스의 15% x 21% 비율을 옮겼다.</summary>
+    const float SideGlassW = 100f;
+    const float SideGlassH = 170f;
+    /// <summary>정면 잔의 위치. 사선에서 넉넉히 떨어진 왼쪽, 캐릭터 안내문 아래.</summary>
+    const float SideGlassX = -300f;
+    const float SideGlassY = -30f;
+    /// <summary>
+    /// 수면 높이(잔 중심 기준). 프로토타입보다 높다 — 거기서는 얼음이 잔 가운데를 채워서 물이 낮아도
+    /// 잔이 차 보였지만, 얼음을 띄우고 나면 얼음은 전부 수면에 모인다. 물이 낮으면 잔이 반쯤 빈 채로
+    /// 얼음만 가운데 떠 있는 그림이 된다.
+    /// </summary>
+    const float SideWaterline = SideGlassH * 0.24f;
+    /// <summary>
+    /// 정면 시점에서 원이 눕는 정도(세로/가로). 잔 속의 모든 원 — 입구 · 수면 · 얼음이 도는 궤도 —
+    /// 이 하나로 그려져야 같은 눈높이에서 본 것으로 읽힌다. StirSideGlassView에도 같은 값이 들어간다.
+    /// </summary>
+    const float SideDepthSquash = 0.34f;
+    /// <summary>물에 잠기는 비율. 얼음 밀도 0.917이라 거의 다 잠기고 윗모서리만 나온다.</summary>
+    const float IceSubmerged = 0.92f;
+
+    /// <summary>
+    /// 프로토타입 .ice-1~6의 배치. (x, y)는 탑다운 잔 크기 대비 비율이고, CSS는 y가 아래로
+    /// 커지므로 부호를 뒤집어 담았다.
+    ///
+    /// 두 화면이 이 표 하나를 같이 쓴다 — i번은 오른쪽 탑다운과 왼쪽 정면에서 같은 얼음이다.
+    /// 배치를 바꾸고 싶으면 이 표만 고치면 되고, 코드는 건드릴 필요가 없다.
+    ///
+    /// 세로 높이는 여기 없다. 정면 잔에서는 조각이 뜨는 높이를 손으로 정하지 않고 부력으로 구한다
+    /// (CreateSideGlass) — 얼음은 가라앉지 않기 때문이다.
+    /// </summary>
+    static readonly (float x, float y, float scale, float tilt, float spin)[] IceLayout =
+    {
+        (-0.185f,  0.145f, 1.00f,  12f,  0.90f),
+        ( 0.195f,  0.125f, 0.92f, -22f, -0.75f),
+        (-0.005f, -0.205f, 0.84f,  31f,  0.65f),
+        (-0.195f, -0.135f, 0.66f, -40f, -0.85f),
+        ( 0.205f, -0.175f, 0.70f,  52f,  0.60f),
+        ( 0.025f,  0.245f, 0.58f,  -8f, -0.62f),
+    };
 
     // ── 팔레트 (프로토타입 :root 변수) ──────────────────────────────────
     static readonly Color Bg = Hex("090e12");
@@ -122,7 +163,8 @@ public static class StirSceneSetup
 
         StirGaugeView gauge = CreateDiagonalGauge(playfield);
         (TMP_Text roundLimitText, TMP_Text roundTimeText, Image roundFill) = CreateRoundTimerCard(playfield);
-        StirGlassView glass = CreateArena(playfield, out TMP_Text judgeText);
+        StirGlassView glass = CreateArena(playfield, out TMP_Text judgeText, out StirIceSwirl ice);
+        CreateSideGlass(playfield, ice);          // 아레나 뒤에 만들어야 얼음 좌표를 받아갈 수 있다
         CreateFooterLine(playfield);
 
         (TMP_Text elapsedText, TMP_Text circleText, TMP_Text comboText, TMP_Text drinkNameText) =
@@ -135,7 +177,7 @@ public static class StirSceneSetup
 
         (Canvas buttonCanvas, Button serveButton, Button retryButton) = CreateButtonCanvas();
 
-        StirManager manager = CreateStirManager(root, glass, hud, buttonCanvas, drinkNameText,
+        StirManager manager = CreateStirManager(root, glass, hud, ice, buttonCanvas, drinkNameText,
             craftStationData, cocktailDataSO, balanceDataSO, craftServe, craftRetry);
 
         CreateInputHandler(root, manager);
@@ -150,7 +192,8 @@ public static class StirSceneSetup
 
         Debug.Log($"[StirSceneSetup] '{ScenePath}' 생성 완료. 화면 구성은 '스터 미니게임.html'을 따랐습니다.\n" +
                   "W / ↑ 로 시작하고, 이후 스푼이 가리키는 방위의 시계 방향 이웃 키만 누르면 됩니다 (W→D→S→A→W).\n" +
-                  "왼쪽 사선 무대(캐릭터 연출)와 잔 속 얼음은 아트 확정 후에 붙일 자리라 비워뒀습니다.");
+                  "왼쪽 정면 잔의 얼음은 오른쪽 탑다운 얼음의 좌표를 그대로 투영한 것이라 둘이 같이 돕니다.\n" +
+                  "캐릭터 본체와 손·스푼 연출은 아트 확정 후에 붙일 자리라 비워뒀습니다.");
     }
 
     // ── 뼈대 ────────────────────────────────────────────────────────────
@@ -277,10 +320,10 @@ public static class StirSceneSetup
         image.color = PanelSoft;
         image.raycastTarget = false;
 
-        // 아직 아무것도 없는 자리라는 걸 알려두는 안내. 아트가 들어오면 지운다.
-        CreateText(rect, "Placeholder", "CHARACTER STAGE\n(연출 · 아트 대기)", 11f,
+        // 캐릭터가 아직 없다는 안내. 잔은 아래에 따로 놓이므로 글자는 위로 비켜 준다.
+        CreateText(rect, "Placeholder", "CHARACTER STAGE\n(캐릭터 · 아트 대기)", 11f,
             new Color(Muted.r, Muted.g, Muted.b, 0.5f), TextAlignmentOptions.Center,
-            new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-190f, 0f), new Vector2(260f, 60f))
+            new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(-190f, 190f), new Vector2(260f, 60f))
             .transform.localRotation = Quaternion.Euler(0f, 0f, -angle);
     }
 
@@ -377,7 +420,7 @@ public static class StirSceneSetup
     }
 
     /// <summary>원형 입력판. 잔 · 스푼 시침 · 4방위 키 노드가 전부 이 안에 들어간다.</summary>
-    static StirGlassView CreateArena(Transform playfield, out TMP_Text judgeText)
+    static StirGlassView CreateArena(Transform playfield, out TMP_Text judgeText, out StirIceSwirl ice)
     {
         // 입력 무대(왼쪽 40% 제외)의 가로 중앙. 세로는 타이머 카드와 하단 버튼 사이의 가운데.
         float centerX = (0.40f * CanvasW + CanvasW) * 0.5f - CanvasW * 0.5f;
@@ -409,6 +452,10 @@ public static class StirSceneSetup
             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(1f, ArenaSize * 0.78f));
 
         CreateGlass(arena);
+
+        // 얼음은 잔 위, 스푼 아래에 온다. 스푼이 얼음을 쓸고 지나가야 젓는 것처럼 보인다.
+        ice = CreateIce(arena);
+
         RectTransform spoon = CreateSpoon(arena);
 
         var badges = new StirKeyBadge[StirDirections.Count];
@@ -446,9 +493,158 @@ public static class StirSceneSetup
         CreateImage(arena, "Liquid Swirl", circleSprite, new Color(Cyan.r, Cyan.g, Cyan.b, 0.10f),
             new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
             new Vector2(GlassSize * 0.82f, GlassSize * 0.82f));
+    }
 
-        // TODO(얼음): 잔 속 얼음은 아트 확정 후 여기에 붙인다. StirManager의 정답 판정 지점에서
-        //             휘돌림 임펄스를 받아 도는 구조로 계획해 뒀다.
+    /// <summary>
+    /// 탑다운 잔 속 얼음. StirIceSwirl은 여기서 놓인 위치에서 반지름과 시작 각도를 읽어간다.
+    /// 배치는 IceLayout 표가 정본이다.
+    /// </summary>
+    static StirIceSwirl CreateIce(Transform arena)
+    {
+        const float baseSize = GlassSize * 0.27f;   // 프로토타입 .ice의 width: 27%
+
+        RectTransform rootRect = CreateRect(arena, "Ice",
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
+            new Vector2(GlassSize, GlassSize));
+
+        var cubes = new StirIceSwirl.IceCube[IceLayout.Length];
+
+        for (int i = 0; i < IceLayout.Length; i++)
+        {
+            (float x, float y, float scale, float tilt, float spin) = IceLayout[i];
+
+            RectTransform cube = CreateIceCube(rootRect, $"Ice {i + 1}", baseSize * scale,
+                new Vector2(x * GlassSize, y * GlassSize), tilt);
+
+            cubes[i] = new StirIceSwirl.IceCube { target = cube, spinFactor = spin };
+        }
+
+        var swirl = rootRect.gameObject.AddComponent<StirIceSwirl>();
+        SetSerializedIceCubes(swirl, cubes);
+
+        // 얼음이 갇히는 반지름은 얼음 루트 크기가 아니라 잔 안쪽(테두리 두께를 뺀 몸통)이다.
+        SetSerializedField(swirl, "glassRadius", (GlassSize - 9f) * 0.5f);
+
+        return swirl;
+    }
+
+    /// <summary>얼음 한 조각의 그림. 탑다운과 정면이 같은 모양을 써야 같은 얼음으로 읽힌다.</summary>
+    static RectTransform CreateIceCube(Transform parent, string name, float size,
+                                       Vector2 anchoredPosition, float tilt)
+    {
+        RectTransform cube = CreateRect(parent, name,
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), anchoredPosition, new Vector2(size, size));
+        cube.localRotation = Quaternion.Euler(0f, 0f, tilt);
+
+        // 테두리 위에 조금 작은 안쪽 면을 얹어 각진 얼음 느낌을 낸다.
+        AddImage(cube.gameObject, roundedSprite, new Color(0.88f, 0.98f, 0.98f, 0.56f))
+            .type = Image.Type.Sliced;
+
+        CreateImage(cube, "Face", roundedSprite, new Color(0.62f, 0.85f, 0.84f, 0.22f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
+            new Vector2(size - 4f, size - 4f)).type = Image.Type.Sliced;
+
+        // 왼쪽 위 반사광 한 줄.
+        CreateImage(cube, "Glint", null, new Color(1f, 1f, 1f, 0.30f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(-size * 0.06f, size * 0.16f), new Vector2(size * 0.42f, 1.5f));
+
+        return cube;
+    }
+
+    /// <summary>
+    /// 왼쪽 연출 영역의 정면 믹싱 글라스(명세 §2.1). 얼음은 오른쪽 조각을 그대로 투영하므로
+    /// 여기서는 조각을 "잔 속 어느 높이에 뜨는가"만 정해 놓는다 — 가로 위치는 런타임에 덮인다.
+    ///
+    /// 캐릭터 무대(Character Stage)는 사선을 만들려고 통째로 기울어져 있어서 그 밑에 넣으면
+    /// 잔까지 기운다. 그래서 playfield에 직접 붙이고 좌표로만 왼쪽에 놓는다.
+    /// </summary>
+    static StirSideGlassView CreateSideGlass(Transform playfield, StirIceSwirl source)
+    {
+        const float wall = 5f;                       // 유리 두께
+        const float baseSize = SideGlassW * 0.30f;   // 프로토타입 drawIce의 glassW 대비 크기
+
+        RectTransform glass = CreateRect(playfield, "Side Glass",
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(SideGlassX, SideGlassY), new Vector2(SideGlassW, SideGlassH));
+
+        // 밝은 몸통 위에 어두운 안쪽 면을 덮어 유리 테두리만 남긴다 — 탑다운 잔과 같은 수법이다.
+        AddImage(glass.gameObject, roundedSprite, new Color(0.86f, 0.97f, 0.96f, 0.66f))
+            .type = Image.Type.Sliced;
+
+        CreateImage(glass, "Face", roundedSprite, Hex("0d1a1f"),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
+            new Vector2(SideGlassW - wall, SideGlassH - wall)).type = Image.Type.Sliced;
+
+        // 물은 수면에서 잔 안쪽 바닥까지 채운다. 사각형의 윗변은 잔 앞뒤를 가로지르는 직선일 뿐이라,
+        // 실제로 보이는 물가(뒤가 더 높은 타원)는 이 위에 따로 얹는다.
+        float liquidHeight = SideWaterline + (SideGlassH * 0.5f - wall);
+
+        CreateImage(glass, "Liquid", roundedSprite, new Color(0.29f, 0.55f, 0.54f, 0.35f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0f, SideWaterline - liquidHeight * 0.5f),
+            new Vector2(SideGlassW * 0.92f, liquidHeight)).type = Image.Type.Sliced;
+
+        // 수면. 위에서 비스듬히 내려다보므로 뒤쪽 물가가 앞쪽보다 높이 보인다 — 얼음이 도는 궤도와
+        // 같은 타원이라, 뒤로 돌아간 조각이 위로 올라가는 게 "물 밖으로 튀어나온다"가 아니라
+        // "타원을 따라 멀어진다"로 읽힌다.
+        float innerWidth = SideGlassW - wall * 2f;
+
+        CreateImage(glass, "Surface", circleSprite, new Color(0.42f, 0.72f, 0.70f, 0.34f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, SideWaterline),
+            new Vector2(innerWidth, innerWidth * SideDepthSquash));
+
+        RectTransform iceRoot = CreateRect(glass, "Side Ice",
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
+            new Vector2(SideGlassW, SideGlassH));
+
+        var cubes = new StirSideGlassView.SideCube[IceLayout.Length];
+
+        for (int i = 0; i < IceLayout.Length; i++)
+        {
+            // 가로 위치와 깊이는 런타임에 오른쪽 좌표로 덮인다. 여기서 정하는 건 높이뿐이다.
+            var row = IceLayout[i];
+            float size = baseSize * row.scale;
+
+            // 얼음은 가라앉지 않는다 — 조각마다 자기 크기의 92%가 잠기는 높이에 띄운다.
+            // 그래서 큰 조각일수록 중심이 깊고, 물 위로 나오는 양은 어느 조각이나 크기의 8%다.
+            float height = SideWaterline - (IceSubmerged - 0.5f) * size;
+
+            RectTransform cube = CreateIceCube(iceRoot, $"Side Ice {i + 1}", size,
+                new Vector2(0f, height), row.tilt);
+
+            // 깊이에 따라 흐려지려면 조각 전체가 한 번에 투명해져야 한다 — 이미지가 셋이라 CanvasGroup을 쓴다.
+            cube.gameObject.AddComponent<CanvasGroup>().blocksRaycasts = false;
+
+            cubes[i] = new StirSideGlassView.SideCube { target = cube, rollFactor = row.spin };
+        }
+
+        // 앞면 유리. 얼음 위에 얹혀야 얼음이 잔 "안에" 있는 것으로 보인다.
+        CreateImage(glass, "Front Wall", roundedSprite, new Color(0.72f, 0.93f, 0.92f, 0.09f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero,
+            new Vector2(SideGlassW - wall, SideGlassH - wall)).type = Image.Type.Sliced;
+
+        // 입구 타원. 정면 시점에서 잔이 뚫려 있다는 걸 알려주는 유일한 단서다. 수면과 같은 눕힘이다.
+        CreateImage(glass, "Rim", circleSprite, new Color(0.86f, 0.97f, 0.96f, 0.5f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(0f, SideGlassH * 0.5f - wall),
+            new Vector2(innerWidth, innerWidth * SideDepthSquash));
+
+        // 왼쪽 세로 반사광.
+        CreateImage(glass, "Highlight", null, new Color(1f, 1f, 1f, 0.10f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+            new Vector2(-SideGlassW * 0.3f, -SideGlassH * 0.06f),
+            new Vector2(2.5f, SideGlassH * 0.52f));
+
+        var view = iceRoot.gameObject.AddComponent<StirSideGlassView>();
+        SetSerializedField(view, "source", source);
+        SetSerializedSideCubes(view, cubes);
+
+        // 가장 바깥 조각이 잔 안쪽 벽에 닿을 만큼만 돌게 한다. 더 키우면 얼음이 유리를 뚫는다.
+        SetSerializedField(view, "orbitRadius", (innerWidth - baseSize) * 0.5f);
+        SetSerializedField(view, "depthSquash", SideDepthSquash);
+
+        return view;
     }
 
     /// <summary>
@@ -633,7 +829,8 @@ public static class StirSceneSetup
     }
 
     static StirManager CreateStirManager(
-        Transform parent, StirGlassView glass, StirHudView hud, Canvas buttonCanvas, TMP_Text drinkNameText,
+        Transform parent, StirGlassView glass, StirHudView hud, StirIceSwirl ice,
+        Canvas buttonCanvas, TMP_Text drinkNameText,
         CraftStationData craftStationData, CocktailDataSO cocktailDataSO, NewBalanceDataSO balanceDataSO,
         VoidEvent craftServe, VoidEvent craftRetry)
     {
@@ -648,6 +845,7 @@ public static class StirSceneSetup
         SetSerializedField(manager, "balanceData", balanceDataSO);
         SetSerializedField(manager, "glass", glass);
         SetSerializedField(manager, "hud", hud);
+        SetSerializedField(manager, "ice", ice);
         SetSerializedField(manager, "buttonCanvas", buttonCanvas);
         SetSerializedField(manager, "drinkNameText", drinkNameText);
         SetSerializedField(manager, "craftServe", craftServe);
@@ -750,6 +948,47 @@ public static class StirSceneSetup
     {
         var so = new SerializedObject(target);
         so.FindProperty(fieldName).boolValue = value;
+        so.ApplyModifiedProperties();
+    }
+
+    static void SetSerializedField(Object target, string fieldName, float value)
+    {
+        var so = new SerializedObject(target);
+        so.FindProperty(fieldName).floatValue = value;
+        so.ApplyModifiedProperties();
+    }
+
+    /// <summary>StirIceSwirl.cubes는 구조체 배열이라 원소마다 필드를 따로 짚어줘야 한다.</summary>
+    static void SetSerializedIceCubes(Object target, StirIceSwirl.IceCube[] cubes)
+    {
+        var so = new SerializedObject(target);
+        SerializedProperty property = so.FindProperty("cubes");
+
+        property.arraySize = cubes.Length;
+        for (int i = 0; i < cubes.Length; i++)
+        {
+            SerializedProperty element = property.GetArrayElementAtIndex(i);
+            element.FindPropertyRelative("target").objectReferenceValue = cubes[i].target;
+            element.FindPropertyRelative("spinFactor").floatValue = cubes[i].spinFactor;
+        }
+
+        so.ApplyModifiedProperties();
+    }
+
+    /// <summary>StirSideGlassView.cubes도 구조체 배열이라 원소마다 필드를 따로 짚어줘야 한다.</summary>
+    static void SetSerializedSideCubes(Object target, StirSideGlassView.SideCube[] cubes)
+    {
+        var so = new SerializedObject(target);
+        SerializedProperty property = so.FindProperty("cubes");
+
+        property.arraySize = cubes.Length;
+        for (int i = 0; i < cubes.Length; i++)
+        {
+            SerializedProperty element = property.GetArrayElementAtIndex(i);
+            element.FindPropertyRelative("target").objectReferenceValue = cubes[i].target;
+            element.FindPropertyRelative("rollFactor").floatValue = cubes[i].rollFactor;
+        }
+
         so.ApplyModifiedProperties();
     }
 

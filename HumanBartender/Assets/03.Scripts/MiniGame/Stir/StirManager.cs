@@ -42,6 +42,8 @@ public class StirManager : MonoBehaviour, IMiniGameController
     [SerializeField] StirGlassView glass;
     [Tooltip("아레나 바깥 표시 — 상단 스탯, 라운드 타이머 카드, 사선 게이지, 시작 오버레이.")]
     [SerializeField] StirHudView hud;
+    [Tooltip("잔 속 얼음. 정답마다 휘돌림을 한 번 밀어준다. 비워둬도 판정은 그대로 돌아간다.")]
+    [SerializeField] StirIceSwirl ice;
 
     [Header("UI")]
     [SerializeField] Canvas buttonCanvas;
@@ -248,6 +250,7 @@ public class StirManager : MonoBehaviour, IMiniGameController
         elapsedTime = 0f;
 
         glass?.ResetSpoon(pos);
+        ice?.StopSwirl();
         hud?.SetStartOverlay(false);
         SetJudgeText("START");
         RefreshView();
@@ -262,8 +265,9 @@ public class StirManager : MonoBehaviour, IMiniGameController
         // W(0°)로 돌아올 때 역방향으로 세 칸 되감기는 그림이 나오지 않게 하기 위해서다.
         glass?.AdvanceSpoon();
 
-        // TODO(얼음): 잔 속 얼음은 아트 확정 후에 붙인다. 여기서 휘돌림 임펄스를 한 번 주고,
-        // 얼음 쪽에서 매 프레임 감쇠시키면 "젓는 속도에 끌려 돌고 젓지 않으면 멈춘다"가 된다.
+        // 얼음은 여기서 한 번 밀어주기만 한다. 감쇠는 얼음 쪽에서 매 프레임 일어나므로,
+        // 시도가 끊기면 저절로 잦아든다 — 실패 피드백이 따로 필요 없다.
+        ice?.AddImpulse();
 
         if (step >= StirDirections.StepsPerAttempt)
         {
