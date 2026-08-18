@@ -5,26 +5,32 @@
       "ko": "진토닉",
       "en": "Gin & Tonic"
     },
+    "status": "confirmed",
     "price": 180,
     "abv": 8.0,
-    "glass": "highball",
+    "glass": "long_drink",
     "mix": "build",
     "prep": null,
-    "fill": "tonic_water",
     "garnish": "lime_wedge",
     "color": "255,255,255",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "상큼한",
-        "en": "Fresh"
+        "en": "Fresh",
+        "category": "taste"
       },
       {
         "ko": "청량한",
-        "en": "Crisp"
+        "en": "Crisp",
+        "category": "feel"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -32,23 +38,32 @@
       "en": "Gin and tonic. The simplest, and therefore the most honest."
     },
     "recipe_desc": {
-      "ko": "하이볼 잔에 진 1.5oz를 붓고, 토닉워터로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
-      "en": "Pour 1.5oz gin into a highball glass, top with tonic water, and stir gently. Garnish with a lime wedge."
+      "ko": "롱드링크 잔에 진 1.5oz를 붓고, 토닉워터 4oz로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
+      "en": "Pour 1.5oz gin into a long drink glass, top with 4oz tonic water, and stir gently. Garnish with a lime wedge."
     },
+    "unlock_day": 0,
     "unlock_when": null,
+    "time_limit_sec": 36,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "gin",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "tonic_water",
+        "qty": 4,
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 2,
-    "tier": 1,
-    "unlock_day": 1,
-    "scoring_items": 6,
-    "time_limit_sec": 36,
     "sprite": "Finished_GinTonic",
     "serve_sprite": "Serve_GinTonic"
   },
@@ -58,26 +73,32 @@
       "ko": "진피즈",
       "en": "Gin Fizz"
     },
+    "status": "confirmed",
     "price": 220,
     "abv": 8.0,
-    "glass": "highball",
+    "glass": "long_drink",
     "mix": "shake",
     "prep": null,
-    "fill": "soda_water",
     "garnish": "lemon_slice",
     "color": "255,255,255",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "상큼한",
-        "en": "Fresh"
+        "en": "Fresh",
+        "category": "taste"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       },
       {
         "ko": "청량한",
-        "en": "Crisp"
+        "en": "Crisp",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -85,35 +106,50 @@
       "en": "Gin, lemon, and that 'fizz' of carbonation."
     },
     "recipe_desc": {
-      "ko": "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 하이볼 잔에 따른다. 소다수로 채우고 레몬 슬라이스를 올린다.",
-      "en": "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a highball glass. Top with soda water and add a lemon slice."
+      "ko": "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 롱드링크 잔에 따른다. 소다수 3oz로 채우고 레몬 슬라이스를 올린다.",
+      "en": "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a long drink glass. Top with 3oz soda water and add a lemon slice."
     },
+    "unlock_day": 0,
     "unlock_when": null,
+    "time_limit_sec": 52,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "gin",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
         "qty": 0.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       },
       {
         "action": "powder",
         "ingredient": "sugar",
         "qty": 1,
-        "unit": "tsp"
+        "unit": "tsp",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "soda_water",
+        "qty": 3,
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 1,
-    "scoring_items": 8,
-    "time_limit_sec": 52,
     "sprite": "Finished_GinFizz",
     "serve_sprite": "Serve_GinFizz"
   },
@@ -123,22 +159,27 @@
       "ko": "병맥주",
       "en": "Bottled Beer"
     },
+    "status": "confirmed",
     "price": 90,
     "abv": 4.5,
     "glass": "mug",
     "mix": "none",
     "prep": "cap",
-    "fill": null,
-    "garnish": null,
+    "garnish": "",
     "color": "202,162,4",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "청량한",
-        "en": "Crisp"
+        "en": "Crisp",
+        "category": "feel"
       },
       {
         "ko": "가벼운",
-        "en": "Light"
+        "en": "Light",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -146,23 +187,23 @@
       "en": "The pop of the cap is the appetizer. Served with a glass."
     },
     "recipe_desc": {
-      "ko": "오프너로 뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
-      "en": "Pop the cap with an opener and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."
+      "ko": "뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
+      "en": "Pop the cap and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."
     },
+    "unlock_day": 0,
     "unlock_when": null,
+    "time_limit_sec": 28,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "beer",
         "qty": 12,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 2,
-    "tier": 1,
-    "unlock_day": 1,
-    "scoring_items": 5,
-    "time_limit_sec": 36,
     "sprite": "Finished_BottleBeer",
     "serve_sprite": "Serve_BottleBeer"
   },
@@ -172,46 +213,51 @@
       "ko": "레드와인",
       "en": "Red Wine"
     },
+    "status": "confirmed",
     "price": 220,
     "abv": 13.0,
     "glass": "wine",
     "mix": "none",
-    "prep": "cork",
-    "fill": null,
-    "garnish": null,
+    "prep": null,
+    "garnish": "",
     "color": "98,15,11",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "묵직한",
-        "en": "Heavy"
+        "en": "Heavy",
+        "category": "feel"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       }
     ],
     "flavor": {
-      "ko": "말이 필요 없는 잔. 코르크는 조심스럽게.",
-      "en": "A glass that needs no words. Mind the cork."
+      "ko": "말이 필요 없는 잔. 향이 절반이다.",
+      "en": "A glass that needs no words. Half of it is the aroma."
     },
     "recipe_desc": {
-      "ko": "코르크를 조심스럽게 뽑고 와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
-      "en": "Draw the cork carefully and pour 8oz into a wine glass. Do not swirl."
+      "ko": "와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
+      "en": "Pour 8oz into a wine glass. Do not swirl."
     },
+    "unlock_day": 0,
     "unlock_when": null,
+    "time_limit_sec": 36,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "red_wine",
         "qty": 8,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 2,
-    "tier": 1,
-    "unlock_day": 1,
-    "scoring_items": 5,
-    "time_limit_sec": 36,
     "sprite": "Finished_RedWine",
     "serve_sprite": "Serve_RedWine"
   },
@@ -221,22 +267,27 @@
       "ko": "샴페인",
       "en": "Champagne"
     },
+    "status": "confirmed",
     "price": 350,
     "abv": 12.0,
-    "glass": "flute",
+    "glass": "wine",
     "mix": "none",
-    "prep": "cork",
-    "fill": null,
-    "garnish": null,
+    "prep": null,
+    "garnish": "",
     "color": "255,245,225",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "화사한",
-        "en": "Bright"
+        "en": "Bright",
+        "category": "feel"
       },
       {
         "ko": "달콤한",
-        "en": "Sweet"
+        "en": "Sweet",
+        "category": "taste"
       }
     ],
     "flavor": {
@@ -244,23 +295,23 @@
       "en": "While the bubbles rise, everyone's the main character."
     },
     "recipe_desc": {
-      "ko": "코르크를 소리 없이 뽑고 플루트 잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
-      "en": "Ease the cork out without a pop and pour 8oz into a flute. Serve before the bubbles settle."
+      "ko": "와인잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
+      "en": "Pour 8oz into a wine glass. Serve before the bubbles settle."
     },
+    "unlock_day": 0,
     "unlock_when": null,
+    "time_limit_sec": 36,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "champagne",
         "qty": 8,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 2,
-    "tier": 1,
-    "unlock_day": 1,
-    "scoring_items": 5,
-    "time_limit_sec": 36,
     "sprite": "Finished_Champagne",
     "serve_sprite": "Serve_Champagne"
   },
@@ -270,22 +321,27 @@
       "ko": "스크류드라이버",
       "en": "Screwdriver"
     },
+    "status": "confirmed",
     "price": 190,
     "abv": 12.0,
-    "glass": "highball",
+    "glass": "long_drink",
     "mix": "build",
     "prep": null,
-    "fill": null,
-    "garnish": null,
+    "garnish": "",
     "color": "236,223,95",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "달콤한",
-        "en": "Sweet"
+        "en": "Sweet",
+        "category": "taste"
       },
       {
         "ko": "부드러운",
-        "en": "Smooth"
+        "en": "Smooth",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -293,29 +349,32 @@
       "en": "Vodka and orange juice. Named after a tool, tastes like fruit."
     },
     "recipe_desc": {
-      "ko": "하이볼 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",
-      "en": "Build 1.5oz vodka and 6oz orange juice in a highball glass and stir."
+      "ko": "롱드링크 잔에 보드카 1.5oz와 오렌지주스 6oz를 넣고 젓는다.",
+      "en": "Build 1.5oz vodka and 6oz orange juice in a long drink glass and stir."
     },
+    "unlock_day": 1,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "vodka",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "orange_juice",
         "qty": 6,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 3,
-    "tier": 2,
-    "unlock_day": 3,
-    "scoring_items": 6,
-    "time_limit_sec": 44,
     "sprite": "Finished_Screwdriver",
     "serve_sprite": "Serve_Screwdriver"
   },
@@ -325,22 +384,27 @@
       "ko": "모스코뮬",
       "en": "Moscow Mule"
     },
+    "status": "confirmed",
     "price": 210,
     "abv": 10.0,
     "glass": "mug",
     "mix": "build",
     "prep": null,
-    "fill": "ginger_ale",
     "garnish": "lime_wedge",
     "color": "215,163,2",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "청량한",
-        "en": "Crisp"
+        "en": "Crisp",
+        "category": "feel"
       },
       {
         "ko": "알싸한",
-        "en": "Spicy"
+        "en": "Spicy",
+        "category": "taste"
       }
     ],
     "flavor": {
@@ -348,29 +412,41 @@
       "en": "The ginger kick they say feels like a mule's hind leg."
     },
     "recipe_desc": {
-      "ko": "맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일로 채우고 라임 웨지를 걸친다.",
-      "en": "Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with ginger ale and garnish with a lime wedge."
+      "ko": "맥주잔에 보드카 1.5oz와 라임 반 개의 즙을 넣고 젓는다. 진저에일 4oz로 채우고 라임 웨지를 걸친다.",
+      "en": "Build 1.5oz vodka and the juice of half a lime in a mug and stir. Top with 4oz ginger ale and garnish with a lime wedge."
     },
+    "unlock_day": 1,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "vodka",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lime",
         "qty": 0.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "ginger_ale",
+        "qty": 4,
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 3,
-    "tier": 2,
-    "unlock_day": 3,
-    "scoring_items": 7,
-    "time_limit_sec": 44,
     "sprite": "Finished_MoscowMule",
     "serve_sprite": "Serve_MoscowMule"
   },
@@ -380,22 +456,27 @@
       "ko": "데킬라 선라이즈",
       "en": "Tequila Sunrise"
     },
+    "status": "confirmed",
     "price": 200,
     "abv": 12.0,
-    "glass": "collins",
+    "glass": "long_drink",
     "mix": "build",
     "prep": null,
-    "fill": null,
     "garnish": "orange_slice",
     "color": "253,161,48",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "달콤한",
-        "en": "Sweet"
+        "en": "Sweet",
+        "category": "taste"
       },
       {
         "ko": "화사한",
-        "en": "Bright"
+        "en": "Bright",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -403,29 +484,32 @@
       "en": "A sunrise inside a glass. The best-selling morning at a late-night bar."
     },
     "recipe_desc": {
-      "ko": "콜린스 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",
-      "en": "Build 1oz tequila and 6oz orange juice in a collins glass and stir. Garnish with an orange slice."
+      "ko": "롱드링크 잔에 데킬라 1oz와 오렌지주스 6oz를 넣고 젓는다. 오렌지 슬라이스를 올린다.",
+      "en": "Build 1oz tequila and 6oz orange juice in a long drink glass and stir. Garnish with an orange slice."
     },
+    "unlock_day": 1,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "tequila",
         "qty": 1,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "orange_juice",
         "qty": 6,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 3,
-    "tier": 2,
-    "unlock_day": 3,
-    "scoring_items": 6,
-    "time_limit_sec": 44,
     "sprite": "Finished_TequilaSunrise",
     "serve_sprite": "Serve_TequilaSunrise"
   },
@@ -435,22 +519,27 @@
       "ko": "롱아일랜드 아이스티",
       "en": "Long Island Iced Tea"
     },
+    "status": "confirmed",
     "price": 380,
     "abv": 22.0,
-    "glass": "collins",
+    "glass": "long_drink",
     "mix": "build",
     "prep": null,
-    "fill": "cola",
     "garnish": "lemon_slice",
     "color": "214,122,13",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "독한",
-        "en": "Strong"
+        "en": "Strong",
+        "category": "feel"
       },
       {
         "ko": "달콤한",
-        "en": "Sweet"
+        "en": "Sweet",
+        "category": "taste"
       }
     ],
     "flavor": {
@@ -458,47 +547,68 @@
       "en": "Not a drop of tea in it. That's the trap."
     },
     "recipe_desc": {
-      "ko": "콜린스 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 라임 반 개의 즙을 더해 젓는다. 콜라로 채우고 레몬 슬라이스를 올린다.",
-      "en": "Build 1oz each of gin, vodka, rum, and tequila in a collins glass, add the juice of half a lime, and stir. Top with cola and add a lemon slice."
+      "ko": "롱드링크 잔에 진·보드카·럼·데킬라를 1oz씩 넣고 레몬 반 개의 즙을 더해 젓는다. 콜라 1.5oz로 채우고 레몬 슬라이스를 올린다.",
+      "en": "Build 1oz each of gin, vodka, rum, and tequila in a long drink glass, add the juice of half a lemon, and stir. Top with 1.5oz cola and add a lemon slice."
     },
+    "unlock_day": 1,
     "unlock_when": null,
+    "time_limit_sec": 68,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "gin",
         "qty": 1,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "vodka",
         "qty": 1,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "rum",
         "qty": 1,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "tequila",
         "qty": 1,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
         "qty": 0.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "cola",
+        "qty": 1.5,
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 6,
-    "tier": 5,
-    "unlock_day": 3,
-    "scoring_items": 10,
-    "time_limit_sec": 68,
     "sprite": "Finished_LongIsland",
     "serve_sprite": "Serve_LongIsland"
   },
@@ -508,22 +618,27 @@
       "ko": "위스키 사워",
       "en": "Whiskey Sour"
     },
+    "status": "confirmed",
     "price": 240,
     "abv": 15.0,
-    "glass": "rocks",
+    "glass": "sour",
     "mix": "shake",
     "prep": null,
-    "fill": "sour_mix",
     "garnish": "cherry",
     "color": "243,208,144",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "새콤한",
-        "en": "Tangy"
+        "en": "Tangy",
+        "category": "taste"
       },
       {
         "ko": "묵직한",
-        "en": "Heavy"
+        "en": "Heavy",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -531,35 +646,50 @@
       "en": "The weight of whiskey, balanced by lemon."
     },
     "recipe_desc": {
-      "ko": "위스키 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 온더락 잔에 따른다. 사워믹스로 채우고 체리를 올린다.",
-      "en": "Shake 1.5oz whiskey, the juice of half a lemon, and 1 tsp sugar, then strain into a rocks glass. Top with sour mix and garnish with a cherry."
+      "ko": "위스키 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 사워 잔에 따른다. 사워믹스 2oz로 채우고 체리를 올린다.",
+      "en": "Shake 1.5oz whiskey, the juice of half a lemon, and 1 tsp sugar, then strain into a sour glass. Top with 2oz sour mix and garnish with a cherry."
     },
+    "unlock_day": 2,
     "unlock_when": null,
+    "time_limit_sec": 52,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "whiskey",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
         "qty": 0.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       },
       {
         "action": "powder",
         "ingredient": "sugar",
         "qty": 1,
-        "unit": "tsp"
+        "unit": "tsp",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "sour_mix",
+        "qty": 2,
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 4,
-    "scoring_items": 8,
-    "time_limit_sec": 52,
     "sprite": "Finished_WhiskeySour",
     "serve_sprite": "Serve_WhiskeySour"
   },
@@ -569,26 +699,32 @@
       "ko": "드라이 마티니",
       "en": "Dry Martini"
     },
+    "status": "confirmed",
     "price": 300,
     "abv": 30.0,
     "glass": "cocktail",
     "mix": "stir",
     "prep": null,
-    "fill": null,
     "garnish": "olive",
     "color": "230,229,201",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "씁쓸한",
-        "en": "Bitter"
+        "en": "Bitter",
+        "category": "taste"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       },
       {
         "ko": "독한",
-        "en": "Strong"
+        "en": "Strong",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -599,26 +735,29 @@
       "ko": "믹싱 글라스에 진 6oz와 드라이 버무스 1.5oz를 넣고 스터한 뒤 칵테일 잔에 따른다. 올리브를 넣는다.",
       "en": "Stir 6oz gin with 1.5oz dry vermouth in a mixing glass, then strain into a cocktail glass. Drop in an olive."
     },
+    "unlock_day": 2,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "gin",
         "qty": 6,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "dry_vermouth",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 3,
-    "tier": 2,
-    "unlock_day": 1,
-    "scoring_items": 6,
-    "time_limit_sec": 44,
     "sprite": "Finished_DryMartini",
     "serve_sprite": "Serve_DryMartini"
   },
@@ -628,22 +767,27 @@
       "ko": "바카디",
       "en": "Bacardi"
     },
+    "status": "confirmed",
     "price": 230,
     "abv": 20.0,
     "glass": "cocktail",
     "mix": "shake",
     "prep": null,
-    "fill": null,
-    "garnish": null,
+    "garnish": "",
     "color": "219,96,89",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "새콤한",
-        "en": "Tangy"
+        "en": "Tangy",
+        "category": "taste"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -654,32 +798,38 @@
       "ko": "럼 4.5oz, 그레나딘 0.75oz, 라임즙 1.5oz를 셰이킹해 칵테일 잔에 따른다.",
       "en": "Shake 4.5oz rum, 0.75oz grenadine, and 1.5oz lime juice, then strain into a cocktail glass."
     },
+    "unlock_day": 2,
     "unlock_when": null,
+    "time_limit_sec": 52,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "rum",
         "qty": 4.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "grenadine",
         "qty": 0.75,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lime",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 4,
-    "scoring_items": 7,
-    "time_limit_sec": 52,
     "sprite": "Finished_Bacardi",
     "serve_sprite": "Serve_Bacardi"
   },
@@ -689,22 +839,27 @@
       "ko": "코스모폴리탄",
       "en": "Cosmopolitan"
     },
+    "status": "confirmed",
     "price": 250,
     "abv": 20.0,
     "glass": "cocktail",
     "mix": "shake",
     "prep": null,
-    "fill": null,
     "garnish": "lemon_slice",
     "color": "219,109,92",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "상큼한",
-        "en": "Fresh"
+        "en": "Fresh",
+        "category": "taste"
       },
       {
         "ko": "부드러운",
-        "en": "Smooth"
+        "en": "Smooth",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -715,38 +870,47 @@
       "ko": "보드카 4oz, 쿠앵트로 1.5oz, 크랜베리주스 3oz, 라임즙 1.5oz를 셰이킹해 칵테일 잔에 따른다. 레몬 슬라이스를 올린다.",
       "en": "Shake 4oz vodka, 1.5oz cointreau, 3oz cranberry juice, and 1.5oz lime juice, then strain into a cocktail glass. Add a lemon slice."
     },
+    "unlock_day": 3,
     "unlock_when": null,
+    "time_limit_sec": 60,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "vodka",
         "qty": 4,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "cointreau",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "cranberry_juice",
         "qty": 3,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lime",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       }
     ],
-    "gimmick_count": 5,
-    "tier": 4,
-    "unlock_day": 2,
-    "scoring_items": 8,
-    "time_limit_sec": 60,
     "sprite": "Finished_Cosmopolitan",
     "serve_sprite": "Serve_Cosmopolitan"
   },
@@ -756,22 +920,27 @@
       "ko": "마가리타",
       "en": "Margarita"
     },
+    "status": "confirmed",
     "price": 260,
     "abv": 25.0,
     "glass": "cocktail",
     "mix": "shake",
     "prep": null,
-    "fill": null,
     "garnish": "lime_wedge",
     "color": "210,218,109",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "새콤한",
-        "en": "Tangy"
+        "en": "Tangy",
+        "category": "taste"
       },
       {
         "ko": "독한",
-        "en": "Strong"
+        "en": "Strong",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -782,32 +951,38 @@
       "ko": "데킬라 3.5oz, 트리플섹 2oz, 레몬즙 1.5oz를 셰이킹해 칵테일 잔에 따른다. 라임 웨지를 걸친다.",
       "en": "Shake 3.5oz tequila, 2oz triple sec, and 1.5oz lemon juice, then strain into a cocktail glass. Garnish with a lime wedge."
     },
+    "unlock_day": 4,
     "unlock_when": null,
+    "time_limit_sec": 52,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "tequila",
         "qty": 3.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "triple_sec",
         "qty": 2,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 6,
-    "scoring_items": 7,
-    "time_limit_sec": 52,
     "sprite": "Finished_Margarita",
     "serve_sprite": "Serve_Margarita"
   },
@@ -817,22 +992,27 @@
       "ko": "화이트레이디",
       "en": "White Lady"
     },
+    "status": "confirmed",
     "price": 270,
     "abv": 25.0,
     "glass": "cocktail",
     "mix": "shake",
     "prep": null,
-    "fill": null,
-    "garnish": null,
+    "garnish": "",
     "color": "247,241,214",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
     "tags": [
       {
         "ko": "상큼한",
-        "en": "Fresh"
+        "en": "Fresh",
+        "category": "taste"
       },
       {
         "ko": "우아한",
-        "en": "Elegant"
+        "en": "Elegant",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -843,32 +1023,38 @@
       "ko": "진 40ml, 트리플섹 30ml, 레몬즙 20ml를 셰이킹해 칵테일 잔에 따른다.",
       "en": "Shake 40ml gin, 30ml triple sec, and 20ml lemon juice, then strain into a cocktail glass."
     },
+    "unlock_day": 4,
     "unlock_when": null,
+    "time_limit_sec": 52,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "gin",
         "qty": 40,
-        "unit": "ml"
+        "unit": "ml",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "triple_sec",
         "qty": 30,
-        "unit": "ml"
+        "unit": "ml",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
         "qty": 20,
-        "unit": "ml"
+        "unit": "ml",
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 6,
-    "scoring_items": 7,
-    "time_limit_sec": 52,
     "sprite": "Finished_WhiteLady",
     "serve_sprite": "Serve_WhiteLady"
   },
@@ -878,22 +1064,27 @@
       "ko": "깔루아 밀크",
       "en": "Kahlua Milk"
     },
+    "status": "confirmed",
     "price": 150,
     "abv": 7.0,
-    "glass": "rocks",
+    "glass": "old_fashioned",
     "mix": "build",
     "prep": null,
-    "fill": null,
-    "garnish": null,
+    "garnish": "",
     "color": "159,162,119",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
     "tags": [
       {
         "ko": "달콤한",
-        "en": "Sweet"
+        "en": "Sweet",
+        "category": "taste"
       },
       {
         "ko": "부드러운",
-        "en": "Smooth"
+        "en": "Smooth",
+        "category": "feel"
       }
     ],
     "flavor": {
@@ -901,95 +1092,1038 @@
       "en": "Coffee, milk, a little alcohol. Even cats covet it."
     },
     "recipe_desc": {
-      "ko": "온더락 잔에 칼루아 1.5oz를 붓고 우유 0.75oz를 위에 얹듯 천천히 따른다.",
-      "en": "Pour 1.5oz kahlua into a rocks glass, then layer 0.75oz milk slowly on top."
+      "ko": "올드패션 잔에 칼루아 1.5oz를 붓고 우유 0.75oz를 위에 얹듯 천천히 따른다.",
+      "en": "Pour 1.5oz kahlua into an old fashioned glass, then layer 0.75oz milk slowly on top."
     },
+    "unlock_day": 4,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
         "ingredient": "kahlua",
         "qty": 1.5,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
         "ingredient": "milk",
         "qty": 0.75,
-        "unit": "oz"
+        "unit": "oz",
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 3,
-    "tier": 2,
-    "unlock_day": 2,
-    "scoring_items": 6,
-    "time_limit_sec": 44,
     "sprite": "Finished_KahluaMilk",
     "serve_sprite": "Serve_KahluaMilk"
   },
   {
-    "id": "bees_knees",
+    "id": "godfather",
     "name": {
-      "ko": "비즈 니즈",
-      "en": "Bee's Knees"
+      "ko": "갓파더",
+      "en": "Godfather"
     },
-    "price": 260,
-    "abv": 20.0,
-    "glass": "cocktail",
-    "mix": "shake",
+    "status": "tbd",
+    "price": 230,
+    "abv": 28.0,
+    "glass": "old_fashioned",
+    "mix": "stir",
     "prep": null,
-    "fill": null,
-    "garnish": "lemon_slice",
-    "color": "240,200,90",
+    "garnish": "",
+    "color": "222,150,52",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
     "tags": [
       {
-        "ko": "달콤한",
-        "en": "Sweet"
+        "ko": "묵직한",
+        "en": "Heavy",
+        "category": "feel"
       },
       {
         "ko": "클래식",
-        "en": "Classic"
+        "en": "Classic",
+        "category": "feel"
       },
       {
-        "ko": "비밀",
-        "en": "Secret"
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
       }
     ],
     "flavor": {
-      "ko": "금주법 시대, 싸구려 진의 향을 진짜 꿀로 감추던 밀주 칵테일. '최고'라는 뜻의 은어.",
-      "en": "A Prohibition-era bootleg cocktail — real honey to mask cheap gin. Slang for 'the best.'"
+      "ko": "위스키와 아마레토. 짧고 묵직한 두 재료의 대화.",
+      "en": "Whiskey and amaretto. A short, weighty conversation between two spirits."
     },
     "recipe_desc": {
-      "ko": "진 2oz, 벌꿀 원액 0.75oz, 레몬즙 0.75oz를 셰이킹해 칵테일 잔에 따른다. 레몬 슬라이스를 올린다.",
-      "en": "Shake 2oz gin, 0.75oz honey syrup, and 0.75oz lemon juice, then strain into a cocktail glass. Add a lemon slice."
+      "ko": "믹싱 글라스에 위스키와 아마레토를 넣고 스터한 뒤 올드패션 잔에 따른다.",
+      "en": "Stir whiskey and amaretto in a mixing glass, then strain into an old fashioned glass."
     },
+    "unlock_day": 5,
     "unlock_when": null,
+    "time_limit_sec": 44,
     "recipe": [
       {
         "action": "pour",
-        "ingredient": "gin",
-        "qty": 2,
-        "unit": "oz"
+        "ingredient": "whiskey",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "pour",
-        "ingredient": "honey_syrup",
-        "qty": 0.75,
-        "unit": "oz"
+        "ingredient": "amaretto",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_Godfather",
+    "serve_sprite": "Serve_Godfather"
+  },
+  {
+    "id": "godmother",
+    "name": {
+      "ko": "갓마더",
+      "en": "Godmother"
+    },
+    "status": "tbd",
+    "price": 220,
+    "abv": 22.0,
+    "glass": "old_fashioned",
+    "mix": "stir",
+    "prep": null,
+    "garnish": "",
+    "color": "232,188,102",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "부드러운",
+        "en": "Smooth",
+        "category": "feel"
+      },
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "클래식",
+        "en": "Classic",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "보드카의 깨끗함에 아마레토의 단맛을 얹는다.",
+      "en": "Clean vodka softened by the sweetness of amaretto."
+    },
+    "recipe_desc": {
+      "ko": "믹싱 글라스에 보드카와 아마레토를 넣고 스터한 뒤 올드패션 잔에 따른다.",
+      "en": "Stir vodka and amaretto in a mixing glass, then strain into an old fashioned glass."
+    },
+    "unlock_day": 5,
+    "unlock_when": null,
+    "time_limit_sec": 44,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "amaretto",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_Godmother",
+    "serve_sprite": "Serve_Godmother"
+  },
+  {
+    "id": "french_connection",
+    "name": {
+      "ko": "프렌치 커넥션",
+      "en": "French Connection"
+    },
+    "status": "tbd",
+    "price": 240,
+    "abv": 30.0,
+    "glass": "old_fashioned",
+    "mix": "build",
+    "prep": null,
+    "garnish": "",
+    "color": "200,120,40",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "묵직한",
+        "en": "Heavy",
+        "category": "feel"
+      },
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "클래식",
+        "en": "Classic",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "브랜디와 아마레토가 만드는 깊고 느린 단맛.",
+      "en": "Brandy and amaretto create a deep, lingering sweetness."
+    },
+    "recipe_desc": {
+      "ko": "올드패션 잔에 브랜디와 아마레토를 넣고 가볍게 젓는다.",
+      "en": "Build brandy and amaretto in an old fashioned glass and stir gently."
+    },
+    "unlock_day": 5,
+    "unlock_when": null,
+    "time_limit_sec": 44,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "brandy",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "amaretto",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_FrenchConnection",
+    "serve_sprite": "Serve_FrenchConnection"
+  },
+  {
+    "id": "brandy_sour",
+    "name": {
+      "ko": "브랜디 사워",
+      "en": "Brandy Sour"
+    },
+    "status": "tbd",
+    "price": 250,
+    "abv": 15.0,
+    "glass": "sour",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "cherry",
+    "color": "212,146,0",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "새콤한",
+        "en": "Tangy",
+        "category": "taste"
+      },
+      {
+        "ko": "묵직한",
+        "en": "Heavy",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "브랜디의 온기에 레몬의 균형을 잡는다.",
+      "en": "Warm brandy balanced with lemon."
+    },
+    "recipe_desc": {
+      "ko": "브랜디, 레몬즙, 설탕을 셰이킹해 사워 잔에 따른다. 사워믹스로 채우고 체리를 올린다.",
+      "en": "Shake brandy, lemon juice, and sugar, then strain into a sour glass. Top with sour mix and garnish with a cherry."
+    },
+    "unlock_day": 5,
+    "unlock_when": null,
+    "time_limit_sec": 52,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "brandy",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
       },
       {
         "action": "squeeze",
         "ingredient": "lemon",
-        "qty": 0.75,
-        "unit": "oz"
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "powder",
+        "ingredient": "sugar",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": false,
+        "auto_apply": true
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "sour_mix",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
       }
     ],
-    "gimmick_count": 4,
-    "tier": 3,
-    "unlock_day": 99,
-    "scoring_items": 7,
+    "sprite": "Finished_BrandySour",
+    "serve_sprite": "Serve_BrandySour"
+  },
+  {
+    "id": "pink_lady",
+    "name": {
+      "ko": "핑크 레이디",
+      "en": "Pink Lady"
+    },
+    "status": "tbd",
+    "price": 300,
+    "abv": 18.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "254,97,126",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "부드러운",
+        "en": "Smooth",
+        "category": "feel"
+      },
+      {
+        "ko": "화사한",
+        "en": "Bright",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "진과 그레나딘, 크림이 만드는 부드러운 분홍빛.",
+      "en": "Gin, grenadine, and cream in a soft shade of pink."
+    },
+    "recipe_desc": {
+      "ko": "진, 그레나딘, 크림을 셰이킹해 칵테일 잔에 따른다.",
+      "en": "Shake gin, grenadine, and cream, then strain into a cocktail glass."
+    },
+    "unlock_day": 5,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "gin",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "grenadine",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "cream",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_PinkLady",
+    "serve_sprite": "Serve_PinkLady"
+  },
+  {
+    "id": "espresso_martini",
+    "name": {
+      "ko": "에스프레소 마티니",
+      "en": "Espresso Martini"
+    },
+    "status": "tbd",
+    "price": 280,
+    "abv": 20.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "66,42,28",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "묵직한",
+        "en": "Heavy",
+        "category": "feel"
+      },
+      {
+        "ko": "커피",
+        "en": "Coffee",
+        "category": "taste"
+      }
+    ],
+    "flavor": {
+      "ko": "보드카와 커피가 새벽을 한 잔 더 연장한다.",
+      "en": "Vodka and coffee extend the night by one more glass."
+    },
+    "recipe_desc": {
+      "ko": "보드카, 칼루아, 커피를 셰이킹해 칵테일 잔에 따른다.",
+      "en": "Shake vodka, kahlua, and coffee, then strain into a cocktail glass."
+    },
+    "unlock_day": 6,
+    "unlock_when": null,
     "time_limit_sec": 52,
-    "sprite": "Finished_BeesKnees",
-    "serve_sprite": "Serve_BeesKnees"
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "vodka",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "kahlua",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "coffee",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_EspressoMartini",
+    "serve_sprite": "Serve_EspressoMartini"
+  },
+  {
+    "id": "grasshopper",
+    "name": {
+      "ko": "그래스호퍼",
+      "en": "Grasshopper"
+    },
+    "status": "tbd",
+    "price": 300,
+    "abv": 10.0,
+    "glass": "cocktail",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "118,183,161",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "부드러운",
+        "en": "Smooth",
+        "category": "feel"
+      },
+      {
+        "ko": "민트",
+        "en": "Mint",
+        "category": "taste"
+      }
+    ],
+    "flavor": {
+      "ko": "민트와 카카오, 크림이 만드는 차갑고 달콤한 디저트 칵테일.",
+      "en": "Mint, cacao, and cream make a cool, sweet dessert cocktail."
+    },
+    "recipe_desc": {
+      "ko": "그린페퍼민트, 화이트카카오, 크림을 셰이킹해 칵테일 잔에 따른다.",
+      "en": "Shake green peppermint, white cacao, and cream, then strain into a cocktail glass."
+    },
+    "unlock_day": 6,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "green_peppermint",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "white_cacao",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "cream",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_Grasshopper",
+    "serve_sprite": "Serve_Grasshopper"
+  },
+  {
+    "id": "irish_coffee",
+    "name": {
+      "ko": "아이리시 커피",
+      "en": "Irish Coffee"
+    },
+    "status": "tbd",
+    "price": 300,
+    "abv": 12.0,
+    "glass": "mug",
+    "mix": "build",
+    "prep": null,
+    "garnish": "",
+    "color": "74,48,32",
+    "color2": null,
+    "mixing_ice": "none",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "부드러운",
+        "en": "Smooth",
+        "category": "feel"
+      },
+      {
+        "ko": "커피",
+        "en": "Coffee",
+        "category": "taste"
+      }
+    ],
+    "flavor": {
+      "ko": "위스키와 뜨거운 커피 위에 크림을 띄운 따뜻한 한 잔.",
+      "en": "Whiskey and hot coffee topped with cream for a warming drink."
+    },
+    "recipe_desc": {
+      "ko": "맥주잔에 위스키와 뜨거운 커피를 넣고 저은 뒤 크림을 위에 띄운다.",
+      "en": "Build whiskey and hot coffee in a mug, stir, and float cream on top."
+    },
+    "unlock_day": 6,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "whiskey",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "coffee",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "cream",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_IrishCoffee",
+    "serve_sprite": "Serve_IrishCoffee"
+  },
+  {
+    "id": "old_pal",
+    "name": {
+      "ko": "올드 팔",
+      "en": "Old Pal"
+    },
+    "status": "tbd",
+    "price": 280,
+    "abv": 25.0,
+    "glass": "cocktail",
+    "mix": "stir",
+    "prep": null,
+    "garnish": "",
+    "color": "212,72,45",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "none",
+    "tags": [
+      {
+        "ko": "씁쓸한",
+        "en": "Bitter",
+        "category": "taste"
+      },
+      {
+        "ko": "묵직한",
+        "en": "Heavy",
+        "category": "feel"
+      },
+      {
+        "ko": "클래식",
+        "en": "Classic",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "위스키와 버무스, 캄파리의 쌉쌀한 악수.",
+      "en": "A bitter handshake of whiskey, vermouth, and Campari."
+    },
+    "recipe_desc": {
+      "ko": "믹싱 글라스에 위스키, 드라이 버무스, 캄파리를 넣고 스터한 뒤 칵테일 잔에 따른다.",
+      "en": "Stir whiskey, dry vermouth, and Campari in a mixing glass, then strain into a cocktail glass."
+    },
+    "unlock_day": 7,
+    "unlock_when": null,
+    "time_limit_sec": 52,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "whiskey",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "dry_vermouth",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "campari",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_OldPal",
+    "serve_sprite": "Serve_OldPal"
+  },
+  {
+    "id": "blue_hawaii",
+    "name": {
+      "ko": "블루 하와이",
+      "en": "Blue Hawaii"
+    },
+    "status": "tbd",
+    "price": 320,
+    "abv": 14.0,
+    "glass": "long_drink",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "0,151,182",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "열대과일",
+        "en": "Tropical Fruit",
+        "category": "taste"
+      },
+      {
+        "ko": "화사한",
+        "en": "Bright",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "럼과 블루큐라소 위로 파인애플과 코코넛이 펼쳐진다.",
+      "en": "Rum and blue curaçao carried by pineapple and coconut."
+    },
+    "recipe_desc": {
+      "ko": "럼, 블루큐라소, 코코넛우유를 셰이킹해 롱드링크 잔에 따른다. 파인애플주스로 채운다.",
+      "en": "Shake rum, blue curaçao, and coconut milk, then strain into a long drink glass. Top with pineapple juice."
+    },
+    "unlock_day": 7,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "rum",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "blue_curacao",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "coconut_milk",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "pineapple_juice",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_BlueHawaii",
+    "serve_sprite": "Serve_BlueHawaii"
+  },
+  {
+    "id": "oasis_sunset",
+    "name": {
+      "ko": "오아시스 선셋",
+      "en": "Oasis Sunset"
+    },
+    "status": "tbd",
+    "price": 400,
+    "abv": 18.0,
+    "glass": "long_drink",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "orange_slice",
+    "color": "0,153,139",
+    "color2": "219,96,89",
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "열대과일",
+        "en": "Tropical Fruit",
+        "category": "taste"
+      },
+      {
+        "ko": "화사한",
+        "en": "Bright",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "푸른 오아시스 위로 붉은 노을이 번지는 바의 시그니처 칵테일.",
+      "en": "The bar's signature: a red sunset spreading over a blue oasis."
+    },
+    "recipe_desc": {
+      "ko": "데킬라와 블루큐라소를 셰이킹해 롱드링크 잔에 따르고, 그레나딘을 천천히 흘려 노을 층을 만든다. 오렌지 슬라이스를 올린다.",
+      "en": "Shake tequila and blue curaçao, strain into a long drink glass, then slowly pour grenadine to form a sunset layer. Garnish with an orange slice."
+    },
+    "unlock_day": 7,
+    "unlock_when": null,
+    "time_limit_sec": 68,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "tequila",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "blue_curacao",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "grenadine",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_OasisSunset",
+    "serve_sprite": "Serve_OasisSunset"
+  },
+  {
+    "id": "blue_sapphire",
+    "name": {
+      "ko": "블루 사파이어",
+      "en": "Blue Sapphire"
+    },
+    "status": "tbd",
+    "price": 320,
+    "abv": 15.0,
+    "glass": "long_drink",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "0,153,139",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "열대과일",
+        "en": "Tropical Fruit",
+        "category": "taste"
+      },
+      {
+        "ko": "상큼한",
+        "en": "Fresh",
+        "category": "taste"
+      }
+    ],
+    "flavor": {
+      "ko": "블루큐라소와 복숭아, 코코넛이 만드는 푸른 보석.",
+      "en": "Blue curaçao, peach, and coconut form a liquid blue gem."
+    },
+    "recipe_desc": {
+      "ko": "블루큐라소, 피치브랜디, 코코넛우유를 셰이킹해 롱드링크 잔에 따른다.",
+      "en": "Shake blue curaçao, peach brandy, and coconut milk, then strain into a long drink glass."
+    },
+    "unlock_day": 8,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "blue_curacao",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "peach_brandy",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "coconut_milk",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_BlueSapphire",
+    "serve_sprite": "Serve_BlueSapphire"
+  },
+  {
+    "id": "june_bug",
+    "name": {
+      "ko": "준 벅",
+      "en": "June Bug"
+    },
+    "status": "tbd",
+    "price": 320,
+    "abv": 12.0,
+    "glass": "long_drink",
+    "mix": "shake",
+    "prep": null,
+    "garnish": "",
+    "color": "186,205,2",
+    "color2": null,
+    "mixing_ice": "cubed",
+    "serving_ice": "cubed",
+    "tags": [
+      {
+        "ko": "달콤한",
+        "en": "Sweet",
+        "category": "taste"
+      },
+      {
+        "ko": "열대과일",
+        "en": "Tropical Fruit",
+        "category": "taste"
+      },
+      {
+        "ko": "화사한",
+        "en": "Bright",
+        "category": "feel"
+      }
+    ],
+    "flavor": {
+      "ko": "멜론과 코코넛, 바나나와 파인애플이 겹치는 초록빛 트로피컬 칵테일.",
+      "en": "A green tropical mix of melon, coconut, banana, and pineapple."
+    },
+    "recipe_desc": {
+      "ko": "멜론리큐르, 말리부, 바나나리큐르를 셰이킹해 롱드링크 잔에 따른다. 파인애플주스와 사워믹스로 채운다.",
+      "en": "Shake melon liqueur, Malibu, and banana liqueur, then strain into a long drink glass. Top with pineapple juice and sour mix."
+    },
+    "unlock_day": 9,
+    "unlock_when": null,
+    "time_limit_sec": 60,
+    "recipe": [
+      {
+        "action": "pour",
+        "ingredient": "melon_liqueur",
+        "qty": null,
+        "unit": null,
+        "is_core": true,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "malibu",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "pour",
+        "ingredient": "banana_liqueur",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "pineapple_juice",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      },
+      {
+        "action": "fill_up",
+        "ingredient": "sour_mix",
+        "qty": null,
+        "unit": null,
+        "is_core": false,
+        "scored": true,
+        "auto_apply": false
+      }
+    ],
+    "sprite": "Finished_JuneBug",
+    "serve_sprite": "Serve_JuneBug"
   }
 ]

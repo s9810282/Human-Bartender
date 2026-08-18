@@ -8,13 +8,13 @@
     "name_color": "#5e9fe1",
     "role": "player",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": "luna_body",
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   },
   {
     "id": "chris",
@@ -25,7 +25,7 @@
     "name_color": "#8b5e2f",
     "role": "master",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default",
       "success",
@@ -44,7 +44,7 @@
     "name_color": "#fcfe57",
     "role": "guest",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default",
       "success",
@@ -64,7 +64,7 @@
     "name_color": "#3c3cca",
     "role": "guest",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default",
       "anger",
@@ -85,7 +85,7 @@
     "name_color": "#7a4a2b",
     "role": "guest",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default",
       "serious"
@@ -123,7 +123,7 @@
     "name_color": "#fdd48e",
     "role": "guest",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
@@ -158,7 +158,7 @@
     "name_color": "#c58bd6",
     "role": "guest",
     "affinity": true,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default",
       "serious"
@@ -176,7 +176,7 @@
     "name_color": "#f2a0b5",
     "role": "guest",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
@@ -193,7 +193,7 @@
     "name_color": "#d9c58a",
     "role": "guest",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
@@ -210,7 +210,7 @@
     "name_color": "#b03060",
     "role": "guest",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
@@ -227,7 +227,7 @@
     "name_color": "#708090",
     "role": "guest",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
@@ -244,13 +244,13 @@
     "name_color": "#a8d8ff",
     "role": "cutscene",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   },
   {
     "id": "soldier",
@@ -261,13 +261,13 @@
     "name_color": "#888888",
     "role": "cutscene",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   },
   {
     "id": "vendor",
@@ -278,13 +278,13 @@
     "name_color": "#cccccc",
     "role": "npc_street",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   },
   {
     "id": "radio",
@@ -295,13 +295,13 @@
     "name_color": "#9ad0a0",
     "role": "npc_street",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   },
   {
     "id": "sign",
@@ -312,12 +312,12 @@
     "name_color": "#9aa2b5",
     "role": "npc_street",
     "affinity": false,
-    "alive_flag": null,
+    "alive_flag": "",
     "expressions": [
       "default"
     ],
     "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
+    "enter_sfx": "",
+    "exit_sfx": ""
   }
 ]
