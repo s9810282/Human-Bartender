@@ -67,11 +67,10 @@ public class InteractiveEntityManager : MonoBehaviour
     [Inject] IPlayerDataReader playerData;
     [Inject] ISoundManager soundManager;
     [Inject] IObjectResolver resolver;
-
+    [Inject] IConditionEvaluator evaluator;
     //day 값 보고 검사 하기.
     void Awake()
     {
-        
     }
 
     /// <summary>
@@ -106,7 +105,8 @@ public class InteractiveEntityManager : MonoBehaviour
             player.transform.position = barEntrance.spawnPoint;
 
 
-        RefreshEntity(); 
+        RefreshEntity();
+        evaluator.Check("test");
     }
 
 
