@@ -1,23 +1,4 @@
 {
-  "quests": [
-    {
-      "id": "samho_honey",
-      "title": {
-        "ko": "진짜 벌꿀",
-        "en": "The Real Honey"
-      },
-      "kind": "side",
-      "reward_effects": "affinity.samho += 10; unlock_recipe(bees_knees); flag.q_samho_honey_done = true",
-      "note": "day3 삼호 거래 — 진피즈 제공 시 완료. 히든 레시피 '비즈 니즈' 해금"
-    }
-  ],
-  "stages": [
-    {
-      "quest_id": "samho_honey",
-      "stage": 1,
-      "goal": "serve:gin_fizz",
-      "when": "flag.q_samho_honey_started",
-      "on_complete": ""
-    }
-  ]
+  "quests": [],
+  "stages": []
 }

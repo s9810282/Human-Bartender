@@ -9,13 +9,18 @@
     "category": "base",
     "color": "230,235,240",
     "sprite": null,
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "주니퍼베리 향의 증류주. 칵테일의 기본기.",
       "en": "A juniper-scented spirit. The foundation of cocktails."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "beer",
@@ -33,7 +38,12 @@
     "desc": {
       "ko": "차갑게. 그게 전부이자 진리.",
       "en": "Serve it cold. That's the whole truth."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": "open",
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "red_wine",
@@ -51,7 +61,12 @@
     "desc": {
       "ko": "잔에 따르는 순간부터 분위기가 달라진다.",
       "en": "The mood changes the moment it hits the glass."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "champagne",
@@ -69,61 +84,35 @@
     "desc": {
       "ko": "축하할 일이 없어도 축하하게 만드는 술.",
       "en": "Makes you celebrate even with nothing to celebrate."
-    }
-  },
-  {
-    "id": "tonic_water",
-    "kind": "ingredient",
-    "name": {
-      "ko": "토닉워터",
-      "en": "Tonic Water"
     },
-    "category": "mixer",
-    "color": "245,250,255",
-    "sprite": null,
-    "unlock_day": 1,
-    "unlock_when": null,
-    "shop_price": null,
-    "desc": {
-      "ko": "씁쓸한 탄산. 진의 가장 오랜 친구.",
-      "en": "Bitter fizz. Gin's oldest friend."
-    }
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "soda_water",
     "kind": "ingredient",
     "name": {
-      "ko": "소다수",
-      "en": "Soda Water"
+      "ko": "탄산수",
+      "en": "Carbonated Water"
     },
     "category": "mixer",
     "color": "245,250,255",
     "sprite": null,
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "아무 맛도 없어서 무엇이든 될 수 있다.",
-      "en": "Tastes like nothing, so it can become anything."
-    }
-  },
-  {
-    "id": "lemon",
-    "kind": "ingredient",
-    "name": {
-      "ko": "레몬",
-      "en": "Lemon"
+      "ko": "맑고 톡 쏘는 탄산수. 진토닉과 진피즈에 공통으로 사용한다.",
+      "en": "Clear, sparkling carbonated water used in both Gin & Tonic and Gin Fizz."
     },
-    "category": "fruit",
-    "color": "",
-    "sprite": null,
-    "unlock_day": 1,
-    "unlock_when": null,
-    "shop_price": 20,
-    "desc": {
-      "ko": "스퀴즈용. 새콤함의 표준.",
-      "en": "For squeezing. The standard of sour."
-    }
+    "default_action": "fill_up",
+    "prep_action": null,
+    "default_target_qty": 3.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "sugar",
@@ -133,15 +122,43 @@
       "en": "Sugar"
     },
     "category": "powder",
-    "color": "",
+    "color": "250,250,245",
     "sprite": null,
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
-    "shop_price": 10,
+    "shop_price": null,
     "desc": {
-      "ko": "파우더용. 1티스푼의 위로.",
-      "en": "For powder. One teaspoon of comfort."
-    }
+      "ko": "달콤함의 기본값. 데모에선 손대지 않아도 알아서 들어간다.",
+      "en": "Sweetness by default. In the demo it adds itself."
+    },
+    "default_action": "powder",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "tsp",
+    "shelf_group": null
+  },
+  {
+    "id": "lemon",
+    "kind": "ingredient",
+    "name": {
+      "ko": "레몬",
+      "en": "Lemon"
+    },
+    "category": "fruit",
+    "color": null,
+    "sprite": null,
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": 20,
+    "desc": {
+      "ko": "스퀴즈용. 새콤함의 표준.",
+      "en": "For squeezing. The standard of sour."
+    },
+    "default_action": "squeeze",
+    "prep_action": null,
+    "default_target_qty": 0.5,
+    "default_target_unit": "oz",
+    "shelf_group": null
   },
   {
     "id": "tequila",
@@ -153,13 +170,18 @@
     "category": "base",
     "color": "240,235,220",
     "sprite": null,
-    "unlock_day": 3,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "아가베의 태양을 병에 담은 것.",
       "en": "The agave sun, bottled."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "vodka",
@@ -171,13 +193,18 @@
     "category": "base",
     "color": "240,245,250",
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "무색무취. 그래서 어디에나 스며든다.",
       "en": "Colorless and odorless — that's how it blends in anywhere."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "rum",
@@ -189,13 +216,18 @@
     "category": "base",
     "color": "180,120,60",
     "sprite": null,
-    "unlock_day": 3,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "사탕수수와 항해의 술.",
       "en": "The spirit of sugarcane and long voyages."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "orange_juice",
@@ -207,13 +239,18 @@
     "category": "juice",
     "color": "253,180,60",
     "sprite": null,
-    "unlock_day": 3,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": 25,
     "desc": {
       "ko": "아침의 맛. 새벽의 바에서는 위장약.",
       "en": "The taste of morning. At a bar past midnight, it's medicine."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "ginger_ale",
@@ -225,13 +262,18 @@
     "category": "mixer",
     "color": "230,200,120",
     "sprite": null,
-    "unlock_day": 3,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": 25,
     "desc": {
       "ko": "알싸한 생강 탄산.",
       "en": "Spicy ginger fizz."
-    }
+    },
+    "default_action": "fill_up",
+    "prep_action": null,
+    "default_target_qty": 3.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "cola",
@@ -243,13 +285,18 @@
     "category": "mixer",
     "color": "60,30,20",
     "sprite": null,
-    "unlock_day": 3,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": 25,
     "desc": {
       "ko": "무엇을 섞어도 콜라 맛이 이긴다. 그게 무기다.",
       "en": "Mix in anything — cola wins. That's its weapon."
-    }
+    },
+    "default_action": "fill_up",
+    "prep_action": null,
+    "default_target_qty": 3.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "lime",
@@ -259,15 +306,20 @@
       "en": "Lime"
     },
     "category": "fruit",
-    "color": "",
+    "color": null,
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": 20,
     "desc": {
       "ko": "스퀴즈용. 레몬보다 한 톤 낮은 산미.",
       "en": "For squeezing. One tone lower than lemon."
-    }
+    },
+    "default_action": "squeeze",
+    "prep_action": null,
+    "default_target_qty": 0.5,
+    "default_target_unit": "oz",
+    "shelf_group": null
   },
   {
     "id": "whiskey",
@@ -279,13 +331,18 @@
     "category": "base",
     "color": "190,120,40",
     "sprite": null,
-    "unlock_day": 4,
+    "unlock_day": 2,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "오크통에서 잠들었다 깨어난 시간.",
       "en": "Time that slept in an oak barrel and woke up."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "dry_vermouth",
@@ -297,13 +354,18 @@
     "category": "liqueur",
     "color": "220,220,190",
     "sprite": null,
-    "unlock_day": 1,
+    "unlock_day": 2,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "마티니를 마티니로 만드는 한 방울.",
       "en": "The one drop that makes a martini a martini."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "grenadine",
@@ -315,13 +377,18 @@
     "category": "syrup",
     "color": "180,30,50",
     "sprite": null,
-    "unlock_day": 4,
+    "unlock_day": 2,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "석류빛 붉은 시럽. 노을 담당.",
       "en": "Pomegranate-red syrup. In charge of sunsets."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "sour_mix",
@@ -333,13 +400,18 @@
     "category": "mixer",
     "color": "230,220,160",
     "sprite": null,
-    "unlock_day": 4,
+    "unlock_day": 2,
     "unlock_when": null,
     "shop_price": 25,
     "desc": {
       "ko": "새콤한 필업 베이스.",
       "en": "A tangy fill-up base."
-    }
+    },
+    "default_action": "fill_up",
+    "prep_action": null,
+    "default_target_qty": 3.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "cointreau",
@@ -351,13 +423,18 @@
     "category": "liqueur",
     "color": "235,200,140",
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 3,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "오렌지 리큐르의 귀족.",
       "en": "The aristocrat of orange liqueurs."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "cranberry_juice",
@@ -369,13 +446,18 @@
     "category": "juice",
     "color": "170,30,60",
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 3,
     "unlock_when": null,
     "shop_price": 25,
     "desc": {
       "ko": "붉고 떫고 세련된 맛.",
       "en": "Red, tart, and sophisticated."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "triple_sec",
@@ -387,13 +469,18 @@
     "category": "liqueur",
     "color": "235,225,200",
     "sprite": null,
-    "unlock_day": 6,
+    "unlock_day": 4,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "오렌지 리큐르의 실용주의자.",
       "en": "The pragmatist of orange liqueurs."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "kahlua",
@@ -405,13 +492,18 @@
     "category": "liqueur",
     "color": "60,35,25",
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 4,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "커피를 술로 번역한 것.",
       "en": "Coffee, translated into liquor."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "milk",
@@ -423,139 +515,340 @@
     "category": "dairy",
     "color": "245,245,240",
     "sprite": null,
-    "unlock_day": 2,
+    "unlock_day": 4,
     "unlock_when": null,
     "shop_price": 15,
     "desc": {
       "ko": "고양이와 초보 손님의 선택.",
       "en": "The choice of cats and cautious customers."
-    }
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
-    "id": "honey_syrup",
+    "id": "brandy",
     "kind": "ingredient",
     "name": {
-      "ko": "벌꿀 원액",
-      "en": "Raw Honey"
+      "ko": "브랜디",
+      "en": "Brandy"
     },
-    "category": "syrup",
-    "color": "235,180,60",
+    "category": "base",
+    "color": "170,90,35",
     "sprite": null,
-    "unlock_day": 99,
-    "unlock_when": "flag.q_samho_honey_done",
-    "shop_price": null,
-    "desc": {
-      "ko": "삼호의 창고에서 나온 진짜 꿀. 요즘 세상엔 금값이다.",
-      "en": "Real honey from Samho's warehouse. Worth its weight in gold these days."
-    }
-  },
-  {
-    "id": "mug",
-    "kind": "glass",
-    "name": {
-      "ko": "맥주잔",
-      "en": "Beer Mug"
-    },
-    "category": null,
-    "color": "",
-    "sprite": "glass_mug",
-    "unlock_day": 1,
+    "unlock_day": 5,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "생맥주·뮬 담당의 묵직한 잔.",
-      "en": "A heavy glass for draft beer and mules."
-    }
+      "ko": "포도를 증류한 온기. 잔을 데우는 술.",
+      "en": "Distilled warmth of the grape. A spirit that warms the glass."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
-    "id": "wine",
-    "kind": "glass",
+    "id": "amaretto",
+    "kind": "ingredient",
     "name": {
-      "ko": "와인잔",
-      "en": "Wine Glass"
+      "ko": "아마레토",
+      "en": "Amaretto"
     },
-    "category": null,
-    "color": "",
-    "sprite": "glass_wine",
-    "unlock_day": 1,
+    "category": "liqueur",
+    "color": "135,75,35",
+    "sprite": null,
+    "unlock_day": 5,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "다리가 긴 잔. 향을 가둔다.",
-      "en": "A long-stemmed glass that holds the aroma."
-    }
+      "ko": "살구씨의 달콤쌉싸름한 향.",
+      "en": "Bittersweet aroma of apricot kernels."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
-    "id": "flute",
-    "kind": "glass",
+    "id": "cream",
+    "kind": "ingredient",
     "name": {
-      "ko": "플루트잔",
-      "en": "Flute Glass"
+      "ko": "크림",
+      "en": "Cream"
     },
-    "category": null,
-    "color": "",
-    "sprite": "glass_flute",
-    "unlock_day": 1,
+    "category": "dairy",
+    "color": "240,228,205",
+    "sprite": null,
+    "unlock_day": 5,
+    "unlock_when": null,
+    "shop_price": 15,
+    "desc": {
+      "ko": "무엇이든 부드럽게 감싸는 마무리.",
+      "en": "A finish that softens everything it touches."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
+  },
+  {
+    "id": "green_peppermint",
+    "kind": "ingredient",
+    "name": {
+      "ko": "그린페퍼민트",
+      "en": "Green Peppermint"
+    },
+    "category": "liqueur",
+    "color": "45,160,110",
+    "sprite": null,
+    "unlock_day": 6,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "기포가 오래 살아있는 좁고 긴 잔.",
-      "en": "Narrow and tall — the bubbles live longer."
-    }
+      "ko": "초록빛 박하. 한 모금의 냉기.",
+      "en": "Green mint. A sip of cold air."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
-    "id": "highball",
-    "kind": "glass",
+    "id": "white_cacao",
+    "kind": "ingredient",
     "name": {
-      "ko": "하이볼잔",
-      "en": "Highball Glass"
+      "ko": "화이트카카오",
+      "en": "White Cacao"
     },
-    "category": null,
-    "color": "",
-    "sprite": "glass_highball",
-    "unlock_day": 1,
+    "category": "liqueur",
+    "color": "232,220,188",
+    "sprite": null,
+    "unlock_day": 6,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "탄산 롱드링크의 표준.",
-      "en": "The standard for fizzy long drinks."
-    }
+      "ko": "색을 지운 초콜릿 향.",
+      "en": "Chocolate aroma with the color removed."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
-    "id": "collins",
-    "kind": "glass",
+    "id": "coffee",
+    "kind": "ingredient",
     "name": {
-      "ko": "콜린스잔",
-      "en": "Collins Glass"
+      "ko": "커피",
+      "en": "Coffee"
     },
-    "category": null,
-    "color": "",
-    "sprite": "glass_collins",
-    "unlock_day": 1,
+    "category": "other",
+    "color": "70,45,30",
+    "sprite": null,
+    "unlock_day": 6,
+    "unlock_when": null,
+    "shop_price": 15,
+    "desc": {
+      "ko": "새벽 바의 두 번째 연료.",
+      "en": "The bar's second fuel after midnight."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
+  },
+  {
+    "id": "campari",
+    "kind": "ingredient",
+    "name": {
+      "ko": "캄파리",
+      "en": "Campari"
+    },
+    "category": "liqueur",
+    "color": "200,45,45",
+    "sprite": null,
+    "unlock_day": 7,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "하이볼보다 조금 더 길고 늘씬한 잔.",
-      "en": "A touch taller and slimmer than a highball."
-    }
+      "ko": "선명한 붉은색의 쓴맛. 어른의 입문 시험.",
+      "en": "A vivid red bitterness. An entrance exam for adults."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
-    "id": "rocks",
-    "kind": "glass",
+    "id": "blue_curacao",
+    "kind": "ingredient",
     "name": {
-      "ko": "온더락잔",
-      "en": "Rocks Glass"
+      "ko": "블루큐라소",
+      "en": "Blue Curacao"
     },
-    "category": null,
-    "color": "",
-    "sprite": "glass_rocks",
-    "unlock_day": 1,
+    "category": "liqueur",
+    "color": "0,145,200",
+    "sprite": null,
+    "unlock_day": 7,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "낮고 두꺼운 잔. 얼음과 독주의 자리.",
-      "en": "Low and thick. A seat for ice and strong spirits."
-    }
+      "ko": "오렌지 향의 파랑. 바다를 접어 넣은 병.",
+      "en": "Orange-scented blue. A bottle with the sea folded in."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
+  },
+  {
+    "id": "pineapple_juice",
+    "kind": "ingredient",
+    "name": {
+      "ko": "파인애플주스",
+      "en": "Pineapple Juice"
+    },
+    "category": "juice",
+    "color": "235,200,75",
+    "sprite": null,
+    "unlock_day": 7,
+    "unlock_when": null,
+    "shop_price": 25,
+    "desc": {
+      "ko": "트로피컬의 기본값.",
+      "en": "The default setting of tropical."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
+  },
+  {
+    "id": "coconut_milk",
+    "kind": "ingredient",
+    "name": {
+      "ko": "코코넛우유",
+      "en": "Coconut Milk"
+    },
+    "category": "dairy",
+    "color": "243,238,220",
+    "sprite": null,
+    "unlock_day": 7,
+    "unlock_when": null,
+    "shop_price": 15,
+    "desc": {
+      "ko": "야자수 그늘의 맛.",
+      "en": "Tastes like the shade of a palm tree."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
+  },
+  {
+    "id": "peach_brandy",
+    "kind": "ingredient",
+    "name": {
+      "ko": "피치브랜디",
+      "en": "Peach Brandy"
+    },
+    "category": "liqueur",
+    "color": "225,145,100",
+    "sprite": null,
+    "unlock_day": 8,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "복숭아의 단내를 증류한 리큐르.",
+      "en": "A liqueur distilled from the sweetness of peaches."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
+  },
+  {
+    "id": "melon_liqueur",
+    "kind": "ingredient",
+    "name": {
+      "ko": "멜론리큐르",
+      "en": "Melon Liqueur"
+    },
+    "category": "liqueur",
+    "color": "130,190,55",
+    "sprite": null,
+    "unlock_day": 9,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "초록 멜론의 단맛.",
+      "en": "The sweetness of green melon."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
+  },
+  {
+    "id": "malibu",
+    "kind": "ingredient",
+    "name": {
+      "ko": "말리부",
+      "en": "Malibu"
+    },
+    "category": "liqueur",
+    "color": "242,238,220",
+    "sprite": null,
+    "unlock_day": 9,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "코코넛 향 럼. 휴양지의 지름길.",
+      "en": "Coconut rum. A shortcut to the beach."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
+  },
+  {
+    "id": "banana_liqueur",
+    "kind": "ingredient",
+    "name": {
+      "ko": "바나나리큐르",
+      "en": "Banana Liqueur"
+    },
+    "category": "liqueur",
+    "color": "235,205,65",
+    "sprite": null,
+    "unlock_day": 9,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "노란 단맛의 마무리 담당.",
+      "en": "A yellow sweetness for the finishing touch."
+    },
+    "default_action": "pour",
+    "prep_action": null,
+    "default_target_qty": 1.0,
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "cocktail",
@@ -565,15 +858,135 @@
       "en": "Cocktail Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_cocktail",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "역삼각형의 그 잔. 격식의 상징.",
       "en": "The inverted triangle. A symbol of formality."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
+  },
+  {
+    "id": "long_drink",
+    "kind": "glass",
+    "name": {
+      "ko": "롱드링크잔",
+      "en": "Long Drink Glass"
+    },
+    "category": null,
+    "color": null,
+    "sprite": "glass_longdrink",
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "길고 늘씬한 잔. 탄산 롱드링크의 표준.",
+      "en": "Tall and slim. The standard for fizzy long drinks."
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
+  },
+  {
+    "id": "old_fashioned",
+    "kind": "glass",
+    "name": {
+      "ko": "올드패션잔",
+      "en": "Old Fashioned Glass"
+    },
+    "category": null,
+    "color": null,
+    "sprite": "glass_oldfashioned",
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "낮고 두꺼운 잔. 얼음과 독주의 자리.",
+      "en": "Low and thick. A seat for ice and strong spirits."
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
+  },
+  {
+    "id": "sour",
+    "kind": "glass",
+    "name": {
+      "ko": "사워잔",
+      "en": "Sour Glass"
+    },
+    "category": null,
+    "color": null,
+    "sprite": "glass_sour",
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "사워 칵테일 전용의 짧은 스템 잔.",
+      "en": "A short-stemmed glass reserved for sours."
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
+  },
+  {
+    "id": "wine",
+    "kind": "glass",
+    "name": {
+      "ko": "와인잔",
+      "en": "Wine Glass"
+    },
+    "category": null,
+    "color": null,
+    "sprite": "glass_wine",
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "다리가 긴 잔. 와인도 샴페인도 여기에.",
+      "en": "A long-stemmed glass — for wine and champagne alike."
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
+  },
+  {
+    "id": "mug",
+    "kind": "glass",
+    "name": {
+      "ko": "맥주잔",
+      "en": "Beer Mug"
+    },
+    "category": null,
+    "color": null,
+    "sprite": "glass_mug",
+    "unlock_day": 0,
+    "unlock_when": null,
+    "shop_price": null,
+    "desc": {
+      "ko": "맥주·뮬 담당의 묵직한 잔.",
+      "en": "A heavy glass for beer and mules."
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "shaker",
@@ -583,15 +996,20 @@
       "en": "Shaker"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "tool_shaker",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "셰이킹 기믹용.",
       "en": "For the shaking gimmick."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "mixing_glass",
@@ -601,33 +1019,20 @@
       "en": "Mixing Glass & Bar Spoon"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "tool_mixing",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "스터 기믹용 — 잔에 붓기 전 여기서 젓는다.",
       "en": "For the stirring gimmick — stir here before pouring."
-    }
-  },
-  {
-    "id": "opener",
-    "kind": "tool",
-    "name": {
-      "ko": "따개",
-      "en": "Opener"
     },
-    "category": null,
-    "color": "",
-    "sprite": "tool_opener",
-    "unlock_day": 1,
-    "unlock_when": null,
-    "shop_price": null,
-    "desc": {
-      "ko": "병뚜껑도 코르크도 이걸로 — 병따기·코르크 따기 기믹용.",
-      "en": "Caps and corks alike — for the cap-pop and cork-twist gimmicks."
-    }
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "lime_wedge",
@@ -637,15 +1042,20 @@
       "en": "Lime Wedge"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_lime",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "라임 조각 장식.",
       "en": "A lime garnish."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "lemon_slice",
@@ -655,15 +1065,20 @@
       "en": "Lemon Slice"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_lemon",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "레몬 슬라이스 장식.",
       "en": "A lemon slice garnish."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "olive",
@@ -673,15 +1088,20 @@
       "en": "Olive"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_olive",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "마티니의 완성.",
       "en": "What completes a martini."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "cherry",
@@ -691,15 +1111,20 @@
       "en": "Cherry"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_cherry",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "사워 칵테일의 마침표.",
       "en": "The period at the end of a sour."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "orange_slice",
@@ -709,14 +1134,19 @@
       "en": "Orange Slice"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_orange",
-    "unlock_day": 1,
+    "unlock_day": 0,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
       "ko": "선라이즈의 태양.",
       "en": "The sun of a sunrise."
-    }
+    },
+    "default_action": null,
+    "prep_action": null,
+    "default_target_qty": null,
+    "default_target_unit": null,
+    "shelf_group": null
   }
 ]

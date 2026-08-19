@@ -2,20 +2,21 @@
   "place": "bar",
   "scenes": [
     {
-      "id": "d2_bar_open",
+      "id": "d3_bar_open",
       "day": 2,
       "phase": "bar_open",
       "seq": 1,
       "trigger": "auto",
-      "when": "",
-      "title": "개점 전 — 크리스의 확인, OPEN 간판을 걸기까지",
+      "when": null,
+      "title": "개점 전 — 어제 손님 이야기, OPEN",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": "M",
           "text": null,
           "when": null,
@@ -26,10 +27,11 @@
           "seq": 2,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_bar_open_001",
           "arg": "default",
           "text": {
-            "ko": "오늘부터는 손님을 직접 받는다. 어제 배운 대로 할 수 있겠지?",
-            "en": "From tonight you take the guests yourself. You can do it the way I taught you, right?"
+            "ko": "어제는 나쁘지 않았다. 손이 조금 덜 떨더군.",
+            "en": "Yesterday wasn't bad. Your hands shook a little less."
           },
           "when": null,
           "effects": null,
@@ -39,10 +41,11 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_bar_open_002",
           "arg": "default",
           "text": {
-            "ko": "코스터를 먼저 내고, 주문을 받고, 만들어서 코스터 위에 올린다.",
-            "en": "Coaster first, then take the order, make it, and set it on the coaster."
+            "ko": "…칭찬인가요?",
+            "en": "...Is that praise?"
           },
           "when": null,
           "effects": null,
@@ -52,10 +55,11 @@
           "seq": 4,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_bar_open_003",
           "arg": "default",
           "text": {
-            "ko": "…외우긴 잘 외웠군. 손이 따라오는지는 해봐야 알겠지만.",
-            "en": "...You memorized it well enough. Whether your hands follow is another matter."
+            "ko": "사실 확인이다. 오늘은 술이 좀 더 들어왔으니 주문도 다양해질 거다.",
+            "en": "It's an observation. More bottles came in today, so the orders will get more varied."
           },
           "when": null,
           "effects": null,
@@ -64,11 +68,12 @@
         {
           "seq": 5,
           "type": "say",
-          "actor": "luna",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_bar_open_004",
           "arg": "default",
           "text": {
-            "ko": "틀리면 어떻게 하죠?",
-            "en": "What if I get it wrong?"
+            "ko": "모르는 주문이 오면 손님을 봐라. 잔보다 사람이 먼저다.",
+            "en": "If an order stumps you, look at the guest. The person comes before the glass."
           },
           "when": null,
           "effects": null,
@@ -78,23 +83,11 @@
           "seq": 6,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_bar_open_005",
           "arg": "default",
           "text": {
-            "ko": "틀린 잔은 내가 물어준다. 두 번 틀리지만 마라.",
-            "en": "I'll cover the wrong ones. Just don't make the same mistake twice."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "좋아, 시작해보자. 간판 걸어라.",
-            "en": "All right. Let's open. Go flip the sign."
+            "ko": "됐다. 열자.",
+            "en": "That's enough. Let's open."
           },
           "when": null,
           "effects": null,
@@ -103,24 +96,66 @@
       ]
     },
     {
-      "id": "d2_aili_lady_q",
+      "id": "d3_cameo_port",
+      "day": 2,
+      "phase": "bar",
+      "seq": 0,
+      "trigger": "cameo",
+      "when": null,
+      "title": "1부 카메오 — 포트가 짧게 들름 (서빙 후 재생)",
+      "skippable": false,
+      "group": null,
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "port",
+          "dialogue_id": "dlg_d3_cameo_port_001",
+          "arg": "joy",
+          "text": {
+            "ko": "…역시. 어제 그 맛이 아니었으면 어쩌나 했지.",
+            "en": "...Right. I'd have worried if it wasn't yesterday's taste."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "port",
+          "dialogue_id": "dlg_d3_cameo_port_002",
+          "arg": "default",
+          "text": {
+            "ko": "배우는 속도가 빠르군. 크리스한테 칭찬해두지.",
+            "en": "You learn fast. I'll put in a good word with Chris."
+          },
+          "when": null,
+          "effects": "affinity.port += 1",
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_samho_warn",
       "day": 2,
       "phase": "bar",
       "seq": 0,
       "trigger": "manual",
-      "when": "",
-      "title": "분기 — 섹시한 레이디란 무엇인가",
+      "when": null,
+      "title": "분기 — 취기 경고 (ch_d3_last_call A)",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_warn_001",
           "arg": "default",
           "text": {
-            "ko": "섹시한 레이디는 어떤 의미죠?",
-            "en": "What does 'sexy lady' mean, exactly?"
+            "ko": "지금 더 마시면 취할 수도 있습니다.",
+            "en": "If you drink any more now, you may get drunk."
           },
           "when": null,
           "effects": null,
@@ -129,11 +164,12 @@
         {
           "seq": 2,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_warn_002",
+          "arg": "drunk",
           "text": {
-            "ko": "남녀 불문하고 내 매력에 빠져 돈이나 임플란트까지 뜯어다 바치는\n매력을 가진 레이디라는 거지.",
-            "en": "It means a lady so charming that men and women alike fall for her\nand hand over their money — even their implants."
+            "ko": "에이, 이거 가지고 뭘 취해. 아직 두 잔밖에 안 마셨어어어.",
+            "en": "Pfft, drunk off this? I've only had two glasses sooo faaar."
           },
           "when": null,
           "effects": null,
@@ -143,10 +179,11 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_warn_003",
           "arg": "default",
           "text": {
-            "ko": "그런 적이 있나요?",
-            "en": "Has that ever actually happened?"
+            "ko": "세 잔입니다.",
+            "en": "That was three glasses."
           },
           "when": null,
           "effects": null,
@@ -155,11 +192,12 @@
         {
           "seq": 4,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_warn_004",
+          "arg": "drunk",
           "text": {
-            "ko": "옛날에 KCPD 새끼들이 내 업장에 들이닥쳐서\n영업정지 때리기 전까진 자주 있었지.",
-            "en": "Happened all the time, back before those KCPD bastards\nstormed my establishment and shut it down."
+            "ko": "그거나 그거나~",
+            "en": "Same difference~"
           },
           "when": null,
           "effects": null,
@@ -168,11 +206,12 @@
         {
           "seq": 5,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_warn_005",
+          "arg": "drunk",
           "text": {
-            "ko": "그 이후로 KCPD랑 나한테 돈 빌려준 놈들이 아주 그냥\n발정 난 개새끼마냥 날 찾으려고 염병을 하더라고.",
-            "en": "Ever since, the KCPD and everyone I owe money to have been\nscrambling to find me like dogs in heat."
+            "ko": "아무튼 한 잔 정도야 괜찮아~",
+            "en": "Anyway, one more glass is fiiine~"
           },
           "when": null,
           "effects": null,
@@ -180,78 +219,11 @@
         },
         {
           "seq": 6,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "별것도 아닌 일로 왜 그렇게 피곤하게 하는지.\n정말 할 짓 없는 자식들이라니까?",
-            "en": "All that fuss over nothing.\nSeriously, don't they have anything better to do?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "그렇다면 섹시한 레이디란 건 많은 이들한테 쫓겨서 피곤한 사람이란 거네요.",
-            "en": "So a 'sexy lady' is someone exhausted from being chased by many people."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "정확해. 내가 보기엔 루나 너도 재능이 충분히 있어 보여.\n어때? 나한테 배워볼 생각은?",
-            "en": "Exactly. And you know, Luna, I'd say you've got real talent.\nHow about it? Want to learn from me?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "거절합니다. 아직 일 시작한 지 하루밖에 되지 않았습니다.",
-            "en": "I decline. I have only been on this job for one day."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "쯧. 재미없게 하긴.온다고 하면 크리스가 \n나한테 잔소리할 걸 생각하니 귀찮긴 하겠다.",
-            "en": "Tch. No fun at all. Then again, if you said yes,\nChris would nag me to death — what a hassle that'd be."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 11,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "뭐, 어쨌든 빨리 술 한 잔 만들어줘 봐.",
-            "en": "Well, whatever. Hurry up and make me that drink."
-          },
+          "type": "choice",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "ch_d3_cutoff",
+          "text": null,
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -259,22 +231,26 @@
       ]
     },
     {
-      "id": "d2_open",
+      "id": "d3_samho_pour",
       "day": 2,
       "phase": "bar",
-      "seq": 1,
-      "trigger": "auto",
-      "when": "",
-      "title": "개점 — 크리스와 교대 전 당부",
+      "seq": 0,
+      "trigger": "manual",
+      "when": null,
+      "title": "분기 — 마지막 마티니와 노란 꽃 (death_route)",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
-          "type": "enter",
-          "actor": "chris",
-          "arg": "R",
-          "text": null,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_001",
+          "arg": "default",
+          "text": {
+            "ko": "알겠습니다. 드리도록 하죠.",
+            "en": "Understood. I'll pour you one."
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -282,11 +258,12 @@
         {
           "seq": 2,
           "type": "say",
-          "actor": "chris",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_002",
+          "arg": "drunk",
           "text": {
-            "ko": "좋아. 그럼 부탁한다.",
-            "en": "Alright. Then I'm counting on you."
+            "ko": "그래, 그거야, 루나.",
+            "en": "Yeah, that's the spirit, Luna."
           },
           "when": null,
           "effects": null,
@@ -296,2238 +273,10 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_003",
           "arg": "default",
           "text": {
-            "ko": "네, 크리스.",
-            "en": "Yes, Chris."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "보스.",
-            "en": "Boss."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 보스.",
-            "en": "Yes, Boss."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그래. 오늘이 첫날인데 너무 긴장하진 말고.\n물론 넌 안 할 것 같지만.",
-            "en": "Good. It's your first day, so don't be too nervous.\nNot that you seem capable of it."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "저도 긴장할 때가 있습니다.",
-            "en": "I do get nervous sometimes."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "..너가?",
-            "en": "..You?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "개와 흡사하게 생긴 사람을 보면 거부 반응을 일으킵니다.",
-            "en": "I experience a rejection response when I see people who closely resemble dogs."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "…무슨 이유인지 물어보진 않겠다.",
-            "en": "...I'm not going to ask why."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 11,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 보스.",
-            "en": "Yes, Boss."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 12,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "좋아. 그럼 자정 전까지만 부탁해.\n그 이후엔 나랑 교대할 거야.",
-            "en": "Alright. You've got the counter until midnight.\nAfter that, I'll take over."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 13,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그리고 오늘부터 매일 유지비를 계속 내야 하니까 알아둬.",
-            "en": "And heads up — starting today, you pay the daily upkeep."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 14,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "그걸 제가 내는 건가요?",
-            "en": "I'm the one paying that?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 15,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그래. 언제까지 놀고먹을 수는 없어.\n사회로 나왔으면 자기 몫은 해야지.",
-            "en": "That's right. You can't freeload forever.\nYou're out in the world now — pull your own weight."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 16,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "제가 생각하기엔 행복이란 건 \n일을 하지 않아도 되는 삶인 것 같습니다.",
-            "en": "In my analysis, happiness is\na life where one does not have to work."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 17,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "너 오늘 첫 출근이야. 앓는 소리는 짬 차면 해.",
-            "en": "It's your first shift. Earn some seniority before you start whining."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 18,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "노력해 보겠습니다.",
-            "en": "I will make an effort."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 19,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "또 몰래 재료 먹으면 안 돼.",
-            "en": "And no sneaking bites of the ingredients again."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 20,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네. 알겠습니다.",
-            "en": "Yes. Understood."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 21,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그래, 간다.",
-            "en": "Right. I'm off."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 22,
-          "type": "exit",
-          "actor": "chris",
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 23,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "……",
-            "en": "......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 24,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이번엔 올리브를 한 번……",
-            "en": "This time, maybe an olive......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 25,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "……생각보다 기름지고 쓴맛이 느껴지네.",
-            "en": "......Oilier and more bitter than expected."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 26,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이게 라임이었나?",
-            "en": "Was this a lime?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_port",
-      "day": 2,
-      "phase": "bar",
-      "seq": 2,
-      "trigger": "auto",
-      "when": "",
-      "title": "포트 첫 방문 — 진피즈, 조니 이야기, 부비 배달",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "enter",
-          "actor": "port",
-          "arg": "R",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "뭐야. 진짜 여기서 일하고 있네.",
-            "en": "What the. You really do work here."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "아응넝하세요. 소응님.",
-            "en": "Wewcome in, shir. Guhd ebening."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "뭘 입에다 쳐 넣고 얘기하는 거야?",
-            "en": "What the hell are you talking with in your mouth?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "크흠. 아닙니다. 어서 오세요.",
-            "en": "Ahem. Nothing. Welcome in."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "크리스가 와 보라고 한 이유가 있었구만?",
-            "en": "So Chris had a reason for telling me to drop by."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "손님으로 온 건가요?",
-            "en": "Are you here as a customer?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "당연하지. 내가 그럼 여기 일하러 왔을까 봐?",
-            "en": "Obviously. What, you think I came here to work?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "확인했습니다. 혹시 옆에 있는 로봇은 무슨 로봇입니까?",
-            "en": "Confirmed. By the way, what is that robot next to you?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "뭐?",
-            "en": "What?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 11,
-          "type": "say",
-          "actor": "port",
-          "arg": "event_surprise",
-          "text": {
-            "ko": "ㅁ..뭐야! 니미랄!!!",
-            "en": "Wh..what the! Son of a—!!!"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 12,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "키우는 게 아니였군요.",
-            "en": "So it is not a pet."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 13,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "흠.. 아까 폐기물 매립 구역에서 붙은 놈인가보군..",
-            "en": "Hm.. must've latched onto me back at the waste landfill zone.."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 14,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "이 놈도 이따 가서 한번 손 봐야겠어.",
-            "en": "I'll have to take this one apart later too."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 15,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "아재 주문을 부탁드립니다.",
-            "en": "Old-timer, your order, please."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 16,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "흠… 기다려 봐.",
-            "en": "Hmm... hold on."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 17,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "아쉽지만 '기다려 봐'라는 술은 없습니다.",
-            "en": "Unfortunately, we do not carry a drink called 'Hold On.'"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 18,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "야 이 또라이야 자꾸 그럴래?",
-            "en": "Hey, you lunatic, you gonna keep that up?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 19,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "크리스 이 자식은 대체 뭘 가르친 거야?",
-            "en": "What the hell did Chris even teach you?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 20,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "보스가 나머지는 일하면서 배우라고 했습니다.",
-            "en": "Boss said I should learn the rest on the job."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 21,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "어쩐지 나보고 오늘 일찍 끝내고 오라더니…\n이 썩을 놈이 날 교육 자료로 써?",
-            "en": "No wonder he told me to close up early and come over...\nThat rotten bastard's using me as training material?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 22,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "교육 자료로 쓰기엔 많이 노후된 걸로 보입니다.",
-            "en": "You appear too worn-out to serve as training material."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 23,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "……",
-            "en": "......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 24,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "……일단 <name>진피즈</name> 한 잔 줘. 정석대로.",
-            "en": "......Just get me a <name>Gin Fizz</name>. By the book."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 25,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 손님.",
-            "en": "Yes, sir."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 26,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "(<name>진피즈</name> 한 잔. 정석대로.)",
-            "en": "(One <name>Gin Fizz</name>. By the book.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 27,
-          "type": "order",
-          "actor": "port",
-          "arg": "exact:gin_fizz",
-          "text": {
-            "ko": "진피즈, 정석대로.",
-            "en": "A Gin Fizz, by the book."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 28,
-          "type": "craft",
-          "actor": null,
-          "arg": "order",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 29,
-          "type": "serve",
-          "actor": "port",
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 30,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "야!",
-            "en": "Hey!"
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 31,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "왜요?",
-            "en": "Yes?"
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 32,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "이거 왜 맛있어?",
-            "en": "Why does this taste good?"
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 33,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "혹시 주문이 맛없는 진피즈였습니까?",
-            "en": "Was your order for a bad Gin Fizz?"
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 34,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "아니. 그건 아니지만. 애송이가 만든 거라고 믿기지 않는군.",
-            "en": "No. It's not that. Just hard to believe a greenhorn made this."
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 35,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "칭찬 감사합니다.\n나가실 때 추가 팁은 테이블 위에 올려두시면 됩니다.",
-            "en": "Thank you for the compliment.\nAdditional tips may be left on the table on your way out."
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 36,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "…아직 손님 응대는 개판이지만.",
-            "en": "...Though your customer service is still a mess."
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 37,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "흠…",
-            "en": "Hmm..."
-          },
-          "when": "grade >= good && grade < excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 38,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "어떤가요?",
-            "en": "How is it?"
-          },
-          "when": "grade >= good && grade < excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 39,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "생각보다 나쁘지않네.",
-            "en": "Not as bad as I expected."
-          },
-          "when": "grade >= good && grade < excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 40,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "칭찬입니까?",
-            "en": "Is that a compliment?"
-          },
-          "when": "grade >= good && grade < excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 41,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "이제 막 시작한 애송이한테 이 정도면 칭찬이지.",
-            "en": "For a greenhorn who just started, that's a compliment, yeah."
-          },
-          "when": "grade >= good && grade < excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 42,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "흐음.",
-            "en": "Hmmm."
-          },
-          "when": "grade >= decent && grade < good",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 43,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "맛이 어떠십니까?",
-            "en": "How does it taste?"
-          },
-          "when": "grade >= decent && grade < good",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 44,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "진피즈긴 한데… 뭔가 어설퍼.",
-            "en": "It's a Gin Fizz, sure... but something's clumsy about it."
-          },
-          "when": "grade >= decent && grade < good",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 45,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "제조 과정에서 완성도가 부족했던 것 같습니다.",
-            "en": "It appears the execution lacked polish."
-          },
-          "when": "grade >= decent && grade < good",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 46,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "마시는 데 지장은 없어. 다음엔 좀 더 정성 들여.",
-            "en": "It's drinkable. Put more care into the next one."
-          },
-          "when": "grade >= decent && grade < good",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 47,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "이야 대단한데?",
-            "en": "Wow, impressive."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 48,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네?",
-            "en": "Pardon?"
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 49,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "얼마나 자신있으면 시키지도 않은 술을 주는 거지?",
-            "en": "How confident do you have to be to serve a drink nobody ordered?"
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 50,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "죄송합니다. 레시피를 다른 것으로 찾은 것 같습니다.",
-            "en": "My apologies. I appear to have pulled up the wrong recipe."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 51,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "나 말고도 다른 손님한테 이러면 곤란할 텐데.",
-            "en": "You pull this on other customers, you're in trouble."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 52,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "다시 만들어 드리겠습니다.",
-            "en": "I will make it again."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 53,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "됐어. 그냥 마실 테니 다음부턴 실수하지 마.",
-            "en": "Forget it. I'll drink it — just don't slip up again."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 54,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "하지만 내가 주문한 것도 아닌 걸 줬으니.\n돈은 못 내, 알았지?",
-            "en": "But since this isn't what I ordered,\nI'm not paying for it. Got it?"
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 55,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 알겠습니다.",
-            "en": "Yes, understood."
-          },
-          "when": "grade >= poor && grade < decent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 56,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "……",
-            "en": "......"
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 57,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "왜 아무 말도 없으십니까?",
-            "en": "Why are you not saying anything?"
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 58,
-          "type": "say",
-          "actor": "port",
-          "arg": "anger",
-          "text": {
-            "ko": "이게 술이냐?",
-            "en": "You call this a drink?"
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 59,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "형식상으로는 그렇습니다.",
-            "en": "Technically, it qualifies as one."
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 60,
-          "type": "say",
-          "actor": "port",
-          "arg": "anger",
-          "text": {
-            "ko": "아니, 나는 내 미각을 마비시키는 무언가를 쓰레기라 부르기로 했어.",
-            "en": "No. I've decided to call anything that paralyzes my taste buds garbage."
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 61,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "손님의 감각 기관에 손상을 줄 의도는 없었습니다.",
-            "en": "There was no intent to damage your sensory organs."
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 62,
-          "type": "say",
-          "actor": "port",
-          "arg": "anger",
-          "text": {
-            "ko": "사람한테 총을 쏴 놓고 고의가 아니라고 하는 등신 같은 갱놈들 같군.\n기회를 주지. 다시 만들어.",
-            "en": "You sound like those idiot gangers who shoot a man and claim it wasn't on purpose.\nI'll give you one more chance. Make it again."
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 63,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "알겠습니다.",
-            "en": "Understood."
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 64,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "(<name>진피즈</name> 한 잔. 레시피를 잘 확인하자.)",
-            "en": "(One <name>Gin Fizz</name>. Check the recipe carefully this time.)"
-          },
-          "when": "grade < poor",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 65,
-          "type": "effect",
-          "actor": null,
-          "arg": null,
-          "text": null,
-          "when": "grade < poor",
-          "effects": "flag.d2_port_retry = true",
-          "sync": "wait"
-        },
-        {
-          "seq": 66,
-          "type": "order",
-          "actor": "port",
-          "arg": "exact:gin_fizz",
-          "text": {
-            "ko": "진피즈, 정석대로.",
-            "en": "A Gin Fizz, by the book."
-          },
-          "when": "flag.d2_port_retry",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 67,
-          "type": "craft",
-          "actor": null,
-          "arg": "order",
-          "text": null,
-          "when": "flag.d2_port_retry",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 68,
-          "type": "serve",
-          "actor": "port",
-          "arg": null,
-          "text": null,
-          "when": "flag.d2_port_retry",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 69,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "네가 아무리 못 만들어도 크리스가 처음 만든 술보다는 훨씬 낫지.",
-            "en": "However badly you make it, it's still miles better than Chris's first drink."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 70,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "보스가 만든 술은 맛이 없었습니까?",
-            "en": "Was the Boss's drink that bad?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 71,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "마시면 인생을 다시 생각하게 되는 맛이었지.",
-            "en": "It was the kind of taste that makes you reconsider your whole life."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 72,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "철학적인 맛이었나 보네요.",
-            "en": "A philosophical flavor, it seems."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 73,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "아니. 대체 어쩌다 내가 휘발유 맛이 나는 술을 마시고 있는\n인생을 살게 되었는지 생각한 거야.",
-            "en": "No. I mean I sat there wondering how my life had come to the point\nwhere I was drinking something that tasted like gasoline."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 74,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "지금은 어떤가요?",
-            "en": "And now?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 75,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "처음보단 나아졌지만 여전히 쓰레기지.\n무슨 수로 지금까지 버틴 건지 참……",
-            "en": "Better than at first, but still garbage.\nHow this place survived is beyond me......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 76,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이전에 보스가 바를 닫으려고 생각한 적이 있다고 했습니다.",
-            "en": "The Boss once mentioned he'd thought about closing the bar."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 77,
-          "type": "say",
-          "actor": "port",
-          "arg": "anger",
-          "text": {
-            "ko": "뭐? 이 썩을 놈이 이 가게가 어떤 곳인 줄 알고 문을 닫아.",
-            "en": "What? That rotten punk — does he even know what this place is, talking about closing it?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 78,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "보스가 운영하던 가게가 아니었습니까?",
-            "en": "Was it not the Boss's bar to begin with?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 79,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "원래 이 바의 주인은 조니라는 친구였지.",
-            "en": "The original owner of this bar was a guy named Johnny."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 80,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "조니가 있었으면 언노운이 이렇게 되진 않았을 텐데.",
-            "en": "If Johnny were still around, Unknown wouldn't have ended up like this."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 81,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "……",
-            "en": "......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 82,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "그래도 루나 널 보니 뭔가 달라질 수도 있을 것 같네.\n아직 애송이지만 말이야.",
-            "en": "Still, looking at you, Luna, maybe things could change around here.\nEven if you're still a greenhorn."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 83,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "계속 크리스가 운영했었으면 십중팔구 갱단 아지트가 되었겠지.",
-            "en": "If Chris had kept running it alone, odds are it'd be a gang hideout by now."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 84,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "하지만 제가 배운 것들은 다 보스가 알려준 겁니다.",
-            "en": "But everything I know was taught to me by the Boss."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 85,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "무슨 이유인지 몰라도 그 자식은 조니한테 잘 배워 놓고\n술은 드럽게 못 만들어.",
-            "en": "For whatever reason, that punk learned everything from Johnny\nand still makes drinks like absolute filth."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 86,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "일부러 못만드는 게 아닌가요?",
-            "en": "Could he be making them badly on purpose?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 87,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "그런 거라면 당장 저 문을 열고 면상에 한 방 꽂아주고 싶군.",
-            "en": "If that's the case, I'd like to walk through that door right now and plant one in his face."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 88,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "흥미롭네요. 이런 건 처음 들었습니다.",
-            "en": "Interesting. I have never heard any of this."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 89,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "그래도 네 보스잖아. 너무 나쁘게 보지는 말라고.",
-            "en": "Still, he's your boss. Don't think too badly of him."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 90,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "지금까지 보스를 욕한 건 포트 혼자였습니다.",
-            "en": "So far, the only one badmouthing the Boss has been you, Port."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 91,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "…그래도 크리스가 술 만드는 것 이외에\n바텐더로서 뭘 해야 하는지는 잘 알고 있으니까 배워 둬.",
-            "en": "...Still, aside from the actual mixing,\nChris knows exactly what a bartender should be. Learn that from him."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 92,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 알겠습니다.",
-            "en": "Yes, understood."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 93,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "그래.",
-            "en": "Good."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 94,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "그나저나 내가 첫 손님인데 부탁 하나 해도 되지?",
-            "en": "By the way — I'm your first customer. Mind doing me a favor?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 95,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "여기는 유흥업소가 아닙니다.",
-            "en": "This is not that kind of establishment."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 96,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "뭔 헛소리야? 그딴 주문 말고 다른 거.",
-            "en": "What kind of nonsense is that? Not that kind of favor — something else."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 97,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "말씀하세요.",
-            "en": "Go ahead."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 98,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "밖에 나가면 고양이 한 마리가 자고 있을 텐데.\n데리고 와줘.",
-            "en": "There should be a cat sleeping right outside.\nBring it in for me."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 99,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "혹시 바텐더 업무에 야생동물 포획이 포함되는 겁니까?",
-            "en": "Does bartending duty include the capture of wild animals?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 100,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "내가 부탁이라고 했잖아. 나도 어찌 보면 생명의 은인인데,\n이 정도는 해 줄 수 있지?",
-            "en": "I said it was a favor. I did save your life, in a manner of speaking —\nyou can do this much for me, right?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 101,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "보수가 충분하다면 못 할 일은 아닙니다.",
-            "en": "Given sufficient compensation, it is not impossible."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 102,
-          "type": "say",
-          "actor": "port",
-          "arg": "serious",
-          "text": {
-            "ko": "…내가 아주 골치 아픈 놈을 고쳐놨군.\n알겠으니까 부탁하지.",
-            "en": "...I really fixed up one troublesome piece of work.\nFine, fine. Please."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 103,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 손님.",
-            "en": "Yes, sir."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 104,
-          "type": "timeline",
-          "actor": null,
-          "arg": "tl_bubi_meet",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 105,
-          "type": "enter",
-          "actor": "bubi",
-          "arg": "L",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 106,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 107,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "좋아. 잘 데려왔구먼.",
-            "en": "Good. Nicely done."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 108,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "데려오라고 한 이유가 뭐죠?",
-            "en": "Why did you want it brought in?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 109,
-          "type": "say",
-          "actor": "port",
-          "arg": "default",
-          "text": {
-            "ko": "이번에 새로 찾은 물건이 있어서 살펴봐야되는데.\n부비가 옆에서 계속 방해를 하거든.",
-            "en": "I picked up a new find I need to look over,\nbut Bubi keeps getting in the way."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 110,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이 고양이의 이름이 부비인가요?",
-            "en": "Is this cat's name Bubi?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 111,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "맞아. 그럼 먼저 일어난다.\n잘 부탁할게.",
-            "en": "That's right. Well, I'm off.\nTake good care of her."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 112,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네? 어디 가세요?",
-            "en": "Pardon? Where are you going?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 113,
-          "type": "say",
-          "actor": "port",
-          "arg": "joy",
-          "text": {
-            "ko": "크크. 오랜만에 제대로 된 작업을 할 수 있겠구먼.",
-            "en": "Heh heh. Finally, some proper work after all this time."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 114,
-          "type": "exit",
-          "actor": "port",
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 115,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "……",
-            "en": "......"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 116,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 117,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "…이런 건 생각 못했는데.",
-            "en": "...I did not anticipate this."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 118,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 119,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "혹시 올리브를 좋아하시나요?",
-            "en": "Do you happen to like olives?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 120,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_aili",
-      "day": 2,
-      "phase": "bar",
-      "seq": 3,
-      "trigger": "auto",
-      "when": "",
-      "title": "아일리 등장 — 박스 위의 레이디",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "enter",
-          "actor": "aili",
-          "arg": "R",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "손님 받아라!!!",
-            "en": "Customer coming through!!!"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "어서 오세요, 손님.",
-            "en": "Welcome in, ma'am."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "오랜만이야, 이쁜이. 진짜 여기서 일하고 있었구나.",
-            "en": "Long time no see, cutie. So you really are working here."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네? 누가 말해주던가요?",
-            "en": "Pardon? Who told you?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "방금 여기서 도망간 영감이 말해줬지.\n나한테 여기로 꺼지라는 말과 함께.",
-            "en": "The old man who just fled this place told me.\nRight along with 'get lost and head to the bar.'"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이해했습니다. 두 분 다 위에 있는 수리점에서\n같이 일하고 있었죠?",
-            "en": "Understood. You both work together\nat the repair shop upstairs, correct?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "맞아. 서로 하는 일은 좀 다르지만 말이야.",
-            "en": "Right. Though what we each do is a little different."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "혹시 그분은 길고양이 유기가 취미인가요?",
-            "en": "Is abandoning stray cats a hobby of his?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "큭큭. 그 영감 취미가 제정신은 아니긴 해.\n근데 쟨 할배가 전부터 키우던 고양이야.",
-            "en": "Heh heh. The old man's hobbies aren't exactly sane, true.\nBut that one's a cat he's kept for ages."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 11,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "무슨 이유로 저한테 맡긴 걸까요?",
-            "en": "Why would he leave her with me?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 12,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "몰라. 오늘 혼자서 만들고 싶은 게 있다고 그러던데.",
-            "en": "No idea. He said there was something he wanted to build alone today."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 13,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "나도 쫓겨났다니까?\n빌어먹을 영감탱이.",
-            "en": "He kicked me out too, you know?\nDamn old geezer."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 14,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "흠. 곤란하네요. 아직 동물을 다루는 방법은 배우지 못했습니다.",
-            "en": "Hm. This is problematic. I have not yet learned how to handle animals."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 15,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "걱정 마. 부비가 평범한 고양이는 아니거든.",
-            "en": "Don't worry. Bubi's no ordinary cat."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 16,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "이름이 부비인가요?",
-            "en": "Her name is Bubi?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 17,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "맞아. 나름 이 동네에서 악명을 떨치는 고양이니까 \n놀러 오면 잘 대접해주라고.",
-            "en": "Yep. She's got quite the reputation around this neighborhood,\nso treat her well when she visits."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 18,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 19,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네. 향후 바텐더 업무 내용에 참고하겠습니다.",
-            "en": "Noted. I will factor it into future bartending duties."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 20,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "그리고 혹시 왜 의자에 앉지 않는 건지 알려주실 수 있나요?",
-            "en": "Also, may I ask why you will not sit on a chair?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 21,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "난 날 내려다 보는 사람이 있으면 \n면상에 총알을 박아주고 싶은 병이있어.",
-            "en": "I've got this condition — when someone looks down on me,\nI want to put a bullet in their face."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 22,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "그런 병은 처음 들어 봤습니다.",
-            "en": "I have never heard of such a condition."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 23,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "음음. 그럴 수 있어. 이건 희귀한 병이기 때문이지.",
-            "en": "Mm-hm. Understandable. It's a very rare condition."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 24,
-          "type": "say",
-          "actor": "aili",
-          "arg": "fail",
-          "text": {
-            "ko": "아무튼 내가 의자에 앉으면 다른 사람들이 건방지게 날 깔본단 말이야.",
-            "en": "Anyway, when I sit on a chair, people get cocky and look down on me."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 25,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "그래서 그 박스를 밟고 서 계신 겁니까?",
-            "en": "Is that why you are standing on that box?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 26,
-          "type": "say",
-          "actor": "aili",
-          "arg": "fail",
-          "text": {
-            "ko": "맞아 이 박스 덕분에 건방진 크리스가 아직 총에 맞지 않는거야.\n어떻게 보면 이 박스가 사람 하나 살려준 셈이지.",
-            "en": "Exactly. Thanks to this box, that cocky Chris hasn't been shot yet.\nIn a way, this box has saved a man's life."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 27,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "아하… 이해했습니다.",
-            "en": "Ah... understood."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 28,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "좋아. 그럼 슬슬 이쁜이가 만들어 주는 술 한 번 먹어 볼까?",
-            "en": "Alright. Time to try a drink made by my cutie, shall we?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 29,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "주문은 어떤 걸로 하시겠습니까?",
+            "ko": "주문은 어떤 걸로 하시나요?",
             "en": "What would you like to order?"
           },
           "when": null,
@@ -2535,96 +284,29 @@
           "sync": "wait"
         },
         {
-          "seq": 30,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "음…\n나 같은 섹시한 레이디한테 어울리는 술로 부탁해.",
-            "en": "Hmm...\nMake me something that suits a sexy lady like myself."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 31,
-          "type": "choice",
-          "actor": null,
-          "arg": "ch_d2_aili_lady",
-          "text": null,
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_aili_craft",
-      "day": 2,
-      "phase": "bar",
-      "seq": 4,
-      "trigger": "auto",
-      "when": "",
-      "title": "아일리 주문 — 그리고 부비의 한 잔",
-      "skippable": false,
-      "group": "",
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 주문 받았습니다.",
-            "en": "Yes, order received."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "(자칭 <name>섹시한 레이디</name>에게 술 한 잔……)",
-            "en": "(One drink for the self-proclaimed <name>sexy lady</name>......)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "order",
-          "actor": "aili",
-          "arg": "exact:cosmopolitan",
-          "text": {
-            "ko": "섹시한 레이디한테 어울리는 술 한 잔..",
-            "en": "A drink fit for a sexy lady.."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
           "seq": 4,
-          "type": "craft",
-          "actor": null,
-          "arg": "order",
-          "text": null,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_004",
+          "arg": "drunk",
+          "text": {
+            "ko": "아까 줬던 걸로. <name>드라이 마티니</name>였나?",
+            "en": "The one from before. Was it a <name>Dry Martini</name>?"
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 5,
-          "type": "serve",
-          "actor": "aili",
-          "arg": null,
-          "text": null,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_005",
+          "arg": "default",
+          "text": {
+            "ko": "맞습니다. 드디어 기억하시네요.",
+            "en": "Correct. You finally remembered."
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -2632,63 +314,62 @@
         {
           "seq": 6,
           "type": "say",
-          "actor": "aili",
-          "arg": "success",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_006",
+          "arg": "default",
           "text": {
-            "ko": "……뭐지?",
-            "en": "......What is this?"
+            "ko": "(마지막 드라이 마티니……)",
+            "en": "(One last Dry Martini......)"
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "type": "order",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_007",
+          "arg": "exact:dry_martini",
           "text": {
-            "ko": "왜 그러시죠?",
-            "en": "Is something wrong?"
+            "ko": "마지막 한 잔.",
+            "en": "One last glass."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 8,
-          "type": "say",
-          "actor": "aili",
-          "arg": "success",
-          "text": {
-            "ko": "존나 맛있어.\n왜 맛있지?",
-            "en": "It's damn delicious.\nWhy is it delicious?"
-          },
-          "when": "grade >= excellent",
+          "type": "craft",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "order",
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "포트도 그렇고, 왜 다들 맛없는 술을 기대하고 오는 겁니까?",
-            "en": "Port was the same — why does everyone come in expecting a bad drink?"
-          },
-          "when": "grade >= excellent",
+          "type": "serve",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 10,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_008",
+          "arg": "drunk",
           "text": {
-            "ko": "너 크리스가 만든 술 마셔 봤어?\n이거랑 비교하는 게 실례일 정도라니까.",
-            "en": "Have you ever tried a drink Chris made?\nComparing it to this would be an insult."
+            "ko": "크… 이거지. 너무 맛있는데? 이제 쓴맛도\n별로 안 느껴져. 보스가 왜 이걸 마시는지 알겠네.",
+            "en": "Ahh... that's the one. So good! I can barely taste\nthe bitterness now. I get why Boss drinks this."
           },
           "when": "grade >= excellent",
           "effects": null,
@@ -2697,65 +378,70 @@
         {
           "seq": 11,
           "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_009",
+          "arg": "drunk",
           "text": {
-            "ko": "보스가 만든 술이 그렇게 맛없었습니까?",
-            "en": "Was the Boss's drink truly that bad?"
+            "ko": "크… 이거지. 보스가 마시는 맛이야.",
+            "en": "Ahh... that's the one. The taste of the Boss."
           },
-          "when": "grade >= excellent",
+          "when": "grade >= good && grade < excellent",
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 12,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_010",
+          "arg": "drunk",
           "text": {
-            "ko": "손님으로 왔을 때 크리스가 처음 술을 만들어줬는데.\n한 모금 마시고 바로 크리스한테 잔을 던졌지.",
-            "en": "First time I came as a customer, Chris made me a drink.\nOne sip, and I threw the glass right at him."
+            "ko": "이건.. 내…",
+            "en": "This is... my..."
           },
-          "when": "grade >= excellent",
+          "when": "grade < good",
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 13,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_011",
           "arg": "default",
           "text": {
-            "ko": "음침하고 냄새나는 남자가 밸런타인데이랍시고 나한테 선물로 주려고\n한 달 동안 정성 들여 만든 초콜릿 맛이었어.",
-            "en": "It tasted like chocolate some creepy, smelly guy spent a whole month\nlovingly making as a Valentine's gift for me."
+            "ko": "손님은 만취 상태로 보입니다.",
+            "en": "Customer status: heavily intoxicated."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 14,
           "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_012",
+          "arg": "drunk",
           "text": {
-            "ko": "…무슨 맛이죠?",
-            "en": "...What flavor is that?"
+            "ko": "ㅁㅓ슨 소리야. 나 아주 멀!@쩡하다고.",
+            "en": "Whaddya mean. I'm perf!@ctly fine."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 15,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_013",
           "arg": "default",
           "text": {
-            "ko": "정성 들인 쓰레기. 형용할 수 없는 최악의 맛이지.",
-            "en": "Devoted garbage. The indescribable worst."
+            "ko": "그나저나 루나, 꽃이라는 거 본 적 있어?",
+            "en": "By the way, Luna — you ever seen a flower?"
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -2763,23 +449,983 @@
           "seq": 16,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_014",
           "arg": "default",
           "text": {
-            "ko": "그건 그 사람의 노력을 무시하는 거 아닌가요?",
-            "en": "Is that not dismissive of that person's effort?"
+            "ko": "갑자기 꽃이요? 사진으로 몇 번 본 적 있습니다.",
+            "en": "A flower, out of nowhere? I've seen a few in photographs."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 17,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_015",
+          "arg": "drunk",
+          "text": {
+            "ko": "내가 전에 우연히 뒷골목에서 노란색 꽃을 봤는데.\n사진으로 본 거랑 엄청 달라. 냄새도 신기하고.",
+            "en": "I stumbled on a yellow flower in a back alley a while ago.\nTotally different from the photos. Even the smell is amazing."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 18,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_016",
           "arg": "default",
           "text": {
-            "ko": "맞는 말이지만 넌 누군가가 정성을 들였다는 사실 하나만으로\n독약을 먹을 수 있을 것 같아?",
-            "en": "Fair point — but could you drink poison\njust because someone made it with love?"
+            "ko": "오호… 흥미롭네요.",
+            "en": "Oh... how interesting."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 19,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_017",
+          "arg": "drunk",
+          "text": {
+            "ko": "그치? 좋아. 오늘 네가 나한테 술도 많이 줬으니까\n이따가 내가 가져올게.",
+            "en": "Right? Alright. You poured me plenty tonight,\nso I'll go grab it for you later."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 20,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_018",
+          "arg": "default",
+          "text": {
+            "ko": "그걸 가져올 수 있나요?",
+            "en": "Can it even be brought here?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 21,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_019",
+          "arg": "drunk",
+          "text": {
+            "ko": "예전에 우리 보스가 꽃은 가운데 초록색 부분만 안 건드리면\n살아 있을 수 있다고 했어.",
+            "en": "Boss once told me a flower stays alive\nas long as you don't touch the green part in the middle."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 22,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_020",
+          "arg": "default",
+          "text": {
+            "ko": "그렇다면 저도 한 번 보고 싶습니다.",
+            "en": "In that case, I'd like to see it too."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 23,
+          "type": "enter",
+          "actor": "aili",
+          "dialogue_id": null,
+          "arg": "L",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 24,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_pour_021",
+          "arg": "default",
+          "text": {
+            "ko": "안녕, 예쁜이! 오늘은…",
+            "en": "Hey, gorgeous! Today I'll—"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 25,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_pour_022",
+          "arg": "drunk",
+          "text": {
+            "ko": "좋아! 마티니도 받았으니 꽃 가지고 다시 올게.\n조금만 기다려, 루나!",
+            "en": "Alright! Got my martini, so I'll be back with the flower.\nJust wait a bit, Luna!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 26,
+          "type": "exit",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 27,
+          "type": "effect",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": "flag.samho_death_route = true",
+          "sync": "wait"
+        },
+        {
+          "seq": 28,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_023",
+          "arg": "default",
+          "text": {
+            "ko": "…(괜찮은 거 맞겠지?)",
+            "en": "...(He'll be okay, right?)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 29,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_pour_024",
+          "arg": "default",
+          "text": {
+            "ko": "뭐야, 쟤는 완전히 취했잖아. 저 상태로 내보낸 거야?",
+            "en": "What the— that kid is completely wasted. You let him leave like that?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 30,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_025",
+          "arg": "default",
+          "text": {
+            "ko": "…제가 실수한 것 같네요.",
+            "en": "...I believe I made a mistake."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 31,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_pour_026",
+          "arg": "default",
+          "text": {
+            "ko": "흠, 조금 걱정이네. 밖에 못 보던 갱 놈들이 있던데.",
+            "en": "Hm, I'm a little worried. There were gang thugs outside I've never seen before."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 32,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_027",
+          "arg": "default",
+          "text": {
+            "ko": "어떤 갱이던가요?",
+            "en": "Which gang were they?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 33,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_pour_028",
+          "arg": "default",
+          "text": {
+            "ko": "마가로프 놈들 같던데. 이 동네에서 보는 건 처음이야.",
+            "en": "Looked like Magarov boys. First time I've seen them in this neighborhood."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 34,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_pour_029",
+          "arg": "default",
+          "text": {
+            "ko": "(…큰일 나는 건 아니겠지?)",
+            "en": "(...Nothing bad is going to happen, right?)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_samho_refuse",
+      "day": 2,
+      "phase": "bar",
+      "seq": 0,
+      "trigger": "manual",
+      "when": null,
+      "title": "분기 — 서빙 거절 (refused_drink)",
+      "skippable": false,
+      "group": null,
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_001",
+          "arg": "default",
+          "text": {
+            "ko": "……",
+            "en": "......"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_refuse_002",
+          "arg": "default",
+          "text": {
+            "ko": "엣, 마시고 싶었는데 아쉽다~",
+            "en": "Aw, I really wanted another~ Too bad~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_003",
+          "arg": "default",
+          "text": {
+            "ko": "괜찮으신 건가요?",
+            "en": "Are you all right with that?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_refuse_004",
+          "arg": "default",
+          "text": {
+            "ko": "너가 그렇다면 그런 거지~\n너 좋은 놈 같으니까 말이야.\n오늘은 뭐 이 정도만 마시지 뭐.",
+            "en": "If you say so, then that's how it is~\nYou seem like a good one, after all.\nGuess this is enough for tonight."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_refuse_005",
+          "arg": "default",
+          "text": {
+            "ko": "오늘 즐거웠어, 루나.\n내일 꽃 보여 줄 테니 기대해!!",
+            "en": "I had fun tonight, Luna.\nI'll show you the flower tomorrow — look forward to it!!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_006",
+          "arg": "default",
+          "text": {
+            "ko": "그냥 보여 주시는 건가요?",
+            "en": "You'd show me, just like that?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_refuse_007",
+          "arg": "default",
+          "text": {
+            "ko": "친구 사이인데 그 정도는 해 줘야지.",
+            "en": "That much is a given between friends."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_008",
+          "arg": "default",
+          "text": {
+            "ko": "친구…?",
+            "en": "Friends...?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 9,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_refuse_009",
+          "arg": "default",
+          "text": {
+            "ko": "내일 봐, 친구!",
+            "en": "See you tomorrow, friend!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 10,
+          "type": "exit",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 11,
+          "type": "effect",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": "flag.samho_refused_drink = true",
+          "sync": "wait"
+        },
+        {
+          "seq": 12,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_010",
+          "arg": "default",
+          "text": {
+            "ko": "결국 친구에 대한 건 못 들었네.",
+            "en": "In the end, I never got to ask what a friend is."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 13,
+          "type": "enter",
+          "actor": "aili",
+          "dialogue_id": null,
+          "arg": "L",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 14,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_refuse_011",
+          "arg": "default",
+          "text": {
+            "ko": "안녕, 예쁜이. 나 왔어.",
+            "en": "Hey, gorgeous. I'm here."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 15,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_012",
+          "arg": "default",
+          "text": {
+            "ko": "어서 오세요, 아일리.",
+            "en": "Welcome, Aili."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 16,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_refuse_013",
+          "arg": "default",
+          "text": {
+            "ko": "밖에 웬 못 보던 갱 놈들이 있던데.",
+            "en": "There were gang thugs outside I've never seen before."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 17,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_014",
+          "arg": "default",
+          "text": {
+            "ko": "어떤 갱이던가요?",
+            "en": "Which gang were they?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 18,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_refuse_015",
+          "arg": "default",
+          "text": {
+            "ko": "옷 뒤에 무슨 '마카로니'라고 쓰여 있던데?",
+            "en": "Their jackets said something like 'Macaroni' on the back?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 19,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_016",
+          "arg": "default",
+          "text": {
+            "ko": "혹시 <world>마가로프</world>인가요?",
+            "en": "Do you mean <world>Magarov</world>?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 20,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_samho_refuse_017",
+          "arg": "default",
+          "text": {
+            "ko": "아, 맞아. 그거였어.",
+            "en": "Ah, right. That was it."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 21,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_refuse_018",
+          "arg": "default",
+          "text": {
+            "ko": "(…뭔 일 있는 건 아니겠지?)",
+            "en": "(...I hope nothing's going on out there.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_chris_open",
+      "day": 2,
+      "phase": "bar",
+      "seq": 1,
+      "trigger": "auto",
+      "when": null,
+      "title": "개점 — 크리스의 당부와 외출",
+      "skippable": false,
+      "group": null,
+      "steps": [
+        {
+          "seq": 1,
+          "type": "enter",
+          "actor": "chris",
+          "dialogue_id": null,
+          "arg": "R",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_open_001",
+          "arg": "default",
+          "text": {
+            "ko": "왔군. 오는 길에 별일 있었나?",
+            "en": "You're here. Anything happen on the way in?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_002",
+          "arg": "default",
+          "text": {
+            "ko": "전에 말했던 동물 귀가 달린 사람을 마주쳤습니다.",
+            "en": "I ran into that person with the animal ears I mentioned before."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "say",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_open_003",
+          "arg": "default",
+          "text": {
+            "ko": "흠… 마주쳐서 뭘 했지?",
+            "en": "Hm... and what did you do when you met them?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_004",
+          "arg": "default",
+          "text": {
+            "ko": "몇 번 대화하더니 저를 보고는 제정신이 아닌 것 같다고 했습니다.",
+            "en": "We exchanged a few words, and then they said I didn't seem to be in my right mind."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "say",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_open_005",
+          "arg": "default",
+          "text": {
+            "ko": "흠.. 너는 이 동네 사람 치고는 특이하니까.",
+            "en": "Hm... well, you are odd for someone from this part of town."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_open_006",
+          "arg": "default",
+          "text": {
+            "ko": "이 동네까지 <world>코라테크</world>가 올 일은 없지만…\n뭐, 조심해서 나쁠 건 없다. 너무 눈에 띄지는 마.",
+            "en": "<world>CoraTech</world> has no business coming this far down...\nStill, caution costs nothing. Don't draw too much attention."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_007",
+          "arg": "default",
+          "text": {
+            "ko": "네, 알겠습니다.",
+            "en": "Yes, understood."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 9,
+          "type": "say",
+          "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_open_008",
+          "arg": "default",
+          "text": {
+            "ko": "좋아. 오늘은 내가 잠시 밖에 나갔다 올 거야.\n그동안 바 좀 잘 보고 있어.",
+            "en": "Good. I'll be stepping out for a while today.\nWatch the bar while I'm gone."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 10,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_009",
+          "arg": "default",
+          "text": {
+            "ko": "네, 보스.",
+            "en": "Yes, Boss."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 11,
+          "type": "exit",
+          "actor": "chris",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 12,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_010",
+          "arg": "default",
+          "text": {
+            "ko": "음… <world>친구</world>라…",
+            "en": "Hm... a <world>friend</world>, huh..."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 13,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_open_011",
+          "arg": "default",
+          "text": {
+            "ko": "친구는 어떤 걸 뜻하는 건지 모르겠네.\n다시 만나면 물어봐야겠다.",
+            "en": "I don't really know what a friend is supposed to mean.\nI should ask next time we meet."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_samho_visit",
+      "day": 2,
+      "phase": "bar",
+      "seq": 2,
+      "trigger": "auto",
+      "when": null,
+      "title": "삼호 첫 술 — 추천 한 잔부터 세 잔까지",
+      "skippable": false,
+      "group": null,
+      "steps": [
+        {
+          "seq": 1,
+          "type": "enter",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": "R",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_001",
+          "arg": "default",
+          "text": {
+            "ko": "안녕, 나 왔어.",
+            "en": "Hey, I'm here."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_002",
+          "arg": "default",
+          "text": {
+            "ko": "(바로 만나버렸네.)",
+            "en": "(So we meet again, just like that.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_003",
+          "arg": "default",
+          "text": {
+            "ko": "진짜 오셨네요.",
+            "en": "You actually came."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_004",
+          "arg": "default",
+          "text": {
+            "ko": "그럼 내가 온다고 했잖아.\n아무도 없는 걸 보니 내가 첫 손님인가봐.",
+            "en": "I told you I would, didn't I?\nNobody else here — guess that makes me your first customer."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_005",
+          "arg": "default",
+          "text": {
+            "ko": "주문부터 하실 겁니까?",
+            "en": "Would you like to order first?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_006",
+          "arg": "default",
+          "text": {
+            "ko": "…크흠, 사실 내가 술집에서 술을 마셔 보는 건\n이번이 처음이란 말이지.",
+            "en": "...Ahem. Truth is, this is my first time\nactually drinking at a bar."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_007",
+          "arg": "default",
+          "text": {
+            "ko": "제가 경험자로서 말해 주자면, 술은 안 마시는 게 낫습니다.",
+            "en": "Speaking from experience: you're better off not drinking at all."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 9,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_008",
+          "arg": "default",
+          "text": {
+            "ko": "뭐래. 나보다 어려 보이는 게. 어디서 선배인 척하려고.",
+            "en": "Says who? You look younger than me. Don't play the senior with me."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 10,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_009",
+          "arg": "default",
+          "text": {
+            "ko": "그래도 이왕 여기까지 왔는데 한 번 마셔 봐야지.",
+            "en": "Still, I came all this way. Might as well try one."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 11,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_010",
+          "arg": "default",
+          "text": {
+            "ko": "그럼 어떤 걸 원하시나요?",
+            "en": "Then what would you like?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 12,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_011",
+          "arg": "default",
+          "text": {
+            "ko": "네가 <name>추천</name>하는 걸로 하나 만들어 줘.",
+            "en": "Make me whatever you'd <name>recommend</name>."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 13,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_012",
+          "arg": "default",
+          "text": {
+            "ko": "(흠.. 처음 마시는 술이니 부담 없는 걸로 줘볼까.)",
+            "en": "(Hm... his first drink ever. Something easy, then.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 14,
+          "type": "order",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_013",
+          "arg": "exact:cosmopolitan",
+          "text": {
+            "ko": "너의 추천에 맡길게.",
+            "en": "I'll leave it to your recommendation."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 15,
+          "type": "craft",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "order",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 16,
+          "type": "serve",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 17,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_014",
+          "arg": "success",
+          "text": {
+            "ko": "오호… 이건 뭐야?",
+            "en": "Ooh... what's this?"
           },
           "when": "grade >= excellent",
           "effects": null,
@@ -2789,10 +1435,11 @@
           "seq": 18,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_015",
           "arg": "default",
           "text": {
-            "ko": "…..",
-            "en": "....."
+            "ko": "코스모폴리탄이라는 술입니다.",
+            "en": "It's called a Cosmopolitan."
           },
           "when": "grade >= excellent",
           "effects": null,
@@ -2801,11 +1448,12 @@
         {
           "seq": 19,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_016",
+          "arg": "success",
           "text": {
-            "ko": "아무튼 크리스의 술을 마셨을 때는 그랬어.",
-            "en": "Anyway, that's what drinking Chris's stuff was like."
+            "ko": "맛있는데?\n너… 보기보다 실력 있구나?",
+            "en": "This is good.\nYou're... more skilled than you look, huh?"
           },
           "when": "grade >= excellent",
           "effects": null,
@@ -2815,32 +1463,7 @@
           "seq": 20,
           "type": "say",
           "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "…그런 이야기는 듣지 못했습니다.",
-            "en": "...I was never told any of this."
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 21,
-          "type": "say",
-          "actor": "aili",
-          "arg": "default",
-          "text": {
-            "ko": "크리스에 비하면 네가 만든 건 예술이지.\n처음 봤을 때 어느 정도 예상하긴 했지만, 기대 이상이네. 이쁜이.\n앞으로 자주 와야겠는걸?",
-            "en": "Compared to Chris, yours is a work of art.\nI had a feeling when I first saw you, but this exceeds expectations, cutie.\nI'll have to come by often, won't I?"
-          },
-          "when": "grade >= excellent",
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 22,
-          "type": "say",
-          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_017",
           "arg": "default",
           "text": {
             "ko": "감사합니다.",
@@ -2851,13 +1474,42 @@
           "sync": "wait"
         },
         {
-          "seq": 23,
+          "seq": 21,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_018",
+          "arg": "default",
+          "text": {
+            "ko": "좋아. 인정. 앞으로 자주 와야겠네.",
+            "en": "Alright. Respect. I'll have to come by often."
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 22,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_019",
           "arg": "success",
           "text": {
-            "ko": "오. 괜찮은데?",
-            "en": "Oh. Not bad at all."
+            "ko": "흠… 괜찮은데?",
+            "en": "Hm... not bad at all?"
+          },
+          "when": "grade >= good && grade < excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 23,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_020",
+          "arg": "default",
+          "text": {
+            "ko": "코스모폴리탄이라는 술입니다.",
+            "en": "It's called a Cosmopolitan."
           },
           "when": "grade >= good && grade < excellent",
           "effects": null,
@@ -2866,11 +1518,12 @@
         {
           "seq": 24,
           "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_021",
+          "arg": "success",
           "text": {
-            "ko": "주문 의도에 부합했습니까?",
-            "en": "Did it meet the intent of your order?"
+            "ko": "이름도 뭔가 고급지네. 생각보다 괜찮아. 맛있어.",
+            "en": "Even the name sounds classy. Better than I expected. It's good."
           },
           "when": "grade >= good && grade < excellent",
           "effects": null,
@@ -2879,11 +1532,12 @@
         {
           "seq": 25,
           "type": "say",
-          "actor": "aili",
-          "arg": "success",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_022",
+          "arg": "default",
           "text": {
-            "ko": "완전 내 취향까지는 아닌데.\n그래도 초보자가 즉석에서 만든 것치곤 꽤 좋아.",
-            "en": "Not exactly my taste,\nbut for a beginner improvising on the spot, it's pretty good."
+            "ko": "감사합니다.",
+            "en": "Thank you."
           },
           "when": "grade >= good && grade < excellent",
           "effects": null,
@@ -2892,11 +1546,12 @@
         {
           "seq": 26,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_023",
           "arg": "default",
           "text": {
-            "ko": "그렇다면 실패는 아닌 것으로 판단하겠습니다.",
-            "en": "Then I will classify it as not a failure."
+            "ko": "좋아. 인정. 앞으로 자주 와야겠네.",
+            "en": "Alright. Respect. I'll have to come by often."
           },
           "when": "grade >= good && grade < excellent",
           "effects": null,
@@ -2905,13 +1560,14 @@
         {
           "seq": 27,
           "type": "say",
-          "actor": "aili",
-          "arg": "success",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_024",
+          "arg": "fail",
           "text": {
-            "ko": "응. 실패는 아니야.\n크리스 첫 술보단 이미 수십 배 낫다.",
-            "en": "Right. Not a failure.\nAlready dozens of times better than Chris's first drink."
+            "ko": "음.. 생긴 건 내 취향이 맞는데 맛이 좀 이상하네..",
+            "en": "Hm... looks exactly like my kind of drink, but it tastes a little off..."
           },
-          "when": "grade >= good && grade < excellent",
+          "when": "grade < good",
           "effects": null,
           "sync": "wait"
         },
@@ -2919,90 +1575,97 @@
           "seq": 28,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_025",
           "arg": "default",
           "text": {
-            "ko": "보스의 술은 평가 기준으로 자주 사용되는군요.",
-            "en": "The Boss's drink seems to be a frequently used benchmark."
+            "ko": "죄송합니다. 제가 실수한 것 같네요.",
+            "en": "I'm sorry. I think I made a mistake."
           },
-          "when": "grade >= good && grade < excellent",
+          "when": "grade < good",
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 29,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_026",
           "arg": "default",
           "text": {
-            "ko": "안 좋은 쪽으로는 전설이지.",
-            "en": "It's legendary — in the worst way."
+            "ko": "그래도 생각했던 것보다 나쁜 곳은 아닌 것 같네.",
+            "en": "Still, this place isn't as bad as I thought it'd be."
           },
-          "when": "grade >= good && grade < excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 30,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_027",
           "arg": "default",
           "text": {
-            "ko": "음……",
-            "en": "Hmm......"
+            "ko": "술을 마셔 본 적이 없는데 이곳에 온 이유가 있나요?",
+            "en": "You'd never had a drink before — any reason you came here?"
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 31,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_028",
           "arg": "default",
           "text": {
-            "ko": "맛이 없습니까?",
-            "en": "Does it not taste good?"
+            "ko": "나이 먹은 변태 늙다리들이나 가는 곳인 줄 알았는데.\n너처럼 순하고 어린 애가 일하는 곳이면 한 번쯤 가 볼까 해서.",
+            "en": "I figured bars were for old pervert geezers.\nBut if a soft, young kid like you works here, I thought it was worth a look."
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 32,
           "type": "say",
-          "actor": "aili",
-          "arg": "fail",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_029",
+          "arg": "default",
           "text": {
-            "ko": "맛이 없다기보단.\n나한테 어울리는 술은 아닌 것 같네.",
-            "en": "It's not that it tastes bad.\nIt's just not the drink for me."
+            "ko": "원래 바는 변태들이 가는 곳입니까?",
+            "en": "Are bars normally places perverts go?"
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 33,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_030",
           "arg": "default",
           "text": {
-            "ko": "섹시한 레이디라는 기준이 아직 모호합니다.",
-            "en": "The 'sexy lady' criterion remains ambiguous."
+            "ko": "이 동네에 있는 대부분 술집은 싹 다 매춘업소야.\n술을 즐기는 게 아니라 성욕을 해소하러 가는 곳이다 이거지!",
+            "en": "Most 'bars' around here are all brothels.\nPeople don't go to enjoy a drink — they go to get off, that's what I'm saying!"
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 34,
           "type": "say",
-          "actor": "aili",
-          "arg": "fail",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_031",
+          "arg": "default",
           "text": {
-            "ko": "그걸 너무 진지하게 분석하지 마.\n그냥 느낌으로 가는 거야, 느낌.",
-            "en": "Don't analyze it so seriously.\nYou go by feel. Feel."
+            "ko": "그래도 뭐… 이 가게는 확실히 다른 거 같긴 하네.",
+            "en": "But this place... yeah, this place is definitely different."
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3010,77 +1673,83 @@
           "seq": 35,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_032",
           "arg": "default",
           "text": {
-            "ko": "느낌이란 건 추상적이라 좀 어렵습니다.",
-            "en": "Feel is abstract, and therefore difficult."
+            "ko": "다행이네요. 그런 곳에서 일하는 건\n저한텐 어려울 것 같습니다.",
+            "en": "That's a relief. Working at a place like that\nwould be difficult for me."
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 36,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_033",
           "arg": "default",
           "text": {
-            "ko": "인생은 원래 추상적이야. 그래서 재밌는 거지.",
-            "en": "Life is abstract by nature. That's what makes it fun."
+            "ko": "하핫! 당연하지. 이 동네가 쓰레기들만 모여 있는 곳이긴 하지만\n여긴 그래도 나름 괜찮은 곳이라고 들었어. 이곳 마스터도 말이지.",
+            "en": "Haha! Obviously. This neighborhood's a dump full of trash,\nbut I heard this place is actually decent. The master here too."
           },
-          "when": "grade >= decent && grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 37,
           "type": "say",
-          "actor": "aili",
-          "arg": "fail",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_034",
+          "arg": "default",
           "text": {
-            "ko": "……이쁜아.",
-            "en": "......Cutie."
+            "ko": "나쁜 사람은 아닌 것 같습니다.",
+            "en": "He doesn't seem like a bad person."
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 38,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_035",
           "arg": "default",
           "text": {
-            "ko": "네.",
-            "en": "Yes."
+            "ko": "나중에 혹시라도 너한테 못되게 굴면 얼마든지 말해.\n내가 특별히 우리 애니멀 갱으로 영입해줄게!",
+            "en": "If he ever treats you badly, just say the word.\nI'll make a special exception and recruit you into our Animal Gang!"
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 39,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_036",
           "arg": "default",
           "text": {
-            "ko": "아냐, 아냐. 오늘이 처음이니까 그럴 수 있지.",
-            "en": "No, no. It's your first day — these things happen."
+            "ko": "그곳에 들어가면 행복해지나요?",
+            "en": "Would joining make me happy?"
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 40,
           "type": "say",
-          "actor": "aili",
-          "arg": "fail",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_037",
+          "arg": "default",
           "text": {
-            "ko": "하지만 다음번에도 이렇게 만들어주면 나도 화낼 거라고.",
-            "en": "But serve me this again next time, and I will get angry."
+            "ko": "행복? …행복해지는 건 잘 모르겠지만.\n적어도 굶어죽을 일은 없어.",
+            "en": "Happy? ...Can't promise happy.\nBut at least you'd never starve to death."
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3088,36 +1757,39 @@
           "seq": 41,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_038",
           "arg": "default",
           "text": {
-            "ko": "죄송합니다.",
-            "en": "My apologies."
+            "ko": "갱에서는 무슨 일을 하는데요?",
+            "en": "What kind of work does the gang do?"
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 42,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_039",
           "arg": "default",
           "text": {
-            "ko": "괜찮아.\n처음부터 잘하면 그것도 좀 무섭지.",
-            "en": "It's fine.\nBeing perfect from day one would be a little scary anyway."
+            "ko": "음… 배달도 하고, 물건도 찾아오고, 가끔 사람을 지킬 때도 있고, \n처리할 때도 있어. 돈만 주면 다 하지~",
+            "en": "Hm... deliveries, retrievals, sometimes we protect people,\nsometimes we take care of them. Anything, as long as it pays~"
           },
-          "when": "grade < decent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 43,
           "type": "say",
-          "actor": "bubi",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_040",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "사람을 처리하는 건 죽인다는 걸 의미하는 건가요?",
+            "en": "By 'take care of,' do you mean killing them?"
           },
           "when": null,
           "effects": null,
@@ -3126,11 +1798,12 @@
         {
           "seq": 44,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_041",
           "arg": "default",
           "text": {
-            "ko": "오호.\n부비도 한 잔 마시고 싶은가 본데.",
-            "en": "Oho.\nLooks like Bubi wants a drink too."
+            "ko": "보통은 그래.",
+            "en": "Usually, yeah."
           },
           "when": null,
           "effects": null,
@@ -3140,10 +1813,11 @@
           "seq": 45,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_042",
           "arg": "default",
           "text": {
-            "ko": "고양이가 원래 술을 마시는 생물이었습니까?",
-            "en": "Are cats creatures that drink alcohol?"
+            "ko": "이쪽 지역은 살인이 합법인가요?",
+            "en": "Is murder legal in this district?"
           },
           "when": null,
           "effects": null,
@@ -3152,11 +1826,12 @@
         {
           "seq": 46,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_043",
           "arg": "default",
           "text": {
-            "ko": "몰라?\n부비는 가끔 마시던데 별문제 없어 보였어.",
-            "en": "You didn't know?\nBubi drinks now and then. Seemed fine to me."
+            "ko": "아 진짜. 너 어디 외딴 곳에서 살다가 넘어왔어?\n왜 이렇게 질문만 하는 거야. 너 정말 모르는 게 많구나!",
+            "en": "Oh, come on. Did you crawl in from the middle of nowhere?\nWhy is everything a question with you? You really don't know anything!"
           },
           "when": null,
           "effects": null,
@@ -3165,11 +1840,12 @@
         {
           "seq": 47,
           "type": "say",
-          "actor": "bubi",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_044",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "불쾌했다면 죄송합니다.",
+            "en": "I'm sorry if that was rude."
           },
           "when": null,
           "effects": null,
@@ -3178,11 +1854,12 @@
         {
           "seq": 48,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_045",
           "arg": "default",
           "text": {
-            "ko": "봐봐. 문제없다고 하잖아.\n한 잔 만들어서 줘봐.",
-            "en": "See? She says no problem.\nGo on, make her one."
+            "ko": "아, 아냐. 죄송할 필요까진 없어.\n뭐, 이쪽 지역이 좀 그런 거야~",
+            "en": "Ah, no, no. Nothing to apologize for.\nIt's just... that's how this district is~"
           },
           "when": null,
           "effects": null,
@@ -3191,11 +1868,12 @@
         {
           "seq": 49,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_046",
           "arg": "default",
           "text": {
-            "ko": "(고양이가 좋아하는 칵테일… 그런 게 있는 건가?)",
-            "en": "(A cocktail cats enjoy... does such a thing exist?)"
+            "ko": "밑바닥에 있는 사람들이 모여 있어서 다른 지역보다\n유독 살인도 많이 일어나고 돈이면 뭐든 할 수 있는 곳이랄까.",
+            "en": "People from rock bottom all wash up here, so there's\nway more murder than anywhere else, and money buys anything."
           },
           "when": null,
           "effects": null,
@@ -3203,12 +1881,13 @@
         },
         {
           "seq": 50,
-          "type": "order",
-          "actor": "bubi",
-          "arg": "exact:kahlua_milk",
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_047",
+          "arg": "default",
           "text": {
-            "ko": "(고양이가 술을 마실 수 있었나?)",
-            "en": "(Could cats even drink alcohol?)"
+            "ko": "듣던 것보다 위험한 곳이었네요.",
+            "en": "It's more dangerous than I'd heard."
           },
           "when": null,
           "effects": null,
@@ -3216,20 +1895,28 @@
         },
         {
           "seq": 51,
-          "type": "craft",
-          "actor": null,
-          "arg": "order",
-          "text": null,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_048",
+          "arg": "default",
+          "text": {
+            "ko": "넌 어디서 왔길래 이런 걸 다 물어보는 거야?",
+            "en": "Where are you even from, asking about all this?"
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 52,
-          "type": "serve",
-          "actor": "bubi",
-          "arg": null,
-          "text": null,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_049",
+          "arg": "default",
+          "text": {
+            "ko": "자세히 말씀드리긴 좀 힘들지만\n말씀하신 대로 정말 외딴 곳에 있다가 왔습니다.",
+            "en": "It's hard to go into detail, but\nlike you said — I really did come from the middle of nowhere."
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -3237,65 +1924,70 @@
         {
           "seq": 53,
           "type": "say",
-          "actor": "bubi",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_050",
           "arg": "default",
           "text": {
-            "ko": "미야아옹.",
-            "en": "Meooow."
+            "ko": "그래… 여기 사는 사람 중에 사연 없는 사람은 없더라.\n너도 말 못할 사정이 있겠지.",
+            "en": "Right... nobody living here comes without a story.\nGuess you've got things you can't talk about too."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 54,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_051",
           "arg": "default",
           "text": {
-            "ko": "혹시 이건 무슨 반응입니까?",
-            "en": "What sort of reaction is this?"
+            "ko": "어디서 왔는지는 모르지만 조심해.\n이 동네에서는 너같이 순한 애는 살아남기 힘들 거야.",
+            "en": "Don't know where you came from, but be careful.\nA soft kid like you won't survive long in this neighborhood."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 55,
           "type": "say",
-          "actor": "aili",
-          "arg": "success",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_052",
+          "arg": "default",
           "text": {
-            "ko": "좋아하는 것 같은데?",
-            "en": "I'd say she likes it."
+            "ko": "삼호는 괜찮은 건가요?",
+            "en": "Are you okay, Samho?"
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 56,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_053",
           "arg": "default",
           "text": {
-            "ko": "어떻게 아는 거죠?",
-            "en": "How can you tell?"
+            "ko": "나도 뭐… 조심하면서 사는 거지. 에잇, 한 잔 더 줘봐.",
+            "en": "Me? Well... I get by, careful-like. Ah, whatever — give me another."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 57,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_054",
           "arg": "default",
           "text": {
-            "ko": "딱히 네 얼굴에 스크래치를 내거나, 잔을 던지는 것도 아니잖아.",
-            "en": "Well, she's not scratching your face or throwing the glass, is she?"
+            "ko": "이제 슬슬 다른 것도 마셔 보고 싶은데.",
+            "en": "I'm starting to want to try something different."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3303,101 +1995,103 @@
           "seq": 58,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_055",
           "arg": "default",
           "text": {
-            "ko": "원래 사나운 성격이었나 보네요.",
-            "en": "So she is fierce by nature."
+            "ko": "이번엔 어떤 걸로 주문하시나요?",
+            "en": "What will it be this time?"
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 59,
           "type": "say",
-          "actor": "bubi",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_056",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "이번엔 좀 탄산이 들어간 청량한 걸로 한 잔 부탁해.",
+            "en": "This time, something fizzy and refreshing, please."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 60,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_057",
           "arg": "default",
           "text": {
-            "ko": "실력이 꽤 괜찮나 보네.\n부비까지 만족시키다니.",
-            "en": "Your skills must be decent.\nSatisfying even Bubi, of all customers."
+            "ko": "(탄산이 들어간 청량한 술……)",
+            "en": "(A fizzy, refreshing drink......)"
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 61,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "type": "order",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_058",
+          "arg": "exact:gin_fizz",
           "text": {
-            "ko": "만족한 게 맞다면 다행이네요.",
-            "en": "If she is indeed satisfied, I am relieved."
+            "ko": "탄산이 들어간 청량한 술 한 잔.",
+            "en": "One fizzy, refreshing drink."
           },
-          "when": "grade >= excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 62,
-          "type": "say",
-          "actor": "bubi",
-          "arg": "default",
-          "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
-          },
-          "when": "grade >= good && grade < excellent",
+          "type": "craft",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "order",
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 63,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "반응이 짧아졌습니다.",
-            "en": "The reaction has gotten shorter."
-          },
-          "when": "grade >= good && grade < excellent",
+          "type": "serve",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 64,
           "type": "say",
-          "actor": "aili",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_059",
+          "arg": "success",
           "text": {
-            "ko": "싫어하는 건 아닌 것 같은데?",
-            "en": "Doesn't look like she hates it?"
+            "ko": "크, 시원하다. 이거 좋은데?",
+            "en": "Whew, that's crisp. I like this one!"
           },
-          "when": "grade >= good && grade < excellent",
+          "when": "grade >= excellent",
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 65,
           "type": "say",
-          "actor": "luna",
-          "arg": "default",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_060",
+          "arg": "success",
           "text": {
-            "ko": "좋아하는 것도 아닌 것 같습니다.",
-            "en": "It does not look like she loves it either."
+            "ko": "오, 탄산이 톡 쏘네. 마음에 들어.",
+            "en": "Oh, the fizz really bites. I like it."
           },
           "when": "grade >= good && grade < excellent",
           "effects": null,
@@ -3406,13 +2100,14 @@
         {
           "seq": 66,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_061",
           "arg": "default",
           "text": {
-            "ko": "부비한테 그 정도면 성공이지.",
-            "en": "Coming from Bubi, that counts as a success."
+            "ko": "음.. 김빠진 느낌인데. 뭐, 그래도 마실 만은 해.",
+            "en": "Hm... tastes a little flat. Well, it's still drinkable."
           },
-          "when": "grade >= good && grade < excellent",
+          "when": "grade < good",
           "effects": null,
           "sync": "wait"
         },
@@ -3420,105 +2115,123 @@
           "seq": 67,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_062",
           "arg": "default",
           "text": {
-            "ko": "다행이네요.",
-            "en": "That is a relief."
+            "ko": "그런데 조심하는 것들이 다른 갱들이나 용병들입니까?",
+            "en": "By the way — the things you're careful about, are they other gangs? Mercenaries?"
           },
-          "when": "grade >= good && grade < excellent",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 68,
-          "type": "effect",
-          "actor": null,
-          "arg": null,
-          "text": null,
-          "when": "grade >= good",
-          "effects": "flag.bubi_affinity_high = true",
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_063",
+          "arg": "default",
+          "text": {
+            "ko": "음… 맞아. 요즘 우리 구역 주변에 <world>마가로프</world> 갱 놈들이 우리 갱 사람들을\n자꾸 납치하거나 죽이는 일이 생기고 있거든.",
+            "en": "Hm... yeah. Lately the <world>Magarov</world> gang has been circling our turf,\nkidnapping or killing our people, over and over."
+          },
+          "when": null,
+          "effects": null,
           "sync": "wait"
         },
         {
           "seq": 69,
-          "type": "timeline",
-          "actor": null,
-          "arg": "tl_catmilk",
-          "text": null,
-          "when": "grade < good",
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_064",
+          "arg": "default",
+          "text": {
+            "ko": "왜 그런 짓을 하는 거죠?",
+            "en": "Why would they do that?"
+          },
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 70,
-          "type": "exit",
-          "actor": "bubi",
-          "arg": null,
-          "text": null,
-          "when": "grade < good",
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_065",
+          "arg": "default",
+          "text": {
+            "ko": "나도 그게 잘 이해가 안 돼. 원래 시비가 붙어서 싸우는 경우는 있어도\n이렇게 노골적으로 우리 갱 사람들을 <world>사냥</world>하진 않거든.",
+            "en": "That's what I don't get either. Sure, fights break out over grudges,\nbut nobody used to <world>hunt</world> our people this openly."
+          },
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 71,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_066",
           "arg": "default",
           "text": {
-            "ko": "별로였나 본데.",
-            "en": "Guess she didn't care for it."
+            "ko": "<world>위험한 상황</world>인 것 같습니다.",
+            "en": "That sounds like a <world>dangerous situation</world>."
           },
-          "when": "grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 72,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_067",
           "arg": "default",
           "text": {
-            "ko": "정말로 술을 좋아하는 겁니까?",
-            "en": "Does she truly like alcohol?"
+            "ko": "뭐 그래도 이런 일이 아예 없던 것도 아니고\n곧 있으면 우리 보스가 해결해준댔어!",
+            "en": "Eh, it's not like this kind of thing never happened before.\nAnd Boss said he'll sort it out soon!"
           },
-          "when": "grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 73,
           "type": "say",
-          "actor": "aili",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_068",
           "arg": "default",
           "text": {
-            "ko": "아마도? 듣기론 한 가지 술밖에 안 먹는 걸로 기억해.",
-            "en": "Probably? From what I heard, she only drinks one particular kind."
+            "ko": "삼호의 보스도 사람을 잘 지켜 줄 수 있나 보네요.",
+            "en": "Your boss must be good at protecting people, then."
           },
-          "when": "grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 74,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_069",
           "arg": "default",
           "text": {
-            "ko": "음… 기억하겠습니다.",
-            "en": "Hm... I will remember that."
+            "ko": "그래! 우리 보스는 짱짱 세고 카리스마도 넘쳐서 내 롤모델이랄까~\n아마 그 누가 덤벼도 보스가 다 이길걸~",
+            "en": "Yeah! Our boss is crazy strong and oozing charisma — my role model, you could say~\nNo matter who comes at him, Boss would win~"
           },
-          "when": "grade < good",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 75,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_070",
           "arg": "default",
           "text": {
-            "ko": "오케이. 그럼 먼저 일어나 볼게.",
-            "en": "Okay. I'll head out first, then."
+            "ko": "한 잔 더 만들어 줄래? 보스를 위하여 한 잔 더!",
+            "en": "Make me another? One more — for the Boss!"
           },
           "when": null,
           "effects": null,
@@ -3528,10 +2241,11 @@
           "seq": 76,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_071",
           "arg": "default",
           "text": {
-            "ko": "벌써 가시나요?",
-            "en": "Leaving already?"
+            "ko": "벌써요? 이런 속도로 계속 마시면 \n취하는 걸로 알고 있습니다.",
+            "en": "Already? If you keep drinking at this pace,\nI understand you will get drunk."
           },
           "when": null,
           "effects": null,
@@ -3540,11 +2254,12 @@
         {
           "seq": 77,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_072",
           "arg": "default",
           "text": {
-            "ko": "영감이 말했던 약속 시간이 끝났거든.\n이제 다시 내 일하러 가야지.",
-            "en": "The old man's little time-out is over.\nBack to my own work now."
+            "ko": "음… 취했다는 건 아닌데, 평소보다 좀\n시간이 느려진 것처럼 느껴진달까?",
+            "en": "Hm... I'm not drunk or anything, it's just...\ntime feels a bit slower than usual, maybe?"
           },
           "when": null,
           "effects": null,
@@ -3554,10 +2269,11 @@
           "seq": 78,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_073",
           "arg": "default",
           "text": {
-            "ko": "안녕히 가세요.",
-            "en": "Take care."
+            "ko": "그게 취할 때 나타나는 증상이라고 알고 있습니다.",
+            "en": "I understand that is a symptom of being drunk."
           },
           "when": null,
           "effects": null,
@@ -3566,11 +2282,12 @@
         {
           "seq": 79,
           "type": "say",
-          "actor": "aili",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_074",
           "arg": "default",
           "text": {
-            "ko": "그래. 나중에 보자, 이쁜이.",
-            "en": "Sure. See you around, cutie."
+            "ko": "아 몰라몰라, 빨리 한 잔 더 줘.",
+            "en": "Ah, whatever, whatever — hurry up and pour me another."
           },
           "when": null,
           "effects": null,
@@ -3578,10 +2295,14 @@
         },
         {
           "seq": 80,
-          "type": "exit",
-          "actor": "aili",
-          "arg": null,
-          "text": null,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_075",
+          "arg": "default",
+          "text": {
+            "ko": "…알겠습니다. 주문은 어떤 걸로 하시나요?",
+            "en": "...Very well. What would you like to order?"
+          },
           "when": null,
           "effects": null,
           "sync": "wait"
@@ -3589,72 +2310,1136 @@
         {
           "seq": 81,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_076",
           "arg": "default",
           "text": {
-            "ko": "음… 이쁜이가 무슨 의미인지 다음에 물어봐야겠다.",
-            "en": "Hm... I should ask what 'cutie' means next time."
+            "ko": "이번엔 그 뭐냐, <name>마체테</name>?",
+            "en": "This time, what's it called... a <name>Machete</name>?"
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 82,
           "type": "say",
-          "actor": "bubi",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_077",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "<name>마티니</name>를 말하시는 겁니까?",
+            "en": "Do you mean a <name>Martini</name>?"
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 83,
           "type": "say",
-          "actor": "luna",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_078",
           "arg": "default",
           "text": {
-            "ko": "당신이랑 저만 남았네요.\n고양이 말은 아직 이해하지 못하는데.",
-            "en": "It is just you and me now.\nI do not yet understand cat language."
+            "ko": "그래. 그거 우리 보스가 항상 마시는 거라던데\n나도 한 번 마셔 보고 싶어.",
+            "en": "Yeah, that. I heard it's what our boss always drinks.\nI want to try it too."
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 84,
           "type": "say",
-          "actor": "bubi",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_079",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "(<name>드라이 마티니</name> 한잔)",
+            "en": "(One <name>Dry Martini</name>.)"
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 85,
+          "type": "order",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_080",
+          "arg": "exact:dry_martini",
+          "text": {
+            "ko": "드라이 마티니 한 잔.",
+            "en": "One Dry Martini."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 86,
+          "type": "craft",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "order",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 87,
+          "type": "serve",
+          "actor": "samho",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 88,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_081",
+          "arg": "default",
+          "text": {
+            "ko": "드라이 마티니 한 잔 나왔습니다.",
+            "en": "One Dry Martini, served."
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 89,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_082",
+          "arg": "drunk",
+          "text": {
+            "ko": "이야아…",
+            "en": "Whoaaa..."
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 90,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_083",
+          "arg": "default",
+          "text": {
+            "ko": "어떤가요?",
+            "en": "How is it?"
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 91,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_084",
+          "arg": "drunk",
+          "text": {
+            "ko": "흐흐… 살짝 쓰긴 한데 괜찮네.",
+            "en": "Heh heh... a little bitter, but it's good."
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 92,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_085",
+          "arg": "drunk",
+          "text": {
+            "ko": "원래 올리브 같은 건 입에도 안 댔는데에\n꽤나 잘 어울리잖아~ 신기한데에.",
+            "en": "I never touched olives before, y'knooow,\nbut it goes so well with this~ Weird, riiight?"
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 93,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_086",
+          "arg": "default",
+          "text": {
+            "ko": "드라이 마티니 한 잔 나왔습니다.",
+            "en": "One Dry Martini, served."
+          },
+          "when": "grade >= good && grade < excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 94,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_087",
+          "arg": "drunk",
+          "text": {
+            "ko": "흐흐… 쓰긴 한데, 보스가 마신다는 그 맛이 이런 건가.",
+            "en": "Heh heh... bitter, but so this is the taste Boss drinks, huh."
+          },
+          "when": "grade >= good && grade < excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 95,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_088",
+          "arg": "drunk",
+          "text": {
+            "ko": "으… 이건 좀 너무 쓴데. 그래도 보스가 마시는 거니까 마셔야지.",
+            "en": "Ugh... this one's way too bitter. But it's what Boss drinks, so I'll drink it."
+          },
+          "when": "grade < good",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 96,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_089",
+          "arg": "default",
+          "text": {
+            "ko": "말이 더어 느려진 것 같은데요. 취한 걸로 보입니다아.",
+            "en": "Your speech seems sloooower now. You appear to be druuunk."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 97,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_090",
+          "arg": "drunk",
+          "text": {
+            "ko": "너 말투가 더 이상해에.",
+            "en": "Your speech is even weirder~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 98,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_091",
+          "arg": "drunk",
+          "text": {
+            "ko": "이런 곳에 자주 오려며언…\n돈을 벌어야 할 이유가 늘어났네에.",
+            "en": "If I wanna come here ofteeen...\nguess that's one more reason to make moneyyy."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 99,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_092",
+          "arg": "default",
+          "text": {
+            "ko": "돈을 많이 벌어야 하는 이유가 있나요?\n단순히 돈을 좋아하는 사람처럼 보이진 않습니다.",
+            "en": "Is there a reason you need to make a lot of money?\nYou don't strike me as someone who simply loves money."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 100,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_093",
+          "arg": "drunk",
+          "text": {
+            "ko": "으음… 사실은 \n사실은 말이야아……",
+            "en": "Mmm... actually,\nactually, y'seeee......"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 101,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_094",
+          "arg": "drunk",
+          "text": {
+            "ko": "내가 돌봐 주고 있는 동생들이 있어서…",
+            "en": "There are these little ones I look after..."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 102,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_095",
+          "arg": "default",
+          "text": {
+            "ko": "동생들을 대신 키워주고 계시는 겁니까?",
+            "en": "You're raising your younger siblings yourself?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 103,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_096",
+          "arg": "drunk",
+          "text": {
+            "ko": "맞아.. 소중한 동생들이야. \n무려 일곱 명이나 있다구! 대가족이라고 할 수 있지.",
+            "en": "Yeah... my precious little ones.\nSeven of them, no less! A whole big family, you could say."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 104,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_097",
+          "arg": "default",
+          "text": {
+            "ko": "(동생들 이야기가 나오니 취해서 \n흐리멍덩해진 눈이 일순간 또렷해진 것 같다.)",
+            "en": "(At the mention of his siblings, his drink-glazed eyes\nseem to sharpen for a moment.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 105,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_098",
+          "arg": "default",
+          "text": {
+            "ko": "그렇게 형제자매가 많은 사람은 처음 봤습니다.",
+            "en": "I've never met anyone with that many siblings."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 106,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_099",
+          "arg": "drunk",
+          "text": {
+            "ko": "뭐어, 친동생들은 아니지만 말이지.",
+            "en": "Weeell, they're not blood, mind you."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 107,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_100",
+          "arg": "default",
+          "text": {
+            "ko": "음… 어쩌다 그렇게 형제가 생겨난 거죠? \n증식이라도 하는 건가요?",
+            "en": "Hm... how did you end up with so many siblings?\nDo they multiply?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 108,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_101",
+          "arg": "drunk",
+          "text": {
+            "ko": "하하, 증식이라니. 너 진짜 웃긴다아.",
+            "en": "Haha, 'multiply'! You're actually hilaaarious."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 109,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_102",
+          "arg": "default",
+          "text": {
+            "ko": "일종의 미토콘드리아에 해당하나요? 이해가 되지 않습니다.",
+            "en": "Is this a mitochondria-type situation? I don't understand."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 110,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_103",
+          "arg": "drunk",
+          "text": {
+            "ko": "대부분은 길거리에 버려진 애들이지.\n이 동네에서는 흔한 일이야아.",
+            "en": "Most of them were kids left out on the street.\nHappens all the time around heeere."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 111,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_104",
+          "arg": "default",
+          "text": {
+            "ko": "그러면 삼호는",
+            "en": "Then were you also—"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 112,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_105",
+          "arg": "drunk",
+          "text": {
+            "ko": "난 아니야.",
+            "en": "Not me."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 113,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_106",
+          "arg": "drunk",
+          "text": {
+            "ko": "…아니였지.",
+            "en": "...Wasn't me. Back then."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 114,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_107",
+          "arg": "drunk",
+          "text": {
+            "ko": "………",
+            "en": "........."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 115,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_108",
+          "arg": "drunk",
+          "text": {
+            "ko": "…",
+            "en": "..."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 116,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_109",
+          "arg": "drunk",
+          "text": {
+            "ko": "우리 부모님은 말이지, 참 바보같은 사람들이었어.",
+            "en": "My parents, you know... they were such fools."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 117,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_110",
+          "arg": "drunk",
+          "text": {
+            "ko": "그들은 길거리에 나앉은 부랑아들을 도와줄 수 있다고 믿었지.",
+            "en": "They believed they could help the strays out on the streets."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 118,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_111",
+          "arg": "drunk",
+          "text": {
+            "ko": "그렇게 거리에 돌아다니던 아이들을 하나 둘 집으로 들여온 거야.",
+            "en": "So they started taking the street kids in, one by one."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 119,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_112",
+          "arg": "drunk",
+          "text": {
+            "ko": "그렇게 한 명… 두 명….",
+            "en": "One... then two...."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 120,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_113",
+          "arg": "drunk",
+          "text": {
+            "ko": "일곱 명이 되던 해에",
+            "en": "And the year it became seven,"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 121,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_114",
+          "arg": "drunk",
+          "text": {
+            "ko": "집을 나갔어.",
+            "en": "they walked out."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 122,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_115",
+          "arg": "default",
+          "text": {
+            "ko": "…",
+            "en": "..."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 123,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_116",
+          "arg": "drunk",
+          "text": {
+            "ko": "감당이 안 되었나봐.\n뭐 있는 거 없는 거 다 털어서 나갔더라고.\n뭐 그렇게 된 거지~~",
+            "en": "Guess it got to be too much.\nThey cleaned out everything we had and left.\nAnd, well, that's how it went~~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 124,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_117",
+          "arg": "drunk",
+          "text": {
+            "ko": "아무튼! 난 내 동생들이 너무 소중해에~~",
+            "en": "Anyway! My little ones are sooo precious to me~~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 125,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_118",
+          "arg": "drunk",
+          "text": {
+            "ko": "있지 있지~ 우리 막내가 미술에 재능이 있는 것 같아.\n이거 볼래?",
+            "en": "Hey, hey~ I think our youngest has a real talent for art.\nWanna see?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 126,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_119",
+          "arg": "default",
+          "text": {
+            "ko": "(….기괴한 형체의 무언가가 잔뜩 그려져 있다. 도무지 알아볼 수 없다.)",
+            "en": "(....It's covered in grotesque, unidentifiable shapes. I can't make out a thing.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 127,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_120",
+          "arg": "default",
+          "text": {
+            "ko": "그건 아닌 것 같은데요.",
+            "en": "I don't think that's the case."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 128,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_121",
+          "arg": "drunk",
+          "text": {
+            "ko": "너가 보는 눈이 없어서 그래.\n예술 감각이 떨어지는구나~",
+            "en": "That's 'cause you've got no eye for it.\nNo sense for art at all~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 129,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_122",
+          "arg": "default",
+          "text": {
+            "ko": "그런데 이 빨갛고 커다란 그림은 뭔가요?",
+            "en": "By the way, what is this big red one a drawing of?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 130,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_123",
+          "arg": "drunk",
+          "text": {
+            "ko": "아 맞다 맞다, 이걸 얘기 안 했구나.",
+            "en": "Oh right, right — I never told you about this!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 131,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_124",
+          "arg": "default",
+          "text": {
+            "ko": "이 팔을 보시라. 이것으로 말할 것 같으면 물 흐르듯이 유연한 관절!\n스포츠카를 빼다박은 깔롱한 디자인! 그리고 \n아만타티움도 울고 갈 단단함을 자랑하는",
+            "en": "Behold this arm! I present to you: joints smooth as flowing water!\nA slick design straight off a sports car! And hardness\nthat would make amantatium itself weep —"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 132,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_125",
+          "arg": "default",
+          "text": {
+            "ko": "네오 닐 암스트롱 겔럭시 a6 with 애플 람보르기니 에디션 아머~!!!!!!",
+            "en": "the Neo Neil Armstrong Galaxy a6 with Apple Lamborghini Edition Armor~!!!!!!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 133,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_126",
+          "arg": "default",
+          "text": {
+            "ko": "아…. 네… \"네오 닐 암스트롱 겔럭시 a6 with \n애플 람보르기니 에디션 아머~!!!!!\"는 정말 멋있네요.",
+            "en": "Ah.... yes... the \"Neo Neil Armstrong Galaxy a6 with\nApple Lamborghini Edition Armor~!!!!!\" is truly impressive."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 134,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_127",
+          "arg": "drunk",
+          "text": {
+            "ko": "아 반응 뭐야아~ 내가 이 아머를 사기 위해서 얼마나 고생했는지 알아?!!!!",
+            "en": "What's with that reactionnn~ Do you know how hard I worked to buy this armor?!!!!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 135,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_128",
+          "arg": "default",
+          "text": {
+            "ko": "제가 잘 알진 못하지만 해당 모듈은 꽤나 비싸 보이는데, \n그런 걸 장만할 정도면 굉장히 유능하시겠는데요.",
+            "en": "I'm no expert, but that module looks quite expensive.\nIf you could afford it, you must be very capable."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 136,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_129",
+          "arg": "drunk",
+          "text": {
+            "ko": "우으…. 사실은 나 아직 말단이거든.",
+            "en": "Ugh.... actually, I'm still bottom rung."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 137,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_130",
+          "arg": "drunk",
+          "text": {
+            "ko": "그래도 이제 곧 큰 돈을 벌 거야!\n전 재산을 털어서 이 아머를 샀으니까!!\n실적을 쌓아서 갱에서 높은 지위를 얻는 것도 시간문제다~ 이거지.",
+            "en": "But I'm gonna make big money soon!\nI blew my entire savings on this armor!!\nRack up results, climb the gang ladder — it's only a matter of time~ that's the plan."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 138,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_131",
+          "arg": "default",
+          "text": {
+            "ko": "그렇게 돈을 벌어서 하고 싶은 것이 있습니까?",
+            "en": "Is there something you want to do with the money you make?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 139,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_132",
+          "arg": "drunk",
+          "text": {
+            "ko": "동생들이랑 패밀리 레스토랑에 갈 거야. 들어 본 적 있어?\n동생이 가져온 잡지에서 봤는데 몽글몽글한 함박 스테이크라는 게 있대.\n동생들이랑 배 터지게 먹을 거야!!",
+            "en": "I'm taking my little ones to a family restaurant. Ever heard of those?\nSaw it in a magazine one of them brought home — there's this fluffy thing called a hamburg steak.\nWe're gonna eat till we burst!!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 140,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_samho_visit_133",
+          "arg": "default",
+          "text": {
+            "ko": "(패밀리 레스토랑이라.. 현재는 거의 사라진 식당이다.\n교육용 DB에서 확인한 적이 있다.)",
+            "en": "(A family restaurant... a kind of establishment nearly extinct today.\nI've seen them in my educational database.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 141,
+          "type": "say",
+          "actor": "samho",
+          "dialogue_id": "dlg_d3_samho_visit_134",
+          "arg": "drunk",
+          "text": {
+            "ko": "언젠간 보스의 오른팔로 승진할지도 모르지.\n기분이다! 보스의 오른팔이 될 이 삼호님에게 \n술을 한 잔 더 내오너라아아아!!!!!이왕이면 공짜로~!",
+            "en": "Someday I might even get promoted to Boss's right hand.\nI'm feeling it! Bring another drink for the great Samho,\nfuture right hand of the Boss!!!!! And make it free while you're at it~!"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 142,
+          "type": "choice",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "ch_d3_last_call",
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         }
       ]
     },
     {
-      "id": "d2_close",
+      "id": "d3_aili_visit",
       "day": 2,
       "phase": "bar",
-      "seq": 5,
+      "seq": 3,
       "trigger": "auto",
-      "when": "",
-      "title": "마감 — 크리스 교대",
+      "when": null,
+      "title": "아일리 — 깔루아 밀크와 안토니오",
       "skippable": false,
-      "group": "",
+      "group": null,
+      "steps": [
+        {
+          "seq": 1,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_001",
+          "arg": "default",
+          "text": {
+            "ko": "좋아, 루나. 오늘은 <name>깔루아밀크</name> 한 잔 줘.",
+            "en": "Alright, Luna. Tonight, give me a <name>Kahlua Milk</name>."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 2,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_002",
+          "arg": "default",
+          "text": {
+            "ko": "네, 알겠습니다.",
+            "en": "Yes, understood."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 3,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_003",
+          "arg": "default",
+          "text": {
+            "ko": "(<name>깔루아 밀크</name> 한잔)",
+            "en": "(One <name>Kahlua Milk</name>.)"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 4,
+          "type": "order",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_004",
+          "arg": "exact:kahlua_milk",
+          "text": {
+            "ko": "깔루아 밀크 한 잔.",
+            "en": "One Kahlua Milk."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 5,
+          "type": "craft",
+          "actor": null,
+          "dialogue_id": null,
+          "arg": "order",
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 6,
+          "type": "serve",
+          "actor": "aili",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 7,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_005",
+          "arg": "success",
+          "text": {
+            "ko": "크… 이거지. 오랜만에 이 우유를 마시고 싶었어.",
+            "en": "Ahh... that's the stuff. I've been craving this milk for ages."
+          },
+          "when": "grade >= excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 8,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_006",
+          "arg": "success",
+          "text": {
+            "ko": "크… 이거지.",
+            "en": "Ahh... that's the stuff."
+          },
+          "when": "grade < excellent",
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 9,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_007",
+          "arg": "default",
+          "text": {
+            "ko": "우유를 좋아하시나요?",
+            "en": "Do you like milk?"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 10,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_008",
+          "arg": "success",
+          "text": {
+            "ko": "당연하지. 이 주변에서 신선한 우유를 마실 수 있는 곳이\n여기밖에 없다니까? 요즘 우유가 얼마나 귀하고 비싼데.",
+            "en": "Obviously. This is the only place around\nwhere you can get fresh milk, you know? Milk's so rare and pricey these days."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 11,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_009",
+          "arg": "default",
+          "text": {
+            "ko": "근데 여기는 재료를 계속 보내 주는 사람이 있다고 들었어.\n이름이 안토니오였나? 가끔 손님으로 온다던데.",
+            "en": "But I heard someone keeps this place supplied.\nAntonio, was it? They say he drops by as a customer sometimes."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 12,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_010",
+          "arg": "default",
+          "text": {
+            "ko": "안토니오. 기억해 두겠습니다.",
+            "en": "Antonio. I'll remember that."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 13,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_011",
+          "arg": "default",
+          "text": {
+            "ko": "그래. 그럼 난 간당~",
+            "en": "Good. Well, I'm off~"
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 14,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_012",
+          "arg": "default",
+          "text": {
+            "ko": "술을 마시고 바로 일을 해도 되나요? 효율이 떨어질 것 같습니다.",
+            "en": "Is it all right to work right after drinking? Your efficiency will suffer."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 15,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_013",
+          "arg": "default",
+          "text": {
+            "ko": "술 마시고 일을 하는 게 진짜 즐거움인데.\n그래, 오늘은 다리 파츠를 팔에다 붙여 달라고 요청하는\n멍청이들이 있어서.",
+            "en": "Working with a drink in you is the real joy.\nAnd yeah — tonight I've got idiots asking me\nto graft leg parts onto their arms."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 16,
+          "type": "say",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_aili_visit_014",
+          "arg": "default",
+          "text": {
+            "ko": "쉽지 않겠네요.",
+            "en": "That won't be easy."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 17,
+          "type": "say",
+          "actor": "aili",
+          "dialogue_id": "dlg_d3_aili_visit_015",
+          "arg": "default",
+          "text": {
+            "ko": "다 그렇지 뭐.\n암튼 가 볼게, 루나. 안녕안녕.",
+            "en": "That's how it always is.\nAnyway, I'm off, Luna. Bye-bye."
+          },
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        },
+        {
+          "seq": 18,
+          "type": "exit",
+          "actor": "aili",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
+          "effects": null,
+          "sync": "wait"
+        }
+      ]
+    },
+    {
+      "id": "d3_chris_close",
+      "day": 2,
+      "phase": "bar",
+      "seq": 4,
+      "trigger": "auto",
+      "when": null,
+      "title": "크리스 복귀 — 마감",
+      "skippable": false,
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": "R",
           "text": null,
           "when": null,
@@ -3665,10 +3450,11 @@
           "seq": 2,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_close_001",
           "arg": "default",
           "text": {
-            "ko": "루나.\n이제 슬슬 교대하자고.",
-            "en": "Luna.\nTime to switch shifts."
+            "ko": "오늘따라 바깥이 소란스럽군.",
+            "en": "It's noisy out there tonight."
           },
           "when": null,
           "effects": null,
@@ -3678,12 +3464,13 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_close_002",
           "arg": "default",
           "text": {
-            "ko": "네, 보스.\n그런데 아직 앞에 손님이 있습니다.",
-            "en": "Yes, Boss.\nHowever, there is still a customer at the counter."
+            "ko": "어서 오세요, 크리스.",
+            "en": "Welcome back, Chris."
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3691,25 +3478,27 @@
           "seq": 4,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_close_003",
           "arg": "default",
           "text": {
-            "ko": "뭐야.\n부비도 있었네.",
-            "en": "What the.\nBubi's here too."
+            "ko": "크리스 아니고 보스라고 부르기로 했을 텐데.",
+            "en": "I believe we agreed on 'Boss,' not 'Chris.'"
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 5,
           "type": "say",
-          "actor": "bubi",
+          "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_close_004",
           "arg": "default",
           "text": {
-            "ko": "먀옹.",
-            "en": "Meow."
+            "ko": "넵, 크리..보스.",
+            "en": "Yes, Chri... Boss."
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3717,12 +3506,13 @@
           "seq": 6,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d3_chris_close_005",
           "arg": "default",
           "text": {
-            "ko": "부비는 내가 돌봐줄 테니까 먼저 들어가 봐.",
-            "en": "I'll look after Bubi. You head on home."
+            "ko": "고생했다. 이제 퇴근해.",
+            "en": "Good work today. Clock out."
           },
-          "when": "flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
@@ -3730,123 +3520,32 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d3_chris_close_006",
           "arg": "default",
           "text": {
-            "ko": "네, 보스.",
-            "en": "Yes, Boss."
+            "ko": "넵, 알겠습니다.",
+            "en": "Yes, understood."
           },
-          "when": "!flag.bubi_affinity_high",
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 8,
-          "type": "say",
+          "type": "exit",
           "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "수고했어. 먼저 들어가 봐.",
-            "en": "Good work. You head on home."
-          },
-          "when": "!flag.bubi_affinity_high",
+          "dialogue_id": null,
+          "arg": null,
+          "text": null,
+          "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
           "seq": 9,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "알겠습니다.",
-            "en": "Understood."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 10,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그래도 첫날치고는 잘했나 보네.",
-            "en": "Seems you did well, for a first day."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 11,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "잘했다는 걸 어떻게 아는 건가요?",
-            "en": "How do you know I did well?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 12,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "누가 소리 지르고 뭔갈 집어던지지는 않았잖아?\n그럼 잘한 거지.",
-            "en": "Nobody screamed or threw anything, right?\nThen you did well."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 13,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "아하… 확인했습니다.",
-            "en": "Ah... confirmed."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 14,
-          "type": "say",
-          "actor": "chris",
-          "arg": "default",
-          "text": {
-            "ko": "그래. 딴 길로 새지 말고 바로 들어가.",
-            "en": "Right. No detours — go straight home."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 15,
-          "type": "say",
-          "actor": "luna",
-          "arg": "default",
-          "text": {
-            "ko": "네, 보스.",
-            "en": "Yes, Boss."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 16,
           "type": "end_part",
           "actor": null,
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -3857,26 +3556,52 @@
     }
   ],
   "choices": {
-    "ch_d2_aili_lady": [
+    "ch_d3_cutoff": [
       {
         "seq": 1,
         "text": {
-          "ko": "섹시한 레이디가 뭔가요?",
-          "en": "What is a 'sexy lady'?"
+          "ko": "음… 알겠습니다.",
+          "en": "Well... all right."
         },
         "when": null,
         "effects": null,
-        "goto": "d2_aili_lady_q"
+        "goto": "d3_samho_pour",
+        "lock_reason": null
       },
       {
         "seq": 2,
         "text": {
-          "ko": "주문받았습니다.",
-          "en": "Order received."
+          "ko": "안 됩니다. 더는 드릴 수 없습니다.",
+          "en": "No. I can't serve you any more."
         },
         "when": null,
         "effects": null,
-        "goto": null
+        "goto": "d3_samho_refuse",
+        "lock_reason": null
+      }
+    ],
+    "ch_d3_last_call": [
+      {
+        "seq": 1,
+        "text": {
+          "ko": "지금 더 마시면 취할 수도 있습니다.",
+          "en": "If you drink more now, you may get drunk."
+        },
+        "when": null,
+        "effects": null,
+        "goto": "d3_samho_warn",
+        "lock_reason": null
+      },
+      {
+        "seq": 2,
+        "text": {
+          "ko": "네, 알겠습니다.",
+          "en": "Yes, understood."
+        },
+        "when": null,
+        "effects": null,
+        "goto": "d3_samho_pour",
+        "lock_reason": null
       }
     ]
   }

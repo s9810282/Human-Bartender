@@ -11,6 +11,8 @@ public struct NewGuestBodyPartData
     [field: SerializeField][JsonProperty("personalities")] public string[] Personalities { get; set; }
     [field: SerializeField][JsonProperty("mode")] public string Mode { get; set; }
     [field: SerializeField][JsonProperty("sprite")] public string Sprite { get; set; }
+    /// <summary>표정별 스프라이트 경로. 현재 데이터는 전부 null이지만 스키마에는 들어 있다.</summary>
+    [JsonProperty("emotions")] public Dictionary<string, string> Emotions { get; set; }
     [JsonProperty("parts")] public Dictionary<string, string> Parts { get; set; }
     [field: SerializeField][JsonProperty("weight")] public int Weight { get; set; }
 }

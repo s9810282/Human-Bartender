@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
@@ -39,6 +40,11 @@ public class NewDayScriptBase
 {
     [field: SerializeField][JsonProperty("day")] public int Day { get; set; }
     [field: SerializeField][JsonProperty("scenes")] public NewScriptSceneData[] Scenes { get; set; }
+    /// <summary>
+    /// 선택지 묶음. 키가 선택지 id고, choice 타입 스텝의 arg가 이 키를 가리킨다.
+    /// Dictionary라 [SerializeField]로는 인스펙터에 안 보이지만 역직렬화에는 문제가 없다.
+    /// </summary>
+    [JsonProperty("choices")] public Dictionary<string, NewChoiceOptionData[]> Choices { get; set; }
 }
 
 /// <summary>script/common.json 또는 script/day_N.json 한 파일을 보유하는 ScriptableObject.</summary>
