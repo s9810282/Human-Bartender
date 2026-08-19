@@ -20,6 +20,7 @@
     "force_sewage_on_missing_core": true,
     "craft_score_formula": "weighted_representative_v1",
     "score_aggregation_mode": "mean_per_action_then_weighted",
+    "normalize_present_gimmick_weights": true,
     "fill_up_weight_source": "weight_pour",
     "craft_timer_scope": "manual_input_active_only",
     "shake_target_stacks": 20,
