@@ -9,6 +9,8 @@
     "price": 180,
     "abv": 8.0,
     "glass": "long_drink",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
     "garnish": "lime_wedge",
@@ -18,28 +20,31 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "fresh",
         "ko": "상큼한",
         "en": "Fresh",
         "category": "taste"
       },
       {
+        "id": "crisp",
         "ko": "청량한",
         "en": "Crisp",
         "category": "feel"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
       }
     ],
     "flavor": {
-      "ko": "진과 토닉워터. 가장 단순해서 가장 정직한 칵테일.",
-      "en": "Gin and tonic. The simplest, and therefore the most honest."
+      "ko": "진과 탄산수. 가장 단순해서 가장 정직한 칵테일.",
+      "en": "Gin and carbonated water. The simplest, and therefore the most honest."
     },
     "recipe_desc": {
-      "ko": "롱드링크 잔에 진 1.5oz를 붓고, 토닉워터 4oz로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
-      "en": "Pour 1.5oz gin into a long drink glass, top with 4oz tonic water, and stir gently. Garnish with a lime wedge."
+      "ko": "롱드링크 잔에 진 1.5oz를 붓고, 탄산수 4oz로 잔을 채워 가볍게 젓는다. 라임 웨지를 걸친다.",
+      "en": "Pour 1.5oz gin into a long drink glass, top with 4oz carbonated water, and stir gently. Garnish with a lime wedge."
     },
     "unlock_day": 0,
     "unlock_when": null,
@@ -56,7 +61,7 @@
       },
       {
         "action": "fill_up",
-        "ingredient": "tonic_water",
+        "ingredient": "soda_water",
         "qty": 4,
         "unit": "oz",
         "is_core": false,
@@ -77,6 +82,8 @@
     "price": 220,
     "abv": 8.0,
     "glass": "long_drink",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "lemon_slice",
@@ -86,16 +93,19 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "fresh",
         "ko": "상큼한",
         "en": "Fresh",
         "category": "taste"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
       },
       {
+        "id": "crisp",
         "ko": "청량한",
         "en": "Crisp",
         "category": "feel"
@@ -106,8 +116,8 @@
       "en": "Gin, lemon, and that 'fizz' of carbonation."
     },
     "recipe_desc": {
-      "ko": "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 롱드링크 잔에 따른다. 소다수 3oz로 채우고 레몬 슬라이스를 올린다.",
-      "en": "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a long drink glass. Top with 3oz soda water and add a lemon slice."
+      "ko": "진 1.5oz, 레몬 반 개의 즙, 설탕 1tsp을 셰이킹해 롱드링크 잔에 따른다. 탄산수 3oz로 채우고 레몬 슬라이스를 올린다.",
+      "en": "Shake 1.5oz gin, the juice of half a lemon, and 1 tsp sugar, then strain into a long drink glass. Top with 3oz carbonated water and add a lemon slice."
     },
     "unlock_day": 0,
     "unlock_when": null,
@@ -163,20 +173,24 @@
     "price": 90,
     "abv": 4.5,
     "glass": "mug",
+    "target_mix_method": "none",
+    "target_prep_action": "open",
     "mix": "none",
     "prep": "cap",
-    "garnish": "",
+    "garnish": null,
     "color": "202,162,4",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "crisp",
         "ko": "청량한",
         "en": "Crisp",
         "category": "feel"
       },
       {
+        "id": "light",
         "ko": "가벼운",
         "en": "Light",
         "category": "feel"
@@ -190,7 +204,7 @@
       "ko": "뚜껑을 딴 뒤 맥주잔에 12oz를 천천히 따른다. 거품이 잔 위로 넘치지 않게 기울여서.",
       "en": "Pop the cap and pour 12oz slowly into a beer mug, tilted so the head doesn't spill over."
     },
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "time_limit_sec": 28,
     "recipe": [
@@ -217,20 +231,24 @@
     "price": 220,
     "abv": 13.0,
     "glass": "wine",
+    "target_mix_method": "none",
+    "target_prep_action": null,
     "mix": "none",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "98,15,11",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
@@ -244,7 +262,7 @@
       "ko": "와인잔에 8oz를 따른다. 잔을 흔들지 않는다.",
       "en": "Pour 8oz into a wine glass. Do not swirl."
     },
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "time_limit_sec": 36,
     "recipe": [
@@ -271,20 +289,24 @@
     "price": 350,
     "abv": 12.0,
     "glass": "wine",
+    "target_mix_method": "none",
+    "target_prep_action": null,
     "mix": "none",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "255,245,225",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"
       },
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
@@ -298,7 +320,7 @@
       "ko": "와인잔에 8oz를 따른다. 기포가 가라앉기 전에 낸다.",
       "en": "Pour 8oz into a wine glass. Serve before the bubbles settle."
     },
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "time_limit_sec": 36,
     "recipe": [
@@ -325,20 +347,24 @@
     "price": 190,
     "abv": 12.0,
     "glass": "long_drink",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "236,223,95",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
@@ -388,6 +414,8 @@
     "price": 210,
     "abv": 10.0,
     "glass": "mug",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
     "garnish": "lime_wedge",
@@ -397,11 +425,13 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "crisp",
         "ko": "청량한",
         "en": "Crisp",
         "category": "feel"
       },
       {
+        "id": "spicy",
         "ko": "알싸한",
         "en": "Spicy",
         "category": "taste"
@@ -460,6 +490,8 @@
     "price": 200,
     "abv": 12.0,
     "glass": "long_drink",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
     "garnish": "orange_slice",
@@ -469,11 +501,13 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"
@@ -523,6 +557,8 @@
     "price": 380,
     "abv": 22.0,
     "glass": "long_drink",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
     "garnish": "lemon_slice",
@@ -532,11 +568,13 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "strong",
         "ko": "독한",
         "en": "Strong",
         "category": "feel"
       },
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
@@ -622,6 +660,8 @@
     "price": 240,
     "abv": 15.0,
     "glass": "sour",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "cherry",
@@ -631,11 +671,13 @@
     "serving_ice": "none",
     "tags": [
       {
+        "id": "tangy",
         "ko": "새콤한",
         "en": "Tangy",
         "category": "taste"
       },
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
@@ -703,6 +745,8 @@
     "price": 300,
     "abv": 30.0,
     "glass": "cocktail",
+    "target_mix_method": "stir",
+    "target_prep_action": null,
     "mix": "stir",
     "prep": null,
     "garnish": "olive",
@@ -712,16 +756,19 @@
     "serving_ice": "none",
     "tags": [
       {
+        "id": "bitter",
         "ko": "씁쓸한",
         "en": "Bitter",
         "category": "taste"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
       },
       {
+        "id": "strong",
         "ko": "독한",
         "en": "Strong",
         "category": "feel"
@@ -771,20 +818,24 @@
     "price": 230,
     "abv": 20.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "219,96,89",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "tangy",
         "ko": "새콤한",
         "en": "Tangy",
         "category": "taste"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
@@ -843,6 +894,8 @@
     "price": 250,
     "abv": 20.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "lemon_slice",
@@ -852,11 +905,13 @@
     "serving_ice": "none",
     "tags": [
       {
+        "id": "fresh",
         "ko": "상큼한",
         "en": "Fresh",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
@@ -924,6 +979,8 @@
     "price": 260,
     "abv": 25.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "lime_wedge",
@@ -933,11 +990,13 @@
     "serving_ice": "none",
     "tags": [
       {
+        "id": "tangy",
         "ko": "새콤한",
         "en": "Tangy",
         "category": "taste"
       },
       {
+        "id": "strong",
         "ko": "독한",
         "en": "Strong",
         "category": "feel"
@@ -996,20 +1055,24 @@
     "price": 270,
     "abv": 25.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "247,241,214",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "fresh",
         "ko": "상큼한",
         "en": "Fresh",
         "category": "taste"
       },
       {
+        "id": "elegant",
         "ko": "우아한",
         "en": "Elegant",
         "category": "feel"
@@ -1068,20 +1131,24 @@
     "price": 150,
     "abv": 7.0,
     "glass": "old_fashioned",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "159,162,119",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
@@ -1131,25 +1198,30 @@
     "price": 230,
     "abv": 28.0,
     "glass": "old_fashioned",
+    "target_mix_method": "stir",
+    "target_prep_action": null,
     "mix": "stir",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "222,150,52",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
       },
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
@@ -1199,25 +1271,30 @@
     "price": 220,
     "abv": 22.0,
     "glass": "old_fashioned",
+    "target_mix_method": "stir",
+    "target_prep_action": null,
     "mix": "stir",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "232,188,102",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
       },
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
@@ -1267,25 +1344,30 @@
     "price": 240,
     "abv": 30.0,
     "glass": "old_fashioned",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "200,120,40",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
       },
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
@@ -1335,6 +1417,8 @@
     "price": 250,
     "abv": 15.0,
     "glass": "sour",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "cherry",
@@ -1344,11 +1428,13 @@
     "serving_ice": "none",
     "tags": [
       {
+        "id": "tangy",
         "ko": "새콤한",
         "en": "Tangy",
         "category": "taste"
       },
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
@@ -1416,25 +1502,30 @@
     "price": 300,
     "abv": 18.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "254,97,126",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
       },
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"
@@ -1493,25 +1584,30 @@
     "price": 280,
     "abv": 20.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "66,42,28",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
       },
       {
+        "id": "coffee",
         "ko": "커피",
         "en": "Coffee",
         "category": "taste"
@@ -1570,25 +1666,30 @@
     "price": 300,
     "abv": 10.0,
     "glass": "cocktail",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "118,183,161",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
       },
       {
+        "id": "mint",
         "ko": "민트",
         "en": "Mint",
         "category": "taste"
@@ -1647,25 +1748,30 @@
     "price": 300,
     "abv": 12.0,
     "glass": "mug",
+    "target_mix_method": "build",
+    "target_prep_action": null,
     "mix": "build",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "74,48,32",
     "color2": null,
     "mixing_ice": "none",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "smooth",
         "ko": "부드러운",
         "en": "Smooth",
         "category": "feel"
       },
       {
+        "id": "coffee",
         "ko": "커피",
         "en": "Coffee",
         "category": "taste"
@@ -1724,25 +1830,30 @@
     "price": 280,
     "abv": 25.0,
     "glass": "cocktail",
+    "target_mix_method": "stir",
+    "target_prep_action": null,
     "mix": "stir",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "212,72,45",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "none",
     "tags": [
       {
+        "id": "bitter",
         "ko": "씁쓸한",
         "en": "Bitter",
         "category": "taste"
       },
       {
+        "id": "heavy",
         "ko": "묵직한",
         "en": "Heavy",
         "category": "feel"
       },
       {
+        "id": "classic",
         "ko": "클래식",
         "en": "Classic",
         "category": "feel"
@@ -1801,25 +1912,30 @@
     "price": 320,
     "abv": 14.0,
     "glass": "long_drink",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "0,151,182",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "tropical_fruit",
         "ko": "열대과일",
         "en": "Tropical Fruit",
         "category": "taste"
       },
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"
@@ -1887,6 +2003,8 @@
     "price": 400,
     "abv": 18.0,
     "glass": "long_drink",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
     "garnish": "orange_slice",
@@ -1896,16 +2014,19 @@
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "tropical_fruit",
         "ko": "열대과일",
         "en": "Tropical Fruit",
         "category": "taste"
       },
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"
@@ -1964,25 +2085,30 @@
     "price": 320,
     "abv": 15.0,
     "glass": "long_drink",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "0,153,139",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "tropical_fruit",
         "ko": "열대과일",
         "en": "Tropical Fruit",
         "category": "taste"
       },
       {
+        "id": "fresh",
         "ko": "상큼한",
         "en": "Fresh",
         "category": "taste"
@@ -2041,25 +2167,30 @@
     "price": 320,
     "abv": 12.0,
     "glass": "long_drink",
+    "target_mix_method": "shake",
+    "target_prep_action": null,
     "mix": "shake",
     "prep": null,
-    "garnish": "",
+    "garnish": null,
     "color": "186,205,2",
     "color2": null,
     "mixing_ice": "cubed",
     "serving_ice": "cubed",
     "tags": [
       {
+        "id": "sweet",
         "ko": "달콤한",
         "en": "Sweet",
         "category": "taste"
       },
       {
+        "id": "tropical_fruit",
         "ko": "열대과일",
         "en": "Tropical Fruit",
         "category": "taste"
       },
       {
+        "id": "bright",
         "ko": "화사한",
         "en": "Bright",
         "category": "feel"

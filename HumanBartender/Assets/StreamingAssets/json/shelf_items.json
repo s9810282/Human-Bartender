@@ -19,7 +19,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "beer",
@@ -31,7 +32,7 @@
     "category": "wine_beer",
     "color": "202,162,4",
     "sprite": null,
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
@@ -41,7 +42,8 @@
     "default_action": "pour",
     "prep_action": "open",
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "red_wine",
@@ -53,7 +55,7 @@
     "category": "wine_beer",
     "color": "98,15,11",
     "sprite": null,
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
@@ -63,7 +65,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "champagne",
@@ -75,7 +78,7 @@
     "category": "wine_beer",
     "color": "255,245,225",
     "sprite": null,
-    "unlock_day": 0,
+    "unlock_day": 1,
     "unlock_when": null,
     "shop_price": null,
     "desc": {
@@ -85,36 +88,15 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
-  },
-  {
-    "id": "tonic_water",
-    "kind": "ingredient",
-    "name": {
-      "ko": "토닉워터",
-      "en": "Tonic Water"
-    },
-    "category": "mixer",
-    "color": "245,250,255",
-    "sprite": null,
-    "unlock_day": 0,
-    "unlock_when": null,
-    "shop_price": null,
-    "desc": {
-      "ko": "씁쓸한 탄산. 진의 가장 오랜 친구.",
-      "en": "Bitter fizz. Gin's oldest friend."
-    },
-    "default_action": "fill_up",
-    "prep_action": null,
-    "default_target_qty": 3.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "soda_water",
     "kind": "ingredient",
     "name": {
-      "ko": "소다수",
-      "en": "Soda Water"
+      "ko": "탄산수",
+      "en": "Carbonated Water"
     },
     "category": "mixer",
     "color": "245,250,255",
@@ -123,13 +105,14 @@
     "unlock_when": null,
     "shop_price": null,
     "desc": {
-      "ko": "아무 맛도 없어서 무엇이든 될 수 있다.",
-      "en": "Tastes like nothing, so it can become anything."
+      "ko": "맑고 톡 쏘는 탄산수. 진토닉과 진피즈에 공통으로 사용한다.",
+      "en": "Clear, sparkling carbonated water used in both Gin & Tonic and Gin Fizz."
     },
     "default_action": "fill_up",
     "prep_action": null,
     "default_target_qty": 3.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "sugar",
@@ -151,7 +134,8 @@
     "default_action": "powder",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "tsp"
+    "default_target_unit": "tsp",
+    "shelf_group": null
   },
   {
     "id": "lemon",
@@ -161,7 +145,7 @@
       "en": "Lemon"
     },
     "category": "fruit",
-    "color": "",
+    "color": null,
     "sprite": null,
     "unlock_day": 0,
     "unlock_when": null,
@@ -173,7 +157,8 @@
     "default_action": "squeeze",
     "prep_action": null,
     "default_target_qty": 0.5,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": null
   },
   {
     "id": "tequila",
@@ -195,7 +180,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "vodka",
@@ -217,7 +203,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "rum",
@@ -239,7 +226,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "orange_juice",
@@ -261,7 +249,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "ginger_ale",
@@ -283,7 +272,8 @@
     "default_action": "fill_up",
     "prep_action": null,
     "default_target_qty": 3.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "cola",
@@ -305,7 +295,8 @@
     "default_action": "fill_up",
     "prep_action": null,
     "default_target_qty": 3.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "lime",
@@ -315,7 +306,7 @@
       "en": "Lime"
     },
     "category": "fruit",
-    "color": "",
+    "color": null,
     "sprite": null,
     "unlock_day": 1,
     "unlock_when": null,
@@ -327,7 +318,8 @@
     "default_action": "squeeze",
     "prep_action": null,
     "default_target_qty": 0.5,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": null
   },
   {
     "id": "whiskey",
@@ -349,7 +341,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "dry_vermouth",
@@ -371,7 +364,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "grenadine",
@@ -393,7 +387,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "sour_mix",
@@ -415,7 +410,8 @@
     "default_action": "fill_up",
     "prep_action": null,
     "default_target_qty": 3.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "cointreau",
@@ -437,7 +433,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "cranberry_juice",
@@ -459,7 +456,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "triple_sec",
@@ -481,7 +479,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "kahlua",
@@ -503,7 +502,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "milk",
@@ -525,7 +525,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "brandy",
@@ -547,7 +548,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "amaretto",
@@ -569,7 +571,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "cream",
@@ -591,7 +594,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "green_peppermint",
@@ -613,7 +617,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "white_cacao",
@@ -635,7 +640,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "coffee",
@@ -657,7 +663,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "campari",
@@ -679,7 +686,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "blue_curacao",
@@ -701,7 +709,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "pineapple_juice",
@@ -723,7 +732,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "coconut_milk",
@@ -745,7 +755,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "fridge"
   },
   {
     "id": "peach_brandy",
@@ -767,7 +778,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "melon_liqueur",
@@ -789,7 +801,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "malibu",
@@ -811,7 +824,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "banana_liqueur",
@@ -833,7 +847,8 @@
     "default_action": "pour",
     "prep_action": null,
     "default_target_qty": 1.0,
-    "default_target_unit": "oz"
+    "default_target_unit": "oz",
+    "shelf_group": "liquor"
   },
   {
     "id": "cocktail",
@@ -843,7 +858,7 @@
       "en": "Cocktail Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_cocktail",
     "unlock_day": 0,
     "unlock_when": null,
@@ -855,7 +870,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "long_drink",
@@ -865,7 +881,7 @@
       "en": "Long Drink Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_longdrink",
     "unlock_day": 0,
     "unlock_when": null,
@@ -877,7 +893,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "old_fashioned",
@@ -887,7 +904,7 @@
       "en": "Old Fashioned Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_oldfashioned",
     "unlock_day": 0,
     "unlock_when": null,
@@ -899,7 +916,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "sour",
@@ -909,7 +927,7 @@
       "en": "Sour Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_sour",
     "unlock_day": 0,
     "unlock_when": null,
@@ -921,7 +939,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "wine",
@@ -931,7 +950,7 @@
       "en": "Wine Glass"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_wine",
     "unlock_day": 0,
     "unlock_when": null,
@@ -943,7 +962,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "mug",
@@ -953,7 +973,7 @@
       "en": "Beer Mug"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "glass_mug",
     "unlock_day": 0,
     "unlock_when": null,
@@ -965,7 +985,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "shaker",
@@ -975,7 +996,7 @@
       "en": "Shaker"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "tool_shaker",
     "unlock_day": 0,
     "unlock_when": null,
@@ -987,7 +1008,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "mixing_glass",
@@ -997,7 +1019,7 @@
       "en": "Mixing Glass & Bar Spoon"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "tool_mixing",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1009,7 +1031,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "lime_wedge",
@@ -1019,7 +1042,7 @@
       "en": "Lime Wedge"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_lime",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1031,7 +1054,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "lemon_slice",
@@ -1041,7 +1065,7 @@
       "en": "Lemon Slice"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_lemon",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1053,7 +1077,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "olive",
@@ -1063,7 +1088,7 @@
       "en": "Olive"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_olive",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1075,7 +1100,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "cherry",
@@ -1085,7 +1111,7 @@
       "en": "Cherry"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_cherry",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1097,7 +1123,8 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   },
   {
     "id": "orange_slice",
@@ -1107,7 +1134,7 @@
       "en": "Orange Slice"
     },
     "category": null,
-    "color": "",
+    "color": null,
     "sprite": "gn_orange",
     "unlock_day": 0,
     "unlock_when": null,
@@ -1119,6 +1146,7 @@
     "default_action": null,
     "prep_action": null,
     "default_target_qty": null,
-    "default_target_unit": null
+    "default_target_unit": null,
+    "shelf_group": null
   }
 ]
