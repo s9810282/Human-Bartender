@@ -2,7 +2,7 @@
   {
     "day": 1,
     "seq": 1,
-    "order": "",
+    "order": null,
     "personality": "gentle",
     "delay_sec": 0,
     "max_rounds": 1,
@@ -11,7 +11,7 @@
   {
     "day": 1,
     "seq": 2,
-    "order": "",
+    "order": null,
     "personality": "chatty",
     "delay_sec": 35,
     "max_rounds": 1,
@@ -29,7 +29,7 @@
   {
     "day": 1,
     "seq": 4,
-    "order": "",
+    "order": null,
     "personality": "touchy",
     "delay_sec": 40,
     "max_rounds": 1,
@@ -38,7 +38,7 @@
   {
     "day": 2,
     "seq": 1,
-    "order": "",
+    "order": null,
     "personality": "chatty",
     "delay_sec": 0,
     "max_rounds": 1,
@@ -56,9 +56,27 @@
   {
     "day": 2,
     "seq": 3,
-    "order": "",
+    "order": null,
     "personality": "touchy",
     "delay_sec": 50,
+    "max_rounds": 2,
+    "branch_choice": false
+  },
+  {
+    "day": 99,
+    "seq": 1,
+    "order": "gin_tonic",
+    "personality": "gentle",
+    "delay_sec": 0,
+    "max_rounds": 1,
+    "branch_choice": false
+  },
+  {
+    "day": 99,
+    "seq": 2,
+    "order": null,
+    "personality": "chatty",
+    "delay_sec": 20,
     "max_rounds": 2,
     "branch_choice": false
   }

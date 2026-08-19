@@ -7,15 +7,16 @@
       "phase": "bar_open",
       "seq": 1,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "개점 전 — 크리스의 확인, OPEN 간판을 걸기까지",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": "M",
           "text": null,
           "when": null,
@@ -26,6 +27,7 @@
           "seq": 2,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_bar_open_001",
           "arg": "default",
           "text": {
             "ko": "오늘부터는 손님을 직접 받는다. 어제 배운 대로 할 수 있겠지?",
@@ -39,6 +41,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_bar_open_002",
           "arg": "default",
           "text": {
             "ko": "코스터를 먼저 내고, 주문을 받고, 만들어서 코스터 위에 올린다.",
@@ -52,6 +55,7 @@
           "seq": 4,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_bar_open_003",
           "arg": "default",
           "text": {
             "ko": "…외우긴 잘 외웠군. 손이 따라오는지는 해봐야 알겠지만.",
@@ -65,6 +69,7 @@
           "seq": 5,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_bar_open_004",
           "arg": "default",
           "text": {
             "ko": "틀리면 어떻게 하죠?",
@@ -78,6 +83,7 @@
           "seq": 6,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_bar_open_005",
           "arg": "default",
           "text": {
             "ko": "틀린 잔은 내가 물어준다. 두 번 틀리지만 마라.",
@@ -91,6 +97,7 @@
           "seq": 7,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_bar_open_006",
           "arg": "default",
           "text": {
             "ko": "좋아, 시작해보자. 간판 걸어라.",
@@ -108,15 +115,16 @@
       "phase": "bar",
       "seq": 0,
       "trigger": "manual",
-      "when": "",
+      "when": null,
       "title": "분기 — 섹시한 레이디란 무엇인가",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_lady_q_001",
           "arg": "default",
           "text": {
             "ko": "섹시한 레이디는 어떤 의미죠?",
@@ -130,6 +138,7 @@
           "seq": 2,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_002",
           "arg": "default",
           "text": {
             "ko": "남녀 불문하고 내 매력에 빠져 돈이나 임플란트까지 뜯어다 바치는\n매력을 가진 레이디라는 거지.",
@@ -143,6 +152,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_lady_q_003",
           "arg": "default",
           "text": {
             "ko": "그런 적이 있나요?",
@@ -156,6 +166,7 @@
           "seq": 4,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_004",
           "arg": "default",
           "text": {
             "ko": "옛날에 KCPD 새끼들이 내 업장에 들이닥쳐서\n영업정지 때리기 전까진 자주 있었지.",
@@ -169,6 +180,7 @@
           "seq": 5,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_005",
           "arg": "default",
           "text": {
             "ko": "그 이후로 KCPD랑 나한테 돈 빌려준 놈들이 아주 그냥\n발정 난 개새끼마냥 날 찾으려고 염병을 하더라고.",
@@ -182,6 +194,7 @@
           "seq": 6,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_006",
           "arg": "default",
           "text": {
             "ko": "별것도 아닌 일로 왜 그렇게 피곤하게 하는지.\n정말 할 짓 없는 자식들이라니까?",
@@ -195,6 +208,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_lady_q_007",
           "arg": "default",
           "text": {
             "ko": "그렇다면 섹시한 레이디란 건 많은 이들한테 쫓겨서 피곤한 사람이란 거네요.",
@@ -208,6 +222,7 @@
           "seq": 8,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_008",
           "arg": "default",
           "text": {
             "ko": "정확해. 내가 보기엔 루나 너도 재능이 충분히 있어 보여.\n어때? 나한테 배워볼 생각은?",
@@ -221,6 +236,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_lady_q_009",
           "arg": "default",
           "text": {
             "ko": "거절합니다. 아직 일 시작한 지 하루밖에 되지 않았습니다.",
@@ -234,6 +250,7 @@
           "seq": 10,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_010",
           "arg": "default",
           "text": {
             "ko": "쯧. 재미없게 하긴.온다고 하면 크리스가 \n나한테 잔소리할 걸 생각하니 귀찮긴 하겠다.",
@@ -247,6 +264,7 @@
           "seq": 11,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_lady_q_011",
           "arg": "default",
           "text": {
             "ko": "뭐, 어쨌든 빨리 술 한 잔 만들어줘 봐.",
@@ -264,15 +282,16 @@
       "phase": "bar",
       "seq": 1,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "개점 — 크리스와 교대 전 당부",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": "R",
           "text": null,
           "when": null,
@@ -283,6 +302,7 @@
           "seq": 2,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_001",
           "arg": "default",
           "text": {
             "ko": "좋아. 그럼 부탁한다.",
@@ -296,6 +316,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_002",
           "arg": "default",
           "text": {
             "ko": "네, 크리스.",
@@ -309,6 +330,7 @@
           "seq": 4,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_003",
           "arg": "default",
           "text": {
             "ko": "보스.",
@@ -322,6 +344,7 @@
           "seq": 5,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_004",
           "arg": "default",
           "text": {
             "ko": "네, 보스.",
@@ -335,6 +358,7 @@
           "seq": 6,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_005",
           "arg": "default",
           "text": {
             "ko": "그래. 오늘이 첫날인데 너무 긴장하진 말고.\n물론 넌 안 할 것 같지만.",
@@ -348,6 +372,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_006",
           "arg": "default",
           "text": {
             "ko": "저도 긴장할 때가 있습니다.",
@@ -361,6 +386,7 @@
           "seq": 8,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_007",
           "arg": "default",
           "text": {
             "ko": "..너가?",
@@ -374,6 +400,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_008",
           "arg": "default",
           "text": {
             "ko": "개와 흡사하게 생긴 사람을 보면 거부 반응을 일으킵니다.",
@@ -387,6 +414,7 @@
           "seq": 10,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_009",
           "arg": "default",
           "text": {
             "ko": "…무슨 이유인지 물어보진 않겠다.",
@@ -400,6 +428,7 @@
           "seq": 11,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_010",
           "arg": "default",
           "text": {
             "ko": "네, 보스.",
@@ -413,6 +442,7 @@
           "seq": 12,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_011",
           "arg": "default",
           "text": {
             "ko": "좋아. 그럼 자정 전까지만 부탁해.\n그 이후엔 나랑 교대할 거야.",
@@ -426,6 +456,7 @@
           "seq": 13,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_012",
           "arg": "default",
           "text": {
             "ko": "그리고 오늘부터 매일 유지비를 계속 내야 하니까 알아둬.",
@@ -439,6 +470,7 @@
           "seq": 14,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_013",
           "arg": "default",
           "text": {
             "ko": "그걸 제가 내는 건가요?",
@@ -452,6 +484,7 @@
           "seq": 15,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_014",
           "arg": "default",
           "text": {
             "ko": "그래. 언제까지 놀고먹을 수는 없어.\n사회로 나왔으면 자기 몫은 해야지.",
@@ -465,6 +498,7 @@
           "seq": 16,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_015",
           "arg": "default",
           "text": {
             "ko": "제가 생각하기엔 행복이란 건 \n일을 하지 않아도 되는 삶인 것 같습니다.",
@@ -478,6 +512,7 @@
           "seq": 17,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_016",
           "arg": "default",
           "text": {
             "ko": "너 오늘 첫 출근이야. 앓는 소리는 짬 차면 해.",
@@ -491,6 +526,7 @@
           "seq": 18,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_017",
           "arg": "default",
           "text": {
             "ko": "노력해 보겠습니다.",
@@ -504,6 +540,7 @@
           "seq": 19,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_018",
           "arg": "default",
           "text": {
             "ko": "또 몰래 재료 먹으면 안 돼.",
@@ -517,6 +554,7 @@
           "seq": 20,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_019",
           "arg": "default",
           "text": {
             "ko": "네. 알겠습니다.",
@@ -530,6 +568,7 @@
           "seq": 21,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_open_020",
           "arg": "default",
           "text": {
             "ko": "그래, 간다.",
@@ -543,6 +582,7 @@
           "seq": 22,
           "type": "exit",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -553,6 +593,7 @@
           "seq": 23,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_021",
           "arg": "default",
           "text": {
             "ko": "……",
@@ -566,6 +607,7 @@
           "seq": 24,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_022",
           "arg": "default",
           "text": {
             "ko": "이번엔 올리브를 한 번……",
@@ -579,6 +621,7 @@
           "seq": 25,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_023",
           "arg": "default",
           "text": {
             "ko": "……생각보다 기름지고 쓴맛이 느껴지네.",
@@ -592,6 +635,7 @@
           "seq": 26,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_open_024",
           "arg": "default",
           "text": {
             "ko": "이게 라임이었나?",
@@ -609,15 +653,16 @@
       "phase": "bar",
       "seq": 2,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "포트 첫 방문 — 진피즈, 조니 이야기, 부비 배달",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "port",
+          "dialogue_id": null,
           "arg": "R",
           "text": null,
           "when": null,
@@ -628,6 +673,7 @@
           "seq": 2,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_001",
           "arg": "default",
           "text": {
             "ko": "뭐야. 진짜 여기서 일하고 있네.",
@@ -641,6 +687,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_002",
           "arg": "default",
           "text": {
             "ko": "아응넝하세요. 소응님.",
@@ -654,6 +701,7 @@
           "seq": 4,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_003",
           "arg": "default",
           "text": {
             "ko": "뭘 입에다 쳐 넣고 얘기하는 거야?",
@@ -667,6 +715,7 @@
           "seq": 5,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_004",
           "arg": "default",
           "text": {
             "ko": "크흠. 아닙니다. 어서 오세요.",
@@ -680,6 +729,7 @@
           "seq": 6,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_005",
           "arg": "default",
           "text": {
             "ko": "크리스가 와 보라고 한 이유가 있었구만?",
@@ -693,6 +743,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_006",
           "arg": "default",
           "text": {
             "ko": "손님으로 온 건가요?",
@@ -706,6 +757,7 @@
           "seq": 8,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_007",
           "arg": "default",
           "text": {
             "ko": "당연하지. 내가 그럼 여기 일하러 왔을까 봐?",
@@ -719,6 +771,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_008",
           "arg": "default",
           "text": {
             "ko": "확인했습니다. 혹시 옆에 있는 로봇은 무슨 로봇입니까?",
@@ -732,6 +785,7 @@
           "seq": 10,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_009",
           "arg": "default",
           "text": {
             "ko": "뭐?",
@@ -745,6 +799,7 @@
           "seq": 11,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_010",
           "arg": "event_surprise",
           "text": {
             "ko": "ㅁ..뭐야! 니미랄!!!",
@@ -758,6 +813,7 @@
           "seq": 12,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_011",
           "arg": "default",
           "text": {
             "ko": "키우는 게 아니였군요.",
@@ -771,6 +827,7 @@
           "seq": 13,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_012",
           "arg": "default",
           "text": {
             "ko": "흠.. 아까 폐기물 매립 구역에서 붙은 놈인가보군..",
@@ -784,6 +841,7 @@
           "seq": 14,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_013",
           "arg": "default",
           "text": {
             "ko": "이 놈도 이따 가서 한번 손 봐야겠어.",
@@ -797,6 +855,7 @@
           "seq": 15,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_014",
           "arg": "default",
           "text": {
             "ko": "아재 주문을 부탁드립니다.",
@@ -810,6 +869,7 @@
           "seq": 16,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_015",
           "arg": "default",
           "text": {
             "ko": "흠… 기다려 봐.",
@@ -823,6 +883,7 @@
           "seq": 17,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_016",
           "arg": "default",
           "text": {
             "ko": "아쉽지만 '기다려 봐'라는 술은 없습니다.",
@@ -836,6 +897,7 @@
           "seq": 18,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_017",
           "arg": "default",
           "text": {
             "ko": "야 이 또라이야 자꾸 그럴래?",
@@ -849,6 +911,7 @@
           "seq": 19,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_018",
           "arg": "default",
           "text": {
             "ko": "크리스 이 자식은 대체 뭘 가르친 거야?",
@@ -862,6 +925,7 @@
           "seq": 20,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_019",
           "arg": "default",
           "text": {
             "ko": "보스가 나머지는 일하면서 배우라고 했습니다.",
@@ -875,6 +939,7 @@
           "seq": 21,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_020",
           "arg": "default",
           "text": {
             "ko": "어쩐지 나보고 오늘 일찍 끝내고 오라더니…\n이 썩을 놈이 날 교육 자료로 써?",
@@ -888,6 +953,7 @@
           "seq": 22,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_021",
           "arg": "default",
           "text": {
             "ko": "교육 자료로 쓰기엔 많이 노후된 걸로 보입니다.",
@@ -901,6 +967,7 @@
           "seq": 23,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_022",
           "arg": "default",
           "text": {
             "ko": "……",
@@ -914,6 +981,7 @@
           "seq": 24,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_023",
           "arg": "default",
           "text": {
             "ko": "……일단 <name>진피즈</name> 한 잔 줘. 정석대로.",
@@ -927,6 +995,7 @@
           "seq": 25,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_024",
           "arg": "default",
           "text": {
             "ko": "네, 손님.",
@@ -940,6 +1009,7 @@
           "seq": 26,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_025",
           "arg": "default",
           "text": {
             "ko": "(<name>진피즈</name> 한 잔. 정석대로.)",
@@ -953,6 +1023,7 @@
           "seq": 27,
           "type": "order",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_026",
           "arg": "exact:gin_fizz",
           "text": {
             "ko": "진피즈, 정석대로.",
@@ -966,6 +1037,7 @@
           "seq": 28,
           "type": "craft",
           "actor": null,
+          "dialogue_id": null,
           "arg": "order",
           "text": null,
           "when": null,
@@ -976,6 +1048,7 @@
           "seq": 29,
           "type": "serve",
           "actor": "port",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -986,6 +1059,7 @@
           "seq": 30,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_027",
           "arg": "default",
           "text": {
             "ko": "야!",
@@ -999,6 +1073,7 @@
           "seq": 31,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_028",
           "arg": "default",
           "text": {
             "ko": "왜요?",
@@ -1012,6 +1087,7 @@
           "seq": 32,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_029",
           "arg": "default",
           "text": {
             "ko": "이거 왜 맛있어?",
@@ -1025,6 +1101,7 @@
           "seq": 33,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_030",
           "arg": "default",
           "text": {
             "ko": "혹시 주문이 맛없는 진피즈였습니까?",
@@ -1038,6 +1115,7 @@
           "seq": 34,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_031",
           "arg": "joy",
           "text": {
             "ko": "아니. 그건 아니지만. 애송이가 만든 거라고 믿기지 않는군.",
@@ -1051,6 +1129,7 @@
           "seq": 35,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_032",
           "arg": "default",
           "text": {
             "ko": "칭찬 감사합니다.\n나가실 때 추가 팁은 테이블 위에 올려두시면 됩니다.",
@@ -1064,6 +1143,7 @@
           "seq": 36,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_033",
           "arg": "serious",
           "text": {
             "ko": "…아직 손님 응대는 개판이지만.",
@@ -1077,6 +1157,7 @@
           "seq": 37,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_034",
           "arg": "serious",
           "text": {
             "ko": "흠…",
@@ -1090,6 +1171,7 @@
           "seq": 38,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_035",
           "arg": "default",
           "text": {
             "ko": "어떤가요?",
@@ -1103,6 +1185,7 @@
           "seq": 39,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_036",
           "arg": "joy",
           "text": {
             "ko": "생각보다 나쁘지않네.",
@@ -1116,6 +1199,7 @@
           "seq": 40,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_037",
           "arg": "default",
           "text": {
             "ko": "칭찬입니까?",
@@ -1129,6 +1213,7 @@
           "seq": 41,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_038",
           "arg": "joy",
           "text": {
             "ko": "이제 막 시작한 애송이한테 이 정도면 칭찬이지.",
@@ -1142,6 +1227,7 @@
           "seq": 42,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_039",
           "arg": "serious",
           "text": {
             "ko": "흐음.",
@@ -1155,6 +1241,7 @@
           "seq": 43,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_040",
           "arg": "default",
           "text": {
             "ko": "맛이 어떠십니까?",
@@ -1168,6 +1255,7 @@
           "seq": 44,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_041",
           "arg": "serious",
           "text": {
             "ko": "진피즈긴 한데… 뭔가 어설퍼.",
@@ -1181,6 +1269,7 @@
           "seq": 45,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_042",
           "arg": "default",
           "text": {
             "ko": "제조 과정에서 완성도가 부족했던 것 같습니다.",
@@ -1194,6 +1283,7 @@
           "seq": 46,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_043",
           "arg": "serious",
           "text": {
             "ko": "마시는 데 지장은 없어. 다음엔 좀 더 정성 들여.",
@@ -1207,6 +1297,7 @@
           "seq": 47,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_044",
           "arg": "default",
           "text": {
             "ko": "이야 대단한데?",
@@ -1220,6 +1311,7 @@
           "seq": 48,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_045",
           "arg": "default",
           "text": {
             "ko": "네?",
@@ -1233,6 +1325,7 @@
           "seq": 49,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_046",
           "arg": "serious",
           "text": {
             "ko": "얼마나 자신있으면 시키지도 않은 술을 주는 거지?",
@@ -1246,6 +1339,7 @@
           "seq": 50,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_047",
           "arg": "default",
           "text": {
             "ko": "죄송합니다. 레시피를 다른 것으로 찾은 것 같습니다.",
@@ -1259,6 +1353,7 @@
           "seq": 51,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_048",
           "arg": "serious",
           "text": {
             "ko": "나 말고도 다른 손님한테 이러면 곤란할 텐데.",
@@ -1272,6 +1367,7 @@
           "seq": 52,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_049",
           "arg": "default",
           "text": {
             "ko": "다시 만들어 드리겠습니다.",
@@ -1285,6 +1381,7 @@
           "seq": 53,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_050",
           "arg": "serious",
           "text": {
             "ko": "됐어. 그냥 마실 테니 다음부턴 실수하지 마.",
@@ -1298,6 +1395,7 @@
           "seq": 54,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_051",
           "arg": "serious",
           "text": {
             "ko": "하지만 내가 주문한 것도 아닌 걸 줬으니.\n돈은 못 내, 알았지?",
@@ -1311,6 +1409,7 @@
           "seq": 55,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_052",
           "arg": "default",
           "text": {
             "ko": "네, 알겠습니다.",
@@ -1324,6 +1423,7 @@
           "seq": 56,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_053",
           "arg": "default",
           "text": {
             "ko": "……",
@@ -1337,6 +1437,7 @@
           "seq": 57,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_054",
           "arg": "default",
           "text": {
             "ko": "왜 아무 말도 없으십니까?",
@@ -1350,6 +1451,7 @@
           "seq": 58,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_055",
           "arg": "anger",
           "text": {
             "ko": "이게 술이냐?",
@@ -1363,6 +1465,7 @@
           "seq": 59,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_056",
           "arg": "default",
           "text": {
             "ko": "형식상으로는 그렇습니다.",
@@ -1376,6 +1479,7 @@
           "seq": 60,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_057",
           "arg": "anger",
           "text": {
             "ko": "아니, 나는 내 미각을 마비시키는 무언가를 쓰레기라 부르기로 했어.",
@@ -1389,6 +1493,7 @@
           "seq": 61,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_058",
           "arg": "default",
           "text": {
             "ko": "손님의 감각 기관에 손상을 줄 의도는 없었습니다.",
@@ -1402,6 +1507,7 @@
           "seq": 62,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_059",
           "arg": "anger",
           "text": {
             "ko": "사람한테 총을 쏴 놓고 고의가 아니라고 하는 등신 같은 갱놈들 같군.\n기회를 주지. 다시 만들어.",
@@ -1415,6 +1521,7 @@
           "seq": 63,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_060",
           "arg": "default",
           "text": {
             "ko": "알겠습니다.",
@@ -1428,6 +1535,7 @@
           "seq": 64,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_061",
           "arg": "default",
           "text": {
             "ko": "(<name>진피즈</name> 한 잔. 레시피를 잘 확인하자.)",
@@ -1441,6 +1549,7 @@
           "seq": 65,
           "type": "effect",
           "actor": null,
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": "grade < poor",
@@ -1451,6 +1560,7 @@
           "seq": 66,
           "type": "order",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_062",
           "arg": "exact:gin_fizz",
           "text": {
             "ko": "진피즈, 정석대로.",
@@ -1464,6 +1574,7 @@
           "seq": 67,
           "type": "craft",
           "actor": null,
+          "dialogue_id": null,
           "arg": "order",
           "text": null,
           "when": "flag.d2_port_retry",
@@ -1474,6 +1585,7 @@
           "seq": 68,
           "type": "serve",
           "actor": "port",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": "flag.d2_port_retry",
@@ -1484,6 +1596,7 @@
           "seq": 69,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_063",
           "arg": "default",
           "text": {
             "ko": "네가 아무리 못 만들어도 크리스가 처음 만든 술보다는 훨씬 낫지.",
@@ -1497,6 +1610,7 @@
           "seq": 70,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_064",
           "arg": "default",
           "text": {
             "ko": "보스가 만든 술은 맛이 없었습니까?",
@@ -1510,6 +1624,7 @@
           "seq": 71,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_065",
           "arg": "serious",
           "text": {
             "ko": "마시면 인생을 다시 생각하게 되는 맛이었지.",
@@ -1523,6 +1638,7 @@
           "seq": 72,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_066",
           "arg": "default",
           "text": {
             "ko": "철학적인 맛이었나 보네요.",
@@ -1536,6 +1652,7 @@
           "seq": 73,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_067",
           "arg": "serious",
           "text": {
             "ko": "아니. 대체 어쩌다 내가 휘발유 맛이 나는 술을 마시고 있는\n인생을 살게 되었는지 생각한 거야.",
@@ -1549,6 +1666,7 @@
           "seq": 74,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_068",
           "arg": "default",
           "text": {
             "ko": "지금은 어떤가요?",
@@ -1562,6 +1680,7 @@
           "seq": 75,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_069",
           "arg": "serious",
           "text": {
             "ko": "처음보단 나아졌지만 여전히 쓰레기지.\n무슨 수로 지금까지 버틴 건지 참……",
@@ -1575,6 +1694,7 @@
           "seq": 76,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_070",
           "arg": "default",
           "text": {
             "ko": "이전에 보스가 바를 닫으려고 생각한 적이 있다고 했습니다.",
@@ -1588,6 +1708,7 @@
           "seq": 77,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_071",
           "arg": "anger",
           "text": {
             "ko": "뭐? 이 썩을 놈이 이 가게가 어떤 곳인 줄 알고 문을 닫아.",
@@ -1601,6 +1722,7 @@
           "seq": 78,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_072",
           "arg": "default",
           "text": {
             "ko": "보스가 운영하던 가게가 아니었습니까?",
@@ -1614,6 +1736,7 @@
           "seq": 79,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_073",
           "arg": "serious",
           "text": {
             "ko": "원래 이 바의 주인은 조니라는 친구였지.",
@@ -1627,6 +1750,7 @@
           "seq": 80,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_074",
           "arg": "serious",
           "text": {
             "ko": "조니가 있었으면 언노운이 이렇게 되진 않았을 텐데.",
@@ -1640,6 +1764,7 @@
           "seq": 81,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_075",
           "arg": "default",
           "text": {
             "ko": "……",
@@ -1653,6 +1778,7 @@
           "seq": 82,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_076",
           "arg": "default",
           "text": {
             "ko": "그래도 루나 널 보니 뭔가 달라질 수도 있을 것 같네.\n아직 애송이지만 말이야.",
@@ -1666,6 +1792,7 @@
           "seq": 83,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_077",
           "arg": "default",
           "text": {
             "ko": "계속 크리스가 운영했었으면 십중팔구 갱단 아지트가 되었겠지.",
@@ -1679,6 +1806,7 @@
           "seq": 84,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_078",
           "arg": "default",
           "text": {
             "ko": "하지만 제가 배운 것들은 다 보스가 알려준 겁니다.",
@@ -1692,6 +1820,7 @@
           "seq": 85,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_079",
           "arg": "default",
           "text": {
             "ko": "무슨 이유인지 몰라도 그 자식은 조니한테 잘 배워 놓고\n술은 드럽게 못 만들어.",
@@ -1705,6 +1834,7 @@
           "seq": 86,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_080",
           "arg": "default",
           "text": {
             "ko": "일부러 못만드는 게 아닌가요?",
@@ -1718,6 +1848,7 @@
           "seq": 87,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_081",
           "arg": "default",
           "text": {
             "ko": "그런 거라면 당장 저 문을 열고 면상에 한 방 꽂아주고 싶군.",
@@ -1731,6 +1862,7 @@
           "seq": 88,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_082",
           "arg": "default",
           "text": {
             "ko": "흥미롭네요. 이런 건 처음 들었습니다.",
@@ -1744,6 +1876,7 @@
           "seq": 89,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_083",
           "arg": "default",
           "text": {
             "ko": "그래도 네 보스잖아. 너무 나쁘게 보지는 말라고.",
@@ -1757,6 +1890,7 @@
           "seq": 90,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_084",
           "arg": "default",
           "text": {
             "ko": "지금까지 보스를 욕한 건 포트 혼자였습니다.",
@@ -1770,6 +1904,7 @@
           "seq": 91,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_085",
           "arg": "serious",
           "text": {
             "ko": "…그래도 크리스가 술 만드는 것 이외에\n바텐더로서 뭘 해야 하는지는 잘 알고 있으니까 배워 둬.",
@@ -1783,6 +1918,7 @@
           "seq": 92,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_086",
           "arg": "default",
           "text": {
             "ko": "네, 알겠습니다.",
@@ -1796,6 +1932,7 @@
           "seq": 93,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_087",
           "arg": "default",
           "text": {
             "ko": "그래.",
@@ -1809,6 +1946,7 @@
           "seq": 94,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_088",
           "arg": "default",
           "text": {
             "ko": "그나저나 내가 첫 손님인데 부탁 하나 해도 되지?",
@@ -1822,6 +1960,7 @@
           "seq": 95,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_089",
           "arg": "default",
           "text": {
             "ko": "여기는 유흥업소가 아닙니다.",
@@ -1835,6 +1974,7 @@
           "seq": 96,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_090",
           "arg": "default",
           "text": {
             "ko": "뭔 헛소리야? 그딴 주문 말고 다른 거.",
@@ -1848,6 +1988,7 @@
           "seq": 97,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_091",
           "arg": "default",
           "text": {
             "ko": "말씀하세요.",
@@ -1861,6 +2002,7 @@
           "seq": 98,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_092",
           "arg": "default",
           "text": {
             "ko": "밖에 나가면 고양이 한 마리가 자고 있을 텐데.\n데리고 와줘.",
@@ -1874,6 +2016,7 @@
           "seq": 99,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_093",
           "arg": "default",
           "text": {
             "ko": "혹시 바텐더 업무에 야생동물 포획이 포함되는 겁니까?",
@@ -1887,6 +2030,7 @@
           "seq": 100,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_094",
           "arg": "joy",
           "text": {
             "ko": "내가 부탁이라고 했잖아. 나도 어찌 보면 생명의 은인인데,\n이 정도는 해 줄 수 있지?",
@@ -1900,6 +2044,7 @@
           "seq": 101,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_095",
           "arg": "default",
           "text": {
             "ko": "보수가 충분하다면 못 할 일은 아닙니다.",
@@ -1913,6 +2058,7 @@
           "seq": 102,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_096",
           "arg": "serious",
           "text": {
             "ko": "…내가 아주 골치 아픈 놈을 고쳐놨군.\n알겠으니까 부탁하지.",
@@ -1926,6 +2072,7 @@
           "seq": 103,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_097",
           "arg": "default",
           "text": {
             "ko": "네, 손님.",
@@ -1939,6 +2086,7 @@
           "seq": 104,
           "type": "timeline",
           "actor": null,
+          "dialogue_id": null,
           "arg": "tl_bubi_meet",
           "text": null,
           "when": null,
@@ -1949,7 +2097,8 @@
           "seq": 105,
           "type": "enter",
           "actor": "bubi",
-          "arg": "L",
+          "dialogue_id": null,
+          "arg": "M",
           "text": null,
           "when": null,
           "effects": null,
@@ -1959,6 +2108,7 @@
           "seq": 106,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_port_098",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -1972,6 +2122,7 @@
           "seq": 107,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_099",
           "arg": "joy",
           "text": {
             "ko": "좋아. 잘 데려왔구먼.",
@@ -1985,6 +2136,7 @@
           "seq": 108,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_100",
           "arg": "default",
           "text": {
             "ko": "데려오라고 한 이유가 뭐죠?",
@@ -1998,6 +2150,7 @@
           "seq": 109,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_101",
           "arg": "default",
           "text": {
             "ko": "이번에 새로 찾은 물건이 있어서 살펴봐야되는데.\n부비가 옆에서 계속 방해를 하거든.",
@@ -2011,6 +2164,7 @@
           "seq": 110,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_102",
           "arg": "default",
           "text": {
             "ko": "이 고양이의 이름이 부비인가요?",
@@ -2024,6 +2178,7 @@
           "seq": 111,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_103",
           "arg": "joy",
           "text": {
             "ko": "맞아. 그럼 먼저 일어난다.\n잘 부탁할게.",
@@ -2037,6 +2192,7 @@
           "seq": 112,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_104",
           "arg": "default",
           "text": {
             "ko": "네? 어디 가세요?",
@@ -2050,6 +2206,7 @@
           "seq": 113,
           "type": "say",
           "actor": "port",
+          "dialogue_id": "dlg_d2_port_105",
           "arg": "joy",
           "text": {
             "ko": "크크. 오랜만에 제대로 된 작업을 할 수 있겠구먼.",
@@ -2063,6 +2220,7 @@
           "seq": 114,
           "type": "exit",
           "actor": "port",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -2073,6 +2231,7 @@
           "seq": 115,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_106",
           "arg": "default",
           "text": {
             "ko": "……",
@@ -2086,6 +2245,7 @@
           "seq": 116,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_port_107",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -2099,6 +2259,7 @@
           "seq": 117,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_108",
           "arg": "default",
           "text": {
             "ko": "…이런 건 생각 못했는데.",
@@ -2112,6 +2273,7 @@
           "seq": 118,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_port_109",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -2125,6 +2287,7 @@
           "seq": 119,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_port_110",
           "arg": "default",
           "text": {
             "ko": "혹시 올리브를 좋아하시나요?",
@@ -2138,6 +2301,7 @@
           "seq": 120,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_port_111",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -2155,15 +2319,16 @@
       "phase": "bar",
       "seq": 3,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "아일리 등장 — 박스 위의 레이디",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "aili",
+          "dialogue_id": null,
           "arg": "R",
           "text": null,
           "when": null,
@@ -2174,6 +2339,7 @@
           "seq": 2,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_001",
           "arg": "default",
           "text": {
             "ko": "손님 받아라!!!",
@@ -2187,6 +2353,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_002",
           "arg": "default",
           "text": {
             "ko": "어서 오세요, 손님.",
@@ -2200,6 +2367,7 @@
           "seq": 4,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_003",
           "arg": "default",
           "text": {
             "ko": "오랜만이야, 이쁜이. 진짜 여기서 일하고 있었구나.",
@@ -2213,6 +2381,7 @@
           "seq": 5,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_004",
           "arg": "default",
           "text": {
             "ko": "네? 누가 말해주던가요?",
@@ -2226,6 +2395,7 @@
           "seq": 6,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_005",
           "arg": "default",
           "text": {
             "ko": "방금 여기서 도망간 영감이 말해줬지.\n나한테 여기로 꺼지라는 말과 함께.",
@@ -2239,6 +2409,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_006",
           "arg": "default",
           "text": {
             "ko": "이해했습니다. 두 분 다 위에 있는 수리점에서\n같이 일하고 있었죠?",
@@ -2252,6 +2423,7 @@
           "seq": 8,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_007",
           "arg": "default",
           "text": {
             "ko": "맞아. 서로 하는 일은 좀 다르지만 말이야.",
@@ -2265,6 +2437,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_008",
           "arg": "default",
           "text": {
             "ko": "혹시 그분은 길고양이 유기가 취미인가요?",
@@ -2278,6 +2451,7 @@
           "seq": 10,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_009",
           "arg": "default",
           "text": {
             "ko": "큭큭. 그 영감 취미가 제정신은 아니긴 해.\n근데 쟨 할배가 전부터 키우던 고양이야.",
@@ -2291,6 +2465,7 @@
           "seq": 11,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_010",
           "arg": "default",
           "text": {
             "ko": "무슨 이유로 저한테 맡긴 걸까요?",
@@ -2304,6 +2479,7 @@
           "seq": 12,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_011",
           "arg": "default",
           "text": {
             "ko": "몰라. 오늘 혼자서 만들고 싶은 게 있다고 그러던데.",
@@ -2317,6 +2493,7 @@
           "seq": 13,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_012",
           "arg": "default",
           "text": {
             "ko": "나도 쫓겨났다니까?\n빌어먹을 영감탱이.",
@@ -2330,6 +2507,7 @@
           "seq": 14,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_013",
           "arg": "default",
           "text": {
             "ko": "흠. 곤란하네요. 아직 동물을 다루는 방법은 배우지 못했습니다.",
@@ -2343,6 +2521,7 @@
           "seq": 15,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_014",
           "arg": "default",
           "text": {
             "ko": "걱정 마. 부비가 평범한 고양이는 아니거든.",
@@ -2356,6 +2535,7 @@
           "seq": 16,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_015",
           "arg": "default",
           "text": {
             "ko": "이름이 부비인가요?",
@@ -2369,6 +2549,7 @@
           "seq": 17,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_016",
           "arg": "default",
           "text": {
             "ko": "맞아. 나름 이 동네에서 악명을 떨치는 고양이니까 \n놀러 오면 잘 대접해주라고.",
@@ -2382,6 +2563,7 @@
           "seq": 18,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_017",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -2395,6 +2577,7 @@
           "seq": 19,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_018",
           "arg": "default",
           "text": {
             "ko": "네. 향후 바텐더 업무 내용에 참고하겠습니다.",
@@ -2408,6 +2591,7 @@
           "seq": 20,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_019",
           "arg": "default",
           "text": {
             "ko": "그리고 혹시 왜 의자에 앉지 않는 건지 알려주실 수 있나요?",
@@ -2421,6 +2605,7 @@
           "seq": 21,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_020",
           "arg": "default",
           "text": {
             "ko": "난 날 내려다 보는 사람이 있으면 \n면상에 총알을 박아주고 싶은 병이있어.",
@@ -2434,6 +2619,7 @@
           "seq": 22,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_021",
           "arg": "default",
           "text": {
             "ko": "그런 병은 처음 들어 봤습니다.",
@@ -2447,6 +2633,7 @@
           "seq": 23,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_022",
           "arg": "default",
           "text": {
             "ko": "음음. 그럴 수 있어. 이건 희귀한 병이기 때문이지.",
@@ -2460,6 +2647,7 @@
           "seq": 24,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_023",
           "arg": "fail",
           "text": {
             "ko": "아무튼 내가 의자에 앉으면 다른 사람들이 건방지게 날 깔본단 말이야.",
@@ -2473,6 +2661,7 @@
           "seq": 25,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_024",
           "arg": "default",
           "text": {
             "ko": "그래서 그 박스를 밟고 서 계신 겁니까?",
@@ -2486,6 +2675,7 @@
           "seq": 26,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_025",
           "arg": "fail",
           "text": {
             "ko": "맞아 이 박스 덕분에 건방진 크리스가 아직 총에 맞지 않는거야.\n어떻게 보면 이 박스가 사람 하나 살려준 셈이지.",
@@ -2499,6 +2689,7 @@
           "seq": 27,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_026",
           "arg": "default",
           "text": {
             "ko": "아하… 이해했습니다.",
@@ -2512,6 +2703,7 @@
           "seq": 28,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_027",
           "arg": "default",
           "text": {
             "ko": "좋아. 그럼 슬슬 이쁜이가 만들어 주는 술 한 번 먹어 볼까?",
@@ -2525,6 +2717,7 @@
           "seq": 29,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_028",
           "arg": "default",
           "text": {
             "ko": "주문은 어떤 걸로 하시겠습니까?",
@@ -2538,6 +2731,7 @@
           "seq": 30,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_029",
           "arg": "default",
           "text": {
             "ko": "음…\n나 같은 섹시한 레이디한테 어울리는 술로 부탁해.",
@@ -2551,6 +2745,7 @@
           "seq": 31,
           "type": "choice",
           "actor": null,
+          "dialogue_id": null,
           "arg": "ch_d2_aili_lady",
           "text": null,
           "when": null,
@@ -2565,15 +2760,16 @@
       "phase": "bar",
       "seq": 4,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "아일리 주문 — 그리고 부비의 한 잔",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_001",
           "arg": "default",
           "text": {
             "ko": "네, 주문 받았습니다.",
@@ -2587,6 +2783,7 @@
           "seq": 2,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_002",
           "arg": "default",
           "text": {
             "ko": "(자칭 <name>섹시한 레이디</name>에게 술 한 잔……)",
@@ -2600,6 +2797,7 @@
           "seq": 3,
           "type": "order",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_003",
           "arg": "exact:cosmopolitan",
           "text": {
             "ko": "섹시한 레이디한테 어울리는 술 한 잔..",
@@ -2613,6 +2811,7 @@
           "seq": 4,
           "type": "craft",
           "actor": null,
+          "dialogue_id": null,
           "arg": "order",
           "text": null,
           "when": null,
@@ -2623,6 +2822,7 @@
           "seq": 5,
           "type": "serve",
           "actor": "aili",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -2633,6 +2833,7 @@
           "seq": 6,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_004",
           "arg": "success",
           "text": {
             "ko": "……뭐지?",
@@ -2646,6 +2847,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_005",
           "arg": "default",
           "text": {
             "ko": "왜 그러시죠?",
@@ -2659,6 +2861,7 @@
           "seq": 8,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_006",
           "arg": "success",
           "text": {
             "ko": "존나 맛있어.\n왜 맛있지?",
@@ -2672,6 +2875,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_007",
           "arg": "default",
           "text": {
             "ko": "포트도 그렇고, 왜 다들 맛없는 술을 기대하고 오는 겁니까?",
@@ -2685,6 +2889,7 @@
           "seq": 10,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_008",
           "arg": "default",
           "text": {
             "ko": "너 크리스가 만든 술 마셔 봤어?\n이거랑 비교하는 게 실례일 정도라니까.",
@@ -2698,6 +2903,7 @@
           "seq": 11,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_009",
           "arg": "default",
           "text": {
             "ko": "보스가 만든 술이 그렇게 맛없었습니까?",
@@ -2711,6 +2917,7 @@
           "seq": 12,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_010",
           "arg": "default",
           "text": {
             "ko": "손님으로 왔을 때 크리스가 처음 술을 만들어줬는데.\n한 모금 마시고 바로 크리스한테 잔을 던졌지.",
@@ -2724,6 +2931,7 @@
           "seq": 13,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_011",
           "arg": "default",
           "text": {
             "ko": "음침하고 냄새나는 남자가 밸런타인데이랍시고 나한테 선물로 주려고\n한 달 동안 정성 들여 만든 초콜릿 맛이었어.",
@@ -2737,6 +2945,7 @@
           "seq": 14,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_012",
           "arg": "default",
           "text": {
             "ko": "…무슨 맛이죠?",
@@ -2750,6 +2959,7 @@
           "seq": 15,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_013",
           "arg": "default",
           "text": {
             "ko": "정성 들인 쓰레기. 형용할 수 없는 최악의 맛이지.",
@@ -2763,6 +2973,7 @@
           "seq": 16,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_014",
           "arg": "default",
           "text": {
             "ko": "그건 그 사람의 노력을 무시하는 거 아닌가요?",
@@ -2776,6 +2987,7 @@
           "seq": 17,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_015",
           "arg": "default",
           "text": {
             "ko": "맞는 말이지만 넌 누군가가 정성을 들였다는 사실 하나만으로\n독약을 먹을 수 있을 것 같아?",
@@ -2789,6 +3001,7 @@
           "seq": 18,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_016",
           "arg": "default",
           "text": {
             "ko": "…..",
@@ -2802,6 +3015,7 @@
           "seq": 19,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_017",
           "arg": "default",
           "text": {
             "ko": "아무튼 크리스의 술을 마셨을 때는 그랬어.",
@@ -2815,6 +3029,7 @@
           "seq": 20,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_018",
           "arg": "default",
           "text": {
             "ko": "…그런 이야기는 듣지 못했습니다.",
@@ -2828,6 +3043,7 @@
           "seq": 21,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_019",
           "arg": "default",
           "text": {
             "ko": "크리스에 비하면 네가 만든 건 예술이지.\n처음 봤을 때 어느 정도 예상하긴 했지만, 기대 이상이네. 이쁜이.\n앞으로 자주 와야겠는걸?",
@@ -2841,6 +3057,7 @@
           "seq": 22,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_020",
           "arg": "default",
           "text": {
             "ko": "감사합니다.",
@@ -2854,6 +3071,7 @@
           "seq": 23,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_021",
           "arg": "success",
           "text": {
             "ko": "오. 괜찮은데?",
@@ -2867,6 +3085,7 @@
           "seq": 24,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_022",
           "arg": "default",
           "text": {
             "ko": "주문 의도에 부합했습니까?",
@@ -2880,6 +3099,7 @@
           "seq": 25,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_023",
           "arg": "success",
           "text": {
             "ko": "완전 내 취향까지는 아닌데.\n그래도 초보자가 즉석에서 만든 것치곤 꽤 좋아.",
@@ -2893,6 +3113,7 @@
           "seq": 26,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_024",
           "arg": "default",
           "text": {
             "ko": "그렇다면 실패는 아닌 것으로 판단하겠습니다.",
@@ -2906,6 +3127,7 @@
           "seq": 27,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_025",
           "arg": "success",
           "text": {
             "ko": "응. 실패는 아니야.\n크리스 첫 술보단 이미 수십 배 낫다.",
@@ -2919,6 +3141,7 @@
           "seq": 28,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_026",
           "arg": "default",
           "text": {
             "ko": "보스의 술은 평가 기준으로 자주 사용되는군요.",
@@ -2932,6 +3155,7 @@
           "seq": 29,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_027",
           "arg": "default",
           "text": {
             "ko": "안 좋은 쪽으로는 전설이지.",
@@ -2945,6 +3169,7 @@
           "seq": 30,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_028",
           "arg": "default",
           "text": {
             "ko": "음……",
@@ -2958,6 +3183,7 @@
           "seq": 31,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_029",
           "arg": "default",
           "text": {
             "ko": "맛이 없습니까?",
@@ -2971,6 +3197,7 @@
           "seq": 32,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_030",
           "arg": "fail",
           "text": {
             "ko": "맛이 없다기보단.\n나한테 어울리는 술은 아닌 것 같네.",
@@ -2984,6 +3211,7 @@
           "seq": 33,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_031",
           "arg": "default",
           "text": {
             "ko": "섹시한 레이디라는 기준이 아직 모호합니다.",
@@ -2997,6 +3225,7 @@
           "seq": 34,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_032",
           "arg": "fail",
           "text": {
             "ko": "그걸 너무 진지하게 분석하지 마.\n그냥 느낌으로 가는 거야, 느낌.",
@@ -3010,6 +3239,7 @@
           "seq": 35,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_033",
           "arg": "default",
           "text": {
             "ko": "느낌이란 건 추상적이라 좀 어렵습니다.",
@@ -3023,6 +3253,7 @@
           "seq": 36,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_034",
           "arg": "default",
           "text": {
             "ko": "인생은 원래 추상적이야. 그래서 재밌는 거지.",
@@ -3036,6 +3267,7 @@
           "seq": 37,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_035",
           "arg": "fail",
           "text": {
             "ko": "……이쁜아.",
@@ -3049,6 +3281,7 @@
           "seq": 38,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_036",
           "arg": "default",
           "text": {
             "ko": "네.",
@@ -3062,6 +3295,7 @@
           "seq": 39,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_037",
           "arg": "default",
           "text": {
             "ko": "아냐, 아냐. 오늘이 처음이니까 그럴 수 있지.",
@@ -3075,6 +3309,7 @@
           "seq": 40,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_038",
           "arg": "fail",
           "text": {
             "ko": "하지만 다음번에도 이렇게 만들어주면 나도 화낼 거라고.",
@@ -3088,6 +3323,7 @@
           "seq": 41,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_039",
           "arg": "default",
           "text": {
             "ko": "죄송합니다.",
@@ -3101,6 +3337,7 @@
           "seq": 42,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_040",
           "arg": "default",
           "text": {
             "ko": "괜찮아.\n처음부터 잘하면 그것도 좀 무섭지.",
@@ -3114,6 +3351,7 @@
           "seq": 43,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_041",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3127,6 +3365,7 @@
           "seq": 44,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_042",
           "arg": "default",
           "text": {
             "ko": "오호.\n부비도 한 잔 마시고 싶은가 본데.",
@@ -3140,6 +3379,7 @@
           "seq": 45,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_043",
           "arg": "default",
           "text": {
             "ko": "고양이가 원래 술을 마시는 생물이었습니까?",
@@ -3153,6 +3393,7 @@
           "seq": 46,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_044",
           "arg": "default",
           "text": {
             "ko": "몰라?\n부비는 가끔 마시던데 별문제 없어 보였어.",
@@ -3166,6 +3407,7 @@
           "seq": 47,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_045",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3179,6 +3421,7 @@
           "seq": 48,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_046",
           "arg": "default",
           "text": {
             "ko": "봐봐. 문제없다고 하잖아.\n한 잔 만들어서 줘봐.",
@@ -3192,6 +3435,7 @@
           "seq": 49,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_047",
           "arg": "default",
           "text": {
             "ko": "(고양이가 좋아하는 칵테일… 그런 게 있는 건가?)",
@@ -3205,6 +3449,7 @@
           "seq": 50,
           "type": "order",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_048",
           "arg": "exact:kahlua_milk",
           "text": {
             "ko": "(고양이가 술을 마실 수 있었나?)",
@@ -3218,6 +3463,7 @@
           "seq": 51,
           "type": "craft",
           "actor": null,
+          "dialogue_id": null,
           "arg": "order",
           "text": null,
           "when": null,
@@ -3228,6 +3474,7 @@
           "seq": 52,
           "type": "serve",
           "actor": "bubi",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -3238,6 +3485,7 @@
           "seq": 53,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_049",
           "arg": "default",
           "text": {
             "ko": "미야아옹.",
@@ -3251,6 +3499,7 @@
           "seq": 54,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_050",
           "arg": "default",
           "text": {
             "ko": "혹시 이건 무슨 반응입니까?",
@@ -3264,6 +3513,7 @@
           "seq": 55,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_051",
           "arg": "success",
           "text": {
             "ko": "좋아하는 것 같은데?",
@@ -3277,6 +3527,7 @@
           "seq": 56,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_052",
           "arg": "default",
           "text": {
             "ko": "어떻게 아는 거죠?",
@@ -3290,6 +3541,7 @@
           "seq": 57,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_053",
           "arg": "default",
           "text": {
             "ko": "딱히 네 얼굴에 스크래치를 내거나, 잔을 던지는 것도 아니잖아.",
@@ -3303,6 +3555,7 @@
           "seq": 58,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_054",
           "arg": "default",
           "text": {
             "ko": "원래 사나운 성격이었나 보네요.",
@@ -3316,6 +3569,7 @@
           "seq": 59,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_055",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3329,6 +3583,7 @@
           "seq": 60,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_056",
           "arg": "default",
           "text": {
             "ko": "실력이 꽤 괜찮나 보네.\n부비까지 만족시키다니.",
@@ -3342,6 +3597,7 @@
           "seq": 61,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_057",
           "arg": "default",
           "text": {
             "ko": "만족한 게 맞다면 다행이네요.",
@@ -3355,6 +3611,7 @@
           "seq": 62,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_058",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3368,6 +3625,7 @@
           "seq": 63,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_059",
           "arg": "default",
           "text": {
             "ko": "반응이 짧아졌습니다.",
@@ -3381,6 +3639,7 @@
           "seq": 64,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_060",
           "arg": "default",
           "text": {
             "ko": "싫어하는 건 아닌 것 같은데?",
@@ -3394,6 +3653,7 @@
           "seq": 65,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_061",
           "arg": "default",
           "text": {
             "ko": "좋아하는 것도 아닌 것 같습니다.",
@@ -3407,6 +3667,7 @@
           "seq": 66,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_062",
           "arg": "default",
           "text": {
             "ko": "부비한테 그 정도면 성공이지.",
@@ -3420,6 +3681,7 @@
           "seq": 67,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_063",
           "arg": "default",
           "text": {
             "ko": "다행이네요.",
@@ -3433,6 +3695,7 @@
           "seq": 68,
           "type": "effect",
           "actor": null,
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": "grade >= good",
@@ -3443,6 +3706,7 @@
           "seq": 69,
           "type": "timeline",
           "actor": null,
+          "dialogue_id": null,
           "arg": "tl_catmilk",
           "text": null,
           "when": "grade < good",
@@ -3453,6 +3717,7 @@
           "seq": 70,
           "type": "exit",
           "actor": "bubi",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": "grade < good",
@@ -3463,6 +3728,7 @@
           "seq": 71,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_064",
           "arg": "default",
           "text": {
             "ko": "별로였나 본데.",
@@ -3476,6 +3742,7 @@
           "seq": 72,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_065",
           "arg": "default",
           "text": {
             "ko": "정말로 술을 좋아하는 겁니까?",
@@ -3489,6 +3756,7 @@
           "seq": 73,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_066",
           "arg": "default",
           "text": {
             "ko": "아마도? 듣기론 한 가지 술밖에 안 먹는 걸로 기억해.",
@@ -3502,6 +3770,7 @@
           "seq": 74,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_067",
           "arg": "default",
           "text": {
             "ko": "음… 기억하겠습니다.",
@@ -3515,6 +3784,7 @@
           "seq": 75,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_068",
           "arg": "default",
           "text": {
             "ko": "오케이. 그럼 먼저 일어나 볼게.",
@@ -3528,6 +3798,7 @@
           "seq": 76,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_069",
           "arg": "default",
           "text": {
             "ko": "벌써 가시나요?",
@@ -3541,6 +3812,7 @@
           "seq": 77,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_070",
           "arg": "default",
           "text": {
             "ko": "영감이 말했던 약속 시간이 끝났거든.\n이제 다시 내 일하러 가야지.",
@@ -3554,6 +3826,7 @@
           "seq": 78,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_071",
           "arg": "default",
           "text": {
             "ko": "안녕히 가세요.",
@@ -3567,6 +3840,7 @@
           "seq": 79,
           "type": "say",
           "actor": "aili",
+          "dialogue_id": "dlg_d2_aili_craft_072",
           "arg": "default",
           "text": {
             "ko": "그래. 나중에 보자, 이쁜이.",
@@ -3580,6 +3854,7 @@
           "seq": 80,
           "type": "exit",
           "actor": "aili",
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -3590,6 +3865,7 @@
           "seq": 81,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_073",
           "arg": "default",
           "text": {
             "ko": "음… 이쁜이가 무슨 의미인지 다음에 물어봐야겠다.",
@@ -3603,6 +3879,7 @@
           "seq": 82,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_074",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3616,6 +3893,7 @@
           "seq": 83,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_aili_craft_075",
           "arg": "default",
           "text": {
             "ko": "당신이랑 저만 남았네요.\n고양이 말은 아직 이해하지 못하는데.",
@@ -3629,6 +3907,7 @@
           "seq": 84,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_aili_craft_076",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3646,15 +3925,16 @@
       "phase": "bar",
       "seq": 5,
       "trigger": "auto",
-      "when": "",
+      "when": null,
       "title": "마감 — 크리스 교대",
       "skippable": false,
-      "group": "",
+      "group": null,
       "steps": [
         {
           "seq": 1,
           "type": "enter",
           "actor": "chris",
+          "dialogue_id": null,
           "arg": "R",
           "text": null,
           "when": null,
@@ -3665,6 +3945,7 @@
           "seq": 2,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_001",
           "arg": "default",
           "text": {
             "ko": "루나.\n이제 슬슬 교대하자고.",
@@ -3678,6 +3959,7 @@
           "seq": 3,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_002",
           "arg": "default",
           "text": {
             "ko": "네, 보스.\n그런데 아직 앞에 손님이 있습니다.",
@@ -3691,6 +3973,7 @@
           "seq": 4,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_003",
           "arg": "default",
           "text": {
             "ko": "뭐야.\n부비도 있었네.",
@@ -3704,6 +3987,7 @@
           "seq": 5,
           "type": "say",
           "actor": "bubi",
+          "dialogue_id": "dlg_d2_close_004",
           "arg": "default",
           "text": {
             "ko": "먀옹.",
@@ -3717,6 +4001,7 @@
           "seq": 6,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_005",
           "arg": "default",
           "text": {
             "ko": "부비는 내가 돌봐줄 테니까 먼저 들어가 봐.",
@@ -3730,6 +4015,7 @@
           "seq": 7,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_006",
           "arg": "default",
           "text": {
             "ko": "네, 보스.",
@@ -3743,6 +4029,7 @@
           "seq": 8,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_007",
           "arg": "default",
           "text": {
             "ko": "수고했어. 먼저 들어가 봐.",
@@ -3756,6 +4043,7 @@
           "seq": 9,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_008",
           "arg": "default",
           "text": {
             "ko": "알겠습니다.",
@@ -3769,6 +4057,7 @@
           "seq": 10,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_009",
           "arg": "default",
           "text": {
             "ko": "그래도 첫날치고는 잘했나 보네.",
@@ -3782,6 +4071,7 @@
           "seq": 11,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_010",
           "arg": "default",
           "text": {
             "ko": "잘했다는 걸 어떻게 아는 건가요?",
@@ -3795,6 +4085,7 @@
           "seq": 12,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_011",
           "arg": "default",
           "text": {
             "ko": "누가 소리 지르고 뭔갈 집어던지지는 않았잖아?\n그럼 잘한 거지.",
@@ -3808,6 +4099,7 @@
           "seq": 13,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_012",
           "arg": "default",
           "text": {
             "ko": "아하… 확인했습니다.",
@@ -3821,6 +4113,7 @@
           "seq": 14,
           "type": "say",
           "actor": "chris",
+          "dialogue_id": "dlg_d2_close_013",
           "arg": "default",
           "text": {
             "ko": "그래. 딴 길로 새지 말고 바로 들어가.",
@@ -3834,6 +4127,7 @@
           "seq": 15,
           "type": "say",
           "actor": "luna",
+          "dialogue_id": "dlg_d2_close_014",
           "arg": "default",
           "text": {
             "ko": "네, 보스.",
@@ -3847,6 +4141,7 @@
           "seq": 16,
           "type": "end_part",
           "actor": null,
+          "dialogue_id": null,
           "arg": null,
           "text": null,
           "when": null,
@@ -3866,7 +4161,8 @@
         },
         "when": null,
         "effects": null,
-        "goto": "d2_aili_lady_q"
+        "goto": "d2_aili_lady_q",
+        "lock_reason": null
       },
       {
         "seq": 2,
@@ -3876,7 +4172,8 @@
         },
         "when": null,
         "effects": null,
-        "goto": null
+        "goto": null,
+        "lock_reason": null
       }
     ]
   }

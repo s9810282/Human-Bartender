@@ -1,14 +1,12 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
-· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(18), Choices(12), Cutscenes(23), Days(4), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(0), Quests(0), RegularSlots(1), ResourceMap(17), Scenes(40), Spots(8), Steps(788), Tastes(10), TextTags(7), UIStrings(40)
-· LUNA_System.xlsx — 시트 12개: Cocktails(29), Config(82), GradeCuts(5), GuestBodies(32), GuestBodyExclusions(6), Personalities(5), RandomWaves(7), RecipeLines(83), ScoreBands(10), SettlementRules(5), ShelfItems(51), Tags(16)
+· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(19), Choices(43), Cutscenes(23), Days(4), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(0), Quests(0), RegularSlots(1), ResourceMap(17), Scenes(55), Spots(8), Steps(869), Tastes(10), TextTags(7), UIStrings(52)
+· LUNA_System.xlsx — 시트 12개: Cocktails(29), Config(95), GradeCuts(5), GuestBodies(32), GuestBodyExclusions(6), Personalities(5), RandomWaves(9), RecipeLines(83), ScoreBands(10), SettlementRules(5), ShelfItems(50), Tags(16)
 『외형 풀』 m: gentle 2160 · rough 2160 · quiet 2160 · chatty 2160 · touchy 2160 / f: gentle 8 · rough 8 · quiet 8 · chatty 8 · touchy 8
-⚠ [주문 해금] d1_tutorial_chris#54: day0에 'dry_martini' 주문 — 메뉴 해금은 day2. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
-⚠ [주문 해금] d1_tutorial_chris#74: day0에 'dry_martini' 주문 — 메뉴 해금은 day2. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d2_aili_craft#3: day1에 'cosmopolitan' 주문 — 메뉴 해금은 day3. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d2_aili_craft#50: day1에 'kahlua_milk' 주문 — 메뉴 해금은 day4. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d3_samho_visit#14: day2에 'cosmopolitan' 주문 — 메뉴 해금은 day3. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d3_aili_visit#4: day2에 'kahlua_milk' 주문 — 메뉴 해금은 day4. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
-⚠ [플래그] 'rios_accepted' — 참조(엔딩 bad_1)되지만 어디서도 세워지지 않음 (오타 or 미작성 일차)
+ℹ [예약 플래그] 'rios_accepted' — 최종일 리오스 제안 선택지 데이터 추가 시 설정 (현재 데모 미도달)
 ℹ [플래그] 'dream_raid_1' — 세워지지만(스텝 d2_dream#7) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'dream_raid_2' — 세워지지만(스텝 d3_dream#7) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'port_served_d3' — 세워지지만(단골슬롯 day2#4) 아직 아무 조건도 참조하지 않음
@@ -16,15 +14,15 @@
 ℹ [플래그] 'seen_coratech_ad' — 세워지지만(스텝 ob_experiment_1#1) 아직 아무 조건도 참조하지 않음
 ℹ [플래그] 'shiba_fed' — 세워지지만(선택지 ch_st_shiba#2) 아직 아무 조건도 참조하지 않음
 === 호감도 상한 시뮬레이션 (day1~3 데이터 기준, 최선 플레이 상한) ===
-chris: 명시 +10 / 서빙 잠재 +8 (취향×excellent 기준) → 합계 상한 18 — 엔딩컷 100 대비 18%
-aili: 명시 +0 / 서빙 잠재 +4 (취향×excellent 기준) → 합계 상한 4 — 엔딩컷 100 대비 4%
-port: 명시 +1 / 서빙 잠재 +18 (취향×excellent 기준) → 합계 상한 19 — 엔딩컷 100 대비 19%
+chris: 명시 +10 / 서빙 잠재 +16 (취향×excellent 기준) → 합계 상한 26 — 엔딩컷 100 대비 26%
+aili: 명시 +0 / 서빙 잠재 +6 (취향×excellent 기준) → 합계 상한 6 — 엔딩컷 100 대비 6%
+port: 명시 +1 / 서빙 잠재 +26 (취향×excellent 기준) → 합계 상한 27 — 엔딩컷 100 대비 27%
 samho: 명시 +0 / 서빙 잠재 +20 (취향×excellent 기준) → 합계 상한 20 — 엔딩컷 100 대비 20%
 bubi: 명시 +0 / 서빙 잠재 +6 (취향×excellent 기준) → 합계 상한 6 — 엔딩컷 100 대비 6%
 (day4~13 데이터 작성 시 자동 갱신. 엔딩 happy 계열은 4인 100 필요 — 일차별 획득 설계의 기준선)
 === 일차별 입고표 (검증용, Day 0 스타트 — 입고 화면은 그날 바 오픈 직전) ===
-Day 0: 입고[진, 맥주, 레드와인, 샴페인, 토닉워터, 소다수, 설탕, 레몬, 라임 웨지, 레몬 슬라이스, 올리브, 체리, 오렌지 슬라이스] → 신규 가능[진토닉, 진피즈, 병맥주, 레드와인, 샴페인]
-Day 1: 입고[데킬라, 보드카, 럼, 오렌지주스, 진저에일, 콜라, 라임] → 신규 가능[스크류드라이버, 모스코뮬, 데킬라 선라이즈, 롱아일랜드 아이스티]
+Day 0: 입고[진, 탄산수, 설탕, 레몬, 라임 웨지, 레몬 슬라이스, 올리브, 체리, 오렌지 슬라이스] → 신규 가능[진토닉, 진피즈]
+Day 1: 입고[맥주, 레드와인, 샴페인, 데킬라, 보드카, 럼, 오렌지주스, 진저에일, 콜라, 라임] → 신규 가능[병맥주, 레드와인, 샴페인, 스크류드라이버, 모스코뮬, 데킬라 선라이즈, 롱아일랜드 아이스티]
 Day 2: 입고[위스키, 드라이 버무스, 그레나딘, 사워믹스] → 신규 가능[위스키 사워, 드라이 마티니, 바카디]
 Day 3: 입고[쿠앵트로, 크랜베리주스] → 신규 가능[코스모폴리탄]
 Day 4: 입고[트리플섹, 칼루아, 우유] → 신규 가능[마가리타, 화이트레이디, 깔루아 밀크]
@@ -34,6 +32,7 @@ Day 7: 입고[캄파리, 블루큐라소, 파인애플주스, 코코넛우유] �
 Day 8: 입고[피치브랜디] → 신규 가능[블루 사파이어]
 Day 9: 입고[멜론리큐르, 말리부, 바나나리큐르] → 신규 가능[준 벅]
 Day 10: 입고[-] → 신규 가능[-]
+Day 0 수동 재료 선반[진, 탄산수] / 자동 적용[설탕, 레몬]
 === 퀘스트 ===
 슬롯 day1#1 해금 풀(9): gin_tonic, gin_fizz, bottle_beer, red_wine, champagne, screwdriver, moscow_mule, tequila_sunrise, long_island
 슬롯 day1#2 해금 풀(9): gin_tonic, gin_fizz, bottle_beer, red_wine, champagne, screwdriver, moscow_mule, tequila_sunrise, long_island
@@ -43,6 +42,8 @@ Day 10: 입고[-] → 신규 가능[-]
 슬롯 day2#2 지정 주문: long_island
 슬롯 day2#3 해금 풀(12): gin_tonic, gin_fizz, bottle_beer, red_wine, champagne, screwdriver, moscow_mule, tequila_sunrise, long_island, whiskey_sour, dry_martini, bacardi
 슬롯 day2#4 지정 주문: gin_fizz [카메오: port]
+슬롯 day99#1 지정 주문: gin_tonic
+슬롯 day99#2 해금 풀(16): gin_tonic, gin_fizz, bottle_beer, red_wine, champagne, screwdriver, moscow_mule, tequila_sunrise, long_island, whiskey_sour, dry_martini, bacardi, cosmopolitan, margarita, white_lady, kahlua_milk
 
-✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 루나 대사 규칙
-칵테일 29 / 선반 51 / 캐릭터 18 / 씬 40 / 스텝 788 / 선택지 12 / 웨이브 7 / 단골슬롯 1
+✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 고정 대사 ID · 루나 대사 규칙
+칵테일 29 / 선반 50 / 캐릭터 19 / 씬 55 / 스텝 869 / 선택지 43 / 웨이브 9 / 단골슬롯 1

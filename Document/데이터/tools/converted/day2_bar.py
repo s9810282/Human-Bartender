@@ -172,7 +172,7 @@ STEPS = [
     ("d2_port", 102, "say", "port", "serious", "…내가 아주 골치 아픈 놈을 고쳐놨군.\n알겠으니까 부탁하지.", "...I really fixed up one troublesome piece of work.\nFine, fine. Please.", "", "", ""),
     ("d2_port", 103, "say", "luna", "default", "네, 손님.", "Yes, sir.", "", "", ""),
     ("d2_port", 104, "timeline", "", "day1_bubi_fetch", "", "", "", "", "컷씬 id 확인 필요"),
-    ("d2_port", 105, "enter", "bubi", "L", "", "", "", "", "원 d1p_after_001_x36. silhouette_reveal 1.0s"),
+    ("d2_port", 105, "enter", "bubi", "M", "", "", "", "", "원 d1p_after_001_x36. silhouette_reveal 1.0s. L→M 이동: 2부 카메라(최대 1280×720)에 양 끝 좌석이 함께 안 잡혀 L+R 동시 배치 금지"),
     ("d2_port", 106, "say", "bubi", "default", "먀옹.", "Meow.", "", "", ""),
     ("d2_port", 107, "say", "port", "joy", "좋아. 잘 데려왔구먼.", "Good. Nicely done.", "", "", ""),
     ("d2_port", 108, "say", "luna", "default", "데려오라고 한 이유가 뭐죠?", "Why did you want it brought in?", "", "", ""),

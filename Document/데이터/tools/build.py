@@ -15,12 +15,48 @@ L.U.N.A 정식 빌드 — 저작 xlsx 2파일 → 검증 → json/(도메인별 
   배포는 구엔진처럼 도메인별 JSON 분할. 검증 실패 시 JSON을 내보내지 않는다.
   gen_luna_data.py는 "코드 시드 → 시트 재생성" 전용. 팀 저작 시작 후엔 build.py만 사용(gen은 시트를 덮는다).
 """
+import hashlib
+import json
 import os
 import sys
 from openpyxl import load_workbook
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_luna_data as G
+
+
+def write_optional_manifest():
+    """기존 로더와 무관한 선택적 배포 목록. 파일 누락·QA 혼입을 검수할 때 사용한다."""
+    jdir = os.path.join(G.OUT, "json")
+    names = []
+    for root, _, files in os.walk(jdir):
+        for filename in files:
+            path = os.path.join(root, filename)
+            rel = os.path.relpath(path, jdir).replace(os.sep, "/")
+            if filename.endswith(".json") and rel != "manifest.json":
+                names.append(rel)
+    names.sort()
+    metadata = {}
+    for name in names:
+        with open(os.path.join(jdir, *name.split("/")), "rb") as f:
+            payload = f.read()
+        metadata[name] = {"sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
+    material = "".join(f"{name}\0{metadata[name]['sha256']}\0" for name in names).encode("utf-8")
+    qa_files = [name for name in names if name == "script/bar/day99.json"]
+    manifest = {
+        "bundle_contract_version": "1.0.0",
+        "data_schema_version": dict((k, v) for k, v, _ in G.CONFIG)["data_schema_version"],
+        "bundle_sha256": hashlib.sha256(material).hexdigest(),
+        "production_files": [name for name in names if name not in qa_files],
+        "qa_files": qa_files,
+        "compatibility": {
+            "preferred_cocktail_fields": ["target_mix_method", "target_prep_action", "tags[].id"],
+            "legacy_cocktail_fields": ["mix", "prep", "tags[].ko"],
+        },
+        "files": metadata,
+    }
+    with open(os.path.join(jdir, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
 
 # Config 값 타입은 시트의 type 컬럼이 정본 (v2.2) — 엑셀이 3.0을 3으로 뭉개도 되돌린다.
 # 시드 키 기억 방식(SEED_FLOAT_CONFIG)은 신규 키를 못 지켜서 폐지.
@@ -36,9 +72,13 @@ NULLABLE = {   # 빈 칸을 ""가 아니라 None(널)로
     "Cocktails": {"glass", "garnish", "color2"},
     "RecipeLines": {"qty", "unit"},          # fill_up·수량 tbd 라인은 수량이 널
     "ScoreBands": {"max_ratio"},             # 마지막 구간은 상한 없음(널)
-    "Scenes": {"day"},                       # 널 = 상시 씬(구 day 0 센티널)
-    "ShelfItems": {"shop_price", "category", "sprite", "prep_action", "default_target_qty", "default_target_unit"},
+    "Scenes": {"day", "when", "group"},    # day 널 = 상시, when/group 널 = 조건·그룹 없음
+    "ShelfItems": {"shop_price", "category", "color", "sprite", "prep_action", "default_target_qty", "default_target_unit", "shelf_group"},
     "Characters": {"alive_flag", "enter_sfx", "exit_sfx"},
+    "RandomWaves": {"order"},
+    "InteractPoints": {"actor"},
+    "OrderRules": {"when", "effects", "react"},
+    "Endings": {"when"},
 }
 BOOL_COLS = {  # TRUE/FALSE 문자열 → 불리언
     "Scenes": {"skippable"},
@@ -69,7 +109,8 @@ SHEET_SPEC = {
     "ResourceMap": ("RESOURCE_MAP", len(G.RESMAP_COLS)),
     "FieldAnims": ("FIELD_ANIMS", len(G.FIELD_COLS)),
     "Personalities": ("PERSONALITIES", len(G.PERS_COLS)),
-    "Tags": ("TAGS", len(G.TAG_COLS)),
+    # 기존 4열 태그 계약은 유지하고, 5번째 tag_id만 빌드에서 별도 흡수한다.
+    "Tags": (None, len(G.TAG_COLS) + 1),
     "GuestBodies": ("GUEST_BODIES", len(G.GBODY_COLS)),
     "GuestBodyExclusions": ("GUEST_BODY_EXCLUSIONS", len(G.GBEXCL_COLS)),
     "Barks": ("BARKS", len(G.BARK_COLS)),
@@ -118,7 +159,11 @@ def rows_of(ws, ncols, sheet):
                 v = None if col in nul else ""
             elif isinstance(v, str):
                 v = v.strip()
-                if col in bools:
+                # Excel/편집 도구에 따라 빈 셀이 None 또는 ""로 왕복된다.
+                # nullable 컬럼은 두 표현을 같은 null로 읽어 데이터 의미를 보존한다.
+                if not v and col in nul:
+                    v = None
+                elif col in bools:
                     v = v.upper() == "TRUE"
             if col in bools and isinstance(v, (int, float)) and not isinstance(v, bool):
                 v = bool(v)
@@ -169,11 +214,17 @@ def load_into_globals(tables):
     ch = tables["Characters"]
     G.CHARACTERS = [tuple(r[:len(G.CHAR_COLS)]) for r in ch]
     G.BASE_BODY = {r[0]: r[len(G.CHAR_COLS)] for r in ch if r[len(G.CHAR_COLS)]}
+    # 특수 3 — Tags: 기존 한글 정본 4열과 호환하면서 불변 tag_id 5열을 병행한다.
+    tag_rows = tables["Tags"]
+    G.TAGS = [tuple(r[:len(G.TAG_COLS)]) for r in tag_rows]
+    G.TAG_EN = {r[0]: r[1] for r in tag_rows}
+    G.TAG_CATEGORY = {r[0]: r[2] for r in tag_rows}
+    G.TAG_IDS = {r[0]: r[len(G.TAG_COLS)] for r in tag_rows}
     # 나머지 1:1
     for name, (gname, _) in SHEET_SPEC.items():
         if gname:
             setattr(G, gname, tables[name])
-    # 특수 3 — Config 값 타입 복원: 시트의 type 컬럼대로 (4컬럼 → 내부 3튜플)
+    # 특수 4 — Config 값 타입 복원: 시트의 type 컬럼대로 (4컬럼 → 내부 3튜플)
     G.CONFIG = [(k, _config_cast(v, t), n) for k, v, t, n in G.CONFIG]
 
 
@@ -215,7 +266,7 @@ def main():
         lines.append(f"❌ 오류 {len(errors)}건 — JSON 미출력:")
         lines += ["  " + e for e in errors]
     else:
-        lines.append("✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 루나 대사 규칙")
+        lines.append("✅ 검증 통과 — 참조 무결성 · 파생 규칙 · DSL 문법 · 플래그 · L10N · 고정 대사 ID · 루나 대사 규칙")
     lines.append(f"칵테일 {len(G.COCKTAILS)} / 선반 {len(G.SHELF_ITEMS)} / 캐릭터 {len(G.CHARACTERS)} / "
                  f"씬 {len(G.SCENES)} / 스텝 {len(G.STEPS)} / 선택지 {len(G.CHOICES)} / "
                  f"웨이브 {len(G.RANDOM_WAVES)} / 단골슬롯 {len(G.REGULAR_SLOTS)}")
@@ -225,6 +276,7 @@ def main():
     if errors:
         sys.exit(1)
     G.emit_json(derived)
+    write_optional_manifest()
     print("→ json/ 출력 완료 (시트가 원본입니다 — xlsx는 재생성하지 않음)")
 
 

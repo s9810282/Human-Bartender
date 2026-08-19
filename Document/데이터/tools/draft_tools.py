@@ -337,7 +337,8 @@ def import_scenes(rows, nwb, names, exprs, anims):
                 if arg not in pool:
                     warns.append(f"{kind} '{arg}'는 {actor}에게 없음 — 기본으로"); arg = ""
             seq += 1; n_steps += 1
-            ws_st.append([sid, seq, "say", actor, arg, ln["text"], "", "", "", "", ln["지문"]])
+            dialogue_id = f"dlg_{sid}_{seq:03d}"
+            ws_st.append([sid, seq, "say", actor, arg, ln["text"], "", "", "", "", ln["지문"], dialogue_id])
         report.append((sid, title, phase, day_n, seq, warns))
     return report, skipped, n_steps
 
@@ -400,7 +401,8 @@ def import_npc(rows, nwb, names):
         seq = 0
         for ln in lines:
             seq += 1
-            ws_st.append([sid, seq, "say", cid or "luna", "", ln["대사"], "", "", "", "", ln["지문"]])
+            dialogue_id = f"dlg_{sid}_{seq:03d}"
+            ws_st.append([sid, seq, "say", cid or "luna", "", ln["대사"], "", "", "", "", ln["지문"], dialogue_id])
         sel = MODE.get(lines[0]["방식"], "?")
         report.append((sid, title, seq, sel, cid is None))
     return report, skipped
