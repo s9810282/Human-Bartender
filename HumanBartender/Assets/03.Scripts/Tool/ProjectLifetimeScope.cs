@@ -48,6 +48,6 @@ public class ProjectLifetimeScope : LifetimeScope
             .AsImplementedInterfaces();
         //치우 수정
         builder.RegisterInstance(GameStateManager.Instance);
-        builder.Register<IConditionEvaluator, ConditionEvaluator>(Lifetime.Singleton);
+        builder.Register<IConditionUtil, ConditionUtil>(Lifetime.Singleton);
     }
 }

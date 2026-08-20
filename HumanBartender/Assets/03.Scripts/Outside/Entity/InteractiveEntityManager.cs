@@ -67,7 +67,7 @@ public class InteractiveEntityManager : MonoBehaviour
     [Inject] IPlayerDataReader playerData;
     [Inject] ISoundManager soundManager;
     [Inject] IObjectResolver resolver;
-    [Inject] IConditionEvaluator evaluator;
+    [Inject] IConditionUtil conditionUtil;
     //day 값 보고 검사 하기.
     void Awake()
     {
@@ -106,7 +106,6 @@ public class InteractiveEntityManager : MonoBehaviour
 
 
         RefreshEntity();
-        evaluator.Check("test");
     }
 
 
