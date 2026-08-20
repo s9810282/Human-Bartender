@@ -73,7 +73,7 @@ NULLABLE = {   # 빈 칸을 ""가 아니라 None(널)로
     "RecipeLines": {"qty", "unit"},          # fill_up·수량 tbd 라인은 수량이 널
     "ScoreBands": {"max_ratio"},             # 마지막 구간은 상한 없음(널)
     "Scenes": {"day", "when", "group"},    # day 널 = 상시, when/group 널 = 조건·그룹 없음
-    "ShelfItems": {"shop_price", "category", "color", "sprite", "prep_action", "default_target_qty", "default_target_unit", "shelf_group"},
+    "ShelfItems": {"shop_price", "category", "color", "sprite", "prep_action", "default_target_qty", "default_target_unit", "shelf_group", "liquid_alpha"},
     "Characters": {"alive_flag", "enter_sfx", "exit_sfx"},
     "RandomWaves": {"order"},
     "InteractPoints": {"actor"},
@@ -94,7 +94,7 @@ FLOAT_COLS = { # 8.0이 8로 읽히는 문제 → float 강제
     "SettlementRules": {"sale_rate", "tip_rate", "refund_rate"},
     "ScoreBands": {"min_ratio", "max_ratio"},
     "Personalities": {"tip_mult", "patience_mult", "think_chance"},
-    "ShelfItems": {"default_target_qty"},
+    "ShelfItems": {"default_target_qty", "liquid_alpha"},
 }
 
 # 시트 → (전역 이름, 읽을 컬럼 수). Cocktails의 (파생) 컬럼과 Characters의 base_body는 별도 처리.

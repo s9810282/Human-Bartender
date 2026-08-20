@@ -25,7 +25,7 @@ OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # tools/의 
 # ============================================================
 SHELF_BASE_COLS = ["id","kind","name_ko","name_en","category","color","sprite",
                    "unlock_day","unlock_when","shop_price","desc_ko","desc_en"]
-SHELF_COLS = SHELF_BASE_COLS + ["default_action","prep_action","default_target_qty","default_target_unit","shelf_group"]
+SHELF_COLS = SHELF_BASE_COLS + ["default_action","prep_action","default_target_qty","default_target_unit","shelf_group","liquid_alpha"]
 # v1.9: 재료(Ingredients)와 잔·도구·가니시(Items)를 한 테이블로 통합.
 #   데모 제조 준비는 "잔 선반 → 도구 선반 → 재료 선반" 순서다. 가니시 데이터는 정식 버전용으로
 #   보존하되 데모 화면과 판정에서는 사용하지 않는다. kind는 항목 역할, shelf_group은 재료 화면 위치를 정한다.
@@ -118,6 +118,23 @@ _LIQUOR_INGREDIENT_IDS = {
     "amaretto", "green_peppermint", "white_cacao", "campari", "blue_curacao",
     "peach_brandy", "melon_liqueur", "malibu", "banana_liqueur",
 }
+# 따르기·필업 기믹에서 재료별 액체 투명도를 조절한다. 0.0=완전 투명, 1.0=완전 불투명.
+# 데모 비조작 재료(squeeze/powder)와 비재료 항목은 None으로 배출한다.
+_CLEAR_LIQUID_IDS = {
+    "gin", "champagne", "soda_water", "tequila", "vodka", "dry_vermouth",
+    "cointreau", "triple_sec", "white_cacao", "malibu",
+}
+_OPAQUE_LIQUID_IDS = {"milk", "cream", "coconut_milk"}
+
+def _liquid_alpha_for(item_id, action):
+    if action not in ("pour", "fill_up"):
+        return None
+    if item_id in _CLEAR_LIQUID_IDS:
+        return 0.35
+    if item_id in _OPAQUE_LIQUID_IDS:
+        return 1.0
+    return 0.75
+
 _expanded_shelf_items = []
 for _row in SHELF_ITEMS:
     _base = dict(zip(SHELF_BASE_COLS, _row))
@@ -127,9 +144,10 @@ for _row in SHELF_ITEMS:
         _prep = "open" if _base["id"] == "beer" else ""
         _shelf_group = ("fridge" if _base["id"] in _FRIDGE_INGREDIENT_IDS else
                         "liquor" if _base["id"] in _LIQUOR_INGREDIENT_IDS else "")
-        _expanded_shelf_items.append(tuple(_row) + (_action, _prep, _qty, _unit, _shelf_group))
+        _alpha = _liquid_alpha_for(_base["id"], _action)
+        _expanded_shelf_items.append(tuple(_row) + (_action, _prep, _qty, _unit, _shelf_group, _alpha))
     else:
-        _expanded_shelf_items.append(tuple(_row) + ("", "", None, "", ""))
+        _expanded_shelf_items.append(tuple(_row) + ("", "", None, "", "", None))
 SHELF_ITEMS = _expanded_shelf_items
 
 
@@ -1945,8 +1963,27 @@ def validate(derived):
                 errors.append(f"[선반] {d['id']}: shelf_group '{d['shelf_group']}' 불가 (liquor/fridge/공란)")
             if d["default_action"] in ("pour", "fill_up") and d["shelf_group"] not in ("liquor", "fridge"):
                 errors.append(f"[선반] {d['id']}: 수동 재료인데 shelf_group이 공란 — liquor/fridge 중 하나 필요")
+            if d["default_action"] in ("pour", "fill_up"):
+                _color = d["color"]
+                _valid_rgb = False
+                if isinstance(_color, str):
+                    try:
+                        _rgb = [int(v.strip()) for v in _color.split(",")]
+                        _valid_rgb = len(_rgb) == 3 and all(0 <= v <= 255 for v in _rgb)
+                    except ValueError:
+                        _valid_rgb = False
+                if not _valid_rgb:
+                    errors.append(f"[선반] {d['id']}: 수동 액체 재료 color는 0~255의 R,G,B 형식이어야 함")
+                _alpha = d["liquid_alpha"]
+                if (not isinstance(_alpha, (int, float)) or isinstance(_alpha, bool)
+                        or not 0.0 <= _alpha <= 1.0):
+                    errors.append(f"[선반] {d['id']}: liquid_alpha는 0.0~1.0 숫자여야 함")
+            elif d["liquid_alpha"] not in (None, ""):
+                errors.append(f"[선반] {d['id']}: default_action={d['default_action']}에는 liquid_alpha를 지정할 수 없음")
         elif d["shelf_group"] not in (None, ""):
             errors.append(f"[선반] {d['id']}: kind={d['kind']}에는 shelf_group을 지정할 수 없음")
+        elif d["liquid_alpha"] not in (None, ""):
+            errors.append(f"[선반] {d['id']}: kind={d['kind']}에는 liquid_alpha를 지정할 수 없음")
     if "tonic_water" in ing_ids:
         errors.append("[선반] tonic_water는 폐기된 ID — 탄산수 정본 soda_water로 통합해야 한다")
     if "soda_water" not in ing_ids:
@@ -2966,6 +3003,7 @@ COL_DOCS = {
         "default_target_qty": "레시피 밖 수량 기믹을 정상 종료하기 위한 기본 목표량. 정답 점수로 사용하지 않고 UNEXPECTED 재료 기록에만 사용",
         "default_target_unit": "default_target_qty의 단위 — oz/ml/tsp",
         "shelf_group": "재료 선반 UI 배치 — liquor(술 선반)/fridge(냉장고 선반). category와 별개다. 데모에서 자동 투입되는 squeeze/powder 재료와 ingredient 이외 kind는 비운다",
+        "liquid_alpha": "따르기·필업 액체 투명도(0.0~1.0). 0.0=완전 투명, 1.0=완전 불투명. pour/fill_up 재료는 필수이며 나머지는 비운다",
     },
     "Characters": {
         "id": "고유 id. 대사(Steps.actor)·취향·수첩이 전부 이 값으로 인물을 가리킨다",
@@ -3567,7 +3605,8 @@ def emit_json(derived):
             "prep_action": d["prep_action"] or None,
             "default_target_qty": d["default_target_qty"],
             "default_target_unit": d["default_target_unit"] or None,
-            "shelf_group": d["shelf_group"] or None})
+            "shelf_group": d["shelf_group"] or None,
+            "liquid_alpha": d["liquid_alpha"]})
     for c in CHARACTERS:
         d = dict(zip(CHAR_COLS, c))
         master["characters"].append({"id": d["id"], "name": L(d["name_ko"], d["name_en"]),

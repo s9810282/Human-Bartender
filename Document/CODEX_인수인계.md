@@ -136,6 +136,7 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 ### 기믹·판정
 
 - 실제 기믹 큐는 플레이어가 고른 재료와 도구로 만든다.
+- 따르기·필업의 액체 색은 `shelf_items.json → color`, 투명도는 `liquid_alpha`를 사용한다. `liquid_alpha`는 0.0~1.0이며 pour/fill_up 재료에만 존재한다.
 - 정답 레시피는 목표값과 채점 기준으로만 사용하며 오선택을 정답으로 자동 보정하지 않는다.
 - 셰이킹은 성공+실패 합 20스택에서 자동 종료한다.
 - 스터는 성공+실패 합 10스택에서 자동 종료한다.

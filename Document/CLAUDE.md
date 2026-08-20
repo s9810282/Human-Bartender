@@ -180,9 +180,10 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   gen 시드는 구표기(1-based)로 적고 로드 시 `_shift_day` 블록이 일괄 −1(99 컨벤션은 유지, when 문자열의 day 비교도 함께 변환).
   표시 Day 3(선택 결과 최종일)까지 `Days`와 결과 장면 반영 완료. when 문법에 `meta.endings`(수집 엔딩 수, 세이브 밖 메타 저장) 있음 — 다회차 튜토리얼 스킵 조건용
 - **제조 개편 데이터 반영 완료(08/18)** — 신규 시트 SettlementRules·ScoreBands(구 GradePayout 폐지), RecipeLines 9컬럼(플래그),
-  Cocktails 22컬럼(status·color2·ice 2필드·unlock_day·time_limit_sec 수동), ShelfItems 4컬럼(default_action·prep_action·기본 목표량·단위),
+  Cocktails 22컬럼(status·color2·ice 2필드·unlock_day·time_limit_sec 수동), ShelfItems 확장 컬럼(default_action·prep_action·기본 목표량·단위·shelf_group·liquid_alpha),
   Config 계약 2.5.0(미니게임 초기값·정규화 점수 공식·자동 처리 3종·재료 선반 배치·선택지 잠금 사유·무작위 주문·동시 판정·DATA_ERROR 반복 기준·고정 전환점 저장 정책), Tags category, RandomWaves/RegularSlots order 컬럼.
   ShelfItems `shelf_group`은 재료 UI 배치 전용 값이다(liquor/fridge). 기믹 분류인 category와 분리하며, 데모 자동 투입 재료와 ingredient 이외 kind는 비운다.
+  ShelfItems `liquid_alpha`는 따르기·필업 액체의 투명도(0.0~1.0)다. `color`는 현재 재료의 RGB, `liquid_alpha`는 같은 액체의 투명도를 담당하며 pour/fill_up 재료에만 필수다.
   플머에게 전달 대기: 신 스키마 파싱 + 0-based 일차 + `script/bar/day0~3.json` 파일명 + 셰이킹 20스택 + 제조/서빙 등급 분리 + 지정 제조 해금 무시
 - 제조 잔여 결정: 신규 13종 수량(status=tbd — 확정 파일 수령 시 반영) ❓,
   「칵테일 제조 시스템」 §11·§13 미결 중 이번 개편으로 해소 안 된 항목 정리 필요
