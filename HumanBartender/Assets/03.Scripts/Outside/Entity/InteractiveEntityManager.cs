@@ -67,11 +67,10 @@ public class InteractiveEntityManager : MonoBehaviour
     [Inject] IPlayerDataReader playerData;
     [Inject] ISoundManager soundManager;
     [Inject] IObjectResolver resolver;
-
+    [Inject] IConditionUtil conditionUtil;
     //day 값 보고 검사 하기.
     void Awake()
     {
-        
     }
 
     /// <summary>
@@ -106,7 +105,7 @@ public class InteractiveEntityManager : MonoBehaviour
             player.transform.position = barEntrance.spawnPoint;
 
 
-        RefreshEntity(); 
+        RefreshEntity();
     }
 
 
@@ -117,6 +116,7 @@ public class InteractiveEntityManager : MonoBehaviour
     /// </summary>
     public void RefreshEntity()
     {
+        /*
         //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
         foreach (var entity in obejcts)
         {
@@ -251,6 +251,7 @@ public class InteractiveEntityManager : MonoBehaviour
             entity.entity.SetId(data.CutSceneId);
             entity.entity.IsAvaliable = isSpawn;
         }
+        */
     }
 
     /// <summary>

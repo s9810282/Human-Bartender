@@ -46,5 +46,8 @@ public class ProjectLifetimeScope : LifetimeScope
         // 컨테이너 빌드 시점에 StartAsync가 호출된다.
         builder.RegisterComponentInHierarchy<NewDataLoadManager>()
             .AsImplementedInterfaces();
+        //치우 수정
+        builder.RegisterInstance(GameStateManager.Instance);
+        builder.Register<IConditionUtil, ConditionUtil>(Lifetime.Singleton);
     }
 }
