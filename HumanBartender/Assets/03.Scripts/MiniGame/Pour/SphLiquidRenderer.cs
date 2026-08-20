@@ -208,6 +208,20 @@ public class SphLiquidRenderer : MonoBehaviour
     Camera ResolveCamera() => targetCamera != null ? targetCamera : Camera.main;
 
     /// <summary>
+    /// 액체를 그릴 카메라를 정한다.
+    ///
+    /// 이 렌더러는 화면을 덮는 쿼드에 합성 결과를 얹는 방식이라 어느 카메라의 화면인지가 중요하다.
+    /// 기믹 큐가 돌릴 때는 바에서 멀리 떨어진 무대를 전용 카메라가 비추므로, 메인 카메라에 그리면
+    /// 액체가 바 쪽 화면에 그려져 무대에서는 아무것도 안 보인다.
+    ///
+    /// 프리팹에 남은 카메라 참조는 씬 밖 오브젝트라 어차피 끊겨 있어서, 실행 중에 다시 이어 준다.
+    /// </summary>
+    public void SetTargetCamera(Camera camera)
+    {
+        targetCamera = camera;
+    }
+
+    /// <summary>
     /// 합성 쿼드 맞추기는 렌더링 콜백이 아니라 여기서 한다 — 렌더 도중에 Transform을 바꾸면
     /// 그 프레임의 컬링 결과와 어긋나 아무것도 안 보일 수 있다.
     /// </summary>

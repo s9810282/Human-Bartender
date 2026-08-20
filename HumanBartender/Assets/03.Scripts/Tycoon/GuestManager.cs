@@ -124,8 +124,7 @@ public class GuestManager : MonoBehaviour
         var guest = new Guest
         {
             id = $"random_{wave.Day}_{wave.Seq}",
-            targetCocktailId = PickTargetCocktailId(wave.Tier),
-            difficultyLevel = wave.Tier,
+            targetCocktailId = ResolveOrderCocktailId(wave.Order),
             personality = wave.Personality,
             tipMultiplier = tipMult,
             patienceMultiplier = patienceMult,
@@ -213,8 +212,7 @@ public class GuestManager : MonoBehaviour
         {
             id = slot.Character,
             characterId = slot.Character,
-            targetCocktailId = PickTargetCocktailId(slot.Tier),
-            difficultyLevel = slot.Tier,
+            targetCocktailId = ResolveOrderCocktailId(slot.Order),
             tipMultiplier = 1f,
             hasPatience = false,
             maxRounds = slot.MaxRounds,
@@ -223,11 +221,44 @@ public class GuestManager : MonoBehaviour
         };
     }
 
-    /// <summary>cocktails.json에서 tier가 같은 칵테일들 중 하나를 무작위로 골라 id를 반환한다. 없으면 null.</summary>
-    string PickTargetCocktailId(int tier)
+    /// <summary>
+    /// 이 손님이 주문할 칵테일을 정한다.
+    ///
+    /// 웨이브 데이터에 주문이 적혀 있으면 그대로 쓴다. 스토리상 특정 칵테일을 주문해야 하는 손님이
+    /// 그렇게 지정되어 있다. 비어 있으면 오늘 만들 수 있는 칵테일 중에서 하나를 무작위로 고른다.
+    /// </summary>
+    string ResolveOrderCocktailId(string order)
     {
-        var candidates = cocktailData.cocktailData.Where(c => c.Tier == tier).ToArray();
-        if (candidates.Length == 0) return null;
+        if (!string.IsNullOrEmpty(order))
+        {
+            // 지정된 주문은 오늘 해금되지 않았더라도 그대로 따른다. 스토리가 요구한 주문이라
+            // 시스템이 임의로 다른 칵테일로 바꾸면 그 장면이 성립하지 않는다.
+            if (cocktailData.TryGet(order, out _)) return order;
+
+            Logger.Log($"[Guest] 지정된 주문 '{order}'을 cocktails.json에서 찾지 못했습니다.");
+        }
+
+        return PickRandomAvailableCocktailId();
+    }
+
+    /// <summary>
+    /// 오늘 기준으로 제조 가능한 칵테일 중 하나를 무작위로 고른다.
+    /// 데이터가 아직 확정되지 않은(status=tbd) 칵테일은 주문에 넣지 않는다 — 레시피가 비어 있어
+    /// 만들 방법이 없기 때문이다.
+    /// </summary>
+    string PickRandomAvailableCocktailId()
+    {
+        int day = GameStateManager.Instance.CurrentDay;
+
+        var candidates = cocktailData.cocktailData
+            .Where(c => c.UnlockDay <= day && c.Status == ENewDataStatus.Confirmed)
+            .ToArray();
+
+        if (candidates.Length == 0)
+        {
+            Logger.Log($"[Guest] {day}일차에 주문할 수 있는 칵테일이 없습니다.");
+            return null;
+        }
 
         return candidates[UnityEngine.Random.Range(0, candidates.Length)].Id;
     }
@@ -296,12 +327,16 @@ public class GuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 손님이 착석한 시점을 기준으로 balance.json의 coaster_base_sec에 손님의 patience_mult를 곱한 시간(전체 인내 시간)
+    /// 손님이 착석한 시점을 기준으로 coaster_base_sec에 손님의 patience_mult를 곱한 시간(전체 인내 시간)
     /// 동안 call_urge/call_final/leave_coaster 흐름을 진행한다.
+    ///
+    /// 성격 배율을 곱한 뒤 coaster_min_sec ~ coaster_max_sec로 자른다. 배율이 아무리 커도 한 손님이
+    /// 무한정 기다리지 않고, 아무리 작아도 반응할 틈은 남는다.
     /// </summary>
     async UniTaskVoid WatchPatienceAsync(GuestSlot slot, Guest guest, CancellationToken token)
     {
-        float patienceSec = config.CoasterBaseSec * guest.patienceMultiplier;
+        float patienceSec = Mathf.Clamp(config.CoasterBaseSec * guest.patienceMultiplier,
+                                        config.CoasterMinSec, config.CoasterMaxSec);
         await WatchLeaveTimerAsync(slot, guest, patienceSec, "call_urge", "call_final", "leave_coaster", token);
     }
 
@@ -441,9 +476,9 @@ public class GuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 주문(order) 대사가 나간 뒤 시작되는 서빙 대기 타이머. 손님의 targetCocktailId가 가리키는 칵테일의
-    /// time_limit_sec에 max(serve_min_bonus_sec, serve_bonus_sec - tier * serve_per_tier_sec)를 더한 시간 동안
-    /// serve_urge/serve_final 경고를 띄우고, 시간이 다 지나면 leave_serve 대사와 함께 이탈시킨다.
+    /// 주문(order) 대사가 나간 뒤 시작되는 서빙 대기 타이머. 손님이 주문한 칵테일의 제조 제한시간에
+    /// 여유를 더한 시간 동안 serve_urge/serve_final 경고를 띄우고, 시간이 다 지나면 leave_serve 대사와
+    /// 함께 이탈시킨다.
     /// </summary>
     async UniTask WatchServeAsync(GuestSlot slot, Guest guest, CancellationToken token)
     {
@@ -452,16 +487,24 @@ public class GuestManager : MonoBehaviour
     }
 
     /// <summary>
-    /// balance.json과 손님의 targetCocktailId가 가리키는 칵테일의 time_limit_sec으로 서빙 제한 시간을 계산한다.
-    /// max( time_limit_sec + serve_min_bonus_sec, time_limit_sec + serve_bonus_sec - tier * serve_per_tier_sec )
+    /// 서빙 제한 시간 = 주문한 칵테일의 time_limit_sec + 여유.
+    ///
+    /// 여유는 손님이 아니라 진행 일차로 정해진다. serve_bonus_sec에서 하루가 지날 때마다
+    /// serve_grace_per_day_sec만큼 깎고, serve_min_bonus_sec 아래로는 내려가지 않는다.
+    /// 뒤로 갈수록 빡빡해지지만 최소한의 여유는 남는 구조다.
+    ///
+    /// 이전에는 손님의 tier로 여유를 줄였는데, 데이터에서 tier가 사라지고 serve_grace_per_day_sec가
+    /// 들어오면서 기준이 손님에서 일차로 옮겨간 것으로 읽었다. 밸런스 담당 확인이 필요하다.
     /// </summary>
     float ComputeServeTimeoutSec(Guest guest)
     {
         var cocktail = cocktailData.cocktailData.FirstOrDefault(c => c.Id == guest.targetCocktailId);
         float timeLimitSec = cocktail.Id != null ? cocktail.TimeLimitSec : 0f;
 
-        float tierBonus = config.ServeBonusSec - guest.difficultyLevel * config.ServePerTierSec;
-        return timeLimitSec + Mathf.Max(config.ServeMinBonusSec, tierBonus);
+        int day = GameStateManager.Instance.CurrentDay;
+        float dayBonus = config.ServeBonusSec - day * config.ServeGracePerDaySec;
+
+        return timeLimitSec + Mathf.Max(config.ServeMinBonusSec, dayBonus);
     }
 
     /// <summary>

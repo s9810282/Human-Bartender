@@ -66,13 +66,89 @@ public enum ENewMixMethod
     [EnumMember(Value = "none")] None,
 }
 
-/// <summary>레시피 한 단계의 동작(붓기/짜기/가루)을 나타내는 열거형.</summary>
+/// <summary>
+/// 액체·가루 재료 하나를 다루는 동작.
+///
+/// 레시피 한 줄의 action과 재료의 default_action이 같은 값 집합을 쓴다. 둘이 같은 열거형을 공유하는
+/// 게 중요하다 — 레시피에 있는 재료는 레시피의 action대로, 없는 재료(오선택)는 자기 default_action대로
+/// 기믹이 만들어지므로, 두 값을 같은 자리에서 비교할 수 있어야 한다.
+///
+/// fill_up은 조작 방식이 pour와 완전히 같고(같은 따르기 기믹을 재사용한다) 제조 순서상의 위치만
+/// 다르다 — 믹스 이후에 잔을 채운다. 그래서 별도 기믹이 아니라 별도 action으로 구분한다.
+/// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ENewRecipeAction
 {
     [EnumMember(Value = "pour")] Pour,
     [EnumMember(Value = "squeeze")] Squeeze,
     [EnumMember(Value = "powder")] Powder,
+    [EnumMember(Value = "fill_up")] FillUp,
+}
+
+/// <summary>
+/// 재료가 진열되는 선반. 술 선반과 냉장고는 진열 방식이 달라서(술은 재료당 1병 개별,
+/// 냉장고는 3개 묶음) 재료 분류로 유도하지 않고 데이터가 직접 지정한다 —
+/// 레드와인·샴페인은 술 선반이지만 병맥주는 냉장고다.
+///
+/// 자동으로 넣어 주는 재료(레몬·라임·설탕)는 선반에 오브젝트가 없어서 값이 비어 있다.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewShelfGroup
+{
+    [EnumMember(Value = "liquor")] Liquor,
+    [EnumMember(Value = "fridge")] Fridge,
+}
+
+/// <summary>
+/// 따르기 전에 먼저 해야 하는 손질. 지금은 병뚜껑을 여는 것 하나뿐이다.
+///
+/// 손질은 재료의 기본 동작을 대체하지 않고 앞에 한 단계 더 붙는다 —
+/// 병맥주는 열고 나서 따라야 제조가 끝난다.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewPrepAction
+{
+    [EnumMember(Value = "open")] Open,
+}
+
+/// <summary>
+/// 데이터 한 줄이 확정된 내용인지, 아직 채우는 중인지 구분한다.
+///
+/// tbd가 먼저다 — json에 status가 없으면 0번이 들어오는데, 그때 "확정됨"으로 읽히면 아직
+/// 손대지 않은 데이터를 완성된 것으로 착각하게 된다. 빠진 값은 미확정으로 보는 게 안전하다.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewDataStatus
+{
+    [EnumMember(Value = "tbd")] Tbd,
+    [EnumMember(Value = "confirmed")] Confirmed,
+}
+
+/// <summary>
+/// 점수 구간표가 무엇을 재는 구간인지. 수량 오차와 시간 초과가 같은 표에 섞여 있어 이 값으로 갈라 본다.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewScoreBandType
+{
+    /// <summary>수량 오차율 → 개별 기믹 점수.</summary>
+    [EnumMember(Value = "quantity")] Quantity,
+
+    /// <summary>전체 제조시간 초과율 → 감점.</summary>
+    [EnumMember(Value = "overtime")] Overtime,
+}
+
+/// <summary>
+/// 채점이 정상적으로 끝났는지, 원본 데이터가 미확정이라 채점 자체를 막았는지.
+///
+/// 둘뿐이다. 플레이를 못한 것(기믹 미수행)과 데이터가 잘못된 것은 다른 층위라서,
+/// 전자는 0점이라는 정상 결과로 남고 후자만 여기서 갈린다.
+/// </summary>
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ENewScoreStatus
+{
+    [EnumMember(Value = "scored")] Scored,
+    /// <summary>Target 수량·단위·Config 값이 미확정이라 계산할 수 없다. 임의값으로 메우지 않는다.</summary>
+    [EnumMember(Value = "data_error")] DataError,
 }
 
 /// <summary>레시피 계량 단위를 나타내는 열거형.</summary>
@@ -110,6 +186,8 @@ public enum ENewIngredientCategory
     [EnumMember(Value = "liqueur")] Liqueur,
     [EnumMember(Value = "syrup")] Syrup,
     [EnumMember(Value = "dairy")] Dairy,
+    /// <summary>위 분류에 들어가지 않는 재료(커피 등).</summary>
+    [EnumMember(Value = "other")] Other,
 }
 
 /// <summary>거리 인터랙트 포인트의 종류를 나타내는 열거형.</summary>

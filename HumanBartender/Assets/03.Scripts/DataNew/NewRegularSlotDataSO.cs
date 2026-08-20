@@ -8,7 +8,12 @@ public struct NewRegularSlotData
     [field: SerializeField][JsonProperty("day")] public int Day { get; set; }
     [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
     [field: SerializeField][JsonProperty("character")] public string Character { get; set; }
-    [field: SerializeField][JsonProperty("tier")] public int Tier { get; set; }
+
+    /// <summary>
+    /// 이 단골이 주문할 칵테일 id. 비어 있으면 그날 해금된 칵테일 중에서 고른다.
+    /// </summary>
+    [field: SerializeField][JsonProperty("order")] public string Order { get; set; }
+
     [field: SerializeField][JsonProperty("delay_sec")] public float DelaySec { get; set; }
     [field: SerializeField][JsonProperty("max_rounds")] public int MaxRounds { get; set; }
     [field: SerializeField][JsonProperty("branch_choice")] public bool BranchChoice { get; set; }

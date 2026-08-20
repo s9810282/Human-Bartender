@@ -69,6 +69,18 @@ public class CraftMenuPanel : MonoBehaviour
         ShowMenu();
     }
 
+    /// <summary>
+    /// 처음 화면(제조하기 버튼)으로 되돌린다.
+    ///
+    /// 칵테일을 고르고 제조로 넘어가면 이 패널은 상세 뷰를 띄운 채로 닫힌다. 그대로 두면 다음에
+    /// 열었을 때 지난번에 보던 칵테일 설명이 그대로 남아 있어, 방금 만든 것을 또 고르는 화면처럼 보인다.
+    /// </summary>
+    public void ResetToMenu()
+    {
+        selectedCocktailId = null;
+        ShowMenu();
+    }
+
     void ShowMenu()
     {
         menuView.SetActive(true);

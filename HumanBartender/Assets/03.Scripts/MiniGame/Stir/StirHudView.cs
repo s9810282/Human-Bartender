@@ -35,6 +35,20 @@ public class StirHudView : MonoBehaviour
     [SerializeField] TMP_Text judgeText;
 
     /// <summary>제한시간을 카드 머리글에 한 번 박아둔다.</summary>
+    /// <summary>
+    /// 공통 표시와 겹치는 상단 스탯(경과 시간·판정 수·콤보)을 감춘다.
+    /// 같은 정보가 두 군데 뜨는 걸 막기 위해, 기믹 큐가 돌릴 때 한 번 부른다.
+    ///
+    /// 잔 주변 2초 게이지와 사선 진행 게이지는 감추지 않는다 — 스터에만 있는 판정 표시라
+    /// 공통 표시에 자리가 없다.
+    /// </summary>
+    public void HideStatsSharedWithCommonHud()
+    {
+        if (elapsedText != null) elapsedText.gameObject.SetActive(false);
+        if (circleText != null) circleText.gameObject.SetActive(false);
+        if (comboText != null) comboText.gameObject.SetActive(false);
+    }
+
     public void SetRoundLimit(float seconds)
     {
         if (roundLimitText != null) roundLimitText.text = $"{seconds:0.00} SEC";
