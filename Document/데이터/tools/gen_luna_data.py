@@ -1621,6 +1621,13 @@ UI_STRINGS = [
     ("ui_manual_save", "수동 저장",          "Manual Save"),
     ("ui_empty_slot",  "빈 슬롯",            "Empty Slot"),
     ("ui_save_home_only", "수동 저장은 집에서만 가능합니다.", "Manual saving is only available at home."),
+    ("ui_home_exit", "밖으로 나간다", "Go Outside"),
+    ("ui_home_exit_blocked", "지금은 집을 나갈 수 없습니다.", "You cannot leave home right now."),
+    ("ui_home_sleep_confirm", "하루를 종료하시겠습니까?", "End the day?"),
+    ("ui_save_overwrite_confirm", "이 슬롯에 덮어쓰시겠습니까?", "Overwrite this save slot?"),
+    ("ui_save_success", "저장되었습니다.", "Game saved."),
+    ("ui_autosave_failed", "자동 저장에 실패했습니다. 이전 자동 저장은 유지됩니다.", "Autosave failed. Your previous autosave has been preserved."),
+    ("ui_home_map_transition_failed", "이동하지 못했습니다. 잠시 후 다시 시도해 주세요.", "Unable to move to the next area. Please try again."),
     ("ui_new_game",    "새 게임",            "New Game"),
     ("ui_sales",       "매출",               "Sales"),
     ("ui_tips",        "팁",                 "Tips"),
@@ -2634,6 +2641,16 @@ def validate(derived):
             errors.append(f"[UIStrings] DATA_ERROR 복구 필수 키 '{_key}' 없음")
         elif not _ui_map[_key][0] or not _ui_map[_key][1]:
             errors.append(f"[UIStrings] {_key}: DATA_ERROR 복구 문구는 ko/en을 모두 작성해야 함")
+    _required_home_ui = {
+        "ui_home_exit", "ui_home_exit_blocked", "ui_home_sleep_confirm",
+        "ui_save_overwrite_confirm", "ui_save_success", "ui_autosave_failed",
+        "ui_home_map_transition_failed",
+    }
+    for _key in sorted(_required_home_ui):
+        if _key not in _ui_map:
+            errors.append(f"[UIStrings] 집 기능 필수 키 '{_key}' 없음")
+        elif not _ui_map[_key][0] or not _ui_map[_key][1]:
+            errors.append(f"[UIStrings] {_key}: 집 기능 문구는 ko/en을 모두 작성해야 함")
     for k, ko, en in UI_STRINGS:
         check_text_tags(ko, f"UI {k}")
         check_text_tags(en, f"UI {k}(en)")

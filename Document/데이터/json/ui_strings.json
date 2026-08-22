@@ -206,5 +206,33 @@
   "ui_save_home_only": {
     "ko": "수동 저장은 집에서만 가능합니다.",
     "en": "Manual saving is only available at home."
+  },
+  "ui_home_exit": {
+    "ko": "밖으로 나간다",
+    "en": "Go Outside"
+  },
+  "ui_home_exit_blocked": {
+    "ko": "지금은 집을 나갈 수 없습니다.",
+    "en": "You cannot leave home right now."
+  },
+  "ui_home_sleep_confirm": {
+    "ko": "하루를 종료하시겠습니까?",
+    "en": "End the day?"
+  },
+  "ui_save_overwrite_confirm": {
+    "ko": "이 슬롯에 덮어쓰시겠습니까?",
+    "en": "Overwrite this save slot?"
+  },
+  "ui_save_success": {
+    "ko": "저장되었습니다.",
+    "en": "Game saved."
+  },
+  "ui_autosave_failed": {
+    "ko": "자동 저장에 실패했습니다. 이전 자동 저장은 유지됩니다.",
+    "en": "Autosave failed. Your previous autosave has been preserved."
+  },
+  "ui_home_map_transition_failed": {
+    "ko": "이동하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    "en": "Unable to move to the next area. Please try again."
   }
 }

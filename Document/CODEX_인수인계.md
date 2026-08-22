@@ -1,6 +1,6 @@
 # Project L.U.N.A — Codex 인수인계
 
-기준일: 2026-08-19  
+기준일: 2026-08-22  
 작업 범위: `Human-Bartender/Document/`
 
 이 문서는 다음 작업자가 현재 데이터·기획 상태와 정본 문서를 빠르게 찾을 수 있도록 만든 최신 인수인계다. 기존 [LUNA_인수인계.md](./이준서/마크다운/LUNA_인수인계.md)는 2026-08-01 기준의 과거 기록으로, 현재 시트 수·스키마·일차 체계·제조 규칙과 다른 내용이 많다. 현재 작업에서는 이 문서와 [CLAUDE.md](./CLAUDE.md)를 먼저 읽는다.
@@ -39,7 +39,7 @@
 | System 시트 | 12개 |
 | Narrative 시트 | 24개 |
 | Config | 95키 |
-| UIStrings | 52키 |
+| UIStrings | 59키 |
 | 생성 JSON | 총 32개: 데이터 31개 + `manifest.json` 1개 |
 | 칵테일 | 29종 |
 | 선반 항목 | 50종 |
@@ -116,6 +116,12 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 제조·기믹·대사·손님 단위의 중간 상태는 저장하지 않는다.
 - 출근길 복구 위치는 `home_door`, 퇴근길 복구 위치는 `bar_door`다.
 - 외부 거리의 세부 좌표와 개별 상호작용 중간 상태는 저장하지 않는다.
+- 집 수동 저장은 `world.location_id = home`, `world.spot_id = home_spawn_entry`와 함께
+  `world.home_context = day_start | pre_work_return | after_work`를 기록한다.
+- 집의 수동 저장·취침 조건은 대상 하나에 고정하지 않고 `HomeInteractable.actions[]`의 행동별 입력과
+  `available_contexts[]`로 구분한다. 이 구조는 구현 계약이며 정적 Config에 중복 저장하지 않는다.
+- 집 핵심 기능용 UI 문구 7종은 `LUNA_Narrative.xlsx → UIStrings`와 `ui_strings.json`에 ko/en으로 반영됐다.
+  자동 저장 실패는 이전 자동 저장을 보존하고 비차단 안내 후 현재 구간을 계속 진행한다.
 
 ---
 
@@ -305,6 +311,8 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 집 전용 수동 저장 5칸과 고정 자동 저장 1칸을 Config로 만들었다.
 - 자동 저장 지점 네 곳과 외부 복구 앵커 두 곳을 데이터로 만들었다.
 - 저장 관련 한·영 UI 문자열 5개를 추가했다.
+- 집 출입·취침·덮어쓰기·저장 완료·자동 저장 실패·맵 전환 실패용 한·영 UI 문자열 7개를 추가해 UIStrings를 59키로 갱신했다.
+- 집 기능 UI 7키의 존재와 ko/en 공란 검증을 추가했고, 고의 누락 테스트와 정상 엄격 빌드를 모두 통과했다.
 - 비정상 종료 문구를 “마지막 자동 저장에서 다시 시작”한다는 의미로 한·영 수정했다.
 - 1부·2부·제조의 중간 상태는 파일에 저장하지 않는 것으로 문서 충돌을 정리했다.
 - 저장 시스템, 데이터 구조, 1부·2부 문서, 데이터 변경 사항, 기획서 수정 내용을 같은 기준으로 최신화했다.

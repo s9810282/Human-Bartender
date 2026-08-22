@@ -201,6 +201,9 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   자동 저장은 commute_in 진입(home_door), 바 최초 진입, 2부 시작, 일일 매출 정산 완료(commute_out의 bar_door) 네 지점에서만 수행한다.
   1부·2부 진행 중 자동 저장과 중간 복구는 지원하지 않으며, 비정상 종료 시 가장 최근 전환점부터 해당 구간을 다시 진행한다.
   제조 기믹 중간 상태도 저장하지 않는다. `autosave_interval_step`은 폐기하고 Config 2.5.0의 `fixed_transitions_v1`을 사용한다.
+  집 수동 저장은 `world.home_context`(`day_start`·`pre_work_return`·`after_work`)를 기록하며, 집 대상의 여러 행동은
+  `HomeInteractable.actions[]`에서 입력·문구·허용 context를 행동별로 구분한다. 집 핵심 UI 7종은 UIStrings에 ko/en 반영 완료(총 59키)이며,
+  자동 저장 실패 시 기존 자동 저장을 보존하고 현재 구간을 계속 진행한다. TV는 후순위, 테라스 자동 장면 사용 방식은 결정 대기다.
 - **노션 문서 전수 검수 결과(08/18)** — 개정 대기: 데이터 구조 작성(전면 — cocktails·balance·shelf_items·quests·일차 체계·config 신규 ~47키),
   바 내부 시스템(§3 계통 — tier 인내심·grade_payout·주문 풀·외형 4파츠·다회 정산), 칵테일 제조 시스템(§6·§7·§10 + §11 미결 16건 중 5해소·2부분 갱신),
   외부 거리 시스템(상자퀘 흔적 6곳·day0 센티널·"phase street 고정" 오류), 깃 사용법(GradePayout·티어 예문·줄수), UI 4종은 부분(레시피 UI 예시 데이터·잔7종·guest_bodies 파츠).

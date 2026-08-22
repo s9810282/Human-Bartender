@@ -1,7 +1,7 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
-· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(19), Choices(43), Cutscenes(23), Days(4), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(0), Quests(0), RegularSlots(1), ResourceMap(17), Scenes(55), Spots(8), Steps(869), Tastes(10), TextTags(7), UIStrings(52)
+· LUNA_Narrative.xlsx — 시트 24개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(19), Choices(43), Cutscenes(23), Days(4), Dossier(20), Endings(5), ExpressionParts(47), Expressions(39), FieldAnims(18), InteractPoints(6), OrderRules(4), QuestStages(0), Quests(0), RegularSlots(1), ResourceMap(17), Scenes(55), Spots(8), Steps(869), Tastes(10), TextTags(7), UIStrings(59)
 · LUNA_System.xlsx — 시트 12개: Cocktails(29), Config(95), GradeCuts(5), GuestBodies(32), GuestBodyExclusions(6), Personalities(5), RandomWaves(9), RecipeLines(83), ScoreBands(10), SettlementRules(5), ShelfItems(50), Tags(16)
-『외형 풀』 m: touchy 2160 · rough 2160 · quiet 2160 · chatty 2160 · gentle 2160 / f: touchy 8 · rough 8 · quiet 8 · chatty 8 · gentle 8
+『외형 풀』 m: chatty 2160 · rough 2160 · gentle 2160 · quiet 2160 · touchy 2160 / f: chatty 8 · rough 8 · gentle 8 · quiet 8 · touchy 8
 ⚠ [주문 해금] d2_aili_craft#3: day1에 'cosmopolitan' 주문 — 메뉴 해금은 day3. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d2_aili_craft#50: day1에 'kahlua_milk' 주문 — 메뉴 해금은 day4. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
 ⚠ [주문 해금] d3_samho_visit#14: day2에 'cosmopolitan' 주문 — 메뉴 해금은 day3. 대본 지정 제조는 해금을 무시하므로 진행되지만, 의도한 지정인지 확인할 것
