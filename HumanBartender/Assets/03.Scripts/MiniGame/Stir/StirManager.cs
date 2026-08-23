@@ -1,23 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// 스터(Stir) 미니게임의 메인 매니저. IMiniGameController를 구현한다.
+/// 스터(Stir) 미니게임의 메인 매니저.
 ///
 /// 잔 중심의 바 스푼이 시침처럼 한 방위를 가리키고, 플레이어는 그 방위의 시계 방향 이웃 키만
 /// 눌러야 한다. 기준 위치에서 4번 눌러 한 바퀴를 돌면 성공 판정 하나, 오답이나 제한시간 초과면
-/// 실패 판정 하나다. 판정을 stackCount(기본 10)번 쌓으면 자동으로 끝난다.
+/// 실패 판정 하나다. 판정을 stackCount번 쌓으면 자동으로 끝난다.
 ///
-/// 이 기믹은 mix가 stir인 칵테일에서만 실행된다(현재 dry_martini 1종).
-///
-/// Cap/Pour/Shake와 동일하게 actionFailCount/limitFailCount에 결과를 담아
-/// CocktailCraftManager.Evaluate()의 백분율 판정을 그대로 재사용한다 —
-/// 실패 비율이 곧 (1 - 완성도)라서 별도 환산 없이 맞아떨어진다.
+/// 인터페이스를 둘 구현한다. ICraftGimmick은 1부의 기믹 큐가 부르는 새 경로이고,
+/// IMiniGameController는 2부 대화에서 컷씬과 함께 돌던 기존 경로다. 2부를 옮기는 건 나중이라
+/// 그때까지 둘이 함께 살아 있어야 한다 — 조작과 판정 코드는 양쪽이 그대로 공유한다.
 /// </summary>
-public class StirManager : MonoBehaviour, IMiniGameController
+public class StirManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
+                           ICraftGimmickProgress, ICraftGimmickManualEnd
 {
     [SerializeField] bool isTest = false;
     [Tooltip("isTest일 때 표시할 칵테일 id. 스터 대상은 현재 dry_martini 1종이다.")]
@@ -26,15 +26,15 @@ public class StirManager : MonoBehaviour, IMiniGameController
     [Header("Data")]
     [SerializeField] CraftStationData data;
     [SerializeField] CocktailDataSO cocktailDataSO;
-    [Tooltip("stir_stacks(판정 횟수)와 stir_stack_sec(시도 제한시간)을 읽어온다. " +
+    [Tooltip("stir_target_stacks(판정 횟수)와 stir_circle_limit_sec(한 바퀴 제한시간)을 읽어온다. " +
              "스터 수치는 코드에 고정하지 않고 balance.json을 정본으로 쓴다.")]
     [SerializeField] NewBalanceDataSO balanceData;
 
     [Header("Fallback")]
     [Tooltip("balanceData가 비었거나 아직 로드되지 않았을 때만 쓰는 값. " +
-             "실제 플레이에서는 balance.json의 stir_stacks가 이긴다.")]
+             "실제 플레이에서는 balance.json의 stir_target_stacks가 이긴다.")]
     [SerializeField] int fallbackStackCount = 10;
-    [Tooltip("같은 이유의 폴백. 실제 플레이에서는 balance.json의 stir_stack_sec가 이긴다.")]
+    [Tooltip("같은 이유의 폴백. 실제 플레이에서는 balance.json의 stir_circle_limit_sec가 이긴다.")]
     [SerializeField] float fallbackStackSeconds = 2f;
 
     [Header("View")]
@@ -47,7 +47,6 @@ public class StirManager : MonoBehaviour, IMiniGameController
 
     [Header("UI")]
     [SerializeField] Canvas buttonCanvas;
-    [SerializeField] TMP_Text drinkNameText;
 
     [Header("Craft Event")]
     [SerializeField] VoidEvent craftServe;
@@ -107,13 +106,14 @@ public class StirManager : MonoBehaviour, IMiniGameController
         LoadBalance();
         ResetState();
 
-        if (drinkNameText != null && data != null) drinkNameText.text = data.targetCocktailData.Name;
-
         if (hud != null)
         {
             hud.SetRoundLimit(stackSeconds);
             hud.ResetGauge();
             hud.SetStartOverlay(true);
+
+            // 경과 시간·판정 수·콤보는 공통 표시가 그린다. 큐가 돌릴 때만 겹치므로 그때만 감춘다.
+            if (drivenByRunner) hud.HideStatsSharedWithCommonHud();
         }
 
         RefreshView();
@@ -161,8 +161,8 @@ public class StirManager : MonoBehaviour, IMiniGameController
 
         // 0은 '아직 로드되지 않음'과 구분되지 않는 값이라 폴백으로 취급한다.
         // 판정 횟수가 0이면 완성도 계산에서 0으로 나누게 되므로 최소 1을 보장한다.
-        stackCount = Mathf.Max(1, config.StirStacks > 0 ? config.StirStacks : fallbackStackCount);
-        stackSeconds = config.StirStackSec > 0f ? config.StirStackSec : fallbackStackSeconds;
+        stackCount = Mathf.Max(1, config.StirTargetStacks > 0 ? config.StirTargetStacks : fallbackStackCount);
+        stackSeconds = config.StirCircleLimitSec > 0f ? config.StirCircleLimitSec : fallbackStackSeconds;
     }
 
     void ResetState()
@@ -359,9 +359,15 @@ public class StirManager : MonoBehaviour, IMiniGameController
 
         if (hud != null)
         {
-            hud.SetElapsed(elapsedTime);
-            hud.SetCircle(results.Count, stackCount);
-            hud.SetCombo(combo, bestCombo);
+            // 큐가 돌릴 때는 이 셋을 공통 표시가 맡는다. 기존 경로에서는 그대로 스터가 그린다.
+            if (!drivenByRunner)
+            {
+                hud.SetElapsed(elapsedTime);
+                hud.SetCircle(results.Count, stackCount);
+                hud.SetCombo(combo, bestCombo);
+            }
+
+            // 잔 주변 2초 게이지는 스터 고유 표시라 언제나 스터가 그린다.
             // 시작 전에는 프로토타입처럼 제한시간이 가득 찬 상태로 보여준다(READY). 끝나면 0으로 비운다.
             hud.SetRoundTime(isCompleted ? 0f : stackTime, isCompleted ? 0f : ratio);
         }
@@ -412,5 +418,80 @@ public class StirManager : MonoBehaviour, IMiniGameController
     public void Retry()
     {
         craftRetry?.Raise(new Void());
+    }
+
+    // ── ICraftGimmick ───────────────────────────────────────────────────
+
+    /// <summary>기믹 큐가 이 기믹을 돌리고 있는지. 공통 표시와 겹치는 부분을 끄는 데 쓴다.</summary>
+    bool drivenByRunner;
+
+    /// <summary>기믹 큐가 이 기믹을 돌리는 동안 완료를 기다리는 신호.</summary>
+    UniTaskCompletionSource runnerCompletion;
+
+    /// <summary>큐에서 받은 전체 제조 시계. 결과에 확정 시점을 적는 데만 쓰고 건드리지 않는다.</summary>
+    CraftTimer craftTimer;
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    {
+        drivenByRunner = true;
+        craftTimer = timer;
+        runnerCompletion = new UniTaskCompletionSource();
+
+        // 스터는 재료를 쓰지 않으므로 step에서 가져올 표시 정보가 없다. 잔 속 재료가 무엇이든
+        // 젓는 조작은 같아서, 화면에는 칵테일 이름만 남는다.
+        Completed += OnCompletedForRunner;
+
+        try
+        {
+            // 제조가 중단되면(창을 닫는 등) 기다림을 풀어 준다. 그러지 않으면 끝나지 않는 대기가 남는다.
+            using (token.Register(() => runnerCompletion.TrySetCanceled()))
+            {
+                await runnerCompletion.Task;
+            }
+        }
+        finally
+        {
+            Completed -= OnCompletedForRunner;
+        }
+
+        // 스터는 목표 스택을 채우면 저절로 끝난다. 중간에 그만두는 다음 버튼은 아직 없다.
+        return GimmickResult.Mix(ECraftGimmick.Stir, successCount, failCount, stackCount,
+                                 ECraftEndType.AutoTarget,
+                                 craftTimer != null ? craftTimer.ElapsedSec : elapsedTime);
+    }
+
+    void OnCompletedForRunner()
+    {
+        runnerCompletion?.TrySetResult();
+    }
+
+    /// <summary>
+    /// 한 바퀴를 도는 동안. 스터가 자기 시도 게이지를 굴리는 조건과 같게 둔다 —
+    /// 시작 대기 중이거나 창 포커스를 잃은 동안은 판정이 멈추므로 제조시간도 멈춰야 한다.
+    /// </summary>
+    public bool IsManualInputActive => IsTimerRunning;
+
+    // ── ICraftGimmickProgress ───────────────────────────────────────────
+
+    /// <summary>쌓인 스택과 목표. 스터는 수량이 아니라 판정 횟수를 센다.</summary>
+    public string ProgressText => $"{results.Count} / {stackCount}";
+
+    /// <summary>스터에는 도달을 알릴 목표 수량이 없다. 목표 스택을 채우면 그대로 끝난다.</summary>
+    public bool ShowOkMark => false;
+
+    // ── ICraftGimmickManualEnd ──────────────────────────────────────────
+
+    public bool CanEndNow => isStarted && !isCompleted;
+
+    /// <summary>
+    /// 지금까지 쌓은 스택으로 끝낸다. 남은 스택을 성공으로 채워 주지 않으므로,
+    /// 일찍 끝낼수록 완성도가 그만큼 낮게 남는다.
+    /// </summary>
+    public void EndNow()
+    {
+        if (!CanEndNow) return;
+
+        SetJudgeText("STOP");
+        Complete();
     }
 }

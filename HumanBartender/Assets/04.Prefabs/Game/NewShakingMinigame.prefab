@@ -1429,6 +1429,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
   colorData: {fileID: 11400000, guid: c8e2665f2ba95ee43989823c33c174b3, type: 2}
   cocktailDataSO: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
+  balanceData: {fileID: 11400000, guid: 63f99327f1a0418a94d6ec6cd9c49dca, type: 2}
+  fallbackTargetStacks: 20
   shakeLineCreator: {fileID: 1528809885184633458}
   shakingStrikeNode: {fileID: 2981605730299088642}
   nodeCreator: {fileID: 4878874705438666908}
@@ -1558,7 +1560,6 @@ MonoBehaviour:
   pathWidth: 0.02
   pointsPerSegment: 4
   sortingOrder: 20
-  circleSprite: {fileID: -2413806693520163455, guid: 5aa7d8495c9a5b145943548355d3cf49, type: 3}
 --- !u!1 &7542314912038137631
 GameObject:
   m_ObjectHideFlags: 0

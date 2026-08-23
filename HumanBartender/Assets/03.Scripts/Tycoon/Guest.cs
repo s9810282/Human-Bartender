@@ -6,7 +6,8 @@ public class Guest
     public string characterId; // 단골(regular_slots)인 경우 지정된 캐릭터 id. 랜덤 손님이면 null.
     public string targetCocktailId;
 
-    public int difficultyLevel = 0; // random_waves.json/regular_slots.json의 tier
+    // 손님별 난이도(tier)는 데이터에서 사라졌다. 이제 웨이브 데이터가 주문 칵테일을 직접 지정하고,
+    // 서빙 여유는 손님이 아니라 진행 일차로 정해진다.
     public string personality; // random_waves.json 전용, 단골은 null
     public float tipMultiplier = 1f; // personalities.json의 tip_mult
     public float patienceMultiplier = 1f; // personalities.json의 patience_mult. hasPatience가 false면 의미 없음.

@@ -29,6 +29,11 @@ public class InGameLifetimeScope : LifetimeScope
 
         builder.RegisterComponentInHierarchy<PlayPhaseController>();
 
+        // 1부 제조 루프. 기믹 큐가 띄우는 미니게임에도 사운드·데이터를 주입해 줘야 해서
+        // 실행기가 IObjectResolver를 받을 수 있도록 스코프에 올린다.
+        builder.RegisterComponentInHierarchy<GimmickRunner>();
+        builder.RegisterComponentInHierarchy<CraftFlowController>();
+
         //builder.RegisterBuildCallback(container =>
         //{
         //    _cutSceneManager = FindAnyObjectByType<CutSceneManager>();

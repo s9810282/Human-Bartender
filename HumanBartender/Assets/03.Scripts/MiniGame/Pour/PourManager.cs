@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -11,11 +12,18 @@ using UnityEngine;
 /// 보이지도 않을 액체에 물리 비용을 그대로 쓴다. 방출기는 임계각이 곧 설정값이고, 살아있는
 /// 파티클도 공중에 떠 있는 줄기와 잔에 담긴 것뿐이다.
 ///
-/// 목표/오차 판정은 잔 영역(AABB) 안에 들어온 파티클 개수로 한다.
-/// Shake/Stur와 동일하게 actionFailCount/limitFailCount에 결과를 담아 CocktailCraftManager.Evaluate()의
-/// 기존 백분율 판정 로직을 그대로 재사용한다.
+/// 인터페이스를 둘 구현한다. ICraftGimmick은 1부의 기믹 큐가 부르는 새 경로이고,
+/// IMiniGameController는 2부 대화에서 컷씬과 함께 돌던 기존 경로다. 조작과 액체 표현은 양쪽이 공유한다.
+///
+/// 투입량을 재는 방식이 다르다. 기존 경로는 잔 영역에 들어온 파티클 개수를 셌지만, 기믹 큐가
+/// 돌릴 때는 방출률(ml/초) × 기울인 시간으로 쌓아 레시피의 oz와 같은 단위로 만든다. 파티클은
+/// 눈에 보이는 줄기일 뿐이라 프레임과 물리 설정에 따라 개수가 흔들리는데, 그 흔들림이 점수에
+/// 섞이면 안 되기 때문이다. 이 화면에는 잔을 그리지도 않는다.
+///
+/// 필업(Fill-up)도 이 구현을 그대로 쓴다. 조작과 화면이 같고 큐에서의 위치만 다르다.
 /// </summary>
-public class PourManager : MonoBehaviour, IMiniGameController
+public class PourManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
+                           ICraftGimmickProgress, ICraftGimmickManualEnd
 {
     [SerializeField] bool isTest = false;
 
@@ -23,6 +31,10 @@ public class PourManager : MonoBehaviour, IMiniGameController
     [SerializeField] CraftStationData data;
     [SerializeField] CategoryColorData colorData;
     [SerializeField] CocktailDataSO cocktailDataSO;
+    [Tooltip("실제로 따르는 재료의 액체 색을 읽어온다.")]
+    [SerializeField] NewShelfItemDataSO shelfData;
+    [Tooltip("pour_emit_rate_ml_per_sec(방출률)와 단위 환산 계수를 읽어온다.")]
+    [SerializeField] NewBalanceDataSO balanceData;
 
     [Header("Bottle")]
     [SerializeField] BottleTiltController bottle;
@@ -84,7 +96,8 @@ public class PourManager : MonoBehaviour, IMiniGameController
              "렌더러가 2패스로 바뀐 뒤로는 여기에 렌더 한계가 없다 — 이제 걸리는 건 SPH 계산 쪽이다. " +
              "프레임이 떨어지면 이 값을 내리거나 프로파일의 spacing을 키울 것.")]
     [SerializeField] int maxLiveParticles = 2000;
-    [Tooltip("이 월드 Y 아래로 떨어진 파티클은 흘린 것으로 보고 치운다(풀로 돌아간다). " +
+    [Tooltip("이 깊이 아래로 떨어진 파티클은 흘린 것으로 보고 치운다(풀로 돌아간다). " +
+             "이 기믹의 원점에서 잰 상대 높이라, 무대가 어디에 놓이든 같게 동작한다. " +
              "잔 바닥보다 확실히 아래로 잡아야 담긴 액체가 사라지지 않는다.")]
     [SerializeField] float despawnBelowY = -6f;
     [Tooltip("SPH 공간분할그리드가 병/잔 위치 기준 사방으로 확보하는 여유 폭.")]
@@ -137,14 +150,25 @@ public class PourManager : MonoBehaviour, IMiniGameController
             data.targetCraft_tolerance = testToleranceCount;
         }
 
-        targetParticleCount = testTargetParticleCount; // TODO: recipe 기반 목표량과 연결 (오케스트레이터 작업 시)
-        toleranceCount = data.targetCraft_tolerance > 0 ? data.targetCraft_tolerance : testToleranceCount;
+        // 파티클 개수 목표는 기존 경로에서만 쓴다. 기믹 큐가 돌릴 때는 레시피의 oz를 그대로 목표로 삼고,
+        // 파티클은 눈에 보이는 줄기 역할만 한다.
+        targetParticleCount = testTargetParticleCount;
+
+        int tolerance = data != null ? data.targetCraft_tolerance : 0;
+        toleranceCount = tolerance > 0 ? tolerance : testToleranceCount;
+
+        mlPerSecondAtFullFlow = ResolveEmitRateMlPerSec();
+        pouredMl = 0f;
 
         isFinished = false;
         glassParticleCount = 0;
         remainingInBottle = bottleParticleCount;
 
         Color liquidColor = GetLiquidColor();
+
+        // 액체는 화면을 덮는 쿼드에 합성해 그린다. 어느 화면인지 알려 주지 않으면 메인 카메라에
+        // 그려지는데, 기믹 무대는 바에서 멀리 떨어져 있어 그러면 아무것도 안 보인다.
+        liquidRenderer.SetTargetCamera(CraftGimmickStage.Find(this));
         liquidRenderer.Init(liquidProfile, liquidColor);
 
         // 통로 폭은 파티클 간격이 정한다. 병 모양보다 먼저 잡아야 실루엣이 같은 폭으로 그려진다.
@@ -159,7 +183,17 @@ public class PourManager : MonoBehaviour, IMiniGameController
         CreatePool();
         CalibrateRestDensity();
 
-        gageBar.UpdateValues(targetParticleCount + toleranceCount, targetParticleCount - toleranceCount, toleranceCount * 2f, 0f);
+        // 이 게이지는 파티클 개수를 기준으로 그린다. 큐가 돌릴 때는 투입량을 방출량으로 재기 때문에
+        // 눈금이 실제 수량과 어긋난다 — 공통 표시가 정확한 수치를 보여주므로 여기서는 감춘다.
+        if (drivenByRunner)
+        {
+            if (gageBar != null) gageBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            gageBar.UpdateValues(targetParticleCount + toleranceCount,
+                                 targetParticleCount - toleranceCount, toleranceCount * 2f, 0f);
+        }
 
         isPlay = true;
     }
@@ -261,6 +295,13 @@ public class PourManager : MonoBehaviour, IMiniGameController
     {
         float flow01 = FlowRate01();
 
+        // 투입량은 파티클 개수가 아니라 "얼마나 오래, 얼마나 세게 기울였는가"로 쌓는다.
+        // 파티클은 눈에 보이는 줄기일 뿐이라 프레임이나 물리 설정에 따라 개수가 흔들리는데,
+        // 방출률 × 시간은 그런 것에 흔들리지 않고 레시피의 oz 단위로 바로 환산된다.
+        // 이 함수가 물리와 같은 고정 시간축(fixedStep)에서 돌기 때문에 프레임이 튀어도 값이 안 변한다.
+        if (flow01 > 0f && (unlimitedLiquid || remainingInBottle > 0))
+            pouredMl += mlPerSecondAtFullFlow * flow01 * dt;
+
         if (flow01 <= 0f || (!unlimitedLiquid && remainingInBottle <= 0))
         {
             emitAccumulator = 0f;
@@ -349,7 +390,9 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
         glassParticleCount = CountParticlesInGlass();
 
-        if (glassParticleCount > targetParticleCount + toleranceCount)
+        // 기믹 큐가 돌릴 때는 목표를 넘겨도 저절로 끝나지 않는다. 초과한 양까지 결과에 담고,
+        // 끝내는 시점은 플레이어가 정한다 — 목표 도달은 알려 주기만 하는 신호다.
+        if (!drivenByRunner && glassParticleCount > targetParticleCount + toleranceCount)
             FinishPour();
     }
 
@@ -396,7 +439,8 @@ public class PourManager : MonoBehaviour, IMiniGameController
         {
             SphParticle p = live[i];
 
-            if (p.pos.y < despawnBelowY)
+            // 절대 높이가 아니라 이 기믹을 기준으로 잰다. 무대를 옮겨도 같은 자리에서 치워진다.
+            if (p.pos.y < transform.position.y + despawnBelowY)
             {
                 simulation.Unregister(p);
                 p.Deactivate();
@@ -502,6 +546,8 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
         CompleteMade();
 
+        runnerCompletion?.TrySetResult();
+
         // 실제 게임 흐름에서는 CocktailCraftManager가 완성/서빙 컷씬을 재생한 뒤 OnNextButton()을 부른다.
         // 독립 테스트 씬에는 그 흐름이 없어서, 끝났다는 신호가 전혀 없으면 그냥 멈춘 것처럼 보인다.
         if (isTest)
@@ -516,8 +562,24 @@ public class PourManager : MonoBehaviour, IMiniGameController
         if (liquidProfile.overrideColor)
             return liquidProfile.color;
 
-        if (data.targetCocktailData.Keywords == null || data.targetCocktailData.Keywords.Length == 0)
+        // 기믹 큐가 돌릴 때는 실제로 고른 재료의 색을 쓴다. 정답 재료의 색으로 보정하지 않는다 —
+        // 진 대신 럼을 골랐다면 럼 색 액체가 나와야 한다.
+        if (drivenByRunner)
+        {
+            if (shelfData != null && shelfData.TryGet(pourIngredientId, out var item) &&
+                item.TryGetLiquidColor(out Color32 color))
+            {
+                return color;
+            }
+
             return Color.white;
+        }
+
+        if (data == null || data.targetCocktailData.Keywords == null ||
+            data.targetCocktailData.Keywords.Length == 0)
+        {
+            return Color.white;
+        }
 
         int n = colorData.categorys.FindIndex(a => a.Contains(data.targetCocktailData.Keywords[0]));
         return n >= 0 ? colorData.colors[n] : Color.white;
@@ -531,11 +593,15 @@ public class PourManager : MonoBehaviour, IMiniGameController
 
     public void CompleteMade()
     {
-        int deviation = Mathf.Abs(glassParticleCount - targetParticleCount);
+        // 기믹 큐가 돌릴 때는 결과를 GimmickResult로 돌려주므로 이 저장소를 쓰지 않는다.
+        if (data != null)
+        {
+            int deviation = Mathf.Abs(glassParticleCount - targetParticleCount);
 
-        data.craftingResult.isResult = true;
-        data.craftingResult.actionFailCount = deviation;
-        data.craftingResult.limitFailCount = toleranceCount;
+            data.craftingResult.isResult = true;
+            data.craftingResult.actionFailCount = deviation;
+            data.craftingResult.limitFailCount = toleranceCount;
+        }
 
         if (tcs != null)
         {
@@ -556,5 +622,131 @@ public class PourManager : MonoBehaviour, IMiniGameController
     public void Retry()
     {
         craftRetry?.Raise(new Void());
+    }
+
+    // ── ICraftGimmick ───────────────────────────────────────────────────
+
+    /// <summary>기믹 큐가 이 기믹을 돌리고 있는지. 자동 종료와 색상·수량의 출처를 가른다.</summary>
+    bool drivenByRunner;
+
+    UniTaskCompletionSource runnerCompletion;
+    CraftTimer craftTimer;
+    GimmickStep pourStep;
+
+    /// <summary>지금 따르고 있는 실제 재료. 병 색과 결과에 남길 id다.</summary>
+    string pourIngredientId;
+
+    /// <summary>기울기를 끝까지 눕혔을 때의 방출률(ml/초). balance.json에서 읽는다.</summary>
+    float mlPerSecondAtFullFlow;
+
+    /// <summary>지금까지 병에서 나온 양(ml). 기울인 세기 × 시간으로 쌓인다.</summary>
+    float pouredMl;
+
+    /// <summary>지금까지 따른 양을 이 기믹의 목표 단위로 환산한 값. 화면에 보여줄 수치다.</summary>
+    public float PouredInTargetUnit => ConvertMlTo(pouredMl, pourStep.TargetUnit ?? ENewUnit.Ml);
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    {
+        drivenByRunner = true;
+        craftTimer = timer;
+        pourStep = step;
+        pourIngredientId = step.IngredientId;
+        runnerCompletion = new UniTaskCompletionSource();
+
+        // "이미 끝났는지"는 보지 않는다. 이 함수는 Start()보다 먼저 불려서 상태가 초기값이다.
+        // 기다림을 푸는 신호는 FinishPour() 한 곳에서만 나온다.
+
+        using (token.Register(() => runnerCompletion.TrySetCanceled()))
+        {
+            await runnerCompletion.Task;
+        }
+
+        // 필업도 같은 조작이라 이 구현을 그대로 쓴다. 큐에 들어온 종류를 그대로 결과에 적어
+        // 따르기와 필업을 구분한다.
+        return GimmickResult.Quantity(step.Type, step.IngredientId,
+                                      step.TargetValue, step.TargetUnit, PouredInTargetUnit,
+                                      ECraftEndType.ManualNext,
+                                      craftTimer != null ? craftTimer.ElapsedSec : 0f);
+    }
+
+    /// <summary>
+    /// 병을 기울일 수 있는 동안. 따르기는 시작 대기나 연출 구간이 없어서 화면에 떠 있는 내내 해당한다.
+    /// </summary>
+    public bool IsManualInputActive => isPlay && !isFinished;
+
+    // ── ICraftGimmickProgress ───────────────────────────────────────────
+
+    /// <summary>
+    /// 지금까지 따른 양과 목표.
+    ///
+    /// 정답에 없는 재료를 골랐다면 알려 줄 정답이 없으므로 양쪽을 다 가린다. 가리는 건 화면뿐이고
+    /// 실제 투입량은 그대로 쌓여 결과에 남는다 — 나중에 추가 재료로 판정할 때 그 값이 필요하다.
+    /// </summary>
+    public string ProgressText
+    {
+        get
+        {
+            if (!drivenByRunner) return string.Empty;
+
+            if (!pourStep.IsTargetVisible) return "??? / ???";
+
+            string unit = (pourStep.TargetUnit ?? ENewUnit.Ml).ToString().ToLowerInvariant();
+            return $"{PouredInTargetUnit:0.00} / {pourStep.TargetValue.Value:0.00} {unit}";
+        }
+    }
+
+    /// <summary>
+    /// 목표에 도달했는지. 도달해도 저절로 멈추지 않고, 넘겨서 계속 따라도 켜진 채로 있다.
+    /// 목표를 가린 재료에는 띄우지 않는다 — 알려 줄 목표가 없는데 도달을 알릴 수는 없다.
+    /// </summary>
+    public bool ShowOkMark =>
+        drivenByRunner && pourStep.IsTargetVisible && PouredInTargetUnit >= pourStep.TargetValue.Value;
+
+    // ── ICraftGimmickManualEnd ──────────────────────────────────────────
+
+    public bool CanEndNow => isPlay && !isFinished;
+
+    /// <summary>지금까지 따른 양으로 확정한다. 모자라든 넘치든 그 시점 값이 결과다.</summary>
+    public void EndNow()
+    {
+        FinishPour();
+    }
+
+    /// <summary>방출률을 balance.json에서 읽는다. 값이 없으면 액체가 나와도 수량이 안 쌓이므로 알린다.</summary>
+    float ResolveEmitRateMlPerSec()
+    {
+        float fromData = balanceData != null && balanceData.balanceData != null
+            ? balanceData.balanceData.Config.PourEmitRateMlPerSec
+            : 0f;
+
+        if (fromData > 0f) return fromData;
+
+        if (drivenByRunner)
+            Logger.Log("[Pour] pour_emit_rate_ml_per_sec가 비어 있습니다. 투입량이 쌓이지 않습니다.");
+
+        return fromData;
+    }
+
+    /// <summary>
+    /// ml을 목표 단위로 바꾼다. 환산 계수도 balance.json이 정본이라 코드에 고정하지 않는다.
+    /// 계수가 비어 있으면 나눗셈이 성립하지 않으므로 ml 그대로 둔다.
+    /// </summary>
+    float ConvertMlTo(float ml, ENewUnit unit)
+    {
+        var config = balanceData != null && balanceData.balanceData != null
+            ? balanceData.balanceData.Config
+            : default;
+
+        switch (unit)
+        {
+            case ENewUnit.Oz:
+                return config.UnitOzToMl > 0f ? ml / config.UnitOzToMl : ml;
+
+            case ENewUnit.Tsp:
+                return config.UnitTspToMl > 0f ? ml / config.UnitTspToMl : ml;
+
+            default:
+                return ml;
+        }
     }
 }

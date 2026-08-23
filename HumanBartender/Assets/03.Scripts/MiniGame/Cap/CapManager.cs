@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -10,10 +11,13 @@ using UnityEngine;
 /// 목표를 지나쳐 버리면 실패로 치고, 잠깐 뒤 고리가 다시 바깥에서 조여든다 — 성공하거나
 /// 제한 시간이 끝날 때까지 반복된다.
 ///
-/// Shake/Stur/Pour와 동일하게 actionFailCount/limitFailCount에 결과를 담아
-/// CocktailCraftManager.Evaluate()의 백분율 판정을 그대로 재사용한다.
+/// 인터페이스를 둘 구현한다. ICraftGimmick은 1부의 기믹 큐가 부르는 새 경로이고,
+/// IMiniGameController는 2부 대화에서 컷씬과 함께 돌던 기존 경로다. 조작과 판정 코드는 양쪽이 공유한다.
+///
+/// 두 경로의 차이가 하나 있다. 기믹 큐가 돌릴 때는 자체 제한시간을 쓰지 않는다 —
+/// 병따기는 성공해야만 끝나고, 시간은 한 잔 전체의 제조시간으로만 재기 때문이다.
 /// </summary>
-public class CapManager : MonoBehaviour, IMiniGameController
+public class CapManager : MonoBehaviour, IMiniGameController, ICraftGimmick, ICraftGimmickProgress
 {
     [SerializeField] bool isTest = false;
 
@@ -63,10 +67,9 @@ public class CapManager : MonoBehaviour, IMiniGameController
 
     [Header("UI")]
     [SerializeField] Canvas buttonCanvas;
-    [Tooltip("제조중인 음료 명. 고리보다 위 레이어여야 한다.")]
-    [SerializeField] TMP_Text drinkNameText;
-    [SerializeField] TMP_Text attemptText;
-    [SerializeField] TMP_Text timeText;
+    // 재료명·시도 횟수·전체 시간은 공통 HUD가 그린다. 여기서는 판정 순간의 피드백만 맡는다 —
+    // PERFECT/FAIL은 고리 판정에 붙는 연출이라 공통 표시에 자리가 없다.
+    [Tooltip("성공·실패 판정 텍스트. 고리 근처에 뜨는 기믹 고유 연출이다.")]
     [SerializeField] TMP_Text judgeText;
 
     [Header("Craft Event")]
@@ -104,8 +107,10 @@ public class CapManager : MonoBehaviour, IMiniGameController
             data.targetCraft_tolerance = testLimitFailCount;
         }
 
-        // Stur와 같은 방식으로 이벤트가 정한 허용치에서 환산한다. 0이면 판정에서 0으로 나누게 되므로 최소 1을 보장한다.
-        limitFailCount = Mathf.Max(1, data.targetCraft_tolerance > 0 ? data.targetCraft_tolerance : testLimitFailCount);
+        // 기존 경로에서는 이벤트가 정한 허용치에서 환산한다. 0이면 판정에서 0으로 나누게 되므로 최소 1을 보장한다.
+        // 기믹 큐가 돌릴 때는 실패 횟수를 그대로 결과에 담고 감점은 Config가 정하므로 허용치를 쓰지 않는다.
+        int tolerance = data != null ? data.targetCraft_tolerance : 0;
+        limitFailCount = Mathf.Max(1, tolerance > 0 ? tolerance : testLimitFailCount);
 
         radius = startRadius;
         attempts = 1;
@@ -122,10 +127,7 @@ public class CapManager : MonoBehaviour, IMiniGameController
 
         if (incomingRing != null) incomingRing.SetColor(incomingColor);
 
-        if (drinkNameText != null) drinkNameText.text = data.targetCocktailData.Name;
         if (judgeText != null) judgeText.text = string.Empty;
-
-        RefreshUI();
     }
 
     void Update()
@@ -136,7 +138,10 @@ public class CapManager : MonoBehaviour, IMiniGameController
 
         elapsed += dt;
 
-        if (elapsed >= timeLimit)
+        // 기믹 큐가 돌리는 동안에는 병따기에 자체 제한시간이 없다. 병뚜껑은 열림과 닫힘의 중간
+        // 상태로 제조를 이어갈 수 없어서, 성공할 때까지 계속 시도하는 게 규칙이다. 시간은 한 잔
+        // 전체의 제조시간에만 누적되고 그 초과는 마지막에 한 번 판정한다.
+        if (!drivenByRunner && elapsed >= timeLimit)
         {
             TimeOut();
             return;
@@ -156,7 +161,6 @@ public class CapManager : MonoBehaviour, IMiniGameController
         }
 
         RefreshRing();
-        RefreshUI();
     }
 
     // ── 판정 ────────────────────────────────────────────────────────────
@@ -227,10 +231,14 @@ public class CapManager : MonoBehaviour, IMiniGameController
         if (phase == Phase.Finished) return;
 
         phase = Phase.Finished;
-        elapsed = Mathf.Min(elapsed, timeLimit);
 
-        RefreshUI();
+        // 자체 제한시간을 쓰는 기존 경로에서만 표시용으로 잘라 준다. 큐가 돌릴 때는 제한이 없어서
+        // 잘라 버리면 실제로 걸린 시간이 사라진다.
+        if (!drivenByRunner) elapsed = Mathf.Min(elapsed, timeLimit);
+
         CompleteMade();
+
+        runnerCompletion?.TrySetResult();
 
         // 실제 게임 흐름에서는 CocktailCraftManager가 완성/서빙 컷씬을 재생한 뒤 OnNextButton()을 부른다.
         // 독립 테스트 씬에는 그 흐름이 없어서, 끝났다는 신호가 없으면 그냥 멈춘 것처럼 보인다.
@@ -253,12 +261,6 @@ public class CapManager : MonoBehaviour, IMiniGameController
         // 판정 구간에 들어오면 색으로 알린다. 반지름만으로는 겹치는 순간을 눈으로 잡기 어렵다.
         bool near = phase == Phase.Approaching && Mathf.Abs(radius - targetRadius) <= judgeWindow;
         incomingRing.SetColor(near ? nearColor : incomingColor);
-    }
-
-    void RefreshUI()
-    {
-        if (attemptText != null) attemptText.text = $"시도 {attempts}회째";
-        if (timeText != null) timeText.text = $"TIME {elapsed:0.0} / {timeLimit:0.0}";
     }
 
     void PopCap()
@@ -288,11 +290,15 @@ public class CapManager : MonoBehaviour, IMiniGameController
 
     public void CompleteMade()
     {
-        data.craftingResult.isResult = true;
+        // 기믹 큐가 돌릴 때는 결과를 GimmickResult로 돌려주므로 이 저장소를 쓰지 않는다.
+        if (data != null)
+        {
+            data.craftingResult.isResult = true;
 
-        // 시간 초과는 무조건 실패다. 허용치를 넘기는 값을 넣어 백분율이 100%를 넘게 만든다.
-        data.craftingResult.actionFailCount = timedOut ? limitFailCount + 1 : FailCount;
-        data.craftingResult.limitFailCount = limitFailCount;
+            // 시간 초과는 무조건 실패다. 허용치를 넘기는 값을 넣어 백분율이 100%를 넘게 만든다.
+            data.craftingResult.actionFailCount = timedOut ? limitFailCount + 1 : FailCount;
+            data.craftingResult.limitFailCount = limitFailCount;
+        }
 
         tcs?.TrySetResult();
     }
@@ -311,4 +317,48 @@ public class CapManager : MonoBehaviour, IMiniGameController
     {
         craftRetry?.Raise(new Void());
     }
+
+    // ── ICraftGimmick ───────────────────────────────────────────────────
+
+    /// <summary>기믹 큐가 이 기믹을 돌리고 있는지. 자체 제한시간을 끄는 데 쓴다.</summary>
+    bool drivenByRunner;
+
+    UniTaskCompletionSource runnerCompletion;
+    CraftTimer craftTimer;
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    {
+        drivenByRunner = true;
+        craftTimer = timer;
+        runnerCompletion = new UniTaskCompletionSource();
+
+        // 여기서 "이미 끝났는지" 미리 보지 않는다. 이 함수는 프리팹을 띄운 직후, 아직 Start()가
+        // 돌기 전에 불려서 상태가 초기값이다. 기다림을 푸는 신호는 Finish() 한 곳에서만 나온다.
+
+        using (token.Register(() => runnerCompletion.TrySetCanceled()))
+        {
+            await runnerCompletion.Task;
+        }
+
+        // 병따기는 다음 버튼이 없다. 열려야만 끝나므로 종료 방식이 하나뿐이다.
+        return GimmickResult.Open(step.IngredientId, attempts, FailCount, opened,
+                                  craftTimer != null ? craftTimer.ElapsedSec : elapsed);
+    }
+
+    /// <summary>
+    /// 고리가 조여드는 동안에만 입력을 받는다. 성공·실패 연출을 보여주는 쿨다운 구간에서는
+    /// 눌러도 판정하지 않으므로 시간에서도 뺀다.
+    /// </summary>
+    public bool IsManualInputActive => phase == Phase.Approaching;
+
+    // ── ICraftGimmickProgress ───────────────────────────────────────────
+
+    /// <summary>몇 번째 시도인지. 병따기는 수량을 재지 않고 성공까지 걸린 횟수로 판정한다.</summary>
+    public string ProgressText => $"시도 {attempts}회째";
+
+    /// <summary>병따기에는 도달을 알릴 목표가 없다. 열리는 순간이 곧 끝이다.</summary>
+    public bool ShowOkMark => false;
+
+    // ICraftGimmickManualEnd는 구현하지 않는다. 병뚜껑은 열림과 닫힘의 중간 상태로 제조를 이어갈 수
+    // 없어서, 성공하기 전에 끝낼 방법이 없어야 한다. HUD는 이걸 보고 다음 버튼을 감춘다.
 }
