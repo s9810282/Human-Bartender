@@ -28,6 +28,13 @@ public struct TriggetEntity
     public InteractiveTriggerEntity entity;
 }
 
+[System.Serializable]
+public struct Entity
+{
+    public string id;
+    public InteractiveEntity entity;
+}
+
 /// <summary>테스트 모드에서 강제로 세팅할 플래그 값.</summary>
 [System.Serializable]
 public struct TestFlag
@@ -51,10 +58,15 @@ public class InteractiveEntityManager : MonoBehaviour
     [Header("Data")]
     [SerializeField] protected OutsideObjectDataSO obejctData;
     [SerializeField] protected OutsideTriggerCutSceneSO triggerData;
+    //=================================================================
+    [SerializeField] protected NewInteractPointDataSO InteractPointData;
+    [SerializeField] protected NewStreetDataSO streetData;
+    [SerializeField] protected NewSpotDataSO SpotData;
 
     [SerializeField] protected List<ObjectEntity> obejcts;
     [SerializeField] protected List<NPCEntity> npcs;
     [SerializeField] protected List<TriggetEntity> triggers;
+    [SerializeField] protected List<Entity> entities;
 
     [Header("Player")]
     [SerializeField] GameObject player;
@@ -106,153 +118,177 @@ public class InteractiveEntityManager : MonoBehaviour
 
 
         RefreshEntity();
+        Debug.Log(conditionUtil.Check("day == 2 && !flag.d3_cat_seen"));
     }
 
 
-
-    /// <summary>
-    /// 오브젝트/NPC/트리거 세 종류의 엔티티 각각에 대해 스폰 여부(활성화)와 조건에 맞는 대사(FlowData)를 재계산해 주입한다.
-    /// 씬 진입 시, 또는 대화/조건 변경 이벤트(OnRefreshCondition) 발생 시 호출된다.
-    /// </summary>
     public void RefreshEntity()
     {
-        /*
-        //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
-        foreach (var entity in obejcts)
+        foreach (var entity in entities)
         {
-            bool isSpawn = false;
-
-            if (obejctData.outsideObjects[entity.id].Day == null) isSpawn = true;
-            else if (obejctData.outsideObjects[entity.id].Day == GameStateManager.Instance.CurrentDay) isSpawn = true;
-            else isSpawn = false;
-
-            entity.entity.IsAvaliable = isSpawn;
-            entity.entity.gameObject.SetActive(isSpawn);
-
-            if (!isSpawn) continue;
-
-            List<FlowData> flowData = new();
-            ESelectionType targetSelection = ESelectionType.Sequential;
-
-            foreach (var item in obejctData.outsideObjects[entity.id].FlowData)
+            //데이터를 캐싱 실패시 로그 반환
+            if(!InteractPointData.TryGetData(entity.id,out NewInteractPointData curdata))
             {
-                if (item.Conditions == null) flowData.Add(item);
-                else if (CheckCondition(item.Conditions)) flowData.Add(item);
+                Debug.Log($"{entity.id}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                continue;
             }
-
-            targetSelection = obejctData.outsideObjects[entity.id].Selection.Type;
-            entity.entity.EntityLabel = obejctData.outsideObjects[entity.id].InteractLabel;
-            entity.entity.InjectDialogue(flowData, targetSelection);
-        }
-
-        foreach (var entity in npcs)
-        {
-            //날짜, 출퇴근이 맞고, 스폰 조건이 맞으면 스폰,
-            //인터렉션 여부는 flow로 결정. 조건이 맞는 flow가 여러개면 
-            //curDay랑, Selection 기준으로 주입 변경.
-
-            bool isSpawn = false;
-            List<FlowData> flowData = new();
-            ESelectionType targetSelection = ESelectionType.Sequential;
-
-            //날짜, 출퇴근 상태가 안맞다면 검사 필요 X
-            foreach (var days in entity.data.dayData.Days)
-            {
-                if (days.Day != GameStateManager.Instance.CurrentDay) continue;
-                if (days.Route != GameStateManager.Instance.GameFlow) continue;
-
-                isSpawn = CheckCondition(days.SpawnCondotion);
-
-                if (isSpawn)
-                {
-                    targetSelection = days.Selection.Type;
-
-                    foreach (var item in days.FlowData)
-                    {
-                        if (item.Conditions == null) flowData.Add(item);
-                        else if (item.Conditions.Value.Conditions != null)
-                        {
-                            bool isCheck = true;
-                            foreach (var condition in item.Conditions.Value.Conditions)
-                            {
-                                if (CheckCondition(condition) == false)
-                                {
-                                    isCheck = false;
-                                    break;
-                                }
-                            }
-
-                            if (isCheck == false)
-                            {
-                                continue;
-                            }
-
-                            flowData.Add(item);
-                        }
-                        else if (CheckCondition(item.Conditions)) flowData.Add(item);
-                    }
-                }
-            }
-
-            entity.entity.gameObject.SetActive(isSpawn);
-
-            if (flowData.Count > 0)
-            {
-                entity.entity.IsAvaliable = true;
-                entity.entity.EntityLabel = entity.data.dayData.InteractData.Value.Label;
-                entity.entity.InjectDialogue(flowData, targetSelection);
-            }
-            else
+            //콘디션이 맞지않다면 엔티티를 비활성화후 탈출
+            if (!conditionUtil.Check(curdata.When))
             {
                 entity.entity.IsAvaliable = false;
+                continue;
             }
-        }
-
-
-        foreach (var entity in triggers)
-        {
-            bool isSpawn = false;
-
-            CutSceneEventData data = triggerData.cutSceneEventDic[entity.id];
-
-            //날짜 및 출퇴근 시간이 맞지 않는 다면. false
-            if (data.Day != GameStateManager.Instance.CurrentDay) isSpawn = false;
-            else  if (data.timing != GameStateManager.Instance.GameFlow) isSpawn = false;
-
-
-            //조건이 없으면 true
-            else if (data.Conditions == null) isSpawn = true;
-            //조건이 and라면 conditions 계산.
-            else if (data.Conditions.Value.Type == EConditionCheckType.And)
+            entity.entity.IsAvaliable = true;
+            //스팟데이터를 참조 위치를 변경
+            if(!SpotData.TryGetData(curdata.Spot,out NewSpotData spotdata))
             {
-                bool isCheck = true;
-                foreach (var condition in data.Conditions.Value.Conditions)
-                {
-                    if (CheckCondition(condition) == false)
-                    {
-                        isCheck = false;
-                        break;
-                    }
-                }
-
-                if (isCheck == false) continue;
+                Debug.Log($"{entity.id}가{curdata.Spot}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                continue;
             }
-
-            else if (CheckCondition(data.Conditions)) isSpawn = true;
-
-            if (resolver == null)
-            {
-                Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
-            }
-
-            resolver.Inject(entity.entity);
-
-            entity.entity.gameObject.SetActive(isSpawn);
-            entity.entity.SetId(data.CutSceneId);
-            entity.entity.IsAvaliable = isSpawn;
+            entity.entity.transform.position = spotdata.Position;
+            entity.entity.transform.rotation = spotdata.Rotation;
         }
-        */
     }
+
+    /*
+public void RefreshEntity()
+{
+    //Day가 null이면 늘 인터렉션 가능, 아닐 경우 적힌 날짜에만.
+    foreach (var entity in obejcts)
+    {
+        bool isSpawn = false;
+
+        if (obejctData.outsideObjects[entity.id].Day == null) isSpawn = true;
+        else if (obejctData.outsideObjects[entity.id].Day == GameStateManager.Instance.CurrentDay) isSpawn = true;
+        else isSpawn = false;
+
+        entity.entity.IsAvaliable = isSpawn;
+        entity.entity.gameObject.SetActive(isSpawn);
+
+        if (!isSpawn) continue;
+
+        List<FlowData> flowData = new();
+        ESelectionType targetSelection = ESelectionType.Sequential;
+
+        foreach (var item in obejctData.outsideObjects[entity.id].FlowData)
+        {
+            if (item.Conditions == null) flowData.Add(item);
+            else if (CheckCondition(item.Conditions)) flowData.Add(item);
+        }
+
+        targetSelection = obejctData.outsideObjects[entity.id].Selection.Type;
+        entity.entity.EntityLabel = obejctData.outsideObjects[entity.id].InteractLabel;
+        entity.entity.InjectDialogue(flowData, targetSelection);
+    }
+
+    foreach (var entity in npcs)
+    {
+        //날짜, 출퇴근이 맞고, 스폰 조건이 맞으면 스폰,
+        //인터렉션 여부는 flow로 결정. 조건이 맞는 flow가 여러개면 
+        //curDay랑, Selection 기준으로 주입 변경.
+
+        bool isSpawn = false;
+        List<FlowData> flowData = new();
+        ESelectionType targetSelection = ESelectionType.Sequential;
+
+        //날짜, 출퇴근 상태가 안맞다면 검사 필요 X
+        foreach (var days in entity.data.dayData.Days)
+        {
+            if (days.Day != GameStateManager.Instance.CurrentDay) continue;
+            if (days.Route != GameStateManager.Instance.GameFlow) continue;
+
+            isSpawn = CheckCondition(days.SpawnCondotion);
+
+            if (isSpawn)
+            {
+                targetSelection = days.Selection.Type;
+
+                foreach (var item in days.FlowData)
+                {
+                    if (item.Conditions == null) flowData.Add(item);
+                    else if (item.Conditions.Value.Conditions != null)
+                    {
+                        bool isCheck = true;
+                        foreach (var condition in item.Conditions.Value.Conditions)
+                        {
+                            if (CheckCondition(condition) == false)
+                            {
+                                isCheck = false;
+                                break;
+                            }
+                        }
+
+                        if (isCheck == false)
+                        {
+                            continue;
+                        }
+
+                        flowData.Add(item);
+                    }
+                    else if (CheckCondition(item.Conditions)) flowData.Add(item);
+                }
+            }
+        }
+
+        entity.entity.gameObject.SetActive(isSpawn);
+
+        if (flowData.Count > 0)
+        {
+            entity.entity.IsAvaliable = true;
+            entity.entity.EntityLabel = entity.data.dayData.InteractData.Value.Label;
+            entity.entity.InjectDialogue(flowData, targetSelection);
+        }
+        else
+        {
+            entity.entity.IsAvaliable = false;
+        }
+    }
+
+
+    foreach (var entity in triggers)
+    {
+        bool isSpawn = false;
+
+        CutSceneEventData data = triggerData.cutSceneEventDic[entity.id];
+
+        //날짜 및 출퇴근 시간이 맞지 않는 다면. false
+        if (data.Day != GameStateManager.Instance.CurrentDay) isSpawn = false;
+        else  if (data.timing != GameStateManager.Instance.GameFlow) isSpawn = false;
+
+
+        //조건이 없으면 true
+        else if (data.Conditions == null) isSpawn = true;
+        //조건이 and라면 conditions 계산.
+        else if (data.Conditions.Value.Type == EConditionCheckType.And)
+        {
+            bool isCheck = true;
+            foreach (var condition in data.Conditions.Value.Conditions)
+            {
+                if (CheckCondition(condition) == false)
+                {
+                    isCheck = false;
+                    break;
+                }
+            }
+
+            if (isCheck == false) continue;
+        }
+
+        else if (CheckCondition(data.Conditions)) isSpawn = true;
+
+        if (resolver == null)
+        {
+            Debug.LogError("DI 에러] DialogueManager가 resolver를 받지 못했습니다!");
+        }
+
+        resolver.Inject(entity.entity);
+
+        entity.entity.gameObject.SetActive(isSpawn);
+        entity.entity.SetId(data.CutSceneId);
+        entity.entity.IsAvaliable = isSpawn;
+    }
+}
+    */
 
     /// <summary>
     /// OutsideCondition(오브젝트/NPC 스폰 조건용) 하나를 검사한다. null이면 항상 통과.

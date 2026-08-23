@@ -43,6 +43,7 @@ public enum ENewSceneTrigger
     [EnumMember(Value = "interact")] Interact,
     [EnumMember(Value = "cameo")] Cameo,
     [EnumMember(Value = "manual")] Manual,
+    [EnumMember(Value = "proximity")] Proximity
 }
 
 /// <summary>캐릭터의 등장 역할군을 나타내는 열거형.</summary>

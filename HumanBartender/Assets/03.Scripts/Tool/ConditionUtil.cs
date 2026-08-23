@@ -72,6 +72,7 @@ public class ConditionUtil : IConditionUtil
 
             // 3. 수식 계산
             object evalResult = _dataTable.Compute(parsedExpression, string.Empty);
+            Debug.Log($"[ConditionEvaluator] 조건 평가 성공 | 원본: \"{when}\" -> 평가식: \"{parsedExpression}\" => 결과: {evalResult}");
             return Convert.ToBoolean(evalResult);
         }
         catch (Exception ex)
