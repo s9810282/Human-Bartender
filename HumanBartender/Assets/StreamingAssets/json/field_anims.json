@@ -67,7 +67,7 @@
     "action": "idle",
     "resource_key": "Ch/Bubi/cat_animation-Sheet",
     "status": "OK",
-    "note": "거리 배회·발견 이벤트"
+    "note": "거리 고양이 전신 표시·배회"
   },
   {
     "character_id": "shiba",
@@ -105,13 +105,6 @@
     "note": "테라스 대화·day1 퇴근길 동행에 필요 — 대화를 초상만으로 처리하면 불필요(연출 결정 대기)"
   },
   {
-    "character_id": "vendor",
-    "action": "idle",
-    "resource_key": "(미제작)",
-    "status": "신규필요",
-    "note": "노점상 — 거리 상호작용 NPC"
-  },
-  {
     "character_id": "haru",
     "action": "idle",
     "resource_key": "(미제작)",
@@ -124,5 +117,33 @@
     "resource_key": "(미제작)",
     "status": "신규필요",
     "note": "배드엔딩 엘리베이터 연출에 필요"
+  },
+  {
+    "character_id": "street_citizen_a",
+    "action": "idle",
+    "resource_key": "QA/Street/citizen_a_idle",
+    "status": "플레이스홀더",
+    "note": "Day 99 NPC 대화 구현 검증용"
+  },
+  {
+    "character_id": "street_citizen_b",
+    "action": "idle",
+    "resource_key": "QA/Street/citizen_b_idle",
+    "status": "플레이스홀더",
+    "note": "Day 99 NPC 대화 구현 검증용"
+  },
+  {
+    "character_id": "street_citizen_c",
+    "action": "idle",
+    "resource_key": "QA/Street/citizen_c_idle",
+    "status": "플레이스홀더",
+    "note": "Day 99 NPC 독백 구현 검증용"
+  },
+  {
+    "character_id": "street_citizen_d",
+    "action": "idle",
+    "resource_key": "QA/Street/citizen_d_idle",
+    "status": "플레이스홀더",
+    "note": "Day 99 선택지 구현 검증용"
   }
 ]
