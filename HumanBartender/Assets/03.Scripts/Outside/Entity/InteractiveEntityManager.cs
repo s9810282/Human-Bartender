@@ -147,6 +147,17 @@ public class InteractiveEntityManager : MonoBehaviour
             }
             entity.entity.transform.position = spotdata.Position;
             entity.entity.transform.rotation = spotdata.Rotation;
+            //엔티티의 행동 변수 조정
+            entity.entity.kind = curdata.Kind;
+            entity.entity.phase = curdata.Phase;
+            entity.entity.trigger = curdata.Trigger;
+            entity.entity.selection = curdata.Selection;
+            if (!streetData.TryGetSceneData(curdata.SceneOrShop,out NewSceneData sceneData))
+            {
+                Debug.Log($"{entity.id}가{curdata.SceneOrShop}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                continue;
+            }
+
         }
     }
 

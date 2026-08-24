@@ -21,6 +21,10 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     public bool IsAvaliable { get => isAvaliable; set => isAvaliable = value; }
     public string EntityLabel { get => label; set => label = value; }
 
+    public ENewInteractKind kind;
+    public ENewInteractPhase phase;
+    public ENewSceneTrigger trigger;
+    public ENewSelectionMode selection;
 
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;

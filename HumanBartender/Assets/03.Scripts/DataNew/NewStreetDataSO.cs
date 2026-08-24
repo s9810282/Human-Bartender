@@ -16,7 +16,9 @@ public struct Step
     [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
     [field: SerializeField][JsonProperty("type")] public ENewStepType Type { get; set; }
     [field: SerializeField][JsonProperty("actor")] public string Actor { get; set; }
+    [field: SerializeField][JsonProperty("dialogue_id")] public string Dialogue_id { get; set; }
     [field: SerializeField][JsonProperty("arg")] public string Arg { get; set; }
+    
     [field: SerializeField][JsonProperty("text")] public Texts? Text { get; set; }
     [field: SerializeField][JsonProperty("when")] public string When { get; set; }
     [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
