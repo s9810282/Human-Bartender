@@ -270,46 +270,12 @@
     "exit_sfx": null
   },
   {
-    "id": "vendor",
-    "name": {
-      "ko": "완",
-      "en": "Wan"
-    },
-    "name_color": "#cccccc",
-    "role": "npc_street",
-    "affinity": false,
-    "alive_flag": null,
-    "expressions": [
-      "default"
-    ],
-    "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
-  },
-  {
     "id": "radio",
     "name": {
-      "ko": "라디오",
-      "en": "Radio"
+      "ko": "아나운서",
+      "en": "Announcer"
     },
     "name_color": "#9ad0a0",
-    "role": "npc_street",
-    "affinity": false,
-    "alive_flag": null,
-    "expressions": [
-      "default"
-    ],
-    "base_body": null,
-    "enter_sfx": null,
-    "exit_sfx": null
-  },
-  {
-    "id": "sign",
-    "name": {
-      "ko": "표기",
-      "en": "Sign"
-    },
-    "name_color": "#9aa2b5",
     "role": "npc_street",
     "affinity": false,
     "alive_flag": null,
@@ -328,6 +294,74 @@
     },
     "name_color": "#888888",
     "role": "cutscene",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "street_citizen_a",
+    "name": {
+      "ko": "행인 A",
+      "en": "Passerby A"
+    },
+    "name_color": "#b9c4d0",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "street_citizen_b",
+    "name": {
+      "ko": "행인 B",
+      "en": "Passerby B"
+    },
+    "name_color": "#c7b8a8",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "street_citizen_c",
+    "name": {
+      "ko": "행인 C",
+      "en": "Passerby C"
+    },
+    "name_color": "#aeb9a8",
+    "role": "npc_street",
+    "affinity": false,
+    "alive_flag": null,
+    "expressions": [
+      "default"
+    ],
+    "base_body": null,
+    "enter_sfx": null,
+    "exit_sfx": null
+  },
+  {
+    "id": "street_citizen_d",
+    "name": {
+      "ko": "행인 D",
+      "en": "Passerby D"
+    },
+    "name_color": "#b5a9c8",
+    "role": "npc_street",
     "affinity": false,
     "alive_flag": null,
     "expressions": [

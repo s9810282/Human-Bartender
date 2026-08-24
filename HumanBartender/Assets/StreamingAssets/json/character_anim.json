@@ -406,14 +406,6 @@
       "parts": null
     }
   },
-  "vendor": {
-    "default": {
-      "mode": "sprite",
-      "sprite": "vendor_default",
-      "talk_anim": false,
-      "parts": null
-    }
-  },
   "common": {
     "default": {
       "mode": "sprite",
@@ -460,6 +452,38 @@
     "annoyingR": {
       "mode": "sprite",
       "sprite": "guest_annoyingR",
+      "talk_anim": false,
+      "parts": null
+    }
+  },
+  "street_citizen_a": {
+    "default": {
+      "mode": "sprite",
+      "sprite": "qa_street_citizen_a_default",
+      "talk_anim": false,
+      "parts": null
+    }
+  },
+  "street_citizen_b": {
+    "default": {
+      "mode": "sprite",
+      "sprite": "qa_street_citizen_b_default",
+      "talk_anim": false,
+      "parts": null
+    }
+  },
+  "street_citizen_c": {
+    "default": {
+      "mode": "sprite",
+      "sprite": "qa_street_citizen_c_default",
+      "talk_anim": false,
+      "parts": null
+    }
+  },
+  "street_citizen_d": {
+    "default": {
+      "mode": "sprite",
+      "sprite": "qa_street_citizen_d_default",
       "talk_anim": false,
       "parts": null
     }

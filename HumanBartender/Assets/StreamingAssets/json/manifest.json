@@ -1,7 +1,7 @@
 {
   "bundle_contract_version": "1.0.0",
-  "data_schema_version": "2.5.0",
-  "bundle_sha256": "802a5301b5bdf3c1b3767631a234b798ac9ccce97744e9753fa3120fdc1cddbe",
+  "data_schema_version": "2.6.0",
+  "bundle_sha256": "39e667711245a8eb9ef566195dac27e12f7bc3f06798ee96510cb4c137065476",
   "production_files": [
     "balance.json",
     "bark_situations.json",
@@ -32,10 +32,13 @@
     "spots.json",
     "tastes.json",
     "text_tags.json",
+    "transitions.json",
     "ui_strings.json"
   ],
   "qa_files": [
-    "script/bar/day99.json"
+    "qa/interact_points_day99.json",
+    "script/bar/day99.json",
+    "script/qa/street_day99.json"
   ],
   "compatibility": {
     "preferred_cocktail_fields": [
@@ -51,7 +54,7 @@
   },
   "files": {
     "balance.json": {
-      "sha256": "c1d2df773350ba86a7f034515d3e17cc4cc3e6ac71e3f99c94197fda9574c31a",
+      "sha256": "12be14d6d028cbcac68c88f4e127cac5fdbce4a6d2f04a51d9b0f7294c21cc6b",
       "bytes": 6844
     },
     "bark_situations.json": {
@@ -63,20 +66,20 @@
       "bytes": 35922
     },
     "character_anim.json": {
-      "sha256": "b229893c62b69afcd686e3f6ef303291cb10234227d8362389246c8253ca6a61",
-      "bytes": 9990
+      "sha256": "a76e2f1b6f81e49ee5c8d752a6479237b360daf7c3253af96e75ddb267441407",
+      "bytes": 10520
     },
     "characters.json": {
-      "sha256": "43789afa6e20a6a864775cfe77c0065a555c5e2fee00541c08c361ba1a20f28b",
-      "bytes": 6359
+      "sha256": "07fc6d7fcfe98da5c405e765bc18c5712c5fa763a9cf88c9d4d429c4a36425dd",
+      "bytes": 7052
     },
     "cocktails.json": {
       "sha256": "d22ac15b999d8c4f18259179dba70f2eb41f12130113155f16f381bab02a9619",
       "bytes": 55594
     },
     "cutscenes.json": {
-      "sha256": "a9204e960eab36fc61cac8ef411325f5c905455d30ef08450db87fe5bcdc3b20",
-      "bytes": 3415
+      "sha256": "e8dbaf5d038eab5effb52dcc6b4fb8465c78f257d6115494a5690437390d50e1",
+      "bytes": 3540
     },
     "days.json": {
       "sha256": "365e25fc79218690bfb30136404cd13dc46df1524ff00532b4c6f7d9c40c0e5f",
@@ -91,16 +94,16 @@
       "bytes": 991
     },
     "field_anims.json": {
-      "sha256": "475fee40ddc102b3efec87416c2bf66cddce8e94a17752840372ecca1ef69807",
-      "bytes": 3152
+      "sha256": "e4188cd1c6de4a0be3f396b7d9a6139637d70ca8d2e97dc2adf61e1b5890ce94",
+      "bytes": 3796
     },
     "guest_bodies.json": {
       "sha256": "1ea4bef16d6426bd163b7fed5f84667caddbbaf7a21acd2004c29789cbf9377f",
       "bytes": 7862
     },
     "interact_points.json": {
-      "sha256": "d60788d7dba1b0dbb0bf5c377de2940e444323568c848276ea0dd31db7443024",
-      "bytes": 1894
+      "sha256": "c0ede4f1694a611a54e5f82d55f8f7f4b929eecafdfcd5683c56c4e08da880e3",
+      "bytes": 2951
     },
     "order_rules.json": {
       "sha256": "b945576013a6a29e9206fd20326bd6b9dd2f38f42cb1b7b787db5ee7d445b93a",
@@ -109,6 +112,10 @@
     "personalities.json": {
       "sha256": "911e6e7f982ed65fd820bf155fd792943dc133265d35bc94f9e88e127c28a5e8",
       "bytes": 833
+    },
+    "qa/interact_points_day99.json": {
+      "sha256": "dabbc7216ac60996f2c9fec322de04058edb19068b0e2540871bda84423e75d0",
+      "bytes": 5690
     },
     "quests.json": {
       "sha256": "4e27bfc6e8adbde7a2d68b7d382d8ccaf68522c374f0db98f3c414a639a01c60",
@@ -150,17 +157,21 @@
       "sha256": "4c4b5d13b3e277322a42a63e44d66f067774d235d70f3c7f344185aff7170dfd",
       "bytes": 19371
     },
+    "script/qa/street_day99.json": {
+      "sha256": "2ca5affc77be44fb0de4e8cbbe370adf8c5d31e1c17115f802ac9d68bbadda64",
+      "bytes": 17754
+    },
     "script/street.json": {
-      "sha256": "e30d42f7cf29ee8d47487568abe75ffd3ffd1b66417ffdb9baa7a1f68a832237",
-      "bytes": 28222
+      "sha256": "133bb5e75e61eabb7e97ee5722d14e6fa09f0f1c089a5346931323e2f2e0f1ad",
+      "bytes": 15779
     },
     "shelf_items.json": {
-      "sha256": "e662a72858feb5f1ef9057f39bcb1a2432a1d4fffa0db1ed5281cd1d881eadf8",
-      "bytes": 27463
+      "sha256": "83e3f875ba51dc32c01d9a3d55343989798fd04e301937af1b136ea98a820c91",
+      "bytes": 28760
     },
     "spots.json": {
-      "sha256": "aa11ec9575826d5ec25f83507ead2529c2e59dcef5b57c070cdaaae75b141fe7",
-      "bytes": 1136
+      "sha256": "14f9e9fcc08e4887370912296f1ba440c60bbc70a210a193f6cd70bcf9cac791",
+      "bytes": 2028
     },
     "tastes.json": {
       "sha256": "d313bb0e92772d178d33f3bca4bc5d5b81b2cb8f5f031e2bb44fde75c0f00d97",
@@ -170,9 +181,13 @@
       "sha256": "df4689ce54b8dc8e60e326f1c2bb3e41bf5f72f697d7ea9c558465a92b6b21f0",
       "bytes": 417
     },
+    "transitions.json": {
+      "sha256": "5a6f193f7deeb3c4a9ad247a3006252583b1fb4aa2182e485f64748f34899c34",
+      "bytes": 477
+    },
     "ui_strings.json": {
-      "sha256": "384b20fa91487e49e04f22ba8c68958bc110b76b23722e2e29deeec296381b80",
-      "bytes": 4723
+      "sha256": "f834d027436b7282060b57d95536971caf1d896385eb177c831c83f50778526a",
+      "bytes": 5643
     }
   }
 }

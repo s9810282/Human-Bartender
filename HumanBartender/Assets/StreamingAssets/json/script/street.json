@@ -6,11 +6,12 @@
       "day": null,
       "phase": "street",
       "seq": 1,
-      "trigger": "interact",
       "when": "!flag.shiba_met",
       "title": "[이식] 시바 첫 조우 (구 first_encounter)",
       "skippable": false,
       "group": "np_shiba",
+      "start_mode": "referenced",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 1,
@@ -187,11 +188,12 @@
       "day": null,
       "phase": "street",
       "seq": 1,
-      "trigger": "interact",
       "when": null,
       "title": "전단 — 알바 공고 (포스터 뷰, 적힌 정보만)",
       "skippable": false,
       "group": null,
+      "start_mode": "referenced",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 1,
@@ -214,11 +216,12 @@
       "day": null,
       "phase": "street",
       "seq": 1,
-      "trigger": "interact",
       "when": null,
       "title": "임상시험 전단 — 코라테크 복선 (포스터 뷰)",
       "skippable": false,
       "group": null,
+      "start_mode": "referenced",
+      "on_complete_effects": "flag.seen_coratech_ad = true",
       "steps": [
         {
           "seq": 1,
@@ -231,7 +234,7 @@
             "en": "CLINICAL TRIAL PARTICIPANTS WANTED · neural network analysis · CoraTech Inc. · 070*8812*0031"
           },
           "when": null,
-          "effects": "flag.seen_coratech_ad = true",
+          "effects": null,
           "sync": "wait"
         }
       ]
@@ -241,11 +244,12 @@
       "day": null,
       "phase": "street",
       "seq": 2,
-      "trigger": "interact",
       "when": "flag.shiba_met && day >= 2",
       "title": "[더미] 시바 — 거리 선택지 데모 (조건 항목·goto 포함)",
       "skippable": false,
       "group": "np_shiba",
+      "start_mode": "referenced",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 1,
@@ -321,11 +325,12 @@
       "day": null,
       "phase": "street",
       "seq": 3,
-      "trigger": "interact",
       "when": null,
       "title": "[이식] 시바 반복 대사 (구 revisit_repeat)",
       "skippable": false,
       "group": "np_shiba",
+      "start_mode": "referenced",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 1,
@@ -404,11 +409,12 @@
       "day": null,
       "phase": "street",
       "seq": 4,
-      "trigger": "manual",
       "when": null,
       "title": "[더미] 시바 — 간식 goto 결과 씬",
       "skippable": false,
       "group": null,
+      "start_mode": "manual",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 1,
@@ -431,11 +437,12 @@
       "day": 0,
       "phase": "commute_out",
       "seq": 2,
-      "trigger": "auto",
       "when": null,
-      "title": "퇴근길 엘리베이터 — 라디오 뉴스 (구엔진 elevator_radio 이식)",
+      "title": "퇴근길 엘리베이터 — 범위 진입 시 자동 출력되는 아나운서 뉴스",
       "skippable": false,
       "group": null,
+      "start_mode": "referenced",
+      "on_complete_effects": null,
       "steps": [
         {
           "seq": 2,
@@ -510,480 +517,26 @@
       ]
     },
     {
-      "id": "d2_vendor_intro",
-      "day": 1,
-      "phase": "commute_in",
-      "seq": 0,
-      "trigger": "interact",
-      "when": null,
-      "title": "노점상 완 — 인사 + 상자 퀘스트",
-      "skippable": false,
-      "group": null,
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "vendor",
-          "dialogue_id": "dlg_d2_vendor_intro_001",
-          "arg": "idle",
-          "text": {
-            "ko": "오, 새 얼굴. 언노운의 새 알바가 너구나? 크리스한테 얘기 들었다.",
-            "en": "Oh, a new face. You're Unknown's new hire, aren't you? Chris told me about you."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d2_vendor_intro_002",
-          "arg": "idle",
-          "text": {
-            "ko": "…안녕하세요. 루나입니다.",
-            "en": "...Hello. I'm Luna."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "vendor",
-          "dialogue_id": "dlg_d2_vendor_intro_003",
-          "arg": "idle",
-          "text": {
-            "ko": "난 완. 이 노점 주인이다. 과일이든 탄산이든, 재료가 떨어지면 나한테 와라.",
-            "en": "Name's Wan. I run this stall. Fruit, fizz, whatever — when you run out of stock, come to me."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d2_meet",
-      "day": 1,
-      "phase": "commute_in",
-      "seq": 2,
-      "trigger": "auto",
-      "when": null,
-      "title": "출근길 — 삼호와 시바견",
-      "skippable": false,
-      "group": null,
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d2_meet_001",
-          "arg": "idle",
-          "text": {
-            "ko": "어? 너, 그 언노운의 새 바텐더 아냐?",
-            "en": "Huh? You're that new bartender at Unknown, right?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d2_meet_002",
-          "arg": "idle",
-          "text": {
-            "ko": "맞습니다. 당신은…",
-            "en": "That's right. And you are..."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d2_meet_003",
-          "arg": "idle",
-          "text": {
-            "ko": "삼호! 이 구역 애니멀 갱의 미래지. 기억해 둬.",
-            "en": "Samho! The future of the Animal Gang in this district. Remember it."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "shiba",
-          "dialogue_id": "dlg_d2_meet_004",
-          "arg": "idle",
-          "text": {
-            "ko": "시끄러워, 시바.",
-            "en": "Too loud, shiba."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "shiba",
-          "dialogue_id": "dlg_d2_meet_005",
-          "arg": "idle",
-          "text": {
-            "ko": "뭘 봐. 처음 봐, 시바?",
-            "en": "What're you looking at. Never seen one before, shiba?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d2_meet_006",
-          "arg": "idle",
-          "text": {
-            "ko": "하하, 얘는 시바. 말버릇은 저래도 나쁜 녀석은 아냐.",
-            "en": "Haha, this is Shiba. Foul mouth, decent guy."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "shiba",
-          "dialogue_id": "dlg_d2_meet_007",
-          "arg": "idle",
-          "text": {
-            "ko": "네가 나쁜 놈이 아닌 거겠지, 시바.",
-            "en": "You mean YOU'RE the decent one, shiba."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d2_meet_008",
-          "arg": "idle",
-          "text": {
-            "ko": "아무튼! 조만간 그 가게에 들를 거니까, 맛있는 거 준비해 둬!",
-            "en": "Anyway! I'll drop by that bar of yours soon — have something good ready!"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
       "id": "d3_alley_cat",
       "day": 2,
       "phase": "commute_in",
       "seq": 0,
-      "trigger": "interact",
       "when": null,
-      "title": "골목의 노란 꼬리",
+      "title": "골목의 고양이",
       "skippable": false,
       "group": null,
+      "start_mode": "referenced",
+      "on_complete_effects": "flag.d3_cat_seen = true",
       "steps": [
         {
           "seq": 1,
           "type": "say",
-          "actor": "sign",
+          "actor": "bubi",
           "dialogue_id": "dlg_d3_alley_cat_001",
           "arg": null,
           "text": {
             "ko": "냐옹.",
             "en": "Meow."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "effect",
-          "actor": null,
-          "dialogue_id": null,
-          "arg": null,
-          "text": null,
-          "when": null,
-          "effects": "flag.d3_cat_seen = true",
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_samho_death",
-      "day": 3,
-      "phase": "commute_out",
-      "seq": 2,
-      "trigger": "auto",
-      "when": "flag.samho_death_route",
-      "title": "…골목의 삼호 (사망 목격 — 데모 컷)",
-      "skippable": false,
-      "group": null,
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_001",
-          "arg": "idle",
-          "text": {
-            "ko": "(…골목이 소란스럽— 아니. 조용하다. 너무.)",
-            "en": "(...The alley is loud— no. It's quiet. Too quiet.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_002",
-          "arg": "idle",
-          "text": {
-            "ko": "(…삼호?)",
-            "en": "(...Samho?)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_003",
-          "arg": "idle",
-          "text": {
-            "ko": "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)",
-            "en": "(He's slumped against the alley wall...\nNot moving.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_004",
-          "arg": "idle",
-          "text": {
-            "ko": "(손에… 노란 꽃이 쥐여 있다.)",
-            "en": "(In his hand... a yellow flower.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_005",
-          "arg": "idle",
-          "text": {
-            "ko": "삼호. …삼호?",
-            "en": "Samho. ...Samho?"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_006",
-          "arg": "idle",
-          "text": {
-            "ko": "(………)",
-            "en": "(.........)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_007",
-          "arg": "idle",
-          "text": {
-            "ko": "(반응이 없다. 체온이… 내려가 있다.)",
-            "en": "(No response. His body temperature... is falling.)"
-          },
-          "when": null,
-          "effects": "alive.samho = false",
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_death_008",
-          "arg": "idle",
-          "text": {
-            "ko": "(…내가 따라준, 마지막 잔이 생각났다.)",
-            "en": "(...I thought of the last glass I poured him.)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d3_samho_rescue",
-      "day": 3,
-      "phase": "commute_out",
-      "seq": 2,
-      "trigger": "auto",
-      "when": "flag.samho_refused_drink",
-      "title": "도움 요청 — 삼호 구출",
-      "skippable": false,
-      "group": null,
-      "steps": [
-        {
-          "seq": 1,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d3_samho_rescue_001",
-          "arg": "idle",
-          "text": {
-            "ko": "…루나! 루나 맞지?!",
-            "en": "...Luna! Luna, that's you, right?!"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 2,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_rescue_002",
-          "arg": "idle",
-          "text": {
-            "ko": "삼호? 무슨 일—",
-            "en": "Samho? What's going—"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 3,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d3_samho_rescue_003",
-          "arg": "idle",
-          "text": {
-            "ko": "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.",
-            "en": "Shh— quiet. ...The Magarov crew hit our turf."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 4,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d3_samho_rescue_004",
-          "arg": "idle",
-          "text": {
-            "ko": "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.",
-            "en": "The hideout's gone. I got my siblings out in time...\nbut they're after me now."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 5,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_rescue_005",
-          "arg": "idle",
-          "text": {
-            "ko": "다친 겁니까? 팔이—",
-            "en": "Are you hurt? Your arm—"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 6,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d3_samho_rescue_006",
-          "arg": "idle",
-          "text": {
-            "ko": "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.",
-            "en": "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 7,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_rescue_007",
-          "arg": "idle",
-          "text": {
-            "ko": "(…크리스 씨한테 혼날지도 모른다. 하지만—)",
-            "en": "(...Chris might be furious. But—)"
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 8,
-          "type": "say",
-          "actor": "luna",
-          "dialogue_id": "dlg_d3_samho_rescue_008",
-          "arg": "idle",
-          "text": {
-            "ko": "따라오세요.",
-            "en": "Follow me."
-          },
-          "when": null,
-          "effects": null,
-          "sync": "wait"
-        },
-        {
-          "seq": 9,
-          "type": "say",
-          "actor": "samho",
-          "dialogue_id": "dlg_d3_samho_rescue_009",
-          "arg": "idle",
-          "text": {
-            "ko": "…고마워. 진짜로.",
-            "en": "...Thank you. Really."
           },
           "when": null,
           "effects": null,
@@ -1011,10 +564,13 @@
           "ko": "간식 좀 드릴까요?",
           "en": "Want a little treat?"
         },
-        "when": null,
-        "effects": "flag.shiba_fed = true",
+        "when": "flag.has_snack",
+        "effects": "flag.has_snack = false; flag.shiba_fed = true",
         "goto": "np_shiba_treat",
-        "lock_reason": null
+        "lock_reason": {
+          "ko": "줄 수 있는 간식이 없습니다.",
+          "en": "You don't have a treat to give."
+        }
       }
     ]
   }
