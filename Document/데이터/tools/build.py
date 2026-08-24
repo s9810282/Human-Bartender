@@ -24,7 +24,6 @@ from openpyxl import load_workbook
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_luna_data as G
 
-
 def write_optional_manifest():
     """기존 로더와 무관한 선택적 배포 목록. 파일 누락·QA 혼입을 검수할 때 사용한다."""
     jdir = os.path.join(G.OUT, "json")
@@ -42,7 +41,7 @@ def write_optional_manifest():
             payload = f.read()
         metadata[name] = {"sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
     material = "".join(f"{name}\0{metadata[name]['sha256']}\0" for name in names).encode("utf-8")
-    qa_files = [name for name in names if name == "script/bar/day99.json"]
+    qa_files = [name for name in names if name == "script/bar/day99.json" or name.startswith("script/qa/") or name.startswith("qa/")]
     manifest = {
         "bundle_contract_version": "1.0.0",
         "data_schema_version": dict((k, v) for k, v, _ in G.CONFIG)["data_schema_version"],
@@ -72,11 +71,12 @@ NULLABLE = {   # 빈 칸을 ""가 아니라 None(널)로
     "Cocktails": {"glass", "garnish", "color2"},
     "RecipeLines": {"qty", "unit"},          # fill_up·수량 tbd 라인은 수량이 널
     "ScoreBands": {"max_ratio"},             # 마지막 구간은 상한 없음(널)
-    "Scenes": {"day", "when", "group"},    # day 널 = 상시, when/group 널 = 조건·그룹 없음
+    "Scenes": {"day", "when", "group", "start_mode", "on_complete_effects"},
     "ShelfItems": {"shop_price", "category", "color", "sprite", "prep_action", "default_target_qty", "default_target_unit", "shelf_group", "liquid_alpha"},
     "Characters": {"alive_flag", "enter_sfx", "exit_sfx"},
     "RandomWaves": {"order"},
-    "InteractPoints": {"actor"},
+    "InteractPoints": {"facing", "spawn_when", "interact_when", "action_type", "action_ref"},
+    "Transitions": {"target_spot"},
     "OrderRules": {"when", "effects", "react"},
     "Endings": {"when"},
 }
@@ -121,6 +121,7 @@ SHEET_SPEC = {
     "RegularSlots": ("REGULAR_SLOTS", len(G.RSLOT_COLS)),
     "Spots": ("SPOTS", len(G.SPOT_COLS)),
     "InteractPoints": ("POINTS", len(G.POINT_COLS)),
+    "Transitions": ("TRANSITIONS", len(G.TRANSITION_COLS)),
     "Scenes": ("SCENES", len(G.SCENE_COLS)),
     "Steps": ("STEPS", len(G.STEP_COLS)),
     "Choices": ("CHOICES", len(G.CHOICE_COLS)),
@@ -146,6 +147,7 @@ def rows_of(ws, ncols, sheet):
     bools = BOOL_COLS.get(sheet, set())
     floats = FLOAT_COLS.get(sheet, set())
     hdr = [c.value for c in ws[1][:ncols]]
+    hdr += [None] * (ncols - len(hdr))
     out = []
     for r in ws.iter_rows(min_row=2, values_only=True):
         vals = r[:ncols]
@@ -228,6 +230,20 @@ def load_into_globals(tables):
     G.CONFIG = [(k, _config_cast(v, t), n) for k, v, t, n in G.CONFIG]
 
 
+def apply_minimal_street_scope():
+    """데모 거리 판정을 최근접 1개로 단순화하고 priority 전용 QA만 제외한다.
+
+    엑셀은 수정하지 않는다는 작업 규칙 때문에 제거 대상으로 확정된 QA 행을
+    빌드 입력에서 제외한다. priority 필드는 호환용으로 남지만 런타임 판정에는
+    사용하지 않는다.
+    """
+    excluded_points = {"p_qa_priority_low", "p_qa_priority_high"}
+    excluded_scenes = {"qa_priority_low", "qa_priority_high"}
+    G.POINTS = [row for row in G.POINTS if row[0] not in excluded_points]
+    G.SCENES = [row for row in G.SCENES if row[0] not in excluded_scenes]
+    G.STEPS = [row for row in G.STEPS if row[0] not in excluded_scenes]
+
+
 def main():
     args = sys.argv[1:]
     if "--strict" in args:
@@ -250,10 +266,13 @@ def main():
         print(f"❌ 시트 누락: {', '.join(sorted(missing))}"); sys.exit(1)
 
     load_into_globals(tables)
+    apply_minimal_street_scope()
     derived = G.derive()
     errors, report = G.validate(derived)
 
     lines = [f"===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: {src}) ====="]
+    lines.append("· 거리 v2.6.0 통합 스키마 — 운영·Day 99 QA 모두 단일 InteractPoints 13필드로 배포")
+    lines.append("· 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외")
     if unknown:
         lines.append(f"⚠ 알 수 없는 시트(무시됨): {', '.join(unknown)}")
     by_file = {}   # 파일별 시트·행수 — "남의 파일 안 당겨오고 빌드" 사고를 눈으로 잡는 용도

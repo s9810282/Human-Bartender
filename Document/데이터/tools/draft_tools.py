@@ -172,14 +172,13 @@ def scene_samples():
     NAME = {c[0]: c[1] for c in G.CHARACTERS}
     SC = {s[0]: dict(zip(G.SCENE_COLS, s)) for s in G.SCENES}
     PICK = [
-        ("d1_note", "크리스의 쪽지", 99, ""),
         ("d1_port", "포트 첫 잔", 6, "(여기서 진피즈 제조 들어감 — 제조·배선은 PD가 함)"),
         ("d1_elevator", "퇴근길 엘리베이터 라디오", 99, ""),
-        ("d2_meet", "출근길 — 삼호와 시바견", 99, ""),
+        ("np_shiba_1", "거리 — 시바 첫 조우", 99, ""),
         ("d2_bar_open", "d2_bar_open", 99, "(실제 씬 id를 알면 이렇게 그대로 써도 됨)"),
+        ("d2_home_talk", "테라스 — 이틀째 밤", 99, ""),
         ("d3_dream", "꿈 — 습격 2", 99, ""),
-        ("d3_samho_death", "골목의 삼호 (사망 목격)", 99,
-         "(직전에 선택지 갈림: 부축한다/먼저 간다 — 이런 건 지문에 말로 적으면 PD가 배선)"),
+        ("d3_alley_cat", "골목의 고양이", 99, ""),
     ]
     by_tab = {t[0]: [] for t in SCENE_TABS}
     for sid, label, lim, tail in PICK:
@@ -193,7 +192,7 @@ def scene_samples():
             n += 1
             arg = d["arg"] if d["arg"] not in ("", "default") else ""
             # 거리 장면 첫 줄에 SD 동작 예시를 하나 심는다 (표정·동작 칸의 거리 용법 시연)
-            if sid == "d2_meet" and n == 1 and d["actor"] == "samho":
+            if sid == "np_shiba_1" and n == 1:
                 arg = "idle_blink"
             rows.append([day, place, label, NAME.get(d["actor"], d["actor"]), arg,
                          d["text_ko"], d["note"] or "", "작성중"])

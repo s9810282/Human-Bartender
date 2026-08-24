@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>거리 v2.6 시뮬레이터 — Project L.U.N.A</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background:#0d0f14; color:#dfe6ef; font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif; overflow:hidden; }
+  #topbar { display:flex; gap:8px; align-items:center; padding:8px 12px; background:#151923; border-bottom:1px solid #2a3244; flex-wrap:wrap; }
+  #topbar label { font-size:12px; color:#8fa0b8; }
+  select,button { background:#1f2635; color:#dfe6ef; border:1px solid #3a4560; border-radius:6px; padding:4px 10px; font-size:13px; cursor:pointer; }
+  button:hover { background:#2a3348; }
+  .pill { font-size:12px; padding:2px 8px; border-radius:10px; background:#232b3d; border:1px solid #38445e; }
+  #stage { position:relative; height:340px; background:linear-gradient(#171b26 0%,#1d2330 70%,#252c3c 70%,#20263a 100%); overflow:hidden; }
+  #world { position:absolute; left:0; top:0; height:100%; }
+  .ground { position:absolute; left:0; right:0; bottom:0; height:96px; background:linear-gradient(#2b3040,#232838); border-top:2px solid #3d4560; }
+  .spotmark { position:absolute; bottom:70px; width:2px; height:14px; background:#3d4560; }
+  .spotlabel { position:absolute; bottom:52px; font-size:10px; color:#5b6880; transform:translateX(-50%); white-space:nowrap; }
+  .ent { position:absolute; bottom:96px; transform:translateX(-50%); text-align:center; transition:opacity .2s; }
+  .ent .body { margin:0 auto; }
+  .ent .tag { font-size:10px; color:#7d8ca6; margin-top:3px; }
+  .actorbox { width:26px; height:56px; border-radius:8px 8px 3px 3px; position:relative; }
+  .actorbox::after{ content:""; position:absolute; top:6px; width:5px; height:5px; border-radius:50%; background:#0d0f14; }
+  .face-right::after{ right:5px; } .face-left::after{ left:5px; }
+  .objbox { width:34px; height:40px; border:2px solid #55617e; border-radius:4px; background:#1b2130; display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .doorbox { width:40px; height:62px; border:2px solid #6b7899; border-radius:5px 5px 0 0; background:#222a3d; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  #player { position:absolute; bottom:96px; transform:translateX(-50%); text-align:center; z-index:5; }
+  #player .body { width:24px; height:58px; background:#5e9fe1; border-radius:8px 8px 3px 3px; margin:0 auto; position:relative; }
+  #player .body::after{ content:""; position:absolute; top:7px; width:5px; height:5px; border-radius:50%; background:#0d0f14; }
+  #player.face-right .body::after{ right:4px; } #player.face-left .body::after{ left:4px; }
+  #player .tag { font-size:10px; color:#5e9fe1; margin-top:3px; }
+  .eicon { position:absolute; left:50%; transform:translateX(-50%); top:-30px; width:22px; height:22px; border:2px solid #ffd35e; color:#ffd35e; border-radius:5px; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; background:#151923e0; animation:bob 1s infinite; }
+  @keyframes bob { 0%,100%{ margin-top:0 } 50%{ margin-top:-4px } }
+  .bubble { position:absolute; left:50%; transform:translateX(-50%); bottom:calc(100% + 14px); min-width:130px; max-width:280px; background:#f4f6fb; color:#1a2030; border-radius:10px; padding:8px 11px; font-size:13px; line-height:1.5; text-align:left; z-index:9; box-shadow:0 3px 14px #0008; }
+  .bubble::after{ content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:#f4f6fb; }
+  .bubble .bname { font-size:11px; font-weight:700; margin-bottom:3px; }
+  .bubble.auto { background:#dfe9ff; font-style:italic; }
+  .bubble .hint { font-size:10px; color:#8b93a8; margin-top:4px; text-align:right; }
+  #choicebox { position:absolute; left:50%; bottom:120px; transform:translateX(-50%); z-index:20; display:none; background:#161b28ee; border:1px solid #3a4560; border-radius:10px; padding:12px; min-width:320px; }
+  #choicebox .ctitle { font-size:11px; color:#8fa0b8; margin-bottom:8px; }
+  .cbtn { display:block; width:100%; text-align:left; margin-top:6px; padding:8px 12px; font-size:13px; }
+  .cbtn.locked { color:#5b6880; background:#181d2a; border-color:#2a3244; cursor:not-allowed; }
+  .cbtn.locked .lockwhy { display:block; font-size:11px; color:#a4664f; margin-top:2px; }
+  #overlay { position:absolute; inset:0; z-index:30; display:none; align-items:center; justify-content:center; flex-direction:column; background:#000a; }
+  #overlay .poster { width:300px; height:200px; border:2px dashed #6b7899; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#8fa0b8; font-size:13px; background:#141926; }
+  #overlay .postertext { margin-top:14px; max-width:420px; background:#f4f6fb; color:#1a2030; border-radius:8px; padding:10px 14px; font-size:13px; text-align:center; }
+  #overlay .ohint { margin-top:10px; font-size:11px; color:#9aa7bd; }
+  #fade { position:absolute; inset:0; z-index:40; background:#000; opacity:0; pointer-events:none; transition:opacity .45s; }
+  #panel { display:flex; gap:0; height:calc(100vh - 340px - 46px); }
+  .col { overflow-y:auto; padding:10px 12px; border-right:1px solid #222a3c; }
+  #ptscol { width:46%; } #logcol { width:32%; } #flagcol { flex:1; }
+  .col h3 { font-size:12px; color:#8fa0b8; margin-bottom:8px; position:sticky; top:0; background:#0d0f14; padding:4px 0; }
+  .ptcard { border:1px solid #2a3244; border-radius:8px; padding:7px 9px; margin-bottom:7px; font-size:12px; }
+  .ptcard .pid { font-weight:700; }
+  .ptcard .meta { color:#7d8ca6; font-size:11px; margin-top:2px; }
+  .st-on { border-left:3px solid #7ac96b; } .st-off { border-left:3px solid #444c60; opacity:.65; }
+  .st-lock { border-left:3px solid #d8a04c; }
+  .logline { font-size:12px; margin-bottom:4px; color:#aeb9cd; }
+  .logline b { color:#dfe6ef; }
+  .logline.ev { color:#7ac96b; } .logline.fx { color:#d8a04c; } .logline.er { color:#e06a6a; }
+  .flagline { font-size:12px; margin-bottom:3px; } .flagline .fv { color:#7ac96b; } .flagline .fv.false { color:#e06a6a; }
+  #help { font-size:11px; color:#5b6880; margin-left:auto; }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <label>Day <select id="daySel"><option>0</option><option>1</option><option>2</option><option>3</option><option>99</option></select></label>
+  <label>Phase <select id="phaseSel"><option value="commute_in">commute_in (출근길)</option><option value="commute_out">commute_out (퇴근길)</option></select></label>
+  <label>언어 <select id="langSel"><option value="ko">한국어</option><option value="en">English</option></select></label>
+  <button id="resetBtn">플래그 리셋</button>
+  <span class="pill" id="modePill">FREE_MOVE</span>
+  <span id="help">← → 또는 A·D 이동 · Shift 달리기 · E 상호작용/진행</span>
+</div>
+<div id="stage">
+  <div id="world"><div class="ground"></div></div>
+  <div id="fade"></div>
+  <div id="choicebox"></div>
+  <div id="overlay"></div>
+</div>
+<div id="panel">
+  <div class="col" id="ptscol"><h3>상호작용 지점 상태 (실데이터·실시간 평가)</h3><div id="ptcards"></div></div>
+  <div class="col" id="logcol"><h3>실행 로그</h3><div id="logs"></div></div>
+  <div class="col" id="flagcol"><h3>런타임 상태</h3><div id="flags"></div></div>
+</div>
+<script>
+const DATA = __DATA__;
+/* ───────── 좌표 배치(시뮬레이터 전용 — 실데이터 spots에는 좌표가 없어 앵커 순서만 임의 배치) ───────── */
+const SPOT_X = { bar_door:260, street_mid:700, street_wall:1050, alley_in:1500, alley_deep:1800, elevator:2120, home_door:2460,
+  qa_pair_left:420, qa_pair_right:580, qa_auto_radio:760, qa_text_object:1000, qa_sequence_object:1280, qa_probe_object:1630, qa_monologue:1980, qa_choice_npc:2320 };
+const WORLD_W = 2700, VIEW_W = () => document.getElementById('stage').clientWidth;
+const WALK=4.4, RUN=8.6, RADIUS=120, PROX_RADIUS=160;
+const TYPE_MS = DATA.config.street_typing_interval_ms, AUTO_DELAY = DATA.config.street_auto_next_delay_sec*1000;
+
+/* ───────── 런타임 상태 ───────── */
+let S = { day:0, phase:'commute_in', lang:'ko', flags:{}, money:0, reputation:0,
+          px:120, facing:'right', mode:'FREE_MODE', keys:{},
+          scene:null, stepIdx:-1, typing:null, bubbleEl:null, broadcast:null, broadcastPlayed:{}, groupProgress:{} };
+S.mode='FREE_MOVE';
+const $=id=>document.getElementById(id);
+const L=t=>t?(t[S.lang]||t.ko||''):'';
+const charOf=id=>DATA.characters[id]||{name:{ko:id,en:id},color:'#9aa7bd'};
+
+function log(msg, cls){ const d=document.createElement('div'); d.className='logline '+(cls||''); d.innerHTML=msg;
+  const box=$('logs'); box.prepend(d); while(box.children.length>120) box.lastChild.remove(); }
+
+/* ───────── when 평가기 (day·phase·flag.*·money·reputation / ==·!=·>=·<=·>·< / ! / &&) ───────── */
+function evalWhen(expr){ if(!expr) return true;
+  return String(expr).split('&&').every(cl=>{ cl=cl.trim(); let neg=false;
+    if(cl.startsWith('!')){neg=true;cl=cl.slice(1).trim();}
+    const m=cl.match(/^(\S+)\s*(==|!=|>=|<=|>|<)\s*(\S+)$/); let v;
+    if(m){ const l=tok(m[1]); let r=m[3];
+      r = r==='true'?true : r==='false'?false : (isNaN(Number(r))? r : Number(r));
+      switch(m[2]){ case '==':v=(l===r||String(l)===String(r));break; case '!=':v=!(l===r||String(l)===String(r));break;
+        case '>=':v=Number(l)>=Number(r);break; case '<=':v=Number(l)<=Number(r);break;
+        case '>':v=Number(l)>Number(r);break; case '<':v=Number(l)<Number(r);break; }
+    } else v=!!tok(cl);
+    return neg? !v : v; });
+  function tok(t){ if(t==='day')return S.day; if(t==='phase')return S.phase;
+    if(t==='money')return S.money; if(t==='reputation')return S.reputation;
+    if(t.startsWith('flag.'))return !!S.flags[t.slice(5)]; return t; } }
+
+function applyEffects(src, str){ if(!str) return;
+  String(str).split(';').forEach(cl=>{ cl=cl.trim(); if(!cl)return; let m;
+    if(m=cl.match(/^flag\.(\w+)\s*=\s*(true|false)$/)){ S.flags[m[1]]=(m[2]==='true'); log(`[효과] ${src}: flag.${m[1]} = ${m[2]}`,'fx'); }
+    else if(m=cl.match(/^(money|reputation)\s*([+\-])=\s*(\d+)$/)){ S[m[1]]+= (m[2]==='-'?-1:1)*Number(m[3]); log(`[효과] ${src}: ${m[1]} ${m[2]}= ${m[3]}`,'fx'); }
+    else if(m=cl.match(/^affinity\.(\w+)\s*([+\-])=\s*(\d+)$/)){ const k='affinity.'+m[1]; S.flags[k]=(S.flags[k]||0)+(m[2]==='-'?-1:1)*Number(m[3]); log(`[효과] ${src}: ${cl}`,'fx'); }
+    else log(`[효과문법?] ${src}: '${cl}'`,'er');
+  }); renderFlags(); }
+
+/* ───────── 데이터셋 선택 (day 99 = QA 번들 · 그 외 = 운영) ───────── */
+function activePoints(){
+  // QA도 운영과 같은 통합 13필드 스키마(v2.6 단일 파일 전환 완료)
+  return S.day===99 ? DATA.qa_points : DATA.points_prod;
+}
+function activeScript(){ return S.day===99 ? DATA.street_qa : DATA.street; }
+function findScene(id){ return activeScript().scenes.find(s=>s.id===id); }
+function findChoices(id){ return (activeScript().choices||{})[id]; }
+
+/* ───────── 지점 평가 (문서 §2.9 평가 순서) ───────── */
+function evalPoint(p){
+  const r={spawned:false, interactable:false, why:''};
+  if(!(p.phase===S.phase || p.phase==='both')){ r.why='phase 불일치('+p.phase+')'; return r; }
+  if(!evalWhen(p.spawn_when)){ r.why='spawn_when 거짓: '+p.spawn_when; return r; }
+  r.spawned=true;
+  if(!evalWhen(p.interact_when)){ r.why='interact_when 거짓: '+p.interact_when; return r; }
+  if(p.action_type==='scene_group'){
+    const c=groupCandidate(p.action_ref); if(!c){ r.why='그룹 실행 가능 씬 없음'; return r; } }
+  r.interactable=true; return r;
+}
+function groupCandidate(g){
+  const list=activeScript().scenes.filter(s=>s.group===g).sort((a,b)=>a.seq-b.seq);
+  return list.find(s=>evalWhen(s.when)) || null;
+}
+
+/* ───────── 렌더 ───────── */
+function rebuildWorld(){
+  const w=$('world'); w.style.width=WORLD_W+'px';
+  w.querySelectorAll('.ent,.spotmark,.spotlabel,#player').forEach(e=>e.remove());
+  const usedSpots=new Set(activePoints().map(p=>p.spot_id));
+  DATA.spots.forEach(sp=>{ if(!(sp.id in SPOT_X) || !usedSpots.has(sp.id)) return;
+    const m=document.createElement('div'); m.className='spotmark'; m.style.left=SPOT_X[sp.id]+'px'; w.appendChild(m);
+    const l=document.createElement('div'); l.className='spotlabel'; l.style.left=SPOT_X[sp.id]+'px'; l.textContent=sp.id; w.appendChild(l); });
+  activePoints().forEach(p=>{
+    const st=evalPoint(p); if(!st.spawned) return;
+    const e=document.createElement('div'); e.className='ent'; e.id='ent_'+p.id; e.style.left=(SPOT_X[p.spot_id]||100)+'px';
+    let body;
+    if(p.kind==='actor'){ body=document.createElement('div'); body.className='body actorbox face-'+(p.facing||'right');
+      body.style.background=charOf(p.source_id).color; }
+    else if(p.action_type==='transition'){ body=document.createElement('div'); body.className='body doorbox'; body.textContent='🚪'; }
+    else { body=document.createElement('div'); body.className='body objbox';
+      body.textContent = p.source_id.includes('poster')?'📄': p.source_id.includes('radio')?'📻':'▧'; }
+    e.appendChild(body);
+    const t=document.createElement('div'); t.className='tag';
+    t.textContent = p.kind==='actor'? L(charOf(p.source_id).name) : p.source_id; e.appendChild(t);
+    w.appendChild(e); });
+  const pl=document.createElement('div'); pl.id='player'; pl.className='face-'+S.facing;
+  pl.innerHTML='<div class="body"></div><div class="tag">루나</div>'; w.appendChild(pl);
+  renderFrame(); renderCards(); renderFlags();
+}
+function renderFrame(){
+  const pl=$('player'); if(!pl) return; pl.style.left=S.px+'px'; pl.className='face-'+S.facing;
+  const cam=Math.max(0, Math.min(WORLD_W-VIEW_W(), S.px-VIEW_W()/2));
+  $('world').style.left=(-cam)+'px';
+  document.querySelectorAll('.eicon').forEach(e=>e.remove());
+  if(S.mode==='FREE_MOVE'){ const f=focusPoint(); if(f){ const el=$('ent_'+f.id);
+    if(el){ const ic=document.createElement('div'); ic.className='eicon'; ic.textContent='E'; el.appendChild(ic); } } }
+  $('modePill').textContent=S.mode;
+}
+function focusPoint(){ // 반경 내 interact 후보 → 최근접 1개, 완전 동률이면 point.id 오름차순
+  let best=null,bd=1e9;
+  activePoints().forEach(p=>{ if(p.activation_mode!=='interact' || !p.action_type) return; // 순수 배치는 E 아이콘 없음
+    const st=evalPoint(p); if(!st.interactable) return;
+    const d=Math.abs((SPOT_X[p.spot_id]||0)-S.px); if(d>RADIUS) return;
+    if(!best || d<bd || (d===bd && p.id.localeCompare(best.id)<0)){ best=p; bd=d; } });
+  return best;
+}
+function renderCards(){
+  const box=$('ptcards'); box.innerHTML='';
+  activePoints().forEach(p=>{ const st=evalPoint(p);
+    const c=document.createElement('div');
+    c.className='ptcard '+(st.interactable?'st-on':(st.spawned?'st-lock':'st-off'));
+    c.innerHTML=`<span class="pid">${p.id}</span> <span class="meta">${p.kind}·${p.activation_mode}·${p.action_type?p.action_type+'→'+p.action_ref:'순수 배치(E 없음)'}</span>
+      <div class="meta">phase=${p.phase} · spawn_when=${p.spawn_when||'상시'} · interact_when=${p.interact_when||'상시'}</div>
+      <div class="meta">${st.interactable?'✅ 발동 가능':(st.spawned?'🔒 '+st.why:'⛔ 미표시 — '+st.why)}</div>`;
+    box.appendChild(c); });
+}
+function renderFlags(){
+  const box=$('flags');
+  const fl=Object.entries(S.flags).map(([k,v])=>`<div class="flagline">flag.${k} = <span class="fv ${v===false?'false':''}">${v}</span></div>`).join('');
+  box.innerHTML=`<div class="flagline">day=${S.day} · phase=${S.phase} · money=${S.money} · rep=${S.reputation}</div>`+(fl||'<div class="flagline" style="color:#5b6880">플래그 없음</div>');
+}
+
+/* ───────── 말풍선·씬 실행 (문서 §2.10~2.12·§7) ───────── */
+function sceneHasLuna(sc){ return sc.steps.some(st=>st.type==='say'&&st.actor==='luna'); }
+function bubbleAnchor(actor){
+  if(actor==='luna') return $('player');
+  const p=activePoints().find(q=>q.source_id===actor && evalPoint(q).spawned);
+  if(p){ const el=$('ent_'+p.id); if(el) return el; }
+  return S.scene? ($('ent_'+S.scene._pointId)||$('player')) : $('player');
+}
+function clearBubble(){ if(S.bubbleEl){S.bubbleEl.remove();S.bubbleEl=null;} if(S.typing){clearInterval(S.typing.iv);S.typing=null;} }
+function showSay(step, opts){
+  clearBubble();
+  const anchor=bubbleAnchor(step.actor);
+  const b=document.createElement('div'); b.className='bubble'+(opts&&opts.auto?' auto':'');
+  const named = !!step.actor; // 문서 §4.3: 화자(actor)가 있으면 이름형(NPC 직접 대화·관전 포함), 사물 조사(actor 공란)는 무명형
+  const ch=charOf(step.actor);
+  b.innerHTML=(named?`<div class="bname" style="color:${ch.color}">${L(ch.name)}</div>`:'')+`<span class="btxt"></span>`+
+    (opts&&opts.auto?'':'<div class="hint">E ▸</div>');
+  anchor.appendChild(b); S.bubbleEl=b;
+  const full=L(step.text).replace(/<[^>]+>/g,''); const span=b.querySelector('.btxt'); let i=0;
+  S.typing={done:false, iv:setInterval(()=>{ i++; span.textContent=full.slice(0,i);
+    if(i>=full.length){ clearInterval(S.typing.iv); S.typing.done=true;
+      if(opts&&opts.auto){ S.typing.timer=setTimeout(()=>{opts.next();},AUTO_DELAY); } } },TYPE_MS)};
+  S.typing.full=full; S.typing.span=span; S.typing.opts=opts;
+}
+function startScene(sceneId, pointId){
+  const sc=findScene(sceneId); if(!sc){ log(`[오류] 씬 ${sceneId} 없음`,'er'); return; }
+  if(!evalWhen(sc.when)){ log(`[씬 차단] ${sceneId} — 씬 when 거짓: ${sc.when}`); S.mode='FREE_MOVE'; return; }
+  S.scene={...sc,_pointId:pointId,_named:sceneHasLuna(sc)}; S.stepIdx=-1; S.mode='SCENE_RUNNING';
+  log(`[씬 시작] <b>${sc.id}</b>${sc.group?' (group '+sc.group+')':''} — start_mode=${sc.start_mode}`,'ev');
+  nextStep();
+}
+function nextStep(){
+  clearBubble();
+  const sc=S.scene; if(!sc) return;
+  const steps=[...sc.steps].sort((a,b)=>a.seq-b.seq);
+  let idx=steps.findIndex(st=>st.seq> (S.stepIdx));
+  while(idx>=0 && idx<steps.length){
+    const st=steps[idx]; S.stepIdx=st.seq;
+    if(!evalWhen(st.when)){ log(`[스킵] ${sc.id}#${st.seq} when 거짓: ${st.when}`); idx++; continue; }
+    if(st.effects) applyEffects(sc.id+'#'+st.seq, st.effects);
+    if(st.type==='say'){ showSay(st); return; }
+    if(st.type==='effect'){ log(`[effect 스텝] ${sc.id}#${st.seq}`); idx++; continue; }
+    if(st.type==='choice'){ openChoice(st); return; }
+    if(st.type==='timeline'){ openTimeline(st); return; }
+    log(`[미지원 스텝] ${st.type}`,'er'); idx++;
+  }
+  completeScene();
+}
+function completeScene(){
+  const sc=S.scene; clearBubble(); $('choicebox').style.display='none';
+  if(sc){ if(sc.on_complete_effects) applyEffects(sc.id+' 완료(oce)', sc.on_complete_effects);
+    log(`[씬 정상 완료] <b>${sc.id}</b>`,'ev'); }
+  S.scene=null; S.stepIdx=-1; S.mode='FREE_MOVE';
+  rebuildWorld(); // 문서 §2.13 — 씬 종료 후 지점 재평가·E 아이콘 갱신
+}
+function openChoice(st){
+  const set=findChoices(st.arg); if(!set){ log(`[오류] 선택지 세트 ${st.arg} 없음`,'er'); nextStep(); return; }
+  S.mode='CHOICE_OPEN'; const box=$('choicebox'); box.style.display='block';
+  box.innerHTML=`<div class="ctitle">${st.arg}</div>`;
+  [...set].sort((a,b)=>a.seq-b.seq).forEach(it=>{
+    const ok=evalWhen(it.when);
+    const b=document.createElement('button'); b.className='cbtn'+(ok?'':' locked');
+    b.innerHTML=L(it.text)+(!ok&&it.lock_reason?`<span class="lockwhy">🔒 ${L(it.lock_reason)}</span>`:'');
+    if(ok) b.onclick=()=>{ box.style.display='none';
+      log(`[선택] ${st.arg}#${it.seq} "${L(it.text)}"`,'ev');
+      if(it.goto && !findScene(it.goto)){ // 문서 §2.12 — goto 대상 로드 실패 시 effects·oce 미커밋, DATA_ERROR
+        log(`[DATA_ERROR] goto 대상 씬 '${it.goto}' 없음 — effects·on_complete_effects 커밋하지 않음`,'er');
+        S.mode='FREE_MOVE'; S.scene=null; rebuildWorld(); return; }
+      if(it.effects) applyEffects('choice#'+it.seq, it.effects);
+      if(it.goto){ // 문서 §2.12 — goto 분기도 정상 종료: oce를 같은 트랜잭션에서 적용 후 대상 씬
+        const cur=S.scene;
+        if(cur && cur.on_complete_effects) applyEffects(cur.id+' 완료(oce·goto 분기)', cur.on_complete_effects);
+        log(`[goto] → ${it.goto}`,'ev');
+        const pid=cur?cur._pointId:null; S.scene=null; startScene(it.goto,pid);
+      } else { S.mode='SCENE_RUNNING'; nextStep(); } };
+    box.appendChild(b); });
+}
+function openTimeline(st){
+  const cs=DATA.cutscenes[st.arg]||{kind:'timeline'};
+  const ov=$('overlay'); ov.style.display='flex'; S.mode='TIMELINE';
+  if(cs.kind==='sprite'){ // 포스터 뷰 (문서 §5)
+    ov.innerHTML=`<div class="poster">포스터 이미지 자리<br>${st.arg}<br><small>${cs.resource_key||''} (발주 대기)</small></div>
+      <div class="postertext">${L(st.text)||'(하단 문구 없음)'}</div><div class="ohint">E — 닫기</div>`;
+    log(`[포스터 뷰] ${st.arg} — 단일 텍스트·추가 진행 없음`,'ev');
+    S._tlDone=()=>{ ov.style.display='none'; S.mode='SCENE_RUNNING'; nextStep(); };
+  } else {
+    ov.innerHTML=`<div class="poster">컷씬 재생 중…<br>${st.arg} (kind=${cs.kind})</div>`;
+    log(`[컷씬] ${st.arg} 재생(kind=${cs.kind}) — 완료 시 자동 진행`,'ev');
+    S._tlDone=null; setTimeout(()=>{ ov.style.display='none'; S.mode='SCENE_RUNNING'; nextStep(); },1600);
+  }
+}
+/* ───────── 자동 방송 (proximity — 문서 §2.6·§7.2) ───────── */
+function bcKey(id){ return S.day+'/'+S.phase+'/'+id; } // 같은 phase 재진입 시 반복하지 않음(실데이터 p_qa_auto_radio note)
+function tickBroadcast(){
+  if(S.mode!=='FREE_MOVE'){ if(S.broadcast) stopBroadcast('상호작용/화면 전환'); return; }
+  if(S.broadcast) return; // 범위를 벗어나도 끝까지 재생한다
+  const p=activePoints().find(q=>{ if(q.activation_mode!=='proximity') return false;
+    const st=evalPoint(q); if(!st.interactable) return false;
+    return Math.abs((SPOT_X[q.spot_id]||0)-S.px)<=PROX_RADIUS; });
+  if(p && !S.broadcastPlayed[bcKey(p.id)]){
+    const sc=findScene(p.action_ref); if(!sc) return;
+    S.broadcast={pointId:p.id, scene:sc, idx:-1};
+    log(`[자동 방송 시작] ${p.id} → ${sc.id} (조작 락 없음·자동 진행 ${AUTO_DELAY/1000}s)`,'ev');
+    broadcastNext();
+  }
+}
+function broadcastNext(){
+  const B=S.broadcast; if(!B) return;
+  const steps=[...B.scene.steps].sort((a,b)=>a.seq-b.seq);
+  const idx=steps.findIndex(st=>st.seq>B.idx && st.type==='say' && evalWhen(st.when));
+  if(idx<0){ log(`[자동 방송 완료] ${B.scene.id} — 같은 phase에선 반복하지 않음`,'ev'); S.broadcastPlayed[bcKey(B.pointId)]=true; stopBroadcast(null,true); return; }
+  const st=steps[idx]; B.idx=st.seq;
+  const anchor=$('ent_'+B.pointId)||$('player');
+  if(B.el) B.el.remove();
+  const b=document.createElement('div'); b.className='bubble auto';
+  // 문서 §4.3: 자동 방송은 화자 데이터(아나운서 등)를 쓰는 경우에만 이름을 표시한다
+  const nm = st.actor ? `<div class="bname" style="color:${charOf(st.actor).color}">${L(charOf(st.actor).name)}</div>` : '';
+  b.innerHTML=nm+'<span class="btxt"></span>'; anchor.appendChild(b); B.el=b;
+  const full=L(st.text).replace(/<[^>]+>/g,''); const span=b.querySelector('.btxt'); let i=0;
+  B.iv=setInterval(()=>{ i++; span.textContent=full.slice(0,i);
+    if(i>=full.length){ clearInterval(B.iv); B.timer=setTimeout(broadcastNext,AUTO_DELAY); } },TYPE_MS);
+}
+function stopBroadcast(reason, completed){
+  const B=S.broadcast; if(!B) return;
+  if(B.iv)clearInterval(B.iv); if(B.timer)clearTimeout(B.timer); if(B.el)B.el.remove();
+  if(reason) log(`[자동 방송 소멸] ${B.scene.id} — ${reason}${completed?'':' (중단 — oce 미적용)'}`);
+  S.broadcast=null;
+}
+/* ───────── transition ───────── */
+function doTransition(ref, pointId){
+  const tr=DATA.transitions.find(t=>t.id===ref); if(!tr){ log(`[오류] 전환 ${ref} 없음`,'er'); return; }
+  S.mode='TRANSITION'; $('fade').style.opacity=1;
+  log(`[장소 전환] ${ref} → location=${tr.target_location} · phase=${tr.target_phase} · spot=${tr.target_spot||'(목적 시스템 결정)'} · effect=${tr.effect}`,'ev');
+  setTimeout(()=>{
+    const ov=$('overlay'); ov.style.display='flex';
+    ov.innerHTML=`<div class="poster">장소 전환 실행됨<br><b>${tr.target_location} / ${tr.target_phase}</b><br><small>${tr.note||''}</small></div>
+      <div class="ohint">E — 거리로 복귀 (시뮬레이터는 거리 구간만 재현)</div>`;
+    S._tlDone=()=>{ ov.style.display='none'; $('fade').style.opacity=0; S.mode='FREE_MOVE'; renderFrame(); };
+  },480);
+}
+/* ───────── 입력 ───────── */
+addEventListener('keydown',e=>{
+  if(e.key==='Shift') S.keys.shift=true;
+  if(['ArrowLeft','a','A'].includes(e.key)) S.keys.left=true;
+  if(['ArrowRight','d','D'].includes(e.key)) S.keys.right=true;
+  if(['e','E'].includes(e.key)){ e.preventDefault(); onE(); }
+});
+addEventListener('keyup',e=>{
+  if(e.key==='Shift') S.keys.shift=false;
+  if(['ArrowLeft','a','A'].includes(e.key)) S.keys.left=false;
+  if(['ArrowRight','d','D'].includes(e.key)) S.keys.right=false;
+});
+function onE(){
+  if(S.mode==='TIMELINE'||S.mode==='TRANSITION'){ if(S._tlDone){const f=S._tlDone;S._tlDone=null;f();} return; }
+  if(S.mode==='CHOICE_OPEN') return; // 직전 입력 재사용 금지 — 버튼 클릭만
+  if(S.mode==='SCENE_RUNNING'){
+    if(S.typing && !S.typing.done){ clearInterval(S.typing.iv); S.typing.span.textContent=S.typing.full; S.typing.done=true; return; }
+    nextStep(); return;
+  }
+  const f=focusPoint(); if(!f) return;
+  if(S.broadcast) stopBroadcast('직접 상호작용 시작');
+  log(`[E 입력] <b>${f.id}</b> (${f.action_type} → ${f.action_ref})`,'ev');
+  if(f.action_type==='scene') startScene(f.action_ref, f.id);
+  else if(f.action_type==='scene_group'){ const c=groupCandidate(f.action_ref);
+    if(c) startScene(c.id, f.id); else log('[그룹] 실행 가능 씬 없음','er'); }
+  else if(f.action_type==='transition') doTransition(f.action_ref, f.id);
+}
+setInterval(()=>{ // 이동 루프
+  if(S.mode==='FREE_MOVE'){
+    const v=(S.keys.shift?RUN:WALK);
+    if(S.keys.left){ S.px=Math.max(40,S.px-v); S.facing='left'; }
+    if(S.keys.right){ S.px=Math.min(WORLD_W-40,S.px+v); S.facing='right'; }
+    renderFrame();
+  }
+  tickBroadcast();
+},33);
+/* ───────── 컨트롤 ───────── */
+function applyContext(){
+  S.day=Number($('daySel').value); S.phase=$('phaseSel').value; S.lang=$('langSel').value;
+  if(S.day===3){ S.phase='commute_out'; $('phaseSel').value='commute_out'; log('[안내] Day 3은 days.json → start_phase=commute_out — 출근길이 없다'); }
+  if(S.day===99 && S.phase!=='commute_out'){ S.phase='commute_out'; $('phaseSel').value='commute_out'; log('[안내] Day 99 QA 번들은 퇴근길(commute_out) 전용'); }
+  stopBroadcast(); S.scene=null; S.mode='FREE_MOVE'; S.px=120;
+  $('choicebox').style.display='none'; $('overlay').style.display='none'; $('fade').style.opacity=0;
+  log(`[컨텍스트] Day ${S.day} · ${S.phase} · ${S.day===99?'QA 번들(script/qa + qa/*)':'운영 번들(interact_points.json + script/street.json)'}`,'ev');
+  rebuildWorld();
+}
+['daySel','phaseSel','langSel'].forEach(id=>$(id).onchange=applyContext);
+$('resetBtn').onclick=()=>{ S.flags={}; S.money=0; S.reputation=0; S.broadcastPlayed={}; log('[리셋] 플래그·수치 초기화','fx'); applyContext(); };
+applyContext();
+log('거리 v2.6 시뮬레이터 — 실데이터 임베드: 운영 지점 '+DATA.points_prod.length+' · QA 지점 '+DATA.qa_points.length+' · 운영 씬 '+DATA.street.scenes.length+' · QA 씬 '+DATA.street_qa.scenes.length);
+</script>
+</body>
+</html>

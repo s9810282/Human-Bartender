@@ -53,7 +53,7 @@ python3 tools/draft_tools.py import  # Draft 전달완료 행 → Narrative (PD�
 ```
 
 script 구성: `script/bar/day0~3.json` + `home.json` + `street.json` + `cutscene.json`. 조회 키 (day, phase, seq), day null = 상시 씬.
-Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.json`은 빈 장면 배열이며, 실제 Day 3 장면은 `street.json`·`home.json`·`cutscene.json`에 들어간다.
+Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.json`은 빈 장면 배열이다. 삼호의 첫 만남·사망·생존 결과는 거리 대본이 아니라 `cutscenes.json`의 별도 연출 컷신으로 관리하며, 집·꿈 대본만 `home.json`·`cutscene.json`에 들어간다.
 
 ## 절대 규칙
 
@@ -125,16 +125,18 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   세트 2~4개 + 세트마다 when 빈 항목 최소 1개(빌드 검증). 서사 스포일러는 선택지 잠금이 아니라 씬 단위 when으로 분기.
 - **씬 day는 auto 씬에서만 재생 일차를 정한다** — interact 씬의 재생 일차는 interact_points.when이 정하고 day는 참고 표기.
   검증 4종(v3.2): 선택지 무조건 항목·kind↔scene_or_shop 접두사 일치·Personalities/Characters id 겹침 금지·지점 when(day==N)과 연결 씬 day 모순 금지.
-- **거리(외부)**: 정본 = 노션 「외부 거리 시스템 모음」(3aa1612298dc80d18899ecca42884c41). 상호작용 5종, E 아이콘=발동 가능할 때만+최근접 1개,
-  말풍선 이름형(씬에 루나가 화자로 참여할 때만 — NPC간 대화 관전도 무명형)/무명형, `interact_points.trigger`=interact/proximity,
-  `actor`=지점에 선 캐릭터(같은 actor 지점 여럿=위치 이동), 소비 상태 세이브 저장(once 소비=씬 마지막 스텝 완료 시점·지점 id 기준,
-  재개방은 conditional+when으로 설계), conditional 다중 매치=정의 순서 첫 번째, sequential 끝=마지막 씬 반복,
-  자동 재생 동시 1개·직접 상호작용/기믹/포스터/phase 전환 시 즉시 소멸, phase 전이=문 진입. 시뮬레이터: `이준서/거리_시뮬레이터.html`.
+- **거리(외부) v2.6**: 정본 = 노션 「외부 거리 시스템」(3aa1612298dc80d18899ecca42884c41). 데모 거리 상호작용은 NPC 직접 대화와 오브젝트 보기 중심이며 상점은 제외한다.
+  E 아이콘 = 접근 반경 내에서 안전한 유효 대상 중 가장 가까운 하나만 표시(완전히 동률이면 point.id 오름차순). priority는 호환용 예약값으로 남기고 데모 판정에서는 사용하지 않는다. 조건 4층 = phase+spawn_when(존재) → interact_when(상호작용) → 씬 when → 스텝 when.
+  말풍선 이름형/무명형 = §4.3 화자 기준 — say에 actor가 있으면 이름형(직접 대화·**NPC 간 관전 포함**, characters.name·name_color),
+  actor 공란인 사물 조사는 무명형, 자동 방송은 아나운서 데이터가 있을 때만 이름 표시, 포스터 뷰는 해당 없음.
+  `interact_points.activation_mode`=interact/proximity. 1회 소비 = 지점 id 저장이 아니라 `interact_when: !flag.x` + 씬 `on_complete_effects`로 플래그 세트(selection·소비 목록 저장 폐지).
+  on_complete_effects는 정상 완료·goto 분기에서만 적용(중단·오류·phase 전환 시 미적용), choice.effects와 같은 트랜잭션.
+  **NPC 대사는 플레이어가 E 상호작용한 경우에만 시작**하고 종료까지 조작을 잠근다. 자동 재생은 라디오·TV·홀로그램 같은 비인물 오브젝트 방송에만 사용한다. 자동 재생은 동시 1개이며 범위 이탈·직접 상호작용·포스터 시작에도 별도 진행 상태에서 끝까지 재생한다. phase 전환·맵 언로드에서만 중단하고 미완료 `on_complete_effects`는 적용하지 않는다. phase 전이=문 진입. 시뮬레이터: `이준서/웹시뮬레이터/web/거리_v26_시뮬레이터.html`.
 - **오브젝트 보기 3원칙(거리)**: ① 말풍선은 오브젝트 위에만 — **루나 말풍선·독백 금지**(빌드 에러로 차단)
   ② 본문은 **그 사물에 적힌 정보만** — 관찰·감상·설명체 금지(전단이면 "사람 구함 010-…"이 그대로)
-  ③ 줍기·구매처럼 **행동이 붙으면 선택지로**(상자=줍는다/무시한다, 자판기=뽑는다/그만둔다 — 루나 말풍선 없이 버튼만, 배치 기준 ❓).
-  정보도 서사도 없는 오브젝트는 배치하지 않는다(전봇대 예시). 현재 지점 6·앵커 8, sequential 실사용 0.
-- **거리 데이터 범위(PD 확정)**: 거리엔 외부에서 등장하는 장면만 넣는다. Day 3 결과 장면인 삼호 사망 목격·구출은 `street.json`에 포함하며, 집·꿈 장면은 각각 `home.json`·`cutscene.json`으로 분리한다.
+  ③ 줍기처럼 **행동이 붙으면 선택지로**(상자=줍는다/무시한다 — 루나 말풍선 없이 버튼만, 배치 기준 ❓).
+  정보도 서사도 없는 오브젝트는 배치하지 않는다(전봇대 예시). 현재 지점 4·앵커 7, sequential 실사용 0.
+- **거리 데이터 범위(PD 확정)**: 현재 지점 4개·앵커 7개다. 완·노점·상점 데이터는 데모에서 제거했다. 삼호·시바 첫 만남과 삼호 사망·생존 결과는 거리 시스템에 넣지 않고 별도 연출 컷신으로 제작한다. 고양이는 `p_alley_cat.actor=bubi`로 전신을 표시하며 플레이어가 E 상호작용한 뒤에만 대사를 시작한다.
 
 ## 설명 요령 (권장 — 규칙 아님)
 
@@ -178,7 +180,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   bees_knees·꿀 퀘스트(samho_honey)·상자 퀘스트(lost_box)·크리스 쪽지(d1_note)는 삭제 완료 — Quests 시트 현재 0행
 - **일차 표기(0일차 스타트 적용 완료)**: 표시 = 데이터, Day 0(튜토리얼)부터. 상시 씬 센티널은 day 0 → **공란(json null)**.
   gen 시드는 구표기(1-based)로 적고 로드 시 `_shift_day` 블록이 일괄 −1(99 컨벤션은 유지, when 문자열의 day 비교도 함께 변환).
-  표시 Day 3(선택 결과 최종일)까지 `Days`와 결과 장면 반영 완료. when 문법에 `meta.endings`(수집 엔딩 수, 세이브 밖 메타 저장) 있음 — 다회차 튜토리얼 스킵 조건용
+  표시 Day 3(선택 결과 최종일)까지 `Days` 반영 완료. 삼호 결과는 거리 대본에서 제외하고 `Cutscenes`의 `tl_samho_arrive`·`tl_samho_dead` 별도 연출로 관리한다. when 문법에 `meta.endings`(수집 엔딩 수, 세이브 밖 메타 저장) 있음 — 다회차 튜토리얼 스킵 조건용
 - **제조 개편 데이터 반영 완료(08/18)** — 신규 시트 SettlementRules·ScoreBands(구 GradePayout 폐지), RecipeLines 9컬럼(플래그),
   Cocktails 22컬럼(status·color2·ice 2필드·unlock_day·time_limit_sec 수동), ShelfItems 확장 컬럼(default_action·prep_action·기본 목표량·단위·shelf_group·liquid_alpha),
   Config 계약 2.5.0(미니게임 초기값·정규화 점수 공식·자동 처리 3종·재료 선반 배치·선택지 잠금 사유·무작위 주문·동시 판정·DATA_ERROR 반복 기준·고정 전환점 저장 정책), Tags category, RandomWaves/RegularSlots order 컬럼.
@@ -191,7 +193,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
 - 유지비 미납 배드엔딩 — 규칙 확정: 정산(유지비 차감 포함) 확정 직후 골드 음수면 즉시 `bad_gold`(when `money < 0`) →
   씬 `ed_bad_gold` 재생(톰이 코라테크에 루나 정보를 팔아 가게를 살리는 텍스트 엔딩). bad_gold만 정산 시 판정, 나머지 엔딩은 최종일.
   남은 것: PD가 `이준서/유지비_배드엔딩_행추가.md`의 행을 Narrative 엑셀에 붙여넣기 + 일차별 유지비 금액 결정 ❓(현 전부 0)
-- 거리 잔여 ❓: 자판기·전화 부스 사양(데모 범위), 포스터 표시 기준, 배경 어둡게 연출. 발주 ❗: 전단 포스터 2종·E키 아이콘
+- 거리 잔여 ❓: 전화 부스 사양, 포스터 표시 기준, 배경 어둡게 연출. 발주 ❗: 전단 포스터 2종·E키 아이콘
 - Choices 시트에 `lock_reason_ko`/`lock_reason_en` 열을 추가했다. when이 있으면 두 언어를 모두 필수로 검증하고 JSON에 `lock_reason` L10N 객체를 배출한다.
 - `score_status=DATA_ERROR`는 플레이어 실패가 아닌 데이터 오류다. 첫 발생에는 같은 Actual Craft로 새 request_id를 발급해 다시 시도하거나 제조를 취소할 수 있다. 취소하면 손님의 대기 주문을 유지하고 칵테일 선택 화면으로 돌아간다. 같은 CraftAttempt에서 같은 error_code가 2회 연속 발생하면 안전 이탈을 우선 안내하며, 안전 이탈 후 이어하기는 가장 최근의 고정 전환점 자동 저장을 복원한다. 오류 상태와 제조·정산 결과는 저장하지 않는다.
 - **2부 명세**: order의 text 표시, when DSL 18계열, 선택지 goto, `Steps.dialogue_id` 기반 읽음 스킵,
@@ -209,11 +211,29 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   외부 거리 시스템(상자퀘 흔적 6곳·day0 센티널·"phase street 고정" 오류), 깃 사용법(GradePayout·티어 예문·줄수), UI 4종은 부분(레시피 UI 예시 데이터·잔7종·guest_bodies 파츠).
   UI 문서 간 모순 결정 대기 ❓: 골드 상시 HUD vs 변동 표시 / 2부 대사창 vs 말풍선 꼬리
 - 데이터 참조 정리 완료: `hound`를 Characters의 cutscene 인물로 등록했고, OrderRules·Tastes의 구표기 `[day4 가안]`을 `[후속 일차 가안]`으로 정리했다.
-- **호환성 유지형 데이터 확장**: `cocktails.json`은 신규 구현용 `target_mix_method`·`target_prep_action`·`tags[].id`와 기존 `mix`·`prep`·`tags[].ko`를 한 버전 병행한다. `manifest.json`은 운영 30파일과 Day 99 QA 1파일을 분리하고 파일별 SHA-256·번들 해시를 기록한다. 데이터 스키마는 기존 로더 호환을 위해 2.5.0을 유지하며 번들 계약만 1.0.0으로 분리한다.
+- **호환성 유지형 데이터 확장**: `cocktails.json`은 신규 구현용 `target_mix_method`·`target_prep_action`·`tags[].id`와 기존 `mix`·`prep`·`tags[].ko`를 한 버전 병행한다. `manifest.json`은 운영 31파일과 Day 99 QA 3파일(바 대본 1 + 거리 통합 지점 1 + 거리 대본 1)을 분리하고 파일별 SHA-256·번들 해시를 기록한다(매니페스트 포함 총 35 JSON). 데이터 스키마 2.6.0 · 번들 계약 1.0.0.
+- **거리 v2.6 파이프라인 정식화 완료**: build.py의 임시 JSON 오버레이를 제거하고 시트가 다시 정본이다.
+  InteractPoints 시트 = 통합 13컬럼(kind·source_id·spot_id·facing·phase·spawn_when·activation_mode·interact_when·priority·action_type·action_ref)
+  — 배치와 상호작용을 한 행이 소유(구 FieldEntities 소멸). Transitions 시트 신설(6컬럼 2행). Scenes 11컬럼(start_mode·on_complete_effects — 거리 phase 전용,
+  oce는 **문자열 DSL로 배포**가 정본). Day 99 거리 QA도 `qa/interact_points_day99.json` 한 파일이 배치와 상호작용을 함께 소유하며
+  `qa/field_entities_day99.json`은 폐기했다. 현행 배포 QA는 지점 13개·씬 13개·스텝 27개·선택지 항목 3개다.
+  gen 시드는 비거리 도메인(Tags tag_id 등)에서 시트보다 낡음 — 재생성 금지 사유에 추가됨(gen 상단 경고 주석 참조).
 - **QA 테스트 대본 = day 99** (`tools/converted/day99_test.py` → `script/bar/day99.json` + random_waves day99 2행).
   일반 진행에선 안 열림(99 = '날짜로는 안 열림' 컨벤션). 개점 허브(대사·표정·태그·읽음스킵 / 분기·효과 / 좌석·카메라·연출 / **1부 시작**)
   → 1부 테스트 웨이브 2팀 → 2부 허브(주문 세트 / 등급 5분기·재제조 / 2인 연속 주문 / end_part·정산).
   허브 순환 = 모든 테스트 씬 마지막 스텝이 choice(goto 허브) — goto 없이 끝나면 phase가 넘어간다("1부 시작"만 의도적으로 goto 공란).
   삭제 = day99_test.py + gen 병합 블록만 제거. **진입 방식(엔진이 day=99로 시작하는 개발 수단) 플머 협의 대기 ❓**
+- **거리 v2.6 웹 시뮬레이터** = `이준서/웹시뮬레이터/web/거리_v26_시뮬레이터.html`(단일 파일·실데이터 임베드 — 더블클릭으로 열림).
+  사이드뷰 횡이동(A·D/Shift/E), Day 0~3 운영 번들 + Day 99 QA 번들(퇴근길 전용 — 선택 시 자동 전환), 지점 실시간 평가 카드(스폰/잠김 사유)·실행 로그·플래그 패널.
+  검증 완료: 시바 그룹 진행·부비 1회 소비(alley_deep — 시바와 포커스 분리 확인)·자동 방송(범위 이탈에도 완주·같은 phase 반복 없음·아나운서 이름 표시)·포스터 뷰·장소 전환·
+  QA 13지점(통합 13필드 이관·qa_files 3개) 재주입·검증 완료: 가장 가까운 유효 대상 1개 선정·순수 배치(action_type 공란 = E 아이콘 제외)·
+  포스터 1회(잠김)/반복·스폰 제거(oce→spawn_when 소멸, 엔티티 화면 제거)·QA 전환 문. 씬 when 게이트·goto 대상 사전 검증(실패 시 effects·oce 미커밋 DATA_ERROR)도 구현.
+  운영 시바 선택지에 간식 조건 추가됨(flag.has_snack — 획득처는 아직 데이터에 없음 ❓).
+- **거리 QA 시트 정본화 완료**: build.py의 시바 선택지 하드패치와 gen의 QA 씬 상수(frozen 모듈)를 전부 제거했다.
+  시트에는 Day 99 거리 씬·지점 15종이 남아 있으나, 데모에서 사용하지 않는 priority 전용 2종은 build.py가 빌드 입력에서 제외한다. 현행 배포 QA는 거리 씬 13종·지점 13종이며, InteractPoints 시트 원본은 운영 7행 + QA 15행이다.
+  검증 조정 3건: sync 'wait' 명기 허용(공란과 동치) / 루나 say 직전 행동 금지는 바 계열(bar·bar_open) 한정(거리 선택지는 플레이어 말풍선 버튼이라 정상 패턴) /
+  배치 일관성 검사에서 p_qa_* 제외(day 99 전용이라 운영 행과 동시 스폰 불가). 빌드가 배포 json을 무보정 완전 재현(diff 0)·고의 위반 검출 확인.
+  데이터 갱신 시 재생성: 같은 폴더의 `거리_v26_시뮬레이터.template.html`의 `__DATA__`에 json 재주입.
+  주의: 브라우저 탭이 백그라운드면 타이머 스로틀로 자동 진행이 느려진다 — 화면을 보면서 테스트할 것.
 - **바 운영 통합 웹 시뮬레이터** = `이준서/웹시뮬레이터/web/바운영_통합_시뮬레이터.html`(단일 파일, 하루 전체 루프+기믹 4종+실데이터 임베드,
   검수 9건 수정·산술 실측 완료). `이준서/day0-bar-simulator/`는 PD의 별개 Next.js 프로젝트(자체 .git — 커밋 시 .gitignore 주의)

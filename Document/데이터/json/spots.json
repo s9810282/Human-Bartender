@@ -6,12 +6,6 @@
     "note": "출근 도착점 / 퇴근 출발점"
   },
   {
-    "id": "street_stall",
-    "area": "street",
-    "desc": "완의 노점",
-    "note": "상점 + 노점 이벤트"
-  },
-  {
     "id": "street_mid",
     "area": "street",
     "desc": "거리 중간",
@@ -46,5 +40,47 @@
     "area": "street",
     "desc": "엘리베이터 앞",
     "note": "배드엔딩2 연출 예약"
+  },
+  {
+    "id": "qa_pair_left",
+    "area": "qa",
+    "desc": "QA 거리 좌측 NPC 자리",
+    "note": "Day 99: 행인 A·B 대화 배치"
+  },
+  {
+    "id": "qa_pair_right",
+    "area": "qa",
+    "desc": "QA 거리 우측 NPC 자리",
+    "note": "Day 99: 행인 A·B 대화 배치"
+  },
+  {
+    "id": "qa_text_object",
+    "area": "qa",
+    "desc": "QA 일반 오브젝트",
+    "note": "Day 99: E 조사 말풍선"
+  },
+  {
+    "id": "qa_sequence_object",
+    "area": "qa",
+    "desc": "QA 순차 조사 오브젝트",
+    "note": "Day 99: sequential 선택"
+  },
+  {
+    "id": "qa_probe_object",
+    "area": "qa",
+    "desc": "QA 조건 검증 오브젝트",
+    "note": "Day 99: 스텝 when·effects"
+  },
+  {
+    "id": "qa_monologue",
+    "area": "qa",
+    "desc": "QA 1인 NPC 독백 자리",
+    "note": "Day 99: E로 시작하는 단일 NPC 독백"
+  },
+  {
+    "id": "qa_choice_npc",
+    "area": "qa",
+    "desc": "QA 선택지 NPC 자리",
+    "note": "Day 99: continue·goto·조건 잠금 선택지"
   }
 ]

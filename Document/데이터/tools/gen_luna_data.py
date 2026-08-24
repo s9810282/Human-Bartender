@@ -447,10 +447,12 @@ CHARACTERS = [
     ("volts",  "볼츠",     "Volts",      "#708090", "guest",       False, None,    "default",                    "SFX_guest_door_in", "SFX_guest_door_out", "1회 등장(구 day8)"),
     ("yuna",   "유나",     "Yuna",       "#a8d8ff", "cutscene",    False, None,    "default",                    None, None, "꿈/과거 회상 전용. 루나의 은인"),
     ("soldier","경비병",   "Guard",      "#888888", "cutscene",    False, None,    "default",                    None, None, "꿈 컷씬 전용"),
-    ("vendor", "완",       "Wan",        "#cccccc", "npc_street",  False, None,    "default",                    None, None, "노점상. 출퇴근길 상점"),
-    ("radio",  "라디오",   "Radio",      "#9ad0a0", "npc_street",  False, None,    "default",                    None, None, "엘리베이터·집 라디오(연출용 화자, 구엔진 elevator_radio 이식)"),
-    ("sign",   "표기",     "Sign",       "#9aa2b5", "npc_street",  False, None,    "default",                    None, None, "전단·간판·자판기 등 사물 텍스트 화자(구엔진 speaker=object 대응)"),
+    ("radio",  "아나운서", "Announcer",  "#9ad0a0", "npc_street",  False, None,    "default",                    None, None, "TV·홀로그램·라디오 방송 전용 화자. 오브젝트 자동 대사에만 사용"),
     ("hound",  "하운드",   "Hound",      "#888888", "cutscene",    False, None,    "default",                    None, None, "연구소·꿈 컷씬 전용 하운드. FieldAnims.character_id 정식 참조 대상"),
+    ("street_citizen_a", "행인 A", "Passerby A", "#b9c4d0", "npc_street", False, None, "default", None, None, "[QA/Day 99] 플레이어가 E로 시작하는 NPC 2인 대화의 화자 A"),
+    ("street_citizen_b", "행인 B", "Passerby B", "#c7b8a8", "npc_street", False, None, "default", None, None, "[QA/Day 99] 플레이어가 E로 시작하는 NPC 2인 대화의 화자 B"),
+    ("street_citizen_c", "행인 C", "Passerby C", "#aeb9a8", "npc_street", False, None, "default", None, None, "[QA/Day 99] 플레이어 상호작용형 1인 독백 검증용"),
+    ("street_citizen_d", "행인 D", "Passerby D", "#b5a9c8", "npc_street", False, None, "default", None, None, "[QA/Day 99] 거리 선택지 검증용"),
 ]
 
 # 파츠 애니메이션 캐릭터의 베이스 바디 (구엔진 character_anim.json base_body 이식)
@@ -499,7 +501,10 @@ EXPRESSIONS = [
     ("volts",  "default", "sprite", "volts_default",  ""),
     ("yuna",   "default", "sprite", "yuna_default",   "꿈 전용"),
     ("soldier","default", "sprite", "soldier_default","꿈 전용"),
-    ("vendor", "default", "sprite", "vendor_default", ""),
+    ("street_citizen_a", "default", "sprite", "qa_street_citizen_a_default", "[QA 플레이스홀더] 기본 전신 1장"),
+    ("street_citizen_b", "default", "sprite", "qa_street_citizen_b_default", "[QA 플레이스홀더] 기본 전신 1장"),
+    ("street_citizen_c", "default", "sprite", "qa_street_citizen_c_default", "[QA 플레이스홀더] 기본 전신 1장"),
+    ("street_citizen_d", "default", "sprite", "qa_street_citizen_d_default", "[QA 플레이스홀더] 기본 전신 1장"),
     # --- common: 랜덤 손님 공용 세트 (구엔진 'default' 캐릭터 8종 — 현재는 스프라이트 1장) ---
     ("common", "default",   "sprite", "guest_default",   "추후 parts_anim 전환(구엔진 클립 default_* 존재)"),
     ("common", "joy",       "sprite", "guest_joy",       ""),
@@ -578,9 +583,9 @@ CUTSCENES = [
     ("tl_find_luna",       "timeline", "FindLuna",           "루나 발견(구조) 회상"),
     ("tl_bubi_meet",       "timeline", "Bubi_meet",          "부비 첫 만남 — d3_aili_bubi 승격 후보"),
     ("tl_catmilk",         "timeline", "Catmilk",            "깔루아밀크 × 고양이 연출"),
-    ("tl_samho_meet",      "timeline", "SmahoMeet",          "삼호 첫 만남"),
-    ("tl_samho_arrive",    "timeline", "SmahoArrive",        "삼호 달려옴(생존루트 퇴근길 — day4)"),
-    ("tl_samho_dead",      "timeline", "SamhoDead",          "삼호 사망 — day4 분기 연출"),
+    ("tl_samho_meet",      "timeline", "SmahoMeet",          "거리 시스템 제외 — 삼호·시바 첫 만남 별도 연출 컷신"),
+    ("tl_samho_arrive",    "timeline", "SmahoArrive",        "거리 시스템 제외 — 삼호 생존 결과·도움 요청 별도 연출 컷신"),
+    ("tl_samho_dead",      "timeline", "SamhoDead",          "거리 시스템 제외 — 삼호 사망 결과 별도 연출 컷신"),
     ("tl_finished_cosmo",  "timeline", "Finished_Cosmo",     "완성 연출 — 앵커 4종만 유지(절차적 합성 방침, 30종 전부 제작 안 함)"),
     ("tl_finished_martini","timeline", "Finished_DryMarthini",""),
     ("tl_finished_ginfizz","timeline", "Finished_Ginfizz",   ""),
@@ -645,15 +650,18 @@ FIELD_ANIMS = [
     ("samho", "run",        "Ch/3/samho_RUN3_-Sheet",           "OK",     "day4 생존루트 — 꽃 들고 달려옴"),
     ("samho", "dead",       "Ch/3/SAMHO_DEAD-Sheet",            "OK",     "day4 사망 연출"),
     ("samho", "dead_opening","Ch/3/SAMHO_DEAD-OPNING-Sheet",    "OK",     ""),
-    ("bubi",  "idle",       "Ch/Bubi/cat_animation-Sheet",      "OK",     "거리 배회·발견 이벤트"),
+    ("bubi",  "idle",       "Ch/Bubi/cat_animation-Sheet",      "OK",     "거리 고양이 전신 표시·배회"),
     ("shiba", "idle",       "Ch/Shiba/shi_Bar-Sheet",           "OK",     "거리 NPC 겸용"),
     ("yuna",  "raid_set",   "CutSceneLab/08.yuna_attack 등",    "OK",     "꿈 컷씬 — 습격 시퀀스 프레임에 포함"),
     ("soldier","raid_set",  "CutSceneLab/04.soilder_idle",      "OK",     "꿈 컷씬"),
     ("hound", "raid_set",   "CutSceneLab/03·05·06·07 (hound_*)", "OK",    "꿈 컷씬 — 하운드(캐릭터 시트엔 없음, 컷씬 전용)"),
     ("chris", "idle",       "(미제작)",                          "신규필요", "테라스 대화·day1 퇴근길 동행에 필요 — 대화를 초상만으로 처리하면 불필요(연출 결정 대기)"),
-    ("vendor","idle",       "(미제작)",                          "신규필요", "노점상 — 거리 상호작용 NPC"),
     ("haru",  "idle",       "(미제작)",                          "신규필요", "노말엔딩1 퇴근길 연출에 필요"),
     ("rios",  "idle",       "(미제작)",                          "신규필요", "배드엔딩 엘리베이터 연출에 필요"),
+    ("street_citizen_a", "idle", "QA/Street/citizen_a_idle", "플레이스홀더", "Day 99 NPC 대화 구현 검증용"),
+    ("street_citizen_b", "idle", "QA/Street/citizen_b_idle", "플레이스홀더", "Day 99 NPC 대화 구현 검증용"),
+    ("street_citizen_c", "idle", "QA/Street/citizen_c_idle", "플레이스홀더", "Day 99 NPC 독백 구현 검증용"),
+    ("street_citizen_d", "idle", "QA/Street/citizen_d_idle", "플레이스홀더", "Day 99 선택지 구현 검증용"),
 ]
 
 # ── 랜덤 손님 공용 외형 — 조합형 카탈로그 (성별 일치 조합) ──
@@ -977,66 +985,85 @@ REGULAR_SLOTS = [
 SPOT_COLS = ["id","area","desc","note"]
 SPOTS = [
     ("bar_door",     "street", "바 '언노운' 정문 앞",   "출근 도착점 / 퇴근 출발점"),
-    ("street_stall", "street", "완의 노점",             "상점 + 노점 이벤트"),
     ("street_mid",   "street", "거리 중간",             "걷기 연출 기본 목적지"),
     ("street_wall",  "street", "전단이 붙은 벽",        "구엔진 outside_objects 이식(전단·포스터류)"),
     ("home_door",    "street", "집 현관 앞",            "퇴근 도착점 / 출근 출발점"),
     ("alley_in",     "alley",  "뒷골목 입구",           "골목 이벤트 얕은 쪽 + 임상시험 전단"),
     ("alley_deep",   "alley",  "뒷골목 안쪽",           "골목 이벤트 깊은 쪽(상자·고양이·쓰레기통)"),
     ("elevator",     "street", "엘리베이터 앞",         "배드엔딩2 연출 예약"),
+    ("qa_pair_left", "qa", "QA 거리 좌측 NPC 자리", "Day 99: 행인 A·B 대화 배치"),
+    ("qa_pair_right", "qa", "QA 거리 우측 NPC 자리", "Day 99: 행인 A·B 대화 배치"),
+    ("qa_text_object", "qa", "QA 일반 오브젝트", "Day 99: E 조사 말풍선"),
+    ("qa_sequence_object", "qa", "QA 순차 조사 오브젝트", "Day 99: sequential 선택"),
+    ("qa_probe_object", "qa", "QA 조건 검증 오브젝트", "Day 99: 스텝 when·effects"),
+    ("qa_monologue", "qa", "QA 1인 NPC 독백 자리", "Day 99: E로 시작하는 단일 NPC 독백"),
+    ("qa_choice_npc", "qa", "QA 선택지 NPC 자리", "Day 99: continue·goto·조건 잠금 선택지"),
 ]
 
-# selection — 같은 포인트를 다시 조사했을 때의 규칙 (구엔진 outside_objects selection 이식):
-#   once        1회 보면 소모
-#   repeat      매번 같은 씬
-#   sequential  조사할 때마다 group의 다음 씬(flow_seq 순) — 마지막 씬에서 멈춤
-#   conditional 매번 group에서 when을 통과하는 첫 씬
-# scene_or_shop: 씬 id / "group:<그룹id>" / "shop:<상점id>"
-# trigger(v3.0 거리 시스템) — 대사 시작 방식: interact(E키 상호작용, 기본) / auto(재생 범위 진입 시 자동 재생 —
-#   E 아이콘 없음·조작 락 없음·타이핑 종료 후 street_auto_next_delay_sec 뒤 다음 대사). auto는 대사 전용이라 shop: 참조 불가.
-# actor(v3.1) — 이 지점에 서 있는 캐릭터(characters.id). 빈값 = 사물·전단 등 캐릭터 아님.
-#   NPC의 "존재"는 actor가, "발동"은 지점이 담당 — 같은 actor를 phase·when이 다른 지점 여러 개에 배치하면
-#   시간대별 위치 이동을 표현할 수 있다(소비 상태는 지점별, 그룹 진행은 scene_or_shop 공유로 이어짐).
-POINT_COLS = ["id","spot","kind","actor","phase","trigger","when","scene_or_shop","selection","note"]
+# v2.6.0 거리 배치 계약(단일 파일 전환) — interact_points.json 하나가 배치(spot_id·facing·phase·spawn_when)와
+# 상호작용(activation_mode·interact_when·action)을 함께 소유한다. 구 FieldEntities는 지점 행에 통합돼 소멸.
+# actor는 Characters.id를 그대로 source_id로 사용하고 기본 동작은 FieldAnims의 idle을 쓴다.
+# facing은 actor에만 적는다(object는 공란). spawn/move/despawn 스텝은 거리 런타임 범위가 아니다.
+# Day 99 거리 QA도 운영과 동일한 단일 interact_points 계약을 사용한다.
+# 거리 QA 씬·지점은 시트(Scenes/Steps/Choices/InteractPoints의 day99·p_qa_* 행)가 정본이다.
+
+# transition은 플레이어가 지정 문·오브젝트에서 직접 상호작용했을 때만 실행한다.
+# 경계를 걸어서 넘거나 proximity에 들어와 자동으로 장소가 바뀌는 기능은 지원하지 않는다.
+TRANSITION_COLS = ["id","target_location","target_phase","target_spot","effect","note"]
+TRANSITIONS = [
+    ("enter_bar", "bar", "bar", "", "fade", "바 정문에서 E → 바 입장. bar_open·1부·2부 분기는 BarController가 현재 일차 데이터로 결정"),
+    ("enter_home", "home", "home", "home_spawn_entry", "fade", "집 현관에서 E → 집 내부 입장"),
+]
+
+# action_type: scene(단일 씬) / scene_group(when을 통과하는 첫 씬) / transition(장소 전환) / 공란(순수 배치)
+# activation_mode: interact(E키) / proximity(라디오·TV·홀로그램 같은 비캐릭터 자동 방송 전용)
+# 시드의 spawn_when·interact_when은 구표기(1-based) — 로드 시 _shift_when이 일괄 −1.
+POINT_COLS = ["id","kind","source_id","spot_id","facing","phase","spawn_when",
+              "activation_mode","interact_when","priority","action_type","action_ref","note"]
 POINTS = [
-    ("p_vendor_intro", "street_stall", "npc", "vendor",    "commute_in",  "interact", "day == 2", "d2_vendor_intro", "once", "노점상 완 첫 인사"),
-    ("p_vendor_shop",  "street_stall", "shop", "vendor",   "both",        "interact", "day >= 3", "shop:vendor",     "repeat", "노점 상점(과일·믹서 구매)"),
-    ("p_alley_cat",    "alley_in",     "object", "", "commute_in",  "interact", "day == 3 && !flag.d3_cat_seen", "d3_alley_cat", "once", "노란 꼬리 목격 → d3 아일리 선택지 연동"),
-    # --- 구엔진 outside_objects.json 이식 4종 (원문 대사 기반) ---
-    ("p_shiba",       "alley_in",     "npc", "shiba",    "both",        "interact", "day >= 2", "group:np_shiba",     "conditional", "시바견 NPC — 구엔진 shiba.json 이식 (첫 조우→반복)"),
-    ("p_ob_parttime",  "street_wall",  "object", "", "both", "interact", "day >= 2", "ob_parttime_1",  "repeat", "알바 전단 — 적힌 정보만, 몇 번이든 다시 읽을 수 있다"),
-    ("p_ob_experiment","alley_in",     "object", "", "commute_out", "interact", "day >= 2", "ob_experiment_1", "once", "임상시험 전단 — 코라테크 복선(한 번 읽으면 소비)"),
+    ("p_elevator_radio", "object", "elevator_radio", "elevator", "", "commute_out", "day == 1",
+     "proximity", "", 0, "scene", "d1_elevator", "라디오 범위 진입 시 아나운서 대사 자동 출력·자동 진행"),
+    ("p_alley_cat", "actor", "bubi", "alley_in", "right", "commute_in", "day == 3",
+     "interact", "!flag.d3_cat_seen", 100, "scene", "d3_alley_cat", "고양이에게 E 상호작용할 때만 대사 시작"),
+    ("p_shiba", "actor", "shiba", "alley_in", "right", "both", "day >= 2",
+     "interact", "", 100, "scene_group", "np_shiba", "씬 when을 통과하는 첫 시바 씬을 실행"),
+    ("p_ob_parttime", "object", "sp_parttime_poster", "street_wall", "", "both", "day >= 2",
+     "interact", "", 50, "scene", "ob_parttime_1", "몇 번이든 다시 읽을 수 있는 알바 전단"),
+    ("p_ob_experiment", "object", "sp_experiment_poster", "alley_in", "", "commute_out", "",
+     "interact", "!flag.seen_coratech_ad", 50, "scene", "ob_experiment_1", "임상시험 전단은 계속 보이고 한 번 읽은 뒤 상호작용만 비활성"),
+    ("p_enter_bar", "object", "street_bar_door", "bar_door", "", "commute_in", "day <= 3",
+     "interact", "", 100, "transition", "enter_bar", "자동 경계 이동 없이 문에서 E를 눌러 입장"),
+    ("p_enter_home", "object", "street_home_door", "home_door", "", "commute_out", "day <= 3",
+     "interact", "", 100, "transition", "enter_home", "자동 경계 이동 없이 문에서 E를 눌러 입장"),
 ]
 
 # ============================================================
 # 5. 대본 — Scenes / Steps / Choices / Orders
 # ============================================================
-# trigger: auto / interact / cameo (+v1.2: pass:<spot> / event:<키> / manual)
-# skippable: 컷씬 스킵 허용 여부 / group: interact 플로우 그룹(Points.selection과 연동)
+# trigger는 bar/home/cutscene 기존 실행기의 발동 방식이다. 거리에서는 v2.6 start_mode를 정본으로 쓴다.
+# start_mode: referenced(InteractPoints가 호출) / manual(choice.goto 등 다른 씬이 호출)
+# on_complete_effects: 거리 씬의 마지막 스텝까지 정상 완료한 뒤 한 번 적용하는 상태 변화.
+# skippable: 컷씬 스킵 허용 여부 / group: scene_group 선택 단위
 # day 0 = 일차 무관 상시 씬(반복 NPC·오브젝트) — phase에 따라 street/home 등으로 배포
-SCENE_COLS = ["id","day","phase","seq","trigger","when","title","skippable","group"]
+SCENE_COLS = ["id","day","phase","seq","trigger","when","title","skippable","group","start_mode","on_complete_effects"]
 SCENES = [
     ("d1_tutorial",    1, "bar",         1, "auto",     "", "튜토리얼 — 크리스의 진토닉 강습"),
     ("d1_home_talk",   1, "home",        1, "auto",     "", "테라스 — 바텐더의 태도 + 근황"),
     ("d1_intro",       1, "intro",       1, "auto",     "", "인트로 — 검은 화면, 루나가 처음 눈뜨던 밤"),
     ("d1_port",        1, "bar",         3, "auto",     "", "포트 첫 잔 — 진피즈 (튜토리얼 두 번째 제조)"),
-    ("d1_elevator",    1, "commute_out", 2, "auto",     "", "퇴근길 엘리베이터 — 라디오 뉴스 (구엔진 elevator_radio 이식)"),
-    ("d2_meet",        2, "commute_in",  2, "auto",     "", "출근길 — 삼호와 시바견"),
+    ("d1_elevator",    1, "commute_out", 2, "interact", "", "퇴근길 엘리베이터 — 범위 진입 시 자동 출력되는 아나운서 뉴스"),
     ("d2_home_talk",   2, "home",        1, "auto",     "", "테라스 — 이틀째 밤"),
-    ("d2_vendor_intro",2, "commute_in",  0, "interact", "", "노점상 완 — 인사 + 상자 퀘스트"),
     ("d2_bar_open",    2, "bar_open",    1, "auto",     "", "개점 전 — 크리스의 확인, OPEN 간판을 걸기까지"),
     ("d2_port_chris",  2, "bar",         1, "auto",     "", "포트 첫 등장 — 루나 구조의 진실 일부"),
     ("d2_shiba",       2, "bar",         2, "auto",     "", "시바 첫 등장 — 개똥철학 (크리스 부재)"),
     ("d2_chris_return",2, "bar",         3, "auto",     "", "크리스 복귀 — 시바는 멍멍"),
     ("d2_dream",       2, "dream",       1, "auto",     "", "꿈 — 습격 1: 유나의 목소리와 총성"),
-    ("d3_alley_cat",   3, "commute_in",  0, "interact", "", "골목의 노란 꼬리"),
+    ("d3_alley_cat",   3, "commute_in",  0, "interact", "", "골목의 고양이"),
     ("d3_bar_open",    3, "bar_open",    1, "auto",     "", "개점 전 — 어제 손님 이야기, OPEN"),
     ("d3_aili_bubi",   3, "bar",         1, "auto",     "", "아일리 첫 대면 + 부비 등장"),
     ("d3_samho",       3, "bar",         2, "auto",     "", "삼호 첫 등장 — 고도수 2연속"),
     ("d3_cameo_port",  3, "bar",         0, "cameo",    "", "1부 카메오 — 포트가 짧게 들름 (서빙 후 재생)"),
     # 표시 Day 3(시드 day4) — Day 2 제조 선택의 결과를 확인하는 데모 최종일.
-    ("d3_samho_death", 4, "commute_out", 2, "auto",     "flag.samho_death_route", "…골목의 삼호 (사망 목격 — 데모 컷)"),
-    ("d3_samho_rescue",4, "commute_out", 2, "auto",     "flag.samho_refused_drink", "도움 요청 — 삼호 구출"),
     ("d3_chris_witness",4,"home",        2, "auto",     "flag.samho_refused_drink", "크리스의 목격 — 데모 컷"),
     ("d3_home_talk",   4, "home",        1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "테라스 — 은인들 (데모에선 분기 씬이 대체)"),
     ("d3_dream",       4, "dream",       1, "auto",     "!flag.samho_death_route && !flag.samho_refused_drink", "꿈 — 습격 2 (데모에선 분기 엔딩이 대체)"),
@@ -1050,9 +1077,41 @@ SCENES = [
     ("np_tv_2",         0, "home",   2, "interact", "", "홀로그램 TV — 토크쇼 (구 radio 이식)", False, "home_tv"),
     ("ob_parttime_1",   0, "street", 1, "interact", "", "전단 — 알바 공고 (포스터 뷰, 적힌 정보만)", False, ""),
     ("ob_experiment_1", 0, "street", 1, "interact", "", "임상시험 전단 — 코라테크 복선 (포스터 뷰)", False, ""),
+    # --- Day 99 거리 전용 QA 시나리오 ---
+    ("qa_np_conversation", 99, "street", 1, "interact", "", "[QA] E로 시작하는 NPC A·B 대화", False, ""),
+    ("qa_object_text", 99, "street", 2, "interact", "", "[QA] 일반 사물 말풍선", False, ""),
+    ("qa_step_probe", 99, "street", 3, "interact", "", "[QA] 스텝 when·effects", False, ""),
+    ("qa_npc_monologue", 99, "street", 4, "interact", "", "[QA] E로 시작하는 1인 NPC 독백", False, ""),
+    ("qa_choice", 99, "street", 5, "interact", "", "[QA] 선택지 continue·goto·조건 잠금", False, ""),
+    ("qa_choice_result", 99, "street", 6, "manual", "", "[QA] 선택지 goto 도착 씬", False, ""),
+    ("qa_sequence_1", 99, "street", 10, "interact", "", "[QA] 순차 조사 1단계", False, "qa_street_sequence"),
+    ("qa_sequence_2", 99, "street", 11, "interact", "", "[QA] 순차 조사 2단계", False, "qa_street_sequence"),
+    ("qa_sequence_3", 99, "street", 12, "interact", "", "[QA] 순차 조사 3단계·마지막 고정", False, "qa_street_sequence"),
 ]
-# 구형 7필드 행 정규화 (skippable=False, group="")
-SCENES = [r if len(r) == len(SCENE_COLS) else tuple(list(r) + [False, ""]) for r in SCENES]
+# 구형 7필드 행은 skippable/group을 채운 뒤, 거리 씬에만 start_mode를 부여한다.
+_STREET_PHASES = {"street", "commute_in", "commute_out"}
+_SCENE_WHEN_OVERRIDES = {
+    "qa_sequence_1": "!flag.qa_sequence_1_done",
+    "qa_sequence_2": "flag.qa_sequence_1_done && !flag.qa_sequence_2_done",
+    "qa_sequence_3": "flag.qa_sequence_2_done",
+}
+_SCENE_COMPLETE_EFFECTS = {
+    "d3_alley_cat": "flag.d3_cat_seen = true",
+    "ob_experiment_1": "flag.seen_coratech_ad = true",
+    "qa_sequence_1": "flag.qa_sequence_1_done = true",
+    "qa_sequence_2": "flag.qa_sequence_2_done = true",
+}
+def _normalize_scene(row):
+    vals = list(row)
+    if len(vals) == 7:
+        vals += [False, ""]
+    scene_id, phase, trigger = vals[0], vals[2], vals[4]
+    if scene_id in _SCENE_WHEN_OVERRIDES:
+        vals[5] = _SCENE_WHEN_OVERRIDES[scene_id]
+    start_mode = "" if phase not in _STREET_PHASES else ("manual" if trigger == "manual" else "referenced")
+    vals += [start_mode, _SCENE_COMPLETE_EFFECTS.get(scene_id, "")]
+    return tuple(vals)
+SCENES = [_normalize_scene(r) for r in SCENES]
 
 # type v1.2 추가: expr(대사 없이 표정 전환) / anim(1회성 동작 클립) / emote(머리 위 이모트)
 #                 timeline(Unity Timeline 재생) / gif(스파인→GIF 삽입) — timeline/gif는 Cutscenes 표 참조
@@ -1113,16 +1172,6 @@ STEPS = [
     ("d1_elevator", 5, "say", "radio", "", "\"위대한 국가 재건은 아직 끝나지 않았다.\"\n\"신미합중국은 다시 한 번 세계의 중심에 설 것이다.\"", "\"The great national rebuilding is not over.\"\n\"The New United States will stand at the center of the world once more.\"", "", "", ""),
     ("d1_elevator", 6, "say", "radio", "", "라고 밝혔습니다.", "— he stated.", "", "", ""),
 
-    # ---------- day2 출근길 — 삼호와 시바견 조우 ----------
-    ("d2_meet", 1,  "say", "samho", "idle", "어? 너, 그 언노운의 새 바텐더 아냐?", "Huh? You're that new bartender at Unknown, right?", "", "", ""),
-    ("d2_meet", 2,  "say", "luna",  "idle", "맞습니다. 당신은…", "That's right. And you are...", "", "", ""),
-    ("d2_meet", 3,  "say", "samho", "idle", "삼호! 이 구역 애니멀 갱의 미래지. 기억해 둬.", "Samho! The future of the Animal Gang in this district. Remember it.", "", "", ""),
-    ("d2_meet", 4,  "say", "shiba", "idle", "시끄러워, 시바.", "Too loud, shiba.", "", "", ""),
-    ("d2_meet", 6,  "say", "shiba", "idle", "뭘 봐. 처음 봐, 시바?", "What're you looking at. Never seen one before, shiba?", "", "", ""),
-    ("d2_meet", 7,  "say", "samho", "idle", "하하, 얘는 시바. 말버릇은 저래도 나쁜 녀석은 아냐.", "Haha, this is Shiba. Foul mouth, decent guy.", "", "", ""),
-    ("d2_meet", 8,  "say", "shiba", "idle", "네가 나쁜 놈이 아닌 거겠지, 시바.", "You mean YOU'RE the decent one, shiba.", "", "", ""),
-    ("d2_meet", 9,  "say", "samho", "idle", "아무튼! 조만간 그 가게에 들를 거니까, 맛있는 거 준비해 둬!", "Anyway! I'll drop by that bar of yours soon — have something good ready!", "", "", "d3_samho_visit '내가 온다고 했잖아'의 복선"),
-
     # ---------- day2 테라스 ----------
     ("d2_home_talk", 1, "fx", "", "terrace_night", "", "", "", "", ""),
     ("d2_home_talk", 2, "say", "chris", "default", "…이틀째다. 오늘은 어땠나.", "...Day two. How was it.", "", "", ""),
@@ -1132,27 +1181,6 @@ STEPS = [
     ("d2_home_talk", 6, "say", "luna",  "default", "…나머지 절반은요?", "...And the other half?", "", "", ""),
     ("d2_home_talk", 7, "say", "chris", "default", "기다리는 거다. 손님이 먼저 말할 때까지.", "Waiting. Until the guest speaks first.", "", "", ""),
     ("d2_home_talk", 8, "say", "luna",  "default", "(기다린다… 기록해 둔다.)", "(Waiting... noted.)", "", "", "이후 습격의 꿈 1"),
-
-    # ---------- day3 분기 — 사망 목격 (death route) ----------
-    ("d3_samho_death", 1, "say", "luna", "idle", "(…골목이 소란스럽— 아니. 조용하다. 너무.)", "(...The alley is loud— no. It's quiet. Too quiet.)", "", "", ""),
-    ("d3_samho_death", 2, "say", "luna", "idle", "(…삼호?)", "(...Samho?)", "", "", ""),
-    ("d3_samho_death", 3, "say", "luna", "idle", "(골목 벽에… 기대앉아 있다.\n움직이지 않는다.)", "(He's slumped against the alley wall...\nNot moving.)", "", "", ""),
-    ("d3_samho_death", 4, "say", "luna", "idle", "(손에… 노란 꽃이 쥐여 있다.)", "(In his hand... a yellow flower.)", "", "", "d3_samho_pour의 꽃 약속 회수"),
-    ("d3_samho_death", 5, "say", "luna", "idle", "삼호. …삼호?", "Samho. ...Samho?", "", "", ""),
-    ("d3_samho_death", 6, "say", "luna", "idle", "(………)", "(.........)", "", "", ""),
-    ("d3_samho_death", 7, "say", "luna", "idle", "(반응이 없다. 체온이… 내려가 있다.)", "(No response. His body temperature... is falling.)", "", "alive.samho = false", ""),
-    ("d3_samho_death", 8, "say", "luna", "idle", "(…내가 따라준, 마지막 잔이 생각났다.)", "(...I thought of the last glass I poured him.)", "", "", "→ 데모 엔딩(사망)"),
-
-    # ---------- day3 분기 — 구출 (refuse route) ----------
-    ("d3_samho_rescue", 1, "say", "samho", "idle", "…루나! 루나 맞지?!", "...Luna! Luna, that's you, right?!", "", "", "골목에서 튀어나옴"),
-    ("d3_samho_rescue", 2, "say", "luna", "idle", "삼호? 무슨 일—", "Samho? What's going—", "", "", ""),
-    ("d3_samho_rescue", 3, "say", "samho", "idle", "쉿— 조용히. …마가로프 놈들이 우리 구역을 쳤어.", "Shh— quiet. ...The Magarov crew hit our turf.", "", "", ""),
-    ("d3_samho_rescue", 4, "say", "samho", "idle", "아지트가 당했어. 동생들은 미리 빼돌렸는데…\n나도 지금 쫓기는 중이야.", "The hideout's gone. I got my siblings out in time...\nbut they're after me now.", "", "", ""),
-    ("d3_samho_rescue", 5, "say", "luna", "idle", "다친 겁니까? 팔이—", "Are you hurt? Your arm—", "", "", ""),
-    ("d3_samho_rescue", 6, "say", "samho", "idle", "스친 거야. …저기, 부탁 하나만 하자.\n오늘 하룻밤만. 숨을 곳이 필요해.", "Just a graze. ...Listen, one favor.\nJust for tonight. I need somewhere to hide.", "", "", ""),
-    ("d3_samho_rescue", 7, "say", "luna", "idle", "(…크리스 씨한테 혼날지도 모른다. 하지만—)", "(...Chris might be furious. But—)", "", "", ""),
-    ("d3_samho_rescue", 8, "say", "luna", "idle", "따라오세요.", "Follow me.", "", "", ""),
-    ("d3_samho_rescue", 9, "say", "samho", "idle", "…고마워. 진짜로.", "...Thank you. Really.", "", "", "→ 집으로 (크리스 목격)"),
 
     # ---------- day3 분기 — 크리스의 목격 (rescue route, 집) ----------
     ("d3_chris_witness", 1, "say", "luna",  "default", "(소파에 삼호를 앉혔다. 상처는 깊지 않다.)", "(I sat Samho on the sofa. The wound isn't deep.)", "", "", ""),
@@ -1213,9 +1241,6 @@ STEPS = [
     ("d1_home_talk", 6, "choice", "",      "ch_d1_home", "", "", "", "", ""),
     ("d1_home_talk", 7, "say",    "chris", "default", "그래. 천천히 하면 된다. 늦잠 자지 마라.", "Good. Take it slow. And don't oversleep.", "", "", "수면으로"),
     # ---------- DAY 2 ----------
-    ("d2_vendor_intro", 1, "say", "vendor", "idle", "오, 새 얼굴. 언노운의 새 알바가 너구나? 크리스한테 얘기 들었다.", "Oh, a new face. You're Unknown's new hire, aren't you? Chris told me about you.", "", "", ""),
-    ("d2_vendor_intro", 2, "say", "luna",   "idle", "…안녕하세요. 루나입니다.", "...Hello. I'm Luna.", "", "", ""),
-    ("d2_vendor_intro", 3, "say", "vendor", "idle", "난 완. 이 노점 주인이다. 과일이든 탄산이든, 재료가 떨어지면 나한테 와라.", "Name's Wan. I run this stall. Fruit, fizz, whatever — when you run out of stock, come to me.", "", "", "상점 기능 소개"),
     ("d2_port_chris", 1,  "enter", "port",  "L", "", "", "", "", ""),
     ("d2_port_chris", 2,  "say",   "port",  "joy", "크리스! 이 영감, 아직 살아있었네.", "Chris! You old man, still alive!", "", "", ""),
     ("d2_port_chris", 3,  "say",   "chris", "default", "…영감은 너다, 포트.", "...You're the old man, Port.", "", "", ""),
@@ -1256,8 +1281,7 @@ STEPS = [
     ("d2_dream", 6, "fx",  "",     "hard_cut", "", "", "", "", "강제 암전"),
     ("d2_dream", 7, "say", "luna", "default", "…!!", "...!!", "", "flag.dream_raid_1 = true", "침대에서 깨어남"),
     # ---------- DAY 3 ----------
-    ("d3_alley_cat", 1, "say",    "sign", "", "냐옹.", "Meow.", "", "", "고양이 위 오브젝트 말풍선 — 냐옹만"),
-    ("d3_alley_cat", 2, "effect", "",     "", "", "", "", "flag.d3_cat_seen = true", "아일리 선택지 연동"),
+    ("d3_alley_cat", 1, "say",    "bubi", "", "냐옹.", "Meow.", "", "", "고양이 전신 캐릭터 위 말풍선 — 플레이어 상호작용 후 냐옹만 출력"),
     ("d3_aili_bubi", 1,  "enter",  "aili", "L", "", "", "", "", ""),
     ("d3_aili_bubi", 2,  "say",    "aili", "default", "네가 루나구나! 얘기 많이 들었어. 포트가 입이 싸거든.", "So you're Luna! I've heard all about you — Port has a big mouth.", "", "", ""),
     ("d3_aili_bubi", 3,  "say",    "luna", "default", "…어제 그분 말로는, 절 치료해주셨다고.", "...He said you were the one who fixed me.", "", "", ""),
@@ -1315,7 +1339,7 @@ STEPS = [
     # ---------- 구엔진 outside_objects 이식 (11필드 신형식 — sync 포함) ----------
     # 오브젝트 보기 규칙: 말풍선은 오브젝트 상단에만 — 루나 말풍선·독백 없음 (v3.3)
     ("ob_parttime_1", 1, "timeline", "", "sp_parttime_poster", "아르바이트 구함 · Bc25 편의점 · 야간 3교대 · 연락처 154*455*587", "PART-TIMER WANTED · Bc25 convenience store · night shifts · 154*455*587", "", "", "", "전단에 적힌 정보만 — 감상·서술 금지"),
-    ("ob_experiment_1", 1, "timeline", "", "sp_experiment_poster", "임상시험 참가자 모집 · 인공 신경망 분석 · 주관 (주)코라테크 · 문의 070*8812*0031", "CLINICAL TRIAL PARTICIPANTS WANTED · neural network analysis · CoraTech Inc. · 070*8812*0031", "", "flag.seen_coratech_ad = true", "", "전단 정보 + 세계관 복선 플래그"),
+    ("ob_experiment_1", 1, "timeline", "", "sp_experiment_poster", "임상시험 참가자 모집 · 인공 신경망 분석 · 주관 (주)코라테크 · 문의 070*8812*0031", "CLINICAL TRIAL PARTICIPANTS WANTED · neural network analysis · CoraTech Inc. · 070*8812*0031", "", "", "", "전단 정보 표시. 소비 플래그는 씬 완료 후 on_complete_effects에서 적용"),
     # ---------- [더미] NPC간 대화 · 거리 선택지 · proximity (v3.3 거리 기능 전수 데모) ----------
     ("np_shiba_3", 1, "say", "shiba", "idle", "또 왔냐, 시바.", "You again, shiba.", "", "", "", "거리 선택지 데모 씬"),
     ("np_shiba_3", 2, "say", "luna",  "idle", "네. 지나가던 길이에요.", "Yes. Just passing by.", "", "", "", "루나 참여 — 이름형 판정"),
@@ -1323,6 +1347,47 @@ STEPS = [
     ("np_shiba_3", 4, "choice", "", "ch_st_shiba", "", "", "", "", "", "거리 첫 선택지 — 조건 항목·goto 포함"),
     ("np_shiba_3", 5, "say", "shiba", "idle", "손대면 문다, 시바.", "Touch me and I bite, shiba.", "", "", "", "goto 없는 항목을 고르면 이어지는 줄"),
     ("np_shiba_treat", 1, "say", "shiba", "idle", "…흥. 뭐, 못 먹을 건 아니네, 시바.", "...Hmph. Well, it's not inedible, shiba.", "", "", "", "goto 결과 씬"),
+    # ---------- [Day 99/거리] 구조적으로 지원하는 상황 전수 QA ----------
+    ("qa_np_conversation", 1, "say", "street_citizen_a", "idle",
+     "너 그거 들었어? 애니멀 갱단 보스 그 새끼가 갑자기 프로이트 갱 놈들을 싹 쓸어버렸대.",
+     "Did you hear? That bastard running the Animal gang suddenly wiped out a whole crew of Freud gangsters.",
+     "", "", "", "E 상호작용 후 시작. 이동·다른 상호작용 잠금"),
+    ("qa_np_conversation", 2, "say", "street_citizen_b", "idle",
+     "뭐? 좀 잠잠하다 싶더니 또 개지랄이군.",
+     "What? Things finally seemed quiet, and now they're raising hell again.",
+     "", "", "", "다음 대사 입력으로만 진행"),
+    ("qa_np_conversation", 3, "say", "street_citizen_a", "idle",
+     "그러게 말이야. 하여간 짐승 새끼들 두목답다니까.",
+     "Exactly. Figures their boss would act like the animal he is.",
+     "", "", "", "마지막 줄 완료 후에만 이동·상호작용 잠금 해제"),
+    ("qa_object_text", 1, "say", "", "", "벽에 '오늘은 새벽 3시에 전력이 끊깁니다.'라는 공지가 붙어 있다.",
+     "A notice on the wall reads, 'Power will be cut at 3:00 a.m. today.'", "", "", "", "사물 위 공용 말풍선"),
+    ("qa_step_probe", 1, "effect", "", "", "", "", "", "flag.qa_street_probe = true", "", "먼저 플래그 생성"),
+    ("qa_step_probe", 2, "say", "", "", "플래그가 참이므로 이 줄은 보여야 한다.",
+     "This line must appear because the flag is true.", "flag.qa_street_probe", "", "", "보여야 정상"),
+    ("qa_step_probe", 3, "say", "", "", "이 줄이 보이면 스텝 when 건너뛰기가 고장 난 것이다.",
+     "If this line appears, step-level when skipping is broken.", "!flag.qa_street_probe", "", "", "보이면 안 됨"),
+    ("qa_step_probe", 4, "effect", "", "", "", "", "", "flag.qa_street_probe = false", "", "반복 테스트용 리셋"),
+    ("qa_npc_monologue", 1, "say", "street_citizen_c", "idle", "어제부터 골목 자판기가 또 먹통이네.",
+     "That alley vending machine has been broken again since yesterday.", "", "", "", "E로 시작하는 1인 NPC 독백"),
+    ("qa_npc_monologue", 2, "say", "street_citizen_c", "idle", "이 동네엔 멀쩡한 게 하나도 없어.",
+     "Nothing in this neighborhood works the way it should.", "", "", "", "마지막 줄 후 입력 잠금 해제"),
+    ("qa_choice", 1, "say", "street_citizen_d", "idle", "선택지 실행 방식을 하나 골라 봐.",
+     "Choose one of the choice-flow tests.", "", "", "", "선택지 QA 안내"),
+    ("qa_choice", 2, "choice", "", "ch_qa_street_choice", "", "", "", "", "", "continue·goto·조건 잠금 선택지 세트"),
+    ("qa_choice", 3, "say", "street_citizen_d", "idle", "goto가 비어 있으니 원래 씬의 다음 줄로 이어졌어.",
+     "Because goto was empty, execution continued to the next line of the current scene.", "", "", "", "goto null 결과"),
+    ("qa_choice_result", 1, "say", "street_citizen_d", "idle", "조건이 걸린 선택지의 effects를 적용한 뒤 goto 씬으로 이동했어.",
+     "The conditional choice applied its effects before moving to the goto scene.", "flag.qa_choice_route", "", "", "조건 선택지 goto 결과"),
+    ("qa_choice_result", 2, "say", "street_citizen_d", "idle", "조건 없는 선택지에서 바로 goto 씬으로 이동했어.",
+     "The unconditional choice moved directly to the goto scene.", "!flag.qa_choice_route", "", "", "무조건 선택지 goto 결과"),
+    ("qa_choice_result", 3, "effect", "", "", "", "", "", "flag.qa_choice_unlocked = false; flag.qa_choice_route = false", "", "반복 검증을 위해 QA 플래그 초기화"),
+    ("qa_sequence_1", 1, "say", "", "", "첫 번째 조사: 기기 표시창이 깜빡인다.",
+     "First inspection: the device display flickers.", "", "", "", "sequential 1단계"),
+    ("qa_sequence_2", 1, "say", "", "", "두 번째 조사: 표시창에 암호화된 숫자가 떠오른다.",
+     "Second inspection: encrypted numbers appear on the display.", "", "", "", "sequential 2단계"),
+    ("qa_sequence_3", 1, "say", "", "", "세 번째 조사: '접근 권한 없음.' 더 이상 변하지 않는다.",
+     "Third inspection: 'Access denied.' It no longer changes.", "", "", "", "sequential 마지막 장면에서 고정"),
     # --- ed_bad_gold: 유지비 미납 엔딩 (데모용 텍스트 엔딩 — 연출 없음) ---
 ]
 # 구형 10필드 행 정규화 (sync="" 를 effects 뒤에 삽입).
@@ -1342,7 +1407,11 @@ CHOICES = [
     # 퀘스트 데모 — 수락은 started 플래그만 세움. 진행/완료는 QuestStages의 serve: 목표가 담당
     # [더미] 거리 첫 선택지 세트 — 무조건 항목 + 조건 항목(회색 표시 데모) + goto
     ("ch_st_shiba", 1, "아뇨, 그냥 지나갈게요.",        "No, I'll just be on my way.",             "", "", "", "무조건 항목 — 씬 계속 진행"),
-    ("ch_st_shiba", 2, "간식 좀 드릴까요?",             "Want a little treat?",                    "", "flag.shiba_fed = true", "np_shiba_treat", "무조건 항목 — 상자 퀘스트 삭제로 조건 해제"),
+    ("ch_st_shiba", 2, "간식 좀 드릴까요?",             "Want a little treat?",                    "flag.has_snack", "flag.has_snack = false; flag.shiba_fed = true", "np_shiba_treat", "간식 보유 시 활성·선택 시 간식 소비", "줄 수 있는 간식이 없습니다.", "You don't have a treat to give."),
+    # [Day 99/거리] continue·goto·effects·조건 잠금·lock_reason 전수 QA
+    ("ch_qa_street_choice", 1, "현재 씬을 계속 본다.", "Continue the current scene.", "", "flag.qa_choice_unlocked = true", "", "goto null·effects 검증"),
+    ("ch_qa_street_choice", 2, "숨겨진 통로를 묻는다.", "Ask about the hidden passage.", "flag.qa_choice_unlocked", "flag.qa_choice_route = true", "qa_choice_result", "조건 활성·goto 검증", "먼저 '현재 씬을 계속 본다'를 선택해야 합니다.", "Choose 'Continue the current scene' first."),
+    ("ch_qa_street_choice", 3, "바로 결과 씬으로 간다.", "Go straight to the result scene.", "", "", "qa_choice_result", "무조건 goto 검증"),
     # 오브젝트 행동 선택지 — 루나 말풍선 없이 버튼만 뜬다(항목 문구 = 플레이어 행동)
 ]
 
@@ -1356,10 +1425,53 @@ CHOICES = [c for c in CHOICES if c[0] not in REPLACED_CHOICES] + BAR_CHOICES
 
 # ── QA 테스트 대본 병합 (day 99 = 일반 진행에서 안 열림) — 제거 시 이 블록과 converted/day99_test.py만 삭제 ──
 from converted.day99_test import TEST_SCENES, TEST_STEPS, TEST_CHOICES, TEST_WAVES
+# 거리 QA(씬·스텝·선택지·지점)는 전부 시트가 정본이다 — InteractPoints 시트의 p_qa_* 행이
+# qa/interact_points_day99.json으로, Scenes/Steps의 day 99 street 씬이 script/qa/street_day99.json으로 분리 배포된다.
+
+# ── 거리 v2.6 씬·스텝 시드 정합 (구 build.py 오버레이를 시드로 흡수 — 시트·시드·json 3자 일치 유지) ──
+# start_mode: 거리 phase 씬만 사용 — referenced(InteractPoints가 호출)/manual(choice.goto 등이 호출)
+# on_complete_effects: 씬 마지막 스텝 완료 시 1회 적용. 스텝 effects로 흉내내지 않는다(중복 적용 방지).
+def _street_v26_scene_step_migration(scenes, steps):
+    when_overrides = {
+        "qa_sequence_1": "!flag.qa_sequence_1_done",
+        "qa_sequence_2": "flag.qa_sequence_1_done && !flag.qa_sequence_2_done",
+        "qa_sequence_3": "flag.qa_sequence_2_done",
+    }
+    complete_effects = {
+        "d3_alley_cat": "flag.d3_cat_seen = true",
+        "ob_experiment_1": "flag.seen_coratech_ad = true",
+        "qa_sequence_1": "flag.qa_sequence_1_done = true",
+        "qa_sequence_2": "flag.qa_sequence_2_done = true",
+    }
+    street_phases = {"street", "commute_in", "commute_out"}
+    out_scenes = []
+    for row in scenes:
+        vals = list(row[:9]) + [None] * max(0, 9 - len(row))
+        scene_id, phase, trigger = vals[0], vals[2], vals[4]
+        if scene_id in when_overrides:
+            vals[5] = when_overrides[scene_id]
+        start_mode = "" if phase not in street_phases else ("manual" if trigger == "manual" else "referenced")
+        out_scenes.append(tuple(vals[:9] + [start_mode, complete_effects.get(scene_id, "")]))
+    out_steps = []
+    for row in steps:
+        d = dict(zip(STEP_COLS[:len(row)], row))
+        if d["scene_id"] == "d3_alley_cat" and d["type"] == "effect" and d.get("effects") == "flag.d3_cat_seen = true":
+            continue   # 씬 on_complete_effects로 이동 — 스텝 중복 적용 방지
+        vals = list(row)
+        if d["scene_id"] == "ob_experiment_1" and d.get("effects") == "flag.seen_coratech_ad = true":
+            vals[STEP_COLS.index("effects")] = ""
+        if d["scene_id"] == "qa_npc_monologue" and d.get("actor") == "street_citizen_a":
+            vals[STEP_COLS.index("actor")] = "street_citizen_c"   # 동시 배치 복제 방지 — 독백 전용 화자
+        if d["scene_id"] in ("qa_choice", "qa_choice_result") and d.get("actor") == "street_citizen_b":
+            vals[STEP_COLS.index("actor")] = "street_citizen_d"   # 선택지 전용 화자
+        out_steps.append(tuple(vals))
+    return out_scenes, out_steps
 SCENES += [r if len(r) == len(SCENE_COLS) else tuple(list(r) + [False, ""]) for r in TEST_SCENES]   # skippable·group 패딩(1013행과 동일)
 STEPS += TEST_STEPS
 CHOICES += TEST_CHOICES
 RANDOM_WAVES += TEST_WAVES
+
+SCENES, STEPS = _street_v26_scene_step_migration(SCENES, STEPS)
 
 # Choices v2.3: 기존 8필드 대본은 잠금 사유 2필드를 공란으로 패딩한다.
 # 조건부 선택지는 아래 validate()에서 잠금 사유 ko/en을 모두 요구한다.
@@ -1408,7 +1520,7 @@ ENDINGS = [
 
 CONFIG_COLS = ["key","value","type","note"]   # type: 엑셀 왕복에서 3.0→3으로 뭉개지는 것을 막는 명시 타입 (v2.2)
 CONFIG = [
-    ("data_schema_version",     "2.5.0", "제조·운영 데이터 계약 버전. 고정 전환점 저장 정책과 저장 슬롯·재개 앵커 계약을 포함"),
+    ("data_schema_version",     "2.6.0", "제조·운영 데이터 계약 버전. 거리 FieldEntity·InteractPoint·수동 Transition 분리 계약 포함"),
     ("gold_start",             300,     "시작 골드"),
     ("reputation_start",       0,       "시작 평판"),
     ("commute_in_time",        "19:00", "출근 시각(연출 표기용). 배경은 밤 고정 단일 리소스"),
@@ -1718,7 +1830,7 @@ def _shift_col(rows, idx, sentinel=False):
 def _shift_when(rows, idx):
     def f(s):
         return re.sub(r"(day\s*(?:==|>=|<=|>|<)\s*)(\d+)",
-                      lambda m: m.group(1) + str(int(m.group(2)) - 1), s) if s else s
+                      lambda m: m.group(1) + str(int(m.group(2)) if int(m.group(2)) >= 99 else int(m.group(2)) - 1), s) if s else s
     return [tuple(list(r)[:idx] + [f(r[idx])] + list(r)[idx + 1:]) for r in rows]
 
 COCKTAILS     = _shift_col(COCKTAILS, CK_COLS.index("unlock_day"))
@@ -1728,7 +1840,12 @@ SCENES        = _shift_col(SCENES, 1, sentinel=True)
 RANDOM_WAVES  = _shift_col(RANDOM_WAVES, 0)
 REGULAR_SLOTS = _shift_col(REGULAR_SLOTS, 0)
 SCENES        = _shift_when(SCENES, SCENE_COLS.index("when"))
-POINTS        = _shift_when(POINTS, POINT_COLS.index("when"))
+# ⚠ 시드 신선도 경고(v2.6 시점): 아래 도메인은 시트가 시드보다 최신이다 — Tags(tag_id 열),
+#   Cutscenes(tl_samho_* 2종), UIStrings(집 UI 확장 59키), Dossier, Characters(hound) 등.
+#   재생성(gen 실행)은 이 최신분을 전수 포팅하기 전엔 금지. 평소엔 build.py만 사용한다.
+#   거리 QA(씬 15종·지점 15행·간식 선택지)도 시트에만 있다 — 시드는 구세대.
+POINTS = _shift_when(POINTS, POINT_COLS.index("spawn_when"))
+POINTS = _shift_when(POINTS, POINT_COLS.index("interact_when"))
 STEPS         = _shift_when(STEPS, STEP_COLS.index("when"))
 CHOICES       = _shift_when(CHOICES, CHOICE_COLS.index("when"))
 ENDINGS       = _shift_when(ENDINGS, END_COLS.index("when"))
@@ -1786,6 +1903,7 @@ def validate(derived):
               [(r[0], r[1]) for r in RANDOM_WAVES] + [(r[0], r[1]) for r in REGULAR_SLOTS], lambda r: r)
     check_dup("Spots", SPOTS, lambda r: r[0])
     check_dup("InteractPoints", POINTS, lambda r: r[0])
+    check_dup("Transitions", TRANSITIONS, lambda r: r[0])
     check_dup("Cutscenes", CUTSCENES, lambda r: r[0])
     check_dup("Quests", QUESTS, lambda r: r[0])
     check_dup("QuestStages", QUEST_STAGES, lambda r: (r[0], r[1]))
@@ -1812,12 +1930,13 @@ def validate(derived):
             errors.append(f"[Tags] {_tag_ko}: tag_id '{_tag_id}' 형식 오류 — snake_case 영문 소문자만 허용")
     check_dup("Dossier", DOSSIER, lambda r: (r[0], r[2], r[1], r[3]))
 
-    # 데모 일차 계약 — Day 0·1·2·3 네 일차와 Day 3 결과 장면을 보존한다.
+    # 데모 일차 계약 — Day 0·1·2·3 네 일차를 보존한다.
     _demo_days = {d[0] for d in DAYS}
     for _day in sorted({0, 1, 2, 3} - _demo_days):
         errors.append(f"[Days] 데모 필수 Day {_day} 행 없음 — 데모는 Day 0~3 총 4일")
     _scene_day = {s[0]: s[1] for s in SCENES}
-    for _scene_id in ("d3_samho_death", "d3_samho_rescue", "d3_chris_witness", "d3_home_talk", "d3_dream"):
+    # 삼호 사망·생존 결과는 거리 대본이 아니라 별도 연출 컷신으로 제작한다.
+    for _scene_id in ("d3_chris_witness", "d3_home_talk", "d3_dream"):
         if _scene_day.get(_scene_id) != 3:
             errors.append(f"[Scenes] {_scene_id}는 Day 3 결과 장면이어야 함")
 
@@ -1845,8 +1964,8 @@ def validate(derived):
     }
     for _key in sorted(_required_cfg - set(_cfg)):
         errors.append(f"[Config] 필수 키 '{_key}' 없음 — 제조·운영 데이터 계약 2.5.0")
-    if _cfg.get("data_schema_version") != "2.5.0":
-        errors.append("[Config] data_schema_version은 2.5.0이어야 한다")
+    if _cfg.get("data_schema_version") != "2.6.0":
+        errors.append("[Config] data_schema_version은 2.6.0이어야 한다")
     if "weight_fill_up" in _cfg:
         errors.append("[Config] weight_fill_up은 사용하지 않음 — Fill-up은 weight_pour를 공유한다")
     if _cfg.get("craft_score_formula") != "weighted_representative_v1":
@@ -2180,8 +2299,10 @@ def validate(derived):
                     allowed_kinds = ("timeline", "sprite") if st["type"] == "timeline" else ("gif",)
                     if cut_ids[st["arg"]] not in allowed_kinds:
                         errors.append(f"[컷씬] {sid}#{st['seq']}: {st['arg']}의 kind({cut_ids[st['arg']]})는 {st['type']} 스텝에서 호출 불가")
-            if st["sync"] not in ("", "no_wait"): errors.append(f"[스텝] {sid}#{st['seq']}: sync {st['sync']} 불가")
-            if st["type"] in PLAYER_ACTION_STEPS and prev and prev["type"] == "say" and prev["actor"] == "luna":
+            if st["sync"] not in ("", "wait", "no_wait"): errors.append(f"[스텝] {sid}#{st['seq']}: sync {st['sync']} 불가")   # 공란 = wait 기본값, 명기도 허용
+            # 바 계열 한정 — 거리 선택지는 플레이어 말풍선 근처 버튼(§7.1)이라 루나 대사 직전 choice가 정상 패턴
+            if (st["type"] in PLAYER_ACTION_STEPS and prev and prev["type"] == "say" and prev["actor"] == "luna"
+                    and scene_phase.get(sid) in ("bar", "bar_open")):
                 errors.append(f"[루나규칙] {sid}#{st['seq']}: 플레이어 행동({st['type']}) 직전에 루나 대사 — 흐름 끊김")
             # order의 when은 직전 ServeResult로 평가할 수 있지만, order를 수락한 직후에는
             # 그 문맥을 폐기한다. 새 serve가 성공해야 다음 결과 분기에서 다시 사용할 수 있다.
@@ -2210,73 +2331,95 @@ def validate(derived):
             elif d["actor"] not in field_chars:
                 report.append(f"⚠ [SD스프라이트] {d['scene_id']}#{d['seq']}: {d['actor']} 필드 스프라이트 '신규필요' 상태")
 
-    _char_role = {c[0]: dict(zip(CHAR_COLS, c))["role"] for c in CHARACTERS}
-    _has_shop_inventory = any(d["shop_price"] is not None for d in shelf_dicts())
+    transition_ids = {r[0] for r in TRANSITIONS}
+    anims_by_char = {}
+    for f in FIELD_ANIMS:
+        anims_by_char.setdefault(f[0], set()).add(f[1])
+
+    for tr in TRANSITIONS:
+        d = dict(zip(TRANSITION_COLS, tr))
+        if not d["target_location"] or not d["target_phase"]:
+            errors.append(f"[전환] {d['id']}: target_location과 target_phase는 필수")
+        if d["effect"] not in ("fade", "none"):
+            errors.append(f"[전환] {d['id']}: effect '{d['effect']}' 불가 (fade/none)")
+        # target_spot은 목적 시스템(집 내부 등)의 스팟이라 거리 spots FK를 강제하지 않는다(문서: null이면 목적 시스템이 결정)
+
+    # v2.6.0 통합 지점 검증 — 문서 「데이터 구조 작성」 interact_points 검증 5항목 + 실행 계약
+    _placement = {}   # (source_id, spot_id) → 같은 대상의 중복 배치 행은 facing·phase·spawn_when이 같아야 함
     for p in POINTS:
         d = dict(zip(POINT_COLS, p))
-        if d["spot"] not in spot_ids: errors.append(f"[포인트] {d['id']}: 위치 프리셋 {d['spot']} 없음")
-        if d["selection"] not in ("once", "repeat", "sequential", "conditional"):
-            errors.append(f"[포인트] {d['id']}: selection {d['selection']} 불가")
-        tgt = d["scene_or_shop"]
-        if tgt.startswith("group:"):
-            if tgt[6:] not in scene_groups: errors.append(f"[포인트] {d['id']}: 씬 그룹 {tgt[6:]} 없음")
-        elif not tgt.startswith("shop:") and tgt not in scene_ids:
-            errors.append(f"[포인트] {d['id']}: 씬 {tgt} 없음")
-        if tgt.startswith("shop:"):
-            _shop_id = tgt[5:]
-            if _shop_id not in _char_role:
-                errors.append(f"[포인트] {d['id']}: shop 대상 '{_shop_id}' — Characters에 없음")
-            elif _char_role[_shop_id] != "npc_street":
-                errors.append(f"[포인트] {d['id']}: shop 대상 '{_shop_id}' role={_char_role[_shop_id]} — npc_street만 상점 주인이 될 수 있음")
-            if not _has_shop_inventory:
-                errors.append(f"[포인트] {d['id']}: shop 참조가 있으나 shop_price가 지정된 ShelfItems가 하나도 없음")
-        if d["selection"] in ("sequential", "conditional") and not tgt.startswith("group:"):
-            errors.append(f"[포인트] {d['id']}: {d['selection']} 선택은 group: 참조가 필요")
-        # v3.0 거리 시스템 — 대사 시작 방식 (proximity = 접근 범위 자동 재생. Scenes.trigger의 auto와 층이 달라 이름을 분리)
-        if d["trigger"] not in ("interact", "proximity"):
-            errors.append(f"[포인트] {d['id']}: trigger '{d['trigger']}' 불가 (interact/proximity)")
-        if d["trigger"] == "proximity" and tgt.startswith("shop:"):
-            errors.append(f"[포인트] {d['id']}: proximity 재생은 대사 전용 — shop: 참조 불가")
-        if d["actor"] and d["actor"] not in char_ids:
-            errors.append(f"[포인트] {d['id']}: actor '{d['actor']}' — Characters에 없음")
-        # v3.2 — kind와 scene_or_shop 접두사는 같은 사실을 두 번 적는다. 어긋난 행(kind=shop인데
-        # gimmick: 참조 등)은 엔진이 어느 쪽을 믿느냐에 따라 동작이 달라지므로 빌드에서 차단.
-        _pref = "shop" if tgt.startswith("shop:") else ("gimmick" if tgt.startswith("gimmick:") else "scene")
-        if d["kind"] == "shop" and _pref != "shop":
-            errors.append(f"[포인트] {d['id']}: kind=shop인데 scene_or_shop이 shop: 참조가 아님 ({tgt})")
-        elif d["kind"] == "gimmick" and _pref != "gimmick":
-            errors.append(f"[포인트] {d['id']}: kind=gimmick인데 scene_or_shop이 gimmick: 참조가 아님 ({tgt})")
-        elif d["kind"] in ("npc", "object") and _pref != "scene":
-            errors.append(f"[포인트] {d['id']}: kind={d['kind']}인데 scene_or_shop이 {_pref}: 참조 ({tgt}) — 씬 id 또는 group:만 가능")
-        # v3.3 — 오브젝트 보기 씬엔 루나 말풍선 금지: 말풍선은 오브젝트 상단에만 뜨고,
-        # 루나의 생각·독백은 넣지 않는다(화자는 sign 등 사물 화자). PD 확정 규칙.
-        if d["kind"] == "object":
-            if tgt.startswith("group:"):
-                _osc = {s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["group"] == tgt[6:]}
-            elif not tgt.startswith(("shop:", "gimmick:")):
-                _osc = {tgt}
-            else:
-                _osc = set()
+        at = d["action_type"] or None
+        if d["kind"] not in ("actor", "object"):
+            errors.append(f"[포인트] {d['id']}: kind '{d['kind']}' 불가 (actor/object — 운영 거리에서 gimmick 미사용)")
+            continue
+        if d["spot_id"] not in spot_ids:
+            errors.append(f"[포인트] {d['id']}: 위치 프리셋 {d['spot_id']} 없음")
+        if d["phase"] not in ("commute_in", "commute_out", "both"):
+            errors.append(f"[포인트] {d['id']}: phase '{d['phase']}' 불가 (commute_in/commute_out/both)")
+        if d["kind"] == "actor":
+            if d["source_id"] not in char_ids:
+                errors.append(f"[포인트] {d['id']}: actor source_id '{d['source_id']}' — Characters에 없음")
+            if d["facing"] not in ("left", "right"):
+                errors.append(f"[포인트] {d['id']}: actor는 facing(left/right) 필수")
+            if "idle" not in anims_by_char.get(d["source_id"], set()):
+                errors.append(f"[포인트] {d['id']}: {d['source_id']}에 FieldAnims.action 'idle' 없음 — 거리 기본 동작")
+            if d["activation_mode"] != "interact":
+                errors.append(f"[포인트] {d['id']}: NPC 대화는 플레이어 E 상호작용으로만 시작")
+        elif d["facing"]:
+            errors.append(f"[포인트] {d['id']}: object에는 facing을 적지 않음")
+        # p_qa_* 행은 day 99 전용이라 운영 행과 동시 스폰될 수 없어 배치 일관성 비교에서 제외한다
+        _key = (d["source_id"], d["spot_id"])
+        if d["id"].startswith("p_qa_"):
+            _key = None
+        _prev = _placement.setdefault(_key, d) if _key else d
+        if (_prev["facing"], _prev["phase"], _prev["spawn_when"]) != (d["facing"], d["phase"], d["spawn_when"]):
+            errors.append(f"[포인트] {d['id']}: 같은 source_id+spot_id({_key[0]}·{_key[1]}) 행은 facing·phase·spawn_when이 같아야 함")
+        if d["activation_mode"] not in ("interact", "proximity"):
+            errors.append(f"[포인트] {d['id']}: activation_mode '{d['activation_mode']}' 불가")
+        if not isinstance(d["priority"], int) or isinstance(d["priority"], bool):
+            errors.append(f"[포인트] {d['id']}: priority는 정수여야 함")
+        if at not in ("scene", "scene_group", "transition", None):
+            errors.append(f"[포인트] {d['id']}: action_type '{at}' 불가 (scene/scene_group/transition/공란=순수 배치)")
+        if at == "scene" and d["action_ref"] not in scene_ids:
+            errors.append(f"[포인트] {d['id']}: 씬 {d['action_ref']} 없음")
+        elif at == "scene_group" and d["action_ref"] not in scene_groups:
+            errors.append(f"[포인트] {d['id']}: 씬 그룹 {d['action_ref']} 없음")
+        elif at == "transition" and d["action_ref"] not in transition_ids:
+            errors.append(f"[포인트] {d['id']}: 전환 {d['action_ref']} 없음")
+        if at is None and d["action_ref"]:
+            errors.append(f"[포인트] {d['id']}: action_type 없이 action_ref만 있음")
+        if at == "transition" and d["activation_mode"] != "interact":
+            errors.append(f"[포인트] {d['id']}: 장소 전환은 문·오브젝트에서 직접 상호작용할 때만 가능")
+        if d["activation_mode"] == "proximity":
+            if d["kind"] != "object" or at != "scene":
+                errors.append(f"[포인트] {d['id']}: proximity는 비캐릭터 자동 방송의 단일 scene만 허용")
+            _osc = {d["action_ref"]} if at == "scene" else set()
+            for _st in STEPS:
+                if _st[0] not in _osc:
+                    continue
+                if _st[2] == "choice":
+                    errors.append(f"[포인트] {d['id']}: 자동 방송 씬 {_st[0]}#{_st[1]}에 choice 금지")
+                if _st[2] == "say" and _st[3] not in ("", "radio"):
+                    errors.append(f"[포인트] {d['id']}: 자동 방송 씬 actor={_st[3]} — NPC 자동 발화 금지")
+        if d["kind"] == "object" and at in ("scene", "scene_group"):
+            _osc = ({d["action_ref"]} if at == "scene" else
+                    {s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["group"] == d["action_ref"]})
             for _st in STEPS:
                 if _st[0] in _osc and _st[2] == "say" and _st[3] == "luna":
-                    errors.append(f"[포인트] {d['id']}: 오브젝트 보기 씬 {_st[0]}#{_st[1]}에 루나 대사 — "
-                                  f"말풍선은 오브젝트 상단에만, 루나 독백은 금지(화자를 sign으로)")
-        # v3.2 — Scenes.day는 auto 씬에서만 재생 일차를 정한다. interact 씬의 재생 일차는
-        # 지점 when이 정하고 day는 참고 표기다. 다만 when이 특정 일차(day == N)로 못박혀
-        # 있는데 연결 씬의 day가 다른 일차면 잘못 연결한 것이므로 차단.
-        _pm = re.search(r"day\s*==\s*(\d+)", d["when"] or "")
-        if _pm:
-            _pday = int(_pm.group(1))
-            if tgt.startswith("group:"):
-                _tsc = [s for s in SCENES if dict(zip(SCENE_COLS, s))["group"] == tgt[6:]]
-            elif not tgt.startswith(("shop:", "gimmick:")):
-                _tsc = [s for s in SCENES if s[0] == tgt]
-            else:
-                _tsc = []
-            for s in _tsc:
-                _sd = dict(zip(SCENE_COLS, s))
-                if _sd["day"] not in (None, _pday):   # None = 상시 씬(구 day 0)
-                    errors.append(f"[포인트] {d['id']}: when은 day == {_pday}인데 연결 씬 {_sd['id']}의 day가 {_sd['day']} — 다른 일차의 씬을 잘못 연결함")
+                    errors.append(f"[포인트] {d['id']}: 오브젝트 씬 {_st[0]}#{_st[1]}에 루나 독백 금지")
+
+    for sc in SCENES:
+        d = dict(zip(SCENE_COLS, sc))
+        if d["phase"] in _STREET_PHASES:
+            if d["start_mode"] not in ("referenced", "manual"):
+                errors.append(f"[거리씬] {d['id']}: start_mode는 referenced/manual이어야 함")
+            if d["on_complete_effects"] and not re.fullmatch(
+                    r"flag\.[a-z0-9_]+\s*=\s*(?:true|false)(?:\s*;\s*flag\.[a-z0-9_]+\s*=\s*(?:true|false))*",
+                    str(d["on_complete_effects"]).strip()):
+                errors.append(f"[거리씬] {d['id']}: on_complete_effects는 세미콜론으로 구분한 flag.* = true/false만 허용")
+            for _st in STEPS:
+                if _st[0] == d["id"] and _st[2] in ("spawn", "move", "despawn"):
+                    errors.append(f"[거리씬] {d['id']}#{_st[1]}: { _st[2] } 스텝은 거리 런타임 범위에서 지원하지 않음")
     # v3.1 — 씬 seq 계약: auto 씬의 (day,phase,seq)는 재생 순서라 중복 금지.
     # 단, when 분기(생사 루트처럼 조건으로 하나만 재생)는 같은 자리를 공유하므로 "빈 when끼리의 중복"만 에러.
     _auto_slots = {}
@@ -2448,7 +2591,9 @@ def validate(derived):
     # 초안 반영(draft_tools import)이 manual 씬을 만들므로, PD가 배선을 깜빡한 것을 여기서 드러낸다.
     _refs = {c[6] for c in CHOICES if c[6]}
     _refs |= {st[4] for st in STEPS if st[2] == "goto" and st[4]}
-    _refs |= {p[5] for p in POINTS}
+    # InteractPoints의 단일 scene 참조만 직접 배선으로 집계한다.
+    _refs |= {dict(zip(POINT_COLS, p))["action_ref"] for p in POINTS
+              if dict(zip(POINT_COLS, p))["action_type"] == "scene"}
     _refs |= {dict(zip(RSLOT_COLS, r))["cameo_scene"] for r in REGULAR_SLOTS}
     _refs |= {e[3] for e in ENDINGS if e[3]}   # 엔딩이 scene_id로 호출하는 씬도 배선된 것
     _grouped = {s[0] for s in SCENES if dict(zip(SCENE_COLS, s))["group"]}
@@ -2488,7 +2633,9 @@ def validate(derived):
         [(f"주문 {o[0]}#{o[1]}", o[4]) for o in ORDERS if o[4]] +
         [(f"퀘스트보상 {q[0]}", q[4]) for q in QUESTS if q[4]] +
         [(f"퀘스트단계 {s[0]}#{s[1]}", s[4]) for s in QUEST_STAGES if s[4]] +
-        [(f"단골슬롯 day{r[0]}#{r[1]}", r[9]) for r in REGULAR_SLOTS if r[9]])
+        [(f"단골슬롯 day{r[0]}#{r[1]}", r[9]) for r in REGULAR_SLOTS if r[9]] +
+        [(f"씬완료 {s[0]}", dict(zip(SCENE_COLS, s))["on_complete_effects"])
+         for s in SCENES if dict(zip(SCENE_COLS, s))["on_complete_effects"]])
     unlocked_by_effect = set()
     for src, eff in all_effects:
         for m in re.findall(r"quest\((\w+)\)\.advance", eff):
@@ -2736,7 +2883,8 @@ def validate(derived):
         [(f"스텝 {s[0]}#{s[1]}", s[7]) for s in STEPS] +
         [(f"선택지 {c[0]}#{c[1]}", c[4]) for c in CHOICES] +
         [(f"주문 {o[0]}#{o[1]}", o[2]) for o in ORDERS] +
-        [(f"포인트 {p[0]}", dict(zip(POINT_COLS, p))["when"]) for p in POINTS] +
+        [(f"포인트 {p[0]}(spawn)", dict(zip(POINT_COLS, p))["spawn_when"]) for p in POINTS] +
+        [(f"포인트 {p[0]}(interact)", dict(zip(POINT_COLS, p))["interact_when"]) for p in POINTS] +
         [(f"퀘스트단계 {s[0]}#{s[1]}", s[3]) for s in QUEST_STAGES] +
         [(f"엔딩 {e[1]}", e[2]) for e in ENDINGS] +
         [(f"칵테일해금 {c[0]}", dict(zip(CK_COLS, c))["unlock_when"]) for c in COCKTAILS] +
@@ -2956,7 +3104,8 @@ SHEET_GROUP = {
     "Cocktails": "master", "RecipeLines": "master", "ShelfItems": "master", "Tags": "master",
     "Characters": "master", "Expressions": "master", "ExpressionParts": "master", "Cutscenes": "master",
     "ResourceMap": "audit", "FieldAnims": "master", "Personalities": "master", "Barks": "master",
-    "GuestBodies": "master", "Days": "schedule", "RandomWaves": "schedule", "RegularSlots": "schedule", "Spots": "schedule", "InteractPoints": "schedule",
+    "GuestBodies": "master", "Days": "schedule", "RandomWaves": "schedule", "RegularSlots": "schedule", "Spots": "schedule",
+    "InteractPoints": "schedule", "Transitions": "schedule",
     "Scenes": "script", "Steps": "script", "Choices": "script", "OrderRules": "script", "TextTags": "master", "BarkSituations": "master",
     "Quests": "script", "QuestStages": "script", "Endings": "script",
     "Config": "balance", "GradeCuts": "balance", "SettlementRules": "balance", "ScoreBands": "balance", "AffinityMatrix": "balance", "Tastes": "balance", "Dossier": "master",
@@ -3171,33 +3320,46 @@ COL_DOCS = {
         "serve_effects": "이 손님을 서빙(정산)한 순간 실행할 효과 — flag.x = true; affinity.x += 1 등. 스토리·서브퀘스트 연결용",
     },
     "Spots": {
-        "id": "위치 id. Points의 spot 칸이 이 값을 참조한다",
+        "id": "위치 id. InteractPoints.spot_id가 이 값을 참조한다",
         "area": "구역 — street(큰길)/alley(뒷골목)",
         "desc": "어디인지 설명(작업용 — 게임에 안 나오므로 번역 대상 아님)",
         "note": "용도 메모. 좌표 대신 이름으로 관리하는 이유 = 배경이 수정돼도 안 깨지기 때문",
     },
     "InteractPoints": {
-        "id": "포인트 id. 퀘스트 목표(interact:이 id)가 참조한다",
-        "spot": "어느 위치에 있는지(Spots 참조)",
-        "kind": "object(조사하면 연출)/shop(상점 열기)/npc(대화 상대)",
-        "phase": "언제 나타나는지 — commute_in(출근길)/commute_out(퇴근길)/both",
-        "actor": "이 지점에 서 있는 캐릭터(Characters.id). 빈값 = 사물·전단 등. 같은 actor를 phase·when이 다른 지점 여러 개에 두면 시간대별 위치 이동 표현",
-        "trigger": "대사 시작 방식 — interact(E키 상호작용, 기본)/proximity(재생 범위 진입 시 자동 재생 — E 아이콘 없음·조작 락 없음·street_auto_next_delay_sec 간격 자동 진행. 현재 실사용 0 = 예약)",
-        "when": "나타날 조건(when 문법). 예: day == 2 → 2일차에만 등장",
-        "scene_or_shop": "조사했을 때 재생할 씬 id. 'group:이름'이면 그 그룹의 씬들 중 selection 규칙대로 고른다. 'shop:'이면 상점",
-        "selection": "반복 규칙 — once(한 번만)/repeat(계속)/sequential(볼 때마다 다음 씬)/conditional(조건 맞는 첫 씬). 시바견처럼 '첫 대화 후 반복 대사'는 conditional",
+        "id": "지점 id. 퀘스트 목표(interact:이 id)가 참조한다",
+        "kind": "actor(캐릭터)/object(사물·배경 오브젝트). 운영 거리에서 gimmick은 사용하지 않는다",
+        "source_id": "actor면 Characters.id(그대로 사용), object면 리소스·논리 오브젝트 id",
+        "spot_id": "배치 위치(Spots.id)",
+        "facing": "actor가 바라보는 방향(left/right). object는 비운다",
+        "phase": "등장 구간 — commute_in/commute_out/both",
+        "spawn_when": "대상이 존재할 조건(when 문법). 비우면 상시 존재",
+        "activation_mode": "interact(E키)/proximity(비캐릭터 자동 방송 전용). NPC 대화와 장소 전환은 interact만 허용",
+        "interact_when": "상호작용이 활성화될 조건. once·순차 진행도는 별도 필드가 아니라 flag 조건으로 표현",
+        "priority": "호환용 예약값. 데모 거리의 대상 선택은 이 값을 사용하지 않고 가장 가까운 유효 대상 하나를 선택",
+        "action_type": "scene(단일 씬)/scene_group(조건을 통과한 첫 씬)/transition(장소 전환). 비우면 순수 배치",
+        "action_ref": "action_type에 따른 Scenes.id / Scenes.group / Transitions.id",
         "note": "작업 메모",
+    },
+    "Transitions": {
+        "id": "장소 전환 고유 id. InteractPoints.action_ref가 참조한다",
+        "target_location": "도착 장소 컨트롤러 id(bar/home 등)",
+        "target_phase": "도착 후 적용할 phase",
+        "target_spot": "도착 앵커 id. 도착 컨트롤러가 자체 시작 위치를 정하면 비울 수 있다",
+        "effect": "화면 전환 효과(fade/none)",
+        "note": "작업 메모. 경계 자동 이동은 지원하지 않고 문에서 E 상호작용으로만 호출",
     },
     "Scenes": {
         "id": "씬 고유 id. Steps가 이 값으로 자기 소속을 밝힌다",
         "day": "몇 일차 씬인지. **0 = 일차 무관 공용 씬**(거리 오브젝트·NPC 등). 재생 일차를 정하는 건 trigger=auto 씬에서만 — interact 씬의 재생 일차는 InteractPoints.when이 정하고, 여기 day는 참고 표기",
         "phase": "어느 구간인지 — bar(바 2부)/bar_open(개점 전 대화)/commute_in/commute_out/home/dream/street/intro/ending(엔딩 씬 — Endings.scene_id로만 호출). **이 값이 비주얼을 자동 결정한다**(bar 계열=고해상도 흉상, 나머지=SD 픽셀)",
         "seq": "같은 phase 안에서의 재생 순서",
-        "trigger": "발동 방식 — auto(그 구간 오면 자동)/interact(조사해야)/cameo(1부 카메오)/manual(다른 곳에서 호출할 때만)",
+        "trigger": "bar/home/cutscene 기존 실행기용 발동 방식. 거리 JSON에서는 start_mode가 정본",
         "when": "이 씬이 재생될 조건(when 문법). 비우면 항상 재생",
         "title": "작업자용 제목(게임에 안 나옴)",
         "skippable": "건너뛰기 허용 여부(TRUE/FALSE). 튜토리얼은 FALSE",
-        "group": "그룹 이름. Points의 'group:이름'과 짝을 이뤄 여러 씬을 묶는다(첫 대화/반복 대사 등)",
+        "group": "거리 scene_group의 묶음 id. seq 순서대로 when을 검사해 처음 참인 씬 하나를 실행",
+        "start_mode": "거리 씬 시작 방식 — referenced(InteractPoints가 호출)/manual(choice.goto 등 다른 씬이 호출). 거리 외 씬은 비움",
+        "on_complete_effects": "거리 씬 마지막 스텝 정상 완료 후 1회 적용. flag.x = true/false 형식이며 once·순차 진행 상태를 표현",
     },
     "Steps": {
         "scene_id": "이 스텝이 속한 씬(Scenes 참조)",
@@ -3317,7 +3479,8 @@ SHEET_DOCS = {
     "RandomWaves": "1부에 이름 없는 랜덤 손님이 언제 몇 명 오는지 — 운영 페이스 튜닝은 여기서 (System 파일)",
     "RegularSlots": "단골이 언제 어느 자리에 오는지 — 카메오·분기 슬롯 (Narrative 파일). 랜덤 손님은 RandomWaves에",
     "Spots": "거리의 위치 이름표. 좌표 대신 이름으로 관리해 배경이 바뀌어도 안 깨진다",
-    "InteractPoints": "거리에서 조사할 수 있는 지점(연출·상점·NPC)",
+    "InteractPoints": "거리 배치(누가 어디에 언제)와 상호작용(E키·자동 방송·장소 전환)을 한 행이 소유하는 통합 지점",
+    "Transitions": "문·오브젝트를 직접 조사했을 때 실행하는 장소 전환 목적지. 자동 경계 이동은 지원하지 않는다",
     "Scenes": "대본의 씬(대사 한 덩어리). phase가 비주얼과 재생 시점을 결정한다",
     "Steps": "씬 안의 한 줄 한 줄. 대사·등장·주문·제조·선택지가 전부 여기 들어간다",
     "Choices": "선택지 묶음. Steps의 choice 타입이 choice_id로 호출한다",
@@ -3407,7 +3570,7 @@ WORKBOOK_OF = {
         "Scenes", "Steps", "Choices", "Barks", "OrderRules", "Quests", "QuestStages",
         "Endings", "Dossier", "RegularSlots", "Characters", "Expressions",
         "ExpressionParts", "Cutscenes", "FieldAnims", "ResourceMap",
-        "Days", "Spots", "InteractPoints", "UIStrings", "Tastes", "AffinityMatrix",
+        "Days", "Spots", "InteractPoints", "Transitions", "UIStrings", "Tastes", "AffinityMatrix",
         "TextTags", "BarkSituations"]},
 }
 WORKBOOK_FILES = {"System": "LUNA_System.xlsx", "Narrative": "LUNA_Narrative.xlsx"}
@@ -3439,6 +3602,7 @@ def emit_xlsx(derived):
         "RegularSlots": (RSLOT_COLS, REGULAR_SLOTS),
         "Spots": (SPOT_COLS, SPOTS),
         "InteractPoints": (POINT_COLS, POINTS),
+        "Transitions": (TRANSITION_COLS, TRANSITIONS),
         "Scenes": (SCENE_COLS, SCENES),
         "Steps": (STEP_COLS, STEPS),
         "Choices": (CHOICE_COLS, CHOICES),
@@ -3495,7 +3659,8 @@ def emit_xlsx(derived):
             ("", "단골 취향·호감도 보상을 정하고 싶다 →  Tastes(판정 규칙) + AffinityMatrix(취향×등급→호감도)"),
             ("", "퀘스트를 만들고 싶다               →  Quests + QuestStages"),
             ("", "단골 주문 판정·연출 이벤트         →  OrderRules + Cutscenes"),
-            ("", "거리에 조사할 것을 놓고 싶다       →  Spots(위치) + InteractPoints(조사 지점)"),
+            ("", "거리에 캐릭터·사물을 놓고 싶다     →  Spots(위치) + FieldEntities(배치)"),
+            ("", "대화·조사·문 입장을 연결하고 싶다  →  InteractPoints(행동) + Transitions(수동 장소 전환)"),
             ("", "등장인물·표정을 관리하고 싶다      →  Characters + Expressions + ExpressionParts"),
             ("", ""),
             ("h2", "3-1. 옆 파일과의 약속"),
@@ -3583,8 +3748,11 @@ def L(ko, en):
 
 def emit_json(derived):
     jdir = os.path.join(OUT, "json"); os.makedirs(os.path.join(jdir, "script", "bar"), exist_ok=True)
+    os.makedirs(os.path.join(jdir, "script", "qa"), exist_ok=True)
     def dump(name, obj):
-        with open(os.path.join(jdir, name), "w", encoding="utf-8") as f:
+        path = os.path.join(jdir, name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(obj, f, ensure_ascii=False, indent=2)
 
     master = {"cocktails": [], "shelf_items": [], "characters": [],
@@ -3689,7 +3857,25 @@ def emit_json(derived):
     dump("random_waves.json", [dict(zip(WAVE_COLS, g)) for g in RANDOM_WAVES])
     dump("regular_slots.json", [dict(zip(RSLOT_COLS, g)) for g in REGULAR_SLOTS])
     dump("spots.json", [dict(zip(SPOT_COLS, s)) for s in SPOTS])
-    dump("interact_points.json", [dict(zip(POINT_COLS, p)) for p in POINTS])
+    # v2.6.0 통합 지점 — 시트 InteractPoints가 정본. p_qa_* 행은 QA 번들로 분리 배포한다.
+    _all_points = [dict(zip(POINT_COLS, p)) for p in POINTS]
+    for d in _all_points:
+        for k in ("facing", "spawn_when", "interact_when", "action_type", "action_ref"):
+            d[k] = d[k] or None
+    _prod_points = [d for d in _all_points if not d["id"].startswith("p_qa_")]
+    _qa_points = [d for d in _all_points if d["id"].startswith("p_qa_")]
+    _transition_rows = [dict(zip(TRANSITION_COLS, t)) for t in TRANSITIONS]
+    for d in _transition_rows:
+        d["target_spot"] = d["target_spot"] or None
+    dump("interact_points.json", _prod_points)
+    if _qa_points:
+        dump("qa/interact_points_day99.json", _qa_points)
+    dump("transitions.json", _transition_rows)
+    # Day 99 거리 QA도 배치·상호작용을 한 파일이 소유한다.
+    _stale_qa_entities = os.path.join(jdir, "qa", "field_entities_day99.json")
+    if os.path.exists(_stale_qa_entities):
+        os.remove(_stale_qa_entities)
+        print("  · 폐지 파일 삭제: json/qa/field_entities_day99.json")
     dump("quests.json", {
         "quests": [dict(id=q[0], title=L(q[1], q[2]), kind=q[3], reward_effects=q[4], note=q[5]) for q in QUESTS],
         "stages": [dict(zip(QSTAGE_COLS, s)) for s in QUEST_STAGES],
@@ -3719,7 +3905,8 @@ def emit_json(derived):
     gb["exclusions"] = [{"a": a, "b": b} for a, b in sorted({tuple(sorted((e[0], e[1]))) for e in GUEST_BODY_EXCLUSIONS})]
     dump("guest_bodies.json", gb)
     for old in ("schedule.json", "config.json", "grade_cuts.json", "tip_rates.json",
-                "affinity_matrix.json", "quest_stages.json", "guest_slots.json", "orders.json", "points.json"):   # 구/과분할 파일 잔존 방지
+                "affinity_matrix.json", "quest_stages.json", "guest_slots.json", "orders.json", "points.json",
+                "field_entities.json"):   # 구/과분할 파일 잔존 방지
         p = os.path.join(jdir, old)
         if os.path.exists(p): os.remove(p)
 
@@ -3739,7 +3926,24 @@ def emit_json(derived):
     _bar_days = {x[0] for x in DAYS} | {x[1] for x in place_members.get("bar", []) if x[1] is not None}
     bundles = [(f"script/bar/day{d}.json", [x for x in place_members.get("bar", []) if x[1] == d], "bar")
                for d in sorted(_bar_days)]
-    bundles += [(f"script/{pl}.json", place_members.get(pl, []), pl) for pl in ("home", "street", "cutscene")]
+    bundles += [("script/home.json", place_members.get("home", []), "home")]
+    # Day 99 거리 시나리오는 프로덕션 street.json에 섞지 않고 QA 번들로 분리한다.
+    # InteractPoints·Spots·Characters의 qa_* 행은 day == 99에서만 활성화되므로 일반 플레이에 영향을 주지 않는다.
+    _street_members = place_members.get("street", [])
+    bundles += [("script/street.json", [x for x in _street_members if x[1] != 99], "street")]
+    if any(x[1] == 99 for x in _street_members):
+        bundles += [("script/qa/street_day99.json", [x for x in _street_members if x[1] == 99], "street")]
+    bundles += [("script/cutscene.json", place_members.get("cutscene", []), "cutscene")]
+    def _scene_complete_effect_map(raw):
+        if not raw:
+            return None
+        out = {}
+        for token in str(raw).split(";"):
+            m = re.fullmatch(r"\s*(flag\.[a-z0-9_]+)\s*=\s*(true|false)\s*", token)
+            if m:
+                out[m.group(1)] = m.group(2) == "true"
+        return out or None
+
     for fname, members, place in bundles:
         scenes, used_choices = [], set()
         for s in sorted(members, key=lambda x: (-1 if x[1] is None else x[1], PHASE_RANK.get(x[2], 9), x[3])):   # None = 상시 씬을 맨 앞에
@@ -3754,7 +3958,15 @@ def emit_json(derived):
                               "when": d["when"] or None, "effects": d["effects"] or None,
                               "sync": d["sync"] or "wait"})
                 if d["type"] == "choice": used_choices.add(d["arg"])
-            scenes.append({**sd, "steps": steps})
+            scene_payload = {**sd}
+            if place == "street":
+                scene_payload.pop("trigger", None)
+                # 문서 「외부 거리 시스템」 정본: on_complete_effects는 문자열 DSL 그대로 배포한다
+                scene_payload["on_complete_effects"] = (str(sd["on_complete_effects"]).strip() or None) if sd["on_complete_effects"] else None
+            else:
+                scene_payload.pop("start_mode", None)
+                scene_payload.pop("on_complete_effects", None)
+            scenes.append({**scene_payload, "steps": steps})
         choices = {cid: [{"seq": c[1], "text": L(c[2], c[3]), "when": c[4] or None,
                           "effects": c[5] or None, "goto": c[6] or None,
                           "lock_reason": L(c[8], c[9]) if c[4] else None}

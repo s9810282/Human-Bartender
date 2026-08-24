@@ -63,7 +63,7 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 
 - 신규 구현은 `cocktails.json → target_mix_method`, `target_prep_action`, `tags[].id`를 우선 사용한다.
 - 기존 `mix`, `prep`, `tags[].ko`는 현재 로더와 대본을 깨지 않기 위해 한 버전 유지한다. 신규 필드와 값이 다르면 임의 보정하지 않고 데이터 오류로 처리한다.
-- `manifest.json → production_files` 30개만 운영 배포에 포함한다. `qa_files`의 `script/bar/day99.json`은 개발 진입에서만 사용한다.
+- `manifest.json → production_files` 31개만 운영 배포에 포함한다. `qa_files` 3개(`qa/interact_points_day99.json`, `script/bar/day99.json`, `script/qa/street_day99.json`)는 개발 진입에서만 사용한다.
 - `manifest.json → files`의 파일별 SHA-256·바이트 수와 `bundle_sha256`으로 부분 교체와 QA 혼입을 검사한다.
 - `hound`는 `characters.json`에 등록된 컷씬 전용 인물이다. `field_anims.json`의 예외 문자열로 처리하지 않는다.
 
@@ -320,5 +320,8 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - Tags 시트에 언어 독립 `tag_id` 16개를 추가하고 `cocktails.json → tags[].id`로 출력한다.
 - 칵테일 정답에 `target_mix_method`·`target_prep_action`을 추가했으며 기존 `mix`·`prep`은 호환용으로 유지한다.
 - `hound`를 컷씬 전용 Characters 행으로 등록해 FieldAnims 참조를 정상화했다.
-- Tags ID·FieldAnims 캐릭터·병 개봉 정답·상점 주인과 판매 재고의 교차 검증을 추가했다.
-- `manifest.json`을 추가해 운영 30파일과 Day 99 QA 1파일을 분리하고 파일별 SHA-256과 번들 해시를 기록한다.
+- Tags ID·FieldAnims 캐릭터·병 개봉 정답 검증을 추가했다. 상점 교차 검증 코드는 예약 상태지만 데모에는 상점 데이터가 없다.
+- `manifest.json`은 운영 31파일과 Day 99 QA 3파일을 분리하고 파일별 SHA-256과 번들 해시를 기록한다. Day 99 거리도 단일 `qa/interact_points_day99.json`을 사용하며 `field_entities_day99.json`은 폐기했다.
+- 완·노점·상점 데이터를 데모 거리 데이터에서 제거했다. 삼호·시바 첫 만남과 삼호 사망·생존 결과는 거리 대본에서 제외하고 `Cutscenes`의 별도 연출 리소스로 유지한다.
+- 거리 NPC는 E 상호작용으로만 대사를 시작한다. 고양이 지점은 `actor=bubi`인 전신 캐릭터로 표시하며 E 상호작용 후 `d3_alley_cat`을 실행한다.
+- 현재 운영 거리 데이터는 `Spots` 7개 앵커, `InteractPoints` 7행, `script/street.json` 8씬이다. 같은 `spots.json`에는 Day 99 QA 앵커 7개가 추가되어 총 14행이다.

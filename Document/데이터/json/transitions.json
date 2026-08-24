@@ -1,0 +1,18 @@
+[
+  {
+    "id": "enter_bar",
+    "target_location": "bar",
+    "target_phase": "bar",
+    "target_spot": null,
+    "effect": "fade",
+    "note": "바 정문에서 E → 바 입장. bar_open·1부·2부 분기는 BarController가 현재 일차 데이터로 결정"
+  },
+  {
+    "id": "enter_home",
+    "target_location": "home",
+    "target_phase": "home",
+    "target_spot": "home_spawn_entry",
+    "effect": "fade",
+    "note": "집 현관에서 E → 집 내부 입장"
+  }
+]
