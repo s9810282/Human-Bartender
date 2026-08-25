@@ -10,9 +10,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 100,
-    "action_type": "scene",
-    "action_ref": "qa_np_conversation",
-    "note": "A·B 중 가까운 NPC에서 E → 동일 대화 시작"
+    "action_type": "dialogue",
+    "note": "A·B 중 가까운 NPC에서 E → 동일 대화 시작",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_np_conversation",
+        "day": 99,
+        "flow_seq": 1,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_pair_b",
@@ -25,9 +33,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 100,
-    "action_type": "scene",
-    "action_ref": "qa_np_conversation",
-    "note": "A·B 중 가까운 NPC에서 E → 동일 대화 시작"
+    "action_type": "dialogue",
+    "note": "A·B 중 가까운 NPC에서 E → 동일 대화 시작",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_np_conversation",
+        "day": 99,
+        "flow_seq": 1,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_object_text",
@@ -40,9 +56,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 50,
-    "action_type": "scene",
-    "action_ref": "qa_object_text",
-    "note": "사물 위 무명형 말풍선·수동 다음 입력"
+    "action_type": "dialogue",
+    "note": "사물 위 무명형 말풍선·수동 다음 입력",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_object_text",
+        "day": 99,
+        "flow_seq": 2,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_sequence",
@@ -55,9 +79,31 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 50,
-    "action_type": "scene_group",
-    "action_ref": "qa_street_sequence",
-    "note": "씬 when과 on_complete_effects로 1→2→3단계 진행·마지막 폴백"
+    "action_type": "dialogue",
+    "note": "play_type once/repeat와 flow_seq로 1→2→3단계 진행·마지막 대사 반복",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_sequence_1",
+        "day": 99,
+        "flow_seq": 10,
+        "play_type": "once",
+        "when": null
+      },
+      {
+        "scene_id": "qa_sequence_2",
+        "day": 99,
+        "flow_seq": 11,
+        "play_type": "once",
+        "when": null
+      },
+      {
+        "scene_id": "qa_sequence_3",
+        "day": 99,
+        "flow_seq": 12,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_step_probe",
@@ -70,9 +116,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 50,
-    "action_type": "scene",
-    "action_ref": "qa_step_probe",
-    "note": "간식 획득·스텝 when·effects 갱신 검증"
+    "action_type": "dialogue",
+    "note": "간식 획득·스텝 when·effects 갱신 검증",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_step_probe",
+        "day": 99,
+        "flow_seq": 3,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_player_npc",
@@ -85,9 +139,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 100,
-    "action_type": "scene",
-    "action_ref": "qa_player_npc_dialogue",
-    "note": "루나와 NPC의 대화도 플레이어가 E를 눌러야 시작"
+    "action_type": "dialogue",
+    "note": "루나와 NPC의 대화도 플레이어가 E를 눌러야 시작",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_player_npc_dialogue",
+        "day": 99,
+        "flow_seq": 4,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_choice",
@@ -100,9 +162,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 100,
-    "action_type": "scene",
-    "action_ref": "qa_choice",
-    "note": "간식 보유 조건·소비·goto·잠금 사유 검증"
+    "action_type": "dialogue",
+    "note": "간식 보유 조건·소비·goto·잠금 사유 검증",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_choice",
+        "day": 99,
+        "flow_seq": 5,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_auto_radio",
@@ -115,9 +185,17 @@
     "activation_mode": "proximity",
     "interact_when": null,
     "priority": 10,
-    "action_type": "scene",
-    "action_ref": "qa_auto_radio",
-    "note": "범위 진입 시 1회 자동 시작·이탈 후 계속 재생·같은 phase 재진입 반복 금지"
+    "action_type": "dialogue",
+    "note": "범위 진입 시 1회 자동 시작·이탈 후 계속 재생·같은 phase 재진입 반복 금지",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_auto_radio",
+        "day": 99,
+        "flow_seq": 0,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_poster_repeat",
@@ -130,9 +208,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 60,
-    "action_type": "scene",
-    "action_ref": "qa_poster_repeat",
-    "note": "포스터 이미지·하단 텍스트·반복 열람"
+    "action_type": "dialogue",
+    "note": "포스터 이미지·하단 텍스트·반복 열람",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_poster_repeat",
+        "day": 99,
+        "flow_seq": 20,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_poster_once",
@@ -145,9 +231,17 @@
     "activation_mode": "interact",
     "interact_when": "!flag.qa_poster_seen",
     "priority": 60,
-    "action_type": "scene",
-    "action_ref": "qa_poster_once",
-    "note": "1회 열람 후 포스터는 남고 E 아이콘과 재실행만 비활성"
+    "action_type": "dialogue",
+    "note": "1회 열람 후 포스터는 남고 E 아이콘과 재실행만 비활성",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_poster_once",
+        "day": 99,
+        "flow_seq": 21,
+        "play_type": "once",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_spawn_remove",
@@ -160,9 +254,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 60,
-    "action_type": "scene",
-    "action_ref": "qa_spawn_remove",
-    "note": "정상 완료 후 spawn_when이 거짓이 되어 오브젝트 제거"
+    "action_type": "dialogue",
+    "note": "정상 완료 후 spawn_when이 거짓이 되어 오브젝트 제거",
+    "dialogue_flows": [
+      {
+        "scene_id": "qa_spawn_remove",
+        "day": 99,
+        "flow_seq": 22,
+        "play_type": "once",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_qa_pure_display",
@@ -176,7 +278,6 @@
     "interact_when": null,
     "priority": 0,
     "action_type": null,
-    "action_ref": null,
     "note": "화면에만 존재하고 E 아이콘을 표시하지 않는 순수 배치"
   },
   {
