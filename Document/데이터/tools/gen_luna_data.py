@@ -3746,6 +3746,224 @@ def L(ko, en):
     # en 미번역이면 ko로 폴백 — EN 모드에서도 빈 텍스트는 안 뜬다 (번역 완료 후 자연 치환)
     return {"ko": ko or "", "en": (en or ko) or ""}
 
+
+def build_street_runtime_contract():
+    """거리 저작 데이터를 합의된 InteractPoints 중심 JSON으로 정규화한다.
+
+    저작 엑셀은 그대로 둔다. 배포 JSON에서 씬의 day/seq/when을
+    interact_points.dialogue_flows로 옮기고, 상태 변경은 set_state 지문
+    스텝으로 분리하며 선택지는 해당 대사 스텝 안에 포함한다.
+    """
+    street_phases = {"street", "commute_in", "commute_out"}
+    scene_by_id = {
+        d["id"]: d for row in SCENES
+        if (d := dict(zip(SCENE_COLS, row)))["phase"] in street_phases
+    }
+    group_members = {}
+    for d in scene_by_id.values():
+        if d["group"]:
+            group_members.setdefault(d["group"], []).append(d)
+    for members in group_members.values():
+        members.sort(key=lambda d: (d["seq"], d["id"]))
+
+    # 일반적인 대화 진행은 play_type과 flow_seq가 담당한다. 아래 조건은 구 구조에서
+    # "앞 대사를 보았는가"를 판별하던 진행용 플래그이므로 배포 계약에서는 제거하고,
+    # 실제 콘텐츠 조건인 일차 조건만 남긴다. 플래그 자체는 set_state 예시·다른 시스템
+    # 참조를 위해 대본에 유지할 수 있지만 다음 대사를 고르는 용도로 중복 사용하지 않는다.
+    flow_when_overrides = {
+        "np_shiba_1": None,
+        "np_shiba_3": "day >= 2",
+        "qa_sequence_1": None,
+        "qa_sequence_2": None,
+    }
+
+    def flow_of(scene, play_type):
+        return {
+            "scene_id": scene["id"],
+            "day": scene["day"],
+            "flow_seq": scene["seq"],
+            "play_type": play_type,
+            "when": flow_when_overrides.get(scene["id"], scene["when"] or None),
+        }
+
+    points = []
+    for row in POINTS:
+        d = dict(zip(POINT_COLS, row))
+        for key in ("facing", "spawn_when", "interact_when", "action_type", "action_ref"):
+            d[key] = d[key] or None
+        action_type = d["action_type"]
+        action_ref = d["action_ref"]
+        if action_type in ("scene", "scene_group"):
+            if action_type == "scene":
+                members = [scene_by_id[action_ref]] if action_ref in scene_by_id else []
+                flows = [flow_of(s, "once" if s["on_complete_effects"] else "repeat") for s in members]
+            else:
+                members = group_members.get(action_ref, [])
+                last_unconditional = next((s["id"] for s in reversed(members) if not s["when"]), None)
+                flows = [flow_of(s, "repeat" if s["id"] == last_unconditional else "once") for s in members]
+            d["action_type"] = "dialogue"
+            d.pop("action_ref", None)
+            d["dialogue_flows"] = flows
+            if d["id"] == "p_shiba":
+                d["note"] = "flow_seq 오름차순으로 실행 가능한 첫 대화를 선택하고 once 완료 후 다음 대화로 진행"
+            elif d["id"] == "p_qa_sequence":
+                d["note"] = "play_type once/repeat와 flow_seq로 1→2→3단계 진행·마지막 대사 반복"
+        elif action_type is None:
+            d.pop("action_ref", None)
+        points.append(d)
+
+    choices_by_id = {}
+    for row in CHOICES:
+        d = dict(zip(CHOICE_COLS, row))
+        choices_by_id.setdefault(d["choice_id"], []).append(d)
+    for rows in choices_by_id.values():
+        rows.sort(key=lambda d: d["seq"])
+
+    def output_steps(scene):
+        out = []
+
+        def append_step(payload):
+            payload["seq"] = len(out) + 1
+            out.append(payload)
+
+        for row in sorted((r for r in STEPS if r[0] == scene["id"]), key=lambda r: r[1]):
+            d = dict(zip(STEP_COLS, row))
+            common = {
+                "type": d["type"],
+                "actor": d["actor"] or None,
+                "dialogue_id": d["dialogue_id"] or None,
+                "arg": d["arg"] or None,
+                "text": L(d["text_ko"], d["text_en"]) if d["text_ko"] else None,
+                "when": d["when"] or None,
+                "sync": d["sync"] or "wait",
+            }
+            if d["type"] == "choice":
+                options = []
+                for option in choices_by_id.get(d["arg"], []):
+                    result_steps = []
+                    if option["effects"]:
+                        result_steps.append({"type": "set_state", "effects": option["effects"]})
+                    if option["goto"]:
+                        result_steps.append({"type": "goto", "scene_id": option["goto"]})
+                    options.append({
+                        "id": f"{d['arg']}_{option['seq']}",
+                        "seq": option["seq"],
+                        "text": L(option["text_ko"], option["text_en"]),
+                        "when": option["when"] or None,
+                        "lock_reason": L(option["lock_reason_ko"], option["lock_reason_en"])
+                                       if option["when"] else None,
+                        "result_steps": result_steps,
+                    })
+                common.pop("arg", None)
+                common["options"] = options
+                append_step(common)
+            elif d["type"] == "effect":
+                append_step({
+                    "type": "set_state",
+                    "effects": d["effects"],
+                    "when": d["when"] or None,
+                    "sync": d["sync"] or "wait",
+                })
+            elif d["type"] == "goto":
+                # 대사 중 조건에 따른 자동 분기는 when이 붙은 goto 지문으로 표현한다.
+                # 현재 운영 데이터에는 없지만 새 거리 계약에서 정식으로 허용한다.
+                append_step({
+                    "type": "goto",
+                    "scene_id": d["arg"] or None,
+                    "when": d["when"] or None,
+                    "sync": d["sync"] or "wait",
+                })
+            else:
+                append_step(common)
+                if d["effects"]:
+                    append_step({
+                        "type": "set_state",
+                        "effects": d["effects"],
+                        "when": d["when"] or None,
+                        "sync": "wait",
+                    })
+        if scene["on_complete_effects"]:
+            append_step({
+                "type": "set_state",
+                "effects": scene["on_complete_effects"],
+                "when": None,
+                "sync": "wait",
+            })
+        return out
+
+    scenes = [{"id": d["id"], "steps": output_steps(d)} for d in scene_by_id.values()]
+    scenes.sort(key=lambda d: d["id"])
+    prod_points = [d for d in points if not d["id"].startswith("p_qa_")]
+    qa_points = [d for d in points if d["id"].startswith("p_qa_")]
+    prod_scenes = [d for d in scenes if scene_by_id[d["id"]]["day"] != 99]
+    qa_scenes = [d for d in scenes if scene_by_id[d["id"]]["day"] == 99]
+    return {
+        "prod_points": prod_points,
+        "qa_points": qa_points,
+        "prod_script": {"place": "street", "scenes": prod_scenes},
+        "qa_script": {"place": "street", "scenes": qa_scenes},
+    }
+
+
+def validate_street_runtime_contract(runtime):
+    errors = []
+    scene_ids = {
+        scene["id"]
+        for key in ("prod_script", "qa_script")
+        for scene in runtime[key]["scenes"]
+    }
+    for key in ("prod_points", "qa_points"):
+        for point in runtime[key]:
+            if point.get("action_type") == "dialogue":
+                flows = point.get("dialogue_flows") or []
+                if not flows:
+                    errors.append(f"[거리] {point['id']}: dialogue인데 dialogue_flows가 비어 있음")
+                seen_seq = set()
+                for flow in flows:
+                    if flow["scene_id"] not in scene_ids:
+                        errors.append(f"[거리] {point['id']}: scene_id {flow['scene_id']} 없음")
+                    if flow["play_type"] not in ("once", "repeat"):
+                        errors.append(f"[거리] {point['id']}: play_type {flow['play_type']} 불가")
+                    if flow["flow_seq"] in seen_seq:
+                        errors.append(f"[거리] {point['id']}: flow_seq {flow['flow_seq']} 중복")
+                    seen_seq.add(flow["flow_seq"])
+            elif "dialogue_flows" in point:
+                errors.append(f"[거리] {point['id']}: dialogue가 아닌데 dialogue_flows가 있음")
+    for key in ("prod_script", "qa_script"):
+        for scene in runtime[key]["scenes"]:
+            if set(scene) != {"id", "steps"}:
+                errors.append(f"[거리] {scene['id']}: street 씬에는 id와 steps만 허용")
+            seen_seq = set()
+            for step in scene["steps"]:
+                if step["seq"] in seen_seq:
+                    errors.append(f"[거리] {scene['id']}: step seq {step['seq']} 중복")
+                seen_seq.add(step["seq"])
+                if step["type"] == "set_state":
+                    if not step.get("effects"):
+                        errors.append(f"[거리] {scene['id']}#{step['seq']}: set_state effects 누락")
+                elif step["type"] == "goto":
+                    if not step.get("scene_id"):
+                        errors.append(f"[거리] {scene['id']}#{step['seq']}: goto scene_id 누락")
+                    elif step["scene_id"] not in scene_ids:
+                        errors.append(
+                            f"[거리] {scene['id']}#{step['seq']}: goto {step['scene_id']} 없음")
+                elif "effects" in step:
+                    errors.append(f"[거리] {scene['id']}#{step['seq']}: 상태 변경은 set_state만 허용")
+                if step["type"] == "choice":
+                    if not step.get("options"):
+                        errors.append(f"[거리] {scene['id']}#{step['seq']}: choice options 누락")
+                    for option in step.get("options", []):
+                        for result in option["result_steps"]:
+                            if result["type"] == "goto" and result["scene_id"] not in scene_ids:
+                                errors.append(
+                                    f"[거리] {scene['id']}#{step['seq']} {option['id']}: "
+                                    f"goto {result['scene_id']} 없음")
+                            elif result["type"] not in ("set_state", "goto"):
+                                errors.append(
+                                    f"[거리] {scene['id']}#{step['seq']} {option['id']}: "
+                                    f"result type {result['type']} 불가")
+    return errors
+
 def emit_json(derived):
     jdir = os.path.join(OUT, "json"); os.makedirs(os.path.join(jdir, "script", "bar"), exist_ok=True)
     os.makedirs(os.path.join(jdir, "script", "qa"), exist_ok=True)
@@ -3857,19 +4075,16 @@ def emit_json(derived):
     dump("random_waves.json", [dict(zip(WAVE_COLS, g)) for g in RANDOM_WAVES])
     dump("regular_slots.json", [dict(zip(RSLOT_COLS, g)) for g in REGULAR_SLOTS])
     dump("spots.json", [dict(zip(SPOT_COLS, s)) for s in SPOTS])
-    # v2.6.0 통합 지점 — 시트 InteractPoints가 정본. p_qa_* 행은 QA 번들로 분리 배포한다.
-    _all_points = [dict(zip(POINT_COLS, p)) for p in POINTS]
-    for d in _all_points:
-        for k in ("facing", "spawn_when", "interact_when", "action_type", "action_ref"):
-            d[k] = d[k] or None
-    _prod_points = [d for d in _all_points if not d["id"].startswith("p_qa_")]
-    _qa_points = [d for d in _all_points if d["id"].startswith("p_qa_")]
+    # v2.6.0 거리 런타임 계약 — 배치와 대화 선택 정보는 InteractPoints가 소유하고,
+    # street 대본은 대사·선택지·상태 변경 스텝만 소유한다. 엑셀 원본은 변경하지 않고
+    # 배포 단계에서 정규화하여 기존 저작 시트와 새 런타임 계약을 함께 유지한다.
+    _street_runtime = build_street_runtime_contract()
     _transition_rows = [dict(zip(TRANSITION_COLS, t)) for t in TRANSITIONS]
     for d in _transition_rows:
         d["target_spot"] = d["target_spot"] or None
-    dump("interact_points.json", _prod_points)
-    if _qa_points:
-        dump("qa/interact_points_day99.json", _qa_points)
+    dump("interact_points.json", _street_runtime["prod_points"])
+    if _street_runtime["qa_points"]:
+        dump("qa/interact_points_day99.json", _street_runtime["qa_points"])
     dump("transitions.json", _transition_rows)
     # Day 99 거리 QA도 배치·상호작용을 한 파일이 소유한다.
     _stale_qa_entities = os.path.join(jdir, "qa", "field_entities_day99.json")
@@ -3945,6 +4160,12 @@ def emit_json(derived):
         return out or None
 
     for fname, members, place in bundles:
+        if fname == "script/street.json":
+            dump(fname, _street_runtime["prod_script"])
+            continue
+        if fname == "script/qa/street_day99.json":
+            dump(fname, _street_runtime["qa_script"])
+            continue
         scenes, used_choices = [], set()
         for s in sorted(members, key=lambda x: (-1 if x[1] is None else x[1], PHASE_RANK.get(x[2], 9), x[3])):   # None = 상시 씬을 맨 앞에
             sd = dict(zip(SCENE_COLS, s))

@@ -123,15 +123,15 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   이미지 키 = 파생(`Finished_{Pascal}`·`Serve_{Pascal}`), 태그는 Tags 시트의 불변 `tag_id` + ko/en 표시명 + **category 2분류(taste 맛 8종 / feel 느낌 8종)**를 사용한다. 기존 한글 태그 조건은 엔진 이관 기간에만 호환 유지한다. 등급 텍스트 = ui_grade_* 5키(언어 불문 영어).
 - **선택지**: 조건(when) 미충족 항목은 숨기지 않고 **회색(비활성) + 부족 사유 문구**로 표시. Choices의 `lock_reason_ko/en`은 when과 상호 필수로 검증한다.
   세트 2~4개 + 세트마다 when 빈 항목 최소 1개(빌드 검증). 서사 스포일러는 선택지 잠금이 아니라 씬 단위 when으로 분기.
-- **씬 day는 auto 씬에서만 재생 일차를 정한다** — interact 씬의 재생 일차는 interact_points.when이 정하고 day는 참고 표기.
+- **거리 대화의 day·순서·재생 방식은 InteractPoints가 정한다** — `dialogue_flows[]`의 `day`·`flow_seq`·`play_type`·`when`이 실행 대화를 고른다. `script/street.json`의 씬은 `id`와 `steps`만 소유한다.
   검증 4종(v3.2): 선택지 무조건 항목·kind↔scene_or_shop 접두사 일치·Personalities/Characters id 겹침 금지·지점 when(day==N)과 연결 씬 day 모순 금지.
 - **거리(외부) v2.6**: 정본 = 노션 「외부 거리 시스템」(3aa1612298dc80d18899ecca42884c41). 데모 거리 상호작용은 NPC 직접 대화와 오브젝트 보기 중심이며 상점은 제외한다.
   E 아이콘 = 접근 반경 내에서 안전한 유효 대상 중 가장 가까운 하나만 표시(완전히 동률이면 point.id 오름차순). priority는 호환용 예약값으로 남기고 데모 판정에서는 사용하지 않는다. 조건 4층 = phase+spawn_when(존재) → interact_when(상호작용) → 씬 when → 스텝 when.
   말풍선 이름형/무명형 = §4.3 화자 기준 — say에 actor가 있으면 이름형(직접 대화·**NPC 간 관전 포함**, characters.name·name_color),
   actor 공란인 사물 조사는 무명형, 자동 방송은 아나운서 데이터가 있을 때만 이름 표시, 포스터 뷰는 해당 없음.
-  `interact_points.activation_mode`=interact/proximity. 1회 소비 = 지점 id 저장이 아니라 `interact_when: !flag.x` + 씬 `on_complete_effects`로 플래그 세트(selection·소비 목록 저장 폐지).
-  on_complete_effects는 정상 완료·goto 분기에서만 적용(중단·오류·phase 전환 시 미적용), choice.effects와 같은 트랜잭션.
-  **NPC 대사는 플레이어가 E 상호작용한 경우에만 시작**하고 종료까지 조작을 잠근다. 자동 재생은 라디오·TV·홀로그램 같은 비인물 오브젝트 방송에만 사용한다. 자동 재생은 동시 1개이며 범위 이탈·직접 상호작용·포스터 시작에도 별도 진행 상태에서 끝까지 재생한다. phase 전환·맵 언로드에서만 중단하고 미완료 `on_complete_effects`는 적용하지 않는다. phase 전이=문 진입. 시뮬레이터: `이준서/웹시뮬레이터/web/거리_v26_시뮬레이터.html`.
+  `interact_points.activation_mode`=interact/proximity. 대화 선택은 `dialogue_flows[]`를 `flow_seq` 오름차순으로 평가한다. `play_type=once`는 정상 완료 후 소비하고 다음 대화로 진행하며, `repeat`는 마지막 반복 대사처럼 계속 실행할 수 있다. 일반 진행은 play_type이 담당하고 `when`은 일차·보유 아이템·서사 플래그 같은 특수 조건에만 쓴다.
+  상태 변경은 거리 씬의 `set_state` 스텝으로만 실행한다. 선택지의 상태 변경과 분기 역시 해당 choice 스텝의 `options[].result_steps` 안에 `set_state`·`goto` 순서로 포함한다. 구 `on_complete_effects`와 거리 루트 `choices` 객체는 배포하지 않는다.
+  **NPC 대사는 플레이어가 E 상호작용한 경우에만 시작**하고 종료까지 조작을 잠근다. 자동 재생은 라디오·TV·홀로그램 같은 비인물 오브젝트 방송에만 사용한다. 자동 재생은 동시 1개이며 범위 이탈·직접 상호작용·포스터 시작에도 별도 진행 상태에서 끝까지 재생한다. phase 전환·맵 언로드에서만 중단하며 아직 실행하지 않은 뒤쪽 `set_state`는 적용하지 않는다. phase 전이=문 진입. 시뮬레이터: `이준서/웹시뮬레이터/web/거리_v26_시뮬레이터.html`.
 - **오브젝트 보기 3원칙(거리)**: ① 말풍선은 오브젝트 위에만 — **루나 말풍선·독백 금지**(빌드 에러로 차단)
   ② 본문은 **그 사물에 적힌 정보만** — 관찰·감상·설명체 금지(전단이면 "사람 구함 010-…"이 그대로)
   ③ 줍기처럼 **행동이 붙으면 선택지로**(상자=줍는다/무시한다 — 루나 말풍선 없이 버튼만, 배치 기준 ❓).
@@ -212,11 +212,10 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   UI 문서 간 모순 결정 대기 ❓: 골드 상시 HUD vs 변동 표시 / 2부 대사창 vs 말풍선 꼬리
 - 데이터 참조 정리 완료: `hound`를 Characters의 cutscene 인물로 등록했고, OrderRules·Tastes의 구표기 `[day4 가안]`을 `[후속 일차 가안]`으로 정리했다.
 - **호환성 유지형 데이터 확장**: `cocktails.json`은 신규 구현용 `target_mix_method`·`target_prep_action`·`tags[].id`와 기존 `mix`·`prep`·`tags[].ko`를 한 버전 병행한다. `manifest.json`은 운영 31파일과 Day 99 QA 3파일(바 대본 1 + 거리 통합 지점 1 + 거리 대본 1)을 분리하고 파일별 SHA-256·번들 해시를 기록한다(매니페스트 포함 총 35 JSON). 데이터 스키마 2.6.0 · 번들 계약 1.0.0.
-- **거리 v2.6 파이프라인 정식화 완료**: build.py의 임시 JSON 오버레이를 제거하고 시트가 다시 정본이다.
-  InteractPoints 시트 = 통합 13컬럼(kind·source_id·spot_id·facing·phase·spawn_when·activation_mode·interact_when·priority·action_type·action_ref)
-  — 배치와 상호작용을 한 행이 소유(구 FieldEntities 소멸). Transitions 시트 신설(6컬럼 2행). Scenes 11컬럼(start_mode·on_complete_effects — 거리 phase 전용,
-  oce는 **문자열 DSL로 배포**가 정본). Day 99 거리 QA도 `qa/interact_points_day99.json` 한 파일이 배치와 상호작용을 함께 소유하며
-  `qa/field_entities_day99.json`은 폐기했다. 현행 배포 QA는 지점 13개·씬 13개·스텝 27개·선택지 항목 3개다.
+- **거리 v2.6 파이프라인 정식화 완료**: 엑셀 원본은 수정하지 않고 build.py가 배포 JSON에서 새 런타임 계약으로 정규화한다.
+  `interact_points.json`은 배치·상호작용 필드와 `dialogue_flows[]`(`scene_id`·`day`·`flow_seq`·`play_type`·`when`)를 함께 소유한다. 대화 지점은 `action_type=dialogue`이며 구 `action_ref`를 배포하지 않는다. 장소 전환 지점만 `action_type=transition`과 `action_ref`를 유지한다.
+  `script/street.json`은 씬별 `id`·`steps`만 소유한다. 상태 변경은 `set_state`, 선택지는 스텝 내부 `options[]`, 선택 결과는 `result_steps[]`로 배포한다. 구 `start_mode`·`group`·씬 `day/seq/when`·`on_complete_effects`·루트 `choices`는 거리 JSON에서 제거했다.
+  Day 99 거리 QA도 같은 계약을 사용하며 `qa/field_entities_day99.json`은 폐기 상태를 유지한다. 현행 배포 QA는 지점 13개·씬 13개·스텝 32개다.
   gen 시드는 비거리 도메인(Tags tag_id 등)에서 시트보다 낡음 — 재생성 금지 사유에 추가됨(gen 상단 경고 주석 참조).
 - **QA 테스트 대본 = day 99** (`tools/converted/day99_test.py` → `script/bar/day99.json` + random_waves day99 2행).
   일반 진행에선 안 열림(99 = '날짜로는 안 열림' 컨벤션). 개점 허브(대사·표정·태그·읽음스킵 / 분기·효과 / 좌석·카메라·연출 / **1부 시작**)

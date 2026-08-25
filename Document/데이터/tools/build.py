@@ -269,9 +269,10 @@ def main():
     apply_minimal_street_scope()
     derived = G.derive()
     errors, report = G.validate(derived)
+    errors += G.validate_street_runtime_contract(G.build_street_runtime_contract())
 
     lines = [f"===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: {src}) ====="]
-    lines.append("· 거리 v2.6.0 통합 스키마 — 운영·Day 99 QA 모두 단일 InteractPoints 13필드로 배포")
+    lines.append("· 거리 v2.6.0 대화 계약 — InteractPoints가 dialogue_flows를 소유하고 street는 대본 스텝만 배포")
     lines.append("· 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외")
     if unknown:
         lines.append(f"⚠ 알 수 없는 시트(무시됨): {', '.join(unknown)}")

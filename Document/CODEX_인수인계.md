@@ -325,3 +325,5 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 완·노점·상점 데이터를 데모 거리 데이터에서 제거했다. 삼호·시바 첫 만남과 삼호 사망·생존 결과는 거리 대본에서 제외하고 `Cutscenes`의 별도 연출 리소스로 유지한다.
 - 거리 NPC는 E 상호작용으로만 대사를 시작한다. 고양이 지점은 `actor=bubi`인 전신 캐릭터로 표시하며 E 상호작용 후 `d3_alley_cat`을 실행한다.
 - 현재 운영 거리 데이터는 `Spots` 7개 앵커, `InteractPoints` 7행, `script/street.json` 8씬이다. 같은 `spots.json`에는 Day 99 QA 앵커 7개가 추가되어 총 14행이다.
+- 거리 대화 선택 정보는 `interact_points.json → dialogue_flows[]`가 소유한다. 각 항목은 `scene_id`·`day`·`flow_seq`·`play_type(once|repeat)`·`when`으로 구성되며, 일반 순차 진행은 play_type으로 처리하고 when은 특수 조건에만 사용한다.
+- `script/street.json`과 `script/qa/street_day99.json`은 씬의 `id`와 `steps`만 배포한다. 상태 변경은 `set_state` 스텝, 선택지는 해당 choice 스텝의 `options[]`, 선택 결과는 `result_steps[]`의 `set_state`·`goto`로 표현한다. 거리 씬의 구 `on_complete_effects`와 루트 `choices`는 더 이상 배포하지 않는다.
