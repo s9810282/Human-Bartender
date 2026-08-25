@@ -37,10 +37,18 @@ public class LeftSlidePanel : MonoBehaviour
     public void Open() => SetOpen(true);
     public void Close() => SetOpen(false);
 
+    /// <summary>
+    /// 패널이 열리고 닫힐 때 발생한다. 안쪽 화면의 뒤로 버튼을 거치지 않고 토글로 바로 닫는 길이 있어서,
+    /// 패널이 닫혔다는 사실을 밖에서 알 방법이 이것뿐이다.
+    /// </summary>
+    public event System.Action<bool> OpenChanged;
+
     void SetOpen(bool open)
     {
         if (isOpen == open) return;
         isOpen = open;
+
+        OpenChanged?.Invoke(open);
 
         if (anim != null) StopCoroutine(anim);
         anim = StartCoroutine(AnimateX(open ? openX : closedX));

@@ -47,6 +47,13 @@ public class CraftMenuPanel : MonoBehaviour
     /// <summary>상세 뷰의 제조 시작 버튼을 눌렀을 때 선택된 칵테일 id와 함께 발생한다. 제조 로직 연결은 구독하는 쪽에서 처리한다.</summary>
     public event System.Action<string> CraftStarted;
 
+    /// <summary>
+    /// 제조 흐름 안에 들어갔는지가 바뀔 때 발생한다. 칵테일 목록을 열면 true, 고르지 않고 되돌아가면 false다.
+    /// 제조를 시작한 뒤에는 이 패널이 닫혀 있으므로 여기서 false가 나가지 않는다 — 제조가 끝났다는 소식은
+    /// 제조 쪽(CraftFlowController)이 알린다. 바 운영 타이머를 세우는 쪽이 이 신호를 쓴다.
+    /// </summary>
+    public event System.Action<bool> CraftFlowActiveChanged;
+
     string selectedCocktailId;
 
     const int HangulBase = 0xAC00;
@@ -67,6 +74,21 @@ public class CraftMenuPanel : MonoBehaviour
         startCraftButton.onClick.AddListener(() => CraftStarted?.Invoke(selectedCocktailId));
 
         ShowMenu();
+    }
+
+    /// <summary>
+    /// 제조하기·제조 시작 버튼을 누를 수 있는지 정한다.
+    ///
+    /// 막히는 동안에도 버튼이 멀쩡히 눌리면 눌렀는데 아무 일도 일어나지 않는 화면이 된다.
+    ///
+    /// 안쪽의 제조 시작 버튼만 끄지 않고 메뉴를 여는 버튼까지 끈다. 칵테일 메뉴에 들어가는 순간
+    /// 바 운영 시간이 멈추기 때문에(craft_pause_start), 어차피 만들지 못할 때 메뉴만 열어 두면
+    /// 손님 시간이 멈춘 채로 아무 일도 일어나지 않는다.
+    /// </summary>
+    public void SetCraftEnabled(bool enabled)
+    {
+        //if (craftButton != null) craftButton.interactable = enabled;
+        if (startCraftButton != null) startCraftButton.interactable = enabled;
     }
 
     /// <summary>
@@ -98,12 +120,18 @@ public class CraftMenuPanel : MonoBehaviour
 
         menuView.SetActive(false);
         cocktailListView.SetActive(true);
+
+        CraftFlowActiveChanged?.Invoke(true);
         detailView.SetActive(false);
     }
 
     void CloseCocktailList()
     {
         ShowMenu();
+
+        // 고르지 않고 되돌아왔으므로 제조 흐름에서 빠져나온 것이다. 여기서 알리지 않으면
+        // 목록만 열어 봤다가 닫은 뒤로 바 운영 시간이 영영 멈춰 있게 된다.
+        CraftFlowActiveChanged?.Invoke(false);
     }
 
     /// <summary>목록에서 항목을 선택했을 때 상세 뷰로 전환하고 이름/아이콘/설명/태그를 채운다.</summary>
