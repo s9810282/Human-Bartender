@@ -10,9 +10,17 @@
     "activation_mode": "proximity",
     "interact_when": null,
     "priority": 0,
-    "action_type": "scene",
-    "action_ref": "d1_elevator",
-    "note": "라디오 범위 진입 시 아나운서 대사 자동 출력·자동 진행"
+    "action_type": "dialogue",
+    "note": "라디오 범위 진입 시 아나운서 대사 자동 출력·자동 진행",
+    "dialogue_flows": [
+      {
+        "scene_id": "d1_elevator",
+        "day": 0,
+        "flow_seq": 2,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_alley_cat",
@@ -25,9 +33,17 @@
     "activation_mode": "interact",
     "interact_when": "!flag.d3_cat_seen",
     "priority": 100,
-    "action_type": "scene",
-    "action_ref": "d3_alley_cat",
-    "note": "고양이에게 E 상호작용할 때만 대사 시작"
+    "action_type": "dialogue",
+    "note": "고양이에게 E 상호작용할 때만 대사 시작",
+    "dialogue_flows": [
+      {
+        "scene_id": "d3_alley_cat",
+        "day": 2,
+        "flow_seq": 0,
+        "play_type": "once",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_shiba",
@@ -40,9 +56,31 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 100,
-    "action_type": "scene_group",
-    "action_ref": "np_shiba",
-    "note": "씬 when을 통과하는 첫 시바 씬을 실행"
+    "action_type": "dialogue",
+    "note": "flow_seq 오름차순으로 실행 가능한 첫 대화를 선택하고 once 완료 후 다음 대화로 진행",
+    "dialogue_flows": [
+      {
+        "scene_id": "np_shiba_1",
+        "day": null,
+        "flow_seq": 1,
+        "play_type": "once",
+        "when": null
+      },
+      {
+        "scene_id": "np_shiba_3",
+        "day": null,
+        "flow_seq": 2,
+        "play_type": "once",
+        "when": "day >= 2"
+      },
+      {
+        "scene_id": "np_shiba_2",
+        "day": null,
+        "flow_seq": 3,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_ob_parttime",
@@ -55,9 +93,17 @@
     "activation_mode": "interact",
     "interact_when": null,
     "priority": 50,
-    "action_type": "scene",
-    "action_ref": "ob_parttime_1",
-    "note": "몇 번이든 다시 읽을 수 있는 알바 전단"
+    "action_type": "dialogue",
+    "note": "몇 번이든 다시 읽을 수 있는 알바 전단",
+    "dialogue_flows": [
+      {
+        "scene_id": "ob_parttime_1",
+        "day": null,
+        "flow_seq": 1,
+        "play_type": "repeat",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_ob_experiment",
@@ -70,9 +116,17 @@
     "activation_mode": "interact",
     "interact_when": "!flag.seen_coratech_ad",
     "priority": 50,
-    "action_type": "scene",
-    "action_ref": "ob_experiment_1",
-    "note": "임상시험 전단은 계속 보이고 한 번 읽은 뒤 상호작용만 비활성"
+    "action_type": "dialogue",
+    "note": "임상시험 전단은 계속 보이고 한 번 읽은 뒤 상호작용만 비활성",
+    "dialogue_flows": [
+      {
+        "scene_id": "ob_experiment_1",
+        "day": null,
+        "flow_seq": 1,
+        "play_type": "once",
+        "when": null
+      }
+    ]
   },
   {
     "id": "p_enter_bar",
