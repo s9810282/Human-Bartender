@@ -196,8 +196,10 @@ public enum ENewIngredientCategory
 public enum ENewInteractKind
 {
     [EnumMember(Value = "object")] Object,
-    [EnumMember(Value = "npc")] Npc,
+    [EnumMember(Value = "actor")] actor,
     [EnumMember(Value = "shop")] Shop,
+    [EnumMember(Value = "gimmick")] Gimmick,
+
 }
 
 /// <summary>인터랙트 포인트가 활성화되는 출퇴근 구간을 나타내는 열거형.</summary>
@@ -295,4 +297,27 @@ public enum ENewCutSceneKind
     [EnumMember(Value = "timeline")] Timeline,
     [EnumMember(Value = "sprite")] Sprite,
     [EnumMember(Value = "gif")] Gif,
+}
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EFacing
+{
+    [EnumMember(Value = null)] None, // JSON의 null 또는 미지정에 대응
+    [EnumMember(Value = "left")] Left,
+    [EnumMember(Value = "right")] Right
+}
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EActivationMode
+{
+    [EnumMember(Value = "interact")] Interact,
+    [EnumMember(Value = "proximity")] Proximity
+}
+[JsonConverter(typeof(StringEnumConverter))]
+public enum EActionType
+{
+    [EnumMember(Value = null)] None, // JSON의 null 또는 미지정에 대응
+    [EnumMember(Value = "scene ")] Scene,
+    [EnumMember(Value = "scene_group ")] Scene_group,
+    [EnumMember(Value = "transition ")] Transition
 }

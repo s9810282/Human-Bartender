@@ -1,20 +1,24 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json;
+using UnityEngine.UIElements.Experimental;
 
 [Serializable]
 public struct NewInteractPointData
 {
     [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
-    [field: SerializeField][JsonProperty("spot")] public string Spot { get; set; }
     [field: SerializeField][JsonProperty("kind")] public ENewInteractKind Kind { get; set; }
-    [field: SerializeField][JsonProperty("actor")] public string Actor { get; set; }
+    [field: SerializeField][JsonProperty("source_id")] public string SourceId { get; set; }
+    [field: SerializeField][JsonProperty("spot_id")] public string SpotId { get; set; }
+    [field: SerializeField][JsonProperty("facing")] public EFacing? Facing { get; set; }
     [field: SerializeField][JsonProperty("phase")] public ENewInteractPhase Phase { get; set; }
-    [field: SerializeField][JsonProperty("trigger")] public ENewSceneTrigger Trigger { get; set; }
-    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
-    [field: SerializeField][JsonProperty("scene_or_shop")] public string SceneOrShop { get; set; }
-    [field: SerializeField][JsonProperty("selection")] public ENewSelectionMode Selection { get; set; }
+    [field: SerializeField][JsonProperty("spawn_when")] public string SpawnWhen { get; set; }
+    [field: SerializeField][JsonProperty("activation_mode")] public EActivationMode ActivationMode { get; set; }
+    [field: SerializeField][JsonProperty("interact_when")] public string InteractWhen { get; set; }
+    [field: SerializeField][JsonProperty("priority")] public int Priority { get; set; }
+    [field: SerializeField][JsonProperty("action_type")] public string EActionType { get; set; }
+    [field: SerializeField][JsonProperty("action_ref")] public string ActionRef { get; set; }
     [field: SerializeField][JsonProperty("note")] public string Note { get; set; }
 }
 

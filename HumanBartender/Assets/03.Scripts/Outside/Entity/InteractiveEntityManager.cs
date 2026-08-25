@@ -67,7 +67,7 @@ public class InteractiveEntityManager : MonoBehaviour
     [SerializeField] protected List<NPCEntity> npcs;
     [SerializeField] protected List<TriggetEntity> triggers;
     [SerializeField] protected List<Entity> entities;
-
+    private HashSet<string> spawnHistory = new HashSet<string>();
     [Header("Player")]
     [SerializeField] GameObject player;
     [SerializeField] InteractEntrance barEntrance;
@@ -133,16 +133,20 @@ public class InteractiveEntityManager : MonoBehaviour
                 continue;
             }
             //콘디션이 맞지않다면 엔티티를 비활성화후 탈출
-            if (!conditionUtil.Check(curdata.When))
+            if (!conditionUtil.Check(curdata.SpawnWhen))
             {
-                entity.entity.IsAvaliable = false;
+                if (spawnHistory.Contains(curdata.SourceId))
+                {
+                    entity.entity.IsAvaliable = false;
+                }
                 continue;
             }
+            spawnHistory.Add(curdata.SourceId);
             entity.entity.IsAvaliable = true;
             //스팟데이터를 참조 위치를 변경
-            if(!SpotData.TryGetData(curdata.Spot,out NewSpotData spotdata))
+            if(!SpotData.TryGetData(curdata.SpotId,out NewSpotData spotdata))
             {
-                Debug.Log($"{entity.id}가{curdata.Spot}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                Debug.Log($"{entity.id}가{curdata.SpotId}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
                 continue;
             }
             entity.entity.transform.position = spotdata.Position;
@@ -150,11 +154,9 @@ public class InteractiveEntityManager : MonoBehaviour
             //엔티티의 행동 변수 조정
             entity.entity.kind = curdata.Kind;
             entity.entity.phase = curdata.Phase;
-            entity.entity.trigger = curdata.Trigger;
-            entity.entity.selection = curdata.Selection;
-            if (!streetData.TryGetSceneData(curdata.SceneOrShop,out NewSceneData sceneData))
+            if (!streetData.TryGetSceneData(curdata.ActionRef,out NewSceneData sceneData))
             {
-                Debug.Log($"{entity.id}가{curdata.SceneOrShop}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                Debug.Log($"{entity.id}가{curdata.ActionRef}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
                 continue;
             }
 
