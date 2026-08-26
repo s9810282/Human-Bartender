@@ -19,6 +19,9 @@ public enum ENewStepType
     [EnumMember(Value = "effect")] Effect,
     [EnumMember(Value = "end_part")] EndPart,
     [EnumMember(Value = "timeline")] Timeline,
+    // street.json이 쓰는 값들. 없으면 그 파일 역직렬화가 통째로 끊긴다.
+    [EnumMember(Value = "set_state")] SetState,
+    [EnumMember(Value = "goto")] Goto,
 }
 
 /// <summary>씬이 진행되는 하루 중 구간을 나타내는 열거형.</summary>
@@ -195,7 +198,8 @@ public enum ENewIngredientCategory
 public enum ENewInteractKind
 {
     [EnumMember(Value = "object")] Object,
-    [EnumMember(Value = "npc")] Npc,
+    // 데이터에서 npc가 actor로 바뀌었다. interact_points.json에 npc는 한 곳도 남아 있지 않다.
+    [EnumMember(Value = "actor")] Actor,
     [EnumMember(Value = "shop")] Shop,
 }
 

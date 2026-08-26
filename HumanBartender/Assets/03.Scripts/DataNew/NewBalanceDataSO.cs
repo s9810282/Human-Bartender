@@ -41,6 +41,22 @@ public struct NewBalanceConfig
     [field: SerializeField][JsonProperty("drunk_vomit_chance")] public float DrunkVomitChance { get; set; }
     [field: SerializeField][JsonProperty("guest_acc_none_weight")] public int GuestAccNoneWeight { get; set; }
 
+    // ── 저장·불러오기 (저장 시스템이 정본. 여기서는 값만 읽어 둔다) ──
+    [field: SerializeField][JsonProperty("save_checkpoint_policy")] public string SaveCheckpointPolicy { get; set; }
+    [field: SerializeField][JsonProperty("manual_save_allowed_phase")] public string ManualSaveAllowedPhase { get; set; }
+    [field: SerializeField][JsonProperty("manual_save_slot_count")] public int ManualSaveSlotCount { get; set; }
+    [field: SerializeField][JsonProperty("autosave_slot_count")] public int AutosaveSlotCount { get; set; }
+    [field: SerializeField][JsonProperty("autosave_on_commute_in_enter")] public bool AutosaveOnCommuteInEnter { get; set; }
+    [field: SerializeField][JsonProperty("autosave_on_bar_enter")] public bool AutosaveOnBarEnter { get; set; }
+    [field: SerializeField][JsonProperty("autosave_on_part2_start")] public bool AutosaveOnPart2Start { get; set; }
+    [field: SerializeField][JsonProperty("autosave_on_daily_sales_settlement_complete")] public bool AutosaveOnDailySalesSettlementComplete { get; set; }
+    [field: SerializeField][JsonProperty("commute_in_resume_spot_id")] public string CommuteInResumeSpotId { get; set; }
+    [field: SerializeField][JsonProperty("commute_out_resume_spot_id")] public string CommuteOutResumeSpotId { get; set; }
+    [field: SerializeField][JsonProperty("bar_mid_session_autosave_enabled")] public bool BarMidSessionAutosaveEnabled { get; set; }
+
+    /// <summary>같은 error_code가 이 횟수만큼 잇따르면 안전 이탈을 안내한다(구현·검증 계약 §10.2).</summary>
+    [field: SerializeField][JsonProperty("data_error_safe_exit_after_same_code")] public int DataErrorSafeExitAfterSameCode { get; set; }
+
     /// <summary>주문이 지정되지 않은 손님에게 칵테일을 고르는 방식.</summary>
     [field: SerializeField][JsonProperty("random_order_sampling_mode")] public string RandomOrderSamplingMode { get; set; }
 
@@ -178,9 +194,11 @@ public struct NewScoreBandData
     [field: SerializeField][JsonProperty("min_ratio")] public float MinRatio { get; set; }
 
     /// <summary>
-    /// 구간의 상한. 상한이 없는 마지막 구간은 json에서 빈 문자열로 들어온다.
-    /// 숫자와 빈 문자열이 같은 칸에 섞여 있어 문자열로 받은 뒤 MaxRatio에서 해석한다 —
-    /// float?로 바로 받으면 빈 문자열에서 역직렬화가 터진다.
+    /// 구간의 상한을 적힌 그대로 받는 칸. 위로 열려 있는 마지막 구간은 값이 비어 있다
+    /// (현재 데이터는 null이고, 예전에는 빈 문자열이었다).
+    ///
+    /// 숫자와 빈 값이 같은 칸에 섞여 있어 문자열로 받은 뒤 MaxRatio에서 해석한다. float?로 바로 받으면
+    /// null은 넘어가지만 빈 문자열에서 터지므로, 두 표기를 모두 견디는 쪽으로 둔다.
     /// </summary>
     [field: SerializeField][JsonProperty("max_ratio")] public string MaxRatioRaw { get; set; }
 

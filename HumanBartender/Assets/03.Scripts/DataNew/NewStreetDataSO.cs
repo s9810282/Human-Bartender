@@ -10,6 +10,28 @@ public struct Texts
     [field: SerializeField][JsonProperty("en")] public string En { get; set; }
 }
 
+/// <summary>
+/// 길거리 스크립트의 선택지 하나.
+///
+/// 다른 파일의 choices(NewChoiceOptionData)와 모양이 다르다 — 여기서는 선택지가 스텝 안에 직접 들어가고,
+/// 고른 결과도 goto로 다른 씬을 가리키는 대신 result_steps에 이어질 스텝을 그대로 품는다.
+/// 같은 타입으로 묶으면 한쪽에만 있는 필드가 계속 늘어난다.
+/// </summary>
+[Serializable]
+public struct NewStreetOptionData
+{
+    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
+    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
+    [JsonProperty("text")] public LocalizedText? Text { get; set; }
+    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
+
+    /// <summary>고를 수 없을 때 보여줄 이유. 화면에 그대로 나오는 문구라 언어별로 들어 있다. 고를 수 있으면 null이다.</summary>
+    [JsonProperty("lock_reason")] public LocalizedText? LockReason { get; set; }
+
+    /// <summary>이 선택지를 고른 뒤 이어서 실행할 스텝.</summary>
+    [field: SerializeField][JsonProperty("result_steps")] public Step[] ResultSteps { get; set; }
+}
+
 [Serializable]
 public struct Step
 {
@@ -22,6 +44,18 @@ public struct Step
     [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
     /// <summary>"wait"면 이 스텝이 끝날 때까지 다음 스텝을 진행하지 않는다.</summary>
     [field: SerializeField][JsonProperty("sync")] public string Sync { get; set; }
+
+    /// <summary>이 대사가 참조하는 대사 id. 없으면 null이다.</summary>
+    [field: SerializeField][JsonProperty("dialogue_id")] public string DialogueId { get; set; }
+
+    /// <summary>type이 goto일 때 옮겨 갈 씬 id.</summary>
+    [field: SerializeField][JsonProperty("scene_id")] public string SceneId { get; set; }
+
+    /// <summary>
+    /// 이 스텝에 딸린 선택지. 다른 스크립트 파일의 choices와 달리 스텝 안에 직접 들어 있고,
+    /// 고른 뒤 이어갈 내용도 goto가 아니라 result_steps로 품고 있다.
+    /// </summary>
+    [field: SerializeField][JsonProperty("options")] public NewStreetOptionData[] Options { get; set; }
 }
 
 [Serializable]

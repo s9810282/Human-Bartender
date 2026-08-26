@@ -75,6 +75,37 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
 
     Dictionary<int, NewDayScriptBase> _dayScriptCache = new();
 
+    static UniTaskCompletionSource loadCompletion = new();
+
+    /// <summary>
+    /// json 로딩이 끝났는지.
+    ///
+    /// 로딩은 IAsyncStartable로 프레임을 넘겨 가며 진행되는데, 씬의 MonoBehaviour들은 그와 무관하게
+    /// Awake·Start를 먼저 마친다. 그래서 로딩보다 먼저 도는 쪽이 기다릴 수 있어야 한다.
+    ///
+    /// 기다리지 않으면 SO에 구워져 있는 빈 배열을 실제 데이터로 읽는다 — 예외도 나지 않고 그냥
+    /// "오늘 손님 0명"이 되어 1부를 건너뛰는 식으로 조용히 어긋난다.
+    /// </summary>
+    public static bool IsLoaded { get; private set; }
+
+    /// <summary>로딩이 끝날 때까지 기다린다. 이미 끝났으면 곧바로 돌아온다.</summary>
+    public static UniTask WaitUntilLoadedAsync() => loadCompletion.Task;
+
+    /// <summary>로딩을 다시 시작할 때 완료 신호를 되돌린다(타이틀로 나갔다 다시 들어오는 경우).</summary>
+    static void BeginLoad()
+    {
+        if (!IsLoaded) return;
+
+        IsLoaded = false;
+        loadCompletion = new UniTaskCompletionSource();
+    }
+
+    static void EndLoad()
+    {
+        IsLoaded = true;
+        loadCompletion.TrySetResult();
+    }
+
     /// <summary>VContainer가 컨테이너 빌드 시점에 호출하는 엔트리포인트. LoadDataAsync를 기다린 뒤 완료된다.</summary>
     
     async UniTask IAsyncStartable.StartAsync(CancellationToken cancellation)
@@ -87,6 +118,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
     public void LoadData()
     {
         Logger.Log("[New] Load Data");
+        BeginLoad();
 
         foreach (var day in dayNumbers)
             _dayScriptCache[day] = JsonManager<NewDayScriptBase>.LoadGameData_StreamingAssets(DayScriptFileName(day));
@@ -117,12 +149,15 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         tasteData.tasteData = JsonManager<NewTasteData[]>.LoadGameData_StreamingAssets(tasteFileName);
         uiStringData.uiStringData = JsonManager<Dictionary<string, LocalizedText>>.LoadGameData_StreamingAssets(uiStringFileName);
         streetData.newStreetData = JsonManager<NewStreetData>.LoadGameData_StreamingAssets(streetFileName);
+
+        EndLoad();
         Logger.Log("[New] Load end");
     }
 
     public async UniTask LoadDataAsync()
     {
         Logger.Log("[New] Load Data");
+        BeginLoad();
 
         foreach (var day in dayNumbers)
             _dayScriptCache[day] = await JsonManager<NewDayScriptBase>.LoadAsync<NewDayScriptBase>(DayScriptFileName(day));
@@ -153,6 +188,8 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartab
         tasteData.tasteData = await JsonManager<NewTasteData[]>.LoadAsync<NewTasteData[]>(tasteFileName);
         uiStringData.uiStringData = await JsonManager<Dictionary<string, LocalizedText>>.LoadAsync<Dictionary<string, LocalizedText>>(uiStringFileName);
         streetData.newStreetData = await JsonManager<NewStreetData>.LoadAsync<NewStreetData>(streetFileName);
+
+        EndLoad();
         Logger.Log("[New] Load end");
     }
 
