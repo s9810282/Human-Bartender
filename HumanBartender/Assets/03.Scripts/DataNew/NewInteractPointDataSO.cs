@@ -2,8 +2,23 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
+/// <summary>
+/// dialogue_flows 배열 요소 데이터 구조체
+/// </summary>
+[Serializable]
+public struct DialogueFlowData
+{
+    [field: SerializeField][JsonProperty("scene_id")] public string SceneId { get; set; }
+    [field: SerializeField][JsonProperty("day")] public int? Day { get; set; }
+    [field: SerializeField][JsonProperty("flow_seq")] public int FlowSeq { get; set; }
+    [field: SerializeField][JsonProperty("play_type")] public EPlayType PlayType { get; set; }
+    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
+}
+
+/// <summary>
+/// 상호작용 포인트 데이터 구조체
+/// </summary>
 [Serializable]
 public struct NewInteractPointData
 {
@@ -12,14 +27,16 @@ public struct NewInteractPointData
     [field: SerializeField][JsonProperty("source_id")] public string SourceId { get; set; }
     [field: SerializeField][JsonProperty("spot_id")] public string SpotId { get; set; }
     [field: SerializeField][JsonProperty("facing")] public EFacing? Facing { get; set; }
-    [field: SerializeField][JsonProperty("phase")] public ENewInteractPhase Phase { get; set; }
+    [field: SerializeField][JsonProperty("phase")] public EGameFlow Phase { get; set; }
     [field: SerializeField][JsonProperty("spawn_when")] public string SpawnWhen { get; set; }
     [field: SerializeField][JsonProperty("activation_mode")] public EActivationMode ActivationMode { get; set; }
     [field: SerializeField][JsonProperty("interact_when")] public string InteractWhen { get; set; }
     [field: SerializeField][JsonProperty("priority")] public int Priority { get; set; }
-    [field: SerializeField][JsonProperty("action_type")] public string EActionType { get; set; }
-    [field: SerializeField][JsonProperty("action_ref")] public string ActionRef { get; set; }
+    [field: SerializeField][JsonProperty("action_type")] public EActionType ActionType { get; set; }
     [field: SerializeField][JsonProperty("note")] public string Note { get; set; }
+
+    // 변경된 서식 반영: dialogue_flows 배열 추가
+    [field: SerializeField][JsonProperty("dialogue_flows")] public List<DialogueFlowData> DialogueFlows { get; set; }
 }
 
 /// <summary>StreamingAssets/json/interact_points.json을 보유하는 ScriptableObject.</summary>

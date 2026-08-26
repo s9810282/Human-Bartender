@@ -22,10 +22,10 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     public string EntityLabel { get => label; set => label = value; }
 
     public ENewInteractKind kind;
-    public ENewInteractPhase phase;
-    public ENewSceneTrigger trigger;
-    public ENewSelectionMode selection;
-
+    public EActivationMode ActivationMode;
+    public EActionType ActionType;
+    public bool isInteract = false;
+    public Step[] steps;
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;
     Vector2 ITrackedble.ButtonOffset => buttonOffset;

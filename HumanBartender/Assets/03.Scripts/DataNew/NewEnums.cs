@@ -308,6 +308,13 @@ public enum EFacing
 }
 
 [JsonConverter(typeof(StringEnumConverter))]
+public enum EPlayType
+{
+    [EnumMember(Value = null)] None, // JSON의 null 또는 미지정에 대응
+    [EnumMember(Value = "once")] Once,
+    [EnumMember(Value = "repeat")] Repeat
+}
+[JsonConverter(typeof(StringEnumConverter))]
 public enum EActivationMode
 {
     [EnumMember(Value = "interact")] Interact,
@@ -319,5 +326,6 @@ public enum EActionType
     [EnumMember(Value = null)] None, // JSON의 null 또는 미지정에 대응
     [EnumMember(Value = "scene ")] Scene,
     [EnumMember(Value = "scene_group ")] Scene_group,
-    [EnumMember(Value = "transition ")] Transition
+    [EnumMember(Value = "transition ")] Transition,
+    [EnumMember(Value = "dialogue ")] Dialogue
 }

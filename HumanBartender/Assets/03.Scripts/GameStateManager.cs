@@ -36,6 +36,9 @@ public enum EGameFlow
     CommuteOut,
 
     Home,
+
+    [EnumMember(Value = "both")]
+    Both
 }
 
 /// <summary>

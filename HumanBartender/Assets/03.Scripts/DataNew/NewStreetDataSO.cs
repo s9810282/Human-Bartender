@@ -10,20 +10,47 @@ public struct Texts
     [field: SerializeField][JsonProperty("en")] public string En { get; set; }
 }
 
+/// <summary>
+/// 선택지 결과(result_steps) 데이터 구조체
+/// </summary>
+[Serializable]
+public struct ResultStep
+{
+    [field: SerializeField][JsonProperty("type")] public string Type { get; set; }
+    [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
+    [field: SerializeField][JsonProperty("scene_id")] public string SceneId { get; set; }
+}
+
+/// <summary>
+/// 선택지 세부 항목(options) 데이터 구조체
+/// </summary>
+[Serializable]
+public struct ChoiceOption
+{
+    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
+    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
+    [field: SerializeField][JsonProperty("text")] public Texts? Text { get; set; }
+    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
+    [field: SerializeField][JsonProperty("lock_reason")] public Texts? LockReason { get; set; }
+    [field: SerializeField][JsonProperty("result_steps")] public ResultStep[] ResultSteps { get; set; }
+}
+
 [Serializable]
 public struct Step
 {
     [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [field: SerializeField][JsonProperty("type")] public ENewStepType Type { get; set; }
+    [field: SerializeField][JsonProperty("type")] public string Type { get; set; }
     [field: SerializeField][JsonProperty("actor")] public string Actor { get; set; }
-    [field: SerializeField][JsonProperty("dialogue_id")] public string Dialogue_id { get; set; }
+    [field: SerializeField][JsonProperty("dialogue_id")] public string DialogueId { get; set; }
     [field: SerializeField][JsonProperty("arg")] public string Arg { get; set; }
-    
     [field: SerializeField][JsonProperty("text")] public Texts? Text { get; set; }
     [field: SerializeField][JsonProperty("when")] public string When { get; set; }
     [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
     /// <summary>"wait"면 이 스텝이 끝날 때까지 다음 스텝을 진행하지 않는다.</summary>
     [field: SerializeField][JsonProperty("sync")] public string Sync { get; set; }
+
+    // 추가됨: choice 타입일 때 들어오는 options 배열
+    [field: SerializeField][JsonProperty("options")] public ChoiceOption[] Options { get; set; }
 }
 
 [Serializable]
@@ -34,7 +61,7 @@ public struct NewSceneData
 
     [field: SerializeField][JsonProperty("phase")] public ENewScenePhase Phase { get; set; }
     [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [field: SerializeField][JsonProperty("start_mode")] public ENewSceneTrigger startmode { get; set; }
+    [field: SerializeField][JsonProperty("start_mode")] public ENewSceneTrigger StartMode { get; set; }
     [field: SerializeField][JsonProperty("when")] public string When { get; set; }
     [field: SerializeField][JsonProperty("title")] public string Title { get; set; }
     [field: SerializeField][JsonProperty("skippable")] public bool Skippable { get; set; }
@@ -48,12 +75,10 @@ public struct NewStreetData
 {
     [field: SerializeField][JsonProperty("place")] public string Place { get; set; }
     [field: SerializeField][JsonProperty("scenes")] public NewSceneData[] Scenes { get; set; }
-    [JsonProperty("choices")] public Dictionary<string, NewChoiceOptionData[]> Choices { get; set; }
 }
 
 /// <summary>Street.json 단일 객체 구조와 1:1 대응되는 ScriptableObject</summary>
 [CreateAssetMenu(fileName = "NewStreetDataSO", menuName = "Data/New/StreetDataSO")]
-[Serializable]
 public class NewStreetDataSO : ScriptableObject
 {
     public NewStreetData newStreetData;
@@ -109,8 +134,20 @@ public class NewStreetDataSO : ScriptableObject
     }
 
     /// <summary>
-    /// 에디터에서 데이터 변경 시 딕셔너리 캐시 재구성
+    /// [요청 기능] Scene ID를 Key값으로 전달하여 해당 Scene의 Steps 배열을 바로 가져옵니다.
     /// </summary>
+    public bool TryGetSteps(string sceneId, out Step[] steps)
+    {
+        if (TryGetSceneData(sceneId, out NewSceneData sceneData))
+        {
+            steps = sceneData.Steps;
+            return true;
+        }
+
+        steps = null;
+        return false;
+    }
+
     private void OnValidate()
     {
         InitializeDictionary();
