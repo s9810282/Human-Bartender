@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ProjectLuna.CutscenePrototype.Authoring;
+using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -15,6 +17,14 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 {
     public static class LunaCutsceneAuthoringBuilder
     {
+        public sealed class ActorTrackSet
+        {
+            public GroupTrack group;
+            public LunaActorMoveTrack move;
+            public AnimationTrack animation;
+            public ActivationTrack activation;
+        }
+
         public const string Root = "Assets/99.CutsceneProto";
         public const string AuthoringScenePath = Root + "/CutsceneAuthoring_Lab.unity";
         public const string ExampleTimelinePath = Root + "/Authoring/Timelines/LabResearchAuthoring.playable";
@@ -28,7 +38,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             if (AssetDatabase.LoadAssetAtPath<SceneAsset>(AuthoringScenePath) != null)
             {
                 if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                {
                     EditorSceneManager.OpenScene(AuthoringScenePath, OpenSceneMode.Single);
+                    EnsureSceneAuthoringHelpers();
+                }
                 return;
             }
 
@@ -55,6 +68,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             playableDirector.playableAsset = timeline;
             playableDirector.playOnAwake = false;
             playableDirector.extrapolationMode = DirectorWrapMode.Hold;
+            playableDirector.timeUpdateMode = DirectorUpdateMode.UnscaledGameTime;
 
             GameObject stage = new("STAGE");
             stage.transform.SetParent(root.transform, false);
@@ -86,6 +100,15 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             camera.nearClipPlane = 0.1f;
             camera.farClipPlane = 100f;
             camera.backgroundColor = new Color(0.008f, 0.014f, 0.02f);
+            cameraObject.AddComponent<LunaCutsceneCameraGuide>();
+
+            Transform anchors = new GameObject("ANCHORS").transform;
+            anchors.SetParent(stage.transform, false);
+            CreateAnchor(anchors, "luna_start", luna.transform.position);
+            CreateAnchor(anchors, "luna_end", new Vector3(-2.8f, -1.2f, 0f));
+            CreateAnchor(anchors, "researcher_start", researcher.transform.position);
+            CreateAnchor(anchors, "intruder_start", intruder.transform.position);
+            CreateAnchor(anchors, "intruder_end", new Vector3(4.8f, -1.2f, 0f));
 
             GameObject audioRoot = new("AUDIO");
             audioRoot.transform.SetParent(root.transform, false);
@@ -138,7 +161,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
                 LunaCutsceneAuthoringBaker.Bake(timeline, definition);
             }
             EditorSceneManager.OpenScene(AuthoringScenePath, OpenSceneMode.Single);
+            EnsureSceneAuthoringHelpers();
             LunaCutsceneAuthoringValidator.ValidateSceneAndLog();
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), AuthoringScenePath);
+            AssetDatabase.SaveAssets();
         }
 
         public static (TimelineAsset timeline, LunaCutsceneDefinition definition) CreateBlankAssets(string rawId)
@@ -169,6 +195,225 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             AssetDatabase.CreateAsset(definition, definitionPath);
             AssetDatabase.SaveAssets();
             return (timeline, definition);
+        }
+
+        public static void EnsureSceneAuthoringHelpers()
+        {
+            LunaCutsceneDirector runtime = UnityEngine.Object.FindFirstObjectByType<LunaCutsceneDirector>();
+            if (runtime == null)
+                return;
+            runtime.BindingRegistry?.RebuildFromChildren();
+            LunaCutsceneUiAssetBuilder.UpgradeSceneUi(runtime);
+
+            Camera camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
+            if (camera != null && camera.GetComponent<LunaCutsceneCameraGuide>() == null)
+                Undo.AddComponent<LunaCutsceneCameraGuide>(camera.gameObject);
+
+            Transform stage = runtime.transform.Find("STAGE");
+            if (stage == null)
+                return;
+            Transform anchors = stage.Find("ANCHORS");
+            if (anchors == null)
+            {
+                GameObject anchorRoot = new("ANCHORS");
+                Undo.RegisterCreatedObjectUndo(anchorRoot, "Create L.U.N.A Anchor Root");
+                anchorRoot.transform.SetParent(stage, false);
+                anchors = anchorRoot.transform;
+            }
+
+            if (runtime.BindingRegistry == null)
+                return;
+            foreach (LunaCutsceneBindingEntry entry in runtime.BindingRegistry.Bindings)
+            {
+                if (entry?.target == null || string.IsNullOrWhiteSpace(entry.id))
+                    continue;
+                if (entry.target.GetComponent<Animator>() == null
+                    || entry.target.GetComponentInChildren<SpriteRenderer>(true) == null)
+                    continue;
+                EnsureSpeechAnchor(entry.target, false);
+                string id = entry.id + "_start";
+                if (UnityEngine.Object.FindObjectsByType<LunaCutsceneAnchor>(FindObjectsSortMode.None)
+                    .Any(anchor => anchor.AnchorId == id))
+                    continue;
+                CreateAnchor(anchors, id, entry.target.transform.position);
+            }
+
+            EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
+        }
+
+        public static LunaCutsceneSpeechAnchor EnsureSpeechAnchor(GameObject actor, bool recapturePosition)
+        {
+            if (actor == null)
+                throw new InvalidOperationException("말풍선 앵커를 만들 배우가 필요합니다.");
+
+            LunaCutsceneSpeechAnchor rootAnchor = actor.GetComponent<LunaCutsceneSpeechAnchor>();
+            Transform anchorTransform = actor.transform.Find("SpeechAnchor");
+            if (anchorTransform == null)
+            {
+                GameObject anchorObject = new("SpeechAnchor");
+                if (!Application.isBatchMode)
+                    Undo.RegisterCreatedObjectUndo(anchorObject, "Create L.U.N.A Speech Anchor");
+                anchorObject.transform.SetParent(actor.transform, false);
+                anchorTransform = anchorObject.transform;
+                recapturePosition = true;
+            }
+
+            LunaCutsceneSpeechAnchor anchor = anchorTransform.GetComponent<LunaCutsceneSpeechAnchor>();
+            if (anchor == null)
+                anchor = Application.isBatchMode
+                    ? anchorTransform.gameObject.AddComponent<LunaCutsceneSpeechAnchor>()
+                    : Undo.AddComponent<LunaCutsceneSpeechAnchor>(anchorTransform.gameObject);
+
+            if (recapturePosition)
+                anchorTransform.position = ResolveActorSpeechWorldPosition(actor);
+            anchor.Configure(Vector3.zero);
+            EditorUtility.SetDirty(anchor);
+
+            if (rootAnchor != null && rootAnchor != anchor)
+            {
+                if (Application.isBatchMode)
+                    UnityEngine.Object.DestroyImmediate(rootAnchor);
+                else
+                    Undo.DestroyObjectImmediate(rootAnchor);
+            }
+            return anchor;
+        }
+
+        private static Vector3 ResolveActorSpeechWorldPosition(GameObject actor)
+        {
+            SpriteRenderer[] renderers = actor.GetComponentsInChildren<SpriteRenderer>(true);
+            bool found = false;
+            Bounds bounds = default;
+            foreach (SpriteRenderer renderer in renderers)
+            {
+                if (renderer == null || renderer.sprite == null)
+                    continue;
+                if (!found)
+                {
+                    bounds = renderer.bounds;
+                    found = true;
+                }
+                else
+                {
+                    bounds.Encapsulate(renderer.bounds);
+                }
+            }
+            return found
+                ? new Vector3(bounds.center.x, bounds.max.y + 0.2f, bounds.center.z)
+                : actor.transform.position + Vector3.up * 2f;
+        }
+
+        public static LunaCutsceneBindingId EnsureBinding(
+            LunaCutsceneDirector runtime,
+            GameObject target,
+            string rawId)
+        {
+            if (runtime == null || target == null)
+                throw new InvalidOperationException("Cutscene Director와 대상 오브젝트가 필요합니다.");
+            if (runtime.BindingRegistry == null)
+                throw new InvalidOperationException("Cutscene Director에 Binding Registry가 연결되지 않았습니다.");
+            string id = SanitizeId(rawId);
+            if (string.IsNullOrWhiteSpace(id))
+                throw new InvalidOperationException("Binding ID를 입력하세요.");
+            LunaCutsceneBindingEntry duplicate = runtime.BindingRegistry.Bindings
+                .FirstOrDefault(entry => entry != null && entry.id == id && entry.target != target);
+            if (duplicate != null)
+                throw new InvalidOperationException($"Binding ID '{id}'는 이미 '{duplicate.target.name}'에서 사용 중입니다.");
+
+            LunaCutsceneBindingId binding = target.GetComponent<LunaCutsceneBindingId>();
+            if (binding == null)
+                binding = Undo.AddComponent<LunaCutsceneBindingId>(target);
+            Undo.RecordObject(binding, "Configure L.U.N.A Binding ID");
+            binding.Configure(id);
+            runtime.BindingRegistry.RebuildFromChildren();
+            EditorUtility.SetDirty(binding);
+            EditorUtility.SetDirty(runtime.BindingRegistry);
+            EditorSceneManager.MarkSceneDirty(target.scene);
+            return binding;
+        }
+
+        public static LunaCutsceneAnchor CreateAnchor(Transform parent, string rawId, Vector3 worldPosition)
+        {
+            string id = SanitizeId(rawId);
+            if (string.IsNullOrWhiteSpace(id))
+                throw new InvalidOperationException("앵커 ID를 입력하세요.");
+            LunaCutsceneAnchor duplicate = UnityEngine.Object.FindObjectsByType<LunaCutsceneAnchor>(FindObjectsSortMode.None)
+                .FirstOrDefault(anchor => anchor.AnchorId == id);
+            if (duplicate != null)
+                throw new InvalidOperationException($"같은 앵커 ID가 이미 있습니다: {id}");
+            GameObject target = new("ANCHOR_" + id);
+            if (!Application.isBatchMode)
+                Undo.RegisterCreatedObjectUndo(target, "Create L.U.N.A Cutscene Anchor");
+            target.transform.SetParent(parent, true);
+            target.transform.position = worldPosition;
+            LunaCutsceneAnchor anchor = target.AddComponent<LunaCutsceneAnchor>();
+            anchor.Configure(id);
+            EditorUtility.SetDirty(anchor);
+            return anchor;
+        }
+
+        public static ActorTrackSet CreateActorTrackSet(
+            PlayableDirector director,
+            TimelineAsset timeline,
+            GameObject actor,
+            string rawId)
+        {
+            if (director == null || timeline == null || actor == null)
+                throw new InvalidOperationException("Director, Timeline, 배우 오브젝트가 필요합니다.");
+            string id = SanitizeId(rawId);
+            if (string.IsNullOrWhiteSpace(id))
+                throw new InvalidOperationException("배우 Binding ID를 입력하세요.");
+
+            Undo.RegisterCompleteObjectUndo(timeline, "Create L.U.N.A Actor Track Set");
+            string groupName = "ACTOR_" + id;
+            GroupTrack group = timeline.GetRootTracks().OfType<GroupTrack>()
+                .FirstOrDefault(track => track.name == groupName);
+            group ??= timeline.CreateTrack<GroupTrack>(null, groupName);
+
+            LunaActorMoveTrack move = group.GetChildTracks().OfType<LunaActorMoveTrack>().FirstOrDefault()
+                                      ?? timeline.CreateTrack<LunaActorMoveTrack>(group, id + " Move");
+            AnimationTrack animation = group.GetChildTracks().OfType<AnimationTrack>().FirstOrDefault()
+                                       ?? timeline.CreateTrack<AnimationTrack>(group, id + " Animation");
+            ActivationTrack activation = group.GetChildTracks().OfType<ActivationTrack>().FirstOrDefault()
+                                         ?? timeline.CreateTrack<ActivationTrack>(group, id + " Visibility");
+
+            Animator animator = actor.GetComponent<Animator>() ?? Undo.AddComponent<Animator>(actor);
+            director.SetGenericBinding(move, actor.transform);
+            director.SetGenericBinding(animation, animator);
+            director.SetGenericBinding(activation, actor);
+            SaveTrackChange(director, timeline, group);
+            return new ActorTrackSet { group = group, move = move, animation = animation, activation = activation };
+        }
+
+        public static TimelineClip AddMoveClip(
+            PlayableDirector director,
+            TimelineAsset timeline,
+            LunaActorMoveTrack track,
+            Transform from,
+            Transform to,
+            double start,
+            float unitsPerSecond)
+        {
+            if (director == null || timeline == null || track == null || from == null || to == null)
+                throw new InvalidOperationException("이동 클립에는 Move Track과 시작·도착 앵커가 필요합니다.");
+
+            Undo.RegisterCompleteObjectUndo(timeline, "Add L.U.N.A Actor Move Clip");
+            TimelineClip clip = track.CreateClip<LunaActorMoveClip>();
+            LunaActorMoveClip asset = (LunaActorMoveClip)clip.asset;
+            string token = Guid.NewGuid().ToString("N");
+            PropertyName fromName = new("luna_move_from_" + token);
+            PropertyName toName = new("luna_move_to_" + token);
+            asset.fromAnchor.exposedName = fromName;
+            asset.fromAnchor.defaultValue = from;
+            asset.toAnchor.exposedName = toName;
+            asset.toAnchor.defaultValue = to;
+            director.SetReferenceValue(fromName, from);
+            director.SetReferenceValue(toName, to);
+            clip.start = Math.Max(0d, start);
+            clip.duration = Math.Max(0.1d, Vector3.Distance(from.position, to.position) / Mathf.Max(0.01f, unitsPerSecond));
+            clip.displayName = $"{from.GetComponent<LunaCutsceneAnchor>()?.AnchorId ?? from.name} → {to.GetComponent<LunaCutsceneAnchor>()?.AnchorId ?? to.name}";
+            SaveTrackChange(director, timeline, track);
+            return clip;
         }
 
         private static TimelineAsset CreateExampleTimelineIfMissing()
@@ -330,6 +575,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         {
             GameObject character = CreateSpriteObject(parent, name, id, sprite, position, new Vector3(1.45f, 3.8f, 1f), color, order);
             character.AddComponent<Animator>();
+            EnsureSpeechAnchor(character, true);
             return character;
         }
 
@@ -366,6 +612,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
         private static LunaCutsceneDialogueUI CreateUi(Transform parent)
         {
+            LunaCutsceneUiAssetBuilder.UiAssets assets = LunaCutsceneUiAssetBuilder.EnsureAssets();
             GameObject canvasObject = new("Cutscene_UI", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             canvasObject.transform.SetParent(parent, false);
             Canvas canvas = canvasObject.GetComponent<Canvas>();
@@ -380,29 +627,16 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             fade.raycastTarget = false;
             Image flash = CreateImage(canvasObject.transform, "Flash", Stretch(), new Color(1f, 0f, 0f, 0f));
             flash.raycastTarget = false;
-
-            Image panelImage = CreateImage(canvasObject.transform, "DialoguePanel",
-                new RectLayout(new Vector2(0.06f, 0.055f), new Vector2(0.94f, 0.30f), Vector2.zero, Vector2.zero),
-                new Color(0.015f, 0.04f, 0.055f, 0.94f));
-            GameObject panel = panelImage.gameObject;
-            Text speaker = CreateText(panel.transform, "Speaker",
-                new RectLayout(new Vector2(0.035f, 0.68f), new Vector2(0.5f, 0.96f), Vector2.zero, Vector2.zero),
-                25, TextAnchor.MiddleLeft, new Color(0.32f, 1f, 0.94f));
-            Text body = CreateText(panel.transform, "Body",
-                new RectLayout(new Vector2(0.035f, 0.17f), new Vector2(0.965f, 0.70f), Vector2.zero, Vector2.zero),
-                25, TextAnchor.UpperLeft, Color.white);
-            Text hint = CreateText(panel.transform, "ContinueHint",
-                new RectLayout(new Vector2(0.67f, 0.01f), new Vector2(0.96f, 0.18f), Vector2.zero, Vector2.zero),
-                16, TextAnchor.MiddleRight, new Color(0.55f, 0.85f, 0.88f));
-            Text status = CreateText(canvasObject.transform, "Status",
+            RectTransform bubbleLayer = LunaCutsceneUiAssetBuilder.EnsureBubbleLayer(canvasObject.transform);
+            TMP_Text status = CreateTmpText(canvasObject.transform, "Status",
                 new RectLayout(new Vector2(0.018f, 0.84f), new Vector2(0.42f, 0.98f), Vector2.zero, Vector2.zero),
-                16, TextAnchor.UpperLeft, new Color(0.55f, 0.95f, 0.92f));
+                16f, TextAlignmentOptions.TopLeft, new Color(0.55f, 0.95f, 0.92f), assets.style.font);
 
             flash.transform.SetAsLastSibling();
             fade.transform.SetAsLastSibling();
 
             LunaCutsceneDialogueUI ui = canvasObject.AddComponent<LunaCutsceneDialogueUI>();
-            ui.Configure(panel, speaker, body, hint, fade, flash, status);
+            ui.Configure(bubbleLayer, assets.prefab, assets.style, fade, flash, status);
             return ui;
         }
 
@@ -418,18 +652,25 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             return image;
         }
 
-        private static Text CreateText(Transform parent, string name, RectLayout layout, int size, TextAnchor anchor, Color color)
+        private static TMP_Text CreateTmpText(
+            Transform parent,
+            string name,
+            RectLayout layout,
+            float size,
+            TextAlignmentOptions alignment,
+            Color color,
+            TMP_FontAsset font)
         {
-            GameObject target = new(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+            GameObject target = new(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
             target.transform.SetParent(parent, false);
             ApplyRect(target.GetComponent<RectTransform>(), layout);
-            Text text = target.GetComponent<Text>();
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            TextMeshProUGUI text = target.GetComponent<TextMeshProUGUI>();
+            text.font = font != null ? font : TMP_Settings.defaultFontAsset;
             text.fontSize = size;
-            text.alignment = anchor;
+            text.alignment = alignment;
             text.color = color;
-            text.horizontalOverflow = HorizontalWrapMode.Wrap;
-            text.verticalOverflow = VerticalWrapMode.Truncate;
+            text.textWrappingMode = TextWrappingModes.Normal;
+            text.overflowMode = TextOverflowModes.Truncate;
             text.raycastTarget = false;
             return text;
         }
@@ -491,6 +732,21 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             }
         }
 
+        public static string MakeSafeId(string raw)
+        {
+            return SanitizeId(raw);
+        }
+
+        private static void SaveTrackChange(PlayableDirector director, TimelineAsset timeline, TrackAsset track)
+        {
+            EditorUtility.SetDirty(track);
+            EditorUtility.SetDirty(timeline);
+            EditorUtility.SetDirty(director);
+            EditorSceneManager.MarkSceneDirty(director.gameObject.scene);
+            AssetDatabase.SaveAssets();
+            TimelineEditor.Refresh(RefreshReason.ContentsAddedOrRemoved);
+        }
+
         private static IEnumerable<TrackAsset> EnumerateChildren(TrackAsset parent)
         {
             foreach (TrackAsset child in parent.GetChildTracks())
@@ -508,6 +764,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             EnsureFolder(Root + "/Authoring", "Definitions");
             EnsureFolder(Root + "/Authoring", "AnimationClips");
             EnsureFolder(Root + "/Authoring", "Generated");
+            EnsureFolder(Root + "/Authoring", "UI");
         }
 
         private static void EnsureFolder(string parent, string child)

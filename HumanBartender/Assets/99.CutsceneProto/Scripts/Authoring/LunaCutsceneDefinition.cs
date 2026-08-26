@@ -45,6 +45,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
     [Serializable]
     public sealed class LunaCutsceneEndBinding
     {
+        [LunaBindingId]
         public string targetId;
         public bool applyActive = true;
         public bool active = true;

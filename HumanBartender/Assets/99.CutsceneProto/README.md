@@ -24,8 +24,11 @@ Timeline 제작 도구의 상세 사용법은 `AUTHORING_GUIDE.md`를 따른다.
 
 1. `CutsceneAuthoring_Lab.unity`를 연다.
 2. `Window > Project L.U.N.A > Cutscene Authoring Studio`를 연다.
-3. Studio에서 Timeline을 열고 AnimationClip과 전용 마커를 배치한다.
-4. `Timeline 베이크 + 현재 컷씬 전체 검사`를 누른 뒤 Play한다.
+3. `1. 씬·배우`에서 배우를 선택하고 `선택 배우 빠른 설정`으로 ID·트랙 세트·시작 앵커를 한 번에 만든다.
+   - 이때 머리 위 고정 SpeechAnchor 자식도 자동으로 준비된다.
+   - 말풍선은 TMP Prefab으로 생성되며, 전체 대사를 먼저 측정해 타이핑 중 크기가 바뀌지 않는다.
+4. `2. 이동·마커`에서 Move·AnimationClip·전용 마커를 배치하고 `3. 미리보기`에서 구간 반복·배속·프레임 단위로 다듬는다.
+5. `4. 완료·검사`에서 마지막 상태를 캡처하고 `현재 씬 저장 + Timeline 베이크 + 전체 검사` 후 정상·스킵을 확인한다.
 
 전용 마커는 대사 일시정지·재개, 한·영 대사, 화면 효과, 상태 플래그, 스프라이트 교체를 지원한다. Scene의 대상 오브젝트는 고정 Binding ID로 연결하며, 정상 종료와 스킵 종료는 Definition의 동일한 종료 상태를 사용한다.
 
@@ -38,6 +41,8 @@ Timeline 제작 도구의 상세 사용법은 `AUTHORING_GUIDE.md`를 따른다.
 - `Scripts/PrototypeCutsceneView.cs`: 테스트 연구소, 캐릭터, 대사 UI, 화면 효과
 - `Editor/CutscenePrototypeBuilder.cs`: 테스트 씬과 연출 에셋 생성
 - `Authoring/`: Timeline, Definition, AnimationClip 등 제작 에셋
+- `Authoring/UI/CutsceneSpeechBubble.prefab`: TMP 화자·본문·입력 안내·말풍선 꼬리로 구성된 공용 UI Prefab
+- `Authoring/UI/CutsceneSpeechBubbleStyle.asset`: 폰트·색·여백·최소/최대 크기·화면 보정을 조정하는 Style
 - `Scripts/Authoring/`: Timeline 재생, 대사·효과·스프라이트 마커, 바인딩과 종료 상태 처리
 - `Editor/Authoring/`: 제작 Studio, 예제 생성기, 베이크, 데이터 검사, 자동 재생 테스트
 - `AUTHORING_GUIDE.md`: Timeline 컷씬 조립 순서와 필드별 사용 기준

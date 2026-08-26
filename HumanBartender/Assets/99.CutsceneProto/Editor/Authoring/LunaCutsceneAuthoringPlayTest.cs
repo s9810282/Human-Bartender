@@ -15,6 +15,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         private const string LastAdvanceKey = "LUNA.CutsceneAuthoring.Test.LastAdvance";
         private const string SkipSentKey = "LUNA.CutsceneAuthoring.Test.SkipSent";
         private const string ExitCodeKey = "LUNA.CutsceneAuthoring.Test.ExitCode";
+        private const string BubbleObservedKey = "LUNA.CutsceneAuthoring.Test.BubbleObserved";
 
         static LunaCutsceneAuthoringPlayTest()
         {
@@ -34,10 +35,13 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
         private static void Begin(string mode)
         {
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                return;
             EditorSceneManager.OpenScene(LunaCutsceneAuthoringBuilder.AuthoringScenePath, OpenSceneMode.Single);
             SessionState.SetBool(PendingKey, true);
             SessionState.SetString(ModeKey, mode);
             SessionState.SetBool(SkipSentKey, false);
+            SessionState.SetBool(BubbleObservedKey, false);
             SessionState.SetInt(ExitCodeKey, 0);
             Attach();
             EditorApplication.EnterPlaymode();
@@ -102,6 +106,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             if (runtime.State == LunaAuthoringCutsceneState.WaitingDialogue
                 && now - GetDouble(LastAdvanceKey) > 0.18d)
             {
+                if (mode == "normal" && !VerifySpeechBubble(runtime))
+                {
+                    Finish(6);
+                    return;
+                }
                 SetDouble(LastAdvanceKey, now);
                 runtime.AdvanceForAutomation();
             }
@@ -110,9 +119,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             {
                 bool markerFlag = runtime.HasFlag("lab_intrusion_seen");
                 bool completionFlag = runtime.HasFlag("lab_cutscene_complete");
-                bool flagsOkay = markerFlag && completionFlag;
-                Debug.Log($"[LunaCutsceneAuthoring] ASSERT marker_flag={markerFlag}, completion_flag={completionFlag}, time={runtime.Director.time:0.00}");
-                Finish(flagsOkay ? 0 : 3);
+                bool bubbleOkay = mode != "normal" || SessionState.GetBool(BubbleObservedKey, false);
+                bool resultOkay = markerFlag && completionFlag && bubbleOkay;
+                Debug.Log($"[LunaCutsceneAuthoring] ASSERT marker_flag={markerFlag}, completion_flag={completionFlag}, bubble={bubbleOkay}, time={runtime.Director.time:0.00}");
+                Finish(resultOkay ? 0 : 3);
                 return;
             }
 
@@ -141,7 +151,34 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             SessionState.EraseString(StartedKey);
             SessionState.EraseString(LastAdvanceKey);
             SessionState.EraseBool(SkipSentKey);
+            SessionState.EraseBool(BubbleObservedKey);
             SessionState.EraseInt(ExitCodeKey);
+        }
+
+        private static bool VerifySpeechBubble(LunaCutsceneDirector runtime)
+        {
+            LunaCutsceneDialogueUI ui = runtime.DialogueUI;
+            LunaCutsceneSpeechBubbleView bubble = ui != null ? ui.ActiveBubble : null;
+            bool valid = ui != null
+                         && ui.IsVisible
+                         && bubble != null
+                         && bubble.BubbleSize.x > 0f
+                         && bubble.BubbleSize.y > 0f
+                         && bubble.CharacterCount > 0
+                         && bubble.IsTailVisible;
+            if (valid)
+            {
+                SessionState.SetBool(BubbleObservedKey, true);
+                return true;
+            }
+
+            Debug.LogError(
+                "[LunaCutsceneAuthoring] TMP 말풍선 생성·크기 확정·꼬리 표시 검증에 실패했습니다. "
+                + $"ui={ui != null}, visible={ui != null && ui.IsVisible}, bubble={bubble != null}, "
+                + $"size={(bubble != null ? bubble.BubbleSize : Vector2.zero)}, "
+                + $"characters={(bubble != null ? bubble.CharacterCount : 0)}, "
+                + $"tail={bubble != null && bubble.IsTailVisible}");
+            return false;
         }
 
         private static void SetDouble(string key, double value)

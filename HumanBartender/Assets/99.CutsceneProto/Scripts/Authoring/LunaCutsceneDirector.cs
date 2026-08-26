@@ -73,6 +73,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
 
             playableDirector.playOnAwake = false;
             playableDirector.extrapolationMode = DirectorWrapMode.Hold;
+            playableDirector.timeUpdateMode = DirectorUpdateMode.UnscaledGameTime;
             bindingRegistry?.RebuildLookup();
             CaptureInitialState();
         }
@@ -362,7 +363,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             currentDialogue = marker;
             if (marker.pauseTimeline)
                 playableDirector.Pause();
-            dialogueUI.ShowDialogue(marker.line, IsEnglish(), typeInterval);
+            Resolve(marker.line?.speakerId, out GameObject speakerTarget);
+            dialogueUI.ShowDialogue(marker.line, IsEnglish(), typeInterval, speakerTarget, ResolveWorldCamera());
             State = LunaAuthoringCutsceneState.WaitingDialogue;
 
             if (marker.advanceMode == LunaDialogueAdvanceMode.Auto)
@@ -430,7 +432,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
                     break;
                 case LunaCutsceneEffectType.SetSpriteColor:
                     if (Resolve(marker.targetId, out GameObject colorTarget)
-                        && colorTarget.TryGetComponent(out SpriteRenderer renderer))
+                        && colorTarget.GetComponentInChildren<SpriteRenderer>(true) is SpriteRenderer renderer)
                         renderer.color = marker.color;
                     break;
                 case LunaCutsceneEffectType.PlaySfx:
@@ -449,7 +451,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             if (marker == null || IsEventAlreadyFired(marker.eventKey))
                 return;
             if (Resolve(marker.targetId, out GameObject target)
-                && target.TryGetComponent(out SpriteRenderer renderer))
+                && target.GetComponentInChildren<SpriteRenderer>(true) is SpriteRenderer renderer)
             {
                 renderer.sprite = marker.sprite;
                 renderer.flipX = marker.flipX;
@@ -482,7 +484,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
                         target.SetActive(endBinding.active);
                     if (endBinding.applyPosition)
                         target.transform.localPosition = endBinding.localPosition;
-                    if (endBinding.applySprite && target.TryGetComponent(out SpriteRenderer renderer))
+                    if (endBinding.applySprite
+                        && target.GetComponentInChildren<SpriteRenderer>(true) is SpriteRenderer renderer)
                         renderer.sprite = endBinding.sprite;
                 }
             }
@@ -541,7 +544,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             {
                 if (entry == null || string.IsNullOrWhiteSpace(entry.id) || entry.target == null)
                     continue;
-                SpriteRenderer renderer = entry.target.GetComponent<SpriteRenderer>();
+                SpriteRenderer renderer = entry.target.GetComponentInChildren<SpriteRenderer>(true);
                 initialState[entry.id] = new BindingSnapshot
                 {
                     active = entry.target.activeSelf,
@@ -566,7 +569,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
                 target.transform.localPosition = snapshot.localPosition;
                 target.transform.localRotation = snapshot.localRotation;
                 target.transform.localScale = snapshot.localScale;
-                if (target.TryGetComponent(out SpriteRenderer renderer))
+                SpriteRenderer renderer = target.GetComponentInChildren<SpriteRenderer>(true);
+                if (renderer != null)
                 {
                     renderer.sprite = snapshot.sprite;
                     renderer.color = snapshot.color;
@@ -612,7 +616,21 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         {
             locale = IsEnglish() ? "ko" : "en";
             if (currentDialogue != null)
-                dialogueUI.ShowDialogue(currentDialogue.line, IsEnglish(), typeInterval);
+            {
+                Resolve(currentDialogue.line?.speakerId, out GameObject speakerTarget);
+                dialogueUI.ShowDialogue(
+                    currentDialogue.line,
+                    IsEnglish(),
+                    typeInterval,
+                    speakerTarget,
+                    ResolveWorldCamera());
+            }
+        }
+
+        private Camera ResolveWorldCamera()
+        {
+            Camera camera = Camera.main;
+            return camera != null ? camera : FindFirstObjectByType<Camera>();
         }
 
         private void UpdateStatus()

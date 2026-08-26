@@ -11,6 +11,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
     public sealed class LunaSpriteSwapMarker : Marker, INotification, INotificationOptionProvider
     {
         [Tooltip("Binding Registry에 등록된 SpriteRenderer 대상 ID입니다.")]
+        [LunaBindingId]
         public string targetId;
         public Sprite sprite;
         public bool flipX;

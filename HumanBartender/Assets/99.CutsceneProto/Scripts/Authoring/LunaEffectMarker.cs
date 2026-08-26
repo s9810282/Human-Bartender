@@ -12,6 +12,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
     {
         public LunaCutsceneEffectType effectType;
         [Tooltip("Binding Registry에 등록된 대상 ID입니다. 대상이 필요 없는 효과는 비워둡니다.")]
+        [LunaBindingId]
         public string targetId;
         public string stringValue;
         public Color color = Color.white;
