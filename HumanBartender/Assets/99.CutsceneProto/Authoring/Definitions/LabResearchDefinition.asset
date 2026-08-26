@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a01170a9b1a3e4dd5a477b9488a21b2f, type: 3}
+  m_Name: LabResearchDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneDefinition
+  cutsceneId: cutscene_lab_research_authoring
+  titleKo: "\uC5F0\uAD6C\uC18C \uCE68\uC785 \uD14C\uC2A4\uD2B8"
+  titleEn: Laboratory Intrusion Test
+  playMode: 1
+  autoPlay: 1
+  skippable: 1
+  startFromBlack: 1
+  requiredWhen: 
+  endBindings:
+  - targetId: intruder
+    applyActive: 1
+    active: 1
+    applyPosition: 1
+    localPosition: {x: 4.8, y: -1.2, z: 0}
+    applySprite: 0
+    sprite: {fileID: 0}
+  - targetId: luna
+    applyActive: 1
+    active: 1
+    applyPosition: 1
+    localPosition: {x: -2.8, y: -1.2, z: 0}
+    applySprite: 0
+    sprite: {fileID: 0}
+  fadeToBlackOnEnd: 1
+  completionFlag: flag.lab_cutscene_complete
+  bakedEvents:
+  - time: 0.05
+    kind: 1
+    line:
+      speakerId: 
+      speakerKo: 
+      speakerEn: 
+      textKo: 
+      textEn: 
+    pauseTimeline: 0
+    advanceMode: 0
+    autoDelay: 0
+    dialogueId: 
+    effectType: 0
+    targetId: 
+    stringValue: 
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0.8
+    strength: 0.2
+    audioClip: {fileID: 0}
+    fireOnSkip: 0
+    eventKey: lab_fade_in
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 1.5
+    kind: 0
+    line:
+      speakerId: researcher
+      speakerKo: "\uC5F0\uAD6C\uC6D0"
+      speakerEn: Researcher
+      textKo: "\uAE30\uC5B5 \uB3D9\uAE30\uD654 \uC218\uCE58\uAC00 \uC548\uC815\uAD8C\uC5D0
+        \uB4E4\uC5B4\uC654\uC2B5\uB2C8\uB2E4."
+      textEn: The memory synchronization level has stabilized.
+    pauseTimeline: 1
+    advanceMode: 0
+    autoDelay: 1.5
+    dialogueId: dlg_cutscene_lab_001
+    effectType: 0
+    targetId: 
+    stringValue: 
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0
+    strength: 0
+    audioClip: {fileID: 0}
+    fireOnSkip: 0
+    eventKey: 
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 3.75
+    kind: 1
+    line:
+      speakerId: 
+      speakerKo: 
+      speakerEn: 
+      textKo: 
+      textEn: 
+    pauseTimeline: 0
+    advanceMode: 0
+    autoDelay: 0
+    dialogueId: 
+    effectType: 2
+    targetId: 
+    stringValue: 
+    color: {r: 1, g: 0.12, b: 0.2, a: 1}
+    duration: 0.24
+    strength: 0.2
+    audioClip: {fileID: 0}
+    fireOnSkip: 0
+    eventKey: lab_alarm_flash
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 3.82
+    kind: 1
+    line:
+      speakerId: 
+      speakerKo: 
+      speakerEn: 
+      textKo: 
+      textEn: 
+    pauseTimeline: 0
+    advanceMode: 0
+    autoDelay: 0
+    dialogueId: 
+    effectType: 3
+    targetId: camera_rig
+    stringValue: 
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0.45
+    strength: 0.16
+    audioClip: {fileID: 0}
+    fireOnSkip: 0
+    eventKey: lab_alarm_shake
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 5.3
+    kind: 0
+    line:
+      speakerId: luna
+      speakerKo: "\uB8E8\uB098"
+      speakerEn: L.U.N.A
+      textKo: "\uACBD\uACE0. \uC2B9\uC778\uB418\uC9C0 \uC54A\uC740 \uC811\uADFC\uC774
+        \uAC10\uC9C0\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+      textEn: Warning. Unauthorized access detected.
+    pauseTimeline: 1
+    advanceMode: 0
+    autoDelay: 1.5
+    dialogueId: dlg_cutscene_lab_002
+    effectType: 0
+    targetId: 
+    stringValue: 
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0
+    strength: 0
+    audioClip: {fileID: 0}
+    fireOnSkip: 0
+    eventKey: 
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 7.1
+    kind: 1
+    line:
+      speakerId: 
+      speakerKo: 
+      speakerEn: 
+      textKo: 
+      textEn: 
+    pauseTimeline: 0
+    advanceMode: 0
+    autoDelay: 0
+    dialogueId: 
+    effectType: 7
+    targetId: 
+    stringValue: flag.lab_intrusion_seen = true
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0.25
+    strength: 0.2
+    audioClip: {fileID: 0}
+    fireOnSkip: 1
+    eventKey: lab_intrusion_seen
+    sprite: {fileID: 0}
+    flipX: 0
+  - time: 7.45
+    kind: 1
+    line:
+      speakerId: 
+      speakerKo: 
+      speakerEn: 
+      textKo: 
+      textEn: 
+    pauseTimeline: 0
+    advanceMode: 0
+    autoDelay: 0
+    dialogueId: 
+    effectType: 1
+    targetId: 
+    stringValue: 
+    color: {r: 1, g: 1, b: 1, a: 1}
+    duration: 0.5
+    strength: 0.2
+    audioClip: {fileID: 0}
+    fireOnSkip: 1
+    eventKey: lab_fade_out
+    sprite: {fileID: 0}
+    flipX: 0
+  bakedTimelineDuration: 8.1
