@@ -1,0 +1,177 @@
+{
+  "schema_version": "cutscene_proto_1.1",
+  "cutscene_id": "lab_escape_prototype",
+  "title_ko": "연구소 탈출 테스트",
+  "title_en": "Laboratory Escape Test",
+  "auto_play": true,
+  "play_mode": "once",
+  "required_when": null,
+  "choices": [
+    {
+      "id": "ch_lab_escape_route",
+      "prompt_ko": "침입자가 통로를 막고 있다. 어떻게 빠져나갈까?",
+      "prompt_en": "The intruder is blocking the passage. How should we escape?",
+      "options": [
+        {
+          "text_ko": "설비 뒤에 숨어 우회한다",
+          "text_en": "Hide behind the equipment and take a detour",
+          "when": null,
+          "lock_reason_ko": null,
+          "lock_reason_en": null,
+          "effects": "flag.route_hide = true; flag.route_run = false",
+          "goto_seq": 70
+        },
+        {
+          "text_ko": "경보가 울리는 동안 정면으로 달린다",
+          "text_en": "Run straight through while the alarm is blaring",
+          "when": null,
+          "lock_reason_ko": null,
+          "lock_reason_en": null,
+          "effects": "flag.route_hide = false; flag.route_run = true",
+          "goto_seq": 70
+        },
+        {
+          "text_ko": "보안 키카드로 격리문을 연다",
+          "text_en": "Open the containment door with a security keycard",
+          "when": "flag.has_keycard",
+          "lock_reason_ko": "보안 키카드가 없다",
+          "lock_reason_en": "Security keycard required",
+          "effects": "flag.route_keycard = true",
+          "goto_seq": 90
+        }
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "seq": 10,
+      "type": "command",
+      "action": "screen_fade",
+      "value": "in",
+      "duration": 1.0,
+      "event_key": "ev_intro_fade_in"
+    },
+    {
+      "seq": 20,
+      "type": "timeline",
+      "timeline_key": "lab_entry"
+    },
+    {
+      "seq": 30,
+      "type": "dialogue",
+      "actor_id": "test_yuna",
+      "speaker_ko": "유나",
+      "speaker_en": "Yuna",
+      "text_ko": "루나, 들려? 이쪽이야. 문이 잠기기 전에 나가야 해.",
+      "text_en": "Luna, can you hear me? This way. We have to leave before the door locks.",
+      "effects": "flag.heard_escape_warning = true"
+    },
+    {
+      "seq": 40,
+      "type": "command",
+      "action": "screen_flash",
+      "value": "danger",
+      "duration": 0.18,
+      "event_key": "ev_attack_flash"
+    },
+    {
+      "seq": 45,
+      "type": "command",
+      "action": "set_light",
+      "value": "#FF2438",
+      "event_key": "ev_alarm_red",
+      "fire_on_skip": true
+    },
+    {
+      "seq": 50,
+      "type": "timeline",
+      "timeline_key": "lab_attack"
+    },
+    {
+      "seq": 60,
+      "type": "dialogue",
+      "actor_id": "test_luna",
+      "speaker_ko": "루나",
+      "speaker_en": "Luna",
+      "text_ko": "저 사람들은 누구야? 연구소가 왜 우릴 쫓는 거지?",
+      "text_en": "Who are they? Why is the laboratory hunting us?"
+    },
+    {
+      "seq": 65,
+      "type": "choice",
+      "choice_id": "ch_lab_escape_route"
+    },
+    {
+      "seq": 70,
+      "type": "branch",
+      "when": "flag.route_hide",
+      "true_seq": 75,
+      "false_seq": 80
+    },
+    {
+      "seq": 75,
+      "type": "dialogue",
+      "actor_id": "test_yuna",
+      "speaker_ko": "유나",
+      "speaker_en": "Yuna",
+      "text_ko": "좋아. 설비가 시야를 가릴 때까지 낮춰서 움직여.",
+      "text_en": "Good. Stay low until the equipment blocks their view.",
+      "next_seq": 90
+    },
+    {
+      "seq": 80,
+      "type": "dialogue",
+      "actor_id": "test_yuna",
+      "speaker_ko": "유나",
+      "speaker_en": "Yuna",
+      "text_ko": "좋아. 경보음에 발소리를 묻히고 한 번에 돌파하자.",
+      "text_en": "All right. Let the alarm mask our footsteps and break through in one move.",
+      "next_seq": 90
+    },
+    {
+      "seq": 90,
+      "type": "command",
+      "action": "camera_shake",
+      "value": "medium",
+      "duration": 0.35,
+      "event_key": "ev_escape_shake"
+    },
+    {
+      "seq": 100,
+      "type": "timeline",
+      "timeline_key": "lab_escape"
+    },
+    {
+      "seq": 110,
+      "type": "dialogue",
+      "actor_id": "test_yuna",
+      "speaker_ko": "유나",
+      "speaker_en": "Yuna",
+      "text_ko": "질문은 나가서 해. 지금은 뛰어!",
+      "text_en": "Ask me outside. For now, run!"
+    },
+    {
+      "seq": 120,
+      "type": "command",
+      "action": "screen_fade",
+      "value": "out",
+      "duration": 1.0,
+      "event_key": "ev_final_fade_out",
+      "fire_on_skip": true
+    }
+  ],
+  "end_state": {
+    "actor_states": [
+      { "target_id": "test_luna", "active": true, "x": 5.2, "y": -1.35 },
+      { "target_id": "test_yuna", "active": true, "x": 5.75, "y": -1.35 },
+      { "target_id": "test_intruder", "active": true, "x": 4.15, "y": -1.35 },
+      { "target_id": "test_lab_exit", "active": true, "x": 6.55, "y": 3.25 }
+    ],
+    "camera_x": 1.2,
+    "camera_y": 0.1,
+    "camera_size": 5.4,
+    "light_color": "#FF2438",
+    "fade_state": "black",
+    "effects": "flag.lab_escape_seen = true"
+  }
+}

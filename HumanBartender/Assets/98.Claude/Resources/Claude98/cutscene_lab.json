@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "characters": [
+    { "id": "luna", "name_ko": "루나", "name_en": "Luna", "body_color": "#9fd7e8", "name_color": "#7fd4ff" },
+    { "id": "hound", "name_ko": "하운드", "name_en": "Hound", "body_color": "#7a2b33", "name_color": "#ff6a5e" },
+    { "id": "lab_announcer", "name_ko": "안내 방송", "name_en": "Announcement", "body_color": "#555c66", "name_color": "#9aa4b5" }
+  ],
+
+  "timelines": [
+    {
+      "key": "tl_lab_entry",
+      "duration": 8.0,
+      "events": [
+        { "t": 0.0, "event_type": "screen_fade", "payload_id": "from_black", "duration": 1.2 },
+        { "t": 0.1, "event_type": "light_preset", "payload_id": "light_lab_alarm", "event_key": "ev_alarm_light", "fire_on_skip": true },
+        { "t": 0.3, "event_type": "sfx", "payload_id": "alarm" },
+        { "t": 0.6, "event_type": "camera_shake", "value": 0.12, "duration": 0.5 },
+        { "t": 0.9, "event_type": "bark", "dialogue_scene": "sc_bark_announce" },
+        { "t": 2.0, "event_type": "object_move", "target_id": "lab_door", "payload_id": "door_open", "duration": 0.7, "event_key": "ev_door_open", "fire_on_skip": true },
+        { "t": 2.2, "event_type": "sfx", "payload_id": "thud" },
+        { "t": 2.4, "event_type": "actor_show", "target_id": "hound" },
+        { "t": 2.5, "event_type": "actor_move", "target_id": "hound", "payload_id": "a_lab_center", "duration": 1.8 },
+        { "t": 3.0, "event_type": "camera_move", "payload_id": "cam_door", "duration": 1.0 },
+        { "t": 4.4, "event_type": "dialogue", "dialogue_scene": "sc_entry_pause", "wait_mode": "pause_timeline" },
+        { "t": 4.6, "event_type": "camera_move", "payload_id": "cam_luna", "duration": 0.8 },
+        { "t": 5.0, "event_type": "actor_expression", "target_id": "luna", "payload_id": "fear" },
+        { "t": 6.2, "event_type": "camera_zoom", "value": 2.4, "duration": 0.8 },
+        { "t": 7.0, "event_type": "sfx", "payload_id": "alarm" }
+      ]
+    },
+    {
+      "key": "tl_hide",
+      "duration": 7.0,
+      "events": [
+        { "t": 0.0, "event_type": "actor_expression", "target_id": "luna", "payload_id": "alert" },
+        { "t": 0.2, "event_type": "actor_move", "target_id": "luna", "payload_id": "a_vent", "duration": 1.2 },
+        { "t": 0.2, "event_type": "camera_move", "payload_id": "cam_exit", "duration": 1.0 },
+        { "t": 0.3, "event_type": "sfx", "payload_id": "whoosh" },
+        { "t": 1.5, "event_type": "object_move", "target_id": "vent_cover", "payload_id": "cover_fall", "duration": 0.4 },
+        { "t": 1.6, "event_type": "sfx", "payload_id": "thud" },
+        { "t": 1.8, "event_type": "actor_hide", "target_id": "luna" },
+        { "t": 2.2, "event_type": "actor_move", "target_id": "hound", "payload_id": "a_vent", "duration": 1.6 },
+        { "t": 4.0, "event_type": "bark", "dialogue_scene": "sc_bark_hound_search" },
+        { "t": 4.8, "event_type": "actor_face", "target_id": "hound", "payload_id": "left" },
+        { "t": 5.2, "event_type": "actor_move", "target_id": "hound", "payload_id": "a_offscreen_left", "duration": 1.4 },
+        { "t": 6.7, "event_type": "actor_show", "target_id": "luna" },
+        { "t": 6.8, "event_type": "actor_expression", "target_id": "luna", "payload_id": "relief" }
+      ]
+    },
+    {
+      "key": "tl_run",
+      "duration": 6.0,
+      "events": [
+        { "t": 0.0, "event_type": "actor_expression", "target_id": "luna", "payload_id": "alert" },
+        { "t": 0.2, "event_type": "actor_move", "target_id": "luna", "payload_id": "a_lab_exit", "duration": 1.1 },
+        { "t": 0.2, "event_type": "camera_move", "payload_id": "cam_exit", "duration": 0.9 },
+        { "t": 0.3, "event_type": "sfx", "payload_id": "whoosh" },
+        { "t": 0.8, "event_type": "bark", "dialogue_scene": "sc_bark_hound_stop" },
+        { "t": 1.6, "event_type": "actor_move", "target_id": "hound", "payload_id": "a_vent", "duration": 1.2 },
+        { "t": 2.4, "event_type": "screen_flash", "duration": 0.35 },
+        { "t": 2.4, "event_type": "sfx", "payload_id": "thud" },
+        { "t": 2.5, "event_type": "camera_shake", "value": 0.2, "duration": 0.5 },
+        { "t": 3.2, "event_type": "dialogue", "dialogue_scene": "sc_run_pause", "wait_mode": "pause_timeline" },
+        { "t": 3.4, "event_type": "actor_face", "target_id": "luna", "payload_id": "left" },
+        { "t": 4.4, "event_type": "actor_face", "target_id": "hound", "payload_id": "right" }
+      ]
+    }
+  ],
+
+  "dialogue_scenes": [
+    {
+      "id": "sc_bark_announce",
+      "steps": [
+        { "actor": "lab_announcer", "channel": "bark", "bubble": "screen",
+          "text_ko": "경고. 3구역 격리 프로토콜 해제.",
+          "text_en": "Warning. Sector 3 containment protocol released." }
+      ]
+    },
+    {
+      "id": "sc_entry_pause",
+      "steps": [
+        { "actor": "hound", "expression": "neutral", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "찾았다. 시제품.",
+          "text_en": "Found you, prototype." },
+        { "actor": "luna", "expression": "fear", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "…또 이 꿈이야.",
+          "text_en": "...This dream again." }
+      ]
+    },
+    {
+      "id": "sc_lab_talk",
+      "steps": [
+        { "actor": "hound", "expression": "neutral", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "명령이다. 얌전히 따라와라.",
+          "text_en": "Orders are orders. Come quietly." },
+        { "actor": "luna", "expression": "alert", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "싫다면?",
+          "text_en": "And if I refuse?" },
+        { "actor": "hound", "expression": "angry", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "선택지는 처음부터 없었다.",
+          "text_en": "You never had a choice to begin with." },
+        { "actor": "luna", "expression": "alert", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "그건 네 생각이고.",
+          "text_en": "That's what you think." }
+      ]
+    },
+    {
+      "id": "sc_bark_hound_search",
+      "steps": [
+        { "actor": "hound", "channel": "bark", "bubble": "world",
+          "text_ko": "어디 숨었지.",
+          "text_en": "Where are you hiding." }
+      ]
+    },
+    {
+      "id": "sc_bark_hound_stop",
+      "steps": [
+        { "actor": "hound", "channel": "bark", "bubble": "world",
+          "text_ko": "멈춰!",
+          "text_en": "Stop!" }
+      ]
+    },
+    {
+      "id": "sc_run_pause",
+      "steps": [
+        { "actor": "hound", "expression": "angry", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "어디까지 갈 수 있을 것 같나.",
+          "text_en": "How far do you think you can run." },
+        { "actor": "luna", "expression": "alert", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "여기만 아니면, 어디든.",
+          "text_en": "Anywhere but here." }
+      ]
+    },
+    {
+      "id": "sc_epilogue",
+      "steps": [
+        { "actor": "", "channel": "narration", "bubble": "screen", "advance": "auto", "auto_delay": 2.0,
+          "text_ko": "— 이 꿈은 언제나 같은 질문으로 끝난다.",
+          "text_en": "— This dream always ends with the same question." },
+        { "actor": "luna", "expression": "relief", "channel": "main", "bubble": "world", "advance": "input",
+          "text_ko": "숨을지, 도망칠지. …결국 고르는 건 나야.",
+          "text_en": "Hide, or run. ...In the end, the choice is mine." }
+      ]
+    }
+  ],
+
+  "choices": [
+    {
+      "id": "ch_escape",
+      "options": [
+        { "text_ko": "환풍구에 숨는다", "text_en": "Hide in the vent",
+          "set_flags": ["lab_choice_hide"], "goto_step": "st_branch" },
+        { "text_ko": "비상구로 달린다", "text_en": "Run for the exit",
+          "set_flags": ["lab_choice_run"], "goto_step": "st_branch" },
+        { "text_ko": "맞선다", "text_en": "Stand and fight",
+          "when": "flag.has_weapon",
+          "lock_reason_ko": "무기가 없다.", "lock_reason_en": "You have no weapon.",
+          "set_flags": ["lab_choice_fight"], "goto_step": "st_branch" }
+      ]
+    }
+  ],
+
+  "cutscenes": [
+    {
+      "id": "cs_lab_raid_01",
+      "scene_id": "stage_lab",
+      "play_mode": "once",
+      "required_flags": [],
+      "sequence": [
+        { "id": "st_entry", "type": "timeline", "timeline_key": "tl_lab_entry" },
+        { "id": "st_talk", "type": "dialogue", "dialogue_scene": "sc_lab_talk" },
+        { "id": "st_choice", "type": "choice", "choice_id": "ch_escape" },
+        { "id": "st_branch", "type": "branch", "when": "flag.lab_choice_run",
+          "true_next": "st_run", "false_next": "st_hide" },
+        { "id": "st_hide", "type": "timeline", "timeline_key": "tl_hide", "next": "st_calm" },
+        { "id": "st_run", "type": "timeline", "timeline_key": "tl_run", "next": "st_calm" },
+        { "id": "st_calm", "type": "command", "command": "light_preset", "payload_id": "light_default" },
+        { "id": "st_wait", "type": "wait", "seconds": 0.6 },
+        { "id": "st_epilogue", "type": "dialogue", "dialogue_scene": "sc_epilogue" }
+      ],
+      "end_state": {
+        "actor_states": [
+          { "actor": "luna", "anchor": "a_lab_exit", "facing": "right", "visible": true },
+          { "actor": "hound", "anchor": "a_offscreen_left", "facing": "left", "visible": false }
+        ],
+        "set_flags": ["lab_raid_seen"],
+        "light_preset": "light_default",
+        "bgm_id": ""
+      },
+      "next": ""
+    }
+  ]
+}
