@@ -295,8 +295,23 @@ public class ShakingManagerNew : MonoBehaviour, IMiniGameController, ICraftGimmi
     UniTaskCompletionSource runnerCompletion;
     CraftTimer craftTimer;
 
-    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    /// <summary>
+    /// 이번 제조 시도의 사정(고른 잔·도구·재료). 실행기가 PlayAsync로 넘겨준다.
+    /// 아직 그리는 데 쓰지는 않는다 — 리소스가 붙을 때 여기서 가져가면 된다.
+    /// </summary>
+    CraftContext craftContext;
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftContext context,
+                                                 CraftTimer timer, CancellationToken token)
     {
+        // 셰이커는 늘 같지만 안에 든 것과 옮겨 담을 잔은 다르다. 노드 색을 지금은 옛 데이터에서
+        // 가져오는데, context.IngredientIds로 옮길 때 여기서 읽으면 된다.
+        craftContext = context;
+
+        // 아직 그리는 데 쓰지 않으므로, 값이 제대로 도착했는지는 이 줄로만 확인한다.
+        Debug.Log($"[Shake] 문맥 — 잔 {craftContext.GlassId ?? "없음"} / " +
+                  $"도구 {craftContext.ToolId ?? "없음"} / 재료 {string.Join(", ", craftContext.IngredientIds)}");
+
         drivenByRunner = true;
         craftTimer = timer;
         runnerCompletion = new UniTaskCompletionSource();

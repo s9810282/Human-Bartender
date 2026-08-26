@@ -19,11 +19,16 @@ public interface ICraftGimmick
     /// 목표 스택을 채우거나 다음 버튼을 누를 때, 병따기는 병뚜껑이 열릴 때다.
     /// </summary>
     /// <param name="step">무엇을 다루고 목표가 얼마인지. 목표가 없으면 화면에 ???로 보여준다.</param>
+    /// <param name="context">
+    /// 이번 시도 전체의 사정 — 고른 잔·도구·재료. 스텝에는 재료 하나만 들어 있어서 잔을 알 길이 없는데,
+    /// 어느 잔에 따르고 어느 잔을 흔드는지는 모든 기믹이 알아야 한다. 읽기만 한다.
+    /// </param>
     /// <param name="timer">
     /// 한 잔 전체의 시계. 결과에 확정 시점을 적기 위해 읽는다. 기믹이 이 시계를 멈추거나
     /// 되돌리지는 않는다 — 시계는 제조 전체의 것이지 기믹의 것이 아니다.
     /// </param>
-    UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token);
+    UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftContext context,
+                                    CraftTimer timer, CancellationToken token);
 
     /// <summary>
     /// 지금 플레이어의 입력을 받아 판정에 반영하고 있는지.

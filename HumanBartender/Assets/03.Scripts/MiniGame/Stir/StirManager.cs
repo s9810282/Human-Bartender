@@ -431,8 +431,22 @@ public class StirManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
     /// <summary>큐에서 받은 전체 제조 시계. 결과에 확정 시점을 적는 데만 쓰고 건드리지 않는다.</summary>
     CraftTimer craftTimer;
 
-    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    /// <summary>
+    /// 이번 제조 시도의 사정(고른 잔·도구·재료). 실행기가 PlayAsync로 넘겨준다.
+    /// 아직 그리는 데 쓰지는 않는다 — 리소스가 붙을 때 여기서 가져가면 된다.
+    /// </summary>
+    CraftContext craftContext;
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftContext context,
+                                                 CraftTimer timer, CancellationToken token)
     {
+        // 스터는 재료를 다루지 않지만 잔은 다룬다 — 믹싱글라스와 옮겨 담을 잔이 context에 있다.
+        craftContext = context;
+
+        // 아직 그리는 데 쓰지 않으므로, 값이 제대로 도착했는지는 이 줄로만 확인한다.
+        Debug.Log($"[Stir] 문맥 — 잔 {craftContext.GlassId ?? "없음"} / " +
+                  $"도구 {craftContext.ToolId ?? "없음"} / 재료 {string.Join(", ", craftContext.IngredientIds)}");
+
         drivenByRunner = true;
         craftTimer = timer;
         runnerCompletion = new UniTaskCompletionSource();

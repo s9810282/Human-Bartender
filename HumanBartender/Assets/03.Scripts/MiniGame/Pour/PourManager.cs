@@ -645,8 +645,23 @@ public class PourManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
     /// <summary>지금까지 따른 양을 이 기믹의 목표 단위로 환산한 값. 화면에 보여줄 수치다.</summary>
     public float PouredInTargetUnit => ConvertMlTo(pouredMl, pourStep.TargetUnit ?? ENewUnit.Ml);
 
-    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    /// <summary>
+    /// 이번 제조 시도의 사정(고른 잔·도구·재료). 실행기가 PlayAsync로 넘겨준다.
+    /// 아직 그리는 데 쓰지는 않는다 — 리소스가 붙을 때 여기서 가져가면 된다.
+    /// </summary>
+    CraftContext craftContext;
+
+    public async UniTask<GimmickResult> PlayAsync(GimmickStep step, CraftContext context,
+                                                 CraftTimer timer, CancellationToken token)
     {
+        // 액체 색은 이미 고른 재료를 따라간다(GetLiquidColor). 병 그림·크기와 받는 잔은 아직
+        // 프리팹에 고정돼 있는데, 그때 쓸 값이 step.IngredientId와 context.GlassId다.
+        craftContext = context;
+
+        // 아직 그리는 데 쓰지 않으므로, 값이 제대로 도착했는지는 이 줄로만 확인한다.
+        Debug.Log($"[Pour] 문맥 — 잔 {craftContext.GlassId ?? "없음"} / " +
+                  $"도구 {craftContext.ToolId ?? "없음"} / 재료 {string.Join(", ", craftContext.IngredientIds)}");
+
         drivenByRunner = true;
         craftTimer = timer;
         pourStep = step;

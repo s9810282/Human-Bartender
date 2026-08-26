@@ -75,6 +75,9 @@ public class GimmickRunner : MonoBehaviour
         session.BeginGimmicks();
         runningTimer = session.Timer;
 
+        // 잔과 도구는 기믹이 도는 동안 바뀌지 않으므로 한 번만 만들어 모든 스텝에 같은 것을 넘긴다.
+        CraftContext context = CraftContext.From(session);
+
         ShowCraftScreen(true);
         hud?.BeginCraft(session.Timer, display.TimeLimitSec, display.HideTime);
 
@@ -86,7 +89,7 @@ public class GimmickRunner : MonoBehaviour
 
                 Debug.Log($"[GimmickRunner] {i + 1}/{queue.Count} 시작 — {step}");
 
-                GimmickResult result = await PlayStepAsync(step, session.Timer, token);
+                GimmickResult result = await PlayStepAsync(step, context, session.Timer, token);
 
                 Debug.Log($"[GimmickRunner] {i + 1}/{queue.Count} 종료 — {step}" +
                           (result == null ? " (결과 없음)" : $" / 종료방식 {result.EndType}"));
@@ -112,7 +115,8 @@ public class GimmickRunner : MonoBehaviour
     }
 
     /// <summary>기믹 프리팹을 띄우고 끝날 때까지 기다린 뒤 치운다.</summary>
-    async UniTask<GimmickResult> PlayStepAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    async UniTask<GimmickResult> PlayStepAsync(GimmickStep step, CraftContext context,
+                                              CraftTimer timer, CancellationToken token)
     {
         GameObject prefab = ResolvePrefab(step.Type);
 
@@ -144,7 +148,7 @@ public class GimmickRunner : MonoBehaviour
 
             currentGimmick = gimmick;
 
-            return await gimmick.PlayAsync(step, timer, token);
+            return await gimmick.PlayAsync(step, context, timer, token);
         }
         finally
         {

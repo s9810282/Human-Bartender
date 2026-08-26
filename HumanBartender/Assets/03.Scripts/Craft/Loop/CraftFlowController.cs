@@ -170,6 +170,15 @@ public class CraftFlowController : MonoBehaviour
     /// </summary>
     void OnCraftStarted(string cocktailId)
     {
+        BeginCraft(cocktailId);
+    }
+
+    /// <summary>
+    /// 칵테일 하나를 정해 제조 시도를 연다. 메뉴에서 고른 것과 같은 자리로, 메뉴 없이 시작해야 하는
+    /// 곳(준비 화면 테스트 씬 등)이 쓴다.
+    /// </summary>
+    public void BeginCraft(string cocktailId)
+    {
         if (Current != null && Current.Phase == ECraftPhase.Playing)
         {
             Debug.LogWarning("[CraftFlow] 이미 제조 중입니다. 새 제조를 시작하지 않습니다.");
