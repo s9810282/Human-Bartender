@@ -26,6 +26,54 @@ public class CraftPreparation
     /// <summary>이 칵테일의 레시피 노트 내용.</summary>
     public RecipeNote Note { get; }
 
+    /// <summary>만들기로 고른 칵테일. 정답 잔·도구를 견줄 때 쓴다.</summary>
+    public NewCocktailData Cocktail => cocktail;
+
+    /// <summary>선택이 바뀔 때마다 발생한다. 선반 표시·하단 트레이·다음 버튼이 이 신호로 갱신된다.</summary>
+    public event System.Action Changed;
+
+    // ── 선택 ────────────────────────────────────────────────────────────
+
+    /// <summary>실제로 고른 잔. 아직 안 골랐으면 null이다.</summary>
+    public string GlassId => actual.GlassId;
+
+    /// <summary>실제로 고른 도구. 도구는 안 골라도 되므로 null일 수 있다.</summary>
+    public string ToolId => actual.ToolId;
+
+    /// <summary>고른 재료를 고른 순서대로.</summary>
+    public IReadOnlyList<string> IngredientIds => actual.IngredientIds;
+
+    /// <summary>이 선반 항목을 지금 고른 상태인지. 선반 칸의 선택 표시가 이걸 본다.</summary>
+    public bool IsSelected(string shelfItemId)
+    {
+        return shelfItemId == actual.GlassId
+            || shelfItemId == actual.ToolId
+            || actual.HasIngredient(shelfItemId);
+    }
+
+    /// <summary>잔을 고른다. 같은 잔을 다시 고르면 선택이 풀린다(§3.1.1).</summary>
+    public void ToggleGlass(string glassId)
+    {
+        actual.SetGlass(actual.GlassId == glassId ? null : glassId);
+        Changed?.Invoke();
+    }
+
+    /// <summary>도구를 고른다. 같은 도구를 다시 고르면 선택이 풀린다(§3.2.1).</summary>
+    public void ToggleTool(string toolId)
+    {
+        actual.SetTool(actual.ToolId == toolId ? null : toolId);
+        Changed?.Invoke();
+    }
+
+    /// <summary>재료를 고르거나 이미 고른 재료라면 뺀다. 선반과 하단 트레이가 같은 동작을 쓴다.</summary>
+    public void ToggleIngredient(string ingredientId)
+    {
+        if (!actual.DeselectIngredient(ingredientId))
+            actual.SelectIngredient(ingredientId);
+
+        Changed?.Invoke();
+    }
+
     /// <summary>레시피 노트를 한 번 열어 봤는지. 가이드 점등의 조건이다(§3.7.8).</summary>
     public bool HasReadRecipeNote { get; private set; }
 

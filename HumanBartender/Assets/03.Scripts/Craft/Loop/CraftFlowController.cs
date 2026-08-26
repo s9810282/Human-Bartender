@@ -193,6 +193,7 @@ public class CraftFlowController : MonoBehaviour
         // 진행 중인 시도가 없으면 제조 흐름이 끝난 것으로 보고 바 시계를 다시 흘려보낸다.
         Current = new CraftSession(cocktailId);
         Preparation = new CraftPreparation(selected, Current.Actual);
+        Preparation.Changed += NotifyPreparationChanged;
 
         // 고르는 일이 끝났으므로 메뉴를 접고 처음 화면으로 되돌린다. 상세 뷰를 켠 채로 닫으면
         // 다음에 열었을 때 지난번 칵테일 설명이 그대로 남아 있다.
@@ -220,13 +221,15 @@ public class CraftFlowController : MonoBehaviour
 
     // ── 제조 준비 (준비 화면이 부를 자리) ───────────────────────────────
 
+    // 고르는 일 자체는 CraftPreparation이 한다. 여기서 같은 토글을 한 벌 더 두면 준비 화면이
+    // 컨트롤러 없이는 돌지 않게 되고, 두 구현이 갈라진다.
+
     /// <summary>잔을 고른다. 같은 잔을 다시 고르면 선택이 풀린다(§3.1.1).</summary>
     public void ToggleGlass(string glassId)
     {
         if (!IsPreparing) return;
 
-        Current.Actual.SetGlass(Current.Actual.GlassId == glassId ? null : glassId);
-        NotifyPreparationChanged();
+        Preparation?.ToggleGlass(glassId);
     }
 
     /// <summary>도구를 고른다. 같은 도구를 다시 고르면 선택이 풀린다(§3.2.1).</summary>
@@ -234,8 +237,7 @@ public class CraftFlowController : MonoBehaviour
     {
         if (!IsPreparing) return;
 
-        Current.Actual.SetTool(Current.Actual.ToolId == toolId ? null : toolId);
-        NotifyPreparationChanged();
+        Preparation?.ToggleTool(toolId);
     }
 
     /// <summary>재료를 고르거나 이미 고른 재료라면 뺀다. 선반과 하단 트레이가 같은 동작을 쓴다.</summary>
@@ -243,10 +245,7 @@ public class CraftFlowController : MonoBehaviour
     {
         if (!IsPreparing) return;
 
-        if (!Current.Actual.DeselectIngredient(ingredientId))
-            Current.Actual.SelectIngredient(ingredientId);
-
-        NotifyPreparationChanged();
+        Preparation?.ToggleIngredient(ingredientId);
     }
 
     /// <summary>잔을 지정해서 고른다. 토글이 아니라 값을 그대로 넣는다.</summary>
