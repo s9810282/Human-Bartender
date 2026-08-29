@@ -18,8 +18,9 @@ MonoBehaviour:
   playMode: 1
   autoPlay: 1
   skippable: 1
-  startFromBlack: 1
+  startFromBlack: 0
   requiredWhen: 
+  presentationPreset: {fileID: 11400000, guid: 3a174daae13b46f1ab594f590cb62eca, type: 2}
   endBindings:
   - targetId: intruder
     applyActive: 1
@@ -38,29 +39,6 @@ MonoBehaviour:
   fadeToBlackOnEnd: 1
   completionFlag: flag.lab_cutscene_complete
   bakedEvents:
-  - time: 0.05
-    kind: 1
-    line:
-      speakerId: 
-      speakerKo: 
-      speakerEn: 
-      textKo: 
-      textEn: 
-    pauseTimeline: 0
-    advanceMode: 0
-    autoDelay: 0
-    dialogueId: 
-    effectType: 0
-    targetId: 
-    stringValue: 
-    color: {r: 1, g: 1, b: 1, a: 1}
-    duration: 0.8
-    strength: 0.2
-    audioClip: {fileID: 0}
-    fireOnSkip: 0
-    eventKey: lab_fade_in
-    sprite: {fileID: 0}
-    flipX: 0
   - time: 1.5
     kind: 0
     line:
@@ -121,7 +99,7 @@ MonoBehaviour:
     autoDelay: 0
     dialogueId: 
     effectType: 3
-    targetId: camera_rig
+    targetId: camera_shake
     stringValue: 
     color: {r: 1, g: 1, b: 1, a: 1}
     duration: 0.45
@@ -202,3 +180,4 @@ MonoBehaviour:
     sprite: {fileID: 0}
     flipX: 0
   bakedTimelineDuration: 8.1
+  bakedTimelineHash: 60c4439ed7f0a32a60075f3c96469781

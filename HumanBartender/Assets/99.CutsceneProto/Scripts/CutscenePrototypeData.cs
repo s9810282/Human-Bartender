@@ -69,7 +69,7 @@ namespace ProjectLuna.CutscenePrototype
         public PrototypeActorEndState[] actor_states;
         public float camera_x;
         public float camera_y;
-        public float camera_size = 5.4f;
+        public float camera_size = 1.35f;
         public string light_color;
         public string fade_state;
         public string effects;

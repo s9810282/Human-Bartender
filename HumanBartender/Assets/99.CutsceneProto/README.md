@@ -22,15 +22,21 @@ Timeline 제작 도구의 상세 사용법은 `AUTHORING_GUIDE.md`를 따른다.
 
 ## Timeline 제작 도구 실행
 
-1. `CutsceneAuthoring_Lab.unity`를 연다.
-2. `Window > Project L.U.N.A > Cutscene Authoring Studio`를 연다.
+1. `Window > Project L.U.N.A > Cutscene Authoring Studio`를 연다.
+2. 예제는 `예제 제작 씬 생성 / 열기`, 신규 작업은 영문 ID 입력 후 `새 컷씬 한 번에 만들기`를 사용한다.
+   - 신규 작업은 전용 Scene·Timeline·Definition·픽셀 카메라·말풍선 UI·오디오를 한 번에 생성한다.
+   - 기본 활성화된 `초보자 안내 모드`는 단계별 준비 상태와 쉬운 용어를 표시한다.
+   - 구형 연구소 예제는 이때 배우 위치 커브를 Move Track으로 전환하고, `camera_shake` 자식과 최신 베이크 해시를 자동 보강한다.
 3. `1. 씬·배우`에서 배우를 선택하고 `선택 배우 빠른 설정`으로 ID·트랙 세트·시작 앵커를 한 번에 만든다.
    - 이때 머리 위 고정 SpeechAnchor 자식도 자동으로 준비된다.
    - 말풍선은 TMP Prefab으로 생성되며, 전체 대사를 먼저 측정해 타이핑 중 크기가 바뀌지 않는다.
-4. `2. 이동·마커`에서 Move·AnimationClip·전용 마커를 배치하고 `3. 미리보기`에서 구간 반복·배속·프레임 단위로 다듬는다.
-5. `4. 완료·검사`에서 마지막 상태를 캡처하고 `현재 씬 저장 + Timeline 베이크 + 전체 검사` 후 정상·스킵을 확인한다.
+4. `2. 이동·마커`에서 Move·AnimationClip·전용 마커를 배치한다. 초보자 모드에서는 마커 목록과 대사·효과·스프라이트 간편 편집기가 같은 화면에 표시된다.
+5. `3. 미리보기`에서 구간 반복·배속·프레임 단위로 다듬는다.
+6. `4. 완료·검사`에서 마지막 상태를 캡처하고 `현재 컷씬 저장 + 실행 데이터 만들기 + 전체 검사` 후 정상·스킵을 확인한다.
 
-전용 마커는 대사 일시정지·재개, 한·영 대사, 화면 효과, 상태 플래그, 스프라이트 교체를 지원한다. Scene의 대상 오브젝트는 고정 Binding ID로 연결하며, 정상 종료와 스킵 종료는 Definition의 동일한 종료 상태를 사용한다.
+예제 Definition에는 `CinematicPresentationPreset`이 연결되어 있다. Play 시 화면 상·하단 12% 레터박스가 들어오고, Pixel Perfect Camera의 기준 해상도가 `480×270 → 448×252`로 전환되며 약간 줌인된다. 종료 시에는 박스를 따로 빼지 않고 화면 전체 페이드아웃에 흡수시킨다.
+
+전용 마커는 대사 일시정지·재개, 한·영 대사, 화면 효과, 상태 플래그, 스프라이트 교체를 지원한다. Scene의 대상 오브젝트는 고정 Binding ID로 연결하며, 정상 종료와 스킵 종료는 Definition의 동일한 종료 상태를 사용한다. 카메라 이동과 흔들림은 각각 `camera_rig`과 `camera_shake`에 분리되어 동시에 같은 Transform을 덮어쓰지 않는다.
 
 ## 구성
 
@@ -43,6 +49,8 @@ Timeline 제작 도구의 상세 사용법은 `AUTHORING_GUIDE.md`를 따른다.
 - `Authoring/`: Timeline, Definition, AnimationClip 등 제작 에셋
 - `Authoring/UI/CutsceneSpeechBubble.prefab`: TMP 화자·본문·입력 안내·말풍선 꼬리로 구성된 공용 UI Prefab
 - `Authoring/UI/CutsceneSpeechBubbleStyle.asset`: 폰트·색·여백·최소/최대 크기·화면 보정을 조정하는 Style
+- `Authoring/UI/CinematicPresentationPreset.asset`: 공용 레터박스·픽셀 줌·종료 페이드 설정
+- 컷씬 Camera: JSON 프로토타입·Timeline 제작 씬 모두 외부 거리와 같은 URP Pixel Perfect Camera 프리셋(PPU 100·480×270·Stretch Fill·Point)
 - `Scripts/Authoring/`: Timeline 재생, 대사·효과·스프라이트 마커, 바인딩과 종료 상태 처리
 - `Editor/Authoring/`: 제작 Studio, 예제 생성기, 베이크, 데이터 검사, 자동 재생 테스트
 - `AUTHORING_GUIDE.md`: Timeline 컷씬 조립 순서와 필드별 사용 기준

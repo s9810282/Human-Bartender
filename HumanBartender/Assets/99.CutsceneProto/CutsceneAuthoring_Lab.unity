@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 18874293}
   - component: {fileID: 18874294}
   - component: {fileID: 18874295}
+  - component: {fileID: 18874296}
   m_Layer: 0
   m_Name: CutsceneCamera
   m_TagString: Untagged
@@ -150,7 +151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2002065510}
+  m_Father: {fileID: 654416003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &18874294
 Camera:
@@ -180,14 +181,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 0.125
     width: 1
-    height: 1
+    height: 0.75000006
   near clip plane: 0.1
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 5.4
+  orthographic size: 1.35
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -213,13 +214,83 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b72eac9809234ec4a7ce09fa648c4621, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneCameraGuide
   aspectWidth: 16
   aspectHeight: 9
-  letterboxRatio: 0.1
+  letterboxRatio: 0.12
   showFrame: 1
   showLetterbox: 1
+--- !u!114 &18874296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18874292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.PixelPerfectCamera
+  m_ComponentVersion: 1
+  m_AssetsPPU: 100
+  m_RefResolutionX: 480
+  m_RefResolutionY: 270
+  m_CropFrame: 4
+  m_GridSnapping: 0
+  m_FilterMode: 1
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
+--- !u!1 &179071207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 179071208}
+  - component: {fileID: 179071209}
+  m_Layer: 0
+  m_Name: ANCHOR_intruder_end
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &179071208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179071207}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.8, y: -1.2, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082686807}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &179071209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179071207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
+  anchorId: intruder_end
+  guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
 --- !u!1 &181802749
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +333,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92d24d0d2e614f7dbdc6bda0cb6a3d64, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneSpeechAnchor
   localOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &261239881
@@ -308,7 +379,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: window_glow
 --- !u!212 &261239884
@@ -401,6 +472,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2024818509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &397162492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397162493}
+  - component: {fileID: 397162494}
+  m_Layer: 0
+  m_Name: ANCHOR_luna_end
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397162493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397162492}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.8, y: -1.2, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082686807}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &397162494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397162492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
+  anchorId: luna_end
+  guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
 --- !u!1 &493438860
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,9 +560,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92d24d0d2e614f7dbdc6bda0cb6a3d64, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneSpeechAnchor
   localOffset: {x: 0, y: 0, z: 0}
+--- !u!1 &654416001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 654416003}
+  - component: {fileID: 654416002}
+  m_Layer: 0
+  m_Name: CameraShake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &654416002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654416001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
+  bindingId: camera_shake
+--- !u!4 &654416003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654416001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 18874293}
+  m_Father: {fileID: 2002065510}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &777880374
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +694,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -546,7 +709,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: researcher
 --- !u!212 &800956661
@@ -650,7 +813,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92d24d0d2e614f7dbdc6bda0cb6a3d64, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneSpeechAnchor
   localOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &908756378
@@ -695,7 +858,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
   anchorId: intruder_start
   guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
@@ -735,7 +898,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -750,7 +913,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: intruder
 --- !u!212 &1125746837
@@ -871,7 +1034,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: sfx_source
 --- !u!82 &1177468446
@@ -1013,7 +1176,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
   anchorId: luna_start
   guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
@@ -1060,7 +1223,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: lab_background
 --- !u!212 &1298835301
@@ -1122,6 +1285,81 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1320495615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1320495616}
+  - component: {fileID: 1320495618}
+  - component: {fileID: 1320495617}
+  m_Layer: 0
+  m_Name: LetterboxTop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1320495616
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320495615}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1614879575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.88}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1320495617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320495615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1320495618
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320495615}
+  m_CullTransparentMesh: 1
 --- !u!1 &1359392583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1415,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1187,7 +1425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
   m_sharedMaterial: {fileID: 5518620734502561977, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}
@@ -1311,7 +1549,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1326,7 +1564,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: luna
 --- !u!212 &1369508081
@@ -1388,6 +1626,81 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1476676714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1476676715}
+  - component: {fileID: 1476676717}
+  - component: {fileID: 1476676716}
+  m_Layer: 0
+  m_Name: LetterboxBottom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1476676715
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476676714}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1614879575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.12}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1476676716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476676714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1476676717
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476676714}
+  m_CullTransparentMesh: 1
 --- !u!1 &1537567505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,7 +1779,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: lab_console
 --- !u!212 &1584613206
@@ -1558,7 +1871,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61a63ef6ae7504b32bfb889a6cafed81, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneDialogueUI
   bubbleLayer: {fileID: 1537567506}
   bubblePrefab: {fileID: 2746732641114435752, guid: 82b58de623ddd4587a6f22adfd515a49, type: 3}
@@ -1566,6 +1879,8 @@ MonoBehaviour:
   fadeOverlay: {fileID: 2081497981}
   flashOverlay: {fileID: 1971782433}
   statusText: {fileID: 1359392587}
+  letterboxTop: {fileID: 1320495616}
+  letterboxBottom: {fileID: 1476676715}
   explicitWorldCamera: {fileID: 0}
 --- !u!224 &1614879575
 RectTransform:
@@ -1581,6 +1896,8 @@ RectTransform:
   m_Children:
   - {fileID: 1359392586}
   - {fileID: 1537567506}
+  - {fileID: 1320495616}
+  - {fileID: 1476676715}
   - {fileID: 1971782431}
   - {fileID: 2081497979}
   m_Father: {fileID: 2024818509}
@@ -1600,7 +1917,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
@@ -1617,7 +1934,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -1695,7 +2012,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
   anchorId: researcher_start
   guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
@@ -1727,7 +2044,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: bgm_source
 --- !u!82 &1881680987
@@ -1842,6 +2159,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 777880375}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1890652868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1890652869}
+  - component: {fileID: 1890652870}
+  m_Layer: 0
+  m_Name: ANCHOR_researcher_recoil_end
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1890652869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890652868}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.15, y: -1.2, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082686807}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1890652870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890652868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61d9b87f8124db396bdf8e9537b3510, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneAnchor
+  anchorId: researcher_recoil_end
+  guideColor: {r: 0.15, g: 0.95, b: 0.9, a: 0.9}
 --- !u!1 &1895053452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,7 +2231,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1298835299}
@@ -1935,7 +2298,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 0}
@@ -1983,7 +2346,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954136f709ab53b1e357061dbf3bd98, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingId
   bindingId: camera_rig
 --- !u!95 &2002065509
@@ -2003,7 +2366,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2021,7 +2384,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 18874293}
+  - {fileID: 654416003}
   m_Father: {fileID: 2024818509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2024818505
@@ -2053,7 +2416,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c7f81e7910624fd08845cb4e9cd3513, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneDirector
   definition: {fileID: 11400000, guid: 61a27a23ddfe44de48cec934df9d6195, type: 2}
   playableDirector: {fileID: 2024818508}
@@ -2071,7 +2434,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0816024e8a1a4fcb90eee68685bda90, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutsceneBindingRegistry
   bindings:
   - id: lab_background
@@ -2088,6 +2451,8 @@ MonoBehaviour:
     target: {fileID: 1125746834}
   - id: camera_rig
     target: {fileID: 2002065507}
+  - id: camera_shake
+    target: {fileID: 654416001}
   - id: sfx_source
     target: {fileID: 1177468443}
   - id: bgm_source
@@ -2119,8 +2484,38 @@ PlayableDirector:
     value: {fileID: 1177468446}
   - key: {fileID: -3225928058984503999, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
     value: {fileID: 1881680987}
+  - key: {fileID: -1852155136476938451, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1369508078}
+  - key: {fileID: 3521007383546749851, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1369508079}
+  - key: {fileID: -5850641127688173590, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1369508077}
+  - key: {fileID: 9067878970591584801, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 800956658}
+  - key: {fileID: 2661910637469361927, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 800956659}
+  - key: {fileID: 7892400767931368746, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 800956657}
+  - key: {fileID: -8539627866311747482, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1125746838}
+  - key: {fileID: 905242403878594117, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1125746835}
+  - key: {fileID: 1489186320300728561, guid: c4ae3eb07173349e18b16d6563ab6ad7, type: 2}
+    value: {fileID: 1125746834}
   m_ExposedReferences:
-    m_References: []
+    m_References:
+    - luna_move_from_5374062c161947d89d534bd155f285fb: {fileID: 1806907537}
+    - luna_move_from_61907772463047859080447274b70a0f: {fileID: 1806907537}
+    - luna_move_to_b29e092bdee145bb9202e063e25f30a1: {fileID: 179071208}
+    - luna_move_from_1f61beb7379344f7b2f56c8b46858b52: {fileID: 1239268419}
+    - luna_move_from_d4fe30438c5b40a1bb69512c018e92ff: {fileID: 1239268419}
+    - luna_move_from_9ca60b9d1a28434f86019fca3d147d30: {fileID: 908756379}
+    - luna_move_to_5374062c161947d89d534bd155f285fb: {fileID: 1890652869}
+    - luna_move_to_61907772463047859080447274b70a0f: {fileID: 1890652869}
+    - luna_move_from_b29e092bdee145bb9202e063e25f30a1: {fileID: 908756379}
+    - luna_move_to_1f61beb7379344f7b2f56c8b46858b52: {fileID: 397162493}
+    - luna_move_to_9ca60b9d1a28434f86019fca3d147d30: {fileID: 179071208}
+    - luna_move_to_d4fe30438c5b40a1bb69512c018e92ff: {fileID: 397162493}
 --- !u!4 &2024818509
 Transform:
   m_ObjectHideFlags: 0
@@ -2196,7 +2591,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
@@ -2248,6 +2643,9 @@ Transform:
   - {fileID: 1239268419}
   - {fileID: 1806907537}
   - {fileID: 908756379}
+  - {fileID: 397162493}
+  - {fileID: 1890652869}
+  - {fileID: 179071208}
   m_Father: {fileID: 1895053453}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

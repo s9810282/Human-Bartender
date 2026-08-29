@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
@@ -29,8 +30,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         public const string AuthoringScenePath = Root + "/CutsceneAuthoring_Lab.unity";
         public const string ExampleTimelinePath = Root + "/Authoring/Timelines/LabResearchAuthoring.playable";
         public const string ExampleDefinitionPath = Root + "/Authoring/Definitions/LabResearchDefinition.asset";
+        public const string AuthoringSceneFolder = Root + "/Authoring/Scenes";
         private const string ClipFolder = Root + "/Authoring/AnimationClips";
+        private const float LegacyCompositionScale = 0.25f;
         private static readonly Dictionary<string, TrackAsset> CreatedExampleTracks = new(StringComparer.Ordinal);
+        private static bool postExtrapolationWarningLogged;
 
         [MenuItem("Project L.U.N.A/Cutscene Authoring/Create or Open Lab")]
         public static void CreateOrOpenAuthoringLab()
@@ -91,15 +95,17 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             cameraRig.transform.SetParent(root.transform, false);
             cameraRig.AddComponent<Animator>();
             AddBindingId(cameraRig, "camera_rig");
-            GameObject cameraObject = new("CutsceneCamera", typeof(Camera));
-            cameraObject.transform.SetParent(cameraRig.transform, false);
+            GameObject cameraShake = new("CameraShake");
+            cameraShake.transform.SetParent(cameraRig.transform, false);
+            AddBindingId(cameraShake, "camera_shake");
+            GameObject cameraObject = new("CutsceneCamera", typeof(Camera), typeof(PixelPerfectCamera));
+            cameraObject.transform.SetParent(cameraShake.transform, false);
             cameraObject.transform.localPosition = new Vector3(0f, 0f, -10f);
             Camera camera = cameraObject.GetComponent<Camera>();
-            camera.orthographic = true;
-            camera.orthographicSize = 5.4f;
             camera.nearClipPlane = 0.1f;
             camera.farClipPlane = 100f;
             camera.backgroundColor = new Color(0.008f, 0.014f, 0.02f);
+            LunaCutscenePixelCameraUtility.ApplyProjectPreset(camera);
             cameraObject.AddComponent<LunaCutsceneCameraGuide>();
 
             Transform anchors = new GameObject("ANCHORS").transform;
@@ -109,6 +115,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             CreateAnchor(anchors, "researcher_start", researcher.transform.position);
             CreateAnchor(anchors, "intruder_start", intruder.transform.position);
             CreateAnchor(anchors, "intruder_end", new Vector3(4.8f, -1.2f, 0f));
+            stage.transform.localScale = Vector3.one * LegacyCompositionScale;
 
             GameObject audioRoot = new("AUDIO");
             audioRoot.transform.SetParent(root.transform, false);
@@ -120,12 +127,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             registry.RebuildFromChildren();
             runtime.Configure(definition, playableDirector, registry, ui);
 
-            BindTrack(playableDirector, timeline, "Luna Animation", luna.GetComponent<Animator>());
-            BindTrack(playableDirector, timeline, "Researcher Animation", researcher.GetComponent<Animator>());
-            BindTrack(playableDirector, timeline, "Intruder Animation", intruder.GetComponent<Animator>());
             BindTrack(playableDirector, timeline, "Camera Animation", cameraRig.GetComponent<Animator>());
             BindTrack(playableDirector, timeline, "SFX", sfx);
             BindTrack(playableDirector, timeline, "BGM", bgm);
+            UpgradeExampleTimelineAndScene(runtime, stage.transform);
 
             GameObject note = new("README__OPEN_PROJECT_LUNA_CUTSCENE_AUTHORING_STUDIO");
             note.transform.SetParent(root.transform, false);
@@ -133,7 +138,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             foreach (UnityEngine.Object dirty in new UnityEngine.Object[]
                      {
                          root, playableDirector, registry, runtime, background, windowGlow, console, luna, researcher,
-                         intruder, cameraRig, ui
+                         intruder, cameraRig, cameraShake, ui
                      })
             {
                 if (dirty != null) EditorUtility.SetDirty(dirty);
@@ -191,10 +196,94 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             LunaCutsceneDefinition definition = ScriptableObject.CreateInstance<LunaCutsceneDefinition>();
             definition.Configure(id, id, id);
             definition.autoPlay = false;
+            definition.startFromBlack = false;
             definition.playMode = LunaCutscenePlayMode.Repeatable;
+            definition.presentationPreset = LunaCutsceneUiAssetBuilder.EnsurePresentationPreset();
             AssetDatabase.CreateAsset(definition, definitionPath);
             AssetDatabase.SaveAssets();
             return (timeline, definition);
+        }
+
+        public static LunaCutsceneDirector CreateNewAuthoringScene(string rawId)
+        {
+            EnsureFolders();
+            string id = SanitizeId(rawId);
+            if (string.IsNullOrWhiteSpace(id))
+                throw new InvalidOperationException("새 컷씬의 영문 ID를 입력하세요.");
+
+            string scenePath = $"{AuthoringSceneFolder}/{id}.unity";
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath) != null)
+                throw new InvalidOperationException($"같은 ID의 제작 Scene이 이미 있습니다: {id}");
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                throw new OperationCanceledException("새 컷씬 만들기를 취소했습니다.");
+
+            (TimelineAsset timeline, LunaCutsceneDefinition definition) = CreateBlankAssets(id);
+            definition.autoPlay = true;
+            definition.skippable = true;
+            EditorUtility.SetDirty(definition);
+            LunaCutsceneAuthoringBaker.Bake(timeline, definition);
+
+            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            scene.name = id;
+
+            GameObject root = new("LUNA_CutsceneAuthoringRoot");
+            PlayableDirector playableDirector = root.AddComponent<PlayableDirector>();
+            LunaCutsceneBindingRegistry registry = root.AddComponent<LunaCutsceneBindingRegistry>();
+            LunaCutsceneDirector runtime = root.AddComponent<LunaCutsceneDirector>();
+            playableDirector.playableAsset = timeline;
+            playableDirector.playOnAwake = false;
+            playableDirector.extrapolationMode = DirectorWrapMode.Hold;
+            playableDirector.timeUpdateMode = DirectorUpdateMode.UnscaledGameTime;
+
+            GameObject stage = new("STAGE");
+            stage.transform.SetParent(root.transform, false);
+            GameObject anchorRoot = new("ANCHORS");
+            anchorRoot.transform.SetParent(stage.transform, false);
+
+            GameObject cameraRig = new("CameraRig");
+            cameraRig.transform.SetParent(root.transform, false);
+            cameraRig.AddComponent<Animator>();
+            AddBindingId(cameraRig, "camera_rig");
+            GameObject cameraShake = new("CameraShake");
+            cameraShake.transform.SetParent(cameraRig.transform, false);
+            AddBindingId(cameraShake, "camera_shake");
+            GameObject cameraObject = new("CutsceneCamera", typeof(Camera), typeof(PixelPerfectCamera));
+            cameraObject.transform.SetParent(cameraShake.transform, false);
+            cameraObject.transform.localPosition = new Vector3(0f, 0f, -10f);
+            Camera camera = cameraObject.GetComponent<Camera>();
+            camera.nearClipPlane = 0.1f;
+            camera.farClipPlane = 100f;
+            camera.backgroundColor = new Color(0.008f, 0.014f, 0.02f);
+            LunaCutscenePixelCameraUtility.ApplyProjectPreset(camera);
+            cameraObject.AddComponent<LunaCutsceneCameraGuide>();
+
+            GameObject audioRoot = new("AUDIO");
+            audioRoot.transform.SetParent(root.transform, false);
+            CreateAudioSource(audioRoot.transform, "SFX_Source", "sfx_source");
+            AudioSource bgm = CreateAudioSource(audioRoot.transform, "BGM_Source", "bgm_source");
+            bgm.loop = true;
+
+            LunaCutsceneDialogueUI ui = CreateUi(root.transform);
+            registry.RebuildFromChildren();
+            runtime.Configure(definition, playableDirector, registry, ui);
+
+            GameObject note = new("README__PLACE_BACKGROUND_AND_ACTORS_THEN_USE_STUDIO");
+            note.transform.SetParent(root.transform, false);
+
+            EditorUtility.SetDirty(root);
+            EditorUtility.SetDirty(playableDirector);
+            EditorUtility.SetDirty(registry);
+            EditorUtility.SetDirty(runtime);
+            EditorSceneManager.MarkSceneDirty(scene);
+            if (!EditorSceneManager.SaveScene(scene, scenePath))
+                throw new InvalidOperationException($"새 컷씬 Scene 저장에 실패했습니다: {scenePath}");
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Selection.activeGameObject = root;
+            TimelineEditor.Refresh(RefreshReason.ContentsAddedOrRemoved);
+            Debug.Log($"[LunaCutsceneAuthoring] QUICK_START_OK id={id}, scene={scenePath}", runtime);
+            return runtime;
         }
 
         public static void EnsureSceneAuthoringHelpers()
@@ -205,11 +294,27 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             runtime.BindingRegistry?.RebuildFromChildren();
             LunaCutsceneUiAssetBuilder.UpgradeSceneUi(runtime);
 
-            Camera camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
-            if (camera != null && camera.GetComponent<LunaCutsceneCameraGuide>() == null)
-                Undo.AddComponent<LunaCutsceneCameraGuide>(camera.gameObject);
-
             Transform stage = runtime.transform.Find("STAGE");
+            bool migratedLegacyExample = MigrateLegacyExampleComposition(runtime.gameObject.scene, stage);
+
+            Camera camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
+            if (camera != null)
+            {
+                EnsureCameraShakeTarget(runtime, camera);
+                LunaCutscenePixelCameraUtility.ApplyProjectPreset(camera);
+                LunaCutsceneCameraGuide guide = camera.GetComponent<LunaCutsceneCameraGuide>();
+                if (guide == null)
+                    guide = Undo.AddComponent<LunaCutsceneCameraGuide>(camera.gameObject);
+                if (runtime.Definition != null && runtime.Definition.presentationPreset != null)
+                {
+                    Undo.RecordObject(guide, "Sync L.U.N.A Letterbox Guide");
+                    guide.ConfigureLetterbox(runtime.Definition.presentationPreset.letterboxHeightRatio);
+                    EditorUtility.SetDirty(guide);
+                }
+            }
+
+            runtime.BindingRegistry?.RebuildFromChildren();
+
             if (stage == null)
                 return;
             Transform anchors = stage.Find("ANCHORS");
@@ -238,7 +343,224 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
                 CreateAnchor(anchors, id, entry.target.transform.position);
             }
 
+            UpgradeExampleTimelineAndScene(runtime, stage);
+
             EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
+            if (migratedLegacyExample)
+                Debug.Log("[LunaCutsceneAuthoring] 기존 예제 무대를 480×270·PPU 100 프레이밍에 맞게 축소했습니다.", runtime);
+        }
+
+        [MenuItem("Project L.U.N.A/Cutscene Authoring/Repair Authoring Lab Pixel Camera")]
+        public static void RepairAuthoringLabPixelCamera()
+        {
+            Scene scene = EditorSceneManager.OpenScene(AuthoringScenePath, OpenSceneMode.Single);
+            EnsureSceneAuthoringHelpers();
+            if (!EditorSceneManager.SaveScene(scene, AuthoringScenePath))
+                throw new InvalidOperationException($"컷씬 제작 씬 저장 실패: {AuthoringScenePath}");
+            AssetDatabase.SaveAssets();
+
+            LunaCutsceneDirector runtime = UnityEngine.Object.FindFirstObjectByType<LunaCutsceneDirector>();
+            LunaCutsceneAuthoringValidator.Result validation = LunaCutsceneAuthoringValidator.Validate(runtime);
+            if (!validation.IsValid)
+                throw new InvalidOperationException(validation.ToReport());
+            Debug.Log("[LunaCutsceneAuthoring] PIXEL_CAMERA_REPAIR_OK\n" + validation.ToReport(), runtime);
+        }
+
+        private static bool MigrateLegacyExampleComposition(Scene scene, Transform stage)
+        {
+            if (stage == null
+                || !string.Equals(scene.path, AuthoringScenePath, StringComparison.Ordinal)
+                || !Approximately(stage.localScale, Vector3.one))
+                return false;
+
+            stage.localScale = Vector3.one * LegacyCompositionScale;
+            EditorUtility.SetDirty(stage);
+            ScaleLegacyExampleCameraClip();
+            return true;
+        }
+
+        private static void UpgradeExampleTimelineAndScene(LunaCutsceneDirector runtime, Transform stage)
+        {
+            if (runtime == null
+                || stage == null
+                || runtime.Director == null
+                || runtime.Director.playableAsset is not TimelineAsset timeline
+                || !string.Equals(AssetDatabase.GetAssetPath(timeline), ExampleTimelinePath, StringComparison.Ordinal))
+                return;
+
+            if (timeline.markerTrack != null)
+            {
+                foreach (LunaEffectMarker effect in timeline.markerTrack.GetMarkers().OfType<LunaEffectMarker>().ToArray())
+                {
+                    if (effect.effectType == LunaCutsceneEffectType.FadeIn
+                        && string.Equals(effect.eventKey, "lab_fade_in", StringComparison.Ordinal))
+                    {
+                        timeline.markerTrack.DeleteMarker(effect);
+                        continue;
+                    }
+
+                    if (effect.effectType == LunaCutsceneEffectType.CameraShake
+                        && string.Equals(effect.eventKey, "lab_alarm_shake", StringComparison.Ordinal))
+                    {
+                        effect.targetId = "camera_shake";
+                        EditorUtility.SetDirty(effect);
+                    }
+                }
+            }
+
+            Transform anchors = stage.Find("ANCHORS");
+            if (anchors == null)
+            {
+                GameObject anchorRoot = new("ANCHORS");
+                anchorRoot.transform.SetParent(stage, false);
+                anchors = anchorRoot.transform;
+            }
+
+            LunaCutsceneAnchor lunaStart = EnsureExampleAnchor(anchors, stage, "luna_start", new Vector3(-4.2f, -1.2f, 0f));
+            LunaCutsceneAnchor lunaEnd = EnsureExampleAnchor(anchors, stage, "luna_end", new Vector3(-2.8f, -1.2f, 0f));
+            LunaCutsceneAnchor researcherStart = EnsureExampleAnchor(anchors, stage, "researcher_start", new Vector3(3.6f, -1.2f, 0f));
+            LunaCutsceneAnchor researcherEnd = EnsureExampleAnchor(anchors, stage, "researcher_recoil_end", new Vector3(4.15f, -1.2f, 0f));
+            LunaCutsceneAnchor intruderStart = EnsureExampleAnchor(anchors, stage, "intruder_start", new Vector3(7.5f, -1.2f, 0f));
+            LunaCutsceneAnchor intruderEnd = EnsureExampleAnchor(anchors, stage, "intruder_end", new Vector3(4.8f, -1.2f, 0f));
+
+            EnsureExampleMove(runtime, timeline, "luna", lunaStart.transform, lunaEnd.transform, 0.2d, 1.2d);
+            EnsureExampleMove(runtime, timeline, "researcher", researcherStart.transform, researcherEnd.transform, 4.2d, 0.35d);
+            EnsureExampleMove(runtime, timeline, "intruder", intruderStart.transform, intruderEnd.transform, 3.8d, 0.7d);
+
+            string[] legacyActorTracks = { "Luna Animation", "Researcher Animation", "Intruder Animation" };
+            foreach (TrackAsset legacy in EnumerateTracks(timeline)
+                         .Where(track => legacyActorTracks.Contains(track.name, StringComparer.Ordinal))
+                         .ToArray())
+                timeline.DeleteTrack(legacy);
+
+            EditorUtility.SetDirty(timeline);
+            runtime.BindingRegistry?.RebuildFromChildren();
+            LunaCutsceneAuthoringBaker.Bake(timeline, runtime.Definition);
+        }
+
+        private static LunaCutsceneAnchor EnsureExampleAnchor(
+            Transform anchors,
+            Transform stage,
+            string id,
+            Vector3 localPosition)
+        {
+            LunaCutsceneAnchor existing = UnityEngine.Object.FindObjectsByType<LunaCutsceneAnchor>(FindObjectsSortMode.None)
+                .FirstOrDefault(anchor => string.Equals(anchor.AnchorId, id, StringComparison.Ordinal));
+            if (existing != null)
+                return existing;
+            return CreateAnchor(anchors, id, stage.TransformPoint(localPosition));
+        }
+
+        private static void EnsureExampleMove(
+            LunaCutsceneDirector runtime,
+            TimelineAsset timeline,
+            string actorId,
+            Transform from,
+            Transform to,
+            double start,
+            double duration)
+        {
+            if (runtime.BindingRegistry == null
+                || !runtime.BindingRegistry.TryGet(actorId, out GameObject actor)
+                || actor == null)
+                throw new InvalidOperationException($"예제 배우 Binding을 찾을 수 없습니다: {actorId}");
+
+            ActorTrackSet tracks = CreateActorTrackSet(runtime.Director, timeline, actor, actorId);
+            float distance = Vector3.Distance(from.position, to.position);
+            float speed = distance / Mathf.Max(0.1f, (float)duration);
+            TimelineClip clip = tracks.move.GetClips().FirstOrDefault();
+            if (clip == null)
+                clip = AddMoveClip(runtime.Director, timeline, tracks.move, from, to, start, speed);
+            ConfigureMoveClip(runtime.Director, clip, from, to, start, duration);
+            EditorUtility.SetDirty(tracks.move);
+            EditorUtility.SetDirty(timeline);
+            EditorUtility.SetDirty(runtime.Director);
+            EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
+        }
+
+        private static GameObject EnsureCameraShakeTarget(LunaCutsceneDirector runtime, Camera camera)
+        {
+            if (runtime == null || camera == null)
+                return null;
+            if (runtime.BindingRegistry != null
+                && runtime.BindingRegistry.TryGet("camera_shake", out GameObject registered)
+                && registered != null)
+                return registered;
+
+            Transform cameraTransform = camera.transform;
+            Transform rig = cameraTransform.parent;
+            if (rig == null)
+                return null;
+
+            Transform shake = rig.Find("CameraShake");
+            if (shake == null)
+            {
+                GameObject target = new("CameraShake");
+                if (!Application.isBatchMode)
+                    Undo.RegisterCreatedObjectUndo(target, "Create L.U.N.A Camera Shake Target");
+                shake = target.transform;
+                shake.SetParent(rig, false);
+            }
+
+            if (cameraTransform.parent != shake)
+            {
+                Vector3 localPosition = cameraTransform.localPosition;
+                Quaternion localRotation = cameraTransform.localRotation;
+                Vector3 localScale = cameraTransform.localScale;
+                cameraTransform.SetParent(shake, false);
+                cameraTransform.localPosition = localPosition;
+                cameraTransform.localRotation = localRotation;
+                cameraTransform.localScale = localScale;
+            }
+
+            LunaCutsceneBindingId binding = shake.GetComponent<LunaCutsceneBindingId>();
+            if (binding == null)
+                binding = shake.gameObject.AddComponent<LunaCutsceneBindingId>();
+            binding.Configure("camera_shake");
+            EditorUtility.SetDirty(binding);
+            EditorUtility.SetDirty(shake);
+            return shake.gameObject;
+        }
+
+        private static void ScaleLegacyExampleCameraClip()
+        {
+            string path = ClipFolder + "/Camera_Push.anim";
+            AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
+            if (clip == null)
+                return;
+
+            bool changed = false;
+            foreach (EditorCurveBinding binding in AnimationUtility.GetCurveBindings(clip))
+            {
+                if (binding.type != typeof(Transform)
+                    || (binding.propertyName != "m_LocalPosition.x" && binding.propertyName != "m_LocalPosition.y"))
+                    continue;
+                AnimationCurve curve = AnimationUtility.GetEditorCurve(clip, binding);
+                if (curve == null || curve.length == 0)
+                    continue;
+                float finalMagnitude = Mathf.Abs(curve.keys[^1].value);
+                if (finalMagnitude <= 0.05f)
+                    continue;
+                Keyframe[] keys = curve.keys;
+                for (int index = 0; index < keys.Length; index++)
+                {
+                    keys[index].value *= LegacyCompositionScale;
+                    keys[index].inTangent *= LegacyCompositionScale;
+                    keys[index].outTangent *= LegacyCompositionScale;
+                }
+                curve.keys = keys;
+                AnimationUtility.SetEditorCurve(clip, binding, curve);
+                changed = true;
+            }
+            if (changed)
+                EditorUtility.SetDirty(clip);
+        }
+
+        private static bool Approximately(Vector3 left, Vector3 right)
+        {
+            return Mathf.Approximately(left.x, right.x)
+                   && Mathf.Approximately(left.y, right.y)
+                   && Mathf.Approximately(left.z, right.z);
         }
 
         public static LunaCutsceneSpeechAnchor EnsureSpeechAnchor(GameObject actor, bool recapturePosition)
@@ -377,6 +699,17 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             ActivationTrack activation = group.GetChildTracks().OfType<ActivationTrack>().FirstOrDefault()
                                          ?? timeline.CreateTrack<ActivationTrack>(group, id + " Visibility");
 
+            // 빈 Activation Track을 바인딩하면 Timeline이 배우를 비활성화한다.
+            // 빠른 설정 직후에도 배우와 머리 위 말풍선이 정상 표시되도록
+            // 현재 Timeline 길이를 덮는 기본 노출 클립을 한 번만 생성한다.
+            if (!activation.GetClips().Any())
+            {
+                TimelineClip visibilityClip = activation.CreateDefaultClip();
+                visibilityClip.start = 0d;
+                visibilityClip.duration = Math.Max(1d, timeline.duration);
+                visibilityClip.displayName = id + " Visible";
+            }
+
             Animator animator = actor.GetComponent<Animator>() ?? Undo.AddComponent<Animator>(actor);
             director.SetGenericBinding(move, actor.transform);
             director.SetGenericBinding(animation, animator);
@@ -399,7 +732,23 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
             Undo.RegisterCompleteObjectUndo(timeline, "Add L.U.N.A Actor Move Clip");
             TimelineClip clip = track.CreateClip<LunaActorMoveClip>();
-            LunaActorMoveClip asset = (LunaActorMoveClip)clip.asset;
+            double duration = Math.Max(0.1d, Vector3.Distance(from.position, to.position) / Mathf.Max(0.01f, unitsPerSecond));
+            ConfigureMoveClip(director, clip, from, to, Math.Max(0d, start), duration);
+            SaveTrackChange(director, timeline, track);
+            return clip;
+        }
+
+        private static void ConfigureMoveClip(
+            PlayableDirector director,
+            TimelineClip clip,
+            Transform from,
+            Transform to,
+            double start,
+            double duration)
+        {
+            if (director == null || clip?.asset is not LunaActorMoveClip asset || from == null || to == null)
+                throw new InvalidOperationException("이동 클립에는 Director와 시작·도착 앵커가 필요합니다.");
+
             string token = Guid.NewGuid().ToString("N");
             PropertyName fromName = new("luna_move_from_" + token);
             PropertyName toName = new("luna_move_to_" + token);
@@ -410,10 +759,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             director.SetReferenceValue(fromName, from);
             director.SetReferenceValue(toName, to);
             clip.start = Math.Max(0d, start);
-            clip.duration = Math.Max(0.1d, Vector3.Distance(from.position, to.position) / Mathf.Max(0.01f, unitsPerSecond));
+            clip.duration = Math.Max(0.1d, duration);
+            SetPostExtrapolationHold(clip);
             clip.displayName = $"{from.GetComponent<LunaCutsceneAnchor>()?.AnchorId ?? from.name} → {to.GetComponent<LunaCutsceneAnchor>()?.AnchorId ?? to.name}";
-            SaveTrackChange(director, timeline, track);
-            return clip;
+            EditorUtility.SetDirty(asset);
         }
 
         private static TimelineAsset CreateExampleTimelineIfMissing()
@@ -438,10 +787,6 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             AssetDatabase.CreateAsset(timeline, ExampleTimelinePath);
             timeline.CreateMarkerTrack();
 
-            GroupTrack characters = timeline.CreateTrack<GroupTrack>(null, "CHARACTERS");
-            AnimationTrack lunaTrack = timeline.CreateTrack<AnimationTrack>(characters, "Luna Animation");
-            AnimationTrack researcherTrack = timeline.CreateTrack<AnimationTrack>(characters, "Researcher Animation");
-            AnimationTrack intruderTrack = timeline.CreateTrack<AnimationTrack>(characters, "Intruder Animation");
             GroupTrack cameraGroup = timeline.CreateTrack<GroupTrack>(null, "CAMERA");
             AnimationTrack cameraTrack = timeline.CreateTrack<AnimationTrack>(cameraGroup, "Camera Animation");
             GroupTrack audioGroup = timeline.CreateTrack<GroupTrack>(null, "AUDIO");
@@ -450,19 +795,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
             foreach (TrackAsset track in new TrackAsset[]
                      {
-                         lunaTrack, researcherTrack, intruderTrack, cameraTrack, bgmTrack, sfxTrack
+                         cameraTrack, bgmTrack, sfxTrack
                      })
                 CreatedExampleTracks[track.name] = track;
 
-            AddAnimationClip(lunaTrack, CreateMoveClip("Luna_Approach", new Vector3(-4.2f, -1.2f, 0f), new Vector3(-2.8f, -1.2f, 0f), 1.2f), 0.2d);
-            AddAnimationClip(researcherTrack, CreateMoveClip("Researcher_Recoil", new Vector3(3.6f, -1.2f, 0f), new Vector3(4.15f, -1.2f, 0f), 0.35f), 4.2d);
-            AddAnimationClip(intruderTrack, CreateMoveClip("Intruder_Enter", new Vector3(7.5f, -1.2f, 0f), new Vector3(4.8f, -1.2f, 0f), 0.7f), 3.8d);
-            AddAnimationClip(cameraTrack, CreateMoveClip("Camera_Push", Vector3.zero, new Vector3(0.8f, 0.15f, 0f), 1.4f), 3.55d);
-
-            LunaEffectMarker fadeIn = timeline.markerTrack.CreateMarker<LunaEffectMarker>(0.05d);
-            fadeIn.effectType = LunaCutsceneEffectType.FadeIn;
-            fadeIn.duration = 0.8f;
-            fadeIn.eventKey = "lab_fade_in";
+            AddAnimationClip(cameraTrack, CreateMoveClip("Camera_Push", Vector3.zero, new Vector3(0.2f, 0.0375f, 0f), 1.4f), 3.55d);
 
             LunaDialogueMarker firstLine = timeline.markerTrack.CreateMarker<LunaDialogueMarker>(1.5d);
             firstLine.dialogueId = "dlg_cutscene_lab_001";
@@ -480,7 +817,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
             LunaEffectMarker shake = timeline.markerTrack.CreateMarker<LunaEffectMarker>(3.82d);
             shake.effectType = LunaCutsceneEffectType.CameraShake;
-            shake.targetId = "camera_rig";
+            shake.targetId = "camera_shake";
             shake.duration = 0.45f;
             shake.strength = 0.16f;
             shake.eventKey = "lab_alarm_shake";
@@ -514,15 +851,22 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         {
             LunaCutsceneDefinition existing = AssetDatabase.LoadAssetAtPath<LunaCutsceneDefinition>(ExampleDefinitionPath);
             if (existing != null)
+            {
+                existing.presentationPreset = LunaCutsceneUiAssetBuilder.EnsurePresentationPreset();
+                existing.startFromBlack = false;
+                existing.fadeToBlackOnEnd = true;
+                EditorUtility.SetDirty(existing);
                 return existing;
+            }
 
             LunaCutsceneDefinition definition = ScriptableObject.CreateInstance<LunaCutsceneDefinition>();
             definition.Configure("cutscene_lab_research_authoring", "연구소 침입 테스트", "Laboratory Intrusion Test");
             definition.autoPlay = true;
             definition.skippable = true;
-            definition.startFromBlack = true;
+            definition.startFromBlack = false;
             definition.playMode = LunaCutscenePlayMode.Repeatable;
             definition.fadeToBlackOnEnd = true;
+            definition.presentationPreset = LunaCutsceneUiAssetBuilder.EnsurePresentationPreset();
             definition.completionFlag = "flag.lab_cutscene_complete";
             definition.endBindings = new[]
             {
@@ -628,6 +972,8 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             Image flash = CreateImage(canvasObject.transform, "Flash", Stretch(), new Color(1f, 0f, 0f, 0f));
             flash.raycastTarget = false;
             RectTransform bubbleLayer = LunaCutsceneUiAssetBuilder.EnsureBubbleLayer(canvasObject.transform);
+            RectTransform letterboxTop = LunaCutsceneUiAssetBuilder.EnsureLetterboxBar(canvasObject.transform, "LetterboxTop", true);
+            RectTransform letterboxBottom = LunaCutsceneUiAssetBuilder.EnsureLetterboxBar(canvasObject.transform, "LetterboxBottom", false);
             TMP_Text status = CreateTmpText(canvasObject.transform, "Status",
                 new RectLayout(new Vector2(0.018f, 0.84f), new Vector2(0.42f, 0.98f), Vector2.zero, Vector2.zero),
                 16f, TextAlignmentOptions.TopLeft, new Color(0.55f, 0.95f, 0.92f), assets.style.font);
@@ -637,6 +983,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
             LunaCutsceneDialogueUI ui = canvasObject.AddComponent<LunaCutsceneDialogueUI>();
             ui.Configure(bubbleLayer, assets.prefab, assets.style, fade, flash, status);
+            ui.ConfigurePresentation(letterboxTop, letterboxBottom);
             return ui;
         }
 
@@ -737,14 +1084,66 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             return SanitizeId(raw);
         }
 
+        // TimelineClip.postExtrapolationMode의 setter는 internal이라 직접 대입이 컴파일되지 않는다.
+        // 리플렉션으로 설정하고, API가 바뀌어 실패하면 기본값(None)으로 두고 경고만 남긴다 —
+        // 이동 Behaviour가 마지막 프레임 위치를 유지하므로 치명적이지 않다.
+        private static void SetPostExtrapolationHold(TimelineClip clip)
+        {
+            if (clip == null)
+                return;
+
+            Exception propertyException = null;
+            try
+            {
+                System.Reflection.PropertyInfo property = typeof(TimelineClip).GetProperty(
+                    "postExtrapolationMode",
+                    System.Reflection.BindingFlags.Instance
+                    | System.Reflection.BindingFlags.Public
+                    | System.Reflection.BindingFlags.NonPublic);
+                System.Reflection.MethodInfo setter = property?.GetSetMethod(true);
+                if (setter != null)
+                {
+                    setter.Invoke(clip, new object[] { TimelineClip.ClipExtrapolation.Hold });
+                    return;
+                }
+            }
+            catch (Exception exception)
+            {
+                propertyException = exception;
+            }
+
+            try
+            {
+                System.Reflection.FieldInfo field = typeof(TimelineClip).GetField(
+                    "m_PostExtrapolationMode",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                if (field != null)
+                {
+                    field.SetValue(clip, TimelineClip.ClipExtrapolation.Hold);
+                    return;
+                }
+            }
+            catch (Exception exception)
+            {
+                propertyException ??= exception;
+            }
+
+            if (postExtrapolationWarningLogged)
+                return;
+            postExtrapolationWarningLogged = true;
+            string reason = propertyException?.GetBaseException().Message ?? "지원되는 setter와 내부 필드를 찾지 못했습니다.";
+            Debug.LogWarning(
+                $"[LunaCutsceneAuthoring] postExtrapolationMode를 Hold로 설정하지 못했습니다. 기본값으로 진행합니다. 원인: {reason}");
+        }
+
         private static void SaveTrackChange(PlayableDirector director, TimelineAsset timeline, TrackAsset track)
         {
             EditorUtility.SetDirty(track);
             EditorUtility.SetDirty(timeline);
             EditorUtility.SetDirty(director);
             EditorSceneManager.MarkSceneDirty(director.gameObject.scene);
-            AssetDatabase.SaveAssets();
-            TimelineEditor.Refresh(RefreshReason.ContentsAddedOrRemoved);
+            if (!Application.isBatchMode)
+                TimelineEditor.Refresh(RefreshReason.ContentsAddedOrRemoved);
         }
 
         private static IEnumerable<TrackAsset> EnumerateChildren(TrackAsset parent)
@@ -765,6 +1164,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             EnsureFolder(Root + "/Authoring", "AnimationClips");
             EnsureFolder(Root + "/Authoring", "Generated");
             EnsureFolder(Root + "/Authoring", "UI");
+            EnsureFolder(Root + "/Authoring", "Scenes");
         }
 
         private static void EnsureFolder(string parent, string child)

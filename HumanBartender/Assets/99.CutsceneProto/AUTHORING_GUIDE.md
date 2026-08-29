@@ -6,17 +6,19 @@
 
 ## 가장 빠른 시작 방법
 
-1. `CutsceneAuthoring_Lab.unity`를 연다.
-2. Unity 상단 메뉴에서 `Window > Project L.U.N.A > Cutscene Authoring Studio`를 연다.
-3. `1. 씬·배우`에서 Hierarchy의 배우를 선택하고 `선택 배우 빠른 설정`을 누른다.
-4. `2. 이동·마커`에서 도착 앵커를 만들고 Move Track에 이동 클립을 배치한다.
-5. 같은 단계에서 제자리 픽셀 AnimationClip과 `＋ 대사`, `＋ 효과`, `＋ 스프라이트` 마커를 배치한다.
-6. `3. 미리보기`에서 전체·구간·프레임 단위 재생을 확인한다.
-7. 컷씬 마지막 상태를 무대에 만든 뒤 `4. 완료·검사`에서 종료 상태를 캡처한다.
-8. `현재 씬 저장 + Timeline 베이크 + 전체 검사`를 누른다.
-9. 오류가 없으면 정상 재생과 스킵을 각각 검증한다.
+1. Unity 상단 메뉴에서 `Window > Project L.U.N.A > Cutscene Authoring Studio`를 연다.
+2. 처음 사용하는 경우 `초보자 안내 모드`를 켠다. 기본값은 켜짐이다.
+3. 예제로 연습하려면 `예제 제작 씬 생성 / 열기`를 누른다.
+4. 새 작업을 시작하려면 영문 ID를 입력하고 `새 컷씬 한 번에 만들기`를 누른다. Scene·Timeline·Definition·픽셀 카메라·말풍선 UI·오디오가 자동 생성되고 연결된다.
+5. 새 Scene에 배경과 배우를 배치한다. 배우를 선택하고 `선택 배우 빠른 설정`을 누른다.
+6. `2. 이동·마커`에서 도착 위치를 만들고 이동 클립을 추가한다.
+7. `＋ 대사`, `＋ 효과`, `＋ 스프라이트`를 누른 뒤 같은 화면의 `선택한 대사·효과 바로 편집`에서 내용을 입력한다. 초보자는 Inspector를 따로 열 필요가 없다.
+8. `3. 미리보기`에서 전체·구간·프레임 단위 재생을 확인한다.
+9. 컷씬 마지막 상태를 무대에 만든 뒤 `4. 완료·검사`에서 종료 상태를 캡처한다.
+10. `현재 컷씬 저장 + 실행 데이터 만들기 + 전체 검사`를 누른다.
+11. 오류가 없으면 정상 재생과 스킵을 각각 검증한다.
 
-예제 씬은 연구소 침입 상황을 짧게 구성해 둔 제작 샘플이다. 기존 클립을 옮기거나 길이를 바꾸면서 Timeline과 대사가 함께 어떻게 진행되는지 바로 확인할 수 있다.
+예제 씬은 연구소 침입 상황을 짧게 구성해 둔 제작 샘플이다. Studio를 열면 구형 예제의 위치 커브를 배우별 Move Track으로 한 번 정리하고, 카메라 흔들림 전용 `camera_shake` 자식을 준비한 뒤 Timeline을 다시 베이크한다. 기존 이동 클립을 옮기거나 길이를 바꾸면서 Timeline과 대사가 함께 어떻게 진행되는지 바로 확인할 수 있다.
 
 ## 제작 화면의 역할
 
@@ -37,19 +39,25 @@
 Timeline 제작 중 반복되는 설정을 한곳에서 처리한다.
 
 - 예제 제작 씬 생성 또는 열기
-- 빈 Timeline·Definition 생성
+- 새 제작 Scene·Timeline·Definition·픽셀 카메라·UI·오디오 일괄 생성
+- 초보자용 단계별 준비 상태와 다음 작업 안내
 - 현재 재생 헤드에 전용 마커 추가
+- 기존 마커 목록 선택과 대사·효과·스프라이트 Studio 내부 간편 편집
 - Scene 오브젝트에 고정 Binding ID 등록
 - 배우별 Move·Animation·Visibility Track 세트 생성 및 자동 바인딩
 - 앵커 생성과 이동 클립 자동 연결
 - 전체·구간 반복·배속·프레임 단위 편집 미리보기
 - Scene View의 앵커·이동 경로·카메라 16:9·레터박스 가이드
+- 외부 거리와 같은 URP Pixel Perfect Camera 프리셋(PPU 100·480×270·Stretch Fill·Point) 적용·검사
 - TMP 말풍선 Prefab·Style 자동 생성·복구와 배우별 고정 SpeechAnchor 배치
+- 공용 시네마틱 연출 Preset을 이용한 상·하단 레터박스, 픽셀 줌, 종료 페이드아웃
 - 현재 배우 상태를 Definition 종료 상태로 캡처
 - Timeline 마커를 런타임 데이터로 베이크
 - 누락된 번역, ID·앵커 중복, 잘못된 대상 참조, 이동 클립 겹침, 위험한 스킵 설정 검사
 
 창 상단은 `1. 씬·배우` → `2. 이동·마커` → `3. 미리보기` → `4. 완료·검사`의 네 단계로 나뉜다. 현재 배우 세트·바인딩·앵커·마커 수와 다음 권장 작업을 함께 표시하므로 긴 도구 목록을 위아래로 찾을 필요가 없다.
+
+`초보자 안내 모드`에서는 기술적인 연결 필드를 숨기고 `배우 고정 ID`, `이동 위치`, `실행 데이터 만들기`처럼 작업 목적에 맞는 용어를 먼저 표시한다. `처음 만드는 사람용 준비 상태`에서 Scene 준비, 배우, 이동 위치, 대사·효과, 실행 데이터의 완료 여부를 순서대로 확인할 수 있다. `필수 연결 자동 복구`는 말풍선 UI·SpeechAnchor·픽셀 카메라 연결을 다시 점검한다. 기존 Timeline Inspector와 고급 개별 트랙 기능은 초보자 모드를 끄거나 고급 접기를 열면 그대로 사용할 수 있다.
 
 `Hierarchy 선택을 대상 오브젝트에 자동 반영`을 켜면 Scene에서 고른 GameObject가 Studio의 작업 대상으로 자동 지정된다. 아직 ID가 없으면 오브젝트 이름으로 Binding ID를 제안한다.
 
@@ -61,13 +69,13 @@ Timeline 제작 중 반복되는 설정을 한곳에서 처리한다.
 - Animation: 걷기·달리기·웅크리기·피격처럼 제자리에서 재생되는 픽셀 AnimationClip
 - Visibility: 컷씬 중 등장·퇴장 구간
 
-위치는 Move Track만, 픽셀 동작은 제자리 AnimationClip만 담당한다. 두 트랙이 동시에 Transform 위치를 쓰면 값이 충돌하므로 Validator는 배우 AnimationClip에 위치 커브가 있을 때 경고한다.
+위치는 Move Track만, 픽셀 동작은 제자리 AnimationClip만 담당한다. 두 트랙이 동시에 Transform 위치를 쓰면 값이 충돌하므로 Validator는 배우 AnimationClip에 위치 커브가 있을 때 경고한다. 연구소 예제의 루나 접근·연구원 밀려남·침입자 등장은 모두 이 Move Track 방식으로 구성한다.
 
 `선택 배우 빠른 설정`은 Binding ID 등록, Move·Animation·Visibility 트랙 연결, 현재 위치의 `{binding_id}_start` 앵커 준비를 한 번에 처리한다. 완료 후 다음 도착 앵커 이름을 `{binding_id}_end`로 제안하고 `2. 이동·마커` 단계로 이동한다.
 
-빠른 설정은 배우 자식에 `SpeechAnchor` 오브젝트와 `LunaCutsceneSpeechAnchor`를 함께 추가한다. 최초 위치는 현재 스프라이트 상단으로 캡지만, 실행 중에는 스프라이트 크기를 매 프레임 다시 계산하지 않고 고정된 자식 Transform을 사용한다. 표정·자세 스프라이트가 바뀌어도 말풍선 기준점이 흔들리지 않는 구조다.
+빠른 설정은 배우 자식에 `SpeechAnchor` 오브젝트와 `LunaCutsceneSpeechAnchor`를 함께 추가한다. 최초 위치는 현재 스프라이트 상단으로 잡지만, 실행 중에는 스프라이트 크기를 매 프레임 다시 계산하지 않고 고정된 자식 Transform을 사용한다. 표정·자세 스프라이트가 바뀌어도 말풍선 기준점이 흔들리지 않는 구조다.
 
-Studio의 `말풍선 앵커 위치 다시 캡기`는 현재 스프라이트 상단으로 앵커를 재배치한다. 자동 배치 후 배우별로 더 높게 또는 왼쪽·오른쪽으로 조정하려면 Hierarchy의 `SpeechAnchor` 자식을 직접 옮긴다.
+Studio의 `말풍선 앵커 위치 다시 캡처`는 현재 스프라이트 상단으로 앵커를 재배치한다. 자동 배치 후 배우별로 더 높게 또는 왼쪽·오른쪽으로 조정하려면 Hierarchy의 `SpeechAnchor` 자식을 직접 옮긴다.
 
 ### TMP 말풍선 Prefab과 Style
 
@@ -85,7 +93,36 @@ Studio의 `말풍선 앵커 위치 다시 캡기`는 현재 스프라이트 상�
 
 말풍선은 화자를 향하는 꼬리를 표시하고, 화면 가장자리에서는 Safe Area 안쪽으로 위치를 보정한다. 위치 보정 후에도 꼬리는 실제 화자 앵커를 가리킨다. 카메라가 교체되면 매 프레임 현재 활성 카메라를 다시 확인해 새 화면 좌표로 즉시 갱신한다.
 
-Prefab 참조가 끊겼거나 구형 `UI.Text` 패널이 남았으면 Studio 1단계의 `UI 프리팡·스타일 생성/복구`를 누른다. 이 기능은 프리팡과 Style을 복구하고 현재 컷씬 Scene을 TMP 구조로 교체한다.
+Prefab 참조가 끊겼거나 구형 `UI.Text` 패널이 남았으면 Studio 1단계의 `UI 프리팹·스타일 생성/복구`를 누른다. 이 기능은 프리팹과 Style을 복구하고 현재 컷씬 Scene을 TMP 구조로 교체한다.
+
+### 시네마틱 연출 Preset
+
+`Authoring/UI/CinematicPresentationPreset.asset`은 대부분의 컷씬에 공통으로 사용할 진입·종료 연출을 관리한다. 새 Definition에는 이 Preset이 자동 연결되며, Studio의 `시네마틱 연출 Preset 열기`로 바로 선택할 수 있다.
+
+- `useLetterbox`: 컷씬 시작 시 상·하단 검은 레터박스를 사용한다.
+- `letterboxHeightRatio`: 각 박스가 차지하는 화면 높이다. `0.10~0.15` 범위에서 설정하며 기본값은 `0.12`다.
+- `entranceDuration`, `entranceEase`: 위 박스는 위에서 아래로, 아래 박스는 아래에서 위로 들어오는 시간과 감속 방식이다.
+- `usePixelPerfectZoom`, `zoomInRatio`: `Camera.orthographicSize`를 직접 변경하지 않고 URP Pixel Perfect Camera의 기준 해상도를 정수 픽셀 단위로 줄여 부드럽게 줌인한다. 기본 `6.66667%` 줌은 `480×270 → 448×252`를 목표로 한다.
+- `fadeOutOnEnd`, `exitFadeDuration`: 컷씬 종료 시 레터박스를 다시 빼지 않는다. 화면 전체가 검은색으로 페이드아웃되며 레터박스가 그 안으로 흡수된다.
+
+진입 연출은 Timeline과 동시에 시작한다. 따라서 영화식 프레임 진입을 보여 주려면 Definition의 `startFromBlack`은 `false`를 사용한다. 특정 컷씬만 검은 화면에서 시작해야 하면 해당 Definition에서 별도로 설정한다.
+
+### 픽셀 카메라 기준
+
+컷씬 제작 카메라는 단순 Orthographic Camera가 아니라 외부 거리와 같은 URP `PixelPerfectCamera`를 사용한다.
+
+- Assets PPU: `100`
+- Reference Resolution: `480×270`
+- Crop Frame: `Stretch Fill`
+- Grid Snapping: `None` — 외부 거리 현행 설정과 동일
+- Filter Mode: `Point`
+- 기준 Orthographic Size: `1.35` (`270 ÷ (2 × 100)`)
+
+`현재 씬 UI·말풍선 앵커·픽셀 카메라 보강` 또는 메뉴의 `Apply Pixel Camera Preset`을 실행하면 이 값으로 복구된다. 전체 검사는 Pixel Perfect Camera 누락과 설정 불일치를 오류로 처리한다. 카메라 위치 이동은 `CameraRig` Timeline 트랙으로 제작하고, 최종 프레이밍은 480×270 기준에서 확인한다.
+
+Pixel Perfect Camera가 렌더 직전에 직교 카메라 크기를 기준 해상도에 맞게 다시 계산하므로, `Camera.orthographicSize`를 일반 2D 카메라처럼 Timeline에서 직접 애니메이션하지 않는다. 공용 Presentation Preset은 대신 `refResolution`을 짝수 정수 단위로 변경해 픽셀 정렬을 유지한다. Timeline의 `CameraRig` 이동과 함께 사용할 수 있으며, 재시작할 때는 기준 `480×270`으로 복원한 뒤 연출을 다시 적용한다.
+
+Pixel Perfect Camera만 붙여도 원본 리소스 설정이 다르면 픽셀이 어긋날 수 있다. 전체 검사는 Scene의 SpriteRenderer가 사용하는 스프라이트 PPU도 `100`인지 검사하고, 가져온 텍스처의 Filter Mode가 `Point`가 아니면 경고한다. 실제 연구소 리소스를 넣은 뒤 이 경고를 남겨 두지 않는다.
 
 앵커는 `luna_start`, `luna_console`, `intruder_entry`처럼 장면 안에서 재사용할 위치 ID다. Scene View에서 앵커를 옮기면 해당 앵커를 참조하는 이동 클립의 경로도 함께 변한다.
 
@@ -101,8 +138,8 @@ Prefab 참조가 끊겼거나 구형 `UI.Text` 패널이 남았으면 Studio 1�
 - 현재 시간: Timeline을 즉시 평가해 무대 상태를 보여 준다.
 - 1프레임 이동: Timeline 프레임 레이트 기준으로 앞뒤으로 이동한다.
 - 구간 반복·배속: 특정 장면만 반복하거나 0.1배부터 4배까지 확인한다.
-- 정지·원상복구: 미리보기 전의 배우 Transform으로 돌린다.
-- Scene 가이드: 앵커, 선택 이동 경로, 카메라 16:9 프레임과 상하단 10% 레터박스 선을 보여 준다.
+- 정지·원상복구: 미리보기 전의 배우 Transform과 모든 자식 SpriteRenderer의 `flipX`를 함께 돌린다.
+- Scene 가이드: 앵커, 선택 이동 경로, 카메라 16:9 프레임과 현재 Presentation Preset의 상·하단 레터박스 선을 보여 준다.
 
 편집 미리보기는 시각 트랙을 빠르게 다듬는 기능이다. 대사 정지·입력 재개, 런타임 플래그, 스킵 결과는 Play 모드 자동 검증으로 확인한다.
 
@@ -117,10 +154,12 @@ Timeline 외부에서 컷씬 하나의 공통 규칙을 설정하는 에셋이�
 - `skippable`: 스킵 허용 여부
 - `startFromBlack`: 검은 화면에서 시작할지 여부
 - `requiredWhen`: 컷씬 재생 조건
+- `presentationPreset`: 레터박스·픽셀 줌·종료 페이드를 공유하는 연출 Preset
 - `endBindings`: 정상 종료와 스킵 종료 후 반드시 남아야 할 무대 상태
+- `fadeToBlackOnEnd`: 종료 후 검은 화면을 최종 상태로 유지할지 여부
 - `completionFlag`: 정상 종료와 스킵 종료가 공통으로 기록하는 완료 플래그
 
-`bakedEvents`와 `bakedTimelineDuration`은 Studio가 자동 생성한다. 직접 편집하지 않는다.
+`bakedEvents`, `bakedTimelineDuration`, `bakedTimelineHash`는 Studio가 자동 생성한다. `bakedTimelineHash`는 마커의 개수뿐 아니라 대사·시간·효과 값·참조 에셋이 바뀌었는지도 검사한다. 세 필드는 직접 편집하지 않는다.
 
 ## 전용 마커 사용법
 
@@ -151,6 +190,8 @@ Timeline의 해당 지점에서 대사창을 열고 필요하면 Timeline을 일
 - SetFlag
 
 `targetId`가 필요한 효과는 Scene의 Binding Registry에 등록된 ID를 사용한다. `eventKey`는 같은 효과가 한 번의 재생 중 중복 실행되는 것을 막는 ID다.
+
+카메라 이동은 `camera_rig`, 순간 흔들림은 그 자식인 `camera_shake`에 분리한다. 같은 Transform에 Camera Animation과 CameraShake를 동시에 적용하지 않는다. 페이드와 플래시는 UI가 직접 소유하므로 재시작·스킵할 때 진행 중인 코루틴도 함께 정리된다.
 
 `fireOnSkip`은 스킵해도 반드시 적용돼야 하는 상태 변경에만 사용한다. 예를 들어 컷씬 완료 플래그, 문이 열린 최종 상태, 등장한 캐릭터의 최종 위치처럼 이후 플레이에 영향을 주는 결과가 대상이다. 화면 흔들림이나 순간 플래시에는 사용하지 않는다.
 
@@ -213,6 +254,11 @@ Studio에서 대상 오브젝트를 지정하고 `선택 오브젝트를 Binding
 - [ ] 배우가 이동하는 동안 말풍선과 꼬리가 화자를 따라가고 화면 밖으로 잘리지 않는다.
 - [ ] 타이핑 시작 전 전체 대사 기준으로 크기가 확정되고, 타이핑 중 가로·세로 크기가 변하지 않는다.
 - [ ] 카메라를 전환해도 말풍선이 새 카메라 화면 좌표를 따라간다.
+- [ ] 컷씬 Camera에 URP Pixel Perfect Camera가 있고 PPU 100·480×270·Stretch Fill·Point 설정이다.
+- [ ] Definition에 `CinematicPresentationPreset`이 연결되어 있다.
+- [ ] 시작 시 상·하단 레터박스가 각각 화면 바깥에서 안으로 들어온다.
+- [ ] 줌인 중에도 Point 필터와 픽셀 정렬이 유지된다.
+- [ ] 종료 시 레터박스는 바깥으로 빠지지 않고 전체 페이드아웃 안으로 흡수된다.
 - [ ] 모든 대사에 한국어와 영어가 들어 있다.
 - [ ] 모든 효과·스프라이트의 `targetId`가 Binding Registry에 존재한다.
 - [ ] 같은 Binding ID가 중복되지 않는다.
@@ -220,9 +266,11 @@ Studio에서 대상 오브젝트를 지정하고 `선택 오브젝트를 Binding
 - [ ] 모든 이동 클립에 시작·도착 앵커가 연결되어 있다.
 - [ ] 같은 Move Track의 이동 클립끼리 겹치지 않는다.
 - [ ] 배우의 픽셀 AnimationClip이 위치 Transform을 쓰지 않는다.
+- [ ] 카메라 이동은 `camera_rig`, 흔들림은 `camera_shake`에 연결되어 있다.
+- [ ] 페이드가 없는 컷씬을 중간 스킵해도 레터박스가 화면에 남지 않는다.
 - [ ] 스킵 후 남아야 하는 결과만 `fireOnSkip`으로 지정했다.
 - [ ] Definition의 `endBindings`가 정상 종료와 스킵 종료에서 같은 최종 상태를 만든다.
-- [ ] `현재 씬 저장 + Timeline 베이크 + 전체 검사`가 오류 없이 끝난다.
+- [ ] `현재 씬 저장 + Timeline 베이크 + 전체 검사`가 마커 내용 해시까지 오류 없이 끝난다.
 - [ ] 정상 재생에서 대사 정지·재개와 애니메이션 타이밍이 맞는다.
 - [ ] 스킵 재생에서도 필수 플래그와 최종 무대 상태가 적용된다.
 - [ ] 한국어와 영어를 각각 한 번 이상 재생했다.

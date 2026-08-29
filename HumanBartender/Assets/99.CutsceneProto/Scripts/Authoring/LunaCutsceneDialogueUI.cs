@@ -7,7 +7,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
 {
     /// <summary>
     /// 컷씬 대사 표시 컨트롤러.
-    /// 말풍선 모양은 프리팡, 폰트·색·여백·제한 크기는 Style 에셋이 소유한다.
+    /// 말풍선 모양은 프리팹, 폰트·색·여백·제한 크기는 Style 에셋이 소유한다.
     /// </summary>
     public sealed class LunaCutsceneDialogueUI : MonoBehaviour
     {
@@ -20,6 +20,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         [SerializeField] private Image fadeOverlay;
         [SerializeField] private Image flashOverlay;
         [SerializeField] private TMP_Text statusText;
+        [SerializeField] private RectTransform letterboxTop;
+        [SerializeField] private RectTransform letterboxBottom;
         [Tooltip("특정 카메라를 고정할 때만 사용한다. 비우면 활성 카메라 전환을 자동 추적한다.")]
         [SerializeField] private Camera explicitWorldCamera;
 
@@ -37,6 +39,9 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         public LunaCutsceneSpeechBubbleView BubblePrefab => bubblePrefab;
         public RectTransform BubbleLayer => bubbleLayer;
         public LunaCutsceneSpeechBubbleView ActiveBubble => bubbleInstance;
+        public RectTransform LetterboxTop => letterboxTop;
+        public RectTransform LetterboxBottom => letterboxBottom;
+        public bool IsFadeBlack => fadeOverlay != null && fadeOverlay.color.a >= 0.999f;
 
         public void Configure(
             RectTransform layer,
@@ -57,11 +62,20 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             CacheCanvas();
         }
 
+        public void ConfigurePresentation(RectTransform top, RectTransform bottom)
+        {
+            letterboxTop = top;
+            letterboxBottom = bottom;
+            ArrangePresentationOrder();
+        }
+
         private void Awake()
         {
             CacheCanvas();
             HideDialogue();
             SetOverlayAlpha(flashOverlay, 0f);
+            EnsurePresentationUi();
+            SetLetterboxHidden();
         }
 
         public void ShowDialogue(
@@ -130,7 +144,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             if (bubblePrefab == null || bubbleStyle == null)
             {
                 Debug.LogError(
-                    "[LunaCutscene] Speech Bubble Prefab/Style이 연결되지 않았습니다. Studio의 'UI 프리팡·스타일 생성/복구'를 실행하세요.",
+                    "[LunaCutscene] Speech Bubble Prefab/Style이 연결되지 않았습니다. Studio의 'UI 프리팹·스타일 생성/복구'를 실행하세요.",
                     this);
                 return false;
             }
@@ -165,17 +179,29 @@ namespace ProjectLuna.CutscenePrototype.Authoring
                 return;
 
             Camera worldCamera = ResolveActiveWorldCamera();
-            if (!TryResolveSpeakerPosition(out Vector3 worldPosition)
-                || worldCamera == null
-                || !TryWorldToCanvas(worldCamera, worldPosition, out Vector2 speakerOnCanvas))
+            bool hasSpeakerPosition = TryResolveSpeakerPosition(out Vector3 worldPosition);
+            Vector2 speakerOnCanvas = default;
+            bool hasCanvasPosition = hasSpeakerPosition
+                                     && worldCamera != null
+                                     && TryWorldToCanvas(worldCamera, worldPosition, out speakerOnCanvas);
+            if (!hasCanvasPosition)
             {
                 Vector2 fallback = ClampToSafeArea(bubbleStyle.unboundFallbackPosition);
                 bubbleInstance.Root.anchoredPosition = fallback;
                 bubbleInstance.SetTailVisible(false);
                 if (!missingSpeakerWarned)
                 {
+                    Vector3 screenPosition = worldCamera != null && hasSpeakerPosition
+                        ? worldCamera.WorldToScreenPoint(worldPosition)
+                        : default;
                     Debug.LogWarning(
-                        "[LunaCutscene] 화자 SpeechAnchor 또는 활성 카메라가 없어 말풍선을 화면 기본 위치에 표시합니다.",
+                        "[LunaCutscene] 화자 말풍선 위치 계산에 실패해 화면 기본 위치를 사용합니다. "
+                        + $"speaker={(trackedSpeaker != null ? trackedSpeaker.name : "null")}, "
+                        + $"speakerActive={trackedSpeaker != null && trackedSpeaker.activeInHierarchy}, "
+                        + $"anchor={(trackedAnchor != null ? trackedAnchor.name : "null")}, "
+                        + $"camera={(worldCamera != null ? worldCamera.name : "null")}, "
+                        + $"cameraActive={IsUsableCamera(worldCamera)}, "
+                        + $"world={worldPosition}, screen={screenPosition}",
                         this);
                     missingSpeakerWarned = true;
                 }
@@ -327,6 +353,52 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             SetOverlayAlpha(fadeOverlay, black ? 1f : 0f);
         }
 
+        public void PreparePresentation(LunaCutscenePresentationPreset preset)
+        {
+            EnsurePresentationUi();
+            if (letterboxTop == null || letterboxBottom == null)
+                return;
+
+            bool active = preset != null && preset.useLetterbox;
+            letterboxTop.gameObject.SetActive(active);
+            letterboxBottom.gameObject.SetActive(active);
+            if (!active)
+                return;
+
+            ApplyLetterboxColor(letterboxTop, preset.letterboxColor);
+            ApplyLetterboxColor(letterboxBottom, preset.letterboxColor);
+            SetLetterboxProgress(preset, 0f);
+            ArrangePresentationOrder();
+        }
+
+        public void SetLetterboxProgress(LunaCutscenePresentationPreset preset, float progress)
+        {
+            if (preset == null || !preset.useLetterbox)
+                return;
+            EnsurePresentationUi();
+            CacheCanvas();
+            if (letterboxTop == null || letterboxBottom == null || canvasRect == null)
+                return;
+
+            float ratio = Mathf.Clamp(preset.letterboxHeightRatio, 0.10f, 0.15f);
+            ConfigureLetterboxAnchors(letterboxTop, true, ratio);
+            ConfigureLetterboxAnchors(letterboxBottom, false, ratio);
+
+            float canvasHeight = canvasRect.rect.height > 1f ? canvasRect.rect.height : 720f;
+            float hiddenOffset = canvasHeight * ratio;
+            float remaining = 1f - Mathf.Clamp01(progress);
+            letterboxTop.anchoredPosition = Vector2.up * (hiddenOffset * remaining);
+            letterboxBottom.anchoredPosition = Vector2.down * (hiddenOffset * remaining);
+        }
+
+        public void SetLetterboxHidden()
+        {
+            if (letterboxTop != null)
+                letterboxTop.gameObject.SetActive(false);
+            if (letterboxBottom != null)
+                letterboxBottom.gameObject.SetActive(false);
+        }
+
         public void ClearTransientEffects()
         {
             StopAllCoroutines();
@@ -357,6 +429,67 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             color.a = alpha;
             image.color = color;
             image.raycastTarget = alpha > 0.001f;
+        }
+
+        private void EnsurePresentationUi()
+        {
+            CacheCanvas();
+            if (canvasRect == null)
+                return;
+            if (letterboxTop == null)
+                letterboxTop = CreateRuntimeLetterbox("LetterboxTop", true);
+            if (letterboxBottom == null)
+                letterboxBottom = CreateRuntimeLetterbox("LetterboxBottom", false);
+            ArrangePresentationOrder();
+        }
+
+        private RectTransform CreateRuntimeLetterbox(string objectName, bool top)
+        {
+            Transform existing = canvasRect.Find(objectName);
+            if (existing is RectTransform existingRect)
+                return existingRect;
+
+            GameObject target = new(objectName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            target.transform.SetParent(canvasRect, false);
+            RectTransform rect = target.GetComponent<RectTransform>();
+            ConfigureLetterboxAnchors(rect, top, 0.12f);
+            Image image = target.GetComponent<Image>();
+            image.color = Color.black;
+            image.raycastTarget = false;
+            return rect;
+        }
+
+        private void ArrangePresentationOrder()
+        {
+            if (letterboxTop != null)
+                letterboxTop.SetAsLastSibling();
+            if (letterboxBottom != null)
+                letterboxBottom.SetAsLastSibling();
+            if (flashOverlay != null)
+                flashOverlay.transform.SetAsLastSibling();
+            if (fadeOverlay != null)
+                fadeOverlay.transform.SetAsLastSibling();
+        }
+
+        private static void ConfigureLetterboxAnchors(RectTransform rect, bool top, float ratio)
+        {
+            if (rect == null)
+                return;
+            rect.anchorMin = top ? new Vector2(0f, 1f - ratio) : Vector2.zero;
+            rect.anchorMax = top ? Vector2.one : new Vector2(1f, ratio);
+            rect.pivot = top ? new Vector2(0.5f, 1f) : new Vector2(0.5f, 0f);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.localScale = Vector3.one;
+        }
+
+        private static void ApplyLetterboxColor(RectTransform rect, Color color)
+        {
+            if (rect != null && rect.TryGetComponent(out Image image))
+            {
+                image.color = color;
+                image.raycastTarget = false;
+            }
         }
     }
 }

@@ -29,6 +29,18 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             "4. 완료·검사"
         };
 
+        private static readonly string[] BeginnerEffectLabels =
+        {
+            "장면 나타내기 (Fade In)",
+            "장면 어둡게 덮기 (Fade Out)",
+            "화면 번쩍임 (Flash)",
+            "카메라 흔들기",
+            "오브젝트 켜기·끄기",
+            "스프라이트 색 바꾸기",
+            "효과음 재생",
+            "게임 상태 플래그 기록"
+        };
+
         [SerializeField] private string newCutsceneId = "cutscene_new";
         [SerializeField] private string newBindingId = "actor_id";
         [SerializeField] private string newAnchorId = "actor_start";
@@ -46,6 +58,8 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         private MessageType validationType = MessageType.Info;
         [SerializeField] private WorkflowStep workflowStep;
         [SerializeField] private bool followHierarchySelection = true;
+        [SerializeField] private bool beginnerMode = true;
+        [SerializeField] private bool showAdvancedSetup;
         [SerializeField] private bool showAdvancedTrackButtons;
 
         [MenuItem("Window/Project L.U.N.A/Cutscene Authoring Studio")]
@@ -65,6 +79,9 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         {
             scroll = EditorGUILayout.BeginScrollView(scroll);
             DrawHeader();
+            beginnerMode = EditorGUILayout.ToggleLeft(
+                new GUIContent("초보자 안내 모드", "쉬운 용어, 단계별 준비 상태, Studio 내부 마커 편집기를 표시합니다."),
+                beginnerMode);
             EditorGUILayout.Space(8f);
 
             LunaCutsceneDirector runtime = FindRuntime();
@@ -72,6 +89,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             TimelineAsset timeline = director != null ? director.playableAsset as TimelineAsset : null;
 
             DrawWorkflowSummary(runtime, director, timeline);
+            if (beginnerMode)
+            {
+                EditorGUILayout.Space(6f);
+                DrawBeginnerChecklist(runtime, director, timeline);
+            }
             EditorGUILayout.Space(6f);
             workflowStep = (WorkflowStep)GUILayout.Toolbar((int)workflowStep, WorkflowLabels, GUILayout.Height(28f));
             EditorGUILayout.Space(10f);
@@ -79,8 +101,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             switch (workflowStep)
             {
                 case WorkflowStep.Setup:
-                    DrawConnectionSummary(runtime, director, timeline);
-                    EditorGUILayout.Space(10f);
+                    if (!beginnerMode)
+                    {
+                        DrawConnectionSummary(runtime, director, timeline);
+                        EditorGUILayout.Space(10f);
+                    }
                     DrawProjectSetup(runtime, director);
                     EditorGUILayout.Space(10f);
                     using (new EditorGUI.DisabledScope(runtime == null || director == null || timeline == null))
@@ -162,18 +187,99 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
             string nextAction;
             if (runtime == null || director == null || timeline == null || runtime.Definition == null)
-                nextAction = "다음 작업: 1단계에서 예제 씬을 열거나 빈 컷씬 에셋을 연결하세요.";
+                nextAction = "다음 작업: 1단계에서 예제 씬을 열거나 '새 컷씬 한 번에 만들기'를 누르세요.";
             else if (bindingCount == 0 || actorCount == 0)
                 nextAction = "다음 작업: 배우를 선택하고 '선택 배우 빠른 설정'을 누르세요.";
             else if (anchorCount < 2)
                 nextAction = "다음 작업: 이동할 도착 위치에 앵커를 하나 더 만드세요.";
             else if (markerCount == 0)
                 nextAction = "다음 작업: 재생 헤드에 첫 대사 또는 효과 마커를 추가하세요.";
-            else if ((runtime.Definition.bakedEvents?.Length ?? 0) != markerCount)
+            else if ((runtime.Definition.bakedEvents?.Length ?? 0) != markerCount
+                     || !string.Equals(
+                         LunaCutsceneAuthoringBaker.ComputeTimelineHash(timeline),
+                         runtime.Definition.bakedTimelineHash,
+                         StringComparison.Ordinal))
                 nextAction = "다음 작업: Timeline이 바뀌었습니다. 4단계에서 저장·베이크·검사하세요.";
             else
                 nextAction = "다음 작업: 편집 미리보기 후 정상 재생과 스킵 결과를 확인하세요.";
             EditorGUILayout.LabelField(nextAction, EditorStyles.wordWrappedMiniLabel);
+        }
+
+        private void DrawBeginnerChecklist(
+            LunaCutsceneDirector runtime,
+            PlayableDirector director,
+            TimelineAsset timeline)
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("처음 만드는 사람용 준비 상태", EditorStyles.boldLabel);
+
+            bool coreReady = runtime != null
+                             && director != null
+                             && timeline != null
+                             && runtime.Definition != null
+                             && runtime.BindingRegistry != null
+                             && runtime.DialogueUI != null;
+            bool cameraReady = UnityEngine.Object.FindFirstObjectByType<Camera>() != null;
+            IEnumerable<LunaCutsceneBindingEntry> bindingEntries =
+                runtime?.BindingRegistry?.Bindings ?? Array.Empty<LunaCutsceneBindingEntry>();
+            LunaCutsceneBindingEntry[] actorEntries = bindingEntries
+                .Where(entry => entry?.target != null
+                                && entry.target.GetComponent<Animator>() != null
+                                && entry.target.GetComponentInChildren<SpriteRenderer>(true) != null)
+                .ToArray();
+            int actorCount = actorEntries.Length;
+            bool actorsReady = actorCount > 0
+                               && actorEntries.All(entry =>
+                                   entry.target.GetComponentInChildren<LunaCutsceneSpeechAnchor>(true) != null);
+            int anchorCount = UnityEngine.Object.FindObjectsByType<LunaCutsceneAnchor>(FindObjectsSortMode.None).Length;
+            int markerCount = timeline?.markerTrack?.GetMarkers().Count() ?? 0;
+            bool bakeReady = coreReady
+                             && string.Equals(
+                                 LunaCutsceneAuthoringBaker.ComputeTimelineHash(timeline),
+                                 runtime.Definition.bakedTimelineHash,
+                                 StringComparison.Ordinal);
+
+            DrawChecklistRow(coreReady && cameraReady, "1. 제작 Scene 준비", coreReady && cameraReady
+                ? "필수 연결과 픽셀 카메라가 준비됐습니다."
+                : "Scene·Timeline·카메라·말풍선 연결이 필요합니다.");
+            DrawChecklistRow(actorsReady, "2. 배우 준비", actorsReady
+                ? $"배우 {actorCount}명과 머리 위 말풍선 위치가 준비됐습니다."
+                : "배우를 선택하고 '선택 배우 빠른 설정'을 누르세요.");
+            DrawChecklistRow(anchorCount >= 2, "3. 이동 위치", anchorCount >= 2
+                ? $"이동 위치 {anchorCount}개가 있습니다."
+                : "시작점과 도착점에 이동 위치를 만드세요.");
+            DrawChecklistRow(markerCount > 0, "4. 대사·효과", markerCount > 0
+                ? $"마커 {markerCount}개가 있습니다."
+                : "Timeline 재생 헤드에서 첫 대사나 효과를 추가하세요.");
+            DrawChecklistRow(bakeReady, "5. 실행 데이터", bakeReady
+                ? "현재 Timeline과 실행 데이터가 일치합니다."
+                : "마지막 단계에서 저장·실행 데이터 만들기·검사를 실행하세요.");
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("1단계로 이동"))
+                    workflowStep = WorkflowStep.Setup;
+                if (GUILayout.Button("2단계로 이동"))
+                    workflowStep = WorkflowStep.Timeline;
+                using (new EditorGUI.DisabledScope(runtime == null))
+                {
+                    if (GUILayout.Button("필수 연결 자동 복구"))
+                        RunUserAction(
+                            LunaCutsceneAuthoringBuilder.EnsureSceneAuthoringHelpers,
+                            "UI·말풍선 앵커·픽셀 카메라 연결을 점검하고 복구했습니다.");
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private static void DrawChecklistRow(bool complete, string title, string description)
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(complete ? "✓" : "!", GUILayout.Width(18f));
+                EditorGUILayout.LabelField(title, complete ? EditorStyles.miniBoldLabel : EditorStyles.boldLabel, GUILayout.Width(112f));
+                EditorGUILayout.LabelField(description, EditorStyles.wordWrappedMiniLabel);
+            }
         }
 
         private static void DrawConnectionSummary(
@@ -197,55 +303,86 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             if (GUILayout.Button("예제 제작 씬 생성 / 열기", GUILayout.Height(30f)))
                 LunaCutsceneAuthoringBuilder.CreateOrOpenAuthoringLab();
 
-            using (new EditorGUILayout.HorizontalScope())
+            newCutsceneId = EditorGUILayout.TextField(
+                new GUIContent(beginnerMode ? "새 컷씬 영문 ID" : "새 컷씬 ID", "파일명과 저장 데이터에 사용하는 고정 ID입니다. 영문 소문자와 숫자, 밑줄만 사용합니다."),
+                newCutsceneId);
+            if (GUILayout.Button("새 컷씬 한 번에 만들기", GUILayout.Height(34f)))
             {
-                newCutsceneId = EditorGUILayout.TextField("새 컷씬 ID", newCutsceneId);
-                if (GUILayout.Button("빈 에셋 만들기", GUILayout.Width(120f)))
+                RunUserAction(() =>
                 {
-                    try
+                    LunaCutsceneAuthoringBuilder.CreateNewAuthoringScene(newCutsceneId);
+                    bindingTarget = null;
+                    fromAnchor = null;
+                    toAnchor = null;
+                    workflowStep = WorkflowStep.Setup;
+                }, $"새 컷씬 제작 Scene 준비 완료: {newCutsceneId}");
+            }
+            EditorGUILayout.HelpBox(
+                "Scene·Timeline·컷씬 설정·픽셀 카메라·말풍선 UI·오디오를 한 번에 만들고 연결합니다. 생성 후 배경과 배우를 Scene에 배치하세요.",
+                MessageType.Info);
+
+            showAdvancedSetup = EditorGUILayout.Foldout(showAdvancedSetup, "고급: 현재 Scene에 에셋만 만들기·연결하기", true);
+            if (showAdvancedSetup)
+            {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button("Timeline·Definition만 만들기", GUILayout.Width(210f)))
                     {
-                        (TimelineAsset timeline, LunaCutsceneDefinition definition) =
-                            LunaCutsceneAuthoringBuilder.CreateBlankAssets(newCutsceneId);
-                        if (runtime != null && director != null)
+                        try
                         {
-                            Undo.RecordObject(director, "Assign L.U.N.A Cutscene Timeline");
-                            Undo.RecordObject(runtime, "Assign L.U.N.A Cutscene Definition");
-                            director.playableAsset = timeline;
-                            runtime.Configure(definition, director, runtime.BindingRegistry, runtime.DialogueUI);
-                            EditorUtility.SetDirty(director);
-                            EditorUtility.SetDirty(runtime);
-                            EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
+                            (TimelineAsset timeline, LunaCutsceneDefinition definition) =
+                                LunaCutsceneAuthoringBuilder.CreateBlankAssets(newCutsceneId);
+                            if (runtime != null && director != null)
+                            {
+                                Undo.RecordObject(director, "Assign L.U.N.A Cutscene Timeline");
+                                Undo.RecordObject(runtime, "Assign L.U.N.A Cutscene Definition");
+                                director.playableAsset = timeline;
+                                runtime.Configure(definition, director, runtime.BindingRegistry, runtime.DialogueUI);
+                                EditorUtility.SetDirty(director);
+                                EditorUtility.SetDirty(runtime);
+                                EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
+                            }
+                            Selection.activeObject = timeline;
+                            validationReport = $"생성 완료: {timeline.name}";
+                            validationType = MessageType.Info;
                         }
-                        Selection.activeObject = timeline;
-                        validationReport = $"생성 완료: {timeline.name}";
-                        validationType = MessageType.Info;
-                    }
-                    catch (Exception exception)
-                    {
-                        validationReport = exception.Message;
-                        validationType = MessageType.Error;
+                        catch (Exception exception)
+                        {
+                            validationReport = exception.Message;
+                            validationType = MessageType.Error;
+                        }
                     }
                 }
             }
 
-            if (director != null && GUILayout.Button("이 Director를 Timeline 창에서 열기"))
+            if (director != null && GUILayout.Button(beginnerMode ? "이 컷씬의 시간표 열기" : "이 Director를 Timeline 창에서 열기"))
             {
                 Selection.activeGameObject = director.gameObject;
                 EditorApplication.ExecuteMenuItem("Window/Sequencing/Timeline");
             }
 
-            if (runtime != null && GUILayout.Button("현재 씬 UI·말풍선 앵커·카메라 가이드 보강"))
-                LunaCutsceneAuthoringBuilder.EnsureSceneAuthoringHelpers();
-
-            using (new EditorGUILayout.HorizontalScope())
+            if (!beginnerMode || showAdvancedSetup)
             {
-                if (GUILayout.Button("UI 프리팡·스타일 생성/복구"))
-                    LunaCutsceneUiAssetBuilder.RepairAssetsAndScene();
-                if (GUILayout.Button("UI Style 열기"))
+                if (runtime != null && GUILayout.Button("현재 씬 UI·말풍선 앵커·픽셀 카메라 보강"))
+                    LunaCutsceneAuthoringBuilder.EnsureSceneAuthoringHelpers();
+
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button("UI 프리팹·스타일 생성/복구"))
+                        LunaCutsceneUiAssetBuilder.RepairAssetsAndScene();
+                    if (GUILayout.Button("UI Style 열기"))
+                    {
+                        LunaCutsceneUiAssetBuilder.UiAssets assets = LunaCutsceneUiAssetBuilder.EnsureAssets();
+                        Selection.activeObject = assets.style;
+                        EditorGUIUtility.PingObject(assets.style);
+                    }
+                }
+
+                if (GUILayout.Button("시네마틱 연출 Preset 열기"))
                 {
                     LunaCutsceneUiAssetBuilder.UiAssets assets = LunaCutsceneUiAssetBuilder.EnsureAssets();
-                    Selection.activeObject = assets.style;
-                    EditorGUIUtility.PingObject(assets.style);
+                    Selection.activeObject = assets.presentationPreset;
+                    EditorGUIUtility.PingObject(assets.presentationPreset);
                 }
             }
 
@@ -316,6 +453,235 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             EditorGUILayout.HelpBox(
                 "대사 마커는 Timeline을 멈추고 입력 후 같은 시간부터 재개합니다. 스킵 후에도 남아야 하는 플래그·최종 상태 효과만 fire_on_skip을 사용하세요.",
                 MessageType.Info);
+
+            if (beginnerMode)
+            {
+                EditorGUILayout.Space(8f);
+                DrawSelectedMarkerQuickEditor(runtime, timeline);
+            }
+        }
+
+        private void DrawSelectedMarkerQuickEditor(LunaCutsceneDirector runtime, TimelineAsset timeline)
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("선택한 대사·효과 바로 편집", EditorStyles.boldLabel);
+
+            UnityEngine.Object[] markerObjects = timeline.markerTrack == null
+                ? Array.Empty<UnityEngine.Object>()
+                : timeline.markerTrack.GetMarkers()
+                    .Where(marker => marker is LunaDialogueMarker
+                                     || marker is LunaEffectMarker
+                                     || marker is LunaSpriteSwapMarker)
+                    .OrderBy(marker => marker.time)
+                    .Cast<UnityEngine.Object>()
+                    .ToArray();
+            string[] markerLabels = new[] { "— 편집할 마커 선택 —" }
+                .Concat(markerObjects.Select(GetMarkerLabel))
+                .ToArray();
+            int selectedIndex = Array.IndexOf(markerObjects, Selection.activeObject) + 1;
+            if (selectedIndex < 0)
+                selectedIndex = 0;
+            int nextIndex = EditorGUILayout.Popup("마커 목록", selectedIndex, markerLabels);
+            if (nextIndex != selectedIndex)
+            {
+                Selection.activeObject = nextIndex <= 0 ? null : markerObjects[nextIndex - 1];
+                selectedIndex = nextIndex;
+            }
+
+            UnityEngine.Object selected = selectedIndex <= 0 ? null : markerObjects[selectedIndex - 1];
+            switch (selected)
+            {
+                case LunaDialogueMarker dialogue:
+                    DrawDialogueQuickEditor(runtime, timeline, dialogue);
+                    break;
+                case LunaEffectMarker effect:
+                    DrawEffectQuickEditor(runtime, timeline, effect);
+                    break;
+                case LunaSpriteSwapMarker sprite:
+                    DrawSpriteQuickEditor(runtime, timeline, sprite);
+                    break;
+                default:
+                    EditorGUILayout.HelpBox(
+                        "위 목록에서 마커를 고르거나 Timeline의 마커를 선택하세요. 새 마커를 추가하면 자동으로 선택됩니다.",
+                        MessageType.None);
+                    break;
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        private static void DrawDialogueQuickEditor(
+            LunaCutsceneDirector runtime,
+            TimelineAsset timeline,
+            LunaDialogueMarker marker)
+        {
+            SerializedObject serialized = new(marker);
+            serialized.Update();
+            SerializedProperty line = serialized.FindProperty("line");
+            SerializedProperty speakerId = line.FindPropertyRelative("speakerId");
+            SerializedProperty speakerKo = line.FindPropertyRelative("speakerKo");
+            SerializedProperty speakerEn = line.FindPropertyRelative("speakerEn");
+            SerializedProperty textKo = line.FindPropertyRelative("textKo");
+            SerializedProperty textEn = line.FindPropertyRelative("textEn");
+            SerializedProperty advanceMode = serialized.FindProperty("advanceMode");
+            SerializedProperty autoDelay = serialized.FindProperty("autoDelay");
+
+            EditorGUI.BeginChangeCheck();
+            DrawBindingIdPopup(speakerId, runtime?.BindingRegistry, "말하는 배우");
+            EditorGUILayout.PropertyField(speakerKo, new GUIContent("화자명 (한국어)"));
+            EditorGUILayout.PropertyField(speakerEn, new GUIContent("화자명 (영어)"));
+            EditorGUILayout.PropertyField(textKo, new GUIContent("한국어 대사"), true);
+            EditorGUILayout.PropertyField(textEn, new GUIContent("영어 대사"), true);
+            int mode = EditorGUILayout.Popup("넘어가는 방식", advanceMode.enumValueIndex, new[] { "플레이어 입력", "자동 진행" });
+            advanceMode.enumValueIndex = mode;
+            if ((LunaDialogueAdvanceMode)mode == LunaDialogueAdvanceMode.Auto)
+                EditorGUILayout.PropertyField(autoDelay, new GUIContent("자동 진행 대기 시간 (초)"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("pauseTimeline"), new GUIContent("대사 중 연출 일시정지"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("dialogueId"), new GUIContent("대사 고정 ID"));
+            ApplyQuickEditorChanges(serialized, marker, timeline, EditorGUI.EndChangeCheck());
+
+            if (string.IsNullOrWhiteSpace(marker.line?.textKo) || string.IsNullOrWhiteSpace(marker.line?.textEn))
+                EditorGUILayout.HelpBox("한국어와 영어 대사를 모두 입력해야 합니다.", MessageType.Error);
+            else if (marker.line.textKo.Contains("입력하세요", StringComparison.Ordinal)
+                     || marker.line.textEn.Contains("Enter the English", StringComparison.Ordinal))
+                EditorGUILayout.HelpBox("기본 안내 문장이 남아 있습니다. 실제 대사로 교체하세요.", MessageType.Warning);
+        }
+
+        private static void DrawEffectQuickEditor(
+            LunaCutsceneDirector runtime,
+            TimelineAsset timeline,
+            LunaEffectMarker marker)
+        {
+            SerializedObject serialized = new(marker);
+            serialized.Update();
+            SerializedProperty effectType = serialized.FindProperty("effectType");
+
+            EditorGUI.BeginChangeCheck();
+            int typeIndex = EditorGUILayout.Popup("효과 종류", effectType.enumValueIndex, BeginnerEffectLabels);
+            effectType.enumValueIndex = typeIndex;
+            LunaCutsceneEffectType type = (LunaCutsceneEffectType)typeIndex;
+            SerializedProperty targetId = serialized.FindProperty("targetId");
+            SerializedProperty stringValue = serialized.FindProperty("stringValue");
+            SerializedProperty color = serialized.FindProperty("color");
+            SerializedProperty duration = serialized.FindProperty("duration");
+
+            switch (type)
+            {
+                case LunaCutsceneEffectType.FadeIn:
+                case LunaCutsceneEffectType.FadeOut:
+                    EditorGUILayout.PropertyField(duration, new GUIContent("진행 시간 (초)"));
+                    break;
+                case LunaCutsceneEffectType.Flash:
+                    EditorGUILayout.PropertyField(color, new GUIContent("번쩍임 색"));
+                    EditorGUILayout.PropertyField(duration, new GUIContent("진행 시간 (초)"));
+                    break;
+                case LunaCutsceneEffectType.CameraShake:
+                    DrawBindingIdPopup(targetId, runtime?.BindingRegistry, "흔들 카메라");
+                    EditorGUILayout.PropertyField(duration, new GUIContent("흔들 시간 (초)"));
+                    EditorGUILayout.PropertyField(serialized.FindProperty("strength"), new GUIContent("흔들림 세기"));
+                    break;
+                case LunaCutsceneEffectType.SetActive:
+                    DrawBindingIdPopup(targetId, runtime?.BindingRegistry, "대상 오브젝트");
+                    bool active = !string.Equals(stringValue.stringValue, "false", StringComparison.OrdinalIgnoreCase);
+                    stringValue.stringValue = EditorGUILayout.Toggle("오브젝트 켜기", active) ? "true" : "false";
+                    break;
+                case LunaCutsceneEffectType.SetSpriteColor:
+                    DrawBindingIdPopup(targetId, runtime?.BindingRegistry, "대상 스프라이트");
+                    EditorGUILayout.PropertyField(color, new GUIContent("바꿀 색"));
+                    break;
+                case LunaCutsceneEffectType.PlaySfx:
+                    EditorGUILayout.PropertyField(serialized.FindProperty("audioClip"), new GUIContent("효과음 파일"));
+                    DrawBindingIdPopup(targetId, runtime?.BindingRegistry, "재생 AudioSource (선택)" );
+                    break;
+                case LunaCutsceneEffectType.SetFlag:
+                    EditorGUILayout.PropertyField(stringValue, new GUIContent("기록할 상태", "예: flag.lab_door_open = true"));
+                    break;
+            }
+
+            EditorGUILayout.PropertyField(serialized.FindProperty("fireOnSkip"), new GUIContent("스킵해도 적용"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("eventKey"), new GUIContent("효과 고정 ID"));
+            ApplyQuickEditorChanges(serialized, marker, timeline, EditorGUI.EndChangeCheck());
+
+            if ((type == LunaCutsceneEffectType.CameraShake
+                 || type == LunaCutsceneEffectType.SetActive
+                 || type == LunaCutsceneEffectType.SetSpriteColor)
+                && string.IsNullOrWhiteSpace(marker.targetId))
+                EditorGUILayout.HelpBox("이 효과는 대상 오브젝트를 선택해야 합니다.", MessageType.Error);
+            if (type == LunaCutsceneEffectType.PlaySfx && marker.audioClip == null)
+                EditorGUILayout.HelpBox("재생할 효과음 파일을 선택하세요.", MessageType.Warning);
+            if (type == LunaCutsceneEffectType.SetFlag && string.IsNullOrWhiteSpace(marker.stringValue))
+                EditorGUILayout.HelpBox("기록할 상태 값을 입력하세요.", MessageType.Error);
+        }
+
+        private static void DrawSpriteQuickEditor(
+            LunaCutsceneDirector runtime,
+            TimelineAsset timeline,
+            LunaSpriteSwapMarker marker)
+        {
+            SerializedObject serialized = new(marker);
+            serialized.Update();
+            EditorGUI.BeginChangeCheck();
+            DrawBindingIdPopup(serialized.FindProperty("targetId"), runtime?.BindingRegistry, "바꿀 대상");
+            EditorGUILayout.PropertyField(serialized.FindProperty("sprite"), new GUIContent("새 스프라이트"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("flipX"), new GUIContent("좌우 반전"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("fireOnSkip"), new GUIContent("스킵해도 적용"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("eventKey"), new GUIContent("교체 고정 ID"));
+            ApplyQuickEditorChanges(serialized, marker, timeline, EditorGUI.EndChangeCheck());
+
+            if (string.IsNullOrWhiteSpace(marker.targetId))
+                EditorGUILayout.HelpBox("스프라이트를 바꿀 대상을 선택하세요.", MessageType.Error);
+            if (marker.sprite == null)
+                EditorGUILayout.HelpBox("새로 표시할 스프라이트를 선택하세요.", MessageType.Error);
+        }
+
+        private static void DrawBindingIdPopup(
+            SerializedProperty property,
+            LunaCutsceneBindingRegistry registry,
+            string label)
+        {
+            IEnumerable<LunaCutsceneBindingEntry> entries =
+                registry?.Bindings ?? Array.Empty<LunaCutsceneBindingEntry>();
+            List<string> ids = entries
+                .Where(entry => entry?.target != null && !string.IsNullOrWhiteSpace(entry.id))
+                .Select(entry => entry.id)
+                .Distinct(StringComparer.Ordinal)
+                .OrderBy(id => id, StringComparer.Ordinal)
+                .ToList();
+            List<string> values = new() { string.Empty };
+            values.AddRange(ids);
+            if (!string.IsNullOrWhiteSpace(property.stringValue) && !values.Contains(property.stringValue))
+                values.Add(property.stringValue);
+            string[] labels = values.Select(value => string.IsNullOrEmpty(value)
+                    ? "— 대상 없음 —"
+                    : ids.Contains(value) ? value : $"⚠ {value} (등록되지 않음)")
+                .ToArray();
+            int current = Mathf.Max(0, values.IndexOf(property.stringValue));
+            int next = EditorGUILayout.Popup(label, current, labels);
+            property.stringValue = values[next];
+        }
+
+        private static void ApplyQuickEditorChanges(
+            SerializedObject serialized,
+            UnityEngine.Object marker,
+            TimelineAsset timeline,
+            bool changed)
+        {
+            if (!changed)
+                return;
+            serialized.ApplyModifiedProperties();
+            EditorUtility.SetDirty(marker);
+            EditorUtility.SetDirty(timeline);
+            TimelineEditor.Refresh(RefreshReason.ContentsAddedOrRemoved);
+        }
+
+        private static string GetMarkerLabel(UnityEngine.Object marker)
+        {
+            return marker switch
+            {
+                LunaDialogueMarker dialogue => $"[{dialogue.time:0.00}s] 대사 · {dialogue.line?.speakerKo ?? "화자 없음"}",
+                LunaEffectMarker effect => $"[{effect.time:0.00}s] 효과 · {BeginnerEffectLabels[(int)effect.effectType]}",
+                LunaSpriteSwapMarker sprite => $"[{sprite.time:0.00}s] 스프라이트 교체 · {sprite.targetId}",
+                _ => marker.name
+            };
         }
 
         private void DrawActorSetup(
@@ -328,7 +694,9 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             GameObject nextTarget = (GameObject)EditorGUILayout.ObjectField("대상 오브젝트", bindingTarget, typeof(GameObject), true);
             if (nextTarget != bindingTarget)
                 AdoptBindingTarget(nextTarget);
-            newBindingId = EditorGUILayout.TextField("고정 Binding ID", newBindingId);
+            newBindingId = EditorGUILayout.TextField(
+                new GUIContent(beginnerMode ? "배우 고정 ID" : "고정 Binding ID", "대사·효과·스킵 결과가 이 배우를 다시 찾을 때 사용하는 영문 ID입니다."),
+                newBindingId);
 
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -351,7 +719,7 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             using (new EditorGUI.DisabledScope(bindingTarget == null))
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("말풍선 앵커 위치 다시 캡기"))
+                if (GUILayout.Button("말풍선 앵커 위치 다시 캡처"))
                     RunUserAction(
                         () => LunaCutsceneAuthoringBuilder.EnsureSpeechAnchor(bindingTarget, true),
                         "현재 스프라이트 상단 기준으로 SpeechAnchor를 다시 배치했습니다.");
@@ -407,15 +775,17 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             if (bindingTarget != null)
                 EditorGUILayout.LabelField("사용 Binding ID", ResolveBindingId(bindingTarget), EditorStyles.miniLabel);
 
-            newAnchorId = EditorGUILayout.TextField("새 앵커 ID", newAnchorId);
+            newAnchorId = EditorGUILayout.TextField(
+                new GUIContent(beginnerMode ? "새 이동 위치 ID" : "새 앵커 ID", "배우가 출발하거나 도착할 Scene 위치의 영문 ID입니다."),
+                newAnchorId);
             using (new EditorGUI.DisabledScope(bindingTarget == null || string.IsNullOrWhiteSpace(newAnchorId)))
             {
                 if (GUILayout.Button("대상 위치에 앵커 생성"))
                     RunUserAction(() => CreateAnchorAtTarget(runtime, bindingTarget, newAnchorId), $"앵커 생성 완료: {newAnchorId}");
             }
 
-            fromAnchor = DrawAnchorPopup("시작 앵커", fromAnchor);
-            toAnchor = DrawAnchorPopup("도착 앵커", toAnchor);
+            fromAnchor = DrawAnchorPopup(beginnerMode ? "시작 위치" : "시작 앵커", fromAnchor);
+            toAnchor = DrawAnchorPopup(beginnerMode ? "도착 위치" : "도착 앵커", toAnchor);
             using (new EditorGUILayout.HorizontalScope())
             {
                 if (GUILayout.Button("시작 ↔ 도착 바꾸기"))
@@ -472,8 +842,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
 
         private void DrawValidation(LunaCutsceneDirector runtime)
         {
-            EditorGUILayout.LabelField("저장·베이크·전체 검사", EditorStyles.boldLabel);
-            if (GUILayout.Button("현재 씬 저장 + Timeline 베이크 + 전체 검사", GUILayout.Height(34f)))
+            EditorGUILayout.LabelField(beginnerMode ? "저장·실행 데이터 만들기·전체 검사" : "저장·베이크·전체 검사", EditorStyles.boldLabel);
+            if (GUILayout.Button(
+                    beginnerMode ? "현재 컷씬 저장 + 실행 데이터 만들기 + 전체 검사" : "현재 씬 저장 + Timeline 베이크 + 전체 검사",
+                    GUILayout.Height(34f)))
             {
                 try
                 {

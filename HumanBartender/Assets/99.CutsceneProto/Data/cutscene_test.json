@@ -167,9 +167,9 @@
       { "target_id": "test_intruder", "active": true, "x": 4.15, "y": -1.35 },
       { "target_id": "test_lab_exit", "active": true, "x": 6.55, "y": 3.25 }
     ],
-    "camera_x": 1.2,
-    "camera_y": 0.1,
-    "camera_size": 5.4,
+    "camera_x": 0.3,
+    "camera_y": 0.025,
+    "camera_size": 1.35,
     "light_color": "#FF2438",
     "fade_state": "black",
     "effects": "flag.lab_escape_seen = true"

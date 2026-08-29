@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ProjectLuna.CutscenePrototype.Editor.Authoring;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -50,12 +51,11 @@ namespace ProjectLuna.CutscenePrototype.Editor
             GameObject cameraObject = new("Prototype Camera", typeof(Camera));
             cameraObject.tag = "MainCamera";
             Camera camera = cameraObject.GetComponent<Camera>();
-            camera.orthographic = true;
-            camera.orthographicSize = 5.4f;
             camera.nearClipPlane = 0.1f;
             camera.farClipPlane = 100f;
             camera.transform.position = new Vector3(0f, 0f, -10f);
             camera.backgroundColor = new Color(0.008f, 0.017f, 0.027f, 1f);
+            LunaCutscenePixelCameraUtility.ApplyProjectPreset(camera);
 
             GameObject root = new("CutscenePrototypeRoot");
             PrototypeCutsceneView view = root.AddComponent<PrototypeCutsceneView>();
@@ -123,6 +123,8 @@ namespace ProjectLuna.CutscenePrototype.Editor
 
             if (!scene.IsValid() || runner == null || view == null || director == null || camera == null)
                 throw new InvalidOperationException("테스트 씬 필수 구성요소가 누락됐습니다.");
+            if (!LunaCutscenePixelCameraUtility.MatchesProjectPreset(camera, out string pixelCameraReason))
+                throw new InvalidOperationException($"테스트 씬 픽셀 카메라 설정 불일치: {pixelCameraReason}");
 
             string[] expectedTimelinePaths =
             {

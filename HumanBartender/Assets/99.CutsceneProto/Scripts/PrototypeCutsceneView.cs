@@ -10,6 +10,9 @@ namespace ProjectLuna.CutscenePrototype
 {
     public sealed class PrototypeCutsceneView : MonoBehaviour
     {
+        private const float PixelCompositionScale = 0.25f;
+        private const float PixelOrthographicSize = 1.35f;
+
         private readonly Dictionary<string, GameObject> registry = new(StringComparer.Ordinal);
 
         private Camera sceneCamera;
@@ -71,7 +74,7 @@ namespace ProjectLuna.CutscenePrototype
             if (sceneCamera != null)
             {
                 sceneCamera.orthographic = true;
-                sceneCamera.orthographicSize = 5.4f;
+                sceneCamera.orthographicSize = PixelOrthographicSize;
                 sceneCamera.transform.localPosition = cameraHome;
             }
 
@@ -121,7 +124,7 @@ namespace ProjectLuna.CutscenePrototype
                     luna.localPosition = Vector3.Lerp(
                         new Vector3(-5.2f, -1.35f, 0f),
                         new Vector3(-2.8f, -1.35f, 0f), smooth);
-                    cameraRig.localPosition = Vector3.Lerp(Vector3.zero, new Vector3(-0.45f, 0.15f, 0f), smooth);
+                    cameraRig.localPosition = Vector3.Lerp(Vector3.zero, CameraOffset(-0.45f, 0.15f), smooth);
                     break;
 
                 case PrototypeTimelineSegment.LabAttack:
@@ -132,8 +135,8 @@ namespace ProjectLuna.CutscenePrototype
                         new Vector3(-1.7f, -1.35f, 0f),
                         new Vector3(-1.2f, -1.35f, 0f), Mathf.Sin(smooth * Mathf.PI) * 0.22f + smooth);
                     cameraRig.localPosition = Vector3.Lerp(
-                        new Vector3(-0.45f, 0.15f, 0f),
-                        new Vector3(0.45f, 0.05f, 0f), smooth);
+                        CameraOffset(-0.45f, 0.15f),
+                        CameraOffset(0.45f, 0.05f), smooth);
                     PulseWarningLights(time);
                     break;
 
@@ -151,8 +154,8 @@ namespace ProjectLuna.CutscenePrototype
                         new Vector3(6.55f, 0.1f, 0f),
                         new Vector3(6.55f, 3.25f, 0f), Mathf.Clamp01(time * 2.2f));
                     cameraRig.localPosition = Vector3.Lerp(
-                        new Vector3(0.45f, 0.05f, 0f),
-                        new Vector3(1.2f, 0.1f, 0f), smooth);
+                        CameraOffset(0.45f, 0.05f),
+                        CameraOffset(1.2f, 0.1f), smooth);
                     PulseWarningLights(time);
                     break;
             }
@@ -330,7 +333,7 @@ namespace ProjectLuna.CutscenePrototype
             {
                 elapsed += Time.unscaledDeltaTime;
                 float damping = 1f - Mathf.Clamp01(elapsed / Mathf.Max(duration, 0.01f));
-                cameraRig.localPosition = origin + (Vector3)(UnityEngine.Random.insideUnitCircle * strength * damping);
+                cameraRig.localPosition = origin + (Vector3)(UnityEngine.Random.insideUnitCircle * strength * PixelCompositionScale * damping);
                 yield return null;
             }
             cameraRig.localPosition = origin;
@@ -367,11 +370,12 @@ namespace ProjectLuna.CutscenePrototype
             sceneCamera.transform.localPosition = cameraHome;
             sceneCamera.backgroundColor = new Color(0.008f, 0.017f, 0.027f, 1f);
             sceneCamera.orthographic = true;
-            sceneCamera.orthographicSize = 5.4f;
+            sceneCamera.orthographicSize = PixelOrthographicSize;
             registry["test_camera_rig"] = cameraRig.gameObject;
 
             Transform stage = new GameObject("GeneratedLabStage").transform;
             stage.SetParent(transform, false);
+            stage.localScale = Vector3.one * PixelCompositionScale;
 
             CreateRect(stage, "Background", new Vector3(0f, 0f, 2f), new Vector2(20f, 12f), new Color(0.018f, 0.035f, 0.055f), -20);
             CreateRect(stage, "Floor", new Vector3(0f, -3.35f, 1f), new Vector2(20f, 3.2f), new Color(0.035f, 0.075f, 0.09f), -10);
@@ -522,6 +526,11 @@ namespace ProjectLuna.CutscenePrototype
         {
             if (target != null)
                 target.localPosition = position;
+        }
+
+        private static Vector3 CameraOffset(float x, float y)
+        {
+            return new Vector3(x * PixelCompositionScale, y * PixelCompositionScale, 0f);
         }
 
         private static void SetSpriteColor(Transform target, Color color)

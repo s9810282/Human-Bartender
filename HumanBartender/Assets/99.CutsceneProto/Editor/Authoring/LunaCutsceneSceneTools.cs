@@ -124,6 +124,9 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             Gizmos.DrawLine(topRight, bottomRight);
             Gizmos.DrawLine(bottomRight, bottomLeft);
             Gizmos.DrawLine(bottomLeft, topLeft);
+            Handles.Label(
+                topLeft + camera.transform.up * 0.12f,
+                $"PIXEL {LunaCutscenePixelCameraUtility.ReferenceWidth}×{LunaCutscenePixelCameraUtility.ReferenceHeight} / PPU {LunaCutscenePixelCameraUtility.AssetsPpu}");
 
             if (!guide.ShowLetterbox)
                 return;

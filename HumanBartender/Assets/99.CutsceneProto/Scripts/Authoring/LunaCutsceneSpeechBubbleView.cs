@@ -55,7 +55,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             style = bubbleStyle;
             if (style == null || Root == null || speakerText == null || bodyText == null || continueHint == null)
             {
-                Debug.LogError("[LunaCutscene] 말풍선 프리팡 참조 또는 Style 에셋이 비어 있습니다.", this);
+                Debug.LogError("[LunaCutscene] 말풍선 프리팹 참조 또는 Style 에셋이 비어 있습니다.", this);
                 return;
             }
             ApplyStyle();

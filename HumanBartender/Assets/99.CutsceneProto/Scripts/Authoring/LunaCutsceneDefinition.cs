@@ -70,6 +70,10 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         public bool startFromBlack = true;
         public string requiredWhen;
 
+        [Header("Cutscene Presentation")]
+        [Tooltip("Reusable letterbox, pixel-perfect zoom and end fade settings.")]
+        public LunaCutscenePresentationPreset presentationPreset;
+
         [Header("종료 상태")]
         public LunaCutsceneEndBinding[] endBindings = Array.Empty<LunaCutsceneEndBinding>();
         public bool fadeToBlackOnEnd;
@@ -79,6 +83,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         [Tooltip("Cutscene Authoring Studio의 검사 버튼이 Timeline 마커에서 자동 생성합니다. 직접 편집하지 않습니다.")]
         public LunaBakedCutsceneEvent[] bakedEvents = Array.Empty<LunaBakedCutsceneEvent>();
         public double bakedTimelineDuration;
+        [HideInInspector] public string bakedTimelineHash;
 
         public void Configure(string id, string ko, string en)
         {
@@ -87,10 +92,11 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             titleEn = en;
         }
 
-        public void SetBakedEvents(LunaBakedCutsceneEvent[] events, double duration)
+        public void SetBakedEvents(LunaBakedCutsceneEvent[] events, double duration, string contentHash)
         {
             bakedEvents = events ?? Array.Empty<LunaBakedCutsceneEvent>();
             bakedTimelineDuration = Math.Max(0d, duration);
+            bakedTimelineHash = contentHash ?? string.Empty;
         }
     }
 }

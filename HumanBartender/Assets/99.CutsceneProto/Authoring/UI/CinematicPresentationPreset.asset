@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c412b1b1594d4697b2ec639f741bd6ae, type: 3}
+  m_Name: CinematicPresentationPreset
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.CutscenePrototype.Authoring.LunaCutscenePresentationPreset
+  useLetterbox: 1
+  letterboxHeightRatio: 0.12
+  entranceDuration: 0.7
+  entranceEase: 0
+  letterboxColor: {r: 0, g: 0, b: 0, a: 1}
+  usePixelPerfectZoom: 1
+  zoomInRatio: 0.0666667
+  fadeOutOnEnd: 1
+  exitFadeDuration: 0.55

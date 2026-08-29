@@ -1,0 +1,1443 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc7e4d979b2c4992acc34a6a6a6ea9b, type: 3}
+  m_Name: WebAnimaticLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectLuna.WebAnimatic.WebAnimaticLibrary
+  sheets:
+  - id: lab_effect-Sheet
+    texture: {fileID: 2800000, guid: 200b9ccadf972466eb1c2958365b88dc, type: 3}
+    frames:
+    - sx: 12
+      sy: 46
+      sw: 123
+      sh: 68
+      ox: 12
+      oy: 46
+      cw: 300
+      ch: 125
+    - sx: 304
+      sy: 23
+      sw: 296
+      sh: 92
+      ox: 4
+      oy: 23
+      cw: 300
+      ch: 125
+    - sx: 600
+      sy: 15
+      sw: 300
+      sh: 98
+      ox: 0
+      oy: 15
+      cw: 300
+      ch: 125
+    - sx: 900
+      sy: 14
+      sw: 243
+      sh: 99
+      ox: 0
+      oy: 14
+      cw: 300
+      ch: 125
+    - sx: 1200
+      sy: 11
+      sw: 249
+      sh: 103
+      ox: 0
+      oy: 11
+      cw: 300
+      ch: 125
+    - sx: 1500
+      sy: 10
+      sw: 248
+      sh: 103
+      ox: 0
+      oy: 10
+      cw: 300
+      ch: 125
+    - sx: 1806
+      sy: 11
+      sw: 241
+      sh: 102
+      ox: 6
+      oy: 11
+      cw: 300
+      ch: 125
+    - sx: 2113
+      sy: 11
+      sw: 230
+      sh: 101
+      ox: 13
+      oy: 11
+      cw: 300
+      ch: 125
+    - sx: 2406
+      sy: 10
+      sw: 294
+      sh: 101
+      ox: 6
+      oy: 10
+      cw: 300
+      ch: 125
+    - sx: 2700
+      sy: 10
+      sw: 230
+      sh: 101
+      ox: 0
+      oy: 10
+      cw: 300
+      ch: 125
+    contentH: 101
+  - id: soldier_ani_idle
+    texture: {fileID: 2800000, guid: d3d15f6da0220444e9389f76c08a434b, type: 3}
+    frames:
+    - sx: 14
+      sy: 31
+      sw: 51
+      sh: 49
+      ox: 14
+      oy: 31
+      cw: 93
+      ch: 96
+    - sx: 107
+      sy: 31
+      sw: 51
+      sh: 49
+      ox: 14
+      oy: 31
+      cw: 93
+      ch: 96
+    - sx: 200
+      sy: 31
+      sw: 51
+      sh: 49
+      ox: 14
+      oy: 31
+      cw: 93
+      ch: 96
+    - sx: 293
+      sy: 31
+      sw: 51
+      sh: 49
+      ox: 14
+      oy: 31
+      cw: 93
+      ch: 96
+    - sx: 386
+      sy: 32
+      sw: 51
+      sh: 48
+      ox: 14
+      oy: 32
+      cw: 93
+      ch: 96
+    - sx: 479
+      sy: 33
+      sw: 51
+      sh: 47
+      ox: 14
+      oy: 33
+      cw: 93
+      ch: 96
+    - sx: 572
+      sy: 32
+      sw: 51
+      sh: 48
+      ox: 14
+      oy: 32
+      cw: 93
+      ch: 96
+    - sx: 665
+      sy: 32
+      sw: 51
+      sh: 48
+      ox: 14
+      oy: 32
+      cw: 93
+      ch: 96
+    contentH: 49
+  - id: soldier_ani_run
+    texture: {fileID: 2800000, guid: b75d8ff502cc8e14983f996653bd786c, type: 3}
+    frames:
+    - sx: 33
+      sy: 29
+      sw: 50
+      sh: 51
+      ox: 33
+      oy: 29
+      cw: 93
+      ch: 96
+    - sx: 126
+      sy: 34
+      sw: 43
+      sh: 46
+      ox: 33
+      oy: 34
+      cw: 93
+      ch: 96
+    - sx: 217
+      sy: 35
+      sw: 46
+      sh: 45
+      ox: 31
+      oy: 35
+      cw: 93
+      ch: 96
+    - sx: 308
+      sy: 30
+      sw: 56
+      sh: 47
+      ox: 29
+      oy: 30
+      cw: 93
+      ch: 96
+    - sx: 401
+      sy: 29
+      sw: 56
+      sh: 51
+      ox: 29
+      oy: 29
+      cw: 93
+      ch: 96
+    - sx: 493
+      sy: 30
+      sw: 54
+      sh: 50
+      ox: 28
+      oy: 30
+      cw: 93
+      ch: 96
+    - sx: 588
+      sy: 34
+      sw: 44
+      sh: 46
+      ox: 30
+      oy: 34
+      cw: 93
+      ch: 96
+    - sx: 683
+      sy: 32
+      sw: 50
+      sh: 44
+      ox: 32
+      oy: 32
+      cw: 93
+      ch: 96
+    contentH: 47
+  - id: soldier_ani_shoot
+    texture: {fileID: 2800000, guid: 67f637fcbe4a1c64183f20cfdc3ad6b7, type: 3}
+    frames:
+    - sx: 9
+      sy: 34
+      sw: 58
+      sh: 46
+      ox: 9
+      oy: 34
+      cw: 93
+      ch: 96
+    - sx: 93
+      sy: 32
+      sw: 67
+      sh: 48
+      ox: 0
+      oy: 32
+      cw: 93
+      ch: 96
+    - sx: 186
+      sy: 32
+      sw: 67
+      sh: 48
+      ox: 0
+      oy: 32
+      cw: 93
+      ch: 96
+    contentH: 48
+  - id: hound_room_idle
+    texture: {fileID: 2800000, guid: d0bf2ed4285f23a4f82e0789314ebaef, type: 3}
+    frames:
+    - sx: 25
+      sy: 51
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 121
+      sy: 51
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 217
+      sy: 51
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 313
+      sy: 51
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 409
+      sy: 50
+      sw: 55
+      sh: 78
+      ox: 25
+      oy: 50
+      cw: 96
+      ch: 143
+    - sx: 25
+      sy: 193
+      sw: 55
+      sh: 78
+      ox: 25
+      oy: 50
+      cw: 96
+      ch: 143
+    - sx: 121
+      sy: 195
+      sw: 55
+      sh: 76
+      ox: 25
+      oy: 52
+      cw: 96
+      ch: 143
+    - sx: 217
+      sy: 196
+      sw: 55
+      sh: 75
+      ox: 25
+      oy: 53
+      cw: 96
+      ch: 143
+    - sx: 313
+      sy: 194
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 409
+      sy: 194
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    - sx: 25
+      sy: 337
+      sw: 55
+      sh: 77
+      ox: 25
+      oy: 51
+      cw: 96
+      ch: 143
+    contentH: 77
+  - id: hound_punch_sheet
+    texture: {fileID: 2800000, guid: d621f49c6e103b748b66603ad9c286dc, type: 3}
+    frames:
+    - sx: 27
+      sy: 11
+      sw: 55
+      sh: 77
+      ox: 27
+      oy: 11
+      cw: 198
+      ch: 92
+    - sx: 209
+      sy: 12
+      sw: 65
+      sh: 76
+      ox: 11
+      oy: 12
+      cw: 198
+      ch: 92
+    - sx: 405
+      sy: 13
+      sw: 58
+      sh: 75
+      ox: 10
+      oy: 13
+      cw: 197
+      ch: 92
+    - sx: 597
+      sy: 13
+      sw: 62
+      sh: 75
+      ox: 5
+      oy: 13
+      cw: 198
+      ch: 92
+    - sx: 10
+      sy: 103
+      sw: 64
+      sh: 75
+      ox: 10
+      oy: 11
+      cw: 198
+      ch: 92
+    - sx: 209
+      sy: 105
+      sw: 61
+      sh: 73
+      ox: 11
+      oy: 13
+      cw: 198
+      ch: 92
+    - sx: 416
+      sy: 116
+      sw: 108
+      sh: 62
+      ox: 21
+      oy: 24
+      cw: 197
+      ch: 92
+    - sx: 610
+      sy: 117
+      sw: 111
+      sh: 61
+      ox: 18
+      oy: 25
+      cw: 198
+      ch: 92
+    - sx: 25
+      sy: 207
+      sw: 111
+      sh: 61
+      ox: 25
+      oy: 22
+      cw: 198
+      ch: 93
+    - sx: 220
+      sy: 207
+      sw: 111
+      sh: 61
+      ox: 22
+      oy: 22
+      cw: 198
+      ch: 93
+    - sx: 415
+      sy: 205
+      sw: 109
+      sh: 63
+      ox: 20
+      oy: 20
+      cw: 197
+      ch: 93
+    - sx: 610
+      sy: 200
+      sw: 96
+      sh: 68
+      ox: 18
+      oy: 15
+      cw: 198
+      ch: 93
+    - sx: 27
+      sy: 287
+      sw: 83
+      sh: 71
+      ox: 27
+      oy: 9
+      cw: 198
+      ch: 92
+    - sx: 231
+      sy: 284
+      sw: 43
+      sh: 74
+      ox: 33
+      oy: 6
+      cw: 198
+      ch: 92
+    - sx: 417
+      sy: 281
+      sw: 55
+      sh: 77
+      ox: 22
+      oy: 3
+      cw: 197
+      ch: 92
+    contentH: 73
+  - id: hound_attack_ani_charge
+    texture: {fileID: 2800000, guid: 00b624a8393282249bd103a17f514fde, type: 3}
+    frames:
+    - sx: 77
+      sy: 76
+      sw: 65
+      sh: 77
+      ox: 77
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 401
+      sy: 75
+      sw: 64
+      sh: 78
+      ox: 77
+      oy: 75
+      cw: 324
+      ch: 168
+    - sx: 725
+      sy: 75
+      sw: 62
+      sh: 78
+      ox: 77
+      oy: 75
+      cw: 324
+      ch: 168
+    - sx: 1049
+      sy: 77
+      sw: 78
+      sh: 76
+      ox: 77
+      oy: 77
+      cw: 324
+      ch: 168
+    - sx: 1364
+      sy: 88
+      sw: 83
+      sh: 65
+      ox: 68
+      oy: 88
+      cw: 324
+      ch: 168
+    - sx: 58
+      sy: 267
+      sw: 61
+      sh: 54
+      ox: 58
+      oy: 99
+      cw: 324
+      ch: 168
+    - sx: 379
+      sy: 269
+      sw: 62
+      sh: 52
+      ox: 55
+      oy: 101
+      cw: 324
+      ch: 168
+    - sx: 701
+      sy: 269
+      sw: 63
+      sh: 52
+      ox: 53
+      oy: 101
+      cw: 324
+      ch: 168
+    - sx: 1024
+      sy: 269
+      sw: 66
+      sh: 52
+      ox: 52
+      oy: 101
+      cw: 324
+      ch: 168
+    - sx: 1348
+      sy: 269
+      sw: 65
+      sh: 52
+      ox: 52
+      oy: 101
+      cw: 324
+      ch: 168
+    - sx: 52
+      sy: 436
+      sw: 64
+      sh: 53
+      ox: 52
+      oy: 100
+      cw: 324
+      ch: 168
+    - sx: 376
+      sy: 435
+      sw: 64
+      sh: 54
+      ox: 52
+      oy: 99
+      cw: 324
+      ch: 168
+    - sx: 700
+      sy: 434
+      sw: 64
+      sh: 55
+      ox: 52
+      oy: 98
+      cw: 324
+      ch: 168
+    - sx: 1024
+      sy: 434
+      sw: 64
+      sh: 55
+      ox: 52
+      oy: 98
+      cw: 324
+      ch: 168
+    contentH: 55
+  - id: hound_attack_ani_up
+    texture: {fileID: 2800000, guid: d36d7b27d55a1364bb4abe1c8429c3b2, type: 3}
+    frames:
+    - sx: 52
+      sy: 101
+      sw: 65
+      sh: 52
+      ox: 52
+      oy: 101
+      cw: 324
+      ch: 168
+    - sx: 376
+      sy: 107
+      sw: 64
+      sh: 46
+      ox: 52
+      oy: 107
+      cw: 324
+      ch: 168
+    - sx: 700
+      sy: 114
+      sw: 63
+      sh: 39
+      ox: 52
+      oy: 114
+      cw: 324
+      ch: 168
+    - sx: 1025
+      sy: 119
+      sw: 77
+      sh: 34
+      ox: 53
+      oy: 119
+      cw: 324
+      ch: 168
+    - sx: 1366
+      sy: 124
+      sw: 60
+      sh: 29
+      ox: 70
+      oy: 124
+      cw: 324
+      ch: 168
+    - sx: 92
+      sy: 219
+      sw: 112
+      sh: 100
+      ox: 92
+      oy: 51
+      cw: 324
+      ch: 168
+    - sx: 462
+      sy: 205
+      sw: 64
+      sh: 116
+      ox: 138
+      oy: 37
+      cw: 324
+      ch: 168
+    - sx: 783
+      sy: 200
+      sw: 67
+      sh: 89
+      ox: 135
+      oy: 32
+      cw: 324
+      ch: 168
+    - sx: 1108
+      sy: 200
+      sw: 74
+      sh: 78
+      ox: 136
+      oy: 32
+      cw: 324
+      ch: 168
+    - sx: 1435
+      sy: 201
+      sw: 73
+      sh: 73
+      ox: 139
+      oy: 33
+      cw: 324
+      ch: 168
+    - sx: 141
+      sy: 368
+      sw: 72
+      sh: 74
+      ox: 141
+      oy: 32
+      cw: 324
+      ch: 168
+    contentH: 73
+  - id: hound_attack_ani_down
+    texture: {fileID: 2800000, guid: b4e9b1b00dff8bc4cb471401077435a1, type: 3}
+    frames:
+    - sx: 145
+      sy: 25
+      sw: 136
+      sh: 107
+      ox: 145
+      oy: 25
+      cw: 324
+      ch: 168
+    - sx: 529
+      sy: 27
+      sw: 76
+      sh: 108
+      ox: 205
+      oy: 27
+      cw: 324
+      ch: 168
+    contentH: 108
+  - id: hound_attack_ani
+    texture: {fileID: 2800000, guid: d94c418957fb2ed47ac3f9cac2aa16fc, type: 3}
+    frames:
+    - sx: 73
+      sy: 76
+      sw: 74
+      sh: 77
+      ox: 73
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 397
+      sy: 76
+      sw: 81
+      sh: 77
+      ox: 73
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 721
+      sy: 76
+      sw: 49
+      sh: 77
+      ox: 73
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 1045
+      sy: 76
+      sw: 46
+      sh: 77
+      ox: 73
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 1369
+      sy: 76
+      sw: 47
+      sh: 77
+      ox: 73
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 75
+      sy: 244
+      sw: 106
+      sh: 77
+      ox: 75
+      oy: 76
+      cw: 324
+      ch: 168
+    - sx: 401
+      sy: 242
+      sw: 125
+      sh: 79
+      ox: 77
+      oy: 74
+      cw: 324
+      ch: 168
+    - sx: 725
+      sy: 244
+      sw: 65
+      sh: 77
+      ox: 77
+      oy: 76
+      cw: 324
+      ch: 168
+    contentH: 77
+  - id: yuna_ani_normal
+    texture: {fileID: 2800000, guid: a40f3469f7b19954abf3602b951bea2e, type: 3}
+    frames:
+    - sx: 41
+      sy: 66
+      sw: 41
+      sh: 32
+      ox: 41
+      oy: 66
+      cw: 96
+      ch: 104
+    contentH: 32
+  - id: yuna_ani_run
+    texture: {fileID: 2800000, guid: 5a268e339a6decc4295357657c09d733, type: 3}
+    frames:
+    - sx: 25
+      sy: 11
+      sw: 42
+      sh: 49
+      ox: 25
+      oy: 11
+      cw: 92
+      ch: 62
+    - sx: 117
+      sy: 12
+      sw: 42
+      sh: 50
+      ox: 25
+      oy: 12
+      cw: 92
+      ch: 62
+    - sx: 209
+      sy: 15
+      sw: 41
+      sh: 47
+      ox: 25
+      oy: 15
+      cw: 92
+      ch: 62
+    - sx: 301
+      sy: 11
+      sw: 42
+      sh: 48
+      ox: 25
+      oy: 11
+      cw: 92
+      ch: 62
+    - sx: 393
+      sy: 12
+      sw: 42
+      sh: 50
+      ox: 25
+      oy: 12
+      cw: 92
+      ch: 62
+    - sx: 485
+      sy: 15
+      sw: 41
+      sh: 47
+      ox: 25
+      oy: 15
+      cw: 82
+      ch: 62
+    contentH: 49
+  - id: yuna_ani_stand_up
+    texture: {fileID: 2800000, guid: 1a3c2be154cf01945a79ecc91ef7eea1, type: 3}
+    frames:
+    - sx: 41
+      sy: 66
+      sw: 41
+      sh: 32
+      ox: 41
+      oy: 66
+      cw: 96
+      ch: 104
+    - sx: 137
+      sy: 66
+      sw: 40
+      sh: 32
+      ox: 41
+      oy: 66
+      cw: 96
+      ch: 104
+    - sx: 233
+      sy: 67
+      sw: 41
+      sh: 31
+      ox: 41
+      oy: 67
+      cw: 96
+      ch: 104
+    - sx: 331
+      sy: 68
+      sw: 38
+      sh: 30
+      ox: 43
+      oy: 68
+      cw: 96
+      ch: 104
+    - sx: 431
+      sy: 67
+      sw: 34
+      sh: 31
+      ox: 47
+      oy: 67
+      cw: 96
+      ch: 104
+    - sx: 514
+      sy: 53
+      sw: 36
+      sh: 45
+      ox: 34
+      oy: 53
+      cw: 96
+      ch: 104
+    - sx: 603
+      sy: 50
+      sw: 43
+      sh: 48
+      ox: 27
+      oy: 50
+      cw: 96
+      ch: 104
+    contentH: 32
+  - id: luna_v2-idle_Sheet
+    texture: {fileID: 2800000, guid: 30810a83afa8b65479ae25117c3959f9, type: 3}
+    frames:
+    - sx: 35
+      sy: 26
+      sw: 17
+      sh: 53
+      ox: 35
+      oy: 26
+      cw: 89
+      ch: 86
+    - sx: 124
+      sy: 26
+      sw: 17
+      sh: 53
+      ox: 35
+      oy: 26
+      cw: 89
+      ch: 86
+    - sx: 213
+      sy: 25
+      sw: 17
+      sh: 54
+      ox: 35
+      oy: 25
+      cw: 89
+      ch: 86
+    - sx: 35
+      sy: 110
+      sw: 17
+      sh: 55
+      ox: 35
+      oy: 24
+      cw: 89
+      ch: 86
+    - sx: 124
+      sy: 110
+      sw: 17
+      sh: 55
+      ox: 35
+      oy: 24
+      cw: 89
+      ch: 86
+    - sx: 213
+      sy: 111
+      sw: 17
+      sh: 54
+      ox: 35
+      oy: 25
+      cw: 89
+      ch: 86
+    - sx: 35
+      sy: 198
+      sw: 17
+      sh: 53
+      ox: 35
+      oy: 26
+      cw: 89
+      ch: 86
+    - sx: 124
+      sy: 199
+      sw: 17
+      sh: 52
+      ox: 35
+      oy: 27
+      cw: 89
+      ch: 86
+    - sx: 213
+      sy: 198
+      sw: 17
+      sh: 53
+      ox: 35
+      oy: 26
+      cw: 89
+      ch: 86
+    contentH: 53
+  - id: luna_v2-run_Sheet
+    texture: {fileID: 2800000, guid: 51551ef1dcccb1d4585f6b027af0cf12, type: 3}
+    frames:
+    - sx: 26
+      sy: 32
+      sw: 39
+      sh: 46
+      ox: 26
+      oy: 32
+      cw: 89
+      ch: 86
+    - sx: 115
+      sy: 34
+      sw: 34
+      sh: 46
+      ox: 26
+      oy: 34
+      cw: 89
+      ch: 86
+    - sx: 204
+      sy: 36
+      sw: 32
+      sh: 44
+      ox: 26
+      oy: 36
+      cw: 89
+      ch: 86
+    - sx: 26
+      sy: 120
+      sw: 30
+      sh: 46
+      ox: 26
+      oy: 34
+      cw: 89
+      ch: 86
+    - sx: 115
+      sy: 118
+      sw: 39
+      sh: 46
+      ox: 26
+      oy: 32
+      cw: 89
+      ch: 86
+    - sx: 204
+      sy: 120
+      sw: 35
+      sh: 46
+      ox: 26
+      oy: 34
+      cw: 89
+      ch: 86
+    - sx: 26
+      sy: 208
+      sw: 32
+      sh: 44
+      ox: 26
+      oy: 36
+      cw: 89
+      ch: 86
+    - sx: 115
+      sy: 206
+      sw: 30
+      sh: 46
+      ox: 26
+      oy: 34
+      cw: 89
+      ch: 86
+    contentH: 46
+  - id: luna_v2_walk_Sheet
+    texture: {fileID: 2800000, guid: 7c60c177bf334f848b52880d40517421, type: 3}
+    frames:
+    - sx: 39
+      sy: 27
+      sw: 19
+      sh: 52
+      ox: 39
+      oy: 27
+      cw: 89
+      ch: 86
+    - sx: 128
+      sy: 26
+      sw: 17
+      sh: 53
+      ox: 39
+      oy: 26
+      cw: 89
+      ch: 86
+    - sx: 213
+      sy: 27
+      sw: 21
+      sh: 52
+      ox: 35
+      oy: 27
+      cw: 89
+      ch: 86
+    - sx: 37
+      sy: 114
+      sw: 20
+      sh: 51
+      ox: 37
+      oy: 28
+      cw: 89
+      ch: 86
+    - sx: 128
+      sy: 113
+      sw: 19
+      sh: 52
+      ox: 39
+      oy: 27
+      cw: 89
+      ch: 86
+    - sx: 217
+      sy: 112
+      sw: 17
+      sh: 53
+      ox: 39
+      oy: 26
+      cw: 89
+      ch: 86
+    - sx: 36
+      sy: 199
+      sw: 20
+      sh: 52
+      ox: 36
+      oy: 27
+      cw: 89
+      ch: 86
+    - sx: 127
+      sy: 200
+      sw: 19
+      sh: 51
+      ox: 38
+      oy: 28
+      cw: 89
+      ch: 86
+    contentH: 52
+  - id: luna_crawl
+    texture: {fileID: 2800000, guid: f00d0ec6467ffa34b86d5db273eeb71a, type: 3}
+    frames:
+    - sx: 20
+      sy: 38
+      sw: 45
+      sh: 26
+      ox: 20
+      oy: 38
+      cw: 86
+      ch: 77
+    - sx: 105
+      sy: 38
+      sw: 48
+      sh: 26
+      ox: 19
+      oy: 38
+      cw: 86
+      ch: 77
+    - sx: 189
+      sy: 39
+      sw: 50
+      sh: 25
+      ox: 17
+      oy: 39
+      cw: 86
+      ch: 77
+    - sx: 274
+      sy: 39
+      sw: 50
+      sh: 25
+      ox: 16
+      oy: 39
+      cw: 86
+      ch: 77
+    - sx: 361
+      sy: 39
+      sw: 48
+      sh: 25
+      ox: 17
+      oy: 39
+      cw: 86
+      ch: 77
+    - sx: 19
+      sy: 116
+      sw: 47
+      sh: 25
+      ox: 19
+      oy: 39
+      cw: 86
+      ch: 77
+    - sx: 102
+      sy: 115
+      sw: 51
+      sh: 26
+      ox: 16
+      oy: 38
+      cw: 86
+      ch: 77
+    - sx: 188
+      sy: 115
+      sw: 50
+      sh: 26
+      ox: 16
+      oy: 38
+      cw: 86
+      ch: 77
+    contentH: 26
+  anims:
+  - id: sol.idle
+    sheet: soldier_ani_idle
+    from: 0
+    to: 7
+    fps: 8
+    loop: 1
+    hasAnchor: 1
+    ax: 39.5
+    ay: 80
+  - id: sol.run
+    sheet: soldier_ani_run
+    from: 0
+    to: 7
+    fps: 12
+    loop: 1
+    hasAnchor: 1
+    ax: 57
+    ay: 80
+  - id: sol.aim
+    sheet: soldier_ani_shoot
+    from: 0
+    to: 0
+    fps: 1
+    loop: 1
+    hasAnchor: 1
+    ax: 33.5
+    ay: 80
+  - id: sol.fire
+    sheet: soldier_ani_shoot
+    from: 0
+    to: 2
+    fps: 14
+    loop: 1
+    hasAnchor: 1
+    ax: 33.5
+    ay: 80
+  - id: hound.idle
+    sheet: hound_room_idle
+    from: 0
+    to: 10
+    fps: 9
+    loop: 1
+    hasAnchor: 1
+    ax: 52.5
+    ay: 128
+  - id: hound.punch
+    sheet: hound_punch_sheet
+    from: 0
+    to: 14
+    fps: 15
+    loop: 0
+    hasAnchor: 1
+    ax: 54.5
+    ay: 86
+  - id: hound.charge
+    sheet: hound_attack_ani_charge
+    from: 0
+    to: 13
+    fps: 13
+    loop: 0
+    hasAnchor: 1
+    ax: 86
+    ay: 153
+  - id: hound.land
+    sheet: hound_attack_ani_charge
+    from: 13
+    to: 13
+    fps: 1
+    loop: 1
+    hasAnchor: 1
+    ax: 84
+    ay: 153
+  - id: hound.up
+    sheet: hound_attack_ani_up
+    from: 0
+    to: 10
+    fps: 16
+    loop: 0
+    hasAnchor: 0
+    ax: 0
+    ay: 0
+  - id: hound.air
+    sheet: hound_attack_ani_up
+    from: 8
+    to: 10
+    fps: 8
+    loop: 1
+    hasAnchor: 0
+    ax: 0
+    ay: 0
+  - id: hound.dive
+    sheet: hound_attack_ani_up
+    from: 9
+    to: 10
+    fps: 5
+    loop: 1
+    hasAnchor: 0
+    ax: 0
+    ay: 0
+  - id: hound.down
+    sheet: hound_attack_ani_down
+    from: 0
+    to: 1
+    fps: 9
+    loop: 0
+    hasAnchor: 0
+    ax: 0
+    ay: 0
+  - id: hound.swipe
+    sheet: hound_attack_ani
+    from: 0
+    to: 7
+    fps: 14
+    loop: 0
+    hasAnchor: 1
+    ax: 110
+    ay: 153
+  - id: yuna.idle
+    sheet: yuna_ani_normal
+    from: 0
+    to: 0
+    fps: 1
+    loop: 1
+    hasAnchor: 1
+    ax: 61.5
+    ay: 98
+  - id: yuna.run
+    sheet: yuna_ani_run
+    from: 0
+    to: 5
+    fps: 14
+    loop: 1
+    hasAnchor: 1
+    ax: 46
+    ay: 62
+  - id: yuna.walk
+    sheet: yuna_ani_run
+    from: 0
+    to: 5
+    fps: 6
+    loop: 1
+    hasAnchor: 1
+    ax: 46
+    ay: 62
+  - id: yuna.stand
+    sheet: yuna_ani_stand_up
+    from: 6
+    to: 6
+    fps: 1
+    loop: 1
+    hasAnchor: 1
+    ax: 48.5
+    ay: 98
+  - id: yuna.up
+    sheet: yuna_ani_stand_up
+    from: 0
+    to: 6
+    fps: 11
+    loop: 0
+    hasAnchor: 1
+    ax: 61.5
+    ay: 98
+  - id: luna.stand
+    sheet: luna_v2-idle_Sheet
+    from: 0
+    to: 8
+    fps: 6
+    loop: 1
+    hasAnchor: 1
+    ax: 43.5
+    ay: 79
+  - id: luna.run
+    sheet: luna_v2-run_Sheet
+    from: 0
+    to: 7
+    fps: 18
+    loop: 1
+    hasAnchor: 1
+    ax: 43
+    ay: 80
+  - id: luna.walk
+    sheet: luna_v2_walk_Sheet
+    from: 0
+    to: 7
+    fps: 9
+    loop: 1
+    hasAnchor: 1
+    ax: 47.5
+    ay: 79
+  - id: luna.fall
+    sheet: luna_crawl
+    from: 0
+    to: 7
+    fps: 6
+    loop: 1
+    hasAnchor: 1
+    ax: 42
+    ay: 64
+  - id: luna.crawl
+    sheet: luna_crawl
+    from: 0
+    to: 7
+    fps: 9
+    loop: 1
+    hasAnchor: 1
+    ax: 42
+    ay: 64
+  stages:
+  - id: lobby
+    width: 900
+    height: 460
+    floor: 400
+    variants:
+    - id: lobby_door0
+      sprite: {fileID: 21300000, guid: 1936d8a61239547138f3707f242eff15, type: 3}
+    - id: lobby_door0_alarm
+      sprite: {fileID: 21300000, guid: 011b1ddfc78394023ae0e9ca6ad14833, type: 3}
+    - id: lobby_door1
+      sprite: {fileID: 21300000, guid: a1c800107182b4ca8a06192f0b183a06, type: 3}
+  - id: corridor
+    width: 3600
+    height: 340
+    floor: 250
+    variants:
+    - id: corridor
+      sprite: {fileID: 21300000, guid: 92fcaeb4fb99b46fc9f32ade88590bb3, type: 3}
+  - id: disposal
+    width: 980
+    height: 460
+    floor: 380
+    variants:
+    - id: disposal_d0c0
+      sprite: {fileID: 21300000, guid: dcc70d575fe2a436c992e9778aed4c41, type: 3}
+    - id: disposal_d0c1
+      sprite: {fileID: 21300000, guid: 7e8096aef519a493ea73f28705ca35df, type: 3}
+    - id: disposal_d1c0
+      sprite: {fileID: 21300000, guid: acdd7cf62397543618dd8aefae59d0a9, type: 3}
+    - id: disposal_d1c1
+      sprite: {fileID: 21300000, guid: 4e227bf6db0c546e5a68422deab54ef8, type: 3}
+  - id: shaft
+    width: 480
+    height: 2600
+    floor: 2600
+    variants:
+    - id: shaft
+      sprite: {fileID: 21300000, guid: ee09c50871134466fad65678f38307c8, type: 3}
+  scenes:
+  - id: s1
+    label: "S#1 \uBCA1\uD130\uADF8\uB8F9 \uC2B5\uACA9"
+    json: {fileID: 4900000, guid: ce0ae56f1fe604d70a06815ca27345d4, type: 3}
+  - id: s2
+    label: "S#2 \uB3C4\uB9DD\uC744 \uAC00\uB294 \uC774\uB4E4"
+    json: {fileID: 4900000, guid: b3a5bc9e1770746449c86d48bf50aebc, type: 3}
+  - id: s3
+    label: "S#3 \uB9C8\uC9C0\uB9C9 \uB300\uD654 + \uB099\uD558"
+    json: {fileID: 4900000, guid: 1bbab5ec47cd84d9e9baedcc9bd5814e, type: 3}
+  - id: s5
+    label: "S#5 \uB8E8\uB098\uC758 \uAFC8 (\uD68C\uC0C1)"
+    json: {fileID: 4900000, guid: ee2f5a4c010534250a505c6c70f81330, type: 3}
+  - id: s99
+    label: "S#99 \uD6A8\uACFC \uD14C\uC2A4\uD2B8"
+    json: {fileID: 4900000, guid: e6858def8dcc74f95a5db1e559a7e057, type: 3}
+  font: {fileID: 11400000, guid: 3bc0c61a83ff6c741bda5b2a6e98c7a8, type: 2}

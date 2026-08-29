@@ -8,7 +8,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
     {
         [SerializeField, Min(1f)] private float aspectWidth = 16f;
         [SerializeField, Min(1f)] private float aspectHeight = 9f;
-        [SerializeField, Range(0f, 0.25f)] private float letterboxRatio = 0.1f;
+        [SerializeField, Range(0f, 0.25f)] private float letterboxRatio = 0.12f;
         [SerializeField] private bool showFrame = true;
         [SerializeField] private bool showLetterbox = true;
 
@@ -16,5 +16,10 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         public float LetterboxRatio => letterboxRatio;
         public bool ShowFrame => showFrame;
         public bool ShowLetterbox => showLetterbox;
+
+        public void ConfigureLetterbox(float ratio)
+        {
+            letterboxRatio = Mathf.Clamp(ratio, 0f, 0.25f);
+        }
     }
 }

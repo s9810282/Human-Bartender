@@ -12,17 +12,23 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
         public const string UiFolder = LunaCutsceneAuthoringBuilder.Root + "/Authoring/UI";
         public const string SpeechBubblePrefabPath = UiFolder + "/CutsceneSpeechBubble.prefab";
         public const string SpeechBubbleStylePath = UiFolder + "/CutsceneSpeechBubbleStyle.asset";
+        public const string PresentationPresetPath = UiFolder + "/CinematicPresentationPreset.asset";
         private const string ProjectFontPath = "Assets/06.Fonts/NeoDunggeunmo SDF.asset";
 
         public readonly struct UiAssets
         {
             public readonly LunaCutsceneSpeechBubbleView prefab;
             public readonly LunaCutsceneSpeechBubbleStyle style;
+            public readonly LunaCutscenePresentationPreset presentationPreset;
 
-            public UiAssets(LunaCutsceneSpeechBubbleView prefab, LunaCutsceneSpeechBubbleStyle style)
+            public UiAssets(
+                LunaCutsceneSpeechBubbleView prefab,
+                LunaCutsceneSpeechBubbleStyle style,
+                LunaCutscenePresentationPreset presentationPreset)
             {
                 this.prefab = prefab;
                 this.style = style;
+                this.presentationPreset = presentationPreset;
             }
         }
 
@@ -64,8 +70,23 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             if (prefab == null || rebuildPrefab)
                 prefab = BuildPrefab(style);
 
+            LunaCutscenePresentationPreset presentationPreset = EnsurePresentationPreset();
+
             AssetDatabase.SaveAssets();
-            return new UiAssets(prefab, style);
+            return new UiAssets(prefab, style, presentationPreset);
+        }
+
+        public static LunaCutscenePresentationPreset EnsurePresentationPreset()
+        {
+            LunaCutscenePresentationPreset preset =
+                AssetDatabase.LoadAssetAtPath<LunaCutscenePresentationPreset>(PresentationPresetPath);
+            if (preset != null)
+                return preset;
+
+            preset = ScriptableObject.CreateInstance<LunaCutscenePresentationPreset>();
+            AssetDatabase.CreateAsset(preset, PresentationPresetPath);
+            EditorUtility.SetDirty(preset);
+            return preset;
         }
 
         public static void UpgradeSceneUi(LunaCutsceneDirector runtime)
@@ -91,12 +112,19 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             TMP_Text status = EnsureStatus(canvas.transform, assets.style);
             Image fade = FindImage(canvas.transform, "Fade");
             Image flash = FindImage(canvas.transform, "Flash");
+            RectTransform letterboxTop = EnsureLetterboxBar(canvas.transform, "LetterboxTop", true);
+            RectTransform letterboxBottom = EnsureLetterboxBar(canvas.transform, "LetterboxBottom", false);
 
             Undo.RecordObject(ui, "Upgrade L.U.N.A Cutscene TMP UI");
             ui.Configure(layer, assets.prefab, assets.style, fade, flash, status);
             layer.SetAsLastSibling();
-            if (flash != null) flash.transform.SetAsLastSibling();
-            if (fade != null) fade.transform.SetAsLastSibling();
+            ui.ConfigurePresentation(letterboxTop, letterboxBottom);
+            if (runtime.Definition != null && runtime.Definition.presentationPreset == null)
+            {
+                Undo.RecordObject(runtime.Definition, "Assign L.U.N.A Cutscene Presentation Preset");
+                runtime.Definition.presentationPreset = assets.presentationPreset;
+                EditorUtility.SetDirty(runtime.Definition);
+            }
             EditorUtility.SetDirty(ui);
             EditorSceneManager.MarkSceneDirty(runtime.gameObject.scene);
         }
@@ -153,6 +181,36 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             text.raycastTarget = false;
             text.textWrappingMode = TextWrappingModes.Normal;
             return text;
+        }
+
+        public static RectTransform EnsureLetterboxBar(Transform canvasTransform, string name, bool top)
+        {
+            Transform existing = canvasTransform.Find(name);
+            GameObject target;
+            if (existing == null)
+            {
+                target = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+                if (!Application.isBatchMode)
+                    Undo.RegisterCreatedObjectUndo(target, "Create L.U.N.A Letterbox Bar");
+                target.transform.SetParent(canvasTransform, false);
+            }
+            else
+            {
+                target = existing.gameObject;
+            }
+
+            RectTransform rect = target.GetComponent<RectTransform>();
+            rect.anchorMin = top ? new Vector2(0f, 0.88f) : Vector2.zero;
+            rect.anchorMax = top ? Vector2.one : new Vector2(1f, 0.12f);
+            rect.pivot = top ? new Vector2(0.5f, 1f) : new Vector2(0.5f, 0f);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.anchoredPosition = Vector2.zero;
+            Image image = target.GetComponent<Image>() ?? Undo.AddComponent<Image>(target);
+            image.color = Color.black;
+            image.raycastTarget = false;
+            target.SetActive(false);
+            return rect;
         }
 
         private static LunaCutsceneSpeechBubbleView BuildPrefab(LunaCutsceneSpeechBubbleStyle style)

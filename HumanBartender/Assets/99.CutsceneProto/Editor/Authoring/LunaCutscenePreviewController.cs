@@ -16,6 +16,8 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             public readonly Vector3 localPosition;
             public readonly Quaternion localRotation;
             public readonly Vector3 localScale;
+            public readonly SpriteRenderer[] spriteRenderers;
+            public readonly bool[] spriteFlipX;
 
             public TransformSnapshot(Transform value)
             {
@@ -23,6 +25,10 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
                 localPosition = value.localPosition;
                 localRotation = value.localRotation;
                 localScale = value.localScale;
+                spriteRenderers = value.GetComponentsInChildren<SpriteRenderer>(true);
+                spriteFlipX = new bool[spriteRenderers.Length];
+                for (int index = 0; index < spriteRenderers.Length; index++)
+                    spriteFlipX[index] = spriteRenderers[index] != null && spriteRenderers[index].flipX;
             }
 
             public void Restore()
@@ -32,6 +38,11 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
                 target.localPosition = localPosition;
                 target.localRotation = localRotation;
                 target.localScale = localScale;
+                for (int index = 0; index < spriteRenderers.Length; index++)
+                {
+                    if (spriteRenderers[index] != null)
+                        spriteRenderers[index].flipX = spriteFlipX[index];
+                }
             }
         }
 

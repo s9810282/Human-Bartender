@@ -77,11 +77,54 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             }
 
             ValidateBindings(director, timeline, registry, result);
+            ValidatePixelCamera(runtime.gameObject.scene, result);
             ValidateAnchorsAndMovement(director, timeline, result);
             ValidateMarkers(timeline, registry, definition, result);
             ValidateDefinition(definition, registry, result);
             ValidateDefinitionIds(definition, result);
             return result;
+        }
+
+        private static void ValidatePixelCamera(Scene scene, Result result)
+        {
+            Camera camera = FindInScene<Camera>(scene);
+            if (camera == null)
+            {
+                result.errors.Add("현재 씬에 컷씬 Camera가 없습니다.");
+                return;
+            }
+
+            if (!LunaCutscenePixelCameraUtility.MatchesProjectPreset(camera, out string reason))
+                result.errors.Add("컷씬 카메라가 프로젝트 픽셀 프리셋과 다릅니다: " + reason);
+            if (camera.GetComponent<LunaCutsceneCameraGuide>() == null)
+                result.warnings.Add("컷씬 카메라에 Scene 프레임 가이드가 없습니다.");
+
+            HashSet<Texture2D> checkedTextures = new();
+            foreach (SpriteRenderer renderer in scene.GetRootGameObjects()
+                         .SelectMany(root => root.GetComponentsInChildren<SpriteRenderer>(true)))
+            {
+                Sprite sprite = renderer.sprite;
+                if (sprite == null)
+                    continue;
+                string spritePath = AssetDatabase.GetAssetPath(sprite);
+                if (string.IsNullOrEmpty(spritePath)
+                    || string.Equals(spritePath, "Resources/unity_builtin_extra", StringComparison.Ordinal)
+                    || string.Equals(spritePath, "Library/unity default resources", StringComparison.Ordinal))
+                    continue;
+                if (!Mathf.Approximately(sprite.pixelsPerUnit, LunaCutscenePixelCameraUtility.AssetsPpu))
+                    result.errors.Add(
+                        $"스프라이트 '{sprite.name}'의 PPU가 {sprite.pixelsPerUnit:0.##}입니다. 컷씬 카메라 기준은 {LunaCutscenePixelCameraUtility.AssetsPpu}입니다.");
+
+                Texture2D texture = sprite.texture;
+                if (texture == null || !checkedTextures.Add(texture))
+                    continue;
+                string texturePath = AssetDatabase.GetAssetPath(texture);
+                if (string.IsNullOrEmpty(texturePath))
+                    continue;
+                if (AssetImporter.GetAtPath(texturePath) is TextureImporter importer
+                    && importer.filterMode != FilterMode.Point)
+                    result.warnings.Add($"픽셀 텍스처 '{texturePath}'의 Filter Mode가 Point가 아닙니다.");
+            }
         }
 
         private static void ValidateBindings(
@@ -265,6 +308,13 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
             int bakedCount = definition?.bakedEvents?.Length ?? 0;
             if (supportedMarkerCount != bakedCount)
                 result.errors.Add($"Timeline 마커 {supportedMarkerCount}개와 런타임 베이크 {bakedCount}개가 다릅니다. Studio에서 다시 베이크하세요.");
+            else if (definition != null)
+            {
+                string currentHash = LunaCutsceneAuthoringBaker.ComputeTimelineHash(timeline);
+                if (string.IsNullOrWhiteSpace(definition.bakedTimelineHash)
+                    || !string.Equals(currentHash, definition.bakedTimelineHash, StringComparison.Ordinal))
+                    result.errors.Add("Timeline 마커 내용과 런타임 베이크 해시가 다릅니다. Studio에서 다시 베이크하세요.");
+            }
         }
 
         private static void ValidateDefinitionIds(LunaCutsceneDefinition current, Result result)
@@ -308,6 +358,21 @@ namespace ProjectLuna.CutscenePrototype.Editor.Authoring
                 result.errors.Add("Definition의 cutscene_id가 비어 있습니다.");
             if (string.IsNullOrWhiteSpace(definition.titleKo) || string.IsNullOrWhiteSpace(definition.titleEn))
                 result.errors.Add("Definition의 한국어·영어 제목을 모두 입력해야 합니다.");
+            if (definition.presentationPreset == null)
+            {
+                result.errors.Add("Definition에 Cutscene Presentation Preset이 연결되지 않았습니다.");
+            }
+            else
+            {
+                LunaCutscenePresentationPreset preset = definition.presentationPreset;
+                if (preset.useLetterbox
+                    && (preset.letterboxHeightRatio < 0.10f || preset.letterboxHeightRatio > 0.15f))
+                    result.errors.Add("레터박스 높이는 화면의 10~15% 범위여야 합니다.");
+                if (preset.entranceDuration <= 0f)
+                    result.errors.Add("컷씬 프레젠테이션 진입 시간은 0보다 커야 합니다.");
+                if (preset.fadeOutOnEnd && preset.exitFadeDuration <= 0f)
+                    result.errors.Add("컷씬 종료 페이드 시간은 0보다 커야 합니다.");
+            }
             if (definition.endBindings == null)
                 return;
             foreach (LunaCutsceneEndBinding endBinding in definition.endBindings)

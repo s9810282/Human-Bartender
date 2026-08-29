@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Timeline;
 
 namespace ProjectLuna.CutscenePrototype.Authoring
@@ -14,6 +15,7 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         Playing,
         WaitingDialogue,
         Skipping,
+        Completing,
         Completed,
         Failed
     }
@@ -39,6 +41,12 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         private LunaDialogueMarker currentDialogue;
         private Coroutine autoAdvanceRoutine;
         private Coroutine shakeRoutine;
+        private Coroutine presentationRoutine;
+        private Coroutine completionRoutine;
+        private PixelPerfectCamera presentationPixelCamera;
+        private int presentationBaseReferenceWidth;
+        private int presentationBaseReferenceHeight;
+        private bool hasPresentationCameraBaseline;
         private bool hasStarted;
         private bool completionHandled;
 
@@ -50,7 +58,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         public LunaCutsceneDialogueUI DialogueUI => dialogueUI;
         public bool InputLocked => State == LunaAuthoringCutsceneState.Playing
                                    || State == LunaAuthoringCutsceneState.WaitingDialogue
-                                   || State == LunaAuthoringCutsceneState.Skipping;
+                                   || State == LunaAuthoringCutsceneState.Skipping
+                                   || State == LunaAuthoringCutsceneState.Completing;
 
         public void Configure(
             LunaCutsceneDefinition cutsceneDefinition,
@@ -155,6 +164,8 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             currentDialogue = null;
             dialogueUI.HideDialogue();
             dialogueUI.SetFadeImmediate(definition.startFromBlack);
+            dialogueUI.PreparePresentation(definition.presentationPreset);
+            StartPresentationIntro();
             playableDirector.time = 0d;
             playableDirector.Evaluate();
             playableDirector.Play();
@@ -190,7 +201,10 @@ namespace ProjectLuna.CutscenePrototype.Authoring
 
         public void Skip()
         {
-            if (definition == null || !definition.skippable || !InputLocked)
+            if (definition == null
+                || !definition.skippable
+                || !InputLocked
+                || State == LunaAuthoringCutsceneState.Completing)
                 return;
 
             State = LunaAuthoringCutsceneState.Skipping;
@@ -410,14 +424,14 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             {
                 case LunaCutsceneEffectType.FadeIn:
                     if (immediate) dialogueUI.SetFadeImmediate(false);
-                    else StartCoroutine(dialogueUI.Fade(false, Mathf.Max(0.01f, marker.duration)));
+                    else dialogueUI.StartCoroutine(dialogueUI.Fade(false, Mathf.Max(0.01f, marker.duration)));
                     break;
                 case LunaCutsceneEffectType.FadeOut:
                     if (immediate) dialogueUI.SetFadeImmediate(true);
-                    else StartCoroutine(dialogueUI.Fade(true, Mathf.Max(0.01f, marker.duration)));
+                    else dialogueUI.StartCoroutine(dialogueUI.Fade(true, Mathf.Max(0.01f, marker.duration)));
                     break;
                 case LunaCutsceneEffectType.Flash:
-                    if (!immediate) StartCoroutine(dialogueUI.Flash(marker.color, Mathf.Max(0.06f, marker.duration)));
+                    if (!immediate) dialogueUI.StartCoroutine(dialogueUI.Flash(marker.color, Mathf.Max(0.06f, marker.duration)));
                     break;
                 case LunaCutsceneEffectType.CameraShake:
                     if (!immediate && Resolve(marker.targetId, out GameObject cameraTarget))
@@ -492,15 +506,48 @@ namespace ProjectLuna.CutscenePrototype.Authoring
 
             if (!string.IsNullOrWhiteSpace(definition.completionFlag))
                 flags.Add(NormalizeFlag(definition.completionFlag));
-            if (definition.fadeToBlackOnEnd)
+            bool shouldEndBlack = definition.fadeToBlackOnEnd
+                                  || (definition.presentationPreset != null
+                                      && definition.presentationPreset.fadeOutOnEnd);
+            if (shouldEndBlack)
                 dialogueUI.SetFadeImmediate(true);
+            else
+                dialogueUI.SetLetterboxHidden();
         }
 
         private void Complete(bool skipped, bool applyEndState = true)
         {
             if (completionHandled)
                 return;
+
+            LunaCutscenePresentationPreset preset = definition != null ? definition.presentationPreset : null;
+            if (!skipped
+                && applyEndState
+                && preset != null
+                && preset.fadeOutOnEnd
+                && dialogueUI != null
+                && !dialogueUI.IsFadeBlack)
+            {
+                completionHandled = true;
+                State = LunaAuthoringCutsceneState.Completing;
+                dialogueUI.HideDialogue();
+                completionRoutine = StartCoroutine(CompleteAfterPresentationFade(preset));
+                return;
+            }
+
             completionHandled = true;
+            FinalizeCompletion(skipped, applyEndState);
+        }
+
+        private IEnumerator CompleteAfterPresentationFade(LunaCutscenePresentationPreset preset)
+        {
+            yield return dialogueUI.Fade(true, Mathf.Max(0.01f, preset.exitFadeDuration));
+            completionRoutine = null;
+            FinalizeCompletion(false, true);
+        }
+
+        private void FinalizeCompletion(bool skipped, bool applyEndState)
+        {
             if (applyEndState)
                 ApplyEndState();
             dialogueUI.HideDialogue();
@@ -508,6 +555,83 @@ namespace ProjectLuna.CutscenePrototype.Authoring
             State = LunaAuthoringCutsceneState.Completed;
             dialogueUI.SetStatus(skipped ? "SKIPPED / END STATE APPLIED" : "COMPLETE");
             Debug.Log($"[LunaCutsceneAuthoring] COMPLETE id={definition.cutsceneId}, skipped={skipped}", this);
+        }
+
+        private void StartPresentationIntro()
+        {
+            LunaCutscenePresentationPreset preset = definition != null ? definition.presentationPreset : null;
+            if (preset == null)
+                return;
+            presentationRoutine = StartCoroutine(PlayPresentationIntro(preset));
+        }
+
+        private IEnumerator PlayPresentationIntro(LunaCutscenePresentationPreset preset)
+        {
+            CapturePresentationCameraBaseline();
+            float duration = Mathf.Max(0.01f, preset.entranceDuration);
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float progress = preset.EvaluateEntrance(elapsed / duration);
+                dialogueUI?.SetLetterboxProgress(preset, progress);
+                ApplyPixelZoomProgress(preset, progress);
+                yield return null;
+            }
+
+            dialogueUI?.SetLetterboxProgress(preset, 1f);
+            ApplyPixelZoomProgress(preset, 1f);
+            presentationRoutine = null;
+        }
+
+        private void CapturePresentationCameraBaseline()
+        {
+            Camera camera = ResolveWorldCamera();
+            presentationPixelCamera = camera != null ? camera.GetComponent<PixelPerfectCamera>() : null;
+            if (presentationPixelCamera == null)
+            {
+                hasPresentationCameraBaseline = false;
+                return;
+            }
+
+            presentationBaseReferenceWidth = presentationPixelCamera.refResolutionX;
+            presentationBaseReferenceHeight = presentationPixelCamera.refResolutionY;
+            hasPresentationCameraBaseline = presentationBaseReferenceWidth > 0 && presentationBaseReferenceHeight > 0;
+        }
+
+        private void ApplyPixelZoomProgress(LunaCutscenePresentationPreset preset, float progress)
+        {
+            if (preset == null
+                || !preset.usePixelPerfectZoom
+                || !hasPresentationCameraBaseline
+                || presentationPixelCamera == null)
+                return;
+
+            float ratio = Mathf.Clamp(preset.zoomInRatio, 0f, 0.15f);
+            int targetHeight = MakeEven(Mathf.RoundToInt(presentationBaseReferenceHeight * (1f - ratio)));
+            int targetWidth = MakeEven(Mathf.RoundToInt(
+                targetHeight * (presentationBaseReferenceWidth / (float)presentationBaseReferenceHeight)));
+            presentationPixelCamera.refResolutionX = MakeEven(Mathf.RoundToInt(Mathf.Lerp(
+                presentationBaseReferenceWidth, targetWidth, Mathf.Clamp01(progress))));
+            presentationPixelCamera.refResolutionY = MakeEven(Mathf.RoundToInt(Mathf.Lerp(
+                presentationBaseReferenceHeight, targetHeight, Mathf.Clamp01(progress))));
+        }
+
+        private void RestorePresentationCamera()
+        {
+            if (hasPresentationCameraBaseline && presentationPixelCamera != null)
+            {
+                presentationPixelCamera.refResolutionX = presentationBaseReferenceWidth;
+                presentationPixelCamera.refResolutionY = presentationBaseReferenceHeight;
+            }
+            presentationPixelCamera = null;
+            hasPresentationCameraBaseline = false;
+        }
+
+        private static int MakeEven(int value)
+        {
+            int safe = Mathf.Max(2, value);
+            return (safe & 1) == 0 ? safe : safe - 1;
         }
 
         private IEnumerator Shake(Transform target, float duration, float strength)
@@ -583,8 +707,13 @@ namespace ProjectLuna.CutscenePrototype.Authoring
         {
             if (autoAdvanceRoutine != null) StopCoroutine(autoAdvanceRoutine);
             if (shakeRoutine != null) StopCoroutine(shakeRoutine);
+            if (presentationRoutine != null) StopCoroutine(presentationRoutine);
+            if (completionRoutine != null) StopCoroutine(completionRoutine);
             autoAdvanceRoutine = null;
             shakeRoutine = null;
+            presentationRoutine = null;
+            completionRoutine = null;
+            RestorePresentationCamera();
             dialogueUI?.ClearTransientEffects();
         }
 
@@ -601,7 +730,13 @@ namespace ProjectLuna.CutscenePrototype.Authoring
 
         private void OnDestroy()
         {
+            RestorePresentationCamera();
             CleanupGeneratedMarkers();
+        }
+
+        private void OnDisable()
+        {
+            RestorePresentationCamera();
         }
 
         private void Fail(string error)
