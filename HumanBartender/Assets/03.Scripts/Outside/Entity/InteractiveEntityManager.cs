@@ -127,54 +127,84 @@ public class InteractiveEntityManager : MonoBehaviour
     public void RefreshEntity()
     {
         spawnHistory.Clear();
+
         foreach (var entity in InteractPointData.interactPointData)
         {
+            // 1. 엔티티 존재 여부 안전 검사
             if (!entities.TryGetValue(entity.SourceId, out InteractiveEntity curentity))
-                Debug.Log($"{entity.Id}가 {entity.SourceId}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
-            if (!spawnHistory.Contains(entity.SourceId))
-                curentity.gameObject.SetActive(false);
-            if (!conditionUtil.Check(entity.SpawnWhen)) continue;
-            if(GameStateManager.Instance.GameFlow!= entity.Phase) continue;
-            if(!SpotData.TryGetData(entity.SpotId, out var curSpot))
-                Debug.Log($"{entity.Id}가 {entity.SpotId}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+            {
+                Debug.LogError($"[InteractEntityManager] {entity.Id}: {entity.SourceId} 엔티티를 찾을 수 없습니다.");
+                continue;
+            }
+
+            // 2. 스폰 조건 검사 (조건 불만족 시 비활성화 후 스킵)
+            if (!conditionUtil.Check(entity.SpawnWhen) || GameStateManager.Instance.GameFlow != entity.Phase)
+            {
+                if (!spawnHistory.Contains(entity.SourceId))
+                {
+                    curentity.gameObject.SetActive(false);
+                }
+                continue;
+            }
+
+            // 3. 스팟 좌표 정보 조회
+            if (!SpotData.TryGetData(entity.SpotId, out var curSpot))
+            {
+                Debug.LogError($"[InteractEntityManager] {entity.Id}: Spot({entity.SpotId}) 정보를 불러오는 데 실패했습니다.");
+                continue;
+            }
+
+            // 4. 엔티티 활성화 및 기본 정보 설정
             curentity.gameObject.SetActive(true);
             spawnHistory.Add(entity.SourceId);
+
             curentity.gameObject.transform.position = curSpot.Position;
             curentity.kind = entity.Kind;
             curentity.ActivationMode = entity.ActivationMode;
             curentity.ActionType = entity.ActionType;
-            //facing
+
+            // 5. 상호작용 조건 및 대화 흐름(Dialogue Flow) 결정
             if (entity.InteractWhen == null || conditionUtil.Check(entity.InteractWhen))
             {
                 curentity.isInteract = true;
-                int curSeq = 100;
-                string curId = "";
-                foreach (var data in entity.DialogueFlows)
-                {
-                    //day
-                    if (data.When != null &&!conditionUtil.Check(data.When)) continue;
-                    if(data.PlayType == EPlayType.Once)
-                        if (onceHistory.Contains(data.SceneId)) continue;
-                    if(data.FlowSeq < curSeq)
-                    {
-                        curSeq = data.FlowSeq;
-                        curId = data.SceneId;
-                    }
 
-                }
-                if (curId == "")
+                int minSeq = int.MaxValue; // 안전한 최소값 비교용 초기화
+                string targetSceneId = string.Empty;
+
+                if (entity.DialogueFlows != null)
                 {
-                    if (curentity.ActionType == EActionType.Dialogue) curentity.isInteract = false;
+                    foreach (var data in entity.DialogueFlows)
+                    {
+                        // 조건 검사
+                        if (data.When != null && !conditionUtil.Check(data.When)) continue;
+                        if (data.PlayType == EPlayType.Once && onceHistory.Contains(data.SceneId)) continue;
+
+                        // 우선순위가 더 높은(flow_seq가 더 작은) 대화 씬 선택
+                        if (data.FlowSeq < minSeq)
+                        {
+                            minSeq = data.FlowSeq;
+                            targetSceneId = data.SceneId;
+                        }
+                    }
+                }
+
+                // 선택된 대화 씬 적용
+                if (string.IsNullOrEmpty(targetSceneId))
+                {
+                    if (curentity.ActionType == EActionType.Dialogue)
+                    {
+                        curentity.isInteract = false;
+                    }
                 }
                 else
                 {
-                    if(!streetData.TryGetSceneData(curId,out NewSceneData sceneData))
+                    if (streetData.TryGetSceneData(targetSceneId, out NewSceneData sceneData))
                     {
-                        Debug.Log($"{entity.Id}가 {entity.SpotId}의 정보를 불러오는것에 실패 출처는 인터렉트엔티티메니저");
+                        curentity.steps = sceneData.Steps;
                     }
                     else
                     {
-                        curentity.steps = sceneData.Steps;
+                        Debug.LogError($"[InteractEntityManager] {entity.Id}: Scene({targetSceneId}) 정보를 불러오는 데 실패했습니다.");
                     }
                 }
             }

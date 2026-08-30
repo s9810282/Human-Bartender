@@ -280,6 +280,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 18732689}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: experiment_recruit
   flows: []
@@ -6686,6 +6691,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 792484000}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: real_estate_posting
   flows: []
@@ -7656,6 +7666,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 868482188}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 0}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   spawnPoint: {x: -16.713, y: 9.627992}
   eGameFlow: 2
   targetScene: Home
@@ -8364,6 +8379,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
   OnRefreshCondition: {fileID: 0}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 0}
   flows: []
   runner: {fileID: 0}
@@ -8666,6 +8686,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 917009657}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 0}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   spawnPoint: {x: 1.0058, y: -0.7}
   eGameFlow: 1
   targetScene: Play
@@ -10160,6 +10185,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafd58139f026224e8b7f6c3996f3c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicSpeechBubble
+--- !u!1 &1040353828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1040353829}
+  - component: {fileID: 1040353830}
+  m_Layer: 0
+  m_Name: spot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1040353829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040353828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1081217489}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1040353830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040353828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4562b852656414186eaf98df08d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpotPoint
+  SpotID: 
 --- !u!1 &1041447590
 GameObject:
   m_ObjectHideFlags: 0
@@ -10560,6 +10630,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   cutSceneId: 
   lines:
   - data:
@@ -10722,6 +10797,52 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1081217487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081217489}
+  - component: {fileID: 1081217488}
+  m_Layer: 0
+  m_Name: SpotManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1081217488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081217487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccfb230dbf502f4da2340ee88a1fbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OutsideSpotManager
+  spotDataSO: {fileID: 11400000, guid: 2aec38dee5aa4aa0bf346a3d87d40428, type: 2}
+--- !u!4 &1081217489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081217487}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1040353829}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089424763
 GameObject:
   m_ObjectHideFlags: 0
@@ -10950,6 +11071,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
   OnRefreshCondition: {fileID: 0}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   textTagData: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
   OnTrackedText: {fileID: 11400000, guid: acaf18ff09c02a6458ef63f161c03440, type: 2}
   radioData: {fileID: 11400000, guid: d4b3ec65688c3cd48a38f72094fdca9e, type: 2}
@@ -12694,6 +12820,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1209062154}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: poster_human_trafficking
   flows: []
@@ -13301,6 +13432,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1286119214}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: toilet_bin
   flows: []
@@ -14359,6 +14495,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1331420473}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: vending_machine
   flows: []
@@ -14707,6 +14848,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1366513158}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: poster_shiba_wanted_day1
   flows: []
@@ -15627,6 +15773,9 @@ MonoBehaviour:
     bValue: 0
   obejctData: {fileID: 11400000, guid: 2e50c8c89d96c6447852f18d1515e34f, type: 2}
   triggerData: {fileID: 11400000, guid: 8e32772d0c4065f409ee6fc7badc25a3, type: 2}
+  InteractPointData: {fileID: 0}
+  streetData: {fileID: 0}
+  SpotData: {fileID: 0}
   obejcts:
   - id: poster_help_wanted
     entity: {fileID: 1617999574}
@@ -16389,6 +16538,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1582674274}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   logoEvent: {fileID: 94831492}
   logoFadeTiming: 0.425
   radio: {fileID: 1095731500}
@@ -16750,6 +16904,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1617999575}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   object_Id: poster_help_wanted
   flows: []
@@ -17631,6 +17790,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 1699909093}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   flows: []
   runner: {fileID: 1021899254}
@@ -19975,6 +20139,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   cutSceneId: 
   lines: []
 --- !u!1 &1913906404
@@ -21336,6 +21505,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 2030078810}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   flows: []
   runner: {fileID: 1021899254}
@@ -21981,6 +22155,11 @@ MonoBehaviour:
   outlineHighlight: {fileID: 2074752858}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
+  kind: 0
+  ActivationMode: 0
+  ActionType: 0
+  isInteract: 0
+  steps: []
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   flows: []
   runner: {fileID: 1021899254}
@@ -23227,6 +23406,7 @@ SceneRoots:
   - {fileID: 944276663}
   - {fileID: 981666737}
   - {fileID: 1876638612}
+  - {fileID: 1081217489}
   - {fileID: 917009660}
   - {fileID: 868482184}
   - {fileID: 1433854779}
