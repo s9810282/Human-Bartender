@@ -9,6 +9,9 @@
 
 Timeline 제작 도구의 상세 사용법은 `AUTHORING_GUIDE.md`를 따른다.
 
+`Cutscene/web/`에서 만든 S1·S2·S3·S5·S99 애니매틱을 Unity Timeline에서 그대로 스크럽하려면
+`WebAnimatic/README.md`의 Timeline Bridge 절을 따른다.
+
 ## JSON 프로토타입 실행
 
 1. `CutscenePrototype_Lab.unity`를 연다.

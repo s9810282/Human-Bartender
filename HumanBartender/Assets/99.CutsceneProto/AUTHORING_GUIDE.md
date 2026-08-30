@@ -20,6 +20,22 @@
 
 예제 씬은 연구소 침입 상황을 짧게 구성해 둔 제작 샘플이다. Studio를 열면 구형 예제의 위치 커브를 배우별 Move Track으로 한 번 정리하고, 카메라 흔들림 전용 `camera_shake` 자식을 준비한 뒤 Timeline을 다시 베이크한다. 기존 이동 클립을 옮기거나 길이를 바꾸면서 Timeline과 대사가 함께 어떻게 진행되는지 바로 확인할 수 있다.
 
+## 웹 애니매틱을 Timeline으로 가져오기
+
+웹에서 이미 타이밍과 화면 구성을 다듬은 S1·S2·S3·S5·S99는 손으로 다시 조립하지 않고 Timeline Bridge로 가져온다.
+
+1. `Window > Project L.U.N.A > Web Animatic > Build All`을 누른다.
+2. `Assets/99.CutsceneProto/WebAnimatic/WebAnimaticTimeline.unity`를 연다.
+3. Hierarchy의 `WebAnimaticTimeline`을 선택하고 Timeline 창을 연다.
+4. `WEB ANIMATIC · SOURCE` 클립을 이동·스크럽·배속 조절해 웹과 같은 연출을 확인한다.
+5. 다른 씬은 PlayableDirector에 `Timelines/S1_WebAnimatic.playable` 등 원하는 에셋을 지정한다.
+6. 마지막에 `Validate Timeline Bridge`를 실행해 5개 씬과 시작·중간·종료 샘플을 검사한다.
+
+Timeline Bridge는 **웹 애니매틱을 똑같은 화면으로 이관하는 소스 클립**이다. 반면
+Cutscene Authoring Studio는 **Unity에서 배우·이동·애니메이션·대사 트랙을 개별 조립하는 제작 도구**다.
+웹 연출을 보존하면 Bridge를, 실제 리소스로 각 트랙을 새로 연출하면 Studio를 사용한다.
+`Build All`은 소스 Timeline을 다시 만들므로, 수동 트랙 편집을 보존해야 하면 Timeline을 복제한 뒤 작업한다.
+
 ## 제작 화면의 역할
 
 ### Timeline 창

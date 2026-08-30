@@ -37,7 +37,8 @@ namespace ProjectLuna.WebAnimatic.Editor
             PrepareStageTextures();
             WebAnimaticLibrary lib = BuildLibrary();
             BuildScene(lib);
-            Debug.Log("[WebAnimatic] Build All 완료");
+            WebAnimaticTimelineImporter.BuildTimelineBridge(lib);
+            Debug.Log("[WebAnimatic] Build All 완료 — Library + 자체 재생 Scene + Timeline Bridge");
         }
 
         static void PrepareStageTextures()

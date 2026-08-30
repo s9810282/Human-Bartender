@@ -14,10 +14,8 @@ namespace ProjectLuna.WebAnimatic
     /// 웹 애니매틱 씬 데이터를 유니티에서 그대로 재생하는 플레이어.
     /// 웹 engine.js와 동일하게 "화면 상태 = 시간 t의 순수 함수"로 평가하므로
     /// 아무 시점으로 Seek해도 결과가 같다(에디터 캡처·검증에 그대로 쓴다).
-    ///
-    /// 웹과의 차이(v1에서 생략, 애니매틱 검토에는 지장 없음):
-    /// tvnoise·slowmo 그레이드·speedline·crack 시각 효과, 사운드(웹도 플레이스홀더),
-    /// 말풍선 점선 테두리·글자 떨림([shake]는 색만 유지).
+    /// Timeline에서는 WebAnimaticTimelineTrack이 외부 시간을 전달한다.
+    /// 자체 재생과 Timeline 스크럽 모두 같은 결과를 내도록 결정적으로 평가한다.
     /// </summary>
     public class WebAnimaticPlayer : MonoBehaviour
     {
@@ -26,12 +24,17 @@ namespace ProjectLuna.WebAnimatic
         public float time;
         public bool playing;
         public float speed = 1f;
+        [Tooltip("Timeline과 같은 외부 재생기가 시간을 제어할 때 활성화됩니다.")]
+        public bool externallyDriven;
 
         const float VW = 480f, VH = 270f;
         const float PPU = 100f;
 
         SceneData _scene;
         string _loadedSceneId;
+
+        public string LoadedSceneId => _loadedSceneId;
+        public float SceneDuration => _scene?.end ?? 0f;
 
         Camera _cam;
         SpriteRenderer _stage;
@@ -45,10 +48,22 @@ namespace ProjectLuna.WebAnimatic
         public Camera CaptureCamera => _cam;
 
         Canvas _canvas;
-        Image _fadeImg, _barTop, _barBottom, _bubbleBg;
+        Image _gradeImg, _fadeImg, _barTop, _barBottom, _bubbleBg;
+        RawImage _tvNoiseImg;
         TextMeshProUGUI _cutLabel, _cueLabel, _bubbleWho, _bubbleTxt, _bubbleTail;
         RectTransform _bubbleRoot;
         CanvasGroup _bubbleGroup;
+        Texture2D _tvNoiseTexture;
+        Color32[] _tvNoisePixels;
+        int _tvNoiseFrame = int.MinValue;
+
+        AudioSource _typingSource, _cueSource;
+        AudioClip _typingClip, _cueClip;
+        bool _emitAudioThisEvaluation;
+        float _lastAudioTime = -1f;
+        string _lastAudioSceneId;
+        int _lastBubbleLine = -1;
+        int _lastTypedCount;
 
         // ── 초기화 ──────────────────────────────────────────────
 
@@ -73,6 +88,15 @@ namespace ProjectLuna.WebAnimatic
             _stage.sortingOrder = -100;
             _actorRoot = FindT("Actors");
             _fxRoot = FindT("Fx");
+
+            _typingSource = Find<AudioSource>("TypingAudio");
+            _typingSource.playOnAwake = false;
+            _typingSource.volume = 0.12f;
+            _cueSource = Find<AudioSource>("CueAudio");
+            _cueSource.playOnAwake = false;
+            _cueSource.volume = 0.18f;
+            _typingClip ??= CreateTone("WebAnimaticTyping", 980f, 0.025f, 0.18f);
+            _cueClip ??= CreateTone("WebAnimaticCue", 520f, 0.085f, 0.22f);
 
             BuildCanvas();
         }
@@ -114,6 +138,26 @@ namespace ProjectLuna.WebAnimatic
             sc.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             sc.referenceResolution = new Vector2(VW, VH);
             sc.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+
+            _gradeImg = UiImage(ct, "SlowmoGrade", new Color(0.62f, 0.84f, 1f, 0f), stretch: true);
+
+            GameObject noise = new("TvNoise");
+            noise.transform.SetParent(ct, false);
+            _tvNoiseImg = noise.AddComponent<RawImage>();
+            _tvNoiseImg.raycastTarget = false;
+            RectTransform nr = _tvNoiseImg.rectTransform;
+            nr.anchorMin = Vector2.zero;
+            nr.anchorMax = Vector2.one;
+            nr.offsetMin = nr.offsetMax = Vector2.zero;
+            _tvNoiseTexture = new Texture2D(120, 68, TextureFormat.RGBA32, false, true)
+            {
+                name = "WebAnimaticTvNoise",
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp,
+            };
+            _tvNoisePixels = new Color32[_tvNoiseTexture.width * _tvNoiseTexture.height];
+            _tvNoiseImg.texture = _tvNoiseTexture;
+            _tvNoiseImg.color = Color.clear;
 
             _fadeImg = UiImage(ct, "Fade", new Color(0, 0, 0, 0), stretch: true);
             _barTop = UiImage(ct, "BarTop", Color.black);
@@ -196,6 +240,22 @@ namespace ProjectLuna.WebAnimatic
             return t;
         }
 
+        static AudioClip CreateTone(string name, float frequency, float duration, float gain)
+        {
+            const int sampleRate = 22050;
+            int count = Mathf.Max(32, Mathf.CeilToInt(sampleRate * duration));
+            float[] samples = new float[count];
+            for (int i = 0; i < count; i++)
+            {
+                float u = i / (float)(count - 1);
+                float envelope = Mathf.Sin(Mathf.PI * u);
+                samples[i] = Mathf.Sin(2f * Mathf.PI * frequency * i / sampleRate) * envelope * gain;
+            }
+            AudioClip clip = AudioClip.Create(name, count, 1, sampleRate, false);
+            clip.SetData(samples, 0);
+            return clip;
+        }
+
         static void AnchorTop(RectTransform r)
         {
             r.anchorMin = new Vector2(0, 1); r.anchorMax = Vector2.one; r.pivot = new Vector2(0.5f, 1);
@@ -212,14 +272,42 @@ namespace ProjectLuna.WebAnimatic
 
         public void LoadScene(int index)
         {
+            if (library == null || library.scenes == null || library.scenes.Length == 0)
+                return;
             sceneIndex = Mathf.Clamp(index, 0, library.scenes.Length - 1);
             var entry = library.scenes[sceneIndex];
+            if (entry == null || entry.json == null)
+                return;
             _scene = SceneData.Parse(entry.json.text);
             _loadedSceneId = entry.id;
             foreach (var kv in _actors) if (kv.Value != null) DestroyObj(kv.Value.gameObject);
             _actors.Clear();
             time = 0f;
+            _lastAudioTime = -1f;
+            _lastAudioSceneId = _loadedSceneId;
+            _lastBubbleLine = -1;
+            _lastTypedCount = 0;
             Seek(0f);
+        }
+
+        public bool LoadSceneById(string sceneId)
+        {
+            if (string.Equals(_loadedSceneId, sceneId, StringComparison.Ordinal) && _scene != null)
+                return true;
+
+            int index = library != null ? library.SceneIndex(sceneId) : -1;
+            if (index < 0)
+                return false;
+
+            LoadScene(index);
+            return _scene != null;
+        }
+
+        public void SetExternallyDriven(bool value)
+        {
+            externallyDriven = value;
+            if (value)
+                playing = false;
         }
 
         static void DestroyObj(UnityEngine.Object o)
@@ -232,12 +320,12 @@ namespace ProjectLuna.WebAnimatic
             EnsureInit();
             if (_scene == null && library != null && library.scenes.Length > 0)
                 LoadScene(sceneIndex);
-            playing = Application.isPlaying;
+            playing = Application.isPlaying && !externallyDriven;
         }
 
         void Update()
         {
-            if (_scene == null) return;
+            if (_scene == null || externallyDriven) return;
 #if ENABLE_INPUT_SYSTEM
             Keyboard kb = Keyboard.current;
             if (Application.isPlaying && kb != null)
@@ -258,14 +346,17 @@ namespace ProjectLuna.WebAnimatic
                 time += Time.deltaTime * speed;
                 if (time >= _scene.end) { time = _scene.end; playing = false; }
             }
-            Seek(time);
+            Evaluate(time, playing && Application.isPlaying);
         }
 
         void OnGUI()
         {
             if (!Application.isPlaying || _scene == null || library == null) return;
+            string guide = externallyDriven
+                ? "Timeline 제어 중 · Timeline 재생 헤드로 이동·재생하세요"
+                : $"Space 재생/정지 · ←→ 1초 · R 처음 · 1~{library.scenes.Length} 씬";
             GUI.Label(new Rect(8, Screen.height - 24, 700, 20),
-                $"[{library.scenes[sceneIndex].label}]  {time:F2}/{_scene.end:F2}s   Space 재생/정지 · ←→ 1초 · R 처음 · 1~{library.scenes.Length} 씬");
+                $"[{library.scenes[sceneIndex].label}]  {time:F2}/{_scene.end:F2}s   {guide}");
         }
 
         // ── 평가 ────────────────────────────────────────────────
@@ -308,8 +399,16 @@ namespace ProjectLuna.WebAnimatic
 
         public void Seek(float t)
         {
+            Evaluate(t, false);
+        }
+
+        public void Evaluate(float t, bool emitAudio)
+        {
             if (_scene == null || library == null) return;
             EnsureInit();
+            _emitAudioThisEvaluation = emitAudio && Application.isPlaying;
+            if (_emitAudioThisEvaluation)
+                PlayCuesBetween(_lastAudioTime, t);
             time = Mathf.Clamp(t, 0f, _scene.end);
             t = time;
 
@@ -321,6 +420,7 @@ namespace ProjectLuna.WebAnimatic
             var stage = ActiveStage(t);
             _stage.sprite = library.StageSprite(StageVariantId(stage.id, t));
             _stage.transform.position = Vector3.zero;
+            _stage.color = IsSlowmo(t) ? new Color(0.76f, 0.84f, 0.91f, 1f) : Color.white;
 
             _fxUsed = 0; _lineUsed = 0;
             DrawActors(t);
@@ -328,6 +428,11 @@ namespace ProjectLuna.WebAnimatic
             TrimPools();
             DrawOverlay(t, cam);
             DrawBubble(t, cam);
+            DrawTvNoise(t);
+
+            _lastAudioTime = t;
+            _lastAudioSceneId = _loadedSceneId;
+            _emitAudioThisEvaluation = false;
         }
 
         string StageVariantId(string id, float t)
@@ -394,9 +499,50 @@ namespace ProjectLuna.WebAnimatic
                 Color c = Color.white;
                 if (!string.IsNullOrEmpty(a.tint) && ColorUtility.TryParseHtmlString(a.tint, out Color tc))
                     c = Color.Lerp(Color.white, tc, a.tintAmount);
+                if (IsSlowmo(t))
+                {
+                    float gray = c.grayscale;
+                    c = Color.Lerp(c, new Color(gray * 0.82f, gray * 0.90f, gray, 1f), 0.75f);
+                }
                 c.a = alpha;
                 sr.color = c;
             }
+        }
+
+        bool IsSlowmo(float t)
+        {
+            if (_scene == null)
+                return false;
+            foreach (FxData f in _scene.fx)
+                if (f.type == "slowmo" && t >= f.t && t <= f.t + f.dur)
+                    return true;
+            return false;
+        }
+
+        void PlayCuesBetween(float previous, float current)
+        {
+            if (_scene == null || _cueSource == null || _cueClip == null)
+                return;
+            if (!string.Equals(_lastAudioSceneId, _loadedSceneId, StringComparison.Ordinal) || current < previous)
+                previous = -0.001f;
+
+            foreach (CueData cue in _scene.sfx)
+            {
+                if (cue.t <= previous || cue.t > current)
+                    continue;
+                _cueSource.pitch = CuePitch(cue.label);
+                _cueSource.PlayOneShot(_cueClip);
+            }
+        }
+
+        static float CuePitch(string label)
+        {
+            if (string.IsNullOrEmpty(label)) return 1f;
+            string value = label.ToLowerInvariant();
+            if (value.Contains("총") || value.Contains("발사") || value.Contains("gun")) return 0.68f;
+            if (value.Contains("경고") || value.Contains("알람") || value.Contains("alarm")) return 1.28f;
+            if (value.Contains("노이즈") || value.Contains("무전") || value.Contains("radio")) return 1.55f;
+            return 1f;
         }
 
         // ── 월드 이펙트 ─────────────────────────────────────────
@@ -528,6 +674,46 @@ namespace ProjectLuna.WebAnimatic
                         }
                         break;
                     }
+                    case "crack":
+                    {
+                        float appear = Mathf.Min(1f, u * 8f);
+                        float scale = Mathf.Max(0.01f, f.scale);
+                        for (int i = 0; i < 10; i++)
+                        {
+                            float dir = i % 2 == 0 ? -1f : 1f;
+                            float len = (10f + WebEval.Rnd(f.t * 5f + i) * 34f) * scale * appear;
+                            float dy = (WebEval.Rnd(i * 13f + f.t) - 0.5f) * 6f * scale;
+                            LineRenderer lr = FxLine();
+                            lr.positionCount = 3;
+                            lr.SetPosition(0, W2U(f.x, f.y));
+                            lr.SetPosition(1, W2U(f.x + dir * len, f.y + dy));
+                            lr.SetPosition(2, W2U(f.x + dir * len * 1.5f, f.y + dy * 2.2f));
+                            lr.startWidth = lr.endWidth = 1f / PPU;
+                            Color crack = Hex("#0c1218");
+                            crack.a = 0.9f;
+                            lr.startColor = lr.endColor = crack;
+                        }
+                        break;
+                    }
+                    case "speedline":
+                    {
+                        float alpha = Mathf.Sin(u * Mathf.PI) * 0.5f;
+                        for (int i = 0; i < 14; i++)
+                        {
+                            float angle = WebEval.Rnd(f.t * 13f + i) * Mathf.PI * 2f;
+                            float radius = 40f + WebEval.Rnd(i * 7f) * 60f;
+                            Vector2 direction = new(Mathf.Cos(angle), Mathf.Sin(angle));
+                            LineRenderer lr = FxLine();
+                            lr.positionCount = 2;
+                            lr.SetPosition(0, W2U(f.x + direction.x * radius, f.y + direction.y * radius));
+                            lr.SetPosition(1, W2U(f.x + direction.x * (radius + 26f), f.y + direction.y * (radius + 26f)));
+                            lr.startWidth = lr.endWidth = 1f / PPU;
+                            Color speed = Hex("#dff4ff");
+                            speed.a = alpha;
+                            lr.startColor = lr.endColor = speed;
+                        }
+                        break;
+                    }
                     case "link":
                     {
                         ActorData A = _scene.actors.Find(x => x.id == f.a);
@@ -583,6 +769,10 @@ namespace ProjectLuna.WebAnimatic
 
         void DrawOverlay(float t, CamState cam)
         {
+            _gradeImg.color = IsSlowmo(t)
+                ? new Color(0.62f, 0.84f, 1f, 0.085f)
+                : new Color(0.62f, 0.84f, 1f, 0f);
+
             // 페이드·암전·화이트홀드·플래시를 fx 순서대로 하나의 색으로 합성
             Color acc = new(0, 0, 0, 0);
             foreach (FxData f in _scene.fx)
@@ -635,6 +825,60 @@ namespace ProjectLuna.WebAnimatic
             _cueLabel.text = cue != null ? "♪ " + cue : "";
         }
 
+        void DrawTvNoise(float t)
+        {
+            float amount = 0f;
+            foreach (FxData f in _scene.fx)
+            {
+                if (f.type != "tvnoise" || t < f.t || t > f.t + f.dur)
+                    continue;
+
+                float attack = f.atk < 0f ? 0.06f : f.atk;
+                float release = f.rel < 0f ? 0.12f : f.rel;
+                float envelope = 1f;
+                if (attack > 0f && t - f.t < attack)
+                    envelope = Mathf.Clamp01((t - f.t) / attack);
+                float left = f.t + f.dur - t;
+                if (release > 0f && left < release)
+                    envelope = Mathf.Min(envelope, Mathf.Clamp01(left / release));
+                amount = Mathf.Max(amount, f.amount * envelope);
+            }
+
+            if (amount <= 0.001f)
+            {
+                _tvNoiseImg.color = Color.clear;
+                return;
+            }
+
+            int frame = Mathf.FloorToInt(t * 30f);
+            if (frame != _tvNoiseFrame)
+            {
+                _tvNoiseFrame = frame;
+                int width = _tvNoiseTexture.width;
+                int height = _tvNoiseTexture.height;
+                int rolling = Mathf.Abs(frame * 3) % height;
+                for (int y = 0; y < height; y++)
+                {
+                    float scan = (y & 1) == 0 ? 0.82f : 1f;
+                    float band = Mathf.Abs(y - rolling) < 3 ? 1.35f : 1f;
+                    for (int x = 0; x < width; x++)
+                    {
+                        double seed = frame * 97.1 + y * 13.7 + x * 3.1;
+                        float speck = WebEval.Rnd(seed);
+                        float baseValue = Mathf.Clamp01((0.18f + speck * 0.82f) * scan * band);
+                        byte r = (byte)Mathf.RoundToInt(Mathf.Clamp01(baseValue + WebEval.Srnd(seed + 11) * amount * 0.35f) * 255f);
+                        byte g = (byte)Mathf.RoundToInt(Mathf.Clamp01(baseValue + WebEval.Srnd(seed + 23) * amount * 0.26f) * 255f);
+                        byte b = (byte)Mathf.RoundToInt(Mathf.Clamp01(baseValue + WebEval.Srnd(seed + 41) * amount * 0.35f) * 255f);
+                        _tvNoisePixels[y * width + x] = new Color32(r, g, b, 255);
+                    }
+                }
+                _tvNoiseTexture.SetPixels32(_tvNoisePixels);
+                _tvNoiseTexture.Apply(false, false);
+            }
+
+            _tvNoiseImg.color = new Color(1f, 1f, 1f, Mathf.Clamp01(amount * 0.44f));
+        }
+
         // ── 말풍선 ──────────────────────────────────────────────
 
         const string NZ_FULL_WANT = "＃＠％＆￦＄？！";
@@ -673,6 +917,18 @@ namespace ProjectLuna.WebAnimatic
             int n = WebEval.TypedCount(l, t - l.t - l.lead);
             int nk = Mathf.FloorToInt(t * 15f);
             _bubbleTxt.text = BuildRich(l, n, nk);
+            if (_lastBubbleLine != l.idx)
+            {
+                _lastBubbleLine = l.idx;
+                _lastTypedCount = 0;
+            }
+            if (_emitAudioThisEvaluation && n > _lastTypedCount && n <= l.text.Length
+                && n > 0 && !char.IsWhiteSpace(l.text[n - 1]) && _typingSource != null && _typingClip != null)
+            {
+                _typingSource.pitch = 0.94f + WebEval.Rnd(l.idx * 101f + n) * 0.12f;
+                _typingSource.PlayOneShot(_typingClip);
+            }
+            _lastTypedCount = n;
 
             // 크기 — 웹과 같은 규칙: 원문 전체 폭으로 확정, 최소 한글 5자, 화자명 한 줄
             string full = ProcessedFull(l);
@@ -730,6 +986,52 @@ namespace ProjectLuna.WebAnimatic
 
             Color border = isPa ? Hex("#e0a03a") : isRadio ? Hex("#6fd6e0") : Hex("#dfeff5");
             _bubbleBg.GetComponent<Outline>().effectColor = border;
+            ApplyTextShake(l, n, t);
+        }
+
+        void ApplyTextShake(LineData line, int visible, float t)
+        {
+            bool hasShake = false;
+            foreach (SpanData span in line.spans)
+                if (span.type == "shake" && span.i0 < visible)
+                {
+                    hasShake = true;
+                    break;
+                }
+            if (!hasShake)
+                return;
+
+            _bubbleTxt.ForceMeshUpdate();
+            TMP_TextInfo info = _bubbleTxt.textInfo;
+            int characterCount = Mathf.Min(visible, info.characterCount);
+            for (int i = 0; i < characterCount; i++)
+            {
+                SpanData span = SpanAt(line, i, "shake");
+                if (span == null || !info.characterInfo[i].isVisible)
+                    continue;
+
+                float strength = 1f;
+                if (!string.IsNullOrEmpty(span.param) && float.TryParse(
+                        span.param,
+                        System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out float parsed))
+                    strength = Mathf.Max(0f, parsed);
+
+                int tick = Mathf.FloorToInt(t * 22f);
+                Vector3 offset = new(
+                    WebEval.Srnd(tick * 17.3 + i * 5.7) * strength,
+                    WebEval.Srnd(tick * 29.1 + i * 9.3) * strength * 0.65f,
+                    0f);
+                TMP_CharacterInfo ch = info.characterInfo[i];
+                Vector3[] vertices = info.meshInfo[ch.materialReferenceIndex].vertices;
+                int vertex = ch.vertexIndex;
+                vertices[vertex] += offset;
+                vertices[vertex + 1] += offset;
+                vertices[vertex + 2] += offset;
+                vertices[vertex + 3] += offset;
+            }
+            _bubbleTxt.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
         }
 
         string ProcessedFull(LineData l)

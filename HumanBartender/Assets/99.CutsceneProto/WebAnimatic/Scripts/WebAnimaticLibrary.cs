@@ -72,6 +72,7 @@ namespace ProjectLuna.WebAnimatic
         Dictionary<string, SheetEntry> _sheetMap;
         Dictionary<string, AnimEntry> _animMap;
         Dictionary<string, StageEntry> _stageMap;
+        Dictionary<string, SceneEntry> _sceneMap;
         Dictionary<(string sheet, int frame, int anchorKey), Sprite> _spriteCache;
 
         public SheetEntry Sheet(string id)
@@ -90,6 +91,25 @@ namespace ProjectLuna.WebAnimatic
         {
             _stageMap ??= Build(stages, s => s.id);
             return _stageMap.TryGetValue(id, out var v) ? v : null;
+        }
+
+        public SceneEntry Scene(string id)
+        {
+            _sceneMap ??= Build(scenes, s => s.id);
+            return !string.IsNullOrEmpty(id) && _sceneMap.TryGetValue(id, out SceneEntry value)
+                ? value
+                : null;
+        }
+
+        public int SceneIndex(string id)
+        {
+            if (scenes == null || string.IsNullOrEmpty(id))
+                return -1;
+
+            for (int i = 0; i < scenes.Length; i++)
+                if (scenes[i] != null && string.Equals(scenes[i].id, id, StringComparison.Ordinal))
+                    return i;
+            return -1;
         }
 
         public Sprite StageSprite(string variantId)

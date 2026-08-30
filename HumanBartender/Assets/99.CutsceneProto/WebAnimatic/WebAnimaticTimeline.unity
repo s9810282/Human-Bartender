@@ -127,16 +127,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 519958203}
   - component: {fileID: 519958202}
   - component: {fileID: 519958201}
   m_Layer: 0
-  m_Name: WebAnimatic
+  m_Name: WebAnimaticTimeline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &519958201
+--- !u!320 &519958201
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519958200}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 54d9bcf7396054834bc885ff4ac264d9, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 2154515890443373318, guid: 54d9bcf7396054834bc885ff4ac264d9, type: 2}
+    value: {fileID: 519958202}
+  m_ExposedReferences:
+    m_References: []
+--- !u!114 &519958202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,8 +173,8 @@ MonoBehaviour:
   time: 0
   playing: 0
   speed: 1
-  externallyDriven: 0
---- !u!4 &519958202
+  externallyDriven: 1
+--- !u!4 &519958203
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,4 +193,4 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519958202}
+  - {fileID: 519958203}
