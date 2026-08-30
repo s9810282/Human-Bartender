@@ -333,3 +333,8 @@ public enum EActionType
     [EnumMember(Value = "transition ")] Transition,
     [EnumMember(Value = "dialogue ")] Dialogue
 }
+public enum ELanguage
+{
+    Ko,
+    En
+}

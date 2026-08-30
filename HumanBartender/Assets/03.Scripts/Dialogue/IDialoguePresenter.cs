@@ -23,4 +23,9 @@ public interface IDialoguePresenter
 
     /// <summary>트리거(연출/미니게임 등)를 실행하고 다음 대사 id를 반환한다.</summary>
     UniTask<string> ExecuteTriggerAsync(TriggerData? trigger);
+    // [신규] Step 기반 대사 출력 (4개 인자)
+    UniTask ShowDialogueAsync(string actor, string text, string arg, CancellationToken ct);
+
+    // [신규] 아웃사이드 선택지 출력
+    void ShowOutsideChoices(NewStreetOptionData[] options, Action<NewStreetOptionData> onSelected);
 }

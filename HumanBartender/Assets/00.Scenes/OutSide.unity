@@ -9719,6 +9719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80d1c2286970e740a06346263c3c5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueRunner
+  StreetDataSO: {fileID: 11400000, guid: c8fee4a984072cf4591e1c219a36020d, type: 2}
 --- !u!114 &1021899255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9737,7 +9738,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1021899254}
         m_TargetAssemblyTypeName: DialogueRunner, Assembly-CSharp
-        m_MethodName: OnAdvanceInput
+        m_MethodName: AdvanceInputOutside
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10211,7 +10212,7 @@ Transform:
   m_GameObject: {fileID: 1040353828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.666, y: -0.563, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10229,7 +10230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4562b852656414186eaf98df08d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpotPoint
-  SpotID: 
+  SpotID: alley_in
 --- !u!1 &1041447590
 GameObject:
   m_ObjectHideFlags: 0
@@ -15762,7 +15763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractiveEntityManager
   isTest: 1
-  testDay: 1
+  testDay: 2
   testFlow: 2
   testFlags:
   - flag: samho_death_route
@@ -15773,9 +15774,9 @@ MonoBehaviour:
     bValue: 0
   obejctData: {fileID: 11400000, guid: 2e50c8c89d96c6447852f18d1515e34f, type: 2}
   triggerData: {fileID: 11400000, guid: 8e32772d0c4065f409ee6fc7badc25a3, type: 2}
-  InteractPointData: {fileID: 0}
-  streetData: {fileID: 0}
-  SpotData: {fileID: 0}
+  InteractPointData: {fileID: 11400000, guid: 5ed93d5bb4b64ebeb2e3ef0656aa378c, type: 2}
+  streetData: {fileID: 11400000, guid: c8fee4a984072cf4591e1c219a36020d, type: 2}
+  SpotData: {fileID: 11400000, guid: 2aec38dee5aa4aa0bf346a3d87d40428, type: 2}
   obejcts:
   - id: poster_help_wanted
     entity: {fileID: 1617999574}
@@ -15809,6 +15810,11 @@ MonoBehaviour:
     entity: {fileID: 1905454072}
   - id: samho_survived_cutscene
     entity: {fileID: 1074330138}
+  entityList:
+  - id: shiba
+    entity: {fileID: 2074752857}
+  - id: 
+    entity: {fileID: 0}
   player: {fileID: 398070673}
   barEntrance: {fileID: 917009656}
   homeEntrance: {fileID: 868482189}
@@ -23406,11 +23412,11 @@ SceneRoots:
   - {fileID: 944276663}
   - {fileID: 981666737}
   - {fileID: 1876638612}
-  - {fileID: 1081217489}
   - {fileID: 917009660}
   - {fileID: 868482184}
   - {fileID: 1433854779}
   - {fileID: 398070675}
+  - {fileID: 1081217489}
   - {fileID: 1577278769}
   - {fileID: 1978158279}
   - {fileID: 266533463}

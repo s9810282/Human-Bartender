@@ -15,38 +15,45 @@ public enum DialogueState
     CompleteTrigger,
 }
 
-
-
-/// <summary>
-/// 대사 데이터(DialogueData) 배열을 순회하며 실제 진행(상태 전이, 트리거 실행, 분기, 선택지)을 담당하는
-/// 대화 시스템의 핵심 컨트롤러. 화면 표시는 IDialoguePresenter(Bind로 주입)에 위임한다.
-/// </summary>
 public class DialogueRunner : MonoBehaviour
 {
-    [Inject] IPlayerDataReader PlayerData;
+    [Inject] private IPlayerDataReader PlayerData;
+    [Inject] private IConditionUtil conditionUtil;
+
     private IDialoguePresenter presenter;
 
     private readonly Dictionary<string, DialogueData> currentDB = new();
     private DialogueData currentDialogue;
-    private DialogueState currentState = DialogueState.Idle;
 
-    private UniTaskCompletionSource completionSource;
+    private DialogueState currentState = DialogueState.Idle;
     private CancellationTokenSource runnerCts;
+    private UniTaskCompletionSource completionSource;
+    private UniTaskCompletionSource outsideInputCompletionSource;
+
+    [SerializeField]
+    private NewStreetDataSO StreetDataSO;
 
     public DialogueState CurrentState => currentState;
     public bool IsRunning => currentState != DialogueState.Idle;
 
-    /// <summary>대사 표시를 담당할 프레젠터를 연결한다. PlayAsync 호출 전에 반드시 호출되어야 한다.</summary>
+    public ELanguage CurrentLanguage => GameStateManager.Instance != null
+        ? GameStateManager.Instance.Language
+        : ELanguage.Ko;
+
     public void Bind(IDialoguePresenter presenter)
     {
         this.presenter = presenter;
+        Debug.Log($"[DialogueRunner] Presenter 바인딩 완료: {(presenter != null ? presenter.GetType().Name : "null")}");
     }
 
+    public void Stop()
+    {
+        Debug.Log("[DialogueRunner] Stop 호출됨");
+        runnerCts?.Cancel();
+    }
 
-    /// <summary>
-    /// 대사 배열 하나(하나의 씬)를 처음부터 끝까지 재생한다. 이미 실행 중이거나 presenter 미바인딩, 빈 배열이면 무시.
-    /// 완료/취소/예외 어느 경우든 finally에서 상태를 Idle로 되돌리고 리소스를 정리한다.
-    /// </summary>
+    #region Legacy Dialogue System
+
     public async UniTask PlayAsync(DialogueData[] dialogues, string startId = null, CancellationToken externalToken = default)
     {
         if (presenter == null)
@@ -63,7 +70,7 @@ public class DialogueRunner : MonoBehaviour
 
         if (IsRunning)
         {
-            Debug.LogWarning("[DialogueRunner] 이미 실행 중입니다.");
+            Debug.LogWarning($"[DialogueRunner] 이미 실행 중입니다. (현재 상태: {currentState})");
             return;
         }
 
@@ -74,19 +81,14 @@ public class DialogueRunner : MonoBehaviour
         string firstId = string.IsNullOrEmpty(startId) ? dialogues[0].Id : startId;
 
         completionSource = new UniTaskCompletionSource();
-        runnerCts = CancellationTokenSource.CreateLinkedTokenSource(
-            externalToken, this.GetCancellationTokenOnDestroy());
+        runnerCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken, this.GetCancellationTokenOnDestroy());
 
         try
-        { 
+        {
             DialogueEvent(firstId);
             await completionSource.Task.AttachExternalCancellation(runnerCts.Token);
         }
-        catch (OperationCanceledException)
-        {
-            
-
-        }
+        catch (OperationCanceledException) { }
         catch (Exception e)
         {
             Debug.LogError($"[DialogueRunner] PlayAsync 오류: {e}");
@@ -106,17 +108,6 @@ public class DialogueRunner : MonoBehaviour
         }
     }
 
-    
-    /// <summary>진행 중인 대사 재생을 취소한다.</summary>
-    public void Stop()
-    {
-        runnerCts?.Cancel();
-    }
-
-    /// <summary>
-    /// 플레이어의 "다음으로" 입력 처리. 타이핑 중이면 즉시 완성(스킵), 입력 대기 중이면
-    /// 선택지 -> 트리거(단일/복수) -> 다음 대사 -> 씬 종료 순으로 우선순위를 확인해 진행한다.
-    /// </summary>
     public void OnAdvanceInput()
     {
         if (currentState == DialogueState.WaitingForTrigger
@@ -137,8 +128,7 @@ public class DialogueRunner : MonoBehaviour
             {
                 ShowChoices();
             }
-            else if (currentDialogue.Trigger != null
-                     && currentDialogue.Trigger.Value.Type != ETriggetType.None)
+            else if (currentDialogue.Trigger != null && currentDialogue.Trigger.Value.Type != ETriggetType.None)
             {
                 ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next).Forget();
             }
@@ -157,18 +147,13 @@ public class DialogueRunner : MonoBehaviour
         }
     }
 
-    /// <summary>id로 대사를 조회해 재생을 시작한다. id가 비어있거나 DB에 없으면 씬을 종료한다.</summary>
     private void DialogueEvent(string id)
     {
-        if (string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(id) || !currentDB.ContainsKey(id))
         {
-            EndScene();
-            return;
-        }
+            if (!string.IsNullOrEmpty(id))
+                Debug.LogWarning($"[DialogueRunner] dialogue id '{id}' 을(를) 찾을 수 없습니다.");
 
-        if (!currentDB.ContainsKey(id))
-        {
-            Debug.LogWarning($"[DialogueRunner] dialogue id '{id}' 을(를) 찾을 수 없습니다.");
             EndScene();
             return;
         }
@@ -176,11 +161,6 @@ public class DialogueRunner : MonoBehaviour
         PlayDialogueAsync(id).Forget();
     }
 
-
-    /// <summary>
-    /// 대사 타입별 분기 처리: System(연출 트리거만 실행), ConditionBranch(조건에 따라 다음 id 결정),
-    /// Choice/ChoiceRoot(선택지 표시), 그 외 일반 대사는 프레젠터에 타이핑 표시를 요청한다.
-    /// </summary>
     private async UniTaskVoid PlayDialogueAsync(string dialogueId)
     {
         try
@@ -191,12 +171,11 @@ public class DialogueRunner : MonoBehaviour
             {
                 presenter.ShowSystemAction();
 
-                if (currentDialogue.Trigger != null
-                     && currentDialogue.Trigger.Value.Type != ETriggetType.None)
+                if (currentDialogue.Trigger != null && currentDialogue.Trigger.Value.Type != ETriggetType.None)
                 {
                     await ExecuteTriggerAsync(currentDialogue.Trigger, currentDialogue.Next);
                 }
-                else if(currentDialogue.Triggers != null && currentDialogue.Triggers.Length > 0)
+                else if (currentDialogue.Triggers != null && currentDialogue.Triggers.Length > 0)
                 {
                     await ExecuteTriggersAsync(currentDialogue.Triggers, currentDialogue.Next);
                 }
@@ -204,7 +183,6 @@ public class DialogueRunner : MonoBehaviour
                 {
                     DialogueEvent(currentDialogue.Next);
                 }
-
                 return;
             }
             else if (currentDialogue.Type == EDialogueType.ConditionBranch)
@@ -212,7 +190,6 @@ public class DialogueRunner : MonoBehaviour
                 NextConditions next = currentDialogue.Nextconditions.Value;
                 string nextid = CheckCondition(next);
                 DialogueEvent(nextid);
-
                 return;
             }
             else if (currentDialogue.Type == EDialogueType.ChoiceRoot || currentDialogue.Type == EDialogueType.Choice)
@@ -228,10 +205,7 @@ public class DialogueRunner : MonoBehaviour
             await presenter.ShowDialogueAsync(currentDialogue, runnerCts.Token);
             currentState = DialogueState.WaitingForInput;
         }
-        catch (OperationCanceledException)
-        {
-
-        }
+        catch (OperationCanceledException) { }
         catch (Exception e)
         {
             Debug.LogError($"[DialogueRunner] PlayDialogueAsync 오류: {e}");
@@ -239,10 +213,6 @@ public class DialogueRunner : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 조건 분기(ConditionBranch) 대사에서 사용. Stat 종류(호감도/스킬/재화/플래그)에 따라
-    /// 해당하는 분기의 Goto id를 찾아 반환하고, 없으면 checkType.Default를 반환한다.
-    /// </summary>
     public string CheckCondition(NextConditions checkType)
     {
         switch (checkType.Stat)
@@ -252,47 +222,36 @@ public class DialogueRunner : MonoBehaviour
 
             case EConditionCheckType.Affinity:
                 EAffinityTier characterTier = PlayerData.GetCurCharacterAffinityTier(checkType.Character);
-
                 foreach (var item in checkType.Branches)
                 {
                     if (item.Tier == characterTier) return item.Goto;
                 }
-
                 return checkType.Default;
 
             case EConditionCheckType.Skill:
                 return checkType.Default;
 
             case EConditionCheckType.Money:
-                if (PlayerData.HasEnoughMoney(checkType.MinAmount)) 
+                if (PlayerData.HasEnoughMoney(checkType.MinAmount))
                     return checkType.Branches[0].Goto;
-
                 return checkType.Default;
 
             case EConditionCheckType.Flag:
-                //추후 작업
                 break;
         }
 
         return checkType.Default;
     }
 
-
-
-    /// <summary>단일 트리거(연출/미니게임 등)를 실행하고, 결과로 받은 다음 id(없으면 fallback)로 진행한다.</summary>
     private async UniTask ExecuteTriggerAsync(TriggerData? trigger, string fallbackNextId)
     {
         currentState = DialogueState.WaitingForTrigger;
-
         string nextId = "";
         try
         {
             nextId = await presenter.ExecuteTriggerAsync(trigger);
         }
-        catch (OperationCanceledException)
-        {
-            return;
-        }
+        catch (OperationCanceledException) { return; }
         catch (Exception e)
         {
             Debug.LogError($"[DialogueRunner] ExecuteTriggerAsync 오류: {e}");
@@ -300,12 +259,9 @@ public class DialogueRunner : MonoBehaviour
             return;
         }
 
-        if (string.IsNullOrEmpty(nextId))
-            DialogueEvent(fallbackNextId);
-        else
-            DialogueEvent(nextId);
+        DialogueEvent(string.IsNullOrEmpty(nextId) ? fallbackNextId : nextId);
     }
-    /// <summary>여러 트리거를 순차 실행한다. 마지막으로 받은 다음 id(없으면 fallback)로 진행한다.</summary>
+
     private async UniTask ExecuteTriggersAsync(TriggerData[] triggers, string fallbackNextId)
     {
         currentState = DialogueState.WaitingForTrigger;
@@ -317,10 +273,7 @@ public class DialogueRunner : MonoBehaviour
             {
                 nextId = await presenter.ExecuteTriggerAsync(triggerData);
             }
-            catch (OperationCanceledException)
-            {
-                return;
-            }
+            catch (OperationCanceledException) { return; }
             catch (Exception e)
             {
                 Debug.LogError($"[DialogueRunner] ExecuteTriggerAsync 오류: {e}");
@@ -329,29 +282,283 @@ public class DialogueRunner : MonoBehaviour
             }
         }
 
-        if (string.IsNullOrEmpty(nextId))
-            DialogueEvent(fallbackNextId);
-        else
-            DialogueEvent(nextId);
+        DialogueEvent(string.IsNullOrEmpty(nextId) ? fallbackNextId : nextId);
     }
 
-
-    /// <summary>상태를 선택지 대기로 전환하고 프레젠터에 선택지 표시를 요청한다.</summary>
     private void ShowChoices()
     {
         currentState = DialogueState.WaitingForChoice;
         presenter.ShowChoices(currentDialogue.Choices, OnChoiceSelected);
     }
-    /// <summary>선택지 선택 콜백. 선택된 항목의 Next id로 진행한다.</summary>
+
     private void OnChoiceSelected(ChoiceData data)
     {
         DialogueEvent(data.Next);
     }
-    /// <summary>씬 종료 처리: 상태를 Idle로 되돌리고 PlayAsync의 대기를 완료시킨다.</summary>
+
     private void EndScene()
     {
         currentState = DialogueState.Idle;
         presenter.EndScene();
         completionSource?.TrySetResult();
     }
+
+    #endregion
+
+
+    #region Outside Dialogue System (NewStreetDataSO 연동)
+
+    public async UniTask PlayOutsideAsync(Step[] startSteps, CancellationToken externalToken = default)
+    {
+        Debug.Log($"[DialogueRunner] PlayOutsideAsync 호출됨. Step 개수: {startSteps?.Length ?? 0}");
+
+        if (presenter == null)
+        {
+            Debug.LogError("[DialogueRunner] 실패: Presenter가 바인딩되지 않았습니다. Bind()를 먼저 호출했는지 확인하세요.");
+            return;
+        }
+
+        if (startSteps == null || startSteps.Length == 0)
+        {
+            Debug.LogWarning("[DialogueRunner] 실패: 실행할 Step 배열이 비어있습니다.");
+            return;
+        }
+
+        if (IsRunning)
+        {
+            Debug.LogWarning($"[DialogueRunner] 실패: 이미 대화가 진행 중입니다. (현재 상태: {currentState})");
+            return;
+        }
+
+        runnerCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken, this.GetCancellationTokenOnDestroy());
+
+        try
+        {
+            Debug.Log("[DialogueRunner] ExecuteOutsideStepsAsync 시작합니다.");
+            await ExecuteOutsideStepsAsync(startSteps, runnerCts.Token);
+            Debug.Log("[DialogueRunner] ExecuteOutsideStepsAsync 정상적으로 끝났습니다.");
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.LogWarning("[DialogueRunner] PlayOutsideAsync 가 취소(Cancel)되었습니다.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[DialogueRunner] PlayOutsideAsync 중 예외 발생: {e}");
+        }
+        finally
+        {
+            Debug.Log("[DialogueRunner] PlayOutsideAsync 종료 (State -> Idle)");
+            currentState = DialogueState.Idle;
+            outsideInputCompletionSource = null;
+
+            try { presenter?.HideDialogue(); }
+            catch (Exception e) { Debug.LogError($"[DialogueRunner] HideDialogue 오류: {e}"); }
+
+            runnerCts?.Dispose();
+            runnerCts = null;
+        }
+    }
+
+    public async UniTask PlayOutsideAsync(string sceneId, CancellationToken externalToken = default)
+    {
+        Debug.Log($"[DialogueRunner] PlayOutsideAsync(sceneId: '{sceneId}') 호출됨.");
+
+        if (StreetDataSO == null)
+        {
+            Debug.LogError("[DialogueRunner] 실패: StreetDataSO가 Inspector에 할당되지 않았습니다.");
+            return;
+        }
+
+        if (StreetDataSO.TryGetSteps(sceneId, out Step[] steps))
+        {
+            await PlayOutsideAsync(steps, externalToken);
+        }
+        else
+        {
+            Debug.LogError($"[DialogueRunner] 실패: StreetDataSO에서 SceneId '{sceneId}'를 찾을 수 없습니다.");
+        }
+    }
+
+    public void AdvanceInputOutside()
+    {
+        Debug.Log($"[DialogueRunner] AdvanceInputOutside 호출됨. (현재 상태: {currentState})");
+
+        if (currentState == DialogueState.Typing)
+        {
+            Debug.Log("[DialogueRunner] 타이핑 스킵 실행");
+            presenter?.SkipTyping();
+            currentState = DialogueState.WaitingForInput;
+        }
+        else if (currentState == DialogueState.WaitingForInput)
+        {
+            Debug.Log("[DialogueRunner] 다음 스텝 진행 신호 전달 (outsideInputCompletionSource)");
+            outsideInputCompletionSource?.TrySetResult();
+        }
+    }
+
+    private async UniTask ExecuteOutsideStepsAsync(Step[] steps, CancellationToken ct)
+    {
+        if (steps == null) return;
+
+        for (int i = 0; i < steps.Length; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+
+            var step = steps[i];
+            Debug.Log($"[DialogueRunner] Step [{i}/{steps.Length - 1}] 처리 시작 - Type: '{step.Type}', Actor: '{step.Actor}', When: '{step.When}'");
+
+            if (!string.IsNullOrEmpty(step.When))
+            {
+                if (conditionUtil == null)
+                {
+                    Debug.LogWarning("[DialogueRunner] ConditionUtil이 Inject되지 않았습니다. 조건 검사를 건너뜁니다.");
+                }
+                else if (!conditionUtil.Check(step.When))
+                {
+                    Debug.Log($"[DialogueRunner] Step [{i}] 조건 미충족 ('{step.When}') -> 건너뜁니다.");
+                    continue;
+                }
+            }
+
+            switch (step.Type?.ToLower())
+            {
+                case "say":
+                case "timeline":
+                    await ProcessSayStepOutsideAsync(step, ct);
+                    break;
+
+                case "set_state":
+                    ProcessSetStateStepOutside(step.Effects);
+                    break;
+
+                case "choice":
+                    bool stopLoop = await ProcessChoiceStepOutsideAsync(step, ct);
+                    if (stopLoop)
+                    {
+                        Debug.Log($"[DialogueRunner] Choice 처리 완료 후 현재 Step 루프를 중단합니다.");
+                        return;
+                    }
+                    break;
+
+                case "goto":
+                    string targetSceneId = step.SceneId;
+
+                    if (!string.IsNullOrEmpty(targetSceneId) && StreetDataSO != null && StreetDataSO.TryGetSteps(targetSceneId, out var nextSteps))
+                    {
+                        Debug.Log($"[DialogueRunner] 'goto' 진입: Scene ID '{targetSceneId}' (Steps: {nextSteps.Length}개) 실행");
+                        await ExecuteOutsideStepsAsync(nextSteps, ct);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[DialogueRunner] 'goto' 실패: StreetDataSO가 없거나 Scene ID '{targetSceneId}'를 찾을 수 없습니다.");
+                    }
+                    return;
+
+                default:
+                    Debug.LogWarning($"[DialogueRunner] 알 수 없는 스텝 타입: '{step.Type}'");
+                    break;
+            }
+        }
+    }
+
+    private async UniTask ProcessSayStepOutsideAsync(Step step, CancellationToken ct)
+    {
+        currentState = DialogueState.Typing;
+
+        string localizedText = GetTextOutside(step.Text);
+        Debug.Log($"[DialogueRunner] ShowDialogueAsync 대기 중 - LocalizedText: \"{localizedText}\"");
+
+        await presenter.ShowDialogueAsync(step.Actor, localizedText, step.Arg, ct);
+
+        Debug.Log("[DialogueRunner] ShowDialogueAsync 연출 완료 -> 입력 대기 중 (WaitingForInput)");
+        currentState = DialogueState.WaitingForInput;
+
+        outsideInputCompletionSource = new UniTaskCompletionSource();
+        await outsideInputCompletionSource.Task.AttachExternalCancellation(ct);
+
+        Debug.Log("[DialogueRunner] 입력 수신됨 -> 다음 Step으로 이동 준비");
+    }
+
+    private void ProcessSetStateStepOutside(string effects)
+    {
+        if (string.IsNullOrEmpty(effects)) return;
+        conditionUtil.Set(effects);
+        Debug.Log($"[DialogueRunner] Effect 적용 처리: {effects}");
+    }
+
+    private async UniTask<bool> ProcessChoiceStepOutsideAsync(Step step, CancellationToken ct)
+    {
+        if (step.Options == null || step.Options.Length == 0)
+        {
+            Debug.LogWarning("[DialogueRunner] Choice 타입 스텝이지만 Options가 비어있습니다.");
+            return false;
+        }
+
+        currentState = DialogueState.WaitingForChoice;
+        Debug.Log($"[DialogueRunner] Choice 선택지 출력 중... (선택지 개수: {step.Options.Length})");
+
+        var choiceCompletionSource = new UniTaskCompletionSource<NewStreetOptionData>();
+
+        presenter.ShowOutsideChoices(step.Options, selectedOption =>
+        {
+            Debug.Log($"[DialogueRunner] 선택지 클릭됨");
+            choiceCompletionSource.TrySetResult(selectedOption);
+        });
+
+        var selectedOption = await choiceCompletionSource.Task.AttachExternalCancellation(ct);
+
+        // 1. When 조건 검사
+        bool hasCondition = !string.IsNullOrEmpty(selectedOption.When);
+        bool isConditionFailed = hasCondition && (conditionUtil == null || !conditionUtil.Check(selectedOption.When));
+
+        if (isConditionFailed)
+        {
+            Debug.Log($"[DialogueRunner] 조건 불만족('{selectedOption.When}') -> LockReason 대사 출력 및 입력 대기");
+
+            // [타이핑 출력]
+            currentState = DialogueState.Typing;
+            string lockText = GetTextOutside(selectedOption.LockReason);
+            await presenter.ShowDialogueAsync(null, lockText, null, ct);
+
+            // [입력 대기 설정] ProcessSayStepOutsideAsync와 동일 구조
+            currentState = DialogueState.WaitingForInput;
+            outsideInputCompletionSource = new UniTaskCompletionSource();
+
+            // 유저가 AdvanceInputOutside()를 호출해서 클릭할 때까지 여기서 멈춤
+            await outsideInputCompletionSource.Task.AttachExternalCancellation(ct);
+
+            Debug.Log("[DialogueRunner] LockReason 입력 수신됨 -> 다음 Step으로 진행 준비");
+
+            // 대기 완료 후 CompletionSource 초기화
+            outsideInputCompletionSource = null;
+
+            // true를 반환하면 Choice 스텝 처리가 끝나고 ExecuteOutsideStepsAsync의 다음 Step(for문 다음)으로 넘어감
+            return false;
+        }
+
+        // 2. 조건을 만족했거나 조건이 없는 경우
+        if (selectedOption.ResultSteps != null && selectedOption.ResultSteps.Length > 0)
+        {
+            Debug.Log($"[DialogueRunner] 선택지 선택 결과 ResultSteps ({selectedOption.ResultSteps.Length}개) 실행");
+            await ExecuteOutsideStepsAsync(selectedOption.ResultSteps, ct);
+            return true;
+        }
+
+        return false;
+    }
+
+    private string GetTextOutside(Texts textData)
+    {
+        if (textData == null) return string.Empty;
+
+        return CurrentLanguage switch
+        {
+            ELanguage.En => !string.IsNullOrEmpty(textData.En) ? textData.En : textData.Ko,
+            _ => textData.Ko
+        };
+    }
+
+
+    #endregion
 }

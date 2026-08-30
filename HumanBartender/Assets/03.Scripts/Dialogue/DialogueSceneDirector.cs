@@ -121,4 +121,23 @@ public class DialogueSceneDirector : MonoBehaviour, IDialoguePresenter
     {
         typer.ClearText();
     }
+    /// <summary>
+    /// Bar 씬에서는 외부 선택지를 쓰지 않으므로 빈 메서드로 유지
+    /// </summary>
+    public void ShowOutsideChoices(NewStreetOptionData[] options, Action<NewStreetOptionData> onSelected)
+    {
+        // Bar 씬에선 외부 선택지를 사용하지 않으므로 아무것도 하지 않음
+    }
+
+    /// <summary>
+    /// 일반 대사 출력으로 우회하거나 최소한의 텍스트만 출력
+    /// </summary>
+    public async UniTask ShowDialogueAsync(string actor, string text, string expression, CancellationToken token)
+    {
+        typer.ClearText();
+        dialoguePanel.SetActive(true);
+
+        // 단순 텍스트 타이핑만 수행
+        await typer.StartType(new TypingData(text, actor, Vector3.zero, Color.white, actor == PLAYER_ID));
+    }
 }

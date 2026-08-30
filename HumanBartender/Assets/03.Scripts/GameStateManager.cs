@@ -80,6 +80,8 @@ public class GameStateManager
     public bool IsDialogInitStart { get => isDialogInitStart; set => isDialogInitStart = value; }
     public int CurrentDay { get => currentDay; set => currentDay = value; }
     public bool IsOutsideLogo { get => isOutsideLogo; set => isOutsideLogo = value; }
+
+    public ELanguage Language = ELanguage.Ko;
     #endregion
 
     private void Init()

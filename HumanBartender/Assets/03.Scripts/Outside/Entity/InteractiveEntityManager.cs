@@ -67,7 +67,7 @@ public class InteractiveEntityManager : MonoBehaviour
     [SerializeField] protected List<NPCEntity> npcs;
     [SerializeField] protected List<TriggetEntity> triggers;
     //===========================================
-    [SerializeField] protected Dictionary<string,InteractiveEntity> entities;
+    [SerializeField] private List<Entity> entityList = new();
     private HashSet<string> spawnHistory = new HashSet<string>();
     private HashSet<string> onceHistory = new HashSet<string>();
     [Header("Player")]
@@ -120,7 +120,6 @@ public class InteractiveEntityManager : MonoBehaviour
 
 
         RefreshEntity();
-        Debug.Log(conditionUtil.Check("day == 2 && !flag.d3_cat_seen"));
     }
 
 
@@ -131,14 +130,16 @@ public class InteractiveEntityManager : MonoBehaviour
         foreach (var entity in InteractPointData.interactPointData)
         {
             // 1. 엔티티 존재 여부 안전 검사
-            if (!entities.TryGetValue(entity.SourceId, out InteractiveEntity curentity))
+            Entity found = entityList.Find(e => e.id == entity.SourceId);
+            InteractiveEntity curentity = found.entity;
+            if (curentity == null)
             {
-                Debug.LogError($"[InteractEntityManager] {entity.Id}: {entity.SourceId} 엔티티를 찾을 수 없습니다.");
+                // 딕셔너리에서 검색 실패했을 때와 동일한 예외 처리
+                Debug.LogWarning($"[EntityManager] {entity.SourceId}에 해당하는 엔티티를 찾을 수 없습니다.");
                 continue;
             }
-
             // 2. 스폰 조건 검사 (조건 불만족 시 비활성화 후 스킵)
-            if (!conditionUtil.Check(entity.SpawnWhen) || GameStateManager.Instance.GameFlow != entity.Phase)
+            if (!conditionUtil.Check(entity.SpawnWhen) || (GameStateManager.Instance.GameFlow != entity.Phase&& EGameFlow.Both != entity.Phase))
             {
                 if (!spawnHistory.Contains(entity.SourceId))
                 {
@@ -201,6 +202,7 @@ public class InteractiveEntityManager : MonoBehaviour
                     if (streetData.TryGetSceneData(targetSceneId, out NewSceneData sceneData))
                     {
                         curentity.steps = sceneData.Steps;
+                        onceHistory.Add(targetSceneId);
                     }
                     else
                     {

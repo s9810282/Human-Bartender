@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct Texts
+public class Texts
 {
     [field: SerializeField][JsonProperty("ko")] public string Ko { get; set; }
     [field: SerializeField][JsonProperty("en")] public string En { get; set; }
@@ -12,32 +12,28 @@ public struct Texts
 
 /// <summary>
 /// 길거리 스크립트의 선택지 하나.
-///
-/// 다른 파일의 choices(NewChoiceOptionData)와 모양이 다르다 — 여기서는 선택지가 스텝 안에 직접 들어가고,
-/// 고른 결과도 goto로 다른 씬을 가리키는 대신 result_steps에 이어질 스텝을 그대로 품는다.
-/// 같은 타입으로 묶으면 한쪽에만 있는 필드가 계속 늘어난다.
 /// </summary>
 [Serializable]
 public struct NewStreetOptionData
 {
-    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
-    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [JsonProperty("text")] public LocalizedText? Text { get; set; }
-    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
+    [JsonProperty("id")] public string Id;
+    [JsonProperty("seq")] public int Seq;
+    [JsonProperty("text")] public Texts Text;
+    [JsonProperty("when")] public string When;
 
     /// <summary>고를 수 없을 때 보여줄 이유. 화면에 그대로 나오는 문구라 언어별로 들어 있다. 고를 수 있으면 null이다.</summary>
-    [JsonProperty("lock_reason")] public LocalizedText? LockReason { get; set; }
+    [JsonProperty("lock_reason")] public Texts LockReason;
 
     /// <summary>이 선택지를 고른 뒤 이어서 실행할 스텝.</summary>
-    [field: SerializeField][JsonProperty("result_steps")] public Step[] ResultSteps { get; set; }
+    [JsonProperty("result_steps")] public Step[] ResultSteps;
 }
 
 [Serializable]
 public struct ResultStep
 {
-    [field: SerializeField][JsonProperty("type")] public string Type { get; set; }
-    [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
-    [field: SerializeField][JsonProperty("scene_id")] public string SceneId { get; set; }
+    [JsonProperty("type")] public string Type;
+    [JsonProperty("effects")] public string Effects;
+    [JsonProperty("scene_id")] public string SceneId;
 }
 
 /// <summary>
@@ -46,64 +42,61 @@ public struct ResultStep
 [Serializable]
 public struct ChoiceOption
 {
-    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
-    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [field: SerializeField][JsonProperty("text")] public Texts? Text { get; set; }
-    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
-    [field: SerializeField][JsonProperty("lock_reason")] public Texts? LockReason { get; set; }
-    [field: SerializeField][JsonProperty("result_steps")] public ResultStep[] ResultSteps { get; set; }
-}
+    [JsonProperty("id")] public string Id;
+    [JsonProperty("seq")] public int Seq;
+    [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)] public Texts Text;
+    [JsonProperty("when")] public string When; 
+    [JsonProperty("lock_reason", NullValueHandling = NullValueHandling.Ignore)] public Texts LockReason;
+    [JsonProperty("result_steps")] public ResultStep[] ResultSteps;
 }
 
 [Serializable]
 public struct Step
 {
-    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [field: SerializeField][JsonProperty("type")] public string Type { get; set; }
-    [field: SerializeField][JsonProperty("actor")] public string Actor { get; set; }
-    [field: SerializeField][JsonProperty("dialogue_id")] public string DialogueId { get; set; }
-    [field: SerializeField][JsonProperty("arg")] public string Arg { get; set; }
-    [field: SerializeField][JsonProperty("text")] public Texts? Text { get; set; }
-    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
-    [field: SerializeField][JsonProperty("effects")] public string Effects { get; set; }
+    [JsonProperty("seq")] public int Seq;
+    [JsonProperty("type")] public string Type;
+    [JsonProperty("actor")] public string Actor;
+    [JsonProperty("dialogue_id")] public string DialogueId;
+    [JsonProperty("arg")] public string Arg; 
+    [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
+    public Texts Text;
+    [JsonProperty("when")] public string When;
+    [JsonProperty("effects")] public string Effects;
     /// <summary>"wait"면 이 스텝이 끝날 때까지 다음 스텝을 진행하지 않는다.</summary>
-    [field: SerializeField][JsonProperty("sync")] public string Sync { get; set; }
-
-    /// <summary>이 대사가 참조하는 대사 id. 없으면 null이다.</summary>
-    [field: SerializeField][JsonProperty("dialogue_id")] public string DialogueId { get; set; }
+    [JsonProperty("sync")] public string Sync;
 
     /// <summary>type이 goto일 때 옮겨 갈 씬 id.</summary>
-    [field: SerializeField][JsonProperty("scene_id")] public string SceneId { get; set; }
+    [JsonProperty("scene_id")] public string SceneId;
 
     /// <summary>
     /// 이 스텝에 딸린 선택지. 다른 스크립트 파일의 choices와 달리 스텝 안에 직접 들어 있고,
     /// 고른 뒤 이어갈 내용도 goto가 아니라 result_steps로 품고 있다.
     /// </summary>
-    [field: SerializeField][JsonProperty("options")] public NewStreetOptionData[] Options { get; set; }
+    [JsonProperty("options")] public NewStreetOptionData[] Options;
 }
 
 [Serializable]
 public struct NewSceneData
 {
-    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
-    [JsonProperty("day")] public int? Day { get; set; }
+    [JsonProperty("id")] public string Id;
+    [JsonProperty("day")] public int? Day;
 
-    [field: SerializeField][JsonProperty("phase")] public ENewScenePhase Phase { get; set; }
-    [field: SerializeField][JsonProperty("seq")] public int Seq { get; set; }
-    [field: SerializeField][JsonProperty("start_mode")] public ENewSceneTrigger StartMode { get; set; }
-    [field: SerializeField][JsonProperty("when")] public string When { get; set; }
-    [field: SerializeField][JsonProperty("title")] public string Title { get; set; }
-    [field: SerializeField][JsonProperty("skippable")] public bool Skippable { get; set; }
-    [JsonProperty("group")] public ENewStreetGroup? Group { get; set; }
-    [field: SerializeField][JsonProperty("steps")] public Step[] Steps { get; set; }
-    [field: SerializeField][JsonProperty("note")] public string Note { get; set; }
+    [JsonProperty("phase")] public ENewScenePhase Phase;
+    [JsonProperty("seq")] public int Seq;
+    [JsonProperty("start_mode")] public ENewSceneTrigger StartMode;
+    [JsonProperty("when")] public string When;
+    [JsonProperty("title")] public string Title;
+    [JsonProperty("skippable")] public bool Skippable;
+    [JsonProperty("group")] public ENewStreetGroup? Group;
+    [JsonProperty("steps")] public Step[] Steps;
+    [JsonProperty("note")] public string Note;
 }
 
 [Serializable]
 public struct NewStreetData
 {
-    [field: SerializeField][JsonProperty("place")] public string Place { get; set; }
-    [field: SerializeField][JsonProperty("scenes")] public NewSceneData[] Scenes { get; set; }
+    [JsonProperty("place")] public string Place;
+    [JsonProperty("scenes")] public NewSceneData[] Scenes;
 }
 
 /// <summary>Street.json 단일 객체 구조와 1:1 대응되는 ScriptableObject</summary>

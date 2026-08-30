@@ -21,7 +21,7 @@ public struct NewInteractDialogueFlowData
     [field: SerializeField][JsonProperty("flow_seq")] public int FlowSeq { get; set; }
 
     /// <summary>한 번만 볼지(once) 계속 볼지(repeat).</summary>
-    [field: SerializeField][JsonProperty("play_type")] public ENewSelectionMode PlayType { get; set; }
+    [field: SerializeField][JsonProperty("play_type")] public EPlayType PlayType { get; set; }
 
     /// <summary>이 대화가 열리는 조건식. 조건이 없으면 null이다.</summary>
     [field: SerializeField][JsonProperty("when")] public string When { get; set; }
@@ -51,13 +51,13 @@ public struct NewInteractPointData
     /// <summary>바라보는 방향(left/right). 정해지지 않았으면 null이다.</summary>
     [field: SerializeField][JsonProperty("facing")] public string Facing { get; set; }
 
-    [field: SerializeField][JsonProperty("phase")] public ENewInteractPhase Phase { get; set; }
+    [field: SerializeField][JsonProperty("phase")] public EGameFlow Phase { get; set; }
 
     /// <summary>이 지점이 생기는 조건식.</summary>
     [field: SerializeField][JsonProperty("spawn_when")] public string SpawnWhen { get; set; }
 
     /// <summary>다가가면 켜지는지(proximity) 눌러야 켜지는지(interact).</summary>
-    [field: SerializeField][JsonProperty("activation_mode")] public string ActivationMode { get; set; }
+    [field: SerializeField][JsonProperty("activation_mode")] public EActivationMode ActivationMode { get; set; }
 
     /// <summary>상호작용이 열리는 조건식. 조건이 없으면 null이다.</summary>
     [field: SerializeField][JsonProperty("interact_when")] public string InteractWhen { get; set; }
@@ -66,7 +66,7 @@ public struct NewInteractPointData
     [field: SerializeField][JsonProperty("priority")] public int Priority { get; set; }
 
     /// <summary>상호작용했을 때 하는 일(dialogue/transition).</summary>
-    [field: SerializeField][JsonProperty("action_type")] public string ActionType { get; set; }
+    [field: SerializeField][JsonProperty("action_type")] public EActionType ActionType { get; set; }
 
     /// <summary>action_type이 transition일 때 옮겨 갈 대상.</summary>
     [field: SerializeField][JsonProperty("action_ref")] public string ActionRef { get; set; }
@@ -76,9 +76,6 @@ public struct NewInteractPointData
 
     /// <summary>기획 메모. 런타임에는 쓰지 않는다.</summary>
     [field: SerializeField][JsonProperty("note")] public string Note { get; set; }
-
-    // 변경된 서식 반영: dialogue_flows 배열 추가
-    [field: SerializeField][JsonProperty("dialogue_flows")] public List<DialogueFlowData> DialogueFlows { get; set; }
 }
 
 /// <summary>StreamingAssets/json/interact_points.json을 보유하는 ScriptableObject.</summary>

@@ -42,21 +42,23 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
 
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
-
         player.InteractorEvent();
 
-        if (selectionType == ESelectionType.Conditional)
-            curFlowIndex = 0;
-
         runner.Bind(presenter);
-        await runner.PlayAsync(flows[curFlowIndex].Dialogues);
+
+        // SO에서 첫 번째 Scene의 Steps 배열을 추출하여 실행
+        if (steps != null)
+        {
+            await runner.PlayOutsideAsync(steps);
+        }
+        else
+        {
+            Debug.LogError($"[Interact] 지정된 스크립트를 찾을 수 없습니다.");
+        }
 
         isTalking = false;
         isInteracting = false;
         player.State = EInteractorState.None;
-
-        curFlowIndex++;
-        curFlowIndex %= flows.Count;
 
         OnRefreshCondition?.Raise(new Void());
     }
