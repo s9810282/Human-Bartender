@@ -20,10 +20,24 @@ public class CoasterDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     Vector2 placedOffset;
     bool isPlaced;
 
+    // 트레이에서의 제자리. 손님 앞에 놓을 때 부모와 anchor/pivot을 통째로 바꾸기 때문에,
+    // 되돌리려면 시작할 때의 값을 그대로 들고 있어야 한다.
+    Transform trayParent;
+    Vector2 trayAnchoredPosition;
+    Vector2 trayAnchorMin;
+    Vector2 trayAnchorMax;
+    Vector2 trayPivot;
+
     void Awake()
     {
         rect = (RectTransform)transform;
         canvasGroup = GetComponent<CanvasGroup>();
+
+        trayParent = rect.parent;
+        trayAnchoredPosition = rect.anchoredPosition;
+        trayAnchorMin = rect.anchorMin;
+        trayAnchorMax = rect.anchorMax;
+        trayPivot = rect.pivot;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -81,10 +95,25 @@ public class CoasterDragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         placedOffset = offset;
     }
 
-    /// <summary>손님이 자리를 뜨는 등으로 놓여있던 코스터를 치울 때 CoasterDropZone에서 호출한다.</summary>
-    public void ResetAndHide()
+    /// <summary>
+    /// 손님이 자리를 떠 놓여 있던 코스터를 치울 때 CoasterDropZone에서 호출한다.
+    ///
+    /// 없애지 않고 트레이의 제자리로 되돌린다. 코스터는 쓰고 버리는 물건이 아니라 치웠다가 다시 쓰는
+    /// 물건이고, 되돌리지 않으면 손님을 트레이에 놓인 개수만큼만 받고 나서 트레이가 비어 아무도
+    /// 응대할 수 없게 된다.
+    /// </summary>
+    public void ReturnToTray()
     {
         isPlaced = false;
-        gameObject.SetActive(false);
+        droppedOnValidZone = false;
+
+        rect.SetParent(trayParent, false);
+        rect.anchorMin = trayAnchorMin;
+        rect.anchorMax = trayAnchorMax;
+        rect.pivot = trayPivot;
+        rect.anchoredPosition = trayAnchoredPosition;
+
+        canvasGroup.blocksRaycasts = true;
+        gameObject.SetActive(true);
     }
 }

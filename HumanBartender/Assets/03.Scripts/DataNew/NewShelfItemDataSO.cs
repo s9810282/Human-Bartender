@@ -40,6 +40,9 @@ public struct NewShelfItemData
     /// <summary>액체 색상. "R,G,B" 형태의 문자열이다. TryGetLiquidColor로 읽는다.</summary>
     [field: SerializeField][JsonProperty("color")] public string Color { get; set; }
     [field: SerializeField][JsonProperty("sprite")] public string Sprite { get; set; }
+
+    /// <summary>따를 때 그리는 액체의 불투명도. 값이 없으면 재료마다 정해진 기본값을 부르는 쪽이 정한다.</summary>
+    [JsonProperty("liquid_alpha")] public float? LiquidAlpha { get; set; }
     [field: SerializeField][JsonProperty("unlock_day")] public int UnlockDay { get; set; }
     [field: SerializeField][JsonProperty("unlock_when")] public string UnlockWhen { get; set; }
     [JsonProperty("shop_price")] public int? ShopPrice { get; set; }

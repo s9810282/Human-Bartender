@@ -75,6 +75,9 @@ public class GimmickRunner : MonoBehaviour
         session.BeginGimmicks();
         runningTimer = session.Timer;
 
+        // 잔과 도구는 기믹이 도는 동안 바뀌지 않으므로 한 번만 만들어 모든 스텝에 같은 것을 넘긴다.
+        CraftContext context = CraftContext.From(session);
+
         ShowCraftScreen(true);
         hud?.BeginCraft(session.Timer, display.TimeLimitSec, display.HideTime);
 
@@ -86,7 +89,7 @@ public class GimmickRunner : MonoBehaviour
 
                 Debug.Log($"[GimmickRunner] {i + 1}/{queue.Count} 시작 — {step}");
 
-                GimmickResult result = await PlayStepAsync(step, session.Timer, token);
+                GimmickResult result = await PlayStepAsync(step, context, session.Timer, token);
 
                 Debug.Log($"[GimmickRunner] {i + 1}/{queue.Count} 종료 — {step}" +
                           (result == null ? " (결과 없음)" : $" / 종료방식 {result.EndType}"));
@@ -112,7 +115,8 @@ public class GimmickRunner : MonoBehaviour
     }
 
     /// <summary>기믹 프리팹을 띄우고 끝날 때까지 기다린 뒤 치운다.</summary>
-    async UniTask<GimmickResult> PlayStepAsync(GimmickStep step, CraftTimer timer, CancellationToken token)
+    async UniTask<GimmickResult> PlayStepAsync(GimmickStep step, CraftContext context,
+                                              CraftTimer timer, CancellationToken token)
     {
         GameObject prefab = ResolvePrefab(step.Type);
 
@@ -144,7 +148,7 @@ public class GimmickRunner : MonoBehaviour
 
             currentGimmick = gimmick;
 
-            return await gimmick.PlayAsync(step, timer, token);
+            return await gimmick.PlayAsync(step, context, timer, token);
         }
         finally
         {
@@ -257,31 +261,86 @@ public class GimmickRunner : MonoBehaviour
     }
 
     /// <summary>
-    /// 띄운 기믹의 캔버스를 바 UI 위로 올린다.
+    /// 띄운 기믹이 바 쪽 UI에 가리지 않도록 그리기 순서를 손본다.
     ///
-    /// 프리팹마다 자기 기준으로 그리기 순서를 잡아 뒀는데, 그 값이 바 화면이 쓰는 범위와 겹친다.
-    /// 프리팹을 일일이 고치는 대신 여기서 통째로 밀어 올린다 — 기믹 안에서의 앞뒤 관계는 그대로 두고
-    /// 전체만 옮기는 것이라, 프리팹이 새로 늘어도 이 코드가 알아서 처리한다.
+    /// 손대는 것은 **겹쳐 그리는 캔버스(ScreenSpaceOverlay)뿐**이다. 그것만 제조 루프가 계속 띄워 두는
+    /// 패널들과 같은 값을 놓고 겨루기 때문이다. 나머지는 건드리지 않는다.
+    ///
+    /// 예전에는 기믹 안의 캔버스를 전부 1000씩 올렸는데, 그러면 기믹이 스스로 잡아 둔 앞뒤 관계가
+    /// 깨진다. 셰이킹이 그 경우다 — Game Canvas(화면 공간, 11)는 1011로 올라가는데 그 위에 놓이도록
+    /// 만들어 둔 타겟·스트라이크 노드(스프라이트, 19·20)는 그대로라, 캔버스가 노드를 덮어 버렸다.
+    ///
+    /// 스프라이트도 같이 올리는 방법은 쓰지 않는다. 셰이킹의 타겟 노드는 풀에서 게임이 시작된 뒤에
+    /// 나오므로, 띄우는 순간 한 번 훑는 방식으로는 잡히지 않는다. 프리팹 값에 미리 1000을 더해 두는
+    /// 것도 답이 아니다 — 그 프리팹을 단독 테스트 씬에서 켜면 반대로 깨지고, 기믹이 늘 때마다
+    /// 사람이 기억해서 더해 줘야 한다.
+    ///
+    /// 화면 공간 캔버스와 월드 스프라이트는 기믹 카메라가 배경을 지우고 그 위에 그리므로, 바 쪽과
+    /// 겹칠 일이 애초에 없다. 게다가 겹쳐 그리는 캔버스는 값과 무관하게 언제나 그것들보다 위에 나와서,
+    /// 올려 봐야 얻는 것도 없었다.
     /// </summary>
     void LiftAboveBarUi(GameObject instance)
     {
         var canvases = instance.GetComponentsInChildren<Canvas>(true);
+        var lifted = new List<string>();
+        var kept = new List<string>();
 
         foreach (var canvas in canvases)
         {
             // 자식 캔버스는 부모를 따라가므로 건드리지 않는다. 건드리면 부모 안에서의 순서가 뒤집힌다.
             if (!canvas.isRootCanvas) continue;
 
+            // 카메라부터 이어 준다. 프리팹 안의 카메라 참조는 씬 밖 오브젝트라 끊겨 있는데,
+            // 카메라가 없는 화면 공간 캔버스를 Unity는 겹쳐 그리는 것으로 취급하고 renderMode까지
+            // Overlay로 돌려준다. 그래서 이어 주기 전에 모드를 읽으면 무엇이든 Overlay로 읽힌다 —
+            // 아래 판정이 통째로 뒤집히므로 순서를 바꾸면 안 된다.
+            if (canvas.worldCamera == null && gimmickCamera != null)
+                canvas.worldCamera = gimmickCamera;
+
+            if (canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+            {
+                kept.Add($"{canvas.name}({canvas.renderMode}, {canvas.sortingOrder})");
+                continue;
+            }
+
+            if (!EnsureSceneInstance(canvas.gameObject)) continue;
+
             canvas.overrideSorting = true;
             canvas.sortingOrder += sortingBase;
-
-            // 카메라에 붙는 캔버스는 메인이 아니라 무대 카메라를 봐야 한다. 프리팹에 남아 있는
-            // 참조는 씬 밖 오브젝트라 어차피 끊겨 있어서, 여기서 다시 이어 준다.
-            if (canvas.renderMode == RenderMode.ScreenSpaceCamera && gimmickCamera != null)
-                canvas.worldCamera = gimmickCamera;
+            lifted.Add($"{canvas.name}({canvas.renderMode}, {canvas.sortingOrder})");
         }
 
-        if (hud != null) hud.SetSortingOrder(sortingBase + hudSortingOffset);
+        // 무엇을 올렸고 무엇을 그대로 뒀는지 남긴다. 기믹이 가려질 때 정렬 값을 하나씩 눌러 보지 않고
+        // 이 줄만 봐도 원인이 갈린다 — 올리지 말아야 할 것을 올렸는지, 애초에 다른 곳에서 밀렸는지.
+        Debug.Log($"[GimmickRunner] 정렬 조정 — 올림: {(lifted.Count > 0 ? string.Join(", ", lifted) : "없음")} / " +
+                  $"유지: {(kept.Count > 0 ? string.Join(", ", kept) : "없음")}");
+
+        if (hud != null && EnsureSceneInstance(hud.gameObject))
+            hud.SetSortingOrder(sortingBase + hudSortingOffset);
+    }
+
+    /// <summary>
+    /// 정렬 순서를 바꿔도 되는 대상인지 — 씬에 띄운 사본인지 프로젝트의 프리팹 에셋인지 확인한다.
+    ///
+    /// 에셋을 만지면 그 값이 디스크에 저장된다. 화면에는 아무 표시도 나지 않고, 나중에 관계없는
+    /// 프리팹이 수정 상태로 잡혀 커밋에 섞여 들어온다. 게다가 여기서 더하는 값은 누적되므로
+    /// 플레이할 때마다 1000씩 밀려 올라가고, 어느 순간 정렬 순서가 실제로 깨진다.
+    ///
+    /// 조용히 잘못되는 종류의 사고라 넘어가지 않고 어떤 오브젝트인지 이름을 찍어 멈춘다.
+    /// 빌드에서는 프리팹 에셋을 참조할 방법이 없어 검사 자체가 빠진다.
+    /// </summary>
+    static bool EnsureSceneInstance(GameObject target)
+    {
+#if UNITY_EDITOR
+        if (UnityEditor.PrefabUtility.IsPartOfPrefabAsset(target))
+        {
+            Debug.LogError($"[GimmickRunner] '{target.name}'은 씬에 띄운 사본이 아니라 프리팹 에셋입니다. " +
+                           "정렬 순서를 올리면 에셋에 저장되므로 건드리지 않고 넘어갑니다. " +
+                           "인스펙터에 프로젝트 창의 프리팹이 직접 꽂혀 있는지 확인하세요.");
+            return false;
+        }
+#endif
+        return target != null;
     }
 
     /// <summary>

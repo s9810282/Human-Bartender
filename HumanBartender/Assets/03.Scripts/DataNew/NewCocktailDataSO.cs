@@ -86,6 +86,23 @@ public struct NewCocktailRecipeStep
     public bool IsSelectable => !AutoApply;
 }
 
+/// <summary>
+/// 칵테일에 붙는 맛·느낌 태그 하나.
+///
+/// ko/en만 담는 LocalizedText로 받고 있었는데, 데이터에는 id와 category(taste/feel)가 함께 있어서
+/// 그 둘이 조용히 버려지고 있었다. 태그로 거르거나 묶으려면 category가 필요하다.
+/// </summary>
+[Serializable]
+public struct NewCocktailTag
+{
+    [field: SerializeField][JsonProperty("id")] public string Id { get; set; }
+    [field: SerializeField][JsonProperty("ko")] public string Ko { get; set; }
+    [field: SerializeField][JsonProperty("en")] public string En { get; set; }
+
+    /// <summary>태그의 갈래. 현재 데이터는 taste와 feel을 쓴다.</summary>
+    [field: SerializeField][JsonProperty("category")] public string Category { get; set; }
+}
+
 [Serializable]
 public struct NewCocktailData
 {
@@ -133,7 +150,7 @@ public struct NewCocktailData
 
     // tags는 문자열 배열이 아니라 {ko, en, category} 객체의 배열이다. string[]으로 두면 cocktails.json
     // 전체가 JsonReaderException으로 터지고, NewDataLoadManager의 로드 순서상 그 뒤 데이터가 전부 안 들어온다.
-    [field: SerializeField][JsonProperty("tags")] public LocalizedText[] Tags { get; set; }
+    [field: SerializeField][JsonProperty("tags")] public NewCocktailTag[] Tags { get; set; }
     [field: SerializeField][JsonProperty("flavor")] public LocalizedText Flavor { get; set; }
     [field: SerializeField][JsonProperty("recipe_desc")] public LocalizedText RecipeDesc { get; set; }
     [field: SerializeField][JsonProperty("unlock_day")] public int UnlockDay { get; set; }

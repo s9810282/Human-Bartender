@@ -547,6 +547,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewShakingMinigame
       objectReference: {fileID: 0}
+    - target: {fileID: 7744432157770658811, guid: 19fa6dc02bb9d6740b17e576ce95e9be, type: 3}
+      propertyPath: m_SortingOrder
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 8111109901156053922, guid: 19fa6dc02bb9d6740b17e576ce95e9be, type: 3}
       propertyPath: m_Camera
       value: 
