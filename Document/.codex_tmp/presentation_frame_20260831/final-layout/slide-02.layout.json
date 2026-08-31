@@ -1,0 +1,884 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/hwbqtkby",
+    "id": "hwbqtkby",
+    "slide": 2,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Noto Sans CJK KR",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/be1g3qtw",
+      "id": "192",
+      "name": "LUNA : 사이버펑크 바텐더",
+      "bbox": [
+        500,
+        250,
+        1560,
+        150
+      ],
+      "geometry": "rect",
+      "text": "프로젝트 현황 한눈에 보기",
+      "textPreview": "프로젝트 현황 한눈에 보기",
+      "resolvedFontSize": 52,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 52,
+        "typeface": "Noto Sans CJK KR",
+        "color": "#F5F5F5",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "프로젝트 현황 한눈에 보기"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "프로젝트 현황 한눈에 보기",
+          "resolvedTextStyle": {
+            "fontSize": 52,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "프로젝트 현황 한눈에 보기",
+              "fontSize": 52,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qdszalcb",
+      "id": "193",
+      "name": "게임 개요",
+      "bbox": [
+        890,
+        105,
+        780,
+        95
+      ],
+      "geometry": "rect",
+      "text": "PROJECT SNAPSHOT",
+      "textPreview": "PROJECT SNAPSHOT",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Noto Sans CJK KR",
+        "color": "#D124A6",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "PROJECT SNAPSHOT"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "PROJECT SNAPSHOT",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#D124A6",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "PROJECT SNAPSHOT",
+              "fontSize": 24,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#D124A6",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l43i9kby",
+      "id": "194",
+      "name": "바텐더 시뮬레이션 어드벤쳐…",
+      "bbox": [
+        1330,
+        610,
+        630,
+        470
+      ],
+      "geometry": "rect",
+      "text": "0일차 전체 루프 · 빌드 검증\nDay 0–3 · 총 4일\n바 · 제조 · 거리 · 컷씬\n0일차 시작부터 종료까지\nSteam · Next Fest · 텀블벅 · 플레이 데이터",
+      "textPreview": "0일차 전체 루프 · 빌드 검증 | Day 0–3 · 총 4일 | 바 · 제조 · 거리 · 컷씬 | 0일차 시작부터 종료까지 | Steam · Next Fest · 텀블벅 · 플레이 데이터",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans CJK KR",
+        "color": "#AEB2B8",
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 9,
+        "lines": [
+          {
+            "index": 1,
+            "text": "0일차 전체 루프 · 빌드 검증"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "Day 0–3 · 총 4일"
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": "바 · 제조 · 거리 · 컷씬"
+          },
+          {
+            "index": 6,
+            "text": ""
+          },
+          {
+            "index": 7,
+            "text": "0일차 시작부터 종료까지"
+          },
+          {
+            "index": 8,
+            "text": ""
+          },
+          {
+            "index": 9,
+            "text": "Steam · Next Fest · 텀블벅 · 플레이 데이터"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "0일차 전체 루프 · 빌드 검증",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#AEB2B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "0일차 전체 루프 · 빌드 검증",
+              "fontSize": 25,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#AEB2B8"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "Day 0–3 · 총 4일",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#AEB2B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Day 0–3 · 총 4일",
+              "fontSize": 25,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#AEB2B8"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 3,
+          "text": "바 · 제조 · 거리 · 컷씬",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#AEB2B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "바 · 제조 · 거리 · 컷씬",
+              "fontSize": 25,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#AEB2B8"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 4,
+          "text": "0일차 시작부터 종료까지",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#AEB2B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "0일차 시작부터 종료까지",
+              "fontSize": 25,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#AEB2B8"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 5,
+          "text": "Steam · Next Fest · 텀블벅 · 플레이 데이터",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#AEB2B8"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Steam · Next Fest · 텀블벅 · 플레이 데이터",
+              "fontSize": 25,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#AEB2B8"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/k3uhgfud",
+      "id": "195",
+      "name": "장르…",
+      "bbox": [
+        720,
+        610,
+        510,
+        470
+      ],
+      "geometry": "rect",
+      "text": "현재 개발 초점\n데모 범위\n시스템 개편\n다음 빌드 목표\n외부 준비",
+      "textPreview": "현재 개발 초점 | 데모 범위 | 시스템 개편 | 다음 빌드 목표 | 외부 준비",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans CJK KR",
+        "color": "#F5F5F5",
+        "bold": true,
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 9,
+        "lines": [
+          {
+            "index": 1,
+            "text": "현재 개발 초점"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "데모 범위"
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": "시스템 개편"
+          },
+          {
+            "index": 6,
+            "text": ""
+          },
+          {
+            "index": 7,
+            "text": "다음 빌드 목표"
+          },
+          {
+            "index": 8,
+            "text": ""
+          },
+          {
+            "index": 9,
+            "text": "외부 준비"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "현재 개발 초점",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "현재 개발 초점",
+              "fontSize": 26,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "데모 범위",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "데모 범위",
+              "fontSize": 26,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 3,
+          "text": "시스템 개편",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "시스템 개편",
+              "fontSize": 26,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 4,
+          "text": "다음 빌드 목표",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "다음 빌드 목표",
+              "fontSize": 26,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 5,
+          "text": "외부 준비",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans CJK KR",
+            "color": "#F5F5F5",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "외부 준비",
+              "fontSize": 26,
+              "typeface": "Noto Sans CJK KR",
+              "color": "#F5F5F5",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z2lg7at8",
+      "id": "196",
+      "name": "선",
+      "bbox": [
+        1280,
+        601.79,
+        0,
+        456.23
+      ],
+      "verticalFlip": true,
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#C72D9E",
+      "lineWidth": 2.67
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,1086 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/a8wwwv",
+    "id": "a8wwwv",
+    "slide": 5,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Helvetica",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/adw7q9cv",
+      "id": "252",
+      "name": "모서리가 둥근 직사각형",
+      "bbox": [
+        713.37,
+        382.05,
+        1133.27,
+        517.73
+      ],
+      "geometry": "roundRect",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#222326",
+      "lineColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/by5ojedg",
+      "id": "253",
+      "name": "설명선",
+      "bbox": [
+        1122.56,
+        546.97,
+        691.17,
+        74.28
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/obe5oju5",
+      "id": "254",
+      "name": "설명선",
+      "bbox": [
+        1122.56,
+        462.93,
+        489.36,
+        74.28
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9cn6hova",
+      "id": "255",
+      "name": "술 만들기",
+      "bbox": [
+        104.39,
+        62.27,
+        311.03,
+        112.27
+      ],
+      "geometry": "rect",
+      "text": "술 만들기",
+      "textPreview": "술 만들기",
+      "resolvedFontSize": 80,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 80,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "술 만들기"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "술 만들기",
+          "runs": [
+            {
+              "index": 1,
+              "text": "술 만들기"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m9cnm9cz",
+      "id": "256",
+      "name": "선",
+      "bbox": [
+        113.66,
+        183.69,
+        2332.68,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#C72D9E",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/na5ofedk",
+      "id": "257",
+      "name": "바텐더의 경험",
+      "bbox": [
+        2146.42,
+        98.86,
+        303.62,
+        78.4
+      ],
+      "geometry": "rect",
+      "text": "바텐더의 경험",
+      "textPreview": "바텐더의 경험",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "바텐더의 경험"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "바텐더의 경험",
+          "runs": [
+            {
+              "index": 1,
+              "text": "바텐더의 경험"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/5wvupgj6",
+      "id": "265",
+      "name": "unnamed.jpg",
+      "bbox": [
+        770.65,
+        428.79,
+        329.78,
+        414.52
+      ],
+      "contentType": "image/jpeg",
+      "imageCrop": {
+        "left": 0.15268,
+        "top": 0.08759,
+        "right": 0.48077,
+        "bottom": 0.08759
+      },
+      "asset": {
+        "assetId": "/ppt/media/image.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      }
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1836d4ve",
+      "id": "259",
+      "name": "마스터, 나한테 맞는 한잔으로.",
+      "bbox": [
+        1176.57,
+        469.07,
+        404.31,
+        53
+      ],
+      "geometry": "rect",
+      "text": "마스터, 나한테 맞는 한잔으로.",
+      "textPreview": "마스터, 나한테 맞는 한잔으로.",
+      "resolvedFontSize": 33.33,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 33.33,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "마스터, 나한테 맞는 한잔으로."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "마스터, 나한테 맞는 한잔으로.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "마스터, 나한테 맞는 한잔으로."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hsbu1wj6",
+      "id": "260",
+      "name": "오늘 고된 하루를 날려보낼만한 걸로 부탁해.",
+      "bbox": [
+        1159.31,
+        553.12,
+        586.57,
+        53
+      ],
+      "geometry": "rect",
+      "text": "오늘 고된 하루를 날려보낼만한 걸로 부탁해.",
+      "textPreview": "오늘 고된 하루를 날려보낼만한 걸로 부탁해.",
+      "resolvedFontSize": 33.33,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 33.33,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "오늘 고된 하루를 날려보낼만한 걸로 부탁해."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "오늘 고된 하루를 날려보낼만한 걸로 부탁해.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "오늘 고된 하루를 날려보낼만한 걸로 부탁해."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gr2dsril",
+      "id": "261",
+      "name": "설명선",
+      "bbox": [
+        1515.06,
+        674.14,
+        320.27,
+        74.28
+      ],
+      "horizontalFlip": true,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fqtczm10",
+      "id": "262",
+      "name": "주문 받았습니다.",
+      "bbox": [
+        1541.02,
+        680.29,
+        232.36,
+        53
+      ],
+      "geometry": "rect",
+      "text": "주문 받았습니다.",
+      "textPreview": "주문 받았습니다.",
+      "resolvedFontSize": 33.33,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 33.33,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "주문 받았습니다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "주문 받았습니다.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "주문 받았습니다."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/upkvq10f",
+      "id": "263",
+      "name": "1. 주문받기",
+      "bbox": [
+        1121.61,
+        250.05,
+        316.79,
+        95.33
+      ],
+      "geometry": "rect",
+      "text": "1. 주문받기",
+      "textPreview": "1. 주문받기",
+      "resolvedFontSize": 66.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 66.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "1. 주문받기"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "1. 주문받기",
+          "runs": [
+            {
+              "index": 1,
+              "text": "1. 주문받기"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tobuxwju",
+      "id": "264",
+      "name": "바텐더는 손님들에게 주문을 받지만…",
+      "bbox": [
+        670.71,
+        872.97,
+        1218.59,
+        357.07
+      ],
+      "geometry": "rect",
+      "text": "바텐더는 손님들에게 주문을 받지만 \n손님들이 항상 정해진 메뉴만 요청하는 건 아니다.\n\n손님의 기분, 숨겨진 요청, 그리고 지난날의 대화와 기억까지.\n모든 맥락을 읽어내어 그들이 진정 어떤 술이 필요한지 찾아야한다.",
+      "textPreview": "바텐더는 손님들에게 주문을 받지만  | 손님들이 항상 정해진 메뉴만 요청하는 건 아니다. |  | 손님의 기분, 숨겨진 요청, 그리고 지난날의 대화와 기억까지. | 모든 맥락을 읽어내어 그들이 진정 어떤 술이 필요한지 찾아야한다.",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 9,
+        "lines": [
+          {
+            "index": 1,
+            "text": "바텐더는 손님들에게 주문을 받지만"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "손님들이 항상 정해진 메뉴만 요청하는 건 아니다."
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": ""
+          },
+          {
+            "index": 6,
+            "text": ""
+          },
+          {
+            "index": 7,
+            "text": "손님의 기분, 숨겨진 요청, 그리고 지난날의 대화와 기억까지."
+          },
+          {
+            "index": 8,
+            "text": ""
+          },
+          {
+            "index": 9,
+            "text": "모든 맥락을 읽어내어 그들이 진정 어떤 술이 필요한지 찾아야한다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "바텐더는 손님들에게 주문을 받지만 ",
+          "resolvedTextStyle": {
+            "fontSize": 46.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "바텐더는 손님들에게 주문을 받지만 ",
+              "fontSize": 46.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "손님들이 항상 정해진 메뉴만 요청하는 건 아니다.",
+          "resolvedTextStyle": {
+            "fontSize": 46.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "손님들이 항상 정해진 메뉴만 요청하는 건 아니다.",
+              "fontSize": 46.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 4,
+          "text": "손님의 기분, 숨겨진 요청, 그리고 지난날의 대화와 기억까지.",
+          "resolvedTextStyle": {
+            "fontSize": 46.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "손님의 기분, 숨겨진 요청, 그리고 지난날의 대화와 기억까지.",
+              "fontSize": 46.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 5,
+          "text": "모든 맥락을 읽어내어 그들이 진정 어떤 술이 필요한지 찾아야한다.",
+          "resolvedTextStyle": {
+            "fontSize": 46.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "모든 맥락을 읽어내어 그들이 진정 어떤 술이 필요한지 찾아야한다.",
+              "fontSize": 46.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    }
+  ],
+  "composeRuns": []
+}

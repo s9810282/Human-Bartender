@@ -1,0 +1,863 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/twb2lg7e",
+    "id": "twb2lg7e",
+    "slide": 39,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "layoutType": "tx",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Helvetica",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "type": "tx",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image1.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d4bi9kvi",
+      "id": "507",
+      "name": "반복 플레이 루트",
+      "bbox": [
+        1009.57,
+        99.24,
+        540.85,
+        112.27
+      ],
+      "geometry": "rect",
+      "text": "반복 플레이 루트",
+      "textPreview": "반복 플레이 루트",
+      "resolvedFontSize": 80,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 80,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "반복 플레이 루트"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "반복 플레이 루트",
+          "runs": [
+            {
+              "index": 1,
+              "text": "반복 플레이 루트"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 2,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/xsn2d87e",
+      "id": "519",
+      "name": "붙여넣은 동영상.png",
+      "bbox": [
+        828.47,
+        311.77,
+        419.29,
+        702.04
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.33678,
+        "top": 0,
+        "right": 0.39441,
+        "bottom": 0
+      },
+      "asset": {
+        "assetId": "/ppt/media/image5.png",
+        "contentType": "image/png",
+        "byteLength": 3704435
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image5.png",
+        "contentType": "image/png",
+        "byteLength": 3704435
+      }
+    },
+    {
+      "order": 3,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/dofih4z2",
+      "id": "520",
+      "name": "스크린샷 2026-03-03 오전 4.37.44.png",
+      "bbox": [
+        1359.79,
+        311.47,
+        412.38,
+        697.22
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.00508,
+        "top": 0.05733,
+        "right": 0.48256,
+        "bottom": 0.1006
+      },
+      "asset": {
+        "assetId": "/ppt/media/image28.png",
+        "contentType": "image/png",
+        "byteLength": 107959
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image28.png",
+        "contentType": "image/png",
+        "byteLength": 107959
+      }
+    },
+    {
+      "order": 4,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/cn6hozyh",
+      "id": "521",
+      "name": "붙여넣은 동영상.png",
+      "bbox": [
+        1884.19,
+        313.55,
+        418.75,
+        698.48
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.35187,
+        "top": 0,
+        "right": 0.35187,
+        "bottom": 0
+      },
+      "asset": {
+        "assetId": "/ppt/media/image4.png",
+        "contentType": "image/png",
+        "byteLength": 832383
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image4.png",
+        "contentType": "image/png",
+        "byteLength": 832383
+      }
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/rmx0fuhw",
+      "id": "522",
+      "name": "스크린샷 2026-03-03 오전 4.39.47.png",
+      "bbox": [
+        156.4,
+        307.4,
+        560.04,
+        705.32
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.08292,
+        "top": 0,
+        "right": 0.14367,
+        "bottom": 0
+      },
+      "asset": {
+        "assetId": "/ppt/media/image29.png",
+        "contentType": "image/png",
+        "byteLength": 326897
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image29.png",
+        "contentType": "image/png",
+        "byteLength": 326897
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/j6xk7yxs",
+      "id": "512",
+      "name": "삼각형",
+      "bbox": [
+        714.85,
+        642.9,
+        115.2,
+        39.79
+      ],
+      "rotation": 90,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/y5o3ytw7",
+      "id": "513",
+      "name": "삼각형",
+      "bbox": [
+        1242.71,
+        642.9,
+        115.2,
+        39.79
+      ],
+      "rotation": 90,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x4f25ofm",
+      "id": "514",
+      "name": "삼각형",
+      "bbox": [
+        1770.58,
+        642.9,
+        115.2,
+        39.79
+      ],
+      "rotation": 90,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/w36lwje1",
+      "id": "515",
+      "name": "대화 및 주문",
+      "bbox": [
+        316.54,
+        1042.02,
+        239.76,
+        69.93
+      ],
+      "geometry": "rect",
+      "text": "대화 및 주문",
+      "textPreview": "대화 및 주문",
+      "resolvedFontSize": 46.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 46.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "대화 및 주문"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "대화 및 주문",
+          "runs": [
+            {
+              "index": 1,
+              "text": "대화 및 주문"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/b2xk3exg",
+      "id": "516",
+      "name": "레시피 찾기",
+      "bbox": [
+        924.72,
+        1042.02,
+        226.8,
+        69.93
+      ],
+      "geometry": "rect",
+      "text": "레시피 찾기",
+      "textPreview": "레시피 찾기",
+      "resolvedFontSize": 46.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 46.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "레시피 찾기"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "레시피 찾기",
+          "runs": [
+            {
+              "index": 1,
+              "text": "레시피 찾기"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/a1o3u9wv",
+      "id": "517",
+      "name": "술 제조",
+      "bbox": [
+        1492.94,
+        1042.02,
+        146.07,
+        69.93
+      ],
+      "geometry": "rect",
+      "text": "술 제조",
+      "textPreview": "술 제조",
+      "resolvedFontSize": 46.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 46.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "술 제조"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "술 제조",
+          "runs": [
+            {
+              "index": 1,
+              "text": "술 제조"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h0jmhsvq",
+      "id": "518",
+      "name": "손님 반응",
+      "bbox": [
+        2000.35,
+        1042.02,
+        186.43,
+        69.93
+      ],
+      "geometry": "rect",
+      "text": "손님 반응",
+      "textPreview": "손님 반응",
+      "resolvedFontSize": 46.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 46.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "손님 반응"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "손님 반응",
+          "runs": [
+            {
+              "index": 1,
+              "text": "손님 반응"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    }
+  ],
+  "composeRuns": []
+}

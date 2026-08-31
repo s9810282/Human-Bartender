@@ -1,0 +1,1320 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/4vyxknqp",
+    "id": "4vyxknqp",
+    "slide": 27,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "layoutType": "tx",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Helvetica",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "type": "tx",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image1.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3at0b294",
+      "id": "320",
+      "name": "모서리가 둥근 직사각형",
+      "bbox": [
+        1633.86,
+        388.44,
+        803.94,
+        598.69
+      ],
+      "geometry": "roundRect",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/i9kzixsj",
+      "id": "321",
+      "name": "선",
+      "bbox": [
+        1358.03,
+        570.75,
+        272.65,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 6.67
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5cbidcra",
+      "id": "322",
+      "name": "걷기",
+      "bbox": [
+        1317.97,
+        945.08,
+        57.64,
+        90.67
+      ],
+      "horizontalFlip": true,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "rgba(78, 171, 189, 0.4033)",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4b2hk7ap",
+      "id": "323",
+      "name": "걷기",
+      "bbox": [
+        356.86,
+        945.08,
+        57.64,
+        90.67
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "rgba(78, 171, 189, 0.30039)",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/v6907i9s",
+      "id": "324",
+      "name": "선",
+      "bbox": [
+        390.21,
+        1068.26,
+        420.07,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 8
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u50zedsn",
+      "id": "325",
+      "name": "동적 공간 - 길거리",
+      "bbox": [
+        104.39,
+        62.27,
+        589.72,
+        112.27
+      ],
+      "geometry": "rect",
+      "text": "동적 공간 - 길거리",
+      "textPreview": "동적 공간 - 길거리",
+      "resolvedFontSize": 80,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 80,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "동적 공간 - 길거리"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "동적 공간 - 길거리",
+          "runs": [
+            {
+              "index": 1,
+              "text": "동적 공간 - 길거리"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h8bi9sry",
+      "id": "326",
+      "name": "집과 바의 이동 구간을 스킵하지 않고,…",
+      "bbox": [
+        1677.31,
+        533.12,
+        568.04,
+        164.34
+      ],
+      "geometry": "rect",
+      "text": "집과 바의 이동 구간을 스킵하지 않고,\n플레이어가 거리를 돌아다니며 자연스럽게 \n벌어지는 사건에 휘말리도록 유도한다.",
+      "textPreview": "집과 바의 이동 구간을 스킵하지 않고, | 플레이어가 거리를 돌아다니며 자연스럽게  | 벌어지는 사건에 휘말리도록 유도한다.",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "집과 바의 이동 구간을 스킵하지 않고,"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "플레이어가 거리를 돌아다니며 자연스럽게"
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": "벌어지는 사건에 휘말리도록 유도한다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "집과 바의 이동 구간을 스킵하지 않고,",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "집과 바의 이동 구간을 스킵하지 않고,",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "플레이어가 거리를 돌아다니며 자연스럽게 ",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "플레이어가 거리를 돌아다니며 자연스럽게 ",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 3,
+          "text": "벌어지는 사건에 휘말리도록 유도한다.",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "벌어지는 사건에 휘말리도록 유도한다.",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/g7ihgnad",
+      "id": "327",
+      "name": "거리에서 발생하는 이벤트",
+      "bbox": [
+        1677.31,
+        454.1,
+        481.96,
+        69.93
+      ],
+      "geometry": "rect",
+      "text": "거리에서 발생하는 이벤트",
+      "textPreview": "거리에서 발생하는 이벤트",
+      "resolvedFontSize": 46.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 46.67,
+        "typeface": "Helvetica",
+        "color": "#4EABBD",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "거리에서 발생하는 이벤트"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "거리에서 발생하는 이벤트",
+          "runs": [
+            {
+              "index": 1,
+              "text": "거리에서 발생하는 이벤트"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/729g3itw",
+      "id": "328",
+      "name": "선",
+      "bbox": [
+        113.66,
+        183.69,
+        2332.68,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/610zadsb",
+      "id": "329",
+      "name": "집",
+      "bbox": [
+        331.27,
+        1100.56,
+        111.48,
+        80.47
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#4EABBD",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/c7exkjq9",
+      "id": "330",
+      "name": "도시",
+      "bbox": [
+        1284.42,
+        1108.77,
+        111.48,
+        71.52
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#4AAEBD",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x8nedo7u",
+      "id": "331",
+      "name": "걷기",
+      "bbox": [
+        366.83,
+        945.08,
+        57.64,
+        90.67
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#4EABBD",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/alwfi983",
+      "id": "332",
+      "name": "걷기",
+      "bbox": [
+        1310.01,
+        945.08,
+        57.64,
+        90.67
+      ],
+      "horizontalFlip": true,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#4EABBD",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bm5wbe9o",
+      "id": "333",
+      "name": "원",
+      "bbox": [
+        813.84,
+        1018.52,
+        99.49,
+        99.49
+      ],
+      "geometry": "ellipse",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 8
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kbyxojq5",
+      "id": "334",
+      "name": "선",
+      "bbox": [
+        913.15,
+        1068.26,
+        420.07,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 8
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lc7eho7q",
+      "id": "335",
+      "name": "선",
+      "bbox": [
+        863.58,
+        772.27,
+        0,
+        248.4
+      ],
+      "verticalFlip": true,
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 5.33
+    },
+    {
+      "order": 17,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/03qlsbu5",
+      "id": "339",
+      "name": "붙여넣은 동영상.png",
+      "bbox": [
+        364.52,
+        260.32,
+        998.13,
+        557.01
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0,
+        "top": 0,
+        "right": 0.06292,
+        "bottom": 0.06292
+      },
+      "asset": {
+        "assetId": "/ppt/media/image13.png",
+        "contentType": "image/png",
+        "byteLength": 13955194
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image13.png",
+        "contentType": "image/png",
+        "byteLength": 13955194
+      }
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/japwfepk",
+      "id": "337",
+      "name": "스토리를 확장하는 키 캐릭터와의 만남…",
+      "bbox": [
+        1677.31,
+        744.21,
+        663.92,
+        164.34
+      ],
+      "geometry": "rect",
+      "text": "스토리를 확장하는 키 캐릭터와의 만남\n길거리 총격전, 갱단들의 시비 등 위협 요소 배치\n안면있는 손님들의 비극적인 최후 목격",
+      "textPreview": "스토리를 확장하는 키 캐릭터와의 만남 | 길거리 총격전, 갱단들의 시비 등 위협 요소 배치 | 안면있는 손님들의 비극적인 최후 목격",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "• 스토리를 확장하는 키 캐릭터와의 만남"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "• 길거리 총격전, 갱단들의 시비 등 위협 요소 배치"
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": "• 안면있는 손님들의 비극적인 최후 목격"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "스토리를 확장하는 키 캐릭터와의 만남",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "스토리를 확장하는 키 캐릭터와의 만남",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "길거리 총격전, 갱단들의 시비 등 위협 요소 배치",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "길거리 총격전, 갱단들의 시비 등 위협 요소 배치",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 3,
+          "text": "안면있는 손님들의 비극적인 최후 목격",
+          "resolvedTextStyle": {
+            "fontSize": 33.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "안면있는 손님들의 비극적인 최후 목격",
+              "fontSize": 33.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0fudczq1",
+      "id": "338",
+      "name": "배경 | 공간",
+      "bbox": [
+        2208.74,
+        98.86,
+        241.09,
+        78.4
+      ],
+      "geometry": "rect",
+      "text": "배경 | 공간",
+      "textPreview": "배경 | 공간",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "배경 | 공간"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "배경 | 공간",
+          "runs": [
+            {
+              "index": 1,
+              "text": "배경 | 공간"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    }
+  ],
+  "composeRuns": []
+}

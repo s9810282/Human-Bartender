@@ -1,0 +1,2014 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/zyxsni5k",
+    "id": "zyxsni5k",
+    "slide": 20,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "layoutType": "tx",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Helvetica",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "type": "tx",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image1.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/g7uh8bmt",
+      "id": "220",
+      "name": "손님과의 소통",
+      "bbox": [
+        104.39,
+        62.27,
+        449.43,
+        112.27
+      ],
+      "geometry": "rect",
+      "text": "손님과의 소통",
+      "textPreview": "손님과의 소통",
+      "resolvedFontSize": 80,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 80,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "손님과의 소통"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "손님과의 소통",
+          "runs": [
+            {
+              "index": 1,
+              "text": "손님과의 소통"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/183i1gne",
+      "id": "221",
+      "name": "개발 컨셉",
+      "bbox": [
+        2218.06,
+        98.86,
+        211.35,
+        78.4
+      ],
+      "geometry": "rect",
+      "text": "개발 컨셉",
+      "textPreview": "개발 컨셉",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "개발 컨셉"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "개발 컨셉",
+          "runs": [
+            {
+              "index": 1,
+              "text": "개발 컨셉"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/elcz61on",
+      "id": "222",
+      "name": "모서리가 둥근 직사각형",
+      "bbox": [
+        163.62,
+        281.04,
+        1054.57,
+        453.58
+      ],
+      "rotation": 0,
+      "geometry": "roundRect",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#222326",
+      "lineColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/f6l0z658",
+      "id": "223",
+      "name": "설명선",
+      "bbox": [
+        542.55,
+        493.81,
+        576.68,
+        103.8
+      ],
+      "rotation": 0,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/k3a18v6p",
+      "id": "250",
+      "name": "unnamed.jpg",
+      "bbox": [
+        242.08,
+        329.91,
+        288.03,
+        362.04
+      ],
+      "rotation": 0,
+      "contentType": "image/jpeg",
+      "imageCrop": {
+        "left": 0.15268,
+        "top": 0.08759,
+        "right": 0.48077,
+        "bottom": 0.08759
+      },
+      "asset": {
+        "assetId": "/ppt/media/image1.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image1.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tk3ixgni",
+      "id": "225",
+      "name": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이…",
+      "bbox": [
+        572.71,
+        505.27,
+        550.11,
+        80.87
+      ],
+      "rotation": 0,
+      "geometry": "rect",
+      "text": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이 \n거의 협박을 하더라니깐?",
+      "textPreview": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이  | 거의 협박을 하더라니깐?",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "거의 협박을 하더라니깐?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이 ",
+          "resolvedTextStyle": {
+            "fontSize": 26.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "대뜸 납품 기한을 반으로 줄이라고 망할 놈이 ",
+              "fontSize": 26.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "거의 협박을 하더라니깐?",
+          "resolvedTextStyle": {
+            "fontSize": 26.67,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "거의 협박을 하더라니깐?",
+              "fontSize": 26.67,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6hsz21or",
+      "id": "226",
+      "name": "설명선",
+      "bbox": [
+        851.08,
+        409.27,
+        326.11,
+        62.7
+      ],
+      "rotation": 0,
+      "horizontalFlip": true,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ri10v65c",
+      "id": "227",
+      "name": "설명선",
+      "bbox": [
+        542.55,
+        620.2,
+        476.61,
+        63.69
+      ],
+      "rotation": 0,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4fah0r6l",
+      "id": "228",
+      "name": "어디랑 전쟁이라도 하려는 건지 원..",
+      "bbox": [
+        572.88,
+        632.53,
+        433.71,
+        39.04
+      ],
+      "rotation": 0,
+      "geometry": "rect",
+      "text": "어디랑 전쟁이라도 하려는 건지 원..",
+      "textPreview": "어디랑 전쟁이라도 하려는 건지 원..",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "어디랑 전쟁이라도 하려는 건지 원.."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "어디랑 전쟁이라도 하려는 건지 원..",
+          "runs": [
+            {
+              "index": 1,
+              "text": "어디랑 전쟁이라도 하려는 건지 원.."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5gjytwn6",
+      "id": "229",
+      "name": "무슨 일이 있었나요?",
+      "bbox": [
+        872.52,
+        421.1,
+        260.36,
+        39.04
+      ],
+      "rotation": 0,
+      "geometry": "rect",
+      "text": "무슨 일이 있었나요?",
+      "textPreview": "무슨 일이 있었나요?",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "무슨 일이 있었나요?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "무슨 일이 있었나요?",
+          "runs": [
+            {
+              "index": 1,
+              "text": "무슨 일이 있었나요?"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7ah0jmp8",
+      "id": "230",
+      "name": "설명선",
+      "bbox": [
+        551.26,
+        323.72,
+        489.75,
+        63.69
+      ],
+      "rotation": 0,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m98jah8n",
+      "id": "231",
+      "name": "코라테크 놈들, 단체로 미친게 분명해.",
+      "bbox": [
+        573.45,
+        336.05,
+        460.12,
+        39.04
+      ],
+      "rotation": 0,
+      "geometry": "rect",
+      "text": "코라테크 놈들, 단체로 미친게 분명해.",
+      "textPreview": "코라테크 놈들, 단체로 미친게 분명해.",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "코라테크 놈들, 단체로 미친게 분명해."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "코라테크 놈들, 단체로 미친게 분명해.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "코라테크 놈들, 단체로 미친게 분명해."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8bq1crqd",
+      "id": "233",
+      "name": "모서리가 둥근 직사각형",
+      "bbox": [
+        1311.17,
+        266.8,
+        1054.57,
+        482.06
+      ],
+      "geometry": "roundRect",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#222326",
+      "lineColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ve10n6p4",
+      "id": "234",
+      "name": "설명선",
+      "bbox": [
+        1697.41,
+        381.29,
+        562.01,
+        89.07
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 15,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/543i1g7a",
+      "id": "251",
+      "name": "unnamed.jpg",
+      "bbox": [
+        1389.64,
+        315.67,
+        288.03,
+        362.04
+      ],
+      "contentType": "image/jpeg",
+      "imageCrop": {
+        "left": 0.15268,
+        "top": 0.08759,
+        "right": 0.48077,
+        "bottom": 0.08759
+      },
+      "asset": {
+        "assetId": "/ppt/media/image1.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image1.jpeg",
+        "contentType": "image/jpeg",
+        "byteLength": 171220
+      }
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hgjipw7a",
+      "id": "236",
+      "name": "근데 갑자기 고장 난 자율비행 버스가 옆으로…",
+      "bbox": [
+        1729.25,
+        388.18,
+        514.17,
+        75.3
+      ],
+      "geometry": "rect",
+      "text": "근데 갑자기 고장 난 자율비행 버스가 옆으로 \n곤두박질치더군. 걔는 뭐, 그 자리에서 갔지만...",
+      "textPreview": "근데 갑자기 고장 난 자율비행 버스가 옆으로  | 곤두박질치더군. 걔는 뭐, 그 자리에서 갔지만...",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "근데 갑자기 고장 난 자율비행 버스가 옆으로"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "곤두박질치더군. 걔는 뭐, 그 자리에서 갔지만..."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "근데 갑자기 고장 난 자율비행 버스가 옆으로 ",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "근데 갑자기 고장 난 자율비행 버스가 옆으로 ",
+              "fontSize": 24,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "곤두박질치더군. 걔는 뭐, 그 자리에서 갔지만...",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica",
+            "color": "#FFFFFF"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "곤두박질치더군. 걔는 뭐, 그 자리에서 갔지만...",
+              "fontSize": 24,
+              "typeface": "Helvetica",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wfa1gbqp",
+      "id": "237",
+      "name": "설명선",
+      "bbox": [
+        1697.42,
+        317.3,
+        421.99,
+        50.87
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ji10r6p0",
+      "id": "238",
+      "name": "여기에 여자친구랑 오는 길이었어.",
+      "bbox": [
+        1729.25,
+        324.6,
+        378.11,
+        36.25
+      ],
+      "geometry": "rect",
+      "text": "여기에 여자친구랑 오는 길이었어.",
+      "textPreview": "여기에 여자친구랑 오는 길이었어.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 24,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "여기에 여자친구랑 오는 길이었어."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "여기에 여자친구랑 오는 길이었어.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "여기에 여자친구랑 오는 길이었어."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ihsji18v",
+      "id": "239",
+      "name": "설명선",
+      "bbox": [
+        1697.42,
+        483.5,
+        611.83,
+        50.87
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/2xkba9k3",
+      "id": "240",
+      "name": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?",
+      "bbox": [
+        1729.25,
+        490.8,
+        560.46,
+        36.25
+      ],
+      "geometry": "rect",
+      "text": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?",
+      "textPreview": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 24,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?",
+          "runs": [
+            {
+              "index": 1,
+              "text": "난 털끝 하나 안 다치고 보상금까지 챙겨서 왔잖아?"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 21,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ytc3e1o",
+      "id": "241",
+      "name": "설명선",
+      "bbox": [
+        1697.42,
+        547.55,
+        489.73,
+        50.87
+      ],
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "accent1",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 22,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/oz2tcj29",
+      "id": "242",
+      "name": "이 정도면 오늘 진짜 운수 대통한 날이지.",
+      "bbox": [
+        1729.25,
+        554.85,
+        447.49,
+        36.25
+      ],
+      "geometry": "rect",
+      "text": "이 정도면 오늘 진짜 운수 대통한 날이지.",
+      "textPreview": "이 정도면 오늘 진짜 운수 대통한 날이지.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 24,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "이 정도면 오늘 진짜 운수 대통한 날이지."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "이 정도면 오늘 진짜 운수 대통한 날이지.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "이 정도면 오늘 진짜 운수 대통한 날이지."
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 23,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/p0bu5oju",
+      "id": "243",
+      "name": "설명선",
+      "bbox": [
+        2042.93,
+        618.91,
+        260.83,
+        50.87
+      ],
+      "horizontalFlip": true,
+      "geometry": "custom",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "#C72D9E",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 24,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q14betkf",
+      "id": "244",
+      "name": "(...정신이 나갔군.)",
+      "bbox": [
+        2052.11,
+        626.2,
+        214.91,
+        36.25
+      ],
+      "geometry": "rect",
+      "text": "(...정신이 나갔군.)",
+      "textPreview": "(...정신이 나갔군.)",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 24,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "alignment": "center",
+        "verticalAlignment": "bottom",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "(...정신이 나갔군.)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "(...정신이 나갔군.)",
+          "runs": [
+            {
+              "index": 1,
+              "text": "(...정신이 나갔군.)"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 25,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bmdc7y1k",
+      "id": "245",
+      "name": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며…",
+      "bbox": [
+        775.22,
+        923.99,
+        1009.56,
+        119.9
+      ],
+      "geometry": "rect",
+      "text": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며\n다양한 인간 군상의 서사를 마주하게 된다.",
+      "textPreview": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며 | 다양한 인간 군상의 서사를 마주하게 된다.",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며"
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "다양한 인간 군상의 서사를 마주하게 된다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며",
+          "resolvedTextStyle": {
+            "fontSize": 37.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "바텐더는 대화를 통해 손님들의 일상과 고민 등 여러 이야기를 들으며",
+              "fontSize": 37.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "다양한 인간 군상의 서사를 마주하게 된다.",
+          "resolvedTextStyle": {
+            "fontSize": 37.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "다양한 인간 군상의 서사를 마주하게 된다.",
+              "fontSize": 37.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 26,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cnmtgj25",
+      "id": "246",
+      "name": "경청자",
+      "bbox": [
+        1208.26,
+        845.6,
+        143.48,
+        70.67
+      ],
+      "geometry": "rect",
+      "text": "경청자",
+      "textPreview": "경청자",
+      "resolvedFontSize": 50.67,
+      "resolvedTextStyle": {
+        "fontSize": 50.67,
+        "typeface": "Helvetica",
+        "color": "#C8406E",
+        "bold": true,
+        "alignment": "center",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "경청자"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "경청자",
+          "runs": [
+            {
+              "index": 1,
+              "text": "경청자"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 27,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dovu9ojq",
+      "id": "247",
+      "name": "바텐더는 늘 같은 자리에서 손님을 맞이한다.…",
+      "bbox": [
+        812.7,
+        1152.93,
+        934.61,
+        181.18
+      ],
+      "geometry": "rect",
+      "text": "바텐더는 늘 같은 자리에서 손님을 맞이한다. \n단골 손님들의 미세한 변화를 감지하거나 들려오는 근황을 통해 \n그들의 삶이 어떤 방향으로 나아가는지 지켜볼 수 있다.",
+      "textPreview": "바텐더는 늘 같은 자리에서 손님을 맞이한다.  | 단골 손님들의 미세한 변화를 감지하거나 들려오는 근황을 통해  | 그들의 삶이 어떤 방향으로 나아가는지 지켜볼 수 있다.",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 5,
+        "lines": [
+          {
+            "index": 1,
+            "text": "바텐더는 늘 같은 자리에서 손님을 맞이한다."
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "단골 손님들의 미세한 변화를 감지하거나 들려오는 근황을 통해"
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": "그들의 삶이 어떤 방향으로 나아가는지 지켜볼 수 있다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "바텐더는 늘 같은 자리에서 손님을 맞이한다. ",
+          "resolvedTextStyle": {
+            "fontSize": 37.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "바텐더는 늘 같은 자리에서 손님을 맞이한다. ",
+              "fontSize": 37.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 2,
+          "text": "단골 손님들의 미세한 변화를 감지하거나 들려오는 근황을 통해 ",
+          "resolvedTextStyle": {
+            "fontSize": 37.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "단골 손님들의 미세한 변화를 감지하거나 들려오는 근황을 통해 ",
+              "fontSize": 37.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        },
+        {
+          "index": 3,
+          "text": "그들의 삶이 어떤 방향으로 나아가는지 지켜볼 수 있다.",
+          "resolvedTextStyle": {
+            "fontSize": 37.33,
+            "typeface": "Helvetica",
+            "color": "#F2F3F3",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "그들의 삶이 어떤 방향으로 나아가는지 지켜볼 수 있다.",
+              "fontSize": 37.33,
+              "typeface": "Helvetica",
+              "color": "#F2F3F3",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 28,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/650b2pkv",
+      "id": "248",
+      "name": "관찰자",
+      "bbox": [
+        1208.26,
+        1077.73,
+        143.48,
+        70.67
+      ],
+      "geometry": "rect",
+      "text": "관찰자",
+      "textPreview": "관찰자",
+      "resolvedFontSize": 50.67,
+      "resolvedTextStyle": {
+        "fontSize": 50.67,
+        "typeface": "Helvetica",
+        "color": "#C8406E",
+        "bold": true,
+        "alignment": "center",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "관찰자"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "관찰자",
+          "runs": [
+            {
+              "index": 1,
+              "text": "관찰자"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 29,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r69svu1g",
+      "id": "249",
+      "name": "선",
+      "bbox": [
+        113.66,
+        183.69,
+        2332.68,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#C72D9E",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 30,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/ihsj6loj",
+      "id": "252",
+      "name": "붙여넣은 동영상.png",
+      "bbox": [
+        1388.59,
+        313.55,
+        294.55,
+        367.77
+      ],
+      "contentType": "image/png",
+      "imageCrop": {
+        "left": 0.30211,
+        "top": 0,
+        "right": 0.30211,
+        "bottom": 0
+      },
+      "asset": {
+        "assetId": "/ppt/media/image4.png",
+        "contentType": "image/png",
+        "byteLength": 832383
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image4.png",
+        "contentType": "image/png",
+        "byteLength": 832383
+      }
+    }
+  ],
+  "composeRuns": []
+}

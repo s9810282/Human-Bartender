@@ -1,0 +1,742 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/5ojatgfe",
+    "id": "5ojatgfe",
+    "slide": 40,
+    "layoutId": "/ppt/slideLayouts/slideLayout4.xml",
+    "layoutName": "제목 및 구분점",
+    "layoutType": "tx",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "backgroundColor": "#161718",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 2560,
+      "height": 1440
+    }
+  },
+  "theme": {
+    "colorSchemeName": "36_DynamicWavesLight",
+    "colors": {
+      "accent1": "#9FAABA",
+      "accent2": "#88A7B2",
+      "accent3": "#94B9A3",
+      "accent4": "#F0BE5E",
+      "accent5": "#D5B7B7",
+      "accent6": "#B894B1",
+      "dk1": "#53585F",
+      "lt1": "#5F3E0C",
+      "dk2": "#53585F",
+      "lt2": "#D5D5D5",
+      "hlink": "#0000FF",
+      "folHlink": "#FF00FF"
+    },
+    "fontScheme": {
+      "name": "36_DynamicWavesLight",
+      "majorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      },
+      "minorFont": {
+        "latinTypeface": "Produkt Extralight",
+        "eastAsianTypeface": "Produkt Extralight",
+        "complexScriptTypeface": "Produkt Extralight"
+      }
+    },
+    "typefaces": [
+      "Helvetica",
+      "Produkt Extralight"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout4.xml",
+      "name": "제목 및 구분점",
+      "type": "tx",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/42",
+          "id": "42",
+          "name": "슬라이드 부제",
+          "bbox": [
+            126.67,
+            244,
+            2306.67,
+            105.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 부제",
+          "textPreview": "슬라이드 부제",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 4.8,
+              "right": 4.8,
+              "bottom": 4.8,
+              "left": 4.8
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 부제",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 부제"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/43",
+          "id": "43",
+          "name": "슬라이드 제목",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/44",
+          "id": "44",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout4.xml/45",
+          "id": "45",
+          "name": "슬라이드 번호",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "geometry": "rect"
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "backgroundImage": {
+        "assetId": "/ppt/media/image1.png",
+        "contentType": "image/png",
+        "byteLength": 1101012
+      },
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/2",
+          "id": "2",
+          "name": "슬라이드 제목",
+          "bbox": [
+            126.67,
+            66.67,
+            2306.67,
+            177.33
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 제목",
+          "textPreview": "슬라이드 제목",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 제목",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 제목"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/3",
+          "id": "3",
+          "name": "본문 첫 번째 줄…",
+          "bbox": [
+            126.67,
+            446.04,
+            2306.67,
+            866.77
+          ],
+          "geometry": "rect",
+          "text": "슬라이드 구분점 텍스트\n\n\n\n",
+          "textPreview": "슬라이드 구분점 텍스트 |  |  |  |",
+          "resolvedTextStyle": {
+            "autoFit": "shrinkText",
+            "autoFitScale": 1,
+            "autoFitLineSpaceReduction": 0,
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "슬라이드 구분점 텍스트",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "슬라이드 구분점 텍스트"
+                }
+              ]
+            }
+          ],
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/4",
+          "id": "4",
+          "name": "슬라이드 번호",
+          "bbox": [
+            2471.2,
+            1306.4,
+            42.93,
+            46.67
+          ],
+          "geometry": "rect",
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "verticalAlignment": "bottom",
+            "wrap": "none",
+            "autoFit": "resizeShapeToFitText",
+            "insets": {
+              "top": 5.33,
+              "right": 5.33,
+              "bottom": 5.33,
+              "left": 5.33
+            }
+          },
+          "lineWidth": 1.33
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/v2hw36po",
+      "id": "520",
+      "name": "스토리 컨셉",
+      "bbox": [
+        1070.4,
+        62.27,
+        380.23,
+        112.27
+      ],
+      "geometry": "rect",
+      "text": "스토리 컨셉",
+      "textPreview": "스토리 컨셉",
+      "resolvedFontSize": 80,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 80,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "스토리 컨셉"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "스토리 컨셉",
+          "runs": [
+            {
+              "index": 1,
+              "text": "스토리 컨셉"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u18va1o3",
+      "id": "521",
+      "name": "선",
+      "bbox": [
+        113.66,
+        183.69,
+        2332.68,
+        0
+      ],
+      "geometry": "line",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "lineColor": "#4EABBD",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h4ze5w7u",
+      "id": "522",
+      "name": "2068년, 서울.…",
+      "bbox": [
+        480.3,
+        283.04,
+        1599.41,
+        1012.28
+      ],
+      "geometry": "rect",
+      "text": "2068년, 서울.\n정부보다 메가코프의 힘이 더 강하게 작용하는 사회.\n\n루나는 인간의 뇌신경망 복사 및 신인류를 만드는 실험을 통해 인공 뇌신경망을 가진 인공 생명체다. 자신이 어디서 왔는지 모른다. 기억이 없다.\n\n루나는 크리스의 뒷골목 바에서 바텐더로 일한다. 크리스는 루나를 보호하는 사람이다. 하지만 그에게는 루나에게 말하지 못한 과거가 있다.\n\n15일간, 이 바에 다양한 사람들이 찾아온다. 분노를 숨긴 사람, 상처를 감춘 사람, 외로움을 떠듬으로 포장한 사람. 루나는 그들의 말을 듣고, 술을 만들어 내밀고, 조금씩 이 세계와 사람을 이해해간다.",
+      "textPreview": "2068년, 서울. | 정부보다 메가코프의 힘이 더 강하게 작용하는 사회. |  | 루나는 인간의 뇌신경망 복사 및 신인류를 만드는 실험을 통해 인공 뇌신경망을 가진 인공 생명체다. 자신이 어디서 왔는지 모른다. 기억이 없다. |  | 루나는 크...",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 18,
+        "lines": [
+          {
+            "index": 1,
+            "text": "2068년, 서울."
+          },
+          {
+            "index": 2,
+            "text": ""
+          },
+          {
+            "index": 3,
+            "text": "정부보다 메가코프의 힘이 더 강하게 작용하는 사회."
+          },
+          {
+            "index": 4,
+            "text": ""
+          },
+          {
+            "index": 5,
+            "text": ""
+          },
+          {
+            "index": 6,
+            "text": ""
+          },
+          {
+            "index": 7,
+            "text": "루나는 인간의 뇌신경망 복사 및 신인류를 만드는 실험을 통해 인공 뇌신경망을 가진 인공 생명체다."
+          },
+          {
+            "index": 8,
+            "text": "자신이 어디서 왔는지 모른다. 기억이 없다."
+          },
+          {
+            "index": 9,
+            "text": ""
+          },
+          {
+            "index": 10,
+            "text": ""
+          },
+          {
+            "index": 11,
+            "text": ""
+          },
+          {
+            "index": 12,
+            "text": "루나는 크리스의 뒷골목 바에서 바텐더로 일한다. 크리스는 루나를 보호하는 사람이다. 하지만"
+          },
+          {
+            "index": 13,
+            "text": "그에게는 루나에게 말하지 못한 과거가 있다."
+          },
+          {
+            "index": 14,
+            "text": ""
+          },
+          {
+            "index": 15,
+            "text": ""
+          },
+          {
+            "index": 16,
+            "text": ""
+          },
+          {
+            "index": 17,
+            "text": "15일간, 이 바에 다양한 사람들이 찾아온다. 분노를 숨긴 사람, 상처를 감춘 사람, 외로움을 떠듬으로"
+          },
+          {
+            "index": 18,
+            "text": "포장한 사람. 루나는 그들의 말을 듣고, 술을 만들어 내밀고, 조금씩 이 세계와 사람을 이해해간다."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "2068년, 서울.",
+          "lineSpacingPercent": 150000,
+          "resolvedTextStyle": {
+            "fontSize": 40,
+            "typeface": "Helvetica",
+            "color": "#E1EDFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "2068년, 서울.",
+              "fontSize": 40,
+              "typeface": "Helvetica",
+              "color": "#E1EDFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0
+        },
+        {
+          "index": 2,
+          "text": "정부보다 메가코프의 힘이 더 강하게 작용하는 사회.",
+          "lineSpacingPercent": 150000,
+          "resolvedTextStyle": {
+            "fontSize": 40,
+            "typeface": "Helvetica",
+            "color": "#E1EDFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "정부보다 메가코프의 힘이 더 강하게 작용하는 사회.",
+              "fontSize": 40,
+              "typeface": "Helvetica",
+              "color": "#E1EDFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0
+        },
+        {
+          "index": 4,
+          "text": "루나는 인간의 뇌신경망 복사 및 신인류를 만드는 실험을 통해 인공 뇌신경망을 가진 인공 생명체다. 자신이 어디서 왔는지 모른다. 기억이 없다.",
+          "lineSpacingPercent": 150000,
+          "resolvedTextStyle": {
+            "fontSize": 40,
+            "typeface": "Helvetica",
+            "color": "#E1EDFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "루나는 인간의 뇌신경망 복사 및 신인류를 만드는 실험을 통해 인공 뇌신경망을 가진 인공 생명체다. 자신이 어디서 왔는지 모른다. 기억이 없다.",
+              "fontSize": 40,
+              "typeface": "Helvetica",
+              "color": "#E1EDFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0
+        },
+        {
+          "index": 6,
+          "text": "루나는 크리스의 뒷골목 바에서 바텐더로 일한다. 크리스는 루나를 보호하는 사람이다. 하지만 그에게는 루나에게 말하지 못한 과거가 있다.",
+          "lineSpacingPercent": 150000,
+          "resolvedTextStyle": {
+            "fontSize": 40,
+            "typeface": "Helvetica",
+            "color": "#E1EDFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "루나는 크리스의 뒷골목 바에서 바텐더로 일한다. 크리스는 루나를 보호하는 사람이다. 하지만 그에게는 루나에게 말하지 못한 과거가 있다.",
+              "fontSize": 40,
+              "typeface": "Helvetica",
+              "color": "#E1EDFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0
+        },
+        {
+          "index": 8,
+          "text": "15일간, 이 바에 다양한 사람들이 찾아온다. 분노를 숨긴 사람, 상처를 감춘 사람, 외로움을 떠듬으로 포장한 사람. 루나는 그들의 말을 듣고, 술을 만들어 내밀고, 조금씩 이 세계와 사람을 이해해간다.",
+          "lineSpacingPercent": 150000,
+          "resolvedTextStyle": {
+            "fontSize": 40,
+            "typeface": "Helvetica",
+            "color": "#E1EDFF",
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "15일간, 이 바에 다양한 사람들이 찾아온다. 분노를 숨긴 사람, 상처를 감춘 사람, 외로움을 떠듬으로 포장한 사람. 루나는 그들의 말을 듣고, 술을 만들어 내밀고, 조금씩 이 세계와 사람을 이해해간다.",
+              "fontSize": 40,
+              "typeface": "Helvetica",
+              "color": "#E1EDFF",
+              "alignment": "center"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0
+        }
+      ],
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/w3qdcr69",
+      "id": "523",
+      "name": "직사각형",
+      "bbox": [
+        -31.83,
+        -11.5,
+        2623.67,
+        1463.01
+      ],
+      "geometry": "rect",
+      "resolvedFontSize": 26.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 26.67,
+        "typeface": "Produkt Extralight",
+        "color": "tx1",
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": ""
+          }
+        ]
+      },
+      "fillColor": "rgba(0, 0, 0, 0.79792)",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7yxwzmpc",
+      "id": "524",
+      "name": "카페 게시글 참조",
+      "bbox": [
+        921.43,
+        610.83,
+        717.14,
+        146.14
+      ],
+      "geometry": "rect",
+      "text": "카페 게시글 참조",
+      "textPreview": "카페 게시글 참조",
+      "resolvedFontSize": 106.67,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 106.67,
+        "typeface": "Helvetica",
+        "color": "#FFFFFF",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "textTransform": "none",
+        "wrap": "none",
+        "autoFit": "resizeShapeToFitText",
+        "insets": {
+          "top": 5.33,
+          "right": 5.33,
+          "bottom": 5.33,
+          "left": 5.33
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "카페 게시글 참조"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "카페 게시글 참조",
+          "runs": [
+            {
+              "index": 1,
+              "text": "카페 게시글 참조"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0,
+          "indent": 0,
+          "lineSpacingPercent": 100000
+        }
+      ],
+      "lineWidth": 1.33
+    }
+  ],
+  "composeRuns": []
+}

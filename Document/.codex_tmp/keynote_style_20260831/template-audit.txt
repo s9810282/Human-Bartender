@@ -1,0 +1,30 @@
+Template source
+- Primary deck: reference_1.pptx (exported from the user-provided 「심연의청강단_게임컨셉발표.key」)
+- Source size: 2560×1440, 16:9
+- Source inventory: 43 slides
+- Supplemental references: reference_2~5 exports, used only to confirm recurring visual habits.
+
+Observed design language
+- Charcoal background (#161718), white/gray Korean typography.
+- Neon magenta is the dominant emphasis color; cyan is used for thin lines, frames, and secondary emphasis.
+- Large bold headings, short sentences, generous negative space.
+- Repeating layout families: centered opening/closing, compact overview table, three-way concept diagram, screenshot-supported explanation.
+- Images sit inside thin rounded outlines rather than filling the entire slide.
+- Paragraphs are centered or left-aligned in short 2–5 line blocks; dense bullet lists are uncommon.
+
+Reusable source slides selected
+- Slide 1: centered title/closing frame.
+- Slide 17: five-row overview frame.
+- Slide 19: three-part relationship diagram.
+- Slide 21: screenshot-supported explanation frame.
+
+Insertion contract
+- Duplicate only the mapped source slides.
+- Rewrite only the inherited text elements listed in template-frame-map.json.
+- Preserve backgrounds, source image, decorative geometry, thin rules, spacing, and inherited typography.
+- Do not add new shapes or parallel layout systems.
+- Slide 1 is intentionally reused as both opening and closing to mirror the user's restrained endings.
+
+Content approach
+- The deck answers “게임은 무엇인가” through participation, rules, choice, feedback, and authored experience.
+- Claims are conceptual and based on the user's own recurring framing of games as player experience; no external factual claims are introduced.
