@@ -36,6 +36,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
     /// </summary>
     public override async void Interact(IInteractor player)
     {
+        if(isTalking)return;
         isTalking = true;
         isInteracting = true;
         player.State = EInteractorState.Interct;

@@ -10842,6 +10842,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1040353829}
+  - {fileID: 1183441357}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089424763
@@ -12287,6 +12288,51 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!1 &1183441356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183441357}
+  - component: {fileID: 1183441358}
+  m_Layer: 0
+  m_Name: spot (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1183441357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183441356}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.21, y: -0.563, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1081217489}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1183441358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183441356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4562b852656414186eaf98df08d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpotPoint
+  SpotID: elevator
 --- !u!1 &1184012295
 GameObject:
   m_ObjectHideFlags: 0
@@ -15763,15 +15809,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractiveEntityManager
   isTest: 1
-  testDay: 2
+  testDay: 0
   testFlow: 2
-  testFlags:
-  - flag: samho_death_route
-    bValue: 1
-  - flag: shiba_d2_in_rev1_done
-    bValue: 1
-  - flag: shiba_d2_in_rev2_done
-    bValue: 0
+  testFlags: []
   obejctData: {fileID: 11400000, guid: 2e50c8c89d96c6447852f18d1515e34f, type: 2}
   triggerData: {fileID: 11400000, guid: 8e32772d0c4065f409ee6fc7badc25a3, type: 2}
   InteractPointData: {fileID: 11400000, guid: 5ed93d5bb4b64ebeb2e3ef0656aa378c, type: 2}
@@ -15811,10 +15851,10 @@ MonoBehaviour:
   - id: samho_survived_cutscene
     entity: {fileID: 1074330138}
   entityList:
-  - id: shiba
+  - id: shiba1
     entity: {fileID: 2074752857}
-  - id: 
-    entity: {fileID: 0}
+  - id: elevator_radio
+    entity: {fileID: 2074752857}
   player: {fileID: 398070673}
   barEntrance: {fileID: 917009656}
   homeEntrance: {fileID: 868482189}
@@ -19539,6 +19579,7 @@ MonoBehaviour:
   OnTargetChanged: {fileID: 11400000, guid: 0467b77eb46eafb4ea43b54809b11e42, type: 2}
   PlayerStopEvent: {fileID: 11400000, guid: 0fa5b20f6770066458d692e3a68bd653, type: 2}
   origin: {fileID: 1872714670}
+  _player: {fileID: 398070682}
   detectionRadius: 0.5
   detectionOffset: {x: 0, y: 0}
   interactableLayer:
@@ -21506,8 +21547,8 @@ MonoBehaviour:
   isAvaliable: 1
   isInteracting: 0
   label: 
-  buttonOffset: {x: 0, y: 150}
-  textOffset: {x: 0, y: 150}
+  buttonOffset: {x: 150, y: 300}
+  textOffset: {x: 150, y: 300}
   outlineHighlight: {fileID: 2030078810}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
