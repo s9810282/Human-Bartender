@@ -4,11 +4,13 @@ using System.Data;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using VContainer;
-
-public interface IConditionUtil {
+public interface IConditionUtil
+{
     bool Check(string when);
-    public void Set(string statement);
+    void Set(string statement);
 }
+
+//databox를 채워 넣어야 정상 작동
 public class ConditionUtil : IConditionUtil
 {
     private readonly GameStateManager _gameStateManager;
@@ -17,6 +19,7 @@ public class ConditionUtil : IConditionUtil
     private readonly Dictionary<string, Func<object>> _databox;
 
     private readonly DataTable _dataTable = new DataTable();
+    private readonly string _varPattern = @"\b[a-zA-Z_][a-zA-Z0-9_\.]*\b";
 
     [Inject]
     public ConditionUtil(
@@ -27,7 +30,8 @@ public class ConditionUtil : IConditionUtil
         _gameStateManager = gameStateManager;
         _playerDataReader = playerDataReader;
         _playerDataWriter = playerDataWriter;
-
+        //======================================================================================================
+        //이곳에 변수이름과 변수의 접근하는 람다식을 입력
         _databox = new Dictionary<string, Func<object>>
         {
             { "day", () => _gameStateManager.CurrentDay }
@@ -35,7 +39,8 @@ public class ConditionUtil : IConditionUtil
     }
 
     /// <summary>
-    /// "flag.shiba_met = true" 같은 문자열 구문을 해석해 플래그를 변경합니다.
+    /// "flag.shiba_met = true", "gold + 20", "day + 1" 등
+    /// 대입식(=)과 증감/단순 연산식을 해석하여 적용합니다.
     /// </summary>
     public void Set(string statement)
     {
@@ -43,7 +48,6 @@ public class ConditionUtil : IConditionUtil
 
         try
         {
-            // 1. 세미콜론(;) 또는 쉼표(,)를 기준으로 문장을 여러 개로 분할
             string[] statements = statement.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var singleStatement in statements)
@@ -51,22 +55,36 @@ public class ConditionUtil : IConditionUtil
                 string trimmed = singleStatement.Trim();
                 if (string.IsNullOrEmpty(trimmed)) continue;
 
-                // 2. '=' 또는 ':' 기준으로 키와 값 분리
-                string[] parts = trimmed.Split(new[] { '=', ':' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length < 2)
+                string targetKey = string.Empty;
+                string expression = string.Empty;
+
+                if (trimmed.Contains("="))
                 {
-                    Debug.LogWarning($"[ConditionUtil] 올바르지 않은 Set 구문입니다: '{trimmed}'");
-                    continue;
+                    int assignIdx = trimmed.IndexOf('=');
+                    targetKey = trimmed.Substring(0, assignIdx).Trim();
+                    expression = trimmed.Substring(assignIdx + 1).Trim();
+                }
+                else
+                {
+                    var match = Regex.Match(trimmed, @"^([a-zA-Z_][a-zA-Z0-9_\.]*)\s*([\+\-\*/].*)");
+                    if (match.Success)
+                    {
+                        targetKey = match.Groups[1].Value.Trim();
+                        expression = trimmed;
+                    }
+                    else
+                    {
+                        targetKey = trimmed;
+                        expression = "true";
+                    }
                 }
 
-                string flagKey = parts[0].Trim();
-                string rawValue = parts[1].Trim().ToLower();
+                string parsedExpression = EvaluateVariablesInExpression(expression);
+                object evalResult = _dataTable.Compute(parsedExpression, string.Empty);
 
-                // 3. bool 값 변환 (true, 1 지원)
-                bool boolValue = rawValue == "true" || rawValue == "1";
+                ApplyValue(targetKey, evalResult);
 
-                _playerDataWriter.AddFlag(flagKey, boolValue);
-                Debug.Log($"[ConditionUtil] 플래그 설정 성공 | '{flagKey}' => {boolValue}");
+                Debug.Log($"[ConditionUtil] Set 성공 | '{targetKey}' <= \"{expression}\" (평가: {parsedExpression}) => {evalResult}");
             }
         }
         catch (Exception ex)
@@ -81,32 +99,8 @@ public class ConditionUtil : IConditionUtil
 
         try
         {
-            // 1. 수식 내 변수명/플래그 파싱
-            string pattern = @"\b[a-zA-Z_][a-zA-Z0-9_\.]*\b";
+            string parsedExpression = EvaluateVariablesInExpression(when);
 
-            string parsedExpression = Regex.Replace(when, pattern, match =>
-            {
-                string varName = match.Value;
-
-                // 예약어 유지
-                if (varName.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                    varName.Equals("false", StringComparison.OrdinalIgnoreCase))
-                {
-                    return varName;
-                }
-
-                object rawValue = GetValue(varName);
-
-                if (rawValue == null)
-                {
-                    Debug.LogWarning($"[ConditionEvaluator] '{varName}' 키의 값을 평가할 수 없습니다.");
-                    return "false";
-                }
-
-                return FormatValue(rawValue);
-            });
-
-            // 2. 연산자 변환
             parsedExpression = parsedExpression
                 .Replace("!=", " <> ")
                 .Replace("==", " = ")
@@ -115,7 +109,6 @@ public class ConditionUtil : IConditionUtil
 
             parsedExpression = Regex.Replace(parsedExpression, @"!(?!=)", " NOT ");
 
-            // 3. 수식 계산
             object evalResult = _dataTable.Compute(parsedExpression, string.Empty);
             Debug.Log($"[ConditionEvaluator] 조건 평가 성공 | 원본: \"{when}\" -> 평가식: \"{parsedExpression}\" => 결과: {evalResult}");
             return Convert.ToBoolean(evalResult);
@@ -124,6 +117,62 @@ public class ConditionUtil : IConditionUtil
         {
             Debug.LogError($"[ConditionEvaluator] 수식 계산 실패: '{when}' | 에러: {ex.Message}");
             return false;
+        }
+    }
+
+    /// <summary>
+    /// 수식 문자열 내부의 변수명을 실제 값으로 치환해줍니다.
+    /// </summary>
+    private string EvaluateVariablesInExpression(string expression)
+    {
+        return Regex.Replace(expression, _varPattern, match =>
+        {
+            string varName = match.Value;
+
+            if (varName.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                varName.Equals("false", StringComparison.OrdinalIgnoreCase))
+            {
+                return varName;
+            }
+
+            object rawValue = GetValue(varName);
+
+            if (rawValue == null)
+            {
+                Debug.LogWarning($"[ConditionUtil] '{varName}' 변수의 값을 가져올 수 없습니다. 0/false로 기본 처리합니다.");
+                return "0";
+            }
+
+            return FormatValue(rawValue);
+        });
+    }
+
+    /// <summary>
+    /// 계산된 결과를 대상 Key(플래그 또는 데이터)에 반영합니다.
+    /// </summary>
+    private void ApplyValue(string targetKey, object value)
+    {
+        if (value is bool boolVal)
+        {
+            _playerDataWriter.AddFlag(targetKey, boolVal);
+            return;
+        }
+
+        string strVal = value.ToString().ToLower();
+        if (strVal == "true" || strVal == "false")
+        {
+            _playerDataWriter.AddFlag(targetKey, strVal == "true");
+            return;
+        }
+
+        if (bool.TryParse(strVal, out bool parsedBool))
+        {
+            _playerDataWriter.AddFlag(targetKey, parsedBool);
+        }
+        else
+        {
+            // 숫자/기타 데이터 세팅용 (필요 시 playerDataWriter 연동 확장)
+            Debug.LogWarning($"[ConditionUtil] '{targetKey}'에 non-bool 값 ({value}) 반영. 필요 시 IPlayerDataWriter 확장 권장.");
         }
     }
 
