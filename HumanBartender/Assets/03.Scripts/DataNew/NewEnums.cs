@@ -273,7 +273,11 @@ public enum ENewExpressionMode
 
 /// <summary>
 /// 표정 파츠 애니메이션의 반복 모드를 나타내는 열거형.
-/// 기존 EAnimLoopMode와 의미는 같지만 json/expressions.json의 표기(소문자 special_on_dialogue)에 맞춰 새로 정의했다.
+/// 기존 EAnimLoopMode와 의미는 같지만 json 쪽 표기(소문자)에 맞춰 새로 정의했다.
+///
+/// special_on_dialogue와 on_dialogue는 같은 뜻이다. 데이터가 expressions.json에서
+/// character_anim.json으로 넘어오며 표기가 짧아졌는데, 옛 파일도 그대로 읽히게 둘 다 남긴다.
+/// 없는 표기를 만나면 Newtonsoft가 예외를 던지고, 그 예외는 뒤따르는 파일 로드를 전부 막는다.
 /// </summary>
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ENewAnimLoopMode
@@ -281,6 +285,7 @@ public enum ENewAnimLoopMode
     [EnumMember(Value = "always")] Always,
     [EnumMember(Value = "always_on_dialogue")] AlwaysOnDialogue,
     [EnumMember(Value = "special_on_dialogue")] SpecialOnDialogue,
+    [EnumMember(Value = "on_dialogue")] OnDialogue,
 }
 
 /// <summary>인물 정보(dossier) 항목의 분류를 나타내는 열거형.</summary>

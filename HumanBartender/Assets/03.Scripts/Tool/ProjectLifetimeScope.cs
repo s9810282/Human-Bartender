@@ -39,11 +39,11 @@ public class ProjectLifetimeScope : LifetimeScope
         builder.Register<DialogueHistory>(Lifetime.Singleton);
         builder.RegisterComponentInHierarchy<DialogueHistoryView>();
 
-        builder.RegisterComponentInHierarchy<DataLoadManager>()
-            .As<IDataSwitcher>();
-
-        // 신규 데이터 로더. DataLoadManager와 당분간 공존하며, IAsyncStartable로 등록되어
-        // 컨테이너 빌드 시점에 StartAsync가 호출된다.
+        // 데이터 로더는 하나다. 구형 DataLoadManager가 채우던 SO까지 이쪽이 이어받았고,
+        // 구형 일차 교체(IDataSwitcher)도 여기 구현이 붙어 있어 AsImplementedInterfaces로 함께 등록된다.
+        //
+        // 구형 로더를 여기서 다시 등록하면 안 된다. RegisterComponentInHierarchy는 꺼진 오브젝트를
+        // 찾지 못해, 그 컴포넌트를 끈 순간 HomeManager의 주입이 터진다.
         builder.RegisterComponentInHierarchy<NewDataLoadManager>()
             .AsImplementedInterfaces();
         //치우 수정

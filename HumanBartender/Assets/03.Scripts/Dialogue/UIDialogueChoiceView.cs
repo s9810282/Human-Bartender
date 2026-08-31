@@ -162,6 +162,75 @@ public class UIDialogueChoiceView : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 선택지를 띄우되 고를 수 없는 항목을 감추지 않고 비활성으로 남긴다.
+    ///
+    /// 위의 ShowChoice(ChoiceSelectData)는 조건에 걸린 항목을 아예 그리지 않는데, 2부 대본은 그것을
+    /// 회색으로 두고 왜 못 고르는지를 대신 보여 준다(2부 운영 명세 §12.4). 무엇을 놓쳤는지 보이지
+    /// 않으면 조건이 없는 것과 같기 때문이다.
+    ///
+    /// 조건 판정은 하지 않는다. 부르는 쪽이 이미 끝낸 결과(selectable)와 대신 적을 문구(texts)만 받는다 —
+    /// 판정 방식이 서로 다르고(등급 기반 vs when DSL) 그 차이를 이 뷰가 알 이유가 없다.
+    /// </summary>
+    /// <param name="texts">칸에 적을 문구. 고를 수 없는 칸에는 그 이유를 넣어 보낸다.</param>
+    /// <param name="selectable">칸을 누를 수 있는지. texts와 같은 길이여야 한다.</param>
+    /// <param name="onSelected">고른 칸의 자리 번호를 받는다.</param>
+    public void ShowChoice(IReadOnlyList<string> texts, IReadOnlyList<bool> selectable, Action<int> onSelected)
+    {
+        if (texts == null || selectable == null || texts.Count != selectable.Count)
+        {
+            Debug.LogError("[ChoiceView] 문구와 선택 가능 여부의 개수가 다릅니다.");
+            return;
+        }
+
+        // ResetPanel은 문구와 리스너만 지운다. interactable은 그대로 남아서, 여기서 회색으로 둔 칸이
+        // 다음에 다른 경로(ShowChoice/ShowOutsideChoice)로 열릴 때까지 눌리지 않는 채로 남는다.
+        for (int i = 0; i < choicePanels.Count; i++)
+        {
+            choicePanels[i].ResetPanel();
+            choicePanels[i].GetButton().interactable = true;
+        }
+
+        if (texts.Count > choicePanels.Count)
+            Debug.LogError($"[ChoiceView] 선택지가 {texts.Count}개인데 칸은 {choicePanels.Count}개뿐입니다.");
+
+        int shown = Mathf.Min(texts.Count, choicePanels.Count);
+
+        for (int i = 0; i < shown; i++)
+        {
+            ChoicePanel panel = choicePanels[i];
+
+            panel.SetPanelText(texts[i]);
+            panel.SetActive(true);
+
+            // 비활성 칸은 보이되 눌리지 않는다. 회색 처리는 Button이 하는 색 전이에 맡긴다.
+            panel.GetButton().interactable = selectable[i];
+
+            if (!selectable[i]) continue;
+
+            int index = i;
+            panel.GetButton().onClick.AddListener(() =>
+            {
+                CloseChoices();
+                onSelected?.Invoke(index);
+            });
+        }
+
+        choicesPanel.SetActive(true);
+    }
+
+    /// <summary>선택지를 닫고 칸을 비운다.</summary>
+    public void CloseChoices()
+    {
+        choicesPanel.SetActive(false);
+
+        for (int i = 0; i < choicePanels.Count; i++)
+        {
+            choicePanels[i].ResetPanel();
+            choicePanels[i].GetButton().interactable = true;
+        }
+    }
+
     public void ChoiceSelect(int num)
     {
         choicesPanel.SetActive(false);

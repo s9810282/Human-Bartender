@@ -8,14 +8,25 @@ public class PlayInputHandler : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private DialogueRunner dialogueRunner;
+
+    [Tooltip("2부 대본 실행기. 대본이 도는 동안에는 이쪽이 진행 입력을 받는다. 비워 두면 기존 경로만 쓴다.")]
+    [SerializeField] private StoryFlow storyFlow;
     [SerializeField] private PlayCamera playCamera;
     [SerializeField] private PlayPhaseController playPhaseController;
 
-    /// <summary>대사 진행 입력. 화면 클릭과 동일하게 DialogueRunner의 진행 로직을 호출한다. 2부(Dialogue) 국면에서만 동작한다.</summary>
+    /// <summary>
+    /// 대사 진행 입력. 2부(Dialogue) 국면에서만 동작한다.
+    ///
+    /// 대본을 도는 실행기가 둘이라 먼저 물어보고 넘긴다. 둘이 동시에 돌지는 않지만, 어느 쪽이
+    /// 받을지를 입력 쪽이 알 필요는 없어서 실행 중인 쪽이 스스로 답하게 한다.
+    /// </summary>
     public void OnAdvance(InputValue value)
     {
         if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
         if (playPhaseController.CurrentPhase != EPlayPhase.Dialogue) return;
+
+        if (storyFlow != null && storyFlow.TryAdvance()) return;
+
         dialogueRunner.OnAdvanceInput();
     }
 

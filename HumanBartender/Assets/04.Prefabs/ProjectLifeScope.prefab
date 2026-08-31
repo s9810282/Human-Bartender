@@ -10536,9 +10536,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewDataLoadManager
   isTest: 0
-  testDay: 1
+  testDay: 0
   startDay: 1
-  dayNumbers: 010000000200000003000000
+  dayNumbers: 
+  barDayNumbers: 0000000001000000020000000300000063000000
   balanceData: {fileID: 11400000, guid: 63f99327f1a0418a94d6ec6cd9c49dca, type: 2}
   barkData: {fileID: 11400000, guid: a71d1ae375e54257bcbbee7dbef3fd54, type: 2}
   characterData: {fileID: 11400000, guid: 5226867dabf2416db88a6084fcd100e7, type: 2}
@@ -10563,6 +10564,18 @@ MonoBehaviour:
   tasteData: {fileID: 11400000, guid: 4fed73f749dc492ca5cb7558765b976c, type: 2}
   uiStringData: {fileID: 11400000, guid: 71205796125f439391152ee18d0c6ca7, type: 2}
   streetData: {fileID: 11400000, guid: c8fee4a984072cf4591e1c219a36020d, type: 2}
+  legacyCharacterAnimConfig: {fileID: 11400000, guid: 37dcf18dad1864f45a0beb8c4ee3fffb, type: 2}
+  legacyCharacterData: {fileID: 11400000, guid: d6dc2f25938ac55429f3365eb23948a9, type: 2}
+  legacyTextTagData: {fileID: 11400000, guid: 29643d496f8bbbc4dac66d58dd79453a, type: 2}
+  legacyCocktailData: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
+  legacyIngredientData: {fileID: 11400000, guid: 5dd40507ddfeb7f41be7d64a9fe4cb6a, type: 2}
+  legacyCutSceneData: {fileID: 11400000, guid: d44c8b01dde9bce4d996fa50025a896f, type: 2}
+  legacySettlementData: {fileID: 11400000, guid: 7818a78b81a76b74d86e60ab0da90ded, type: 2}
+  legacyCharacterTierData: {fileID: 11400000, guid: 8b43359c7c482b945b13d916638e3791, type: 2}
+  legacySkillTierData: {fileID: 11400000, guid: 8eafc0f6f8d8f324dbec0be6be949bb1, type: 2}
+  legacyDayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
+  legacyCraftData: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
+  outsideDataManager: {fileID: 8603737807811678936}
   balanceFileName: json/balance.json
   barkFileName: json/barks.json
   characterFileName: json/characters.json
@@ -10572,7 +10585,7 @@ MonoBehaviour:
   commonScriptFileName: json/script/common.json
   dossierFileName: json/dossier.json
   endingFileName: json/endings.json
-  expressionFileName: json/expressions.json
+  expressionFileName: json/character_anim.json
   fieldAnimFileName: json/field_anims.json
   guestBodyFileName: json/guest_bodies.json
   interactPointFileName: json/interact_points.json
@@ -10586,6 +10599,25 @@ MonoBehaviour:
   tasteFileName: json/tastes.json
   uiStringFileName: json/ui_strings.json
   streetFileName: json/script/street.json
+  legacyCocktailFileName: cocktails.json
+  legacyIngredientFileName: ingredients.json
+  legacyCutSceneFileName: cutscenes.json
+  legacySettlementFileName: settlements.json
+  legacyCharacterTierFileName: character_tiers.json
+  legacySkillTierFileName: skill_tiers.json
+  textTagFileName: json/text_tags.json
+  legacyDayFiles:
+  - day_test.json
+  - day0.json
+  - day1.json
+  - day2.json
+  legacyCraftFiles:
+  - day_test_crafts.json
+  - day0_crafts.json
+  - day1_crafts.json
+  - day2_crafts.json
+  legacyDayFileName: day0.json
+  legacyCraftFileName: day0_crafts.json
 --- !u!1 &7276943955447727398
 GameObject:
   m_ObjectHideFlags: 0
@@ -14497,6 +14529,10 @@ PrefabInstance:
     - target: {fileID: 8854948513607915168, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
       propertyPath: m_Name
       value: DataLoadManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854948513607915168, guid: b639d7018a1bc9644a9fde51ad9f0796, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
