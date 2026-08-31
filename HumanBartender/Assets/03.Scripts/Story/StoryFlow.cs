@@ -1,0 +1,94 @@
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using VContainer;
+
+/// <summary>
+/// Play 씬 2부: 단골과의 대화 국면(2부 운영 명세 §5).
+///
+/// 1부가 끝나 좌석이 모두 빈 뒤 PlayPhaseController가 부른다. 하는 일은 그날의 바 대본을 찾아
+/// 실행기에 넘기고 끝날 때까지 기다리는 것까지다.
+///
+/// VisualNovelFlow를 고치지 않고 따로 둔다. 그쪽은 옛 DayDataSO를 보는 진입점이라 손대면 통째로
+/// 바뀌는데, 그 자리를 남겨 두면 옛 데이터로 돌려 보는 길이 남는다.
+/// </summary>
+public class StoryFlow : MonoBehaviour, IPlayPhaseFlow
+{
+    [Header("Scene")]
+    [SerializeField] StoryScriptRunner runner;
+
+    [Tooltip("이 화면에 대본을 그리는 구현체(IStoryPresenter). 바에서는 BarStoryPresenter를 꽂는다. " +
+             "공용 대화 시스템이 IDialoguePresenter를 씬마다 갈아 끼우는 것과 같은 자리다.")]
+    [SerializeField] MonoBehaviour presenter;
+
+    [Tooltip("주문·제조·서빙을 이어 주는 창구(IStoryCraftGate). StoryCraftGate를 꽂는다. " +
+             "비우면 order·craft·serve 스텝에서 오류가 나고 그 자리에서 멈춘다.")]
+    [SerializeField] MonoBehaviour craftGate;
+
+    [Inject] IPlayerDataReader playerDataReader;
+    [Inject] IPlayerDataWriter playerDataWriter;
+    [Inject] ISoundManager soundManager;
+
+    /// <summary>조건 평가기. 서빙 결과가 나오면 여기에 담겨 후속 조건이 읽는다.</summary>
+    public StoryConditionEvaluator Conditions { get; private set; }
+
+    /// <summary>effects 적용기.</summary>
+    public StoryEffectRunner Effects { get; private set; }
+
+    public async UniTask RunAsync()
+    {
+        int day = GameStateManager.Instance.CurrentDay;
+
+        // 로딩이 끝나기 전에 대본을 물으면 아직 없는 날로 읽힌다.
+        //
+        // 로더를 인스펙터로 꽂지 않는다. 그쪽은 Play 씬이 아니라 VContainer 루트 스코프에 얹혀
+        // 실행 중에 만들어져서, 씬 오브젝트가 참조할 수 있는 대상이 아니다.
+        await NewDataLoadManager.WaitUntilLoadedAsync();
+
+        if (!NewDataLoadManager.TryGetBarScript(day, out NewDayScriptBase script))
+        {
+            // 파일이 없는 날은 오류가 아니다. 그날 바 2부를 만들지 않았다는 뜻이다(§5.2).
+            Debug.Log($"[Story] Day {day}의 바 대본이 없어 2부를 건너뜁니다.");
+            return;
+        }
+
+        if (presenter is not IStoryPresenter storyPresenter)
+        {
+            Debug.LogError("[Story] presenter가 IStoryPresenter가 아닙니다. BarStoryPresenter를 꽂으세요.");
+            return;
+        }
+
+        if (craftGate != null && craftGate is not IStoryCraftGate)
+        {
+            Debug.LogError("[Story] craftGate가 IStoryCraftGate가 아닙니다. StoryCraftGate를 꽂으세요.");
+            return;
+        }
+
+        Conditions = new StoryConditionEvaluator(playerDataReader);
+        Effects = new StoryEffectRunner(playerDataWriter);
+
+        runner.Bind(storyPresenter, Conditions, Effects, craftGate as IStoryCraftGate);
+
+        GameStateManager.Instance.GameFlow = EGameFlow.Bar;
+        soundManager?.PlayBGM("BGM_bar_01", 1f, true);
+
+        Debug.Log($"[Story] Day {day} 2부 시작");
+
+        await runner.RunAsync(script, this.GetCancellationTokenOnDestroy());
+
+        Debug.Log($"[Story] Day {day} 2부 종료");
+    }
+
+    /// <summary>
+    /// 대사 진행 입력. 대본이 돌고 있을 때만 받는다.
+    ///
+    /// 공용 DialogueRunner와 이 실행기가 동시에 도는 일은 없지만, 입력을 보내는 쪽이 그것을 알 필요는
+    /// 없게 여기서 걸러 준다.
+    /// </summary>
+    public bool TryAdvance()
+    {
+        if (runner == null || !runner.IsRunning) return false;
+
+        runner.OnAdvanceInput();
+        return true;
+    }
+}

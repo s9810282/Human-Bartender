@@ -30,6 +30,15 @@ public class DialogueSceneDirector : MonoBehaviour, IDialoguePresenter
     void Start()
     {
         characterDB.Clear();
+
+        // 데이터 로딩은 비동기라 이 Start보다 늦게 끝날 수 있다. 비었을 때 그냥 순회하면
+        // 원인과 멀리 떨어진 자리에서 NullReference로 터진다.
+        if (characterData?.characterData?.Characters == null)
+        {
+            Logger.LogWarning("[Dialogue] 인물 데이터가 아직 없어 이름표를 비운 채 시작합니다.");
+            return;
+        }
+
         foreach (var character in characterData.characterData.Characters)
         {
             characterDB[character.Id] = character;

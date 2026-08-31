@@ -47,7 +47,8 @@ public class GuestManager : MonoBehaviour
              "testDay가 0보다 크면 진행 일차도 그 값으로 바꾼다.")]
     [SerializeField] bool useTempAppearance;
 
-    [Tooltip("테스트용 진행 일차. useTempAppearance가 켜져 있을 때만 쓰고, 0이면 데이터 로더가 정한 일차를 그대로 둔다. " +
+    [Tooltip("테스트용 진행 일차. useTempAppearance가 켜져 있을 때만 쓴다. " +
+             "0으로 두면 아무것도 덮어쓰지 않아 0일차로 시작한다 — 0일차는 손님이 없어 1부를 건너뛰고 바로 2부로 간다. " +
              "일차가 바뀌면 등장 손님과 해금 칵테일이 통째로 달라진다.")]
     [SerializeField] int testDay = 2;
 
@@ -176,7 +177,7 @@ public class GuestManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        if (useTempAppearance && testDay > 0)
+        if (useTempAppearance && testDay >= 0)
         {
             // 이름은 외형이지만 일차까지 바꾼다. 일차가 달라지면 등장 손님과 해금 칵테일이 통째로
             // 바뀌므로, 조용히 넘어가지 않고 남긴다 — 1일차인 줄 알았는데 2일차 단골이 나오는 식이다.

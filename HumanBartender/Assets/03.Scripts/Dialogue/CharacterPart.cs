@@ -79,7 +79,7 @@ public abstract class AnimationPart
     /// <summary>파츠를 비활성화하고 렌더러/오버라이드 클립을 모두 비운다.</summary>
     public void SetInactive()
     {
-        Logger.Log($"{partName.ToString()} SetInactive");
+        //Logger.Log($"{partName.ToString()} SetInactive");
         animator.enabled = false;
         spriteRenderer.sprite = null;
 
