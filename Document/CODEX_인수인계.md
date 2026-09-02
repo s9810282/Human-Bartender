@@ -327,3 +327,4 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 현재 운영 거리 데이터는 `Spots` 7개 앵커, `InteractPoints` 7행, `script/street.json` 8씬이다. 같은 `spots.json`에는 Day 99 QA 앵커 7개가 추가되어 총 14행이다.
 - 거리 대화 선택 정보는 `interact_points.json → dialogue_flows[]`가 소유한다. 각 항목은 `scene_id`·`day`·`flow_seq`·`play_type(once|repeat)`·`when`으로 구성되며, 일반 순차 진행은 play_type으로 처리하고 when은 특수 조건에만 사용한다.
 - `script/street.json`과 `script/qa/street_day99.json`은 씬의 `id`와 `steps`만 배포한다. 상태 변경은 `set_state` 스텝, 선택지는 해당 choice 스텝의 `options[]`, 선택 결과는 `result_steps[]`의 `set_state`·`goto`로 표현한다. 거리 씬의 구 `on_complete_effects`와 루트 `choices`는 더 이상 배포하지 않는다.
+- 거리 배포 JSON의 `sync`는 `say` 전용 진행 방식이다. `auto`는 타이핑 완료 후 설정된 지연을 거쳐 자동 진행하고, `player_input`은 다음 대사 입력까지 대기한다. `proximity` 방송은 auto, `interact` 대화는 player_input이며 say가 아닌 거리 스텝에는 sync가 없다. bar·home·cutscene의 기존 wait/no_wait 계약은 변경하지 않는다.

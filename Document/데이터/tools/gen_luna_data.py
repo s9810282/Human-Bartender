@@ -1115,7 +1115,8 @@ SCENES = [_normalize_scene(r) for r in SCENES]
 
 # type v1.2 추가: expr(대사 없이 표정 전환) / anim(1회성 동작 클립) / emote(머리 위 이모트)
 #                 timeline(Unity Timeline 재생) / gif(스파인→GIF 삽입) — timeline/gif는 Cutscenes 표 참조
-# sync: ""(=wait, 완료 후 다음) / no_wait(완료를 기다리지 않고 즉시 다음 — 병렬 연출)
+# 원본 Steps와 비거리 JSON sync: ""(=wait) / no_wait(병렬 연출).
+# 거리 배포 JSON에서는 build_street_runtime_contract가 say 전용 auto/player_input으로 정규화한다.
 # say의 arg = 표정(Expressions 참조). 본인 대사 출력 중 입 애니메이션은 표정 데이터의 lower_face 규칙이 담당
 STEP_COLS = ["scene_id","seq","type","actor","arg","text_ko","text_en","when","effects","sync","note","dialogue_id"]
 STEPS = [
@@ -3372,7 +3373,7 @@ COL_DOCS = {
         "text_en": "영어 대사(비워도 됨 — ko 폴백)",
         "when": "이 스텝만의 조건(when 문법). 조건이 거짓이면 이 줄을 건너뛴다",
         "effects": "이 스텝이 일으키는 변화(effects 문법). 예: affinity.chris += 2; flag.x = true",
-        "sync": "wait(끝나야 다음 줄) 또는 no_wait(다음 줄과 동시에 진행)",
+        "sync": "원본·비거리: wait/no_wait. 거리 배포 JSON: say 전용 auto/player_input(다른 거리 스텝에는 미출력)",
         "note": "작업 메모(게임에 안 나옴)",
     },
     "Choices": {
@@ -3812,6 +3813,18 @@ def build_street_runtime_contract():
             d.pop("action_ref", None)
         points.append(d)
 
+    # 거리 JSON의 sync는 공용 Steps 저작 필드와 의미가 다르다.
+    # say에서만 다음 대사 진행 방식을 나타내며, proximity 방송은 auto,
+    # E키로 시작하는 대화는 player_input을 명시한다. 다른 스텝 타입에는
+    # sync를 출력하지 않는다.
+    auto_scene_ids = {
+        flow["scene_id"]
+        for point in points
+        if point.get("action_type") == "dialogue"
+        and point.get("activation_mode") == "proximity"
+        for flow in point.get("dialogue_flows", [])
+    }
+
     choices_by_id = {}
     for row in CHOICES:
         d = dict(zip(CHOICE_COLS, row))
@@ -3835,8 +3848,9 @@ def build_street_runtime_contract():
                 "arg": d["arg"] or None,
                 "text": L(d["text_ko"], d["text_en"]) if d["text_ko"] else None,
                 "when": d["when"] or None,
-                "sync": d["sync"] or "wait",
             }
+            if d["type"] == "say":
+                common["sync"] = "auto" if scene["id"] in auto_scene_ids else "player_input"
             if d["type"] == "choice":
                 options = []
                 for option in choices_by_id.get(d["arg"], []):
@@ -3862,7 +3876,6 @@ def build_street_runtime_contract():
                     "type": "set_state",
                     "effects": d["effects"],
                     "when": d["when"] or None,
-                    "sync": d["sync"] or "wait",
                 })
             elif d["type"] == "goto":
                 # 대사 중 조건에 따른 자동 분기는 when이 붙은 goto 지문으로 표현한다.
@@ -3871,7 +3884,6 @@ def build_street_runtime_contract():
                     "type": "goto",
                     "scene_id": d["arg"] or None,
                     "when": d["when"] or None,
-                    "sync": d["sync"] or "wait",
                 })
             else:
                 append_step(common)
@@ -3880,14 +3892,12 @@ def build_street_runtime_contract():
                         "type": "set_state",
                         "effects": d["effects"],
                         "when": d["when"] or None,
-                        "sync": "wait",
                     })
         if scene["on_complete_effects"]:
             append_step({
                 "type": "set_state",
                 "effects": scene["on_complete_effects"],
                 "when": None,
-                "sync": "wait",
             })
         return out
 
@@ -3912,6 +3922,7 @@ def validate_street_runtime_contract(runtime):
         for key in ("prod_script", "qa_script")
         for scene in runtime[key]["scenes"]
     }
+    scene_advance_modes = {}
     for key in ("prod_points", "qa_points"):
         for point in runtime[key]:
             if point.get("action_type") == "dialogue":
@@ -3927,6 +3938,11 @@ def validate_street_runtime_contract(runtime):
                     if flow["flow_seq"] in seen_seq:
                         errors.append(f"[거리] {point['id']}: flow_seq {flow['flow_seq']} 중복")
                     seen_seq.add(flow["flow_seq"])
+                    expected_sync = "auto" if point.get("activation_mode") == "proximity" else "player_input"
+                    previous_sync = scene_advance_modes.setdefault(flow["scene_id"], expected_sync)
+                    if previous_sync != expected_sync:
+                        errors.append(
+                            f"[거리] {flow['scene_id']}: 서로 다른 진행 방식({previous_sync}/{expected_sync})의 지점이 같은 씬을 참조")
             elif "dialogue_flows" in point:
                 errors.append(f"[거리] {point['id']}: dialogue가 아닌데 dialogue_flows가 있음")
     for key in ("prod_script", "qa_script"):
@@ -3949,6 +3965,17 @@ def validate_street_runtime_contract(runtime):
                             f"[거리] {scene['id']}#{step['seq']}: goto {step['scene_id']} 없음")
                 elif "effects" in step:
                     errors.append(f"[거리] {scene['id']}#{step['seq']}: 상태 변경은 set_state만 허용")
+                if step["type"] == "say":
+                    if step.get("sync") not in ("auto", "player_input"):
+                        errors.append(
+                            f"[거리] {scene['id']}#{step['seq']}: say.sync는 auto/player_input만 허용")
+                    expected_sync = scene_advance_modes.get(scene["id"])
+                    if expected_sync and step.get("sync") != expected_sync:
+                        errors.append(
+                            f"[거리] {scene['id']}#{step['seq']}: 지점 activation_mode에 따른 sync는 {expected_sync}여야 함")
+                elif "sync" in step:
+                    errors.append(
+                        f"[거리] {scene['id']}#{step['seq']}: sync는 say 스텝에서만 허용")
                 if step["type"] == "choice":
                     if not step.get("options"):
                         errors.append(f"[거리] {scene['id']}#{step['seq']}: choice options 누락")

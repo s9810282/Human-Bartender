@@ -130,6 +130,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   말풍선 이름형/무명형 = §4.3 화자 기준 — say에 actor가 있으면 이름형(직접 대화·**NPC 간 관전 포함**, characters.name·name_color),
   actor 공란인 사물 조사는 무명형, 자동 방송은 아나운서 데이터가 있을 때만 이름 표시, 포스터 뷰는 해당 없음.
   `interact_points.activation_mode`=interact/proximity. 대화 선택은 `dialogue_flows[]`를 `flow_seq` 오름차순으로 평가한다. `play_type=once`는 정상 완료 후 소비하고 다음 대화로 진행하며, `repeat`는 마지막 반복 대사처럼 계속 실행할 수 있다. 일반 진행은 play_type이 담당하고 `when`은 일차·보유 아이템·서사 플래그 같은 특수 조건에만 쓴다.
+  거리 JSON의 `sync`는 `say` 전용 다음 대사 진행 방식이다. `sync=auto`는 타이핑 완료 뒤 `street_auto_next_delay_sec`만큼 기다려 다음 줄로 진행하고, `sync=player_input`은 다음 대사 입력까지 대기한다. proximity 방송은 auto, interact 대화는 player_input이어야 한다. 거리의 choice·set_state·timeline·goto에는 sync를 출력하지 않으며, bar·home·cutscene의 기존 wait/no_wait 계약은 유지한다.
   상태 변경은 거리 씬의 `set_state` 스텝으로만 실행한다. 선택지의 상태 변경과 분기 역시 해당 choice 스텝의 `options[].result_steps` 안에 `set_state`·`goto` 순서로 포함한다. 구 `on_complete_effects`와 거리 루트 `choices` 객체는 배포하지 않는다.
   **NPC 대사는 플레이어가 E 상호작용한 경우에만 시작**하고 종료까지 조작을 잠근다. 자동 재생은 라디오·TV·홀로그램 같은 비인물 오브젝트 방송에만 사용한다. 자동 재생은 동시 1개이며 범위 이탈·직접 상호작용·포스터 시작에도 별도 진행 상태에서 끝까지 재생한다. phase 전환·맵 언로드에서만 중단하며 아직 실행하지 않은 뒤쪽 `set_state`는 적용하지 않는다. phase 전이=문 진입. 시뮬레이터: `이준서/웹시뮬레이터/web/거리_v26_시뮬레이터.html`.
 - **오브젝트 보기 3원칙(거리)**: ① 말풍선은 오브젝트 위에만 — **루나 말풍선·독백 금지**(빌드 에러로 차단)
@@ -230,7 +231,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   운영 시바 선택지에 간식 조건 추가됨(flag.has_snack — 획득처는 아직 데이터에 없음 ❓).
 - **거리 QA 시트 정본화 완료**: build.py의 시바 선택지 하드패치와 gen의 QA 씬 상수(frozen 모듈)를 전부 제거했다.
   시트에는 Day 99 거리 씬·지점 15종이 남아 있으나, 데모에서 사용하지 않는 priority 전용 2종은 build.py가 빌드 입력에서 제외한다. 현행 배포 QA는 거리 씬 13종·지점 13종이며, InteractPoints 시트 원본은 운영 7행 + QA 15행이다.
-  검증 조정 3건: sync 'wait' 명기 허용(공란과 동치) / 루나 say 직전 행동 금지는 바 계열(bar·bar_open) 한정(거리 선택지는 플레이어 말풍선 버튼이라 정상 패턴) /
+  검증 조정: 비거리 원본 Steps의 sync는 기존 wait/no_wait 계약을 유지하되, 거리 배포 JSON의 say.sync는 auto/player_input으로 정규화한다. 루나 say 직전 행동 금지는 바 계열(bar·bar_open) 한정(거리 선택지는 플레이어 말풍선 버튼이라 정상 패턴) /
   배치 일관성 검사에서 p_qa_* 제외(day 99 전용이라 운영 행과 동시 스폰 불가). 빌드가 배포 json을 무보정 완전 재현(diff 0)·고의 위반 검출 확인.
   데이터 갱신 시 재생성: 같은 폴더의 `거리_v26_시뮬레이터.template.html`의 `__DATA__`에 json 재주입.
   주의: 브라우저 탭이 백그라운드면 타이머 스로틀로 자동 진행이 느려진다 — 화면을 보면서 테스트할 것.

@@ -1398,6 +1398,8 @@ script/
 | `effects` | 이 스텝이 일으키는 효과 |
 | `sync` | `wait`(끝나야 다음) / `no_wait`(동시에 진행) |
 
+> **거리 대본 예외:** `script/street.json`과 `script/qa/street_day99.json`에서는 `sync`를 `say`에만 사용합니다. `auto`는 타이핑 완료 뒤 설정된 지연 후 자동 진행하고, `player_input`은 다음 대사 입력까지 기다립니다. 거리의 다른 스텝 타입에는 `sync`가 없습니다. 위의 `wait/no_wait` 의미는 bar·home·cutscene에만 유지됩니다.
+
 ### `type` 13종 전체
 
 | 그룹 | `type` | 하는 일 | `arg` 예시 |
