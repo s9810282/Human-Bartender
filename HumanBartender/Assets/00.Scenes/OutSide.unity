@@ -5453,7 +5453,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1021899254}
         m_TargetAssemblyTypeName: DialogueRunner, Assembly-CSharp
-        m_MethodName: OnAdvanceInput
+        m_MethodName: AdvanceInputOutside
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11286,7 +11286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -321}
+  m_AnchoredPosition: {x: 0, y: -321.03}
   m_SizeDelta: {x: 1280, y: 816}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1116372823
@@ -12314,7 +12314,7 @@ Transform:
   m_GameObject: {fileID: 1183441356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.21, y: -0.563, z: 0}
+  m_LocalPosition: {x: -9.255, y: -0.563, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15852,7 +15852,7 @@ MonoBehaviour:
     entity: {fileID: 1074330138}
   entityList:
   - id: shiba1
-    entity: {fileID: 2074752857}
+    entity: {fileID: 2030078811}
   - id: elevator_radio
     entity: {fileID: 2074752857}
   player: {fileID: 398070673}
@@ -21510,7 +21510,7 @@ GameObject:
   - component: {fileID: 2030078811}
   - component: {fileID: 2030078810}
   - component: {fileID: 2030078816}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: Samho
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -21547,8 +21547,8 @@ MonoBehaviour:
   isAvaliable: 1
   isInteracting: 0
   label: 
-  buttonOffset: {x: 150, y: 300}
-  textOffset: {x: 150, y: 300}
+  buttonOffset: {x: -30, y: 250}
+  textOffset: {x: -30, y: 250}
   outlineHighlight: {fileID: 2030078810}
   OnInteracted: {fileID: 11400000, guid: e6c99aecbcb5ea04c90122c6c5b13af8, type: 2}
   OnRefreshCondition: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}

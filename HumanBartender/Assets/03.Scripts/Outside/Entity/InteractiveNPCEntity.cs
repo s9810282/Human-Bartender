@@ -39,6 +39,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         if(isTalking)return;
         isTalking = true;
         isInteracting = true;
+        if(ActivationMode == EActivationMode.Interact)
         player.State = EInteractorState.Interct;
 
         OnInteracted?.Raise(this);
