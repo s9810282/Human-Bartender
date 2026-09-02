@@ -4333,6 +4333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80d1c2286970e740a06346263c3c5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StreetDataSO: {fileID: 0}
 --- !u!114 &511417368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5437,7 +5438,6 @@ MonoBehaviour:
   drinkWaitSec: 4
   serveBarkGapSec: 2.5
   useTempAppearance: 1
-  testDay: 0
 --- !u!1 &686932220
 GameObject:
   m_ObjectHideFlags: 0
@@ -6354,6 +6354,64 @@ Transform:
   - {fileID: 2131706496}
   - {fileID: 1969909680}
   m_Father: {fileID: 664356994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &749266210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 749266212}
+  - component: {fileID: 749266211}
+  m_Layer: 0
+  m_Name: StoryCraftGate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &749266211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749266210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a288ff8c83d76f4da6b4bd49462a0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StoryCraftGate
+  craftFlow: {fileID: 1024022784}
+  craftPanel: {fileID: 844190253}
+  craftUiRoots:
+  - {fileID: 844190252}
+  - {fileID: 2013979233}
+  characterManager: {fileID: 1147809952}
+  serveCanvas: {fileID: 2013979236}
+  serveZoneSize: {x: 220, y: 180}
+  serveZoneWorldOffset: {x: 0, y: -0.6, z: 0}
+  showServeZoneGuide: 1
+  serveZoneColor: {r: 1, g: 1, b: 1, a: 0.12}
+  cocktailData: {fileID: 11400000, guid: 4cdd38f0ff8842f8a80c5e7c1fec4ecf, type: 2}
+  balanceData: {fileID: 11400000, guid: 63f99327f1a0418a94d6ec6cd9c49dca, type: 2}
+  guestManager: {fileID: 673860024}
+--- !u!4 &749266212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749266210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &767173203
 GameObject:
@@ -7740,7 +7798,6 @@ GameObject:
   m_Component:
   - component: {fileID: 910050655}
   - component: {fileID: 910050654}
-  - component: {fileID: 910050656}
   m_Layer: 0
   m_Name: StoryFlow
   m_TagString: Untagged
@@ -7762,7 +7819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StoryFlow
   runner: {fileID: 2031132091}
   presenter: {fileID: 236135905}
-  craftGate: {fileID: 0}
+  craftGate: {fileID: 749266211}
 --- !u!4 &910050655
 Transform:
   m_ObjectHideFlags: 0
@@ -7778,30 +7835,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &910050656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910050653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a288ff8c83d76f4da6b4bd49462a0e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StoryCraftGate
-  craftFlow: {fileID: 1024022784}
-  craftPanel: {fileID: 844190253}
-  craftUiRoots: []
-  characterManager: {fileID: 1147809952}
-  serveCanvas: {fileID: 2013979236}
-  serveZoneSize: {x: 220, y: 180}
-  serveZoneWorldOffset: {x: 0, y: -0.6, z: 0}
-  showServeZoneGuide: 1
-  serveZoneColor: {r: 1, g: 1, b: 1, a: 0.12}
-  cocktailData: {fileID: 11400000, guid: 4cdd38f0ff8842f8a80c5e7c1fec4ecf, type: 2}
-  balanceData: {fileID: 11400000, guid: 63f99327f1a0418a94d6ec6cd9c49dca, type: 2}
-  guestManager: {fileID: 673860024}
 --- !u!1 &912286095
 GameObject:
   m_ObjectHideFlags: 0
@@ -8030,11 +8063,11 @@ Transform:
   m_GameObject: {fileID: 957151667}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.56174, y: -1.06867, z: 0}
+  m_LocalPosition: {x: 0.15693998, y: 0.23526001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1551410072}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &957151669
 MonoBehaviour:
@@ -8057,6 +8090,8 @@ MonoBehaviour:
   - {fileID: 673860021}
   storyOnlyObjects:
   - {fileID: 664356993}
+  skipTycoonForTest: 1
+  testDay: 99
 --- !u!1 &958751542
 GameObject:
   m_ObjectHideFlags: 0
@@ -12369,7 +12404,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1306118332}
-  - {fileID: 957151668}
   - {fileID: 673860023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18688,3 +18722,5 @@ SceneRoots:
   - {fileID: 236135906}
   - {fileID: 2031132092}
   - {fileID: 910050655}
+  - {fileID: 749266212}
+  - {fileID: 957151668}

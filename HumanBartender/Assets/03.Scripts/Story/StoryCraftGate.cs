@@ -102,7 +102,20 @@ public class StoryCraftGate : MonoBehaviour, IStoryCraftGate
             {
                 // 주문과 다른 칵테일을 골라도 막지 않는다(§8.2). 고르는 것은 플레이어의 일이고,
                 // 틀린 잔인지는 낼 때 가려진다.
-                craftPanel?.Open();
+                if (craftPanel == null)
+                {
+                    Debug.LogError("[StoryCraft] craftPanel이 비어 있어 칵테일 메뉴를 열지 못했습니다.");
+                }
+                else if (!craftPanel.gameObject.activeInHierarchy)
+                {
+                    // 부모가 꺼져 있으면 이쪽에서 켠 것이 소용없다. 무엇이 막고 있는지 이름으로 알린다.
+                    Debug.LogError($"[StoryCraft] '{craftPanel.name}'이 꺼져 있어 칵테일 메뉴를 열지 못했습니다. " +
+                                   "부모 오브젝트가 꺼져 있는지, craftUiRoots 연결이 맞는지 확인하세요.");
+                }
+                else
+                {
+                    craftPanel.Open();
+                }
             }
 
             return await completion.Task.AttachExternalCancellation(token);
@@ -253,15 +266,28 @@ public class StoryCraftGate : MonoBehaviour, IStoryCraftGate
 
     // ── 화면 ────────────────────────────────────────────────────────────
 
+    /// <summary>
+    /// 제조·서빙 화면을 켜고 끈다.
+    ///
+    /// 닫는 일을 끄기 <b>전에</b> 한다. 슬라이드 패널은 코루틴으로 움직이는데 꺼진 오브젝트에서는
+    /// 코루틴이 시작조차 되지 않아서, 순서를 뒤집으면 "Coroutine couldn't be started because the
+    /// game object is inactive"가 난다.
+    ///
+    /// 패널 자신은 craftUiRoots와 별개로 켠다. 인스펙터에서 그 목록에 빠뜨리면 제조가 통째로 막히는데,
+    /// 화면에는 아무것도 나지 않아 원인이 멀다.
+    /// </summary>
     void SetCraftUiActive(bool active)
     {
-        if (craftUiRoots == null) return;
+        if (!active) craftPanel?.Close();
 
-        foreach (var root in craftUiRoots)
+        if (craftUiRoots != null)
         {
-            if (root != null) root.SetActive(active);
+            foreach (var root in craftUiRoots)
+            {
+                if (root != null) root.SetActive(active);
+            }
         }
 
-        if (!active) craftPanel?.Close();
+        if (craftPanel != null) craftPanel.gameObject.SetActive(active);
     }
 }
