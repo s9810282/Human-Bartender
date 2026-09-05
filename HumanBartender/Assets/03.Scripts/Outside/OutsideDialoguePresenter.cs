@@ -12,9 +12,13 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
     [SerializeField] private UIDialogueTextView typer;
     [SerializeField] private DialogueTriggerManager triggerManager;
     [SerializeField] private UIDialogueChoiceView choiceManager;
-
+    public EActivationMode playMode = EActivationMode.Interact;
     private const string PLAYER_ID = "luna";
-
+    
+    public EActivationMode GetPlayMode()
+    {
+        return playMode;
+    }
     public async UniTask<string> ExecuteTriggerAsync(TriggerData? trigger)
     {
         typer.ClearText();

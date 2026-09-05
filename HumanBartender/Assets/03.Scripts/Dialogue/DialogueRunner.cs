@@ -45,13 +45,28 @@ public class DialogueRunner : MonoBehaviour
         this.presenter = presenter;
         Debug.Log($"[DialogueRunner] Presenter 바인딩 완료: {(presenter != null ? presenter.GetType().Name : "null")}");
     }
-
     public void Stop()
     {
         Debug.Log("[DialogueRunner] Stop 호출됨");
-        runnerCts?.Cancel();
-    }
 
+        // 1. CancellationToken Cancel
+        runnerCts?.Cancel();
+
+        // 2. 입력 대기 중인 UniTaskCompletionSource 강제 취소로 대기 해제
+        outsideInputCompletionSource?.TrySetCanceled();
+        completionSource?.TrySetCanceled();
+        
+        // 3. 즉시 상태 초기화 및 Presenter Hide
+        currentState = DialogueState.Idle;
+        try
+        {
+            presenter?.HideDialogue();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[DialogueRunner] HideDialogue 오류: {e}");
+        }
+    }
     #region Legacy Dialogue System
 
     public async UniTask PlayAsync(DialogueData[] dialogues, string startId = null, CancellationToken externalToken = default)
@@ -471,13 +486,28 @@ public class DialogueRunner : MonoBehaviour
 
         await presenter.ShowDialogueAsync(step.Actor, localizedText, step.Arg, ct);
 
-        Debug.Log("[DialogueRunner] ShowDialogueAsync 연출 완료 -> 입력 대기 중 (WaitingForInput)");
-        currentState = DialogueState.WaitingForInput;
+        if (presenter.GetPlayMode() == EActivationMode.Proximity)
+        {
+            Debug.Log("[DialogueRunner] Proximity 모드: 2초 후 자동 진행");
 
-        outsideInputCompletionSource = new UniTaskCompletionSource();
-        await outsideInputCompletionSource.Task.AttachExternalCancellation(ct);
+            // WaitingForInput 대신 자동 진행용 상태가 필요하다면 유지 또는 변경 가능합니다.
+            currentState = DialogueState.WaitingForInput;
 
-        Debug.Log("[DialogueRunner] 입력 수신됨 -> 다음 Step으로 이동 준비");
+            // 2초 대기 (대기 중 Cancel 요청 시 즉시 중단)
+            await UniTask.Delay(TimeSpan.FromSeconds(2), cancellationToken: ct);
+
+            Debug.Log("[DialogueRunner] 2초 대기 완료 -> 다음 Step으로 이동 준비");
+        }
+        else
+        {
+            Debug.Log("[DialogueRunner] ShowDialogueAsync 연출 완료 -> 입력 대기 중 (WaitingForInput)");
+            currentState = DialogueState.WaitingForInput;
+
+            outsideInputCompletionSource = new UniTaskCompletionSource();
+            await outsideInputCompletionSource.Task.AttachExternalCancellation(ct);
+
+            Debug.Log("[DialogueRunner] 입력 수신됨 -> 다음 Step으로 이동 준비");
+        }
     }
 
     private void ProcessSetStateStepOutside(string effects)
@@ -536,7 +566,6 @@ public class DialogueRunner : MonoBehaviour
             // true를 반환하면 Choice 스텝 처리가 끝나고 ExecuteOutsideStepsAsync의 다음 Step(for문 다음)으로 넘어감
             return false;
         }
-
         // 2. 조건을 만족했거나 조건이 없는 경우
         if (selectedOption.ResultSteps != null && selectedOption.ResultSteps.Length > 0)
         {
@@ -544,7 +573,6 @@ public class DialogueRunner : MonoBehaviour
             await ExecuteOutsideStepsAsync(selectedOption.ResultSteps, ct);
             return true;
         }
-
         return false;
     }
 
@@ -558,7 +586,5 @@ public class DialogueRunner : MonoBehaviour
             _ => textData.Ko
         };
     }
-
-
     #endregion
 }

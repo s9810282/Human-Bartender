@@ -20,6 +20,7 @@ public interface IDialoguePresenter
     void ShowSystemAction();
     /// <summary>씬 종료 처리.</summary>
     void EndScene();
+    EActivationMode GetPlayMode();
 
     /// <summary>트리거(연출/미니게임 등)를 실행하고 다음 대사 id를 반환한다.</summary>
     UniTask<string> ExecuteTriggerAsync(TriggerData? trigger);

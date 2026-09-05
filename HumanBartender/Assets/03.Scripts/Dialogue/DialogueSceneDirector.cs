@@ -56,6 +56,7 @@ public class DialogueSceneDirector : MonoBehaviour, IDialoguePresenter
 
     }
 
+    public EActivationMode GetPlayMode() {return EActivationMode.Interact;}
     /// <summary>연출/시스템 액션 진행을 위해 대화창을 숨긴다.</summary>
     public void ShowSystemAction()
     {

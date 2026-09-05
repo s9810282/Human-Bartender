@@ -36,7 +36,16 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
     /// </summary>
     public override async void Interact(IInteractor player)
     {
-        if(isTalking)return;
+        if (isTalking) {
+            if (presenter.playMode == EActivationMode.Proximity)
+            {
+                runner.Stop();
+            }
+            else
+            {
+                return;
+            }
+        }
         isTalking = true;
         isInteracting = true;
         if(ActivationMode == EActivationMode.Interact)
@@ -45,7 +54,7 @@ public abstract class InteractiveNPCEntity : InteractiveEntity
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
         player.InteractorEvent();
-
+        presenter.playMode =ActivationMode;
         runner.Bind(presenter);
 
         // SO에서 첫 번째 Scene의 Steps 배열을 추출하여 실행
