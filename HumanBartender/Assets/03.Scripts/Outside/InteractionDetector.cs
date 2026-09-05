@@ -122,7 +122,7 @@ public class InteractionDetector : MonoBehaviour
             
             if (interactable == null) continue;
             if (!interactable.IsAvaliable) continue;
-
+            if (!interactable.isInteract) continue;
             currentFrameCandidates.Add(interactable);
         }
     }

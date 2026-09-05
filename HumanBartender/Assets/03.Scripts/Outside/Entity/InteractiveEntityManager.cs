@@ -33,6 +33,12 @@ public struct Entity
 {
     public string id;
     public InteractiveEntity entity;
+
+    public Entity(string id, InteractiveEntity entity)
+    {
+        this.id = id;
+        this.entity = entity;
+    }
 }
 
 /// <summary>테스트 모드에서 강제로 세팅할 플래그 값.</summary>
@@ -82,11 +88,16 @@ public class InteractiveEntityManager : MonoBehaviour
     [Inject] ISoundManager soundManager;
     [Inject] IObjectResolver resolver;
     [Inject] IConditionUtil conditionUtil;
-    //day 값 보고 검사 하기.
+    //day 값 보고 검사 하기
     void Awake()
     {
     }
-
+    //기본값 주입
+    [SerializeField] protected ITrackedbleEvent OnTrackedText;
+    [SerializeField] protected DialogueRunner runner;
+    [SerializeField] protected OutsideDialoguePresenter presenter;
+    [SerializeField] protected InteractableEvent OnInteracted;
+    [SerializeField] protected VoidEvent OnRefreshCondition;
     /// <summary>
     /// (테스트 모드면 날짜/흐름/플래그를 강제 세팅 후) BGM 재생, 출입구 활성화, 엘리베이터 위치,
     /// 플레이어 스폰 위치를 현재 GameFlow에 맞춰 초기화하고 엔티티 상태를 갱신한다.
@@ -107,21 +118,44 @@ public class InteractiveEntityManager : MonoBehaviour
         Logger.Log("Entity Init");
         soundManager.PlayBGM("BGM_outside");
 
-        barEntrance.IsAvaliable = GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn;
-        homeEntrance.IsAvaliable = GameStateManager.Instance.GameFlow == EGameFlow.CommuteOut;
 
-        
-        elevator.SetPosition(GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn);
-
-        if (GameStateManager.Instance.GameFlow == EGameFlow.CommuteIn)
-            player.transform.position = homeEntrance.spawnPoint;
-        else
-            player.transform.position = barEntrance.spawnPoint;
-
+        // 자식 Entity 들에 의존성 주입
+        InjectAndRegisterChildEntities();
 
         RefreshEntity();
     }
 
+    private void InjectAndRegisterChildEntities()
+    {
+        entityList.Clear();
+
+        var entities = GetComponentsInChildren<InteractiveEntity>(true);
+
+        foreach (var entity in entities)
+        {
+            // 1. null 체크 및 ID 유효성 검사 (null, "", " " 일 때 모두 제외)
+            if (entity == null || string.IsNullOrWhiteSpace(entity.souceid))
+            {
+                Debug.LogWarning($"[EntityManager] sourceId가 널이거나 비어있어 등록에서 제외됨: {entity?.gameObject.name}");
+                continue;
+            }
+
+            // 2. 의존성 주입 (Init)
+            if (entity is InteractiveNPCEntity npcEntity)
+            {
+                npcEntity.Init(OnInteracted, OnRefreshCondition, OnTrackedText, runner, presenter);
+            }
+            else
+            {
+                entity.Init(OnInteracted, OnRefreshCondition);
+            }
+
+            // 3. 리스트에 등록
+            entityList.Add(new Entity(entity.souceid, entity));
+        }
+
+        Logger.Log($"[EntityManager] 총 {entityList.Count}개의 Entity가 주입 및 등록되었습니다.");
+    }
 
     public void RefreshEntity()
     {
@@ -194,7 +228,7 @@ public class InteractiveEntityManager : MonoBehaviour
                 {
                     if (curentity.ActionType == EActionType.Dialogue)
                     {
-                        curentity.isInteract = false;
+                        curentity.isInteract = false; curentity.steps = null;
                     }
                 }
                 else

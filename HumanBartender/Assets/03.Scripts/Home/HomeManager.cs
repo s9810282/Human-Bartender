@@ -20,9 +20,9 @@ public class HomeManager : MonoBehaviour
     private void Start()
     {
         soundManager.StopBGM();
-        settlementLog.SetCost(CalculateCost(settlementData.dailySettlement[GameStateManager.Instance.CurrentDay]));
+        //settlementLog.SetCost(CalculateCost(settlementData.dailySettlement[GameStateManager.Instance.CurrentDay]));
 
-        showSettleMent?.Raise(new Void());
+        //showSettleMent?.Raise(new Void());
     }
 
 

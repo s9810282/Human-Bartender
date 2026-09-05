@@ -6,13 +6,14 @@ using UnityEngine;
 /// </summary>
 public abstract class InteractiveEntity : OutsideEntity, IInteractable
 {
+    public string souceid;
     [SerializeField] protected int priority;
     [SerializeField] private bool isAvaliable;
     [SerializeField] protected bool isInteracting;
     [SerializeField] private string label;
+    [SerializeField] private bool isInter = false;
     [SerializeField] protected Vector2 buttonOffset;
     [SerializeField] protected Vector2 textOffset;
-
     [SerializeField] protected OutlineHighlight outlineHighlight;
     [SerializeField] protected InteractableEvent OnInteracted;
     [SerializeField] protected VoidEvent OnRefreshCondition;
@@ -20,11 +21,10 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     public bool IsInteracting { get => isInteracting; set => isInteracting = value; }
     public bool IsAvaliable { get => isAvaliable; set => isAvaliable = value; }
     public string EntityLabel { get => label; set => label = value; }
-
+    public bool isInteract { get => isInter; set => isInter = value; }
     public ENewInteractKind kind;
     public EActivationMode ActivationMode;
     public EActionType ActionType;
-    public bool isInteract = false;
     public Step[] steps;
     int IInteractable.Priority => priority;
     string IInteractable.Label => label;
@@ -32,8 +32,12 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     Vector2 ITrackedble.TextOffset => textOffset;
     bool ITrackedble.IsAvaliable => isAvaliable;
 
-    
 
+    public virtual void Init(InteractableEvent onInteracted, VoidEvent onRefresh)
+    {
+        OnInteracted = onInteracted;
+        OnRefreshCondition = onRefresh;
+    }
     /// <summary>실제 상호작용 동작. 대사 시작, 오브젝트 사용 등 하위 클래스에서 구현.</summary>
     public abstract void Interact(IInteractor player);
 
