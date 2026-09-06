@@ -306,7 +306,7 @@ def main():
     errors += G.validate_street_runtime_contract(G.build_street_runtime_contract())
 
     lines = [f"===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: {src}) ====="]
-    lines.append("· 공용 필드 v2.7.0 계약 — 집·외부가 interact_points 한 구조를 사용하고 거리 대화는 dialogue_flows로 연결")
+    lines.append("· 공용 필드 v2.7.0 계약 — 집·외부가 같은 InteractPoint 구조를 사용하고 배포 JSON만 home/outside로 분리")
     lines.append("· 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외")
     if unknown:
         lines.append(f"⚠ 알 수 없는 시트(무시됨): {', '.join(unknown)}")

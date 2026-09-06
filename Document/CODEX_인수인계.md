@@ -118,7 +118,7 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 외부 거리의 세부 좌표와 개별 상호작용 중간 상태는 저장하지 않는다.
 - 집 수동 저장은 `world.location_id = home`, `world.spot_id = home_spawn_entry`와 함께
   `world.home_context = day_start | pre_work_return | after_work`를 기록한다.
-- 집과 외부는 기존 평면형 `interact_points.json` 행 구조를 함께 사용한다. 집 소파는 `p_home_sofa →
+- 집과 외부는 같은 평면형 InteractPoint 행 구조를 사용하고, 배포 JSON만 `interact_points_home.json`·`interact_points_outside.json`로 분리한다. 집 소파는 `p_home_sofa →
   system:home_sofa_interaction` 한 행이며, 저장·취침 노출과 입력은 현재 `world.home_context`를 읽는 HomeController가 판단한다.
 - 집 핵심 기능용 UI 문구 7종은 `LUNA_Narrative.xlsx → UIStrings`와 `ui_strings.json`에 ko/en으로 반영됐다.
   자동 저장 실패는 이전 자동 저장을 보존하고 비차단 안내 후 현재 구간을 계속 진행한다.
@@ -321,10 +321,10 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 칵테일 정답에 `target_mix_method`·`target_prep_action`을 추가했으며 기존 `mix`·`prep`은 호환용으로 유지한다.
 - `hound`를 컷씬 전용 Characters 행으로 등록해 FieldAnims 참조를 정상화했다.
 - Tags ID·FieldAnims 캐릭터·병 개봉 정답 검증을 추가했다. 상점 교차 검증 코드는 예약 상태지만 데모에는 상점 데이터가 없다.
-- `manifest.json`은 운영 31파일과 Day 99 QA 3파일을 분리하고 파일별 SHA-256과 번들 해시를 기록한다. Day 99 거리도 단일 `qa/interact_points_day99.json`을 사용하며 `field_entities_day99.json`은 폐기했다.
+- `manifest.json`은 운영 32파일과 Day 99 QA 3파일을 분리하고 파일별 SHA-256과 번들 해시를 기록한다. 운영 InteractPoint는 `interact_points_outside.json` 8행·`interact_points_home.json` 2행이다. Day 99 거리는 단일 `qa/interact_points_day99.json`을 사용하며 `field_entities_day99.json`은 폐기했다.
 - 완·노점·상점 데이터를 데모 거리 데이터에서 제거했다. 삼호·시바 첫 만남과 삼호 사망·생존 결과는 거리 대본에서 제외하고 `Cutscenes`의 별도 연출 리소스로 유지한다.
 - 거리 NPC는 E 상호작용으로만 대사를 시작한다. 고양이 지점은 `actor=bubi`인 전신 캐릭터로 표시하며 E 상호작용 후 `d3_alley_cat`을 실행한다.
-- 현재 운영 거리 데이터는 `Spots` 7개 앵커, `InteractPoints` 7행, `script/street.json` 8씬이다. 같은 `spots.json`에는 Day 99 QA 앵커 7개가 추가되어 총 14행이다.
-- 거리 대화 선택 정보는 `interact_points.json → dialogue_flows[]`가 소유한다. 각 항목은 `scene_id`·`day`·`flow_seq`·`play_type(once|repeat)`·`when`으로 구성되며, 일반 순차 진행은 play_type으로 처리하고 when은 특수 조건에만 사용한다.
+- 현재 운영 거리 데이터는 `Spots` 7개 앵커, `interact_points_outside.json` 8행, `script/street.json` 8씬이다. 같은 `spots.json`에는 Day 99 QA 앵커 7개가 추가되어 총 14행이다.
+- 거리 대화 선택 정보는 `interact_points_outside.json → dialogue_flows[]`가 소유한다. 각 항목은 `scene_id`·`day`·`flow_seq`·`play_type(once|repeat)`·`when`으로 구성되며, 일반 순차 진행은 play_type으로 처리하고 when은 특수 조건에만 사용한다.
 - `script/street.json`과 `script/qa/street_day99.json`은 씬의 `id`와 `steps`만 배포한다. 상태 변경은 `set_state` 스텝, 선택지는 해당 choice 스텝의 `options[]`, 선택 결과는 `result_steps[]`의 `set_state`·`goto`로 표현한다. 거리 씬의 구 `on_complete_effects`와 루트 `choices`는 더 이상 배포하지 않는다.
 - 거리 배포 JSON의 `sync`는 `say` 전용 진행 방식이다. `auto`는 타이핑 완료 후 설정된 지연을 거쳐 자동 진행하고, `player_input`은 다음 대사 입력까지 대기한다. `proximity` 방송은 auto, `interact` 대화는 player_input이며 say가 아닌 거리 스텝에는 sync가 없다. bar·home·cutscene의 기존 wait/no_wait 계약은 변경하지 않는다.

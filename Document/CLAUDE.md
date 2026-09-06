@@ -125,7 +125,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   세트 2~4개 + 세트마다 when 빈 항목 최소 1개(빌드 검증). 서사 스포일러는 선택지 잠금이 아니라 씬 단위 when으로 분기.
 - **거리 대화의 day·순서·재생 방식은 InteractPoints가 정한다** — `dialogue_flows[]`의 `day`·`flow_seq`·`play_type`·`when`이 실행 대화를 고른다. `script/street.json`의 씬은 `id`와 `steps`만 소유한다.
   검증 4종(v3.2): 선택지 무조건 항목·kind↔scene_or_shop 접두사 일치·Personalities/Characters id 겹침 금지·지점 when(day==N)과 연결 씬 day 모순 금지.
-- **공용 필드 상호작용 v2.7**: 정본 = 노션 「외부 거리 시스템」(3aa1612298dc80d18899ecca42884c41)·「크리스 집 내부 기능」(3c21612298dc80f7be7ede4cdd8d64f1). 집과 외부는 `interact_points.json`의 같은 평면형 이벤트 구조를 사용한다. 데모 거리 상호작용은 NPC 직접 대화와 오브젝트 보기 중심이며 상점은 제외한다.
+- **공용 필드 상호작용 v2.7**: 정본 = 노션 「외부 거리 시스템」(3aa1612298dc80d18899ecca42884c41)·「크리스 집 내부 기능」(3c21612298dc80f7be7ede4cdd8d64f1). 집과 외부는 같은 평면형 InteractPoint 행 구조를 사용하고, 배포 JSON만 `interact_points_home.json`·`interact_points_outside.json`로 분리한다. 데모 거리 상호작용은 NPC 직접 대화와 오브젝트 보기 중심이며 상점은 제외한다.
   E 아이콘 = 접근 반경 내에서 안전한 유효 대상 중 가장 가까운 하나만 표시(완전히 동률이면 point.id 오름차순). priority는 호환용 예약값으로 남기고 데모 판정에서는 사용하지 않는다. 조건 4층 = phase+spawn_when(존재) → interact_when(상호작용) → 씬 when → 스텝 when.
   말풍선 이름형/무명형 = §4.3 화자 기준 — say에 actor가 있으면 이름형(직접 대화·**NPC 간 관전 포함**, characters.name·name_color),
   actor 공란인 사물 조사는 무명형, 자동 방송은 아나운서 데이터가 있을 때만 이름 표시, 포스터 뷰는 해당 없음.
@@ -204,19 +204,19 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
   자동 저장은 commute_in 진입(home_door), 바 최초 진입, 2부 시작, 일일 매출 정산 완료(commute_out의 bar_door) 네 지점에서만 수행한다.
   1부·2부 진행 중 자동 저장과 중간 복구는 지원하지 않으며, 비정상 종료 시 가장 최근 전환점부터 해당 구간을 다시 진행한다.
   제조 기믹 중간 상태도 저장하지 않는다. `autosave_interval_step`은 폐기하고 Config 2.5.0의 `fixed_transitions_v1`을 사용한다.
-  집 수동 저장은 `world.home_context`(`day_start`·`pre_work_return`·`after_work`)를 기록한다. 집·외부는 기존 평면형
-  `interact_points.json` 행 구조를 함께 쓰되, `home_context`에 따른 세부 행동은 HomeController가 판단한다. 집 핵심 UI 7종과 엘리베이터 문구 1종은 UIStrings에 ko/en 반영 완료(총 60키)이며,
+  집 수동 저장은 `world.home_context`(`day_start`·`pre_work_return`·`after_work`)를 기록한다. 집·외부는 같은 평면형 InteractPoint 행 구조를 쓰되 배포 파일은
+  `interact_points_home.json`·`interact_points_outside.json`로 나눈다. `home_context`에 따른 세부 행동은 HomeController가 판단한다. 집 핵심 UI 7종과 엘리베이터 문구 1종은 UIStrings에 ko/en 반영 완료(총 60키)이며,
   자동 저장 실패 시 기존 자동 저장을 보존하고 현재 구간을 계속 진행한다. TV는 후순위, 테라스 자동 장면 사용 방식은 결정 대기다.
 - **노션 문서 전수 검수 결과(08/18)** — 개정 대기: 데이터 구조 작성(전면 — cocktails·balance·shelf_items·quests·일차 체계·config 신규 ~47키),
   바 내부 시스템(§3 계통 — tier 인내심·grade_payout·주문 풀·외형 4파츠·다회 정산), 칵테일 제조 시스템(§6·§7·§10 + §11 미결 16건 중 5해소·2부분 갱신),
   외부 거리 시스템(상자퀘 흔적 6곳·day0 센티널·"phase street 고정" 오류), 깃 사용법(GradePayout·티어 예문·줄수), UI 4종은 부분(레시피 UI 예시 데이터·잔7종·guest_bodies 파츠).
   UI 문서 간 모순 결정 대기 ❓: 골드 상시 HUD vs 변동 표시 / 2부 대사창 vs 말풍선 꼬리
 - 데이터 참조 정리 완료: `hound`를 Characters의 cutscene 인물로 등록했고, OrderRules·Tastes의 구표기 `[day4 가안]`을 `[후속 일차 가안]`으로 정리했다.
-- **호환성 유지형 데이터 확장**: `cocktails.json`은 신규 구현용 `target_mix_method`·`target_prep_action`·`tags[].id`와 기존 `mix`·`prep`·`tags[].ko`를 한 버전 병행한다. `manifest.json`은 운영 31파일과 Day 99 QA 3파일(바 대본 1 + 거리 통합 지점 1 + 거리 대본 1)을 분리하고 파일별 SHA-256·번들 해시를 기록한다(매니페스트 포함 총 35 JSON). 데이터 스키마 2.7.0 · 번들 계약 1.0.0.
+- **호환성 유지형 데이터 확장**: `cocktails.json`은 신규 구현용 `target_mix_method`·`target_prep_action`·`tags[].id`와 기존 `mix`·`prep`·`tags[].ko`를 한 버전 병행한다. `manifest.json`은 운영 32파일과 Day 99 QA 3파일(바 대본 1 + 거리 QA 지점 1 + 거리 QA 대본 1)을 분리하고 파일별 SHA-256·번들 해시를 기록한다(매니페스트 포함 총 36 JSON). 데이터 스키마 2.7.0 · 번들 계약 1.0.0.
 - **공용 필드 v2.7 파이프라인 정식화 완료**: 엑셀 원본은 수정하지 않고 build.py가 배포 JSON에서 집·외부 공용 런타임 계약으로 정규화한다.
-  `interact_points.json`은 기존 배치·상호작용 필드와 거리 대화용 `dialogue_flows[]` 구조를 그대로 사용한다. 장소는 `spot_id → spots.area`로 구분하며 `location_id`·`home_contexts`·`input_action`·`prompt_key`를 추가하지 않는다. 대화는 `action_type=dialogue`, 장소 전환은 `transition`, 엘리베이터와 집 소파는 `system`을 사용한다. 집 상황과 입력 방식은 해당 엔진 명령이 판단한다.
+  `interact_points_home.json`·`interact_points_outside.json`은 동일한 배치·상호작용 필드와 `dialogue_flows[]` 구조를 사용한다. 파일이 큰 장소 범위를 나누고, 각 파일 안의 정확한 앵커는 `spot_id → spots.area`로 찾는다. `location_id`·`home_contexts`·`input_action`·`prompt_key`를 추가하지 않는다. 대화는 `action_type=dialogue`, 장소 전환은 `transition`, 엘리베이터와 집 소파는 `system`을 사용한다. 집 상황과 입력 방식은 해당 엔진 명령이 판단한다.
   `script/street.json`은 씬별 `id`·`steps`만 소유한다. 상태 변경은 `set_state`, 선택지는 스텝 내부 `options[]`, 선택 결과는 `result_steps[]`로 배포한다. 구 `start_mode`·`group`·씬 `day/seq/when`·`on_complete_effects`·루트 `choices`는 거리 JSON에서 제거했다.
-  외부 운영 8행과 집 핵심 2행을 합쳐 운영 `interact_points.json`은 10행이다. Day 99 거리 QA도 같은 기존 필드 구조를 사용하며 `qa/field_entities_day99.json`은 폐기 상태를 유지한다. 현행 배포 QA는 지점 13개·씬 13개·스텝 32개다.
+  운영 배포는 외부 `interact_points_outside.json` 8행과 집 `interact_points_home.json` 2행으로 나뉘다. Day 99 거리 QA는 같은 필드 구조의 `qa/interact_points_day99.json`을 사용하며 `qa/field_entities_day99.json`은 폐기 상태를 유지한다. 현행 배포 QA는 지점 13개·씬 13개·스텝 32개다.
   gen 시드는 비거리 도메인(Tags tag_id 등)에서 시트보다 낡음 — 재생성 금지 사유에 추가됨(gen 상단 경고 주석 참조).
 - **QA 테스트 대본 = day 99** (`tools/converted/day99_test.py` → `script/bar/day99.json` + random_waves day99 2행).
   일반 진행에선 안 열림(99 = '날짜로는 안 열림' 컨벤션). 개점 허브(대사·표정·태그·읽음스킵 / 분기·효과 / 좌석·카메라·연출 / **1부 시작**)

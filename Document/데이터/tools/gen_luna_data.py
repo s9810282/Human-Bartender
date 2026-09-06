@@ -1000,8 +1000,9 @@ SPOTS = [
     ("qa_choice_npc", "qa", "QA 선택지 NPC 자리", "Day 99: continue·goto·조건 잠금 선택지"),
 ]
 
-# v2.7.0 공용 필드 계약 — interact_points.json 하나가 집·외부의 배치(spot_id·facing·phase·spawn_when)와
-# 상호작용(activation_mode·interact_when·action)을 함께 소유한다. 구 FieldEntities와 HomeInteractable 분리 계약은 소멸.
+# v2.7.0 공용 필드 계약 — 집·외부는 같은 InteractPoint 행 구조를 사용하되,
+# 배포 JSON은 interact_points_home.json과 interact_points_outside.json로 분리한다.
+# 엑셀 저작 시트와 스키마는 하나를 유지하고 출력 파일만 장소별로 나눈다.
 # actor는 Characters.id를 그대로 source_id로 사용하고 기본 동작은 FieldAnims의 idle을 쓴다.
 # facing은 actor에만 적는다(object는 공란). spawn/move/despawn 스텝은 거리 런타임 범위가 아니다.
 # Day 99 거리 QA도 운영과 동일한 단일 interact_points 계약을 사용한다.
@@ -3749,7 +3750,7 @@ def L(ko, en):
 
 
 def build_street_runtime_contract():
-    """거리 저작 데이터와 집 핵심 상호작용을 공용 InteractPoints JSON으로 정규화한다.
+    """거리 저작 데이터와 집 핵심 상호작용을 공용 InteractPoint 스키마로 정규화한다.
 
     저작 엑셀은 그대로 둔다. 배포 JSON에서 씬의 day/seq/when을
     interact_points.dialogue_flows로 옮기고, 상태 변경은 set_state 지문
@@ -4148,14 +4149,21 @@ def emit_json(derived):
     dump("random_waves.json", [dict(zip(WAVE_COLS, g)) for g in RANDOM_WAVES])
     dump("regular_slots.json", [dict(zip(RSLOT_COLS, g)) for g in REGULAR_SLOTS])
     dump("spots.json", [dict(zip(SPOT_COLS, s)) for s in SPOTS])
-    # v2.7.0 공용 필드 런타임 계약 — 집·외부의 배치와 상호작용은 InteractPoints가 소유하고,
-    # street 대본은 대사·선택지·상태 변경 스텝만 소유한다. 엑셀 원본은 변경하지 않고
-    # 배포 단계에서 정규화하여 기존 저작 시트와 새 런타임 계약을 함께 유지한다.
+    # v2.7.0 공용 필드 런타임 계약 — 집·외부는 같은 InteractPoint 필드를 쓴다.
+    # 엑셀 원본은 변경하지 않고 배포 단계에서 외부와 집 JSON을 나눈다.
+    # street 대본은 대사·선택지·상태 변경 스텝만 소유한다.
     _street_runtime = build_street_runtime_contract()
     _transition_rows = [dict(zip(TRANSITION_COLS, t)) for t in TRANSITIONS]
     for d in _transition_rows:
         d["target_spot"] = d["target_spot"] or None
-    dump("interact_points.json", _street_runtime["prod_points"])
+    _home_points = [point for point in _street_runtime["prod_points"] if point.get("phase") == "home"]
+    _outside_points = [point for point in _street_runtime["prod_points"] if point.get("phase") != "home"]
+    dump("interact_points_home.json", _home_points)
+    dump("interact_points_outside.json", _outside_points)
+    _stale_combined_points = os.path.join(jdir, "interact_points.json")
+    if os.path.exists(_stale_combined_points):
+        os.remove(_stale_combined_points)
+        print("  · 통합 파일 삭제: json/interact_points.json")
     if _street_runtime["qa_points"]:
         dump("qa/interact_points_day99.json", _street_runtime["qa_points"])
     dump("transitions.json", _transition_rows)

@@ -1,5 +1,5 @@
 ===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: LUNA_System.xlsx + LUNA_Narrative.xlsx) =====
-· 공용 필드 v2.7.0 계약 — 집·외부가 interact_points 한 구조를 사용하고 거리 대화는 dialogue_flows로 연결
+· 공용 필드 v2.7.0 계약 — 집·외부가 같은 InteractPoint 구조를 사용하고 배포 JSON만 home/outside로 분리
 · 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외
 · LUNA_Narrative.xlsx — 시트 25개: AffinityMatrix(5), BarkSituations(24), Barks(169), Characters(21), Choices(46), Cutscenes(23), Days(4), Dossier(20), Endings(5), ExpressionParts(47), Expressions(42), FieldAnims(21), InteractPoints(22), OrderRules(4), QuestStages(0), Quests(0), RegularSlots(1), ResourceMap(17), Scenes(66), Spots(19), Steps(869), Tastes(10), TextTags(7), Transitions(3), UIStrings(60)
 · LUNA_System.xlsx — 시트 12개: Cocktails(29), Config(95), GradeCuts(5), GuestBodies(32), GuestBodyExclusions(6), Personalities(5), RandomWaves(9), RecipeLines(83), ScoreBands(10), SettlementRules(5), ShelfItems(50), Tags(16)
