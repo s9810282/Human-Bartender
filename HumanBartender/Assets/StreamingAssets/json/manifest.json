@@ -1,7 +1,7 @@
 {
   "bundle_contract_version": "1.0.0",
-  "data_schema_version": "2.6.0",
-  "bundle_sha256": "f37b1ed3a0320a01396aff0850b29d6752efdf41e7a219ac9244eb49c833cd9c",
+  "data_schema_version": "2.7.0",
+  "bundle_sha256": "4172d744762a34330068e01d6dfe2b07345a1e01e87ea20fe5e73a52e8d11076",
   "production_files": [
     "balance.json",
     "bark_situations.json",
@@ -54,7 +54,7 @@
   },
   "files": {
     "balance.json": {
-      "sha256": "12be14d6d028cbcac68c88f4e127cac5fdbce4a6d2f04a51d9b0f7294c21cc6b",
+      "sha256": "5daac32433f00d39e9388c276de85a1ad99382fb3c981c5cbaa0a33f09d44e70",
       "bytes": 6844
     },
     "bark_situations.json": {
@@ -102,8 +102,8 @@
       "bytes": 7862
     },
     "interact_points.json": {
-      "sha256": "91ce3e67eb83e6cc2e53d53ead02fcaccd504109f327496ce840c4c0124d30b2",
-      "bytes": 4035
+      "sha256": "b0dd0a90dadc1e73fba1c71df514b4b89c7b9478cb56b1d000190dca461fb674",
+      "bytes": 5367
     },
     "order_rules.json": {
       "sha256": "b945576013a6a29e9206fd20326bd6b9dd2f38f42cb1b7b787db5ee7d445b93a",
@@ -170,8 +170,8 @@
       "bytes": 28760
     },
     "spots.json": {
-      "sha256": "14f9e9fcc08e4887370912296f1ba440c60bbc70a210a193f6cd70bcf9cac791",
-      "bytes": 2028
+      "sha256": "e662713003bb2aa2c65d6f6a9b6131def3a5b202c6228dd4a997cc2ed0ebbda8",
+      "bytes": 2810
     },
     "tastes.json": {
       "sha256": "d313bb0e92772d178d33f3bca4bc5d5b81b2cb8f5f031e2bb44fde75c0f00d97",
@@ -182,12 +182,12 @@
       "bytes": 417
     },
     "transitions.json": {
-      "sha256": "5a6f193f7deeb3c4a9ad247a3006252583b1fb4aa2182e485f64748f34899c34",
-      "bytes": 477
+      "sha256": "fbd96abcf2bceda6a1f6e7ed980b6a96429b53d36a9985ba2d70e51dfd56c888",
+      "bytes": 721
     },
     "ui_strings.json": {
-      "sha256": "f834d027436b7282060b57d95536971caf1d896385eb177c831c83f50778526a",
-      "bytes": 5643
+      "sha256": "b2454a4e83e86fd10d5f7867e2a1c6761d7550403c9209bdddf655b2f7ad711c",
+      "bytes": 5732
     }
   }
 }
