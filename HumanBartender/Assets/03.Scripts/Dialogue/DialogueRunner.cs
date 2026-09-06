@@ -399,7 +399,13 @@ public class DialogueRunner : MonoBehaviour
     {
         Debug.Log($"[DialogueRunner] AdvanceInputOutside 호출됨. (현재 상태: {currentState})");
 
-        if (currentState == DialogueState.Typing)
+        if (presenter.GetPlayMode() == EActivationMode.Proximity)
+        {
+            Debug.Log($"[DialogueRunner] 자동진행 입력 무시");
+            return;
+        }
+
+            if (currentState == DialogueState.Typing)
         {
             Debug.Log("[DialogueRunner] 타이핑 스킵 실행");
             presenter?.SkipTyping();
@@ -486,7 +492,7 @@ public class DialogueRunner : MonoBehaviour
 
         await presenter.ShowDialogueAsync(step.Actor, localizedText, step.Arg, ct);
 
-        if (presenter.GetPlayMode() == EActivationMode.Proximity)
+        if (step.Sync == "auto")
         {
             Debug.Log("[DialogueRunner] Proximity 모드: 2초 후 자동 진행");
 
