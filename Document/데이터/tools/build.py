@@ -244,6 +244,39 @@ def apply_minimal_street_scope():
     G.STEPS = [row for row in G.STEPS if row[0] not in excluded_scenes]
 
 
+def apply_common_field_interaction_contract():
+    """엑셀을 수정하지 않고 공용 필드 상호작용 v2.7 계약을 배포 입력에 보탠다.
+
+    집과 외부는 같은 interact_points 런타임을 사용한다. 엘리베이터는 층별
+    목적지 데이터를 만들지 않고, 현재 위치를 판단하는 엔진 명령 하나를 호출한다.
+    """
+    G.CONFIG = [
+        (key, "2.7.0" if key == "data_schema_version" else value, note)
+        for key, value, note in G.CONFIG
+    ]
+
+    extra_spots = [
+        ("home_spawn_entry", "home", "집 중앙 현관문 안쪽", "집 진입·수동 저장 불러오기 시 플레이어 생성"),
+        ("home_exit_door", "home", "집 중앙 현관문", "출근길 이동 또는 퇴근 후 출입 제한 안내"),
+        ("home_sofa", "home", "집 오른쪽 거실 소파 앞", "수동 저장·취침 상호작용"),
+        ("home_tv", "home", "집 오른쪽 거실 TV 앞", "후순위 TV 상호작용 예약"),
+        ("home_terrace_door", "home", "집 오른쪽 끝 테라스 문", "후속 기능용 앵커 예약"),
+    ]
+    known_spots = {row[0] for row in G.SPOTS}
+    G.SPOTS.extend(row for row in extra_spots if row[0] not in known_spots)
+
+    exit_home = (
+        "exit_home", "street", "commute_in", "home_door", "fade",
+        "집 현관에서 상호작용 → 출근길 거리의 home_door에서 생성",
+    )
+    if exit_home[0] not in {row[0] for row in G.TRANSITIONS}:
+        G.TRANSITIONS.append(exit_home)
+
+    elevator_prompt = ("ui_elevator_use", "엘리베이터 이용", "Use Elevator")
+    if elevator_prompt[0] not in {row[0] for row in G.UI_STRINGS}:
+        G.UI_STRINGS.append(elevator_prompt)
+
+
 def main():
     args = sys.argv[1:]
     if "--strict" in args:
@@ -267,12 +300,13 @@ def main():
 
     load_into_globals(tables)
     apply_minimal_street_scope()
+    apply_common_field_interaction_contract()
     derived = G.derive()
     errors, report = G.validate(derived)
     errors += G.validate_street_runtime_contract(G.build_street_runtime_contract())
 
     lines = [f"===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: {src}) ====="]
-    lines.append("· 거리 v2.6.0 대화 계약 — InteractPoints가 dialogue_flows를 소유하고 street는 대본 스텝만 배포")
+    lines.append("· 공용 필드 v2.7.0 계약 — 집·외부가 interact_points 한 구조를 사용하고 거리 대화는 dialogue_flows로 연결")
     lines.append("· 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외")
     if unknown:
         lines.append(f"⚠ 알 수 없는 시트(무시됨): {', '.join(unknown)}")

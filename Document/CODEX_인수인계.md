@@ -118,8 +118,8 @@ PYTHONPYCACHEPREFIX=/tmp/luna_pycache python3 데이터/tools/build.py --strict
 - 외부 거리의 세부 좌표와 개별 상호작용 중간 상태는 저장하지 않는다.
 - 집 수동 저장은 `world.location_id = home`, `world.spot_id = home_spawn_entry`와 함께
   `world.home_context = day_start | pre_work_return | after_work`를 기록한다.
-- 집의 수동 저장·취침 조건은 대상 하나에 고정하지 않고 `HomeInteractable.actions[]`의 행동별 입력과
-  `available_contexts[]`로 구분한다. 이 구조는 구현 계약이며 정적 Config에 중복 저장하지 않는다.
+- 집과 외부는 기존 평면형 `interact_points.json` 행 구조를 함께 사용한다. 집 소파는 `p_home_sofa →
+  system:home_sofa_interaction` 한 행이며, 저장·취침 노출과 입력은 현재 `world.home_context`를 읽는 HomeController가 판단한다.
 - 집 핵심 기능용 UI 문구 7종은 `LUNA_Narrative.xlsx → UIStrings`와 `ui_strings.json`에 ko/en으로 반영됐다.
   자동 저장 실패는 이전 자동 저장을 보존하고 비차단 안내 후 현재 구간을 계속 진행한다.
 

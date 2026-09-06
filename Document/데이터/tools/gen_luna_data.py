@@ -1000,8 +1000,8 @@ SPOTS = [
     ("qa_choice_npc", "qa", "QA 선택지 NPC 자리", "Day 99: continue·goto·조건 잠금 선택지"),
 ]
 
-# v2.6.0 거리 배치 계약(단일 파일 전환) — interact_points.json 하나가 배치(spot_id·facing·phase·spawn_when)와
-# 상호작용(activation_mode·interact_when·action)을 함께 소유한다. 구 FieldEntities는 지점 행에 통합돼 소멸.
+# v2.7.0 공용 필드 계약 — interact_points.json 하나가 집·외부의 배치(spot_id·facing·phase·spawn_when)와
+# 상호작용(activation_mode·interact_when·action)을 함께 소유한다. 구 FieldEntities와 HomeInteractable 분리 계약은 소멸.
 # actor는 Characters.id를 그대로 source_id로 사용하고 기본 동작은 FieldAnims의 idle을 쓴다.
 # facing은 actor에만 적는다(object는 공란). spawn/move/despawn 스텝은 거리 런타임 범위가 아니다.
 # Day 99 거리 QA도 운영과 동일한 단일 interact_points 계약을 사용한다.
@@ -1521,7 +1521,7 @@ ENDINGS = [
 
 CONFIG_COLS = ["key","value","type","note"]   # type: 엑셀 왕복에서 3.0→3으로 뭉개지는 것을 막는 명시 타입 (v2.2)
 CONFIG = [
-    ("data_schema_version",     "2.6.0", "제조·운영 데이터 계약 버전. 거리 FieldEntity·InteractPoint·수동 Transition 분리 계약 포함"),
+    ("data_schema_version",     "2.7.0", "제조·운영 데이터 계약 버전. 집·외부 공용 InteractPoint와 수동 Transition 계약 포함"),
     ("gold_start",             300,     "시작 골드"),
     ("reputation_start",       0,       "시작 평판"),
     ("commute_in_time",        "19:00", "출근 시각(연출 표기용). 배경은 밤 고정 단일 리소스"),
@@ -1965,8 +1965,8 @@ def validate(derived):
     }
     for _key in sorted(_required_cfg - set(_cfg)):
         errors.append(f"[Config] 필수 키 '{_key}' 없음 — 제조·운영 데이터 계약 2.5.0")
-    if _cfg.get("data_schema_version") != "2.6.0":
-        errors.append("[Config] data_schema_version은 2.6.0이어야 한다")
+    if _cfg.get("data_schema_version") != "2.7.0":
+        errors.append("[Config] data_schema_version은 2.7.0이어야 한다")
     if "weight_fill_up" in _cfg:
         errors.append("[Config] weight_fill_up은 사용하지 않음 — Fill-up은 weight_pour를 공유한다")
     if _cfg.get("craft_score_formula") != "weighted_representative_v1":
@@ -2345,7 +2345,7 @@ def validate(derived):
             errors.append(f"[전환] {d['id']}: effect '{d['effect']}' 불가 (fade/none)")
         # target_spot은 목적 시스템(집 내부 등)의 스팟이라 거리 spots FK를 강제하지 않는다(문서: null이면 목적 시스템이 결정)
 
-    # v2.6.0 통합 지점 검증 — 문서 「데이터 구조 작성」 interact_points 검증 5항목 + 실행 계약
+    # v2.7.0 통합 지점 검증 — 문서 「데이터 구조 작성」 interact_points 검증 + 공용 필드 실행 계약
     _placement = {}   # (source_id, spot_id) → 같은 대상의 중복 배치 행은 facing·phase·spawn_when이 같아야 함
     for p in POINTS:
         d = dict(zip(POINT_COLS, p))
@@ -3749,7 +3749,7 @@ def L(ko, en):
 
 
 def build_street_runtime_contract():
-    """거리 저작 데이터를 합의된 InteractPoints 중심 JSON으로 정규화한다.
+    """거리 저작 데이터와 집 핵심 상호작용을 공용 InteractPoints JSON으로 정규화한다.
 
     저작 엑셀은 그대로 둔다. 배포 JSON에서 씬의 day/seq/when을
     interact_points.dialogue_flows로 옮기고, 상태 변경은 set_state 지문
@@ -3812,6 +3812,33 @@ def build_street_runtime_contract():
         elif action_type is None:
             d.pop("action_ref", None)
         points.append(d)
+
+    # 집과 외부는 기존 InteractPoint 행 구조를 함께 사용한다. 장소는 spot_id가
+    # 참조하는 Spots.area로 구분하며, 집 상황과 입력 방식은 각 엔진 명령이 판단한다.
+    # 엘리베이터도 층 ID를 복제하지 않고 현재 위치를 아는 명령 하나만 호출한다.
+    points.extend([
+        {
+            "id": "p_elevator_move", "kind": "object", "source_id": "street_elevator",
+            "spot_id": "elevator", "facing": None, "phase": "both", "spawn_when": None,
+            "activation_mode": "interact", "interact_when": None, "priority": 0,
+            "action_type": "system", "action_ref": "elevator_toggle",
+            "note": "상호작용 시 엘리베이터가 현재 위치를 판단해 반대 방향으로 이동",
+        },
+        {
+            "id": "p_home_exit", "kind": "object", "source_id": "home_exit_door",
+            "spot_id": "home_exit_door", "facing": None, "phase": "home", "spawn_when": None,
+            "activation_mode": "interact", "interact_when": None, "priority": 0,
+            "action_type": "transition", "action_ref": "exit_home",
+            "note": "집 현관 상호작용. 현재 home_context의 출입 허용·차단은 HomeController가 판단",
+        },
+        {
+            "id": "p_home_sofa", "kind": "object", "source_id": "home_sofa",
+            "spot_id": "home_sofa", "facing": None, "phase": "home", "spawn_when": None,
+            "activation_mode": "interact", "interact_when": None, "priority": 0,
+            "action_type": "system", "action_ref": "home_sofa_interaction",
+            "note": "현재 home_context에 맞춰 수동 저장 또는 저장·취침 선택을 HomeController가 제공",
+        },
+    ])
 
     # 거리 JSON의 sync는 공용 Steps 저작 필드와 의미가 다르다.
     # say에서만 다음 대사 진행 방식을 나타내며, proximity 방송은 auto,
@@ -3917,6 +3944,10 @@ def build_street_runtime_contract():
 
 def validate_street_runtime_contract(runtime):
     errors = []
+    point_ids = set()
+    spot_ids = {row[0] for row in SPOTS}
+    transition_ids = {row[0] for row in TRANSITIONS}
+    system_actions = {"elevator_toggle", "home_sofa_interaction"}
     scene_ids = {
         scene["id"]
         for key in ("prod_script", "qa_script")
@@ -3925,6 +3956,21 @@ def validate_street_runtime_contract(runtime):
     scene_advance_modes = {}
     for key in ("prod_points", "qa_points"):
         for point in runtime[key]:
+            if point["id"] in point_ids:
+                errors.append(f"[필드] point id {point['id']} 중복")
+            point_ids.add(point["id"])
+            if point.get("spot_id") not in spot_ids:
+                errors.append(f"[필드] {point['id']}: spot_id {point.get('spot_id')} 없음")
+            action_type = point.get("action_type")
+            action_ref = point.get("action_ref")
+            if action_type not in ("dialogue", "transition", "system", None):
+                errors.append(f"[필드] {point['id']}: action_type {action_type} 불가")
+            if action_type == "transition" and action_ref not in transition_ids:
+                errors.append(f"[필드] {point['id']}: transition {action_ref} 없음")
+            if action_type == "system" and action_ref not in system_actions:
+                errors.append(f"[필드] {point['id']}: system action {action_ref} 없음")
+            if action_type is None and action_ref:
+                errors.append(f"[필드] {point['id']}: action_type 없이 action_ref 사용 불가")
             if point.get("action_type") == "dialogue":
                 flows = point.get("dialogue_flows") or []
                 if not flows:
@@ -4102,7 +4148,7 @@ def emit_json(derived):
     dump("random_waves.json", [dict(zip(WAVE_COLS, g)) for g in RANDOM_WAVES])
     dump("regular_slots.json", [dict(zip(RSLOT_COLS, g)) for g in REGULAR_SLOTS])
     dump("spots.json", [dict(zip(SPOT_COLS, s)) for s in SPOTS])
-    # v2.6.0 거리 런타임 계약 — 배치와 대화 선택 정보는 InteractPoints가 소유하고,
+    # v2.7.0 공용 필드 런타임 계약 — 집·외부의 배치와 상호작용은 InteractPoints가 소유하고,
     # street 대본은 대사·선택지·상태 변경 스텝만 소유한다. 엑셀 원본은 변경하지 않고
     # 배포 단계에서 정규화하여 기존 저작 시트와 새 런타임 계약을 함께 유지한다.
     _street_runtime = build_street_runtime_contract()
