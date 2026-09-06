@@ -78,9 +78,6 @@ public class InteractiveEntityManager : MonoBehaviour
     private HashSet<string> onceHistory = new HashSet<string>();
     [Header("Player")]
     [SerializeField] GameObject player;
-    [SerializeField] InteractEntrance barEntrance;
-    [SerializeField] InteractEntrance homeEntrance;
-    [SerializeField] OutsideElevator elevator;
 
 
     [Inject] IPlayerDataWriter testPlayerWriter;
