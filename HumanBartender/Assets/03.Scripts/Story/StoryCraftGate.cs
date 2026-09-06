@@ -149,7 +149,15 @@ public class StoryCraftGate : MonoBehaviour, IStoryCraftGate
 
         try
         {
-            return await completion.Task.AttachExternalCancellation(token);
+            CraftedDrink drink = await completion.Task.AttachExternalCancellation(token);
+
+            // 여기는 아직 드롭을 처리하는 도중이다. EventSystem은 이 뒤에 같은 프레임으로 끌던 잔에게
+            // OnEndDrag를 보내는데, 그 전에 화면을 꺼 버리면 잔이 꺼진 채로 남아 그 이벤트를 받지 못한다.
+            // 그러면 낸 잔이 트레이에서 치워지지 않아 화면에 유령으로 남는다. 한 프레임 넘겨
+            // 드래그가 제대로 끝난 뒤에 거둔다.
+            await UniTask.NextFrame();
+
+            return drink;
         }
         finally
         {

@@ -106,7 +106,12 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     [SerializeField] string expressionFileName = "json/character_anim.json";
     [SerializeField] string fieldAnimFileName = "json/field_anims.json";
     [SerializeField] string guestBodyFileName = "json/guest_bodies.json";
-    [SerializeField] string interactPointFileName = "json/interact_points.json";
+    [Tooltip("인터랙트 지점은 장소별로 파일이 나뉘어 있다(집·실외). 읽는 쪽이 phase로 걸러 쓰므로 한 배열로 합쳐 담는다.")]
+    [SerializeField] List<string> interactPointFiles = new()
+    {
+        "json/interact_points_home.json",
+        "json/interact_points_outside.json",
+    };
     [SerializeField] string orderRuleFileName = "json/order_rules.json";
     [SerializeField] string personalityFileName = "json/personalities.json";
     [SerializeField] string questFileName = "json/quests.json";
@@ -367,7 +372,13 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
         expressionData.expressionData = JsonManager<Dictionary<string, Dictionary<string, NewExpressionEntry>>>.LoadGameData_StreamingAssets(expressionFileName);
         fieldAnimData.fieldAnimData = JsonManager<NewFieldAnimData[]>.LoadGameData_StreamingAssets(fieldAnimFileName);
         guestBodyData.guestBodyData = JsonManager<NewGuestBodyDataBase>.LoadGameData_StreamingAssets(guestBodyFileName);
-        interactPointData.interactPointData = JsonManager<NewInteractPointData[]>.LoadGameData_StreamingAssets(interactPointFileName);
+        var interactPoints = new List<NewInteractPointData>();
+        foreach (var file in interactPointFiles)
+        {
+            var part = JsonManager<NewInteractPointData[]>.LoadGameData_StreamingAssets(file);
+            if (part != null) interactPoints.AddRange(part);
+        }
+        interactPointData.interactPointData = interactPoints.ToArray();
         orderRuleData.orderRuleData = JsonManager<NewOrderRuleData[]>.LoadGameData_StreamingAssets(orderRuleFileName);
         personalityData.personalityData = JsonManager<NewPersonalityData[]>.LoadGameData_StreamingAssets(personalityFileName);
         questData.questData = JsonManager<NewQuestDataBase>.LoadGameData_StreamingAssets(questFileName);
@@ -420,7 +431,13 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
         expressionData.expressionData = await JsonManager<Dictionary<string, Dictionary<string, NewExpressionEntry>>>.LoadAsync<Dictionary<string, Dictionary<string, NewExpressionEntry>>>(expressionFileName);
         fieldAnimData.fieldAnimData = await JsonManager<NewFieldAnimData[]>.LoadAsync<NewFieldAnimData[]>(fieldAnimFileName);
         guestBodyData.guestBodyData = await JsonManager<NewGuestBodyDataBase>.LoadAsync<NewGuestBodyDataBase>(guestBodyFileName);
-        interactPointData.interactPointData = await JsonManager<NewInteractPointData[]>.LoadAsync<NewInteractPointData[]>(interactPointFileName);
+        var interactPoints = new List<NewInteractPointData>();
+        foreach (var file in interactPointFiles)
+        {
+            var part = await JsonManager<NewInteractPointData[]>.LoadAsync<NewInteractPointData[]>(file);
+            if (part != null) interactPoints.AddRange(part);
+        }
+        interactPointData.interactPointData = interactPoints.ToArray();
         orderRuleData.orderRuleData = await JsonManager<NewOrderRuleData[]>.LoadAsync<NewOrderRuleData[]>(orderRuleFileName);
         personalityData.personalityData = await JsonManager<NewPersonalityData[]>.LoadAsync<NewPersonalityData[]>(personalityFileName);
         questData.questData = await JsonManager<NewQuestDataBase>.LoadAsync<NewQuestDataBase>(questFileName);

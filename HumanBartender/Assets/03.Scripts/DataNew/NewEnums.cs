@@ -333,10 +333,13 @@ public enum EActivationMode
 public enum EActionType
 {
     [EnumMember(Value = null)] None, // JSON의 null 또는 미지정에 대응
-    [EnumMember(Value = "scene ")] Scene,
-    [EnumMember(Value = "scene_group ")] Scene_group,
-    [EnumMember(Value = "transition ")] Transition,
-    [EnumMember(Value = "dialogue ")] Dialogue
+    [EnumMember(Value = "scene")] Scene,
+    [EnumMember(Value = "scene_group")] Scene_group,
+    [EnumMember(Value = "transition")] Transition,
+    [EnumMember(Value = "dialogue")] Dialogue,
+
+    /// <summary>대화도 이동도 아닌, 그 자리에서 게임이 처리하는 일(소파에 앉기·엘리베이터 조작 등).</summary>
+    [EnumMember(Value = "system")] System
 }
 public enum ELanguage
 {

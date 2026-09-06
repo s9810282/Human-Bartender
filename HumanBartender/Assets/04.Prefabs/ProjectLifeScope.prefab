@@ -10588,7 +10588,9 @@ MonoBehaviour:
   expressionFileName: json/character_anim.json
   fieldAnimFileName: json/field_anims.json
   guestBodyFileName: json/guest_bodies.json
-  interactPointFileName: json/interact_points.json
+  interactPointFiles:
+  - json/interact_points_home.json
+  - json/interact_points_outside.json
   orderRuleFileName: json/order_rules.json
   personalityFileName: json/personalities.json
   questFileName: json/quests.json
