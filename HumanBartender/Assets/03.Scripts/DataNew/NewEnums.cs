@@ -326,6 +326,7 @@ public enum EPlayType
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EActivationMode
 {
+    [EnumMember(Value = null)] None,
     [EnumMember(Value = "interact")] Interact,
     [EnumMember(Value = "proximity")] Proximity
 }
@@ -336,7 +337,8 @@ public enum EActionType
     [EnumMember(Value = "scene ")] Scene,
     [EnumMember(Value = "scene_group ")] Scene_group,
     [EnumMember(Value = "transition ")] Transition,
-    [EnumMember(Value = "dialogue ")] Dialogue
+    [EnumMember(Value = "dialogue ")] Dialogue,
+    [EnumMember(Value = "system ")] System
 }
 public enum ELanguage
 {

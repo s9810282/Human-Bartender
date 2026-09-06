@@ -31,8 +31,6 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     Vector2 ITrackedble.ButtonOffset => buttonOffset;
     Vector2 ITrackedble.TextOffset => textOffset;
     bool ITrackedble.IsAvaliable => isAvaliable;
-
-
     public virtual void Init(InteractableEvent onInteracted, VoidEvent onRefresh)
     {
         OnInteracted = onInteracted;
@@ -52,5 +50,16 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     {
         if(outlineHighlight != null)
             outlineHighlight.SetHighlight(false);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 offset = (Vector3)(buttonOffset * 0.0025f);
+
+        Color previous = Gizmos.color;
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(
+            transform.position + offset,
+            new Vector3(0.2f, 0.1f, 0f));
+        Gizmos.color = previous;
     }
 }

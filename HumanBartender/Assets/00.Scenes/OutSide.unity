@@ -382,7 +382,7 @@ MonoBehaviour:
   isInteracting: 0
   label: 
   isInter: 0
-  buttonOffset: {x: 0, y: 0}
+  buttonOffset: {x: 0.24, y: 85.78}
   textOffset: {x: 0, y: 0}
   outlineHighlight: {fileID: 0}
   OnInteracted: {fileID: 0}
@@ -3032,9 +3032,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9.3, y: 163.7}
+  m_AnchoredPosition: {x: -9.300003, y: 148.70001}
   m_SizeDelta: {x: 40, y: 15}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: -0.5}
 --- !u!114 &388391618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8825,6 +8825,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 369300964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &927650298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 927650299}
+  - component: {fileID: 927650300}
+  m_Layer: 9
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &927650299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927650298}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.0086002, y: -0.51499987, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1081217489}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &927650300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927650298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4562b852656414186eaf98df08d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpotPoint
+  SpotID: bar_door
 --- !u!1 &944276661
 GameObject:
   m_ObjectHideFlags: 0
@@ -10842,6 +10887,8 @@ Transform:
   m_Children:
   - {fileID: 1040353829}
   - {fileID: 1183441357}
+  - {fileID: 927650299}
+  - {fileID: 1808933069}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089424763
@@ -13779,10 +13826,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.24947917
+    x: 0
     y: 0
-    width: 0.23981483
-    height: 0.23981482
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -15857,9 +15904,6 @@ MonoBehaviour:
     entity: {fileID: 1074330138}
   entityList: []
   player: {fileID: 398070673}
-  barEntrance: {fileID: 917009656}
-  homeEntrance: {fileID: 868482189}
-  elevator: {fileID: 1582674273}
   OnTrackedText: {fileID: 11400000, guid: e8071577f80d02d4e9ebdeba72bcd84c, type: 2}
   runner: {fileID: 1021899254}
   presenter: {fileID: 980302854}
@@ -18715,6 +18759,51 @@ MonoBehaviour:
   - {x: -0.08342466, y: -0.11104596, z: 0}
   - {x: -0.065458596, y: -0.0046735406, z: 0}
   - {x: -0.22591747, y: -0.02192247, z: 0}
+--- !u!1 &1808933068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1808933069}
+  - component: {fileID: 1808933070}
+  m_Layer: 9
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1808933069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808933068}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16.715, y: 10.025, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1081217489}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1808933070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808933068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4562b852656414186eaf98df08d91d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpotPoint
+  SpotID: home_door
 --- !u!1 &1815944428
 GameObject:
   m_ObjectHideFlags: 0

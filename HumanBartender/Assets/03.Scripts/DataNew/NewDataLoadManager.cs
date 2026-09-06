@@ -47,6 +47,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     [SerializeField] NewFieldAnimDataSO fieldAnimData;
     [SerializeField] NewGuestBodyDataSO guestBodyData;
     [SerializeField] NewInteractPointDataSO interactPointData;
+    [SerializeField] NewInteractPointDataSO homeinteractPointData;
     [SerializeField] NewOrderRuleDataSO orderRuleData;
     [SerializeField] NewPersonalityDataSO personalityData;
     [SerializeField] NewQuestDataSO questData;
@@ -106,7 +107,8 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     [SerializeField] string expressionFileName = "json/character_anim.json";
     [SerializeField] string fieldAnimFileName = "json/field_anims.json";
     [SerializeField] string guestBodyFileName = "json/guest_bodies.json";
-    [SerializeField] string interactPointFileName = "json/interact_points.json";
+    [SerializeField] string interactPointFileName = "json/interact_points_outside.json";
+    [SerializeField] string HomeinteractPointFileName = "json/interact_points_home.json";
     [SerializeField] string orderRuleFileName = "json/order_rules.json";
     [SerializeField] string personalityFileName = "json/personalities.json";
     [SerializeField] string questFileName = "json/quests.json";
@@ -368,6 +370,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
         fieldAnimData.fieldAnimData = JsonManager<NewFieldAnimData[]>.LoadGameData_StreamingAssets(fieldAnimFileName);
         guestBodyData.guestBodyData = JsonManager<NewGuestBodyDataBase>.LoadGameData_StreamingAssets(guestBodyFileName);
         interactPointData.interactPointData = JsonManager<NewInteractPointData[]>.LoadGameData_StreamingAssets(interactPointFileName);
+        homeinteractPointData.interactPointData = JsonManager<NewInteractPointData[]>.LoadGameData_StreamingAssets(HomeinteractPointFileName);
         orderRuleData.orderRuleData = JsonManager<NewOrderRuleData[]>.LoadGameData_StreamingAssets(orderRuleFileName);
         personalityData.personalityData = JsonManager<NewPersonalityData[]>.LoadGameData_StreamingAssets(personalityFileName);
         questData.questData = JsonManager<NewQuestDataBase>.LoadGameData_StreamingAssets(questFileName);
@@ -421,6 +424,7 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
         fieldAnimData.fieldAnimData = await JsonManager<NewFieldAnimData[]>.LoadAsync<NewFieldAnimData[]>(fieldAnimFileName);
         guestBodyData.guestBodyData = await JsonManager<NewGuestBodyDataBase>.LoadAsync<NewGuestBodyDataBase>(guestBodyFileName);
         interactPointData.interactPointData = await JsonManager<NewInteractPointData[]>.LoadAsync<NewInteractPointData[]>(interactPointFileName);
+        homeinteractPointData.interactPointData = await JsonManager<NewInteractPointData[]>.LoadAsync<NewInteractPointData[]>(HomeinteractPointFileName);
         orderRuleData.orderRuleData = await JsonManager<NewOrderRuleData[]>.LoadAsync<NewOrderRuleData[]>(orderRuleFileName);
         personalityData.personalityData = await JsonManager<NewPersonalityData[]>.LoadAsync<NewPersonalityData[]>(personalityFileName);
         questData.questData = await JsonManager<NewQuestDataBase>.LoadAsync<NewQuestDataBase>(questFileName);

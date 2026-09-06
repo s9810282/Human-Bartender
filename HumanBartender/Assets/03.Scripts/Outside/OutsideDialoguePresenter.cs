@@ -83,6 +83,7 @@ public class OutsideDialoguePresenter : MonoBehaviour, IDialoguePresenter
 
     public void EndScene()
     {
+        playMode = EActivationMode.None;
         typer.ClearText();
         HideDialogue();
     }

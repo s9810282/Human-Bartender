@@ -123,6 +123,11 @@ public class InteractionDetector : MonoBehaviour
             if (interactable == null) continue;
             if (!interactable.IsAvaliable) continue;
             if (!interactable.isInteract) continue;
+            if (col.GetComponentInParent<InteractiveEntity>().ActivationMode == EActivationMode.Proximity)
+            {
+                col.GetComponentInParent<InteractiveEntity>().Interact(_player);
+                continue;
+            }
             currentFrameCandidates.Add(interactable);
         }
     }

@@ -366,8 +366,7 @@ public class DialogueRunner : MonoBehaviour
             Debug.Log("[DialogueRunner] PlayOutsideAsync 종료 (State -> Idle)");
             currentState = DialogueState.Idle;
             outsideInputCompletionSource = null;
-
-            try { presenter?.HideDialogue(); }
+            try { presenter?.EndScene(); }
             catch (Exception e) { Debug.LogError($"[DialogueRunner] HideDialogue 오류: {e}"); }
 
             runnerCts?.Dispose();
@@ -399,10 +398,13 @@ public class DialogueRunner : MonoBehaviour
     {
         Debug.Log($"[DialogueRunner] AdvanceInputOutside 호출됨. (현재 상태: {currentState})");
 
-        if (presenter.GetPlayMode() == EActivationMode.Proximity)
+        if (presenter != null)
         {
-            Debug.Log($"[DialogueRunner] 자동진행 입력 무시");
-            return;
+            if (presenter.GetPlayMode() == EActivationMode.Proximity)
+            {
+                Debug.Log($"[DialogueRunner] 자동진행 입력 무시");
+                return;
+            }
         }
 
             if (currentState == DialogueState.Typing)
