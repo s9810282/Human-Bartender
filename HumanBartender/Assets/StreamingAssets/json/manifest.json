@@ -1,7 +1,7 @@
 {
   "bundle_contract_version": "1.0.0",
   "data_schema_version": "2.7.0",
-  "bundle_sha256": "4172d744762a34330068e01d6dfe2b07345a1e01e87ea20fe5e73a52e8d11076",
+  "bundle_sha256": "0a972efd24a1c9a7127621277b0a28c9e88f36729c488bf26f8b24e207045a63",
   "production_files": [
     "balance.json",
     "bark_situations.json",
@@ -15,7 +15,8 @@
     "endings.json",
     "field_anims.json",
     "guest_bodies.json",
-    "interact_points.json",
+    "interact_points_home.json",
+    "interact_points_outside.json",
     "order_rules.json",
     "personalities.json",
     "quests.json",
@@ -101,9 +102,13 @@
       "sha256": "1ea4bef16d6426bd163b7fed5f84667caddbbaf7a21acd2004c29789cbf9377f",
       "bytes": 7862
     },
-    "interact_points.json": {
-      "sha256": "b0dd0a90dadc1e73fba1c71df514b4b89c7b9478cb56b1d000190dca461fb674",
-      "bytes": 5367
+    "interact_points_home.json": {
+      "sha256": "304c932c89caeecdf80608adf8a3170545f4de32d8382f7ba609dd45cb49b2a7",
+      "bytes": 895
+    },
+    "interact_points_outside.json": {
+      "sha256": "c48b4a56ec53e8dc4db883b15f79ae8a448a1ceae1ae32e4fa3a075c244e43bd",
+      "bytes": 4474
     },
     "order_rules.json": {
       "sha256": "b945576013a6a29e9206fd20326bd6b9dd2f38f42cb1b7b787db5ee7d445b93a",
