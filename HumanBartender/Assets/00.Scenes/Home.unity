@@ -3828,10 +3828,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.24947917
     y: 0
-    width: 1
-    height: 1
+    width: 0.23981483
+    height: 0.23981482
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -4231,7 +4231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223b415c8a9ac22429b43c8b47dd4ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractiveEntityManager
-  isTest: 1
+  isTest: 0
   testDay: 0
   testFlow: 2
   testFlags: []
