@@ -9,7 +9,7 @@ public class InteractiveNPCEntity : InteractiveEntity
     [SerializeField] protected ITrackedbleEvent OnTrackedText;
     [SerializeField] protected DialogueRunner runner;
     [SerializeField] protected OutsideDialoguePresenter presenter;
-
+    protected InteractiveEntityManager entityManager;
 
     protected bool isTalking = false;
 
@@ -18,11 +18,12 @@ public class InteractiveNPCEntity : InteractiveEntity
         VoidEvent onRefresh,
         ITrackedbleEvent onTrackedText,
         DialogueRunner runner,
-        OutsideDialoguePresenter presenter)
+        OutsideDialoguePresenter presenter,
+        InteractiveEntityManager manager)
     {
         // 부모 필드 초기화
         base.Init(onInteracted, onRefresh);
-
+        entityManager = manager;
         // NPC 전용 필드 초기화
         OnTrackedText = onTrackedText;
         this.runner = runner;
@@ -46,7 +47,7 @@ public class InteractiveNPCEntity : InteractiveEntity
         isInteracting = true;
         if(ActivationMode == EActivationMode.Interact)
         player.State = EInteractorState.Interct;
-
+        string playingSceneId = DialogueSceneId;
         OnInteracted?.Raise(this);
         OnTrackedText?.Raise(this);
         player.InteractorEvent();
@@ -66,7 +67,7 @@ public class InteractiveNPCEntity : InteractiveEntity
         isTalking = false;
         isInteracting = false;
         player.State = EInteractorState.None;
-
+        entityManager.CompleteDialogue(playingSceneId);
         OnRefreshCondition?.Raise(new Void());
     }
 }

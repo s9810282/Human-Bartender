@@ -120,6 +120,8 @@ public class InteractiveEntityManager : MonoBehaviour
         InjectAndRegisterChildEntities();
 
         RefreshEntity();
+        if(player != null)
+        player.GetComponent<Player>().setpos();
     }
 
     private void InjectAndRegisterChildEntities()
@@ -140,7 +142,7 @@ public class InteractiveEntityManager : MonoBehaviour
             // 2. 의존성 주입 (Init)
             if (entity is InteractiveNPCEntity npcEntity)
             {
-                npcEntity.Init(OnInteracted, OnRefreshCondition, OnTrackedText, runner, presenter);
+                npcEntity.Init(OnInteracted, OnRefreshCondition, OnTrackedText, runner, presenter,this);
             }
             else
             {
@@ -183,14 +185,16 @@ public class InteractiveEntityManager : MonoBehaviour
             if (!SpotData.TryGetData(entity.SpotId, out var curSpot))
             {
                 Debug.LogError($"[InteractEntityManager] {entity.Id}: Spot({entity.SpotId}) 정보를 불러오는 데 실패했습니다.");
-                continue;
+            }
+            else
+            {
+                curentity.gameObject.transform.position = curSpot.Position;
             }
 
-            // 4. 엔티티 활성화 및 기본 정보 설정
-            curentity.gameObject.SetActive(true);
+                // 4. 엔티티 활성화 및 기본 정보 설정
+                curentity.gameObject.SetActive(true);
             spawnHistory.Add(entity.SourceId);
 
-            curentity.gameObject.transform.position = curSpot.Position;
             curentity.kind = entity.Kind;
             curentity.ActivationMode = entity.ActivationMode;
             curentity.ActionType = entity.ActionType;
@@ -233,7 +237,7 @@ public class InteractiveEntityManager : MonoBehaviour
                     if (streetData.TryGetSceneData(targetSceneId, out NewSceneData sceneData))
                     {
                         curentity.steps = sceneData.Steps;
-                        onceHistory.Add(targetSceneId);
+                        curentity.DialogueSceneId = targetSceneId;
                     }
                     else
                     {
@@ -247,7 +251,11 @@ public class InteractiveEntityManager : MonoBehaviour
             }
         }
     }
-
+    public void CompleteDialogue(string sceneId)
+    {
+        if (!string.IsNullOrEmpty(sceneId))
+            onceHistory.Add(sceneId);
+    }
     /*
 public void RefreshEntity()
 {

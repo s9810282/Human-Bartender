@@ -32,18 +32,18 @@ public class Player : MonoBehaviour, IInteractor
 
 
 
-    private void Start()
+    public void setpos()
     {
         if(barspawn != null && homespawn != null)
         {
+            Debug.Log($"{GameStateManager.Instance.GameFlow}");
             if(GameStateManager.Instance.GameFlow != EGameFlow.CommuteOut)
             {
-                transform.position = barspawn.position;
+                transform.position = homespawn.position;
             }
             else
             {
-                transform.position = homespawn.position;
-                GetComponent<SpriteRenderer>().flipX = true;
+                transform.position = barspawn.position;
             }
         }
     }

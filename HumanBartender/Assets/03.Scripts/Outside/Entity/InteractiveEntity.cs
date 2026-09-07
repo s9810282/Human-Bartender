@@ -22,6 +22,8 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
     public bool IsAvaliable { get => isAvaliable; set => isAvaliable = value; }
     public string EntityLabel { get => label; set => label = value; }
     public bool isInteract { get => isInter; set => isInter = value; }
+
+    public string DialogueSceneId { get; set; }
     public ENewInteractKind kind;
     public EActivationMode ActivationMode;
     public EActionType ActionType;
