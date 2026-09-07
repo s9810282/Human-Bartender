@@ -8,7 +8,7 @@
       "seq": 1,
       "trigger": "auto",
       "when": null,
-      "title": "튜토리얼 — 크리스의 진토닉 강습 (구 day0_chris)",
+      "title": "0일차 바 튜토리얼 — 크리스 진토닉 강습과 포트 진피즈 주문 (구 day0_chris·d0c_end·d1_port)",
       "skippable": false,
       "group": null,
       "steps": [
@@ -1057,22 +1057,9 @@
           "when": "flag.d1_tutorial_retry",
           "effects": "flag.d1_tutorial_retry = false",
           "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d1_tutorial_wrap",
-      "day": 0,
-      "phase": "bar",
-      "seq": 2,
-      "trigger": "auto",
-      "when": null,
-      "title": "튜토리얼 마무리 — 애매한 주문 조언 + '보스' 호칭 (구 d0c_end)",
-      "skippable": false,
-      "group": null,
-      "steps": [
+        },
         {
-          "seq": 1,
+          "seq": 77,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_001",
@@ -1086,7 +1073,7 @@
           "sync": "wait"
         },
         {
-          "seq": 2,
+          "seq": 78,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_002",
@@ -1100,7 +1087,7 @@
           "sync": "wait"
         },
         {
-          "seq": 3,
+          "seq": 79,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_003",
@@ -1114,7 +1101,7 @@
           "sync": "wait"
         },
         {
-          "seq": 4,
+          "seq": 80,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_004",
@@ -1128,7 +1115,7 @@
           "sync": "wait"
         },
         {
-          "seq": 5,
+          "seq": 81,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_005",
@@ -1142,7 +1129,7 @@
           "sync": "wait"
         },
         {
-          "seq": 6,
+          "seq": 82,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_006",
@@ -1156,7 +1143,7 @@
           "sync": "wait"
         },
         {
-          "seq": 7,
+          "seq": 83,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_007",
@@ -1170,7 +1157,7 @@
           "sync": "wait"
         },
         {
-          "seq": 8,
+          "seq": 84,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_008",
@@ -1184,7 +1171,7 @@
           "sync": "wait"
         },
         {
-          "seq": 9,
+          "seq": 85,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_009",
@@ -1198,7 +1185,7 @@
           "sync": "wait"
         },
         {
-          "seq": 10,
+          "seq": 86,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_010",
@@ -1212,7 +1199,7 @@
           "sync": "wait"
         },
         {
-          "seq": 11,
+          "seq": 87,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_011",
@@ -1226,7 +1213,7 @@
           "sync": "wait"
         },
         {
-          "seq": 12,
+          "seq": 88,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_012",
@@ -1240,7 +1227,7 @@
           "sync": "wait"
         },
         {
-          "seq": 13,
+          "seq": 89,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_013",
@@ -1254,7 +1241,7 @@
           "sync": "wait"
         },
         {
-          "seq": 14,
+          "seq": 90,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_014",
@@ -1268,7 +1255,7 @@
           "sync": "wait"
         },
         {
-          "seq": 15,
+          "seq": 91,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_015",
@@ -1282,7 +1269,7 @@
           "sync": "wait"
         },
         {
-          "seq": 16,
+          "seq": 92,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_016",
@@ -1296,7 +1283,7 @@
           "sync": "wait"
         },
         {
-          "seq": 17,
+          "seq": 93,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_017",
@@ -1310,7 +1297,7 @@
           "sync": "wait"
         },
         {
-          "seq": 18,
+          "seq": 94,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_018",
@@ -1324,7 +1311,7 @@
           "sync": "wait"
         },
         {
-          "seq": 19,
+          "seq": 95,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_019",
@@ -1338,7 +1325,7 @@
           "sync": "wait"
         },
         {
-          "seq": 20,
+          "seq": 96,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_020",
@@ -1352,7 +1339,7 @@
           "sync": "wait"
         },
         {
-          "seq": 21,
+          "seq": 97,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_021",
@@ -1366,7 +1353,7 @@
           "sync": "wait"
         },
         {
-          "seq": 22,
+          "seq": 98,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_022",
@@ -1380,7 +1367,7 @@
           "sync": "wait"
         },
         {
-          "seq": 23,
+          "seq": 99,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_023",
@@ -1394,7 +1381,7 @@
           "sync": "wait"
         },
         {
-          "seq": 24,
+          "seq": 100,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_024",
@@ -1408,7 +1395,7 @@
           "sync": "wait"
         },
         {
-          "seq": 25,
+          "seq": 101,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_tutorial_wrap_025",
@@ -1422,7 +1409,7 @@
           "sync": "wait"
         },
         {
-          "seq": 26,
+          "seq": 102,
           "type": "say",
           "actor": "luna",
           "dialogue_id": "dlg_d1_tutorial_wrap_026",
@@ -1434,33 +1421,20 @@
           "when": null,
           "effects": null,
           "sync": "wait"
-        }
-      ]
-    },
-    {
-      "id": "d1_port",
-      "day": 0,
-      "phase": "bar",
-      "seq": 3,
-      "trigger": "auto",
-      "when": null,
-      "title": "포트 첫 잔 — 진피즈 (튜토리얼 두 번째 제조)",
-      "skippable": false,
-      "group": null,
-      "steps": [
+        },
         {
-          "seq": 1,
+          "seq": 103,
           "type": "enter",
           "actor": "port",
           "dialogue_id": null,
-          "arg": "R",
+          "arg": "M",
           "text": null,
           "when": null,
           "effects": null,
           "sync": "wait"
         },
         {
-          "seq": 2,
+          "seq": 104,
           "type": "say",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_001",
@@ -1474,7 +1448,7 @@
           "sync": "wait"
         },
         {
-          "seq": 3,
+          "seq": 105,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_port_002",
@@ -1488,7 +1462,7 @@
           "sync": "wait"
         },
         {
-          "seq": 4,
+          "seq": 106,
           "type": "say",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_003",
@@ -1502,7 +1476,7 @@
           "sync": "wait"
         },
         {
-          "seq": 5,
+          "seq": 107,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_port_004",
@@ -1516,7 +1490,7 @@
           "sync": "wait"
         },
         {
-          "seq": 6,
+          "seq": 108,
           "type": "say",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_005",
@@ -1530,7 +1504,7 @@
           "sync": "wait"
         },
         {
-          "seq": 7,
+          "seq": 109,
           "type": "order",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_006",
@@ -1544,7 +1518,7 @@
           "sync": "wait"
         },
         {
-          "seq": 8,
+          "seq": 110,
           "type": "craft",
           "actor": null,
           "dialogue_id": null,
@@ -1555,7 +1529,7 @@
           "sync": "wait"
         },
         {
-          "seq": 9,
+          "seq": 111,
           "type": "serve",
           "actor": "port",
           "dialogue_id": null,
@@ -1566,7 +1540,7 @@
           "sync": "wait"
         },
         {
-          "seq": 10,
+          "seq": 112,
           "type": "say",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_007",
@@ -1580,7 +1554,7 @@
           "sync": "wait"
         },
         {
-          "seq": 11,
+          "seq": 113,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_port_008",
@@ -1594,7 +1568,7 @@
           "sync": "wait"
         },
         {
-          "seq": 12,
+          "seq": 114,
           "type": "say",
           "actor": "port",
           "dialogue_id": "dlg_d1_port_009",
@@ -1608,7 +1582,7 @@
           "sync": "wait"
         },
         {
-          "seq": 13,
+          "seq": 115,
           "type": "exit",
           "actor": "port",
           "dialogue_id": null,
@@ -1619,7 +1593,7 @@
           "sync": "wait"
         },
         {
-          "seq": 14,
+          "seq": 116,
           "type": "say",
           "actor": "chris",
           "dialogue_id": "dlg_d1_port_010",
@@ -1633,7 +1607,7 @@
           "sync": "wait"
         },
         {
-          "seq": 15,
+          "seq": 117,
           "type": "end_part",
           "actor": null,
           "dialogue_id": null,

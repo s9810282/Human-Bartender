@@ -244,6 +244,78 @@ def apply_minimal_street_scope():
     G.STEPS = [row for row in G.STEPS if row[0] not in excluded_scenes]
 
 
+def apply_day0_tutorial_scene_merge():
+    """Day 0의 연속된 바 튜토리얼 전체를 한 Scene으로 합친다.
+
+    Narrative 시트는 수정하지 않는다는 현재 작업 원칙에 따라 배포 입력에서만
+    d1_tutorial_wrap과 d1_port를 d1_tutorial_chris 뒤에 연결한다. 읽음 기록에
+    쓰는 dialogue_id는 기존 값을 그대로 유지한다.
+    """
+    target_id = "d1_tutorial_chris"
+    merged_ids = ("d1_tutorial_wrap", "d1_port")
+    scene_by_id = {row[0]: row for row in G.SCENES}
+
+    if not any(scene_id in scene_by_id for scene_id in merged_ids):
+        return
+    if target_id not in scene_by_id:
+        raise ValueError(f"Day 0 Scene 병합 대상 누락: {target_id}")
+
+    target = dict(zip(G.SCENE_COLS, scene_by_id[target_id]))
+    for merged_id in merged_ids:
+        if merged_id not in scene_by_id:
+            raise ValueError(f"Day 0 Scene 병합 대상 누락: {merged_id}")
+        merged = dict(zip(G.SCENE_COLS, scene_by_id[merged_id]))
+        for key in ("day", "phase", "trigger", "when", "group"):
+            if target.get(key) != merged.get(key):
+                raise ValueError(
+                    f"Day 0 Scene 병합 조건 불일치: {target_id}.{key}={target.get(key)!r}, "
+                    f"{merged_id}.{key}={merged.get(key)!r}"
+                )
+
+    references = [
+        row for row in G.CHOICES
+        if dict(zip(G.CHOICE_COLS, row)).get("goto") in merged_ids
+    ]
+    if references:
+        raise ValueError(f"병합 Scene을 가리키는 선택지 참조가 남아 있음: {merged_ids}")
+
+    target_steps = [row for row in G.STEPS if row[0] == target_id]
+    next_seq = max((int(row[1]) for row in target_steps), default=0)
+    moved_steps = []
+    for merged_id in merged_ids:
+        merged_steps = sorted(
+            (row for row in G.STEPS if row[0] == merged_id),
+            key=lambda row: row[1],
+        )
+        for row in merged_steps:
+            next_seq += 1
+            values = list(row)
+            values[0] = target_id
+            values[1] = next_seq
+            if (merged_id == "d1_port"
+                    and values[G.STEP_COLS.index("type")] == "enter"
+                    and values[G.STEP_COLS.index("actor")] == "port"):
+                # Scene 경계가 사라지면 크리스의 R 좌석이 그대로 유지된다.
+                # 두 인물을 인접 배치하기 위해 포트는 M으로 입장시킨다.
+                values[G.STEP_COLS.index("arg")] = "M"
+            moved_steps.append(tuple(values))
+
+    merged_scenes = []
+    for row in G.SCENES:
+        if row[0] in merged_ids:
+            continue
+        values = list(row)
+        if row[0] == target_id:
+            values[G.SCENE_COLS.index("title")] = (
+                "0일차 바 튜토리얼 — 크리스 진토닉 강습과 포트 진피즈 주문 "
+                "(구 day0_chris·d0c_end·d1_port)"
+            )
+        merged_scenes.append(tuple(values))
+
+    G.SCENES = merged_scenes
+    G.STEPS = [row for row in G.STEPS if row[0] not in merged_ids] + moved_steps
+
+
 def apply_common_field_interaction_contract():
     """엑셀을 수정하지 않고 공용 필드 상호작용 v2.7 계약을 배포 입력에 보탠다.
 
@@ -299,6 +371,7 @@ def main():
         print(f"❌ 시트 누락: {', '.join(sorted(missing))}"); sys.exit(1)
 
     load_into_globals(tables)
+    apply_day0_tutorial_scene_merge()
     apply_minimal_street_scope()
     apply_common_field_interaction_contract()
     derived = G.derive()
@@ -306,6 +379,7 @@ def main():
     errors += G.validate_street_runtime_contract(G.build_street_runtime_contract())
 
     lines = [f"===== L.U.N.A 시트 빌드 리포트 (build.py · 원본: {src}) ====="]
+    lines.append("· Day 0 바 대본 — 크리스 튜토리얼부터 포트 퇴장·end_part까지 한 Scene으로 병합")
     lines.append("· 공용 필드 v2.7.0 계약 — 집·외부가 같은 InteractPoint 구조를 사용하고 배포 JSON만 home/outside로 분리")
     lines.append("· 거리 대상 선정 — 가장 가까운 유효 대상 우선, 완전히 동률이면 point.id 오름차순·priority 전용 Day 99 QA 2종 제외")
     if unknown:
