@@ -34,7 +34,11 @@ public class InteractiveNPCEntity : InteractiveEntity
     /// </summary>
     public override async void Interact(IInteractor player)
     {
-        if (presenter.playMode == EActivationMode.Proximity)
+        if (isTalking)
+        {
+            return;
+        }
+        if (presenter.playMode == EActivationMode.Proximity&&ActionType==EActionType.Dialogue)
         {
             runner.Stop();
         }

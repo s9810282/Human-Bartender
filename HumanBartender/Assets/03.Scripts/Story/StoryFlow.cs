@@ -76,6 +76,12 @@ public class StoryFlow : MonoBehaviour, IPlayPhaseFlow
         await runner.RunAsync(script, this.GetCancellationTokenOnDestroy());
 
         Debug.Log($"[Story] Day {day} 2부 종료");
+
+        GameStateManager.Instance.GameFlow = EGameFlow.CommuteOut;
+
+        await SceneTransitionManager.Instance.FadeOutAsync(2f);
+
+        SceneTransitionManager.Instance.LoadScene("Outside");
     }
 
     /// <summary>
