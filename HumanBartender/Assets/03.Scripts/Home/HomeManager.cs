@@ -9,24 +9,23 @@ public class HomeManager : MonoBehaviour
 {
     [SerializeField] SettlementDataSO settlementData;
     [SerializeField] VoidEvent showSettleMent;
-
+    [SerializeField] VoidEvent Refresh;
+    [SerializeField] Player luna;
     [Inject] ISoundManager soundManager;
     [Inject] IPlayerDataReader playerData;
     [Inject] ISettlementLog settlementLog;
     [Inject] IDataSwitcher dataSwitcher;
-
-
-
     private void Start()
     {
         soundManager.StopBGM();
-        //settlementLog.SetCost(CalculateCost(settlementData.dailySettlement[GameStateManager.Instance.CurrentDay]));
-
-        //showSettleMent?.Raise(new Void());
+    }
+    public void gotosleep()
+    {
+        settlementLog.SetCost(CalculateCost(settlementData.dailySettlement[GameStateManager.Instance.CurrentDay]));
+        showSettleMent?.Raise(new Void());
     }
 
-
-    public void CheckSettlement()
+    public async void CheckSettlement()
     {
         GameStateManager.Instance.CurrentDay++;
 
@@ -39,7 +38,10 @@ public class HomeManager : MonoBehaviour
 
         GameStateManager.Instance.GameFlow = EGameFlow.CommuteIn;
 
-        SceneTransitionManager.Instance.LoadScene("Outside");
+        Refresh?.Raise(new Void());
+
+        await SceneTransitionManager.Instance.FadeInAsync(0.5f);
+        luna.State = EInteractorState.None;
     }
 
     public int CalculateCost(DailySettlementData data)

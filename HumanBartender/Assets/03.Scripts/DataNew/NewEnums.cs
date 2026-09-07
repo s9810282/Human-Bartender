@@ -326,6 +326,7 @@ public enum EPlayType
 [JsonConverter(typeof(StringEnumConverter))]
 public enum EActivationMode
 {
+    [EnumMember(Value = null)] None,
     [EnumMember(Value = "interact")] Interact,
     [EnumMember(Value = "proximity")] Proximity
 }

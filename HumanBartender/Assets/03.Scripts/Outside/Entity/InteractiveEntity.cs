@@ -58,7 +58,7 @@ public abstract class InteractiveEntity : OutsideEntity, IInteractable
         Color previous = Gizmos.color;
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(
-            transform.position + offset,
+            transform.position + offset+new Vector3(0,-0.15f,0),
             new Vector3(0.2f, 0.1f, 0f));
         Gizmos.color = previous;
     }
