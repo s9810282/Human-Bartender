@@ -175,6 +175,14 @@
     "ko": "다시 시도",
     "en": "Retry"
   },
+  "ui_end_day_error_title": {
+    "ko": "하루를 마무리할 수 없습니다",
+    "en": "Could not finish the day"
+  },
+  "ui_end_day_error_body": {
+    "ko": "하루를 마무리하는 중 문제가 발생해 시작 전 상태로 돌아왔습니다. 다시 시도하거나 취소를 눌러 집으로 돌아갈 수 있습니다.",
+    "en": "The end-of-day sequence could not be completed. Your progress has been restored to before it began. Select Retry to try again or Cancel to return home."
+  },
   "ui_data_error_cancel": {
     "ko": "제조 취소",
     "en": "Cancel Craft"

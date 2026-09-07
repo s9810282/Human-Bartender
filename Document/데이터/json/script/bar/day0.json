@@ -959,8 +959,8 @@
           "dialogue_id": "dlg_d1_tutorial_chris_065",
           "arg": "fail",
           "text": {
-            "ko": "이건 내가 말한 칵테일이 아닌데.",
-            "en": "This isn't the cocktail I asked for."
+            "ko": "아직 손님에게 내놓기엔 완성도가 부족한데.",
+            "en": "This isn't ready to serve to a customer yet."
           },
           "when": "grade < good",
           "effects": null,
@@ -973,8 +973,8 @@
           "dialogue_id": "dlg_d1_tutorial_chris_066",
           "arg": "default",
           "text": {
-            "ko": "다른 칵테일의 레시피를 확인한 것 같네요.",
-            "en": "It seems I checked the wrong recipe."
+            "ko": "레시피와 제조 과정을 다시 확인하겠습니다.",
+            "en": "I'll check the recipe and how I made it again."
           },
           "when": "grade < good",
           "effects": null,

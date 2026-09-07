@@ -10,10 +10,10 @@
   {
     "id": "enter_home",
     "target_location": "home",
-    "target_phase": "home",
+    "target_phase": "commute_out",
     "target_spot": "home_spawn_entry",
     "effect": "fade",
-    "note": "집 현관에서 E → 집 내부 입장"
+    "note": "퇴근길 집 현관에서 E → home_spawn_entry로 집 내부 입장. 귀가 후 취침 완료 전까지 commute_out 유지"
   },
   {
     "id": "exit_home",
