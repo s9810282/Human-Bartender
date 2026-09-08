@@ -22,7 +22,6 @@ public class PlayInputHandler : MonoBehaviour
     /// </summary>
     public void OnAdvance(InputValue value)
     {
-        if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
         if (playPhaseController.CurrentPhase != EPlayPhase.Dialogue) return;
 
         if (storyFlow != null && storyFlow.TryAdvance()) return;
@@ -33,14 +32,14 @@ public class PlayInputHandler : MonoBehaviour
     /// <summary>카메라를 현재 슬롯 기준 왼쪽 옆 칸으로 전환한다. 컷씬/미니게임 또는 1부(Tycoon) 국면일 때는 무시한다.</summary>
     public void OnLeft(InputValue value)
     {
-        if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
+        if (playPhaseController.CurrentPhase != EPlayPhase.Tycoon) return;
         playCamera.MoveAdjacent(-1, 0.5f);
     }
 
     /// <summary>카메라를 현재 슬롯 기준 오른쪽 옆 칸으로 전환한다. 컷씬/미니게임 또는 1부(Tycoon) 국면일 때는 무시한다.</summary>
     public void OnRight(InputValue value)
     {
-        if (GameStateManager.Instance.CurrentGameState != GameState.Play) return;
+        if (playPhaseController.CurrentPhase != EPlayPhase.Tycoon) return;
         playCamera.MoveAdjacent(1, 0.5f);
     }
 }
