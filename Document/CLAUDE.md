@@ -94,7 +94,7 @@ Day 3은 선택 결과를 확인하는 최종일이라 현재 `script/bar/day3.j
 - **바의 루나 = 1인칭.** 초상·스탠딩 없이 화면에 나오지 않고, 대사창엔 이름+본문만. character_anim의 luna 항목은 예약(미사용).
 - **2부**: order→craft→serve 3종 세트. 제조 게이트 = **craft 스텝**(arg `order`/`tutorial:id`).
   **serve 대상 = 직전 order 스텝의 actor**(씬 주인공으로 추론하면 틀린다).
-  **스탠딩 좌석 = 인접 강제(L·M / M·R), L+R 양 끝 동시 배치는 빌드 에러** — 2부 카메라가 최대 1280×720까지만 확장돼 한 화면에 안 잡힌다(엔진 보정 폐지, 동시 재석 최대 2명·좌석 중복 점유도 차단. d2_port bubi는 L→M 수정 완료).
+  **2부 스탠딩 좌석은 L·R 두 개뿐이며 M은 사용하지 않는다.** 2명은 L+R에 배치하고, 1명일 때는 좌석을 옮기지 않고 카메라가 해당 손님을 중앙에 잡는다. 개점 대사(bar_open)도 같은 스탠딩 좌석을 사용하며 1부 일반 손님 좌석 구조는 변경하지 않는다. Day 99의 t99_two_guests는 enter(port,L,no_wait) → enter(aili,R,wait)로 함께 입장하고 두 등장·카메라 전환 완료 후 대사로 진행하는 테스트다. 엑셀·검수기·빌드 생성 로직은 이번 수정 대상이 아니므로 기존 L+R 금지 검사와 M 생성 로직은 별도 동기화가 필요하다. 현 상태에서 build.py를 실행하면 이번 JSON 수정이 덮어써질 수 있다.
   **읽음 스킵 키 = Steps.dialogue_id** — 화면 대사인 say와 text가 있는 order에 전역 고유 `dlg_*`를 저장한다. seq를 이동해도 기존 ID를 바꾸거나 재번호하지 않는다. 완료된 say만 `read_dialogue_keys`에 기록하며 order는 행동 스텝이므로 스킵이 그 앞에서 멈춘다.
 - **표정**: 결정 = barks.expression → bark_situations(24상황) → default.
   **랜덤 손님 화면 반영 = guest_bodies의 파트별 `emotions` 맵**(현재 전부 null = 표정 고정, 감정 눈 아트가 오면 값만 채우면 켜진다).
