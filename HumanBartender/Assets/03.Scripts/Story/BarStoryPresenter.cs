@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 /// 2부 대본을 바 화면에 그리는 구현체.
@@ -26,12 +27,20 @@ public class BarStoryPresenter : MonoBehaviour, IStoryPresenter
     [Tooltip("선택지 UI. 공용 대화 시스템이 쓰는 것과 같은 것을 꽂는다.")]
     [SerializeField] UIDialogueChoiceView choiceView;
 
+    [Header("Camera")]
+    [Tooltip("자리 수에 따라 화면을 잡는 데 걸리는 시간(§10.1.1 camera_transition_sec). 이동과 줌을 같은 시간 안에서 동시에 진행한다.")]
+    [SerializeField] float cameraTransitionSec = 0.8f;
+
     [Header("Data")]
     [Tooltip("화면에 적을 이름과 이름 색을 찾는다.")]
     [SerializeField] NewCharacterDataSO characterData;
 
     /// <summary>표정을 따로 정하지 않은 등장에 쓰는 값.</summary>
     const string DefaultExpression = "default";
+
+    /// <summary>화면을 잡는 두 가지 장치. 자리로 옮기는 것과 범위를 넓히고 좁히는 것이 따로 있다.</summary>
+    [Inject] ISlotCamera slotCamera;
+    [Inject] ICameraControlNew cameraZoom;
 
     /// <summary>
     /// 대사를 띄운다.
@@ -76,6 +85,64 @@ public class BarStoryPresenter : MonoBehaviour, IStoryPresenter
     public void Exit(ESlotType slot)
     {
         characterManager?.ResetCharacter(slot);
+    }
+
+    /// <summary>
+    /// 앉은 사람 수에 맞춰 화면을 잡는다(§10.1.1).
+    ///
+    /// 1명이면 그 자리로 다가가 960×540(Sub), 2명이면 두 자리의 중점으로 물러나 1280×720(Base).
+    /// 이동과 줌을 끈어 실행하지 않고 같은 시간 안에서 함께 건다 — 나눠 부르면 화면이 두 번 움직인다.
+    ///
+    /// 아무도 없으면 L·R을 담는 기본 프레임에 선다 — 2부 시작 화면이다. 셋 이상은 이미 실행기가
+    /// 데이터 오류로 알린 뒤라 건들지 않는다.
+    /// </summary>
+    public async UniTask ApplyFramingAsync(IReadOnlyList<ESlotType> occupiedSlots, CancellationToken token)
+    {
+        if (slotCamera == null || cameraZoom == null || characterManager == null)
+        {
+            Debug.LogWarning("[BarStory] 카메라나 인물을 받지 못해 화면을 잡지 않습니다. " +
+                             "InGameLifetimeScope에 BarStoryPresenter가 등록되어 있는지 보세요.");
+            return;
+        }
+
+        int count = occupiedSlots?.Count ?? 0;
+
+        if (count > 2) return;
+
+        // 2부 손님은 자리에서 움직이지 않는다. 인원이 바뀌면 카메라만 좁혔다 넓힌다.
+        if (count == 1)
+        {
+            if (!TryGetSeatX(occupiedSlots[0], out float x)) return;
+
+            cameraZoom.TransitionCameraZoom(ECameraZoomType.Sub, cameraTransitionSec);
+            slotCamera.MoveToX(x, cameraTransitionSec);
+        }
+        else
+        {
+            // 아무도 없을 때(2부 시작)도 두 자리를 담는 프레임에 선다. 첫 손님이 들어오기 전에
+            // 바 전체가 한 번 보여야 하고, 여기서 1부가 남긴 화면을 이어받으면 2부가 어디서
+            // 시작하는지가 그날그날 달라진다.
+            ESlotType left = count == 2 ? occupiedSlots[0] : ESlotType.Left;
+            ESlotType right = count == 2 ? occupiedSlots[1] : ESlotType.Right;
+
+            if (!TryGetSeatX(left, out float leftX)) return;
+            if (!TryGetSeatX(right, out float rightX)) return;
+
+            cameraZoom.TransitionCameraZoom(ECameraZoomType.Base, cameraTransitionSec);
+            slotCamera.MoveToX((leftX + rightX) * 0.5f, cameraTransitionSec);
+        }
+
+        // 움직이는 중에 다음 대사가 뜨면 말하는 사람이 아직 화면 밖에 있다(§10.1.1 전환 완료).
+        await UniTask.WaitForSeconds(cameraTransitionSec, cancellationToken: token);
+    }
+
+    /// <summary>자리가 서 있는 x를 인물 슬롯에서 읽는다. 슬롯이 없으면 세울 곳이 없다는 뜻이다.</summary>
+    bool TryGetSeatX(ESlotType slot, out float x)
+    {
+        if (characterManager.TryGetSlotX(slot, out x)) return true;
+
+        Debug.LogError($"[BarStory] '{slot}' 자리의 인물 슬롯이 씬에 없어 화면을 잡지 못했습니다.");
+        return false;
     }
 
     /// <summary>

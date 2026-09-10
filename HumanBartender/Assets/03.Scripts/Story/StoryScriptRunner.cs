@@ -42,9 +42,12 @@ public class StoryScriptRunner : MonoBehaviour
 
     /// <summary>
     /// 지금 어느 자리에 누가 앉아 있는지. 명세가 2부 세션의 관리 대상으로 두는 값이라 여기서 든다
-    /// (§3). 퇴장할 자리를 찾는 데 쓰고, 뒤에 붙을 카메라 프레이밍이 활성 인원을 셀 때도 쓴다.
+    /// (§3). 퇴장할 자리를 찾는 데 쓰고, 카메라 프레이밍이 활성 인원을 셀 때도 쓴다.
     /// </summary>
     readonly Dictionary<ESlotType, string> seatActors = new();
+
+    /// <summary>좌석을 왼쪽부터 세는 순서. 화면에 넘길 자리 목록을 항상 같은 순서로 만들기 위해 둔다.</summary>
+    static readonly ESlotType[] SeatOrder = { ESlotType.Left, ESlotType.Middle, ESlotType.Right };
 
     /// <summary>지금 대본을 돌고 있는지. 입력을 이쪽으로 보낼지 정하는 데 쓴다.</summary>
     public bool IsRunning { get; private set; }
@@ -87,6 +90,10 @@ public class StoryScriptRunner : MonoBehaviour
 
         try
         {
+            // 첫 손님이 들어오기 전에 2부의 기본 프레임에 선다. 이걸 빼면 1부가 카메라를 어디에
+            // 두고 끝났는지에 따라 2부 첫 화면이 달라진다.
+            await ApplyFramingAsync(token);
+
             while (cursor.TryTakeNext(out NewScriptSceneData scene))
             {
                 if (await PlayFromAsync(scene, token)) break;
@@ -220,11 +227,11 @@ public class StoryScriptRunner : MonoBehaviour
                 return;
 
             case ENewStepType.Enter:
-                await EnterAsync(step, token);
+                await EnterAsync(scene, step, token);
                 return;
 
             case ENewStepType.Exit:
-                await ExitAsync(step);
+                await ExitAsync(step, token);
                 return;
 
             case ENewStepType.Effect:
@@ -475,7 +482,7 @@ public class StoryScriptRunner : MonoBehaviour
 
     // ── 등장·퇴장 ───────────────────────────────────────────────────────
 
-    async UniTask EnterAsync(NewDialogueStepData step, CancellationToken token)
+    async UniTask EnterAsync(NewScriptSceneData scene, NewDialogueStepData step, CancellationToken token)
     {
         if (!TryParseSlot(step.Arg, out ESlotType slot))
         {
@@ -490,21 +497,72 @@ public class StoryScriptRunner : MonoBehaviour
         WarnIfSeatingInvalid();
 
         await presenter.EnterAsync(step.Actor, slot, token);
+
+        // 다음도 enter면 지금 화면을 잡지 않는다. 두 명으로 시작하는 씬이 1인 프레임을 한 번 거치면
+        // 사람이 늘지도 않은 채 화면만 다가갔다 물러난다(§10.1.1 초기 진입).
+        if (NextExecutableStepIsEnter(scene, step)) return;
+
+        await ApplyFramingAsync(token);
     }
 
-    UniTask ExitAsync(NewDialogueStepData step)
+    async UniTask ExitAsync(NewDialogueStepData step, CancellationToken token)
     {
         // 퇴장은 자리를 지정하지 않는다(arg가 null). 어디에 앉혔는지는 이쪽이 기억하고 있다.
         if (!TryFindSeatOf(step.Actor, out ESlotType slot))
         {
             Debug.LogWarning($"[Story] '{step.Actor}'가 앉아 있는 자리를 찾지 못해 퇴장을 건너뜁니다.");
-            return UniTask.CompletedTask;
+            return;
         }
 
         seatActors.Remove(slot);
         presenter.Exit(slot);
 
-        return UniTask.CompletedTask;
+        await ApplyFramingAsync(token);
+    }
+
+    /// <summary>
+    /// 지금 앉아 있는 사람들을 화면에 넘긴다(§10.1.1).
+    ///
+    /// 몇 대 몇의 프레임으로 잡을지는 화면이 정한다. 여기서는 seat_actors가 정본이라는 것만 지킨다 —
+    /// 씬 제목이나 대본에 적힌 숫자로 인원을 세면 둘이 어긋나는 날이 온다.
+    /// </summary>
+    UniTask ApplyFramingAsync(CancellationToken token)
+    {
+        var occupied = new List<ESlotType>(seatActors.Count);
+
+        // 좌석 순서대로 넘긴다. 뒤에서 중점을 잡을 때 집어넣은 순서에 따라 결과가 달라지면 곤란하다.
+        foreach (ESlotType slot in SeatOrder)
+        {
+            if (seatActors.ContainsKey(slot)) occupied.Add(slot);
+        }
+
+        return presenter.ApplyFramingAsync(occupied, token);
+    }
+
+    /// <summary>
+    /// 이 스텝 바로 뒤에 실행될 스텝이 또 enter인지. when이 거짓이라 건너뛸 스텝은 세지 않는다.
+    /// </summary>
+    bool NextExecutableStepIsEnter(NewScriptSceneData scene, NewDialogueStepData step)
+    {
+        if (scene.Steps == null) return false;
+
+        bool passed = false;
+
+        foreach (var candidate in scene.Steps)
+        {
+            if (!passed)
+            {
+                // seq로 찾는다. 스텝은 구조체라 같은 것인지를 참조로 물을 수 없다.
+                if (candidate.Seq == step.Seq) passed = true;
+                continue;
+            }
+
+            if (!conditions.Check(candidate.When)) continue;
+
+            return candidate.Type == ENewStepType.Enter;
+        }
+
+        return false;
     }
 
     static bool TryParseSlot(string arg, out ESlotType slot)
@@ -533,8 +591,8 @@ public class StoryScriptRunner : MonoBehaviour
     }
 
     /// <summary>
-    /// 앉은 모양이 규칙에 맞는지 본다(§10.1). 화면에는 최대 두 명이고, 두 명이면 붙어 앉아야 한다 —
-    /// 2부 카메라가 양 끝을 한 화면에 담지 못하기 때문이다.
+    /// 앉은 모양이 규칙에 맞는지 본다. 화면에는 최대 두 명이고, 두 명이면 L·R 양 끝에 앉는다 —
+    /// 2부의 2인 프레임(1280×720)은 그 두 자리의 중점에 서도록 잡혀 있다.
     ///
     /// 자리를 임의로 옮겨 고치지 않는다. 대본이 잘못 적힌 것이라 원본을 고쳐야 하고,
     /// 런타임이 보정하면 그 잘못이 눈에 띄지 않는다.
@@ -548,9 +606,9 @@ public class StoryScriptRunner : MonoBehaviour
         }
 
         if (seatActors.Count == 2 &&
-            seatActors.ContainsKey(ESlotType.Left) && seatActors.ContainsKey(ESlotType.Right))
+            !(seatActors.ContainsKey(ESlotType.Left) && seatActors.ContainsKey(ESlotType.Right)))
         {
-            Debug.LogError("[Story] 두 손님이 L·R 양 끝에 앉았습니다. 붙은 자리(L·M 또는 M·R)여야 합니다.");
+            Debug.LogError("[Story] 두 손님이 L·R이 아닌 자리에 앉았습니다. 2부의 2인 배치는 L·R입니다.");
         }
     }
 
