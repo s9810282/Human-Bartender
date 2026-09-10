@@ -17,7 +17,7 @@ public class TypingData
     public Color32 nameColor;
     public bool isLunaSpeak = false;
     public EBubbleArrowType eBubbleArrowType = EBubbleArrowType.Center;
-
+    public DialogueBubbleType bubbleType = DialogueBubbleType.Auto;
     public TypingData()
     {
     }
@@ -37,7 +37,13 @@ public class TypingData
         this.isLunaSpeak = isLunaSpeak;
     }
 }
-
+public enum DialogueBubbleType
+{
+    Auto,       // 기존처럼 화자가 루나인지로 결정
+    Player,
+    Customer,
+    Narration
+}
 
 /// <summary>
 /// 루나(플레이어)/손님 말풍선 두 개를 관리하며 텍스트 타이핑 연출을 담당한다.
