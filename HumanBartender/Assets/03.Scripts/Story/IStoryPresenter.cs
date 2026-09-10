@@ -71,6 +71,16 @@ public interface IStoryPresenter
     void Exit(ESlotType slot);
 
     /// <summary>
+    /// 지금 앉아 있는 사람들에 맞춰 화면을 잡는다(2부 명세 §10.1.1).
+    ///
+    /// enter·exit로 인원이 바뀔 때마다 실행기가 부른다. 실행기는 누가 어디 앉았는지만 알고
+    /// 그것을 몇 대 몇의 프레임으로 옮기는 일은 화면이 한다 — 좌석이 없는 화면은 아무것도 하지 않는다.
+    ///
+    /// 카메라가 다 움직인 뒤에 돌아온다. 움직이는 중에 다음 대사가 뜨면 말하는 사람이 화면 밖에 있다.
+    /// </summary>
+    UniTask ApplyFramingAsync(IReadOnlyList<ESlotType> occupiedSlots, CancellationToken token);
+
+    /// <summary>
     /// 선택지를 띄우고 고를 때까지 기다린다. 고른 것의 자리 번호를 돌려준다.
     ///
     /// 고를 수 없는 항목도 화면에서 지우지 않는다 — 무엇을 놓쳤는지 보이지 않으면 조건이 없는 것과 같다.
