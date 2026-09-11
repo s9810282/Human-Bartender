@@ -57,6 +57,7 @@ public class UIDialogueTextView : MonoBehaviour
     [Header("UI Components")]
     public DynamicSpeechBubble lunaSpeechBubble;
     public DynamicSpeechBubble customerSpeechBubble;
+    [SerializeField] private DynamicSpeechBubble narrationSpeechBubble;
     public RectTransform canvasRect;
 
     [Header("Slot")]
