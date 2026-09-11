@@ -548,7 +548,7 @@ public class PourManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
 
         runnerCompletion?.TrySetResult();
 
-        // 실제 게임 흐름에서는 CocktailCraftManager가 완성/서빙 컷씬을 재생한 뒤 OnNextButton()을 부른다.
+        // 실제 게임 흐름에서는 기믹 큐(GimmickRunner)가 결과를 받아 다음 스텝으로 넘긴다.
         // 독립 테스트 씬에는 그 흐름이 없어서, 끝났다는 신호가 전혀 없으면 그냥 멈춘 것처럼 보인다.
         if (isTest)
         {

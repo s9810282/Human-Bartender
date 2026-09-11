@@ -17,7 +17,7 @@ public struct NewTextTagData
 /// <summary>
 /// 신형 데이터(json/*.json)를 구형 SO가 읽는 모양으로 옮겨 담는 곳.
 ///
-/// 구형 SO를 물고 있는 화면들(DialogueSceneDirector, UIDialogueTextView, DialogueCharacterManager,
+/// 구형 SO를 물고 있는 화면들(UIDialogueTextView, DialogueCharacterManager,
 /// GuestCharacterView 등)은 인스펙터 연결과 호출부가 여럿이라, 데이터 출처를 옮기는 일이
 /// 뷰를 손보는 일이 되면 안 된다. 그래서 뷰는 그대로 두고 "누가 채우느냐"만 바꾼다.
 ///
@@ -111,37 +111,6 @@ public static class NewLegacyDataBridge
     };
 
     // ── 인물 정보 ───────────────────────────────────────────────────
-
-    /// <summary>
-    /// 신형 characters.json을 구형 CharacterDataBase로 변환한다.
-    ///
-    /// 구형 파일에는 일곱 명뿐이지만 신형에는 거리 행인까지 스물한 명이 있다. 구형 파일을 그대로
-    /// 읽으면 신형에만 있는 인물이 화면에서 id로 나온다.
-    ///
-    /// is_player는 신형의 role에서 온다 — 루나 한 명만 player다.
-    /// </summary>
-    public static CharacterDataBase ToCharacters(NewCharacterData[] source)
-    {
-        if (source == null) return null;
-
-        var characters = new CharacterData[source.Length];
-
-        for (int i = 0; i < source.Length; i++)
-        {
-            NewCharacterData from = source[i];
-
-            characters[i] = new CharacterData
-            {
-                Id = from.Id,
-                DisplayName = string.IsNullOrEmpty(from.Name.Ko) ? from.Id : from.Name.Ko,
-                NameColor = from.NameColor,
-                Expressions = from.Expressions,
-                IsPlayer = from.Role == ENewCharacterRole.Player,
-            };
-        }
-
-        return new CharacterDataBase { Characters = characters };
-    }
 
     // ── 텍스트 색상 태그 ─────────────────────────────────────────────
 

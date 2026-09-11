@@ -8,8 +8,7 @@ using VContainer;
 /// 1부가 끝나 좌석이 모두 빈 뒤 PlayPhaseController가 부른다. 하는 일은 그날의 바 대본을 찾아
 /// 실행기에 넘기고 끝날 때까지 기다리는 것까지다.
 ///
-/// VisualNovelFlow를 고치지 않고 따로 둔다. 그쪽은 옛 DayDataSO를 보는 진입점이라 손대면 통째로
-/// 바뀌는데, 그 자리를 남겨 두면 옛 데이터로 돌려 보는 길이 남는다.
+/// 구형 비주얼노벨 경로(VisualNovelFlow)를 대신한다. 그쪽은 2026-09-11에 걷어냈다.
 /// </summary>
 public class StoryFlow : MonoBehaviour, IPlayPhaseFlow
 {

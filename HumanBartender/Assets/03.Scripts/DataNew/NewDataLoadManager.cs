@@ -15,9 +15,10 @@ using VContainer.Unity;
 /// json/script/common.json은 날짜와 무관하게 항상 쓰이는 공용 상호작용 스크립트라 별도 SO에 고정 로드한다.
 ///
 /// 구형 DataLoadManager가 채우던 SO들도 여기서 이어받는다(Legacy 항목). 그래서 데이터 로더는 하나이고,
-/// 구형 로더는 꺼 두어도 된다. IDataSwitcher도 이쪽 구현을 쓴다.
+/// 구형 로더는 걷어냈다. 남은 구형 SO는 신형에서 옮겨 담거나(표정·태그) 신형에 같은 모양이
+/// 없어 구형 파일을 그대로 읽는 셋(칵테일·컷씬·등급표)뿐이다.
 /// </summary>
-public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher, IAsyncStartable
+public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IAsyncStartable
 {
     [Header("Test")]
     [SerializeField] bool isTest;
@@ -71,23 +72,14 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     [Tooltip("신형 json/character_anim.json에서 옮겨 담는다. DialogueCharacterManager와 GuestCharacterView가 읽는다.")]
     [SerializeField] CharacterAnimSO legacyCharacterAnimConfig;
 
-    [Tooltip("신형 json/characters.json에서 옮겨 담는다. DialogueSceneDirector가 읽는다.")]
-    [SerializeField] CharacterDataSO legacyCharacterData;
-
     [Tooltip("신형 json/text_tags.json에서 색 태그만 옮겨 담는다. 대사창의 <name>/<world>/<order> 치환에 쓴다.")]
     [SerializeField] TextTagDataSO legacyTextTagData;
 
-    [Tooltip("신형에 같은 모양이 없어 구형 파일을 그대로 읽는다.")]
+    [Tooltip("신형에 같은 모양이 없어 구형 파일을 그대로 읽는다. 남은 셋뿐이다 — 나머지 구형 경로는 걷어냈다.")]
     [SerializeField] CocktailDataSO legacyCocktailData;
-    [SerializeField] IngredientDataSO legacyIngredientData;
     [SerializeField] CutSceneDataSO legacyCutSceneData;
-    [SerializeField] SettlementDataSO legacySettlementData;
     [SerializeField] CharacterTierDataSO legacyCharacterTierData;
     [SerializeField] SkillTierDataSO legacySkillTierData;
-
-    [Tooltip("구형 비주얼노벨 경로(VisualNovelFlow)가 읽는 일차/제조 대본. HomeManager가 IDataSwitcher로 갈아 끼운다.")]
-    [SerializeField] DayDataSO legacyDayData;
-    [SerializeField] CraftDataSO legacyCraftData;
 
     [Tooltip("실외 씬 데이터 로더. 구형 DataLoadManager가 마지막에 부르던 것이라 그 자리를 이어받는다.")]
     [SerializeField] OutsideDataManager outsideDataManager;
@@ -122,24 +114,12 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
 
     [Header("Legacy DataFile Name (StreamingAssets/*.json)")]
     [SerializeField] string legacyCocktailFileName = "cocktails.json";
-    [SerializeField] string legacyIngredientFileName = "ingredients.json";
     [SerializeField] string legacyCutSceneFileName = "cutscenes.json";
-    [SerializeField] string legacySettlementFileName = "settlements.json";
     [SerializeField] string legacyCharacterTierFileName = "character_tiers.json";
     [SerializeField] string legacySkillTierFileName = "skill_tiers.json";
     [SerializeField] string textTagFileName = "json/text_tags.json";
 
-    [Tooltip("구형 일차 대본. 시작 시 전부 읽어 두었다가 SwitchDay(dayFile, craftFile)로 갈아 끼운다.")]
-    [SerializeField] List<string> legacyDayFiles = new();
-    [SerializeField] List<string> legacyCraftFiles = new();
-    [SerializeField] string legacyDayFileName = "day0.json";
-    [SerializeField] string legacyCraftFileName = "day0_crafts.json";
-
     Dictionary<int, NewDayScriptBase> _dayScriptCache = new();
-
-    /// <summary>구형 일차/제조 대본. 파일 이름이 곧 키다(구형 IDataSwitcher가 이름으로 부른다).</summary>
-    readonly Dictionary<string, DayDatabBase> _legacyDayCache = new();
-    readonly Dictionary<string, CraftDataBase> _legacyCraftCache = new();
 
     /// <summary>방금 읽은 신형 json/text_tags.json. 구형 SO로 옮겨 담는 것 말고 쓰는 곳이 없어 SO를 두지 않는다.</summary>
     Dictionary<string, NewTextTagData> _textTags;
@@ -215,25 +195,11 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     /// <summary>구형 파일들을 동기로 읽는다.</summary>
     void LoadLegacyData()
     {
-        foreach (var file in legacyDayFiles)
-            _legacyDayCache[file] = JsonManager<DayDatabBase>.LoadGameData_StreamingAssets(file);
-
-        foreach (var file in legacyCraftFiles)
-            _legacyCraftCache[file] = JsonManager<CraftDataBase>.LoadGameData_StreamingAssets(file);
-
-        SwitchLegacyDayIfAny();
-
         if (legacyCocktailData != null)
             legacyCocktailData.cocktailData = JsonManager<CocktailDataBase>.LoadGameData_StreamingAssets(legacyCocktailFileName);
 
-        if (legacyIngredientData != null)
-            legacyIngredientData.ingredientData = JsonManager<IngredientDataBase>.LoadGameData_StreamingAssets(legacyIngredientFileName);
-
         if (legacyCutSceneData != null)
             legacyCutSceneData.cutSceneData = JsonManager<CutSceneDataBase>.LoadGameData_StreamingAssets(legacyCutSceneFileName);
-
-        if (legacySettlementData != null)
-            legacySettlementData.settlementData = JsonManager<SettlementDataBase>.LoadGameData_StreamingAssets(legacySettlementFileName);
 
         if (legacyCharacterTierData != null)
             legacyCharacterTierData.characterTiers = JsonManager<CharacterTierDataBase>.LoadGameData_StreamingAssets(legacyCharacterTierFileName);
@@ -249,25 +215,11 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
     /// <summary>구형 파일들을 비동기로 읽는다. 순서와 결과는 동기 경로와 같다.</summary>
     async UniTask LoadLegacyDataAsync()
     {
-        foreach (var file in legacyDayFiles)
-            _legacyDayCache[file] = await JsonManager<DayDatabBase>.LoadAsync<DayDatabBase>(file);
-
-        foreach (var file in legacyCraftFiles)
-            _legacyCraftCache[file] = await JsonManager<CraftDataBase>.LoadAsync<CraftDataBase>(file);
-
-        SwitchLegacyDayIfAny();
-
         if (legacyCocktailData != null)
             legacyCocktailData.cocktailData = await JsonManager<CocktailDataBase>.LoadAsync<CocktailDataBase>(legacyCocktailFileName);
 
-        if (legacyIngredientData != null)
-            legacyIngredientData.ingredientData = await JsonManager<IngredientDataBase>.LoadAsync<IngredientDataBase>(legacyIngredientFileName);
-
         if (legacyCutSceneData != null)
             legacyCutSceneData.cutSceneData = await JsonManager<CutSceneDataBase>.LoadAsync<CutSceneDataBase>(legacyCutSceneFileName);
-
-        if (legacySettlementData != null)
-            legacySettlementData.settlementData = await JsonManager<SettlementDataBase>.LoadAsync<SettlementDataBase>(legacySettlementFileName);
 
         if (legacyCharacterTierData != null)
             legacyCharacterTierData.characterTiers = await JsonManager<CharacterTierDataBase>.LoadAsync<CharacterTierDataBase>(legacyCharacterTierFileName);
@@ -296,47 +248,14 @@ public class NewDataLoadManager : MonoBehaviour, INewDataSwitcher, IDataSwitcher
                 Logger.LogWarning($"[New] 표정 데이터가 비어 구형 표정 SO를 채우지 못했습니다({expressionFileName}).");
         }
 
-        if (legacyCharacterData != null)
-            legacyCharacterData.characterData = NewLegacyDataBridge.ToCharacters(characterData?.characterData);
-
         if (legacyTextTagData != null)
             legacyTextTagData.textTagData = NewLegacyDataBridge.ToTextTags(_textTags);
 
         // 구형은 이 셋을 무조건 불렀다. 원본이 비었을 때 그 안에서 터지므로 여기서 걸러 준다.
         if (legacyCocktailData?.cocktailData != null) legacyCocktailData.Cached();
         if (legacyCutSceneData?.cutSceneData != null) legacyCutSceneData.Cached();
-        if (legacySettlementData?.settlementData?.DailySettlements != null) legacySettlementData.Cached();
 
         outsideDataManager?.Load();
-    }
-
-    /// <summary>읽어 둔 것이 있을 때만 구형 일차를 맞춘다.</summary>
-    void SwitchLegacyDayIfAny()
-    {
-        if (_legacyDayCache.Count == 0 && _legacyCraftCache.Count == 0) return;
-
-        SwitchDay(legacyDayFileName, legacyCraftFileName);
-    }
-
-    /// <summary>
-    /// 구형 일차/제조 대본을 갈아 끼운다(IDataSwitcher). HomeManager가 하루를 넘길 때 부른다.
-    ///
-    /// 구형은 캐시에 없는 이름을 받으면 KeyNotFoundException으로 멈췄다. 여기서는 경고만 남기고
-    /// 지나간다 — 이 경로는 신형 대본으로 대체된 레거시라, 없는 날 하나가 게임을 세울 이유가 없다.
-    /// </summary>
-    public void SwitchDay(string dayFile, string craftFile)
-    {
-        if (legacyDayData != null)
-        {
-            if (_legacyDayCache.TryGetValue(dayFile, out DayDatabBase day)) legacyDayData.dayData = day;
-            else Logger.LogWarning($"[New] 구형 일차 대본을 읽어 두지 않았습니다: {dayFile}");
-        }
-
-        if (legacyCraftData != null)
-        {
-            if (_legacyCraftCache.TryGetValue(craftFile, out CraftDataBase craft)) legacyCraftData.craftData = craft;
-            else Logger.LogWarning($"[New] 구형 제조 대본을 읽어 두지 않았습니다: {craftFile}");
-        }
     }
 
     public void LoadData()

@@ -2851,7 +2851,6 @@ GameObject:
   - component: {fileID: 5526764554340488397}
   - component: {fileID: 9093045394477808254}
   - component: {fileID: 3217520402697276839}
-  - component: {fileID: 3276992781666984521}
   m_Layer: 5
   m_Name: Ingrient
   m_TagString: Untagged
@@ -2921,46 +2920,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3276992781666984521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494381267101798085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04249460cfab684ca5c65729ff2617c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IngredientPanel
-  ingredientDataSO: {fileID: 11400000, guid: 5dd40507ddfeb7f41be7d64a9fe4cb6a, type: 2}
-  craftLiquidData: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
-  baseParent: {fileID: 8385796521006871640}
-  liqueurParent: {fileID: 1333456151948791134}
-  garnishParent: {fileID: 7922774786220922541}
-  etcParent: {fileID: 4655709224105777172}
-  categories:
-  - name: "\uBCA0\uC774\uC2A4"
-    category: base
-    tapSprite: {fileID: 21300000, guid: 8561967b65d157a4f846984440ee09ec, type: 3}
-    selectXPos: -94.6
-  - name: "\uB9AC\uD050\uC5B4"
-    category: liqueur
-    tapSprite: {fileID: 21300000, guid: c1601da760e60e34680d7c7566b75ea2, type: 3}
-    selectXPos: -32.3
-  - name: "\uAE30\uD0C0"
-    category: etc
-    tapSprite: {fileID: 21300000, guid: 917a6c8ceb3808d408571438fc118570, type: 3}
-    selectXPos: 30.19
-  - name: "\uAC00\uB2C8\uC26C"
-    category: garnish
-    tapSprite: {fileID: 21300000, guid: 8010a0d6110518a4a8579c6442023f3a, type: 3}
-    selectXPos: 92.55
-  tapSprites: []
-  selectUI: {fileID: 1948494377692142037}
-  selectUIText: {fileID: 6026548777895231672}
-  iceToggle: {fileID: 376256366822506960}
-  ingredientPanel: {fileID: 392526334907712596, guid: a00457a80884879478943d1f0dc0a3de, type: 3}
 --- !u!1 &1511866199235324674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,7 +3637,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientPanel, Assembly-CSharp
         m_MethodName: OnCategoryContents
         m_Mode: 3
@@ -4177,7 +4136,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIIngredientPanel, Assembly-CSharp
         m_MethodName: OnIceIngredient
         m_Mode: 0
@@ -7271,7 +7230,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientPanel, Assembly-CSharp
         m_MethodName: OnCategoryContents
         m_Mode: 3
@@ -8198,7 +8157,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4868898596330064479}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICocktailPanel, Assembly-CSharp
         m_MethodName: ChangePage
         m_Mode: 3
@@ -9723,7 +9682,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIIngredientPanel, Assembly-CSharp
         m_MethodName: ResetCurrentSelectIngredient
         m_Mode: 1
@@ -10259,7 +10218,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4868898596330064479}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICocktailPanel, Assembly-CSharp
         m_MethodName: SetSearch
         m_Mode: 0
@@ -11792,7 +11751,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientPanel, Assembly-CSharp
         m_MethodName: OnCategoryContents
         m_Mode: 3
@@ -11924,7 +11883,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4868898596330064479}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UICocktailPanel, Assembly-CSharp
         m_MethodName: ChangePage
         m_Mode: 3
@@ -12235,7 +12194,6 @@ GameObject:
   - component: {fileID: 4676912323886086313}
   - component: {fileID: 5834051028016988733}
   - component: {fileID: 844924536401023629}
-  - component: {fileID: 4868898596330064479}
   m_Layer: 5
   m_Name: Cocktail
   m_TagString: Untagged
@@ -12307,52 +12265,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4868898596330064479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8156576622770006598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5848d5cea62e5b5459e5b6bb133be1eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICocktailPanel
-  cocktailDataSO: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
-  cocktailObjs: {fileID: 1511866199235324674}
-  cocktailSlots:
-  - {fileID: 6365326395978193254}
-  - {fileID: 7322978843796349844}
-  - {fileID: 2894086944520270532}
-  - {fileID: 1774829628262104855}
-  - {fileID: 3783348324524795767}
-  - {fileID: 7534694759561491268}
-  keywordToggles:
-  - toggle: {fileID: 5530649805654371427}
-    keyword: "\uB2EC\uCF64\uD55C"
-  - toggle: {fileID: 4490106561175853815}
-    keyword: "\uC501\uC4F8\uD78C"
-  - toggle: {fileID: 4997767639513346251}
-    keyword: "\uC0C1\uD07C\uD55C"
-  - toggle: {fileID: 5805230059480741819}
-    keyword: "\uCCAD\uB7C9\uD55C"
-  - toggle: {fileID: 8053480209314555080}
-    keyword: "\uBD80\uB4DC\uB7EC\uC6B4"
-  - toggle: {fileID: 2505551034989220655}
-    keyword: "\uD074\uB798\uC2DD"
-  - toggle: {fileID: 7270294888217189657}
-    keyword: "\uACE0\uAE09\uC2A4\uB7EC\uC6B4"
-  - toggle: {fileID: 6276703039471507720}
-    keyword: "\uD654\uB048\uD55C"
-  - toggle: {fileID: 4869380751065215175}
-    keyword: "\uD589\uBCF5\uD55C"
-  - toggle: {fileID: 4879503912117805844}
-    keyword: "\uC2A4\uBAA8\uD0A4"
-  searchFieldText: {fileID: 7413593781381520704}
-  curSearchKeyword: 
-  currentPage: 0
-  cocktailDetailPanel: {fileID: 243725158373652410}
 --- !u!1 &8172919650576535041
 GameObject:
   m_ObjectHideFlags: 0
@@ -12749,7 +12661,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276992781666984521}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IngredientPanel, Assembly-CSharp
         m_MethodName: OnCategoryContents
         m_Mode: 3
@@ -14415,7 +14327,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -14890,7 +14802,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -15153,7 +15065,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 7182724688025860703, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: m_Name
       value: Category Toggle
@@ -16040,7 +15952,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -16303,7 +16215,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -16460,7 +16372,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -17388,7 +17300,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -18063,7 +17975,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -20212,7 +20124,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter
@@ -21103,7 +21015,7 @@ PrefabInstance:
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4868898596330064479}
+      objectReference: {fileID: 0}
     - target: {fileID: 6899752577832285836, guid: 35b9d7675c416e1498a323ee0636febf, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyFilter

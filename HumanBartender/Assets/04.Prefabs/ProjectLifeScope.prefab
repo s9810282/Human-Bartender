@@ -11844,7 +11844,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6276827240447234564}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettlementUI, Assembly-CSharp
         m_MethodName: Show
         m_Mode: 1
@@ -13483,7 +13483,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971136976933421716}
-  - component: {fileID: 6276827240447234564}
   m_Layer: 5
   m_Name: SettlementUI
   m_TagString: Untagged
@@ -13511,37 +13510,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6276827240447234564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8797642696950647965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba09705adf6a37f4d89a5ecb63b8a4df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettlementUI
-  panelRoot: {fileID: 3700244437957712363}
-  panelGroup: {fileID: 6153945634223575608}
-  cocktailData: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
-  settlementData: {fileID: 11400000, guid: d7bfd6084898ec64eb9a4bc456e17683, type: 2}
-  titleText: {fileID: 6969968907782152267}
-  dateText: {fileID: 940814126498177634}
-  title: "\uC624\uB298\uC758 \uC815\uC0B0"
-  salesSection: {fileID: 7874461604671266713}
-  tipSection: {fileID: 8683330612718384302}
-  grossText: {fileID: 1683145011629677255}
-  costText: {fileID: 8317384849032923496}
-  costBadgeText: {fileID: 0}
-  finalText: {fileID: 1813557551904489406}
-  confirmButton: {fileID: 30357387125840350}
-  OnConfirmed: {fileID: 11400000, guid: ff747ef33a792174bbb0c628ec978b46, type: 2}
-  currencySymbol: $
-  numberFormat: N0
-  positiveColor: {r: 0.16, g: 0.87, b: 0.54, a: 1}
-  negativeColor: {r: 1, g: 0.29, b: 0.29, a: 1}
 --- !u!1 &8884844199601414514
 GameObject:
   m_ObjectHideFlags: 0
@@ -13750,7 +13718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6276827240447234564}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettlementUI, Assembly-CSharp
         m_MethodName: HandleConfirm
         m_Mode: 1

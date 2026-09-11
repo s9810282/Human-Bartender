@@ -3,7 +3,7 @@ using VContainer.Unity;
 
 /// <summary>
 /// 인게임(Bar) 씬 전용 VContainer 스코프.
-/// CocktailCraftManager, CameraControllerNew, PlayCamera, DialogueCharacterManager를 인터페이스로 등록한다.
+/// CameraControllerNew, PlayCamera, DialogueCharacterManager를 인터페이스로 등록한다.
 /// </summary>
 public class InGameLifetimeScope : LifetimeScope
 {
@@ -11,9 +11,6 @@ public class InGameLifetimeScope : LifetimeScope
 
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.RegisterComponentInHierarchy<CocktailCraftManager>()
-         .As<ICocktailCraft>();
-
         builder.RegisterComponentInHierarchy<CameraControllerNew>()
          .As<ICameraControlNew>();
 
@@ -24,7 +21,11 @@ public class InGameLifetimeScope : LifetimeScope
             .As<ICharacterSetter>()
             .As<IDialogueFader>();
 
-        builder.RegisterComponentInHierarchy<DialogueRunner>();
+        // DialogueRunner는 여기서 등록하지 않는다. Play에서 그것을 여는 곳(VisualNovelFlow)을 걷어냈고,
+        // 붙일 IDialoguePresenter 구현(DialogueSceneDirector)도 함께 없앴다. 실외 씬은 그대로 쓴다.
+        //
+        // 트리거 매니저는 남긴다 — 카메오 등퇴장(CustomerEnter/ExitCommand)이 여기에 매달려 있다.
+        // 다시 붙일 때는 DialogueRunner를 거치지 말고 ExecuteTriggerAsync를 직접 부르면 된다.
         builder.RegisterComponentInHierarchy<DialogueTriggerManager>();
 
         builder.RegisterComponentInHierarchy<PlayPhaseController>();

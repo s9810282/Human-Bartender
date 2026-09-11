@@ -5,8 +5,8 @@ using VContainer;
 /// <summary>
 /// Play 씬 진입 시 1부(TycoonFlow)와 2부(StoryFlow)를 순서대로 실행하는 중간관리자.
 ///
-/// 2부는 원래 VisualNovelFlow가 맡았는데 그쪽은 옛 DayDataSO를 본다. 그 진입점은 그대로 두고
-/// 여기서 부르는 대상만 script/bar/dayN.json을 읽는 StoryFlow로 바꿨다.
+/// 2부는 원래 구형 비주얼노벨 경로가 맡았다. 그 경로는 걷어냈고, 지금은 script/bar/dayN.json을
+/// 읽는 StoryFlow가 맡는다.
 /// 각 Flow는 이 컨트롤러가 호출할 때만 시작되며, 완료(RunAsync 반환) 시 다음 국면으로 넘어간다.
 /// </summary>
 public class PlayPhaseController : MonoBehaviour

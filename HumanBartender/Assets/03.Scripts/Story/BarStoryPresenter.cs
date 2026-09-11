@@ -8,9 +8,8 @@ using VContainer;
 /// <summary>
 /// 2부 대본을 바 화면에 그리는 구현체.
 ///
-/// 공용 대화 시스템의 DialogueSceneDirector와 같은 자리에 있는 것이고, 쓰는 부품도 같다 —
-/// 말풍선(UIDialogueTextView)과 좌석 인물(DialogueCharacterManager). 다른 것은 받는 데이터의 모양뿐이라
-/// 그 둘을 고치지 않고 옆에 둔다.
+/// 쓰는 부품은 공용 대화 시스템의 것 그대로다 — 말풍선(UIDialogueTextView)과
+/// 좌석 인물(DialogueCharacterManager), 선택지(UIDialogueChoiceView).
 ///
 /// 길거리처럼 좌석이 없는 화면이 신형 대본을 재생하게 되면 이 인터페이스의 다른 구현을 만들면 된다.
 /// 실행기는 그대로 쓴다.

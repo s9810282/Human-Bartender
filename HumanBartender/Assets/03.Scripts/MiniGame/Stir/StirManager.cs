@@ -121,7 +121,7 @@ public class StirManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
     }
 
     /// <summary>
-    /// 독립 테스트 씬용 배선. 실제 흐름에서는 CocktailCraftManager가 targetCocktailData를 채워주지만
+    /// 독립 테스트 씬용 배선. 실제 흐름에서는 CraftContext가 고른 칵테일을 넘겨주지만
     /// 테스트 씬에는 그 단계가 없어서 직접 꽂는다.
     ///
     /// CocktailDataSO의 allCocktails는 직렬화되지 않는 런타임 캐시라, DataLoadManager 없이 씬을 켜면
@@ -337,7 +337,7 @@ public class StirManager : MonoBehaviour, IMiniGameController, ICraftGimmick,
 
         CompleteMade();
 
-        // 실제 흐름에서는 CocktailCraftManager가 완성/서빙 컷씬을 재생한 뒤 OnNextButton()을 부른다.
+        // 실제 흐름에서는 기믹 큐(GimmickRunner)가 결과를 받아 다음 스텝으로 넘긴다.
         // 독립 테스트 씬에는 그 흐름이 없어서 끝났다는 신호가 없으면 멈춘 것처럼 보인다.
         if (isTest) OnNextButton();
     }

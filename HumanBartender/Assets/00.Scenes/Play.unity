@@ -1862,17 +1862,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &266569731 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4868898596330064479, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
-  m_PrefabInstance: {fileID: 1862285105717275558}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5848d5cea62e5b5459e5b6bb133be1eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICocktailPanel
 --- !u!1 &278427429
 GameObject:
   m_ObjectHideFlags: 0
@@ -4299,7 +4288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 511417365}
   - component: {fileID: 511417366}
-  - component: {fileID: 511417368}
   m_Layer: 0
   m_Name: DialogueRunner
   m_TagString: Untagged
@@ -4335,21 +4323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StreetDataSO: {fileID: 0}
---- !u!114 &511417368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511417364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 385ce29ac8957f44098502814dfcbb8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayData: {fileID: 11400000, guid: 486dc8d15c569874fb7f9ae0e544dd81, type: 2}
-  runner: {fileID: 511417366}
-  presenter: {fileID: 787133313}
 --- !u!1 &570011802 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2155617270991145833, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
@@ -5448,7 +5421,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 686932221}
-  - component: {fileID: 686932222}
   m_Layer: 0
   m_Name: BackgroundManager
   m_TagString: Untagged
@@ -5471,18 +5443,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 787133312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &686932222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686932220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cda96b86398bec043ac5a53c89a41f01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &701374759
 GameObject:
   m_ObjectHideFlags: 0
@@ -6714,7 +6674,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 787133312}
-  - component: {fileID: 787133313}
   m_Layer: 0
   m_Name: SceneDirector
   m_TagString: Untagged
@@ -6742,25 +6701,6 @@ Transform:
   - {fileID: 1080221557}
   m_Father: {fileID: 1715436118}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &787133313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787133311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e293a1b3c9829c34499776c7cfd62977, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: d6dc2f25938ac55429f3365eb23948a9, type: 2}
-  dialoguePanel: {fileID: 626097884}
-  typer: {fileID: 1390939187}
-  choiceManager: {fileID: 157202291}
-  characterManager: {fileID: 1147809952}
-  backgroundManager: {fileID: 686932222}
-  triggerManager: {fileID: 1080221558}
 --- !u!1 &835563208
 GameObject:
   m_ObjectHideFlags: 0
@@ -11997,17 +11937,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1523711445 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3276992781666984521, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
-  m_PrefabInstance: {fileID: 1862285105717275558}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04249460cfab684ca5c65729ff2617c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IngredientPanel
 --- !u!1 &1525095559
 GameObject:
   m_ObjectHideFlags: 0
@@ -12864,7 +12793,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1601650328}
-  - component: {fileID: 1601650327}
   - component: {fileID: 1601650329}
   - component: {fileID: 1601650330}
   - component: {fileID: 1601650331}
@@ -12875,33 +12803,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1601650327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601650326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f78793b2e3848e848b456b045e511506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerDataAsset: {fileID: 11400000, guid: 2fd3768d3d1393647a7e88b72e79c9e0, type: 2}
-  craftDataSO: {fileID: 11400000, guid: ebefc160a27392b4d8f0b835af8e7870, type: 2}
-  cocktailDataSO: {fileID: 11400000, guid: 68029ad721237a74a8680596b4bdd8b8, type: 2}
-  craftStation: {fileID: 11400000, guid: 9adfd027eac18164599ebb3b861f2d12, type: 2}
-  shakePrefab: {fileID: 7448686757909715907, guid: 19fa6dc02bb9d6740b17e576ce95e9be, type: 3}
-  stirPrefab: {fileID: 2983954931317335734, guid: 43844df01e4e334488e68504f3003fe0, type: 3}
-  buildPrefab: {fileID: 1172382848508299158, guid: ff3e987bacd490b4a927e7b9083d4945, type: 3}
-  dialogueCanvas: {fileID: 409941404}
-  craftObject: {fileID: 570011802}
-  cocktailPanel: {fileID: 266569731}
-  ingredientPanel: {fileID: 1523711445}
-  orderText: {fileID: 206715387}
-  noneIngrediantPopup: {fileID: 1662887887}
-  playMethodPopup: {fileID: 1862285105717275559}
-  playMethodPopupText: {fileID: 1862285105717275560}
 --- !u!4 &1601650328
 Transform:
   m_ObjectHideFlags: 0
@@ -12933,7 +12834,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601650327}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CocktailCraftManager, Assembly-CSharp
         m_MethodName: CraftServe
         m_Mode: 1
@@ -12961,7 +12862,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601650327}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CocktailCraftManager, Assembly-CSharp
         m_MethodName: CraftRetry
         m_Mode: 1
@@ -12989,7 +12890,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601650327}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CocktailCraftManager, Assembly-CSharp
         m_MethodName: OnCutSceneEnd
         m_Mode: 0
@@ -18293,11 +18194,11 @@ PrefabInstance:
     - target: {fileID: 2398611945642170701, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1601650327}
+      objectReference: {fileID: 0}
     - target: {fileID: 2438049235225556867, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1601650327}
+      objectReference: {fileID: 0}
     - target: {fileID: 2530483266131891888, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -18341,7 +18242,7 @@ PrefabInstance:
     - target: {fileID: 2689567101626165731, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1601650327}
+      objectReference: {fileID: 0}
     - target: {fileID: 3361926278228054015, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -18521,7 +18422,7 @@ PrefabInstance:
     - target: {fileID: 8331203590790798876, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1601650327}
+      objectReference: {fileID: 0}
     - target: {fileID: 8385796521006871640, guid: 2c6206f7d74aaa3489cc478bbde17840, type: 3}
       propertyPath: m_SizeDelta.y
       value: 16

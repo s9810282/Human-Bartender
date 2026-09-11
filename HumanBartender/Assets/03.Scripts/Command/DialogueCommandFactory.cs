@@ -15,8 +15,10 @@ public static class DialogueCommandFactory
             case ETriggetType.Effect:
                 return new EffectCommand(triggerData.Value.Data);
 
+            // 구형 제조(CocktailCraftManager)는 걷어냈다. 제조는 신형 루프(CraftFlowController)가 맡는다.
             case ETriggetType.StartCraft:
-                return new StartCraftCommand(triggerData.Value.Data);
+                Debug.LogWarning("[Factory] start_craft는 구형 제조 트리거입니다. 신형 제조 루프를 쓰세요.");
+                return null;
 
             case ETriggetType.CustomerEnter:
                 return new CustomerEnterCommand(triggerData.Value.Data);

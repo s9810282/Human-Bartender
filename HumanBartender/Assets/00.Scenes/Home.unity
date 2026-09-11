@@ -716,7 +716,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319687451}
-  - component: {fileID: 319687453}
   - component: {fileID: 319687452}
   m_Layer: 9
   m_Name: Sofa
@@ -786,34 +785,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &319687453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 319687450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e389d91a6119c4984c9cb0b9a80f26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HomeSofa
-  souceid: home_sofa
-  priority: 0
-  isAvaliable: 1
-  isInteracting: 0
-  label: 
-  isInter: 0
-  buttonOffset: {x: 0, y: 125.01}
-  textOffset: {x: 0, y: 0}
-  outlineHighlight: {fileID: 0}
-  OnInteracted: {fileID: 0}
-  OnRefreshCondition: {fileID: 0}
-  kind: 0
-  ActivationMode: 0
-  ActionType: 0
-  steps: []
-  manager: {fileID: 1066782000}
 --- !u!1 &388391615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2893,7 +2864,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1066782001}
-  - component: {fileID: 1066782000}
   - component: {fileID: 1066781999}
   m_Layer: 0
   m_Name: Script (1)
@@ -2918,7 +2888,7 @@ MonoBehaviour:
   response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1066782000}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HomeManager, Assembly-CSharp
         m_MethodName: CheckSettlement
         m_Mode: 1
@@ -2930,22 +2900,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1066782000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1066781998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d64aa5b887487bc43b1561aa5164db43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HomeManager
-  settlementData: {fileID: 11400000, guid: 7818a78b81a76b74d86e60ab0da90ded, type: 2}
-  showSettleMent: {fileID: 11400000, guid: 346b8f58b38d03549bf1022f14637c40, type: 2}
-  Refresh: {fileID: 11400000, guid: d46708b2f4844f449b84c18841c72725, type: 2}
-  luna: {fileID: 398070682}
 --- !u!4 &1066782001
 Transform:
   m_ObjectHideFlags: 0
